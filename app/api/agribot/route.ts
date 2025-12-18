@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
 
     // Appel à OpenAI
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4-turbo-preview',
+      model: 'gpt-4o-mini', // Modèle rapide et économique
       messages: messages,
       temperature: 0.7,
       max_tokens: 500,
