@@ -1,0 +1,21 @@
+{
+  "name": "AGRI POINT SERVICE",
+  "short_name": "AGRI POINT",
+  "description": "Distributeur de biofertilisants de qualité au Cameroun",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#16a34a",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/images/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

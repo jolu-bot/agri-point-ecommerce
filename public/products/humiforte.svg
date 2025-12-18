@@ -1,0 +1,19 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="400" fill="#f0fdf4"/>
+  
+  <!-- Product bottle shape -->
+  <rect x="120" y="80" width="160" height="240" rx="20" fill="#16a34a" opacity="0.9"/>
+  <rect x="140" y="60" width="120" height="40" rx="10" fill="#15803d"/>
+  
+  <!-- Label -->
+  <rect x="135" y="150" width="130" height="100" rx="8" fill="white" opacity="0.95"/>
+  
+  <!-- Text -->
+  <text x="200" y="190" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#16a34a">HUMIFORTE</text>
+  <text x="200" y="215" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#4b5563">NPK 6-4-0.2</text>
+  <text x="200" y="235" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#6b7280">Biofertilisant</text>
+  
+  <!-- Leaf decoration -->
+  <path d="M 200,310 Q 210,290 220,310 Q 210,320 200,310 M 200,310 Q 190,290 180,310 Q 190,320 200,310" fill="#22c55e"/>
+</svg>

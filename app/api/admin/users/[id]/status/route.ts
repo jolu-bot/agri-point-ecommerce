@@ -1,0 +1,50 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { verifyAccessToken } from '@/lib/auth';
+import dbConnect from '@/lib/db';
+import User from '@/models/User';
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const authHeader = request.headers.get('authorization');
+    
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
+    }
+
+    const token = authHeader.substring(7);
+    const decoded = verifyAccessToken(token);
+    
+    if (!decoded) {
+      return NextResponse.json({ error: 'Token invalide' }, { status: 401 });
+    }
+
+    await dbConnect();
+
+    const currentUser = await User.findById(decoded.userId);
+    
+    if (!currentUser || !['admin', 'manager'].includes(currentUser.role)) {
+      return NextResponse.json({ error: 'Accès non autorisé' }, { status: 403 });
+    }
+
+    const body = await request.json();
+    const { isActive } = body;
+
+    const user = await User.findByIdAndUpdate(
+      params.id,
+      { isActive },
+      { new: true }
+    ).select('-password');
+
+    if (!user) {
+      return NextResponse.json({ error: 'Utilisateur non trouvé' }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true, user });
+  } catch (error) {
+    console.error('Erreur mise à jour statut utilisateur:', error);
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+  }
+}
