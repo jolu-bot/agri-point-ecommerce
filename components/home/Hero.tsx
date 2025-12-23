@@ -73,7 +73,7 @@ export default function Hero() {
             <div className="relative rounded-fluid-2xl overflow-hidden shadow-2xl">
               <div className="aspect-square bg-gradient-to-br from-primary-200 to-secondary-200 dark:from-primary-900 dark:to-secondary-900 flex items-center justify-center relative">
                 <Image
-                  src="/products/product-sarah-npk-20-10-10.png"
+                  src="/products/sarah-npk-20-10-10.jpeg"
                   alt="Engrais SARAH NPK 20-10-10"
                   fill
                   className="object-contain p-8"
