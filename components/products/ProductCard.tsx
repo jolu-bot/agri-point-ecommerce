@@ -154,11 +154,11 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
         {/* Image */}
         <div className="relative aspect-square mb-4 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
           {product.images[0] ? (
-            <Image
+            <img
               src={product.images[0]}
               alt={product.name}
-              fill
-              className="object-cover group-hover:scale-110 transition-transform duration-300"
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+              loading="lazy"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-6xl">
