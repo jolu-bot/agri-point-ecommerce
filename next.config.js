@@ -12,7 +12,7 @@ const nextConfig = {
         hostname: '**',
       },
     ],
-    unoptimized: false,
+    unoptimized: false, // Optimisation réactivée
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
@@ -25,10 +25,6 @@ const nextConfig = {
       allowedOrigins: ['localhost:3000'],
     },
     optimizePackageImports: ['react-icons', 'framer-motion', 'recharts', 'lucide-react', '@heroicons/react'],
-    instrumentationHook: true,
-    webpackBuildWorker: true,
-    parallelServerCompiles: true,
-    parallelServerBuildTraces: true,
   },
   // Optimisations de performance maximales
   swcMinify: true,
