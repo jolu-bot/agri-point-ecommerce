@@ -1,7 +1,7 @@
-import { registerOTel } from '@vercel/otel';
+// Instrumentation désactivée - @vercel/otel retiré du projet
+// Si besoin de télémétrie plus tard, utiliser OpenTelemetry directement
 
 export function register() {
-  registerOTel({
-    serviceName: 'agri-point-ecommerce',
-  });
+  // Vide pour le moment
+  console.log('Instrumentation hook appelé - pas de télémétrie configurée');
 }
