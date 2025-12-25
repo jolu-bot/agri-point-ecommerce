@@ -152,12 +152,12 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
     <Link href={`/produits/${product.slug}`} className="group">
       <div className="card hover:shadow-2xl transition-all duration-300 overflow-hidden">
         {/* Image */}
-        <div className="relative aspect-square mb-4 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
+        <div className="relative aspect-square mb-4 bg-white dark:bg-gray-800 rounded-lg overflow-hidden p-4">
           {product.images[0] ? (
             <img
               src={product.images[0]}
               alt={product.name}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+              className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
               loading="lazy"
             />
           ) : (
