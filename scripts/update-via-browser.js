@@ -6,7 +6,7 @@
 // Copier-coller ce code dans la console du navigateur de votre site Hostinger
 
 async function updateImagePathsViaAPI() {
-  console.log('🔄 Mise à jour des chemins d'images...\n');
+  console.log('Mise a jour des chemins d\'images...\n');
   
   try {
     // Récupérer tous les produits
@@ -14,7 +14,7 @@ async function updateImagePathsViaAPI() {
     const data = await response.json();
     const products = data.products;
     
-    console.log(`📦 ${products.length} produits trouvés\n`);
+    console.log(`${products.length} produits trouves\n`);
     
     const updates = [];
     
@@ -35,20 +35,20 @@ async function updateImagePathsViaAPI() {
     }
     
     if (updates.length === 0) {
-      console.log('✅ Tous les chemins sont déjà à jour !');
+      console.log('Tous les chemins sont deja a jour !');
       return;
     }
     
-    console.log(`🔧 ${updates.length} produit(s) à mettre à jour:\n`);
+    console.log(`${updates.length} produit(s) a mettre a jour:\n`);
     updates.forEach(u => {
-      console.log(`  ${u.name}: ${u.oldImage} → ${u.newImage}`);
+      console.log(`  ${u.name}: ${u.oldImage} -> ${u.newImage}`);
     });
     
-    console.log('\n💡 Pour appliquer, exécutez updateProductImages() dans la console');
+    console.log('\nPour appliquer, executez updateProductImages() dans la console');
     
-    // Exposer la fonction de mise à jour
+    // Exposer la fonction de mise a jour
     window.updateProductImages = async function() {
-      console.log('\n🚀 Mise à jour en cours...\n');
+      console.log('\nMise a jour en cours...\n');
       
       for (const update of updates) {
         try {
@@ -61,23 +61,23 @@ async function updateImagePathsViaAPI() {
           });
           
           if (res.ok) {
-            console.log(`✅ ${update.name}`);
+            console.log(`OK: ${update.name}`);
           } else {
-            console.log(`❌ ${update.name}: ${res.status}`);
+            console.log(`ERREUR ${update.name}: ${res.status}`);
           }
         } catch (error) {
-          console.log(`❌ ${update.name}: ${error.message}`);
+          console.log(`ERREUR ${update.name}: ${error.message}`);
         }
       }
       
-      console.log('\n🎉 Mise à jour terminée !');
-      console.log('🔄 Rechargez la page pour voir les changements');
+      console.log('\nMise a jour terminee !');
+      console.log('Rechargez la page pour voir les changements');
     };
     
-    console.log('\n📝 Fonction updateProductImages() prête à être exécutée');
+    console.log('\nFonction updateProductImages() prete a etre executee');
     
   } catch (error) {
-    console.error('❌ Erreur:', error);
+    console.error('Erreur:', error);
   }
 }
 
