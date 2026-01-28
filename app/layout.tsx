@@ -1,21 +1,15 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Montserrat } from "next/font/google";
-import dynamic from "next/dynamic";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SiteConfigProvider } from "@/contexts/SiteConfigContext";
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-
-// Lazy load AgriBot car non-critique au chargement initial
-const AgriBot = dynamic(() => import("@/components/agribot/AgriBot"), {
-  ssr: false,
-  loading: () => null,
-});
+import AgriBotWrapper from "@/components/AgriBotWrapper";
 
 // Polices modernes et attrayantes
-const inter = Inter({ 
+const inter = Inter({
   subsets: ["latin"],
   weight: ['300', '400', '500', '600', '700', '800'],
   display: 'swap',
@@ -95,7 +89,7 @@ export default function RootLayout({
                 {children}
               </main>
               <Footer />
-              <AgriBot />
+              <AgriBotWrapper />
               <Toaster
                 position="top-right"
                 toastOptions={{

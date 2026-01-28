@@ -1,9 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    // Permet le build même avec des erreurs ESLint
-    ignoreDuringBuilds: true,
-  },
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
@@ -12,7 +8,7 @@ const nextConfig = {
         hostname: '**',
       },
     ],
-    unoptimized: false, // Réactiver optimisation
+    unoptimized: false,
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
@@ -24,9 +20,8 @@ const nextConfig = {
       allowedOrigins: ['localhost:3000'],
     },
     optimizePackageImports: ['react-icons', 'framer-motion', 'recharts', 'lucide-react', '@heroicons/react'],
+    instrumentationHook: true,
   },
-  // Optimisations de performance maximales
-  swcMinify: true,
   reactStrictMode: true,
   compress: true,
   poweredByHeader: false,
