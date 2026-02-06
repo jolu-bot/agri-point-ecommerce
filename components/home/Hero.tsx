@@ -19,7 +19,7 @@ export default function Hero() {
             <m.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
             >
             <div className="inline-block px-fluid-sm py-fluid-xs gradient-primary text-white rounded-fluid-2xl shadow-lg hero-badge">
               🌱 Le partenaire sûr de l&apos;entrepreneur agricole

@@ -16,7 +16,8 @@ export default function FeaturedProducts() {
 
   const loadFeaturedProducts = async () => {
     try {
-      const response = await fetch('/api/products');
+      // Optimisation: charge seulement 4 produits au lieu de tous
+      const response = await fetch('/api/products?limit=4&sort=isFeatured&order=desc');
       if (response.ok) {
         const data = await response.json();
         // Récupérer les 4 premiers produits en vedette
