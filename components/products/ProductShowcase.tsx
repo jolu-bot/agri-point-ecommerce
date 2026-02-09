@@ -46,7 +46,7 @@ export default function ProductShowcase() {
 
   return (
     <div className="p-4">
-      <div className="aspect-square bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden rounded-2xl">
+      <div className="aspect-square bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden rounded-2xl w-full">
         <Link href={`/produits/${current.slug}`} className="w-full h-full block">
           <img
             src={current.images?.[0] || '/images/fallback-product.svg'}
@@ -54,6 +54,8 @@ export default function ProductShowcase() {
             className="w-full h-full object-contain"
             loading={index === 0 ? 'eager' : 'lazy'}
             decoding="async"
+            width={400}
+            height={400}
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).src = '/images/fallback-product.svg';
             }}
@@ -75,7 +77,7 @@ export default function ProductShowcase() {
             onClick={() => setIndex(i)}
             className={`w-12 h-12 rounded-md overflow-hidden border ${i === index ? 'ring-2 ring-primary-600' : 'border-gray-200 dark:border-gray-700'}`}
           >
-            <img src={p.images?.[0] || '/images/fallback-product.svg'} alt={p.name} className="w-full h-full object-cover" onError={(e)=> (e.currentTarget as HTMLImageElement).src='/images/fallback-product.svg'} />
+            <img src={p.images?.[0] || '/images/fallback-product.svg'} alt={p.name} className="w-full h-full object-cover" width={48} height={48} loading="lazy" decoding="async" onError={(e)=> (e.currentTarget as HTMLImageElement).src='/images/fallback-product.svg'} />
           </button>
         ))}
         <button
