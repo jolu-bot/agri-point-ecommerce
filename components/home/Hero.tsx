@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import ProductShowcase from '@/components/products/ProductShowcase';
 import { LazyMotion, domAnimation, m } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
@@ -71,15 +72,7 @@ export default function Hero() {
             className="relative mt-8 lg:mt-0"
           >
             <div className="relative rounded-fluid-2xl overflow-hidden shadow-2xl">
-              <div className="aspect-square bg-gradient-to-br from-primary-200 to-secondary-200 dark:from-primary-900 dark:to-secondary-900 flex items-center justify-center relative">
-                <Image
-                  src="/products/sarah-npk-20-10-10.jpeg"
-                  alt="Engrais SARAH NPK 20-10-10"
-                  fill
-                  className="object-contain p-8"
-                  priority
-                />
-              </div>
+              <ProductShowcase />
             </div>
 
             {/* Floating Cards - Cachées sur mobile, visibles sur tablette+ */}
