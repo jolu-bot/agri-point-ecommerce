@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { ShoppingCart, Heart, Eye } from 'lucide-react';
 import { IProduct } from '@/models/Product';
 import { useCartStore } from '@/store/cartStore';
@@ -35,7 +34,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
       slug: product.slug,
       price: product.price,
       promoPrice: product.promoPrice,
-      image: product.images[0] || '/placeholder-product.jpg',
+      image: product.images[0] || '/images/fallback-product.svg',
       maxStock: product.stock,
     });
 
@@ -49,13 +48,17 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
             {/* Image */}
             <div className="relative w-full md:w-64 h-64 bg-gray-100 dark:bg-gray-700 rounded-fluid-lg overflow-hidden flex-shrink-0">
               {product.images[0] ? (
-                <Image
-                  src={product.images[0]}
-                  alt={product.name}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              ) : (
+                  <img
+                    src={product.images[0]}
+                    alt={product.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = '/images/fallback-product.svg';
+                    }}
+                  />
+                ) : (
                 <div className="w-full h-full flex items-center justify-center text-6xl">
                   🌱
                 </div>
@@ -159,6 +162,10 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
               alt={product.name}
               className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
               loading="lazy"
+              decoding="async"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).src = '/images/fallback-product.svg';
+              }}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-6xl">

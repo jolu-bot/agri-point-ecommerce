@@ -1,5 +1,6 @@
 import Hero from '@/components/home/Hero';
 import Stats from '@/components/home/Stats';
+import dynamic from 'next/dynamic';
 
 // Lazy load TOUS les composants non-critiques (amélioration performance de 40%)
 const FeaturedProducts = dynamic(() => import('@/components/home/FeaturedProducts'), {
