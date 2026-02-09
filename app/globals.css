@@ -9,11 +9,19 @@
     --font-inter: 'Inter', sans-serif;
     --font-montserrat: 'Montserrat', sans-serif;
     
-    /* Dégradés de la charte graphique */
-    --gradient-primary: linear-gradient(135deg, #1B5E20 0%, #4caf50 100%);
-    --gradient-secondary: linear-gradient(135deg, #B71C1C 0%, #f44336 100%);
-    --gradient-hero: linear-gradient(135deg, #1B5E20 0%, #4caf50 50%, #B71C1C 100%);
+    /* Dégradés de la charte graphique - WCAG AAA optimized */
+    --gradient-primary: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+    --gradient-secondary: linear-gradient(135deg, #B71C1C 0%, #C62828 100%);
+    --gradient-hero: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #B71C1C 100%);
     --gradient-subtle: linear-gradient(180deg, #e8f5e9 0%, #ffffff 100%);
+    
+    /* Palette couleur avec contraste amélioré */
+    --color-primary-dark: #1B5E20;
+    --color-primary-light: #2E7D32;
+    --color-secondary-dark: #B71C1C;
+    --color-secondary-bright: #C62828;
+    --color-text-muted: #4A4A4A;
+    --color-focus: #0066CC;
     
     /* Variables de typographie fluide ultra-dynamique */
     --text-xs: clamp(0.7rem, 0.65rem + 0.5vw, 0.875rem);
@@ -121,6 +129,16 @@
       min-width: 44px;
     }
   }
+  
+  /* Visible focus states pour accessibilité clavier */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 3px solid #0066CC;
+    outline-offset: 2px;
+  }
 }
 
 @layer base {
@@ -140,46 +158,52 @@
 }
 
 @layer components {
-  /* Dégradés */
+  /* Dégradés - WCAG AAA optimized */
   .gradient-primary {
-    background: linear-gradient(135deg, #1B5E20 0%, #4caf50 100%);
+    background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
   }
   
   .gradient-secondary {
-    background: linear-gradient(135deg, #B71C1C 0%, #f44336 100%);
+    background: linear-gradient(135deg, #B71C1C 0%, #C62828 100%);
   }
   
   .gradient-hero {
-    background: linear-gradient(135deg, #1B5E20 0%, #4caf50 50%, #B71C1C 100%);
+    background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #B71C1C 100%);
   }
   
   .text-gradient-primary {
-    background: linear-gradient(135deg, #1B5E20 0%, #4caf50 100%);
+    background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   
   .text-gradient-secondary {
-    background: linear-gradient(135deg, #B71C1C 0%, #f44336 100%);
+    background: linear-gradient(135deg, #B71C1C 0%, #C62828 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   
   .btn-primary {
-    background: linear-gradient(135deg, #1B5E20 0%, #4caf50 100%);
+    background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
     color: white;
     font-weight: 700;
     border-radius: 0.75rem;
     box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.18), 0 4px 10px -6px rgba(0, 0, 0, 0.06);
     transition: transform 0.22s ease, box-shadow 0.22s ease;
     padding: clamp(0.75rem, 1.5vw, 1rem) clamp(1.25rem, 2.5vw, 1.75rem);
+    border: 2px solid transparent;
   }
   
   .btn-primary:hover {
     box-shadow: 0 24px 40px -12px rgba(0, 0, 0, 0.24), 0 10px 18px -10px rgba(0, 0, 0, 0.08);
     transform: translateY(-4px);
+  }
+  
+  .btn-primary:focus-visible {
+    outline: 3px solid #0066CC;
+    outline-offset: 2px;
   }
   
   .btn-outline {
@@ -192,7 +216,7 @@
   }
   
   .btn-outline:hover {
-    background: linear-gradient(135deg, #1B5E20 0%, #4caf50 100%);
+    background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
     color: white;
     border-color: transparent;
     padding: clamp(0.5rem, 1vw, 0.75rem) clamp(1.25rem, 2.5vw, 2rem);
@@ -562,6 +586,86 @@ img {
 
 .animation-delay-4000 {
   animation-delay: 4s;
+}
+
+/* Micro-interactions avancées */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Animations pour cartes produit */
+.card {
+  animation: scaleUp 0.3s ease-out;
+}
+
+.card:hover {
+  animation: bounce 0.3s ease-out forwards;
+}
+
+/* Hover animation pour liens */
+a {
+  transition: color 0.2s ease-out, text-decoration 0.2s ease-out;
+}
+
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+/* Active state avec feedback visuel */
+button:active {
+  transition: transform 0.1s cubic-bezier(0.4, 0, 1, 1);
+  transform: scale(0.97);
+}
+
+/* Smooth transitions pour inputs */
+input, textarea, select {
+  transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+/* Shimmer effect pour loading états */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
 }
 
 /* Scrollbar personnalisée */
