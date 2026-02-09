@@ -267,7 +267,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
             <button
               onClick={handleAddToCart}
               disabled={product.stock === 0}
-              className="p-3 bg-primary-600 hover:bg-primary-700 text-white rounded-fluid-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="btn-primary p-3 rounded-fluid-lg flex items-center justify-center disabled:bg-gray-400 disabled:cursor-not-allowed"
               aria-label="Ajouter au panier"
             >
               <ShoppingCart className="w-5 h-5" />
