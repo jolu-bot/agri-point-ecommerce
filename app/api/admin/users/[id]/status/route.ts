@@ -5,7 +5,7 @@ import User from '@/models/User';
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization');
@@ -32,8 +32,10 @@ export async function PATCH(
     const body = await request.json();
     const { isActive } = body;
 
+    const paramsObj = await context.params;
+
     const user = await User.findByIdAndUpdate(
-      params.id,
+      paramsObj.id,
       { isActive },
       { new: true }
     ).select('-password');

@@ -6,7 +6,7 @@ import { verifyAccessToken } from '@/lib/auth';
 // PUT - Mettre à jour un utilisateur
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = req.headers.get('authorization');
@@ -28,8 +28,10 @@ export async function PUT(
     // Ne pas permettre la modification du mot de passe via cette route
     delete body.password;
 
+    const paramsObj = await context.params;
+
     const user = await User.findByIdAndUpdate(
-      params.id,
+      paramsObj.id,
       body,
       { new: true, runValidators: true }
     ).select('-password');
@@ -54,7 +56,7 @@ export async function PUT(
 // DELETE - Supprimer un utilisateur
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = req.headers.get('authorization');
@@ -71,7 +73,8 @@ export async function DELETE(
 
     await dbConnect();
 
-    const user = await User.findByIdAndDelete(params.id);
+    const paramsObj = await context.params;
+    const user = await User.findByIdAndDelete(paramsObj.id);
 
     if (!user) {
       return NextResponse.json(

@@ -6,9 +6,10 @@ import { verifyAccessToken } from '@/lib/auth';
 // GET - Récupérer une commande par ID
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const paramsObj = await context.params;
     const authHeader = req.headers.get('authorization');
     if (!authHeader) {
       return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
@@ -22,7 +23,7 @@ export async function GET(
     }
 
     await dbConnect();
-    const order = await Order.findById(params.id)
+    const order = await Order.findById(paramsObj.id)
       .populate('user', 'name email phone')
       .populate('items.product');
 
@@ -46,9 +47,10 @@ export async function GET(
 // PUT - Mettre à jour le statut d'une commande
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const paramsObj = await context.params;
     const authHeader = req.headers.get('authorization');
     if (!authHeader) {
       return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
@@ -66,7 +68,7 @@ export async function PUT(
     const body = await req.json();
 
     const order = await Order.findByIdAndUpdate(
-      params.id,
+      paramsObj.id,
       body,
       { new: true, runValidators: true }
     );

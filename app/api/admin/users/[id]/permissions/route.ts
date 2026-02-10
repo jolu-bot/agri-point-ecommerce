@@ -7,7 +7,7 @@ import { verifyAccessToken } from '@/lib/auth';
 // Modifier les permissions d'un utilisateur
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const token = request.headers.get('authorization')?.replace('Bearer ', '');
@@ -27,7 +27,8 @@ export async function PUT(
       return NextResponse.json({ error: 'Permission refusée' }, { status: 403 });
     }
 
-    const { id } = params;
+    const paramsObj = await context.params;
+    const { id } = paramsObj;
     const { permissions } = await request.json();
 
     const user = await User.findById(id);
