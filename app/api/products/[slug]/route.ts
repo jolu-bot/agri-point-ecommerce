@@ -4,13 +4,13 @@ import Product from '@/models/Product';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const paramsObj = await context.params;
     await dbConnect();
-
     const product = await Product.findOne({
-      slug: params.slug,
+      slug: paramsObj.slug,
       isActive: true,
     }).lean();
 

@@ -5,7 +5,7 @@ import User from '@/models/User';
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization');
@@ -34,8 +34,10 @@ export async function PATCH(
 
     const permissions = getRolePermissions(role);
 
+    const paramsObj = await context.params;
+
     const user = await User.findByIdAndUpdate(
-      params.id,
+      paramsObj.id,
       { role, permissions },
       { new: true }
     ).select('-password');

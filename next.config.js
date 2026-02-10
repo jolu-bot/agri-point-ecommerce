@@ -92,8 +92,8 @@ const nextConfig = {
 module.exports = {
   ...nextConfig,
   typescript: {
-    // Suppress build-time TypeScript errors
-    ignoreBuildErrors: true,
+    // Re-enable build-time TypeScript errors now that route handlers are updated
+    ignoreBuildErrors: false,
   },
 };
 

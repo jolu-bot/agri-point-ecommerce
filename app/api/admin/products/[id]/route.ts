@@ -7,12 +7,13 @@ import User from '@/models/User';
 // GET - Récupérer un produit par ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const paramsObj = await context.params;
     await dbConnect();
 
-    const product = await Product.findById(params.id);
+    const product = await Product.findById(paramsObj.id);
 
     if (!product) {
       return NextResponse.json({ error: 'Produit non trouvé' }, { status: 404 });
@@ -28,7 +29,7 @@ export async function GET(
 // PUT - Mettre à jour un produit
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization');
@@ -63,7 +64,7 @@ export async function PUT(
     }
 
     const product = await Product.findByIdAndUpdate(
-      params.id,
+      paramsObj.id,
       { ...body, updatedAt: new Date() },
       { new: true, runValidators: true }
     );
@@ -81,7 +82,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization');
@@ -105,7 +106,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Accès non autorisé' }, { status: 403 });
     }
 
-    const product = await Product.findByIdAndDelete(params.id);
+    const product = await Product.findByIdAndDelete(paramsObj.id);
 
     if (!product) {
       return NextResponse.json({ error: 'Produit non trouvé' }, { status: 404 });

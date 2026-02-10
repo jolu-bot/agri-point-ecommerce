@@ -7,7 +7,7 @@ import { verifyAccessToken } from '@/lib/auth';
 // Approuver un utilisateur
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const token = request.headers.get('authorization')?.replace('Bearer ', '');
@@ -28,7 +28,8 @@ export async function POST(
       return NextResponse.json({ error: 'Permission refusée' }, { status: 403 });
     }
 
-    const { id } = params;
+    const paramsObj = await context.params;
+    const { id } = paramsObj;
     const { status, reason } = await request.json();
 
     const user = await User.findById(id);
