@@ -14,7 +14,7 @@ export default async function HeroShowcase() {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://blue-goose-561723.hostingersite.com';
     const response = await fetch(`${baseUrl}/api/products?limit=1`, {
-      next: { revalidate: 3600 } // Cache for 1 hour
+      next: { revalidate: false } // Static generation (no revalidation)
     });
     
     if (response.ok) {

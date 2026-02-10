@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { Suspense, lazy } from 'react';
 import HeroShowcase from './HeroShowcase';
+import { HeroImageSkeleton } from './HeroImageSkeleton';
 
 // Lazy load Framer Motion animations to reduce initial JS
 const AnimatedContent = lazy(() => import('./HeroAnimated'));
@@ -114,7 +115,7 @@ export default function Hero() {
           {/* Right Image - Server Component for LCP optimization */}
           <div className="relative mt-8 lg:mt-0">
             <div className="relative rounded-fluid-2xl overflow-hidden shadow-2xl">
-              <Suspense fallback={<div className="aspect-square bg-gradient-hero flex items-center justify-center animate-pulse" />}>
+              <Suspense fallback={<HeroImageSkeleton />}>
                 <HeroShowcase />
               </Suspense>
             </div>
