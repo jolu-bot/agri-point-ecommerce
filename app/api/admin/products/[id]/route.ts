@@ -54,6 +54,7 @@ export async function PUT(
     }
 
     const body = await request.json();
+    const paramsObj = await context.params;
 
     // Générer le slug si le nom change
     if (body.name) {
@@ -106,6 +107,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Accès non autorisé' }, { status: 403 });
     }
 
+    const paramsObj = await context.params;
     const product = await Product.findByIdAndDelete(paramsObj.id);
 
     if (!product) {
