@@ -11,16 +11,10 @@ const verifyToken = async (token: string) => {
   }
 };
 
-interface RouteParams {
-  params: {
-    id: string;
-  };
-}
-
 // GET /api/orders/[id] - Récupérer une commande spécifique
 export async function GET(
   request: NextRequest,
-  { params }: RouteParams
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
@@ -41,7 +35,8 @@ export async function GET(
       );
     }
 
-    const order = await Order.findById(params.id).lean();
+    const paramsObj = await context.params;
+    const order = await Order.findById(paramsObj.id).lean();
 
     if (!order) {
       return NextResponse.json(
