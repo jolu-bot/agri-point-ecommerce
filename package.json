@@ -12,6 +12,7 @@
     "seed:users": "node scripts/seed-users.js",
     "seed:orders": "node scripts/seed-orders.js",
     "seed:campaign": "node scripts/seed-campaign-march-2026.js",
+    "seed:campaign:products": "node scripts/seed-campaign-products.js",
     "seed:all": "npm run seed && npm run seed:users && npm run seed:orders",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf .next node_modules",
