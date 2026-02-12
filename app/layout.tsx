@@ -79,7 +79,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <head />
+      <head>
+        {/* CSS Critique en-ligne pour améliorer FCP */}
+        <style dangerouslySetInnerHTML={{__html: `*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:#fff;color:#1f2937}@media(prefers-color-scheme:dark){body{background:#0f172a;color:#f1f5f9}}.animate-pulse{animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}`}} />
+      </head>
       <body className={`${inter.variable} ${montserrat.variable} font-sans antialiased`}>
         <SiteConfigProvider>
           <ThemeProvider>

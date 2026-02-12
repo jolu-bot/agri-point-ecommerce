@@ -150,8 +150,7 @@ const InvitationCodeSchema = new Schema<IInvitationCode>({
   timestamps: true,
 });
 
-InvitationCodeSchema.index({ code: 1 });
-InvitationCodeSchema.index({ email: 1 });
+// Indexes: code est déjà unique, email est sparse
 InvitationCodeSchema.index({ createdBy: 1 });
 InvitationCodeSchema.index({ expiresAt: 1 });
 
@@ -239,8 +238,8 @@ const SessionSchema = new Schema<ISession>({
   timestamps: true,
 });
 
+// Indexes: token est déjà unique
 SessionSchema.index({ user: 1, isActive: 1 });
-SessionSchema.index({ token: 1 });
 SessionSchema.index({ expiresAt: 1 });
 
 const InvitationCode: Model<IInvitationCode> = models.InvitationCode || mongoose.model<IInvitationCode>('InvitationCode', InvitationCodeSchema);
