@@ -358,8 +358,9 @@ export default function CampagnePage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Type d'Engrais</label>
+                  <label htmlFor="productType" className="block text-sm font-medium text-gray-700 mb-2">Type d'Engrais</label>
                   <select
+                    id="productType"
                     name="productType"
                     value={formData.productType}
                     onChange={handleInputChange}
@@ -433,8 +434,9 @@ export default function CampagnePage() {
 
                 {formData.hasInsurance && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Organisme d'Assurance</label>
+                    <label htmlFor="insuranceProvider" className="block text-sm font-medium text-gray-700 mb-2">Organisme d'Assurance</label>
                     <select
+                      id="insuranceProvider"
                       name="insuranceProvider"
                       value={formData.insuranceProvider}
                       onChange={handleInputChange}
@@ -452,10 +454,11 @@ export default function CampagnePage() {
 
               {/* Quantité */}
               <div className="border-t pt-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-2">
                   Quantité ({formData.productType === 'mineral' ? 'sacs' : 'litres'})
                 </label>
                 <input
+                  id="quantity"
                   type="number"
                   name="quantity"
                   value={formData.quantity}
@@ -463,6 +466,7 @@ export default function CampagnePage() {
                   min={campaign.eligibility.minQuantity}
                   required
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  aria-label="Quantité de produit en sacs ou litres"
                 />
                 <p className="text-xs text-gray-500 mt-1">Minimum: {campaign.eligibility.minQuantity}</p>
               </div>
