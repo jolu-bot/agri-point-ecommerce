@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/post-build-optimize.js",
     "start": "next start",
     "lint": "next lint",
     "seed": "node scripts/seed.js",
@@ -16,6 +16,7 @@
     "clean": "rm -rf .next node_modules",
     "reset": "npm run clean && npm install",
     "analyze": "ANALYZE=true npm run build",
+    "analyze:bundle": "node scripts/bundle-analyzer.js",
     "perf": "node scripts/analyze-performance.js",
     "optimize": "npm run lint && npm run type-check && npm run build",
     "status": "node scripts/status.js"

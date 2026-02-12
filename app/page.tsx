@@ -1,21 +1,11 @@
 import Hero from '@/components/home/Hero';
 import Stats from '@/components/home/Stats';
+import FeaturedProducts from '@/components/home/FeaturedProducts';
+import Sections from '@/components/home/Sections';
+import UrbanAgriculture from '@/components/home/UrbanAgriculture';
 import dynamic from 'next/dynamic';
 
-// Lazy load TOUS les composants non-critiques (amélioration performance de 40%)
-const FeaturedProducts = dynamic(() => import('@/components/home/FeaturedProducts'), {
-  loading: () => <div className="h-96 animate-pulse bg-gray-100 dark:bg-gray-800 rounded-xl" />
-});
-
-// Lazy load des composants non-critiques pour améliorer le temps de chargement initial
-const Sections = dynamic(() => import('@/components/home/Sections'), {
-  loading: () => <div className="h-96 animate-pulse bg-gray-100 dark:bg-gray-800" />
-});
-
-const UrbanAgriculture = dynamic(() => import('@/components/home/UrbanAgriculture'), {
-  loading: () => <div className="h-96 animate-pulse bg-gray-100 dark:bg-gray-800" />
-});
-
+// Lazy load UNIQUEMENT les composants non-critiques (sous le fold)
 const Testimonials = dynamic(() => import('@/components/home/Testimonials'), {
   loading: () => <div className="h-96 animate-pulse bg-gray-100 dark:bg-gray-800" />
 });
