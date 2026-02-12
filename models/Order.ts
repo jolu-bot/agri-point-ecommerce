@@ -22,6 +22,37 @@ export interface IOrder {
   
   promoCode?: string;
   
+  // Nouvelles propriétés pour campagnes
+  campaign?: mongoose.Types.ObjectId | string;
+  isCampaignOrder?: boolean;
+  
+  // Paiement échelonné
+  installmentPayment?: {
+    enabled: boolean;
+    firstAmount: number; // 70%
+    secondAmount: number; // 30%
+    firstPaymentStatus: 'pending' | 'paid' | 'failed';
+    secondPaymentStatus: 'pending' | 'paid' | 'failed';
+    firstPaymentDetails?: {
+      transactionId?: string;
+      paidAt?: Date;
+    };
+    secondPaymentDetails?: {
+      transactionId?: string;
+      paidAt?: Date;
+    };
+    secondPaymentDueDate?: Date;
+  };
+  
+  // Éligibilité campagne
+  campaignEligibility?: {
+    isEligible: boolean;
+    cooperativeMember: boolean;
+    mutualInsuranceValid: boolean;
+    insuranceProvider?: string;
+    cooperativeEmail?: string;
+  };
+  
   shippingAddress: {
     name: string;
     phone: string;
@@ -116,6 +147,62 @@ const OrderSchema = new Schema<IOrder>({
   },
   
   promoCode: String,
+  
+  campaign: {
+    type: Schema.Types.ObjectId,
+    ref: 'Campaign',
+  },
+  isCampaignOrder: {
+    type: Boolean,
+    default: false,
+  },
+  
+  // Paiement échelonné
+  installmentPayment: {
+    enabled: {
+      type: Boolean,
+      default: false,
+    },
+    firstAmount: Number,
+    secondAmount: Number,
+    firstPaymentStatus: {
+      type: String,
+      enum: ['pending', 'paid', 'failed'],
+      default: 'pending',
+    },
+    secondPaymentStatus: {
+      type: String,
+      enum: ['pending', 'paid', 'failed'],
+      default: 'pending',
+    },
+    firstPaymentDetails: {
+      transactionId: String,
+      paidAt: Date,
+    },
+    secondPaymentDetails: {
+      transactionId: String,
+      paidAt: Date,
+    },
+    secondPaymentDueDate: Date,
+  },
+  
+  // Éligibilité campagne
+  campaignEligibility: {
+    isEligible: {
+      type: Boolean,
+      default: false,
+    },
+    cooperativeMember: {
+      type: Boolean,
+      default: false,
+    },
+    mutualInsuranceValid: {
+      type: Boolean,
+      default: false,
+    },
+    insuranceProvider: String,
+    cooperativeEmail: String,
+  },
   
   shippingAddress: {
     name: { type: String, required: true },
