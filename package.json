@@ -11,6 +11,7 @@
     "seed:config": "node scripts/seed-site-config.js",
     "seed:users": "node scripts/seed-users.js",
     "seed:orders": "node scripts/seed-orders.js",
+    "seed:campaign": "node scripts/seed-campaign-march-2026.js",
     "seed:all": "npm run seed && npm run seed:users && npm run seed:orders",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf .next node_modules",
@@ -19,7 +20,8 @@
     "analyze:bundle": "node scripts/bundle-analyzer.js",
     "perf": "node scripts/analyze-performance.js",
     "optimize": "npm run lint && npm run type-check && npm run build",
-    "status": "node scripts/status.js"
+    "status": "node scripts/status.js",
+    "generate:hero": "node scripts/generate-campaign-hero.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
