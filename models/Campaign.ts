@@ -67,6 +67,7 @@ const CampaignSchema = new Schema<ICampaign>({
     required: true,
     unique: true,
     lowercase: true,
+    index: true,
   },
   description: {
     type: String,
@@ -174,7 +175,6 @@ const CampaignSchema = new Schema<ICampaign>({
 });
 
 // Index pour les recherches rapides
-CampaignSchema.index({ slug: 1 });
 CampaignSchema.index({ isActive: 1, startDate: 1, endDate: 1 });
 CampaignSchema.index({ createdAt: -1 });
 
