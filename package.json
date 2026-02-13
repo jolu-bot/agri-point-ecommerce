@@ -26,7 +26,17 @@
     "test:sms": "node scripts/test-sms-provider.js",
     "test:sms:prod": "SMS_PROVIDER=infobip node scripts/test-sms-provider.js",
     "generate:qr": "node scripts/generate-qr-codes.js",
-    "pre-launch-tests": "node scripts/pre-launch-tests.js"
+    "pre-launch-tests": "node scripts/pre-launch-tests.js",
+    "monitor:agent": "node scripts/monitoring-agent.js",
+    "export:payments": "node scripts/export-payments.js",
+    "dashboard:generate": "node scripts/generate-dashboard-data.js",
+    "pm2:monitor:start": "pm2 start scripts/monitoring-agent.js --name monitoring-agent",
+    "pm2:monitor:stop": "pm2 stop monitoring-agent || true",
+    "test:export": "node scripts/test-export-payments-mock.js",
+    "push:gas": "node scripts/push-to-gas.js",
+    "push:grafana": "node scripts/grafana/push-to-grafana.js",
+    "campaign:activate": "node scripts/activate-campaign-now.js",
+    "campaign:test": "node scripts/test-campaign-visibility.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
