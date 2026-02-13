@@ -19,12 +19,21 @@ if (!file || !fs.existsSync(file)) {
 const csv = fs.readFileSync(file, 'utf8')
 
 async function main() {
-  const res = await fetch(GAS_URL, { method: 'POST', body: csv, headers: { 'Content-Type': 'text/csv' } })
-  if (!res.ok) {
-    console.error('Failed to push to GAS:', res.status, await res.text())
-    process.exit(1)
+  const MAX_RETRIES = 3
+  for (let attempt=1; attempt<=MAX_RETRIES; attempt++) {
+    if (process.env.VERBOSE) console.log(`[push-to-gas] POST attempt ${attempt} -> ${GAS_URL}`)
+    const res = await fetch(GAS_URL, { method: 'POST', body: csv, headers: { 'Content-Type': 'text/csv' } })
+    const text = await res.text().catch(()=> '')
+    if (res.ok) {
+      console.log('[push-to-gas] Pushed', file, 'to GAS')
+      if (process.env.VERBOSE) console.log('[push-to-gas] response:', text)
+      process.exit(0)
+    }
+    console.error('[push-to-gas] attempt', attempt, 'failed:', res.status, text)
+    if (attempt < MAX_RETRIES) await new Promise(r=>setTimeout(r, 1000*attempt))
   }
-  console.log('Pushed', file, 'to GAS')
+  console.error('[push-to-gas] all attempts failed')
+  process.exit(1)
 }
 
 main().catch(err => { console.error(err); process.exit(1) })

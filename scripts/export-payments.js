@@ -28,14 +28,19 @@ function toCSV(rows) {
 
 async function main() {
   try {
+    console.log(`[export-payments] Fetching orders since ${date} from ${API_URL}`)
     const data = await fetchOrders(date)
+    console.log(`[export-payments] Retrieved ${Array.isArray(data) ? data.length : 0} orders`)
     if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true })
     const outPath = path.join(OUT_DIR, `payments-${date}.csv`)
     const csv = toCSV(data)
     fs.writeFileSync(outPath, csv)
-    console.log('Wrote', outPath)
+    console.log('[export-payments] Wrote', outPath)
+    if (process.env.VERBOSE) {
+      console.log('[export-payments] Sample row:', data && data[0] ? JSON.stringify(data[0]) : 'empty')
+    }
   } catch (err) {
-    console.error('Error:', err.message)
+    console.error('[export-payments] Error:', err && err.message ? err.message : err)
     process.exit(1)
   }
 }
