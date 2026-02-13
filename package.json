@@ -22,7 +22,10 @@
     "perf": "node scripts/analyze-performance.js",
     "optimize": "npm run lint && npm run type-check && npm run build",
     "status": "node scripts/status.js",
-    "generate:hero": "node scripts/generate-campaign-hero.js"
+    "generate:hero": "node scripts/generate-campaign-hero.js",
+    "test:sms": "node scripts/test-sms-provider.js",
+    "test:sms:prod": "SMS_PROVIDER=infobip node scripts/test-sms-provider.js",
+    "generate:qr": "node scripts/generate-qr-codes.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
