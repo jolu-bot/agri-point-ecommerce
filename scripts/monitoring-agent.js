@@ -27,10 +27,15 @@ function logLine(obj) {
 }
 
 async function runOnce() {
-  console.log('Monitoring agent pinging', HEALTH_URL)
+  console.log('[monitoring-agent] Pinging', HEALTH_URL)
   const result = await ping(HEALTH_URL)
   const out = { url: HEALTH_URL, result }
-  console.log(out)
+  if (process.env.VERBOSE) {
+    console.log('[monitoring-agent] Result:', JSON.stringify(out, null, 2))
+  } else {
+    console.log('[monitoring-agent] status=', result.status || 'ERR', 'ok=', !!result.ok)
+  }
+  if (result && result.error) console.error('[monitoring-agent] error:', result.error)
   logLine(out)
 }
 
