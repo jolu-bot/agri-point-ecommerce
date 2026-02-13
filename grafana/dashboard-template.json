@@ -1,0 +1,21 @@
+{
+  "id": null,
+  "uid": "agri-campaign-dashboard",
+  "title": "Agri-Point Campaign",
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Orders (last 24h)",
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
+      "targets": []
+    },
+    {
+      "type": "stat",
+      "title": "Revenue (last 24h)",
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 },
+      "targets": []
+    }
+  ],
+  "schemaVersion": 30,
+  "version": 1
+}
