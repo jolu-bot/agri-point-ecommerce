@@ -21,6 +21,7 @@ const dashboard = JSON.parse(fs.readFileSync(tplPath, 'utf8'))
 const payload = { dashboard, overwrite: true }
 
 async function main() {
+  console.log('[grafana] Pushing dashboard to', GRAFANA_URL)
   const res = await fetch(`${GRAFANA_URL}/api/dashboards/db`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GRAFANA_KEY}` },
@@ -28,10 +29,11 @@ async function main() {
   })
   const text = await res.text()
   if (!res.ok) {
-    console.error('Grafana API failed:', res.status, text)
+    console.error('[grafana] API failed:', res.status, text)
     process.exit(1)
   }
-  console.log('Grafana dashboard pushed:', text)
+  if (process.env.VERBOSE) console.log('[grafana] response:', text)
+  console.log('[grafana] Dashboard pushed successfully')
 }
 
-main().catch(err => { console.error(err); process.exit(1) })
+main().catch(err => { console.error('[grafana]', err); process.exit(1) })
