@@ -25,7 +25,8 @@
     "generate:hero": "node scripts/generate-campaign-hero.js",
     "test:sms": "node scripts/test-sms-provider.js",
     "test:sms:prod": "SMS_PROVIDER=infobip node scripts/test-sms-provider.js",
-    "generate:qr": "node scripts/generate-qr-codes.js"
+    "generate:qr": "node scripts/generate-qr-codes.js",
+    "pre-launch-tests": "node scripts/pre-launch-tests.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
