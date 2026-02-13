@@ -5,6 +5,7 @@ const fs = require('fs')
 const fetch = global.fetch || require('node-fetch')
 
 const GAS_URL = process.env.GAS_URL
+const GAS_TOKEN = process.env.GAS_TOKEN
 if (!GAS_URL) {
   console.error('GAS_URL not set. Set it to your Google Apps Script deploy URL.')
   process.exit(1)
@@ -12,7 +13,7 @@ if (!GAS_URL) {
 
 const file = process.argv[2]
 if (!file || !fs.existsSync(file)) {
-  console.error('Usage: GAS_URL=... node scripts/push-to-gas.js <csv-file>')
+  console.error('Usage: GAS_URL=... GAS_TOKEN=... node scripts/push-to-gas.js <csv-file>')
   process.exit(1)
 }
 
@@ -22,7 +23,9 @@ async function main() {
   const MAX_RETRIES = 3
   for (let attempt=1; attempt<=MAX_RETRIES; attempt++) {
     if (process.env.VERBOSE) console.log(`[push-to-gas] POST attempt ${attempt} -> ${GAS_URL}`)
-    const res = await fetch(GAS_URL, { method: 'POST', body: csv, headers: { 'Content-Type': 'text/csv' } })
+    const headers = { 'Content-Type': 'text/csv' }
+    if (GAS_TOKEN) headers['Authorization'] = `Bearer ${GAS_TOKEN}`
+    const res = await fetch(GAS_URL, { method: 'POST', body: csv, headers })
     const text = await res.text().catch(()=> '')
     if (res.ok) {
       console.log('[push-to-gas] Pushed', file, 'to GAS')
