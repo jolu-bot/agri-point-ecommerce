@@ -36,7 +36,8 @@
     "push:gas": "node scripts/push-to-gas.js",
     "push:grafana": "node scripts/grafana/push-to-grafana.js",
     "campaign:activate": "node scripts/activate-campaign-now.js",
-    "campaign:test": "node scripts/test-campaign-visibility.js"
+    "campaign:test": "node scripts/test-campaign-visibility.js",
+    "campaign:go-live": "node scripts/activate-campaign-complete.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

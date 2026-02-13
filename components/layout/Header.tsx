@@ -40,6 +40,7 @@ export default function Header() {
         { name: 'Mieux Vivre', href: '/mieux-vivre' },
       ]
     },
+    { name: '🌱 Campagne Engrais', href: '/campagne-engrais', highlight: true },
     { name: 'Agriculture Urbaine', href: '/agriculture-urbaine' },
     { name: 'À propos', href: '/a-propos' },
     { name: 'Contact', href: '/contact' },
@@ -112,10 +113,16 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-fluid-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group whitespace-nowrap"
+                  className={`text-fluid-sm font-medium transition-colors relative group whitespace-nowrap ${
+                    (item as any).highlight 
+                      ? 'text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-bold bg-green-50/30 dark:bg-green-900/20 px-3 py-2 rounded-lg border border-green-200 dark:border-green-800' 
+                      : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400'
+                  }`}
                 >
                   {item.name}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 group-hover:w-full transition-all duration-300" />
+                  {!(item as any).highlight && (
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 group-hover:w-full transition-all duration-300" />
+                  )}
                 </Link>
               )
             ))}
@@ -211,7 +218,11 @@ export default function Header() {
                     key={item.name}
                     href={item.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className="text-fluid-base text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                    className={`text-fluid-base font-medium transition-colors px-3 py-2 rounded-lg ${
+                      (item as any).highlight 
+                        ? 'text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-bold bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800' 
+                        : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    }`}
                   >
                     {item.name}
                   </Link>
