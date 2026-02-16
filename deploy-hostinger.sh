@@ -34,14 +34,14 @@ ssh -o StrictHostKeyChecking=no $HOSTINGER_USER@$HOSTINGER_IP << 'EOF'
   cat > /home/agripoint/.env.local << 'ENVEOF'
 # Production
 NODE_ENV=production
-NEXTAUTH_URL=https://votre-domaine.cm
+NEXTAUTH_URL=https://agri-ps.com
 NEXTAUTH_SECRET=$(openssl rand -base64 32)
 
 # MongoDB Atlas
 MONGODB_URI=mongodb+srv://[USERNAME]:[PASSWORD]@cluster.mongodb.net/agripoint?retryWrites=true&w=majority
 
 # Admin
-ADMIN_EMAIL=admin@votre-domaine.cm
+ADMIN_EMAIL=admin@agri-ps.com
 
 # Optional
 DEBUG=false
@@ -70,7 +70,7 @@ upstream agripoint {
 
 server {
   listen 80;
-  server_name votre-domaine.cm www.votre-domaine.cm;
+  server_name agri-ps.com www.agri-ps.com;
   client_max_body_size 50M;
 
   location / {
@@ -105,7 +105,7 @@ ssh -o StrictHostKeyChecking=no $HOSTINGER_USER@$HOSTINGER_IP << 'EOF'
   apt-get update
   apt-get install -y certbot python3-certbot-nginx
   
-  certbot --nginx -d votre-domaine.cm -d www.votre-domaine.cm --non-interactive --agree-tos --email admin@votre-domaine.cm
+  certbot --nginx -d agri-ps.com -d www.agri-ps.com --non-interactive --agree-tos --email admin@agri-ps.com
   
   echo "✅ SSL installé"
 EOF
@@ -142,6 +142,6 @@ echo "3. Vérifiez les logs:"
 echo "   pm2 logs agripoint"
 echo ""
 echo "4. Testez depuis URL:"
-echo "   curl https://votre-domaine.cm"
+echo "   curl https://agri-ps.com"
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
