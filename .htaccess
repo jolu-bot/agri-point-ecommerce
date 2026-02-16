@@ -1,0 +1,86 @@
+# ============================================================
+# FICHIER HTACCESS POUR HOSTINGER
+# ============================================================
+# Ce fichier configure Apache pour fonctionner avec Next.js
+# À placer dans le dossier public_html si vous utilisez 
+# l'hébergement web Hostinger (non VPS)
+# ============================================================
+
+# Activer le module de réécriture
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Rediriger toutes les requêtes vers Node.js (port 3000)
+  # Seulement si le fichier ou dossier n'existe pas
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ http://localhost:3000/$1 [P,L]
+</IfModule>
+
+# Configuration du proxy
+<IfModule mod_proxy.c>
+  ProxyPreserveHost On
+  ProxyPass / http://localhost:3000/
+  ProxyPassReverse / http://localhost:3000/
+</IfModule>
+
+# Augmenter les timeouts pour éviter les erreurs 503
+<IfModule mod_reqtimeout.c>
+  RequestReadTimeout header=20-40,MinRate=500 body=20-40,MinRate=500
+</IfModule>
+
+# Taille maximale des uploads (10MB)
+<IfModule mod_php.c>
+  php_value upload_max_filesize 10M
+  php_value post_max_size 10M
+  php_value max_execution_time 300
+  php_value max_input_time 300
+</IfModule>
+
+# Headers de sécurité
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Compression GZIP
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Cache pour les fichiers statiques
+<IfModule mod_expires.c>
+  ExpiresActive On
+  
+  # Images
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  
+  # CSS et JavaScript
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  
+  # Fonts
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/ttf "access plus 1 year"
+</IfModule>
+
+# Bloquer l'accès aux fichiers sensibles
+<FilesMatch "\.(env|log|git|gitignore|md|json|lock)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+# Redirection HTTP vers HTTPS (si SSL activé)
+# Décommentez si vous avez un certificat SSL
+# <IfModule mod_rewrite.c>
+#   RewriteEngine On
+#   RewriteCond %{HTTPS} off
+#   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# </IfModule>
