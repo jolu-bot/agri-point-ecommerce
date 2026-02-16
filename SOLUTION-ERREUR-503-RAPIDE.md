@@ -206,7 +206,7 @@ votre-projet/
 
 Une fois que votre site fonctionne :
 
-1. ✅ Testez votre site : https://votre-domaine.com
+1. ✅ Testez votre site : https://agri-ps.com
 2. ✅ Connectez-vous au panel admin
 3. ✅ Changez le mot de passe administrateur
 4. ✅ Configurez les sauvegardes automatiques

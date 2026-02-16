@@ -1,7 +1,8 @@
 # ============================================================
-# FICHIER HTACCESS POUR HOSTINGER
+# FICHIER HTACCESS POUR HOSTINGER - AGRI-PS.COM
 # ============================================================
 # Ce fichier configure Apache pour fonctionner avec Next.js
+# Domaine : agri-ps.com
 # À placer dans le dossier public_html si vous utilisez 
 # l'hébergement web Hostinger (non VPS)
 # ============================================================

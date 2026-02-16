@@ -272,7 +272,7 @@ cat /etc/nginx/conf.d/nodejs.conf
 ```nginx
 server {
     listen 80;
-    server_name votre-domaine.com www.votre-domaine.com;
+    server_name agri-ps.com www.agri-ps.com;
 
     # Taille maximale upload
     client_max_body_size 10M;
@@ -479,7 +479,7 @@ Si après toutes ces étapes, l'erreur persiste :
 
 Une fois le site fonctionnel :
 
-1. **Testez la connexion** : https://votre-domaine.com
+1. **Testez la connexion** : https://agri-ps.com
 2. **Connectez-vous** : `admin@agri-ps.com` / `admin123`
 3. **Changez le mot de passe admin**
 4. **Configurez les sauvegardes automatiques**

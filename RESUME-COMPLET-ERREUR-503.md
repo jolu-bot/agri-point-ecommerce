@@ -64,7 +64,7 @@ cd /home/votre-user/public_html/agri-point-ecommerce
 # OU
 cd /var/www/agri-point-ecommerce
 # OU
-cd ~/domains/votre-domaine.com/public_html
+cd ~/domains/agri-ps.com/public_html
 
 # Vérifier que vous êtes au bon endroit
 ls -la package.json
@@ -219,7 +219,7 @@ Une fois le site en ligne, vérifiez :
 curl http://localhost:3000
 
 # Via le domaine
-curl http://votre-domaine.com
+curl http://agri-ps.com
 ```
 
 ### 2. PM2 est stable
@@ -241,7 +241,7 @@ node test-mongo-connection.js
 
 ### 4. Le panneau admin est accessible
 
-1. Ouvrez : https://votre-domaine.com
+1. Ouvrez : https://agri-ps.com
 2. Cliquez sur "Connexion"
 3. Connectez-vous avec :
    - Email : `admin@agri-ps.com`
@@ -264,7 +264,7 @@ Une fois connecté au panneau admin :
 sudo apt install -y certbot python3-certbot-nginx
 
 # Obtenir le certificat SSL gratuit
-sudo certbot --nginx -d votre-domaine.com -d www.votre-domaine.com
+sudo certbot --nginx -d agri-ps.com -d www.agri-ps.com
 
 # Vérifier le renouvellement automatique
 sudo certbot renew --dry-run
@@ -344,7 +344,7 @@ Cochez au fur et à mesure :
 - [ ] J'ai exécuté `./restart-app.sh`
 - [ ] `pm2 status` montre "online" en vert
 - [ ] `node test-mongo-connection.js` réussit
-- [ ] Mon site est accessible : http://votre-domaine.com
+- [ ] Mon site est accessible : http://agri-ps.com
 - [ ] Je peux me connecter au panneau admin
 - [ ] J'ai changé le mot de passe administrateur
 - [ ] SSL (HTTPS) est activé

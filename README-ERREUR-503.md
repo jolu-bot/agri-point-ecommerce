@@ -30,7 +30,7 @@ bash restart-app.sh
 
 ✅ **Votre site devrait maintenant être en ligne !**
 
-Testez : http://votre-domaine.com
+Testez : http://agri-ps.com
 
 ---
 
@@ -134,7 +134,7 @@ Si l'une de ces commandes échoue, consultez le guide approprié.
 
 Une fois votre site en ligne :
 
-1. ✅ Testez votre site : https://votre-domaine.com
+1. ✅ Testez votre site : https://agri-ps.com
 2. ✅ Connectez-vous : `admin@agri-ps.com` / `admin123`
 3. ✅ **CHANGEZ le mot de passe admin immédiatement !**
 4. ✅ Configurez le SSL (HTTPS)
