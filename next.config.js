@@ -17,7 +17,7 @@ const nextConfig = {
   },
   experimental: {
     serverActions: {
-      allowedOrigins: ['localhost:3000'],
+      allowedOrigins: ['localhost:3000', 'localhost', '127.0.0.1', 'agri-ps.com', 'www.agri-ps.com'],
     },
     optimizePackageImports: ['react-icons', 'framer-motion', 'recharts', 'lucide-react', '@heroicons/react', 'react-chartjs-2', 'chart.js'],
     // Optimisation de l'hydration React
