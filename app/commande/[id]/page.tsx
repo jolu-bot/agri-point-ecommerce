@@ -97,9 +97,7 @@ export default function OrderConfirmationPage() {
   const getPaymentMethodLabel = (method: string) => {
     const methods: Record<string, string> = {
       cash: 'Paiement à la livraison',
-      mtn: 'MTN Mobile Money',
-      orange: 'Orange Money',
-      stripe: 'Carte bancaire',
+      campost: 'Campost',
     };
     return methods[method] || method;
   };
