@@ -13,8 +13,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* À propos */}
           <div>
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="relative w-16 h-16">
+            <div className="flex items-center space-x-4 mb-4">
+              <div className="relative w-20 h-20">
                 <Image
                   src="/images/logo.svg"
                   alt="AGRI POINT Logo"
@@ -23,8 +23,8 @@ export default function Footer() {
                 />
               </div>
               <div>
-                <div className="text-xl font-bold text-white">AGRI POINT</div>
-                <div className="text-sm text-gray-400">Service SAS</div>
+                <div className="text-2xl font-bold text-white">AGRI POINT</div>
+                <div className="text-base text-emerald-400 font-semibold">Service Agricole</div>
               </div>
             </div>
             <p className="text-sm text-gray-400 mb-4">
@@ -157,7 +157,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <p className="text-sm text-gray-400">
-                © {currentYear} AGRI POINT SERVICE. Tous droits réservés.
+                © {currentYear} AGRI POINT. Tous droits réservés.
               </p>
               <a 
                 href="https://www.joyeds.com" 
