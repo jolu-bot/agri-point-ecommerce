@@ -1,6 +1,6 @@
 /**
  * MISE À JOUR DES CHEMINS D'IMAGES VIA API
- * À exécuter depuis le navigateur (console DevTools) sur https://blue-goose-561723.hostingersite.com
+ * À exécuter depuis le navigateur (console DevTools) sur https://agri-ps.com
  */
 
 // Copier-coller ce code dans la console du navigateur de votre site Hostinger

@@ -8,7 +8,7 @@
  * 3. Shows you where the campaign link appears in the site
  * 
  * Usage:
- *   MONGODB_URI="mongodb+srv://..." API_URL="https://agri-point.cm" node scripts/activate-campaign-complete.js
+ *   MONGODB_URI="mongodb+srv://..." API_URL="https://agri-ps.com" node scripts/activate-campaign-complete.js
  */
 
 const { MongoClient } = require('mongodb')

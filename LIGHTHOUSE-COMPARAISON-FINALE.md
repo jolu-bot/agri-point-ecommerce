@@ -1,7 +1,7 @@
 # 📊 COMPARAISON LIGHTHOUSE - AVANT/APRÈS OPTIMISATIONS
 
 **Date:** 12 février 2026
-**Audit URL:** https://blue-goose-561723.hostingersite.com
+**Audit URL:** https://blue-goose-561723.agri-ps.com
 
 ## 🎯 Résultats Avant/Après
 

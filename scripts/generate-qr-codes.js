@@ -7,9 +7,9 @@ async function generateCampaignQRCodes() {
   console.log('\n🔄 Generating QR codes...\n');
 
   const urls = {
-    'campaign': 'https://agri-point.cm/campagne-engrais',
-    'mobileApp': 'https://agri-point.cm/campagne-engrais?mobile=true',
-    'admin': 'https://agri-point.cm/admin/campaigns',
+    'campaign': 'https://agri-ps.com/campagne-engrais',
+    'mobileApp': 'https://agri-ps.com/campagne-engrais?mobile=true',
+    'admin': 'https://agri-ps.com/admin/campaigns',
   };
 
   // Create directory

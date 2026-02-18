@@ -213,7 +213,7 @@ npm run optimize     # validate TypeScript + lint
 ### Phase 2: Lighthouse Audit (10 min)
 ```bash
 # Audit production URL
-npx lighthouse https://blue-goose-561723.hostingersite.com \
+npx lighthouse https://blue-goose-561723.agri-ps.com \
   --output=json \
   --output-path=./lighthouse-post-optimization.json \
   --timeout=60000

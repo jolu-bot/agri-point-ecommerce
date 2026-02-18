@@ -17,9 +17,9 @@ const path = require('path');
 
 async function generateCampaignQRCodes() {
   const urls = {
-    campaign: 'https://agri-point.cm/campagne-engrais',
-    mobileApp: 'https://agri-point.cm/campagne-engrais?mobile=true',
-    admin: 'https://agri-point.cm/admin/campaigns',
+    campaign: 'https://agri-ps.com/campagne-engrais',
+    mobileApp: 'https://agri-ps.com/campagne-engrais?mobile=true',
+    admin: 'https://agri-ps.com/admin/campaigns',
   };
 
   // Create directory
@@ -96,7 +96,7 @@ Engrais Bio: 10,000 FCFA/unité (au lieu de 17,000)
 ✅ Paiement échelonné: 70% maintenant, 30% en 60 jours
 ✅ Réservé aux membres coopératives assurés
 
-👉 S'enregistrer: https://agri-point.cm/campagne-engrais
+👉 S'enregistrer: https://agri-ps.com/campagne-engrais
 
 Questions? WhatsApp: +237 XXX XXX XXX
 ```
@@ -114,7 +114,7 @@ Offre:
 • Bio: 10,000 FCFA/unité
 • Paiement: 70% + 30% à J+60
 
-Réserver: https://agri-point.cm/campagne-engrais
+Réserver: https://agri-ps.com/campagne-engrais
 ```
 **Length:** 142 chars ✅
 
@@ -128,7 +128,7 @@ Dépêchez-vous!
 • Minéral: 15,000 FCFA/unité
 • Bio: 10,000 FCFA/unité
 
-Réserver: https://agri-point.cm/campagne-engrais
+Réserver: https://agri-ps.com/campagne-engrais
 ```
 **Length:** 138 chars ✅
 
@@ -138,7 +138,7 @@ Réserver: https://agri-point.cm/campagne-engrais
 
 #### Email 1 - Annonce Officielle
 ```
-From: marketing@agri-point.cm
+From: marketing@agri-ps.com
 To: cooperatives@list.cm
 Subject: 🌾 Engrais 40% MOINS CHER - Campagne Mars 2026
 
@@ -172,14 +172,14 @@ avec des tarifs exceptionnels!
    ✓ Minimum 6 unités par commande
 
 🔗 S'ENREGISTRER MAINTENANT:
-https://agri-point.cm/campagne-engrais
+https://agri-ps.com/campagne-engrais
 
 [QR CODE IMAGE HERE]
 Scannez ce code QR sur votre téléphone
 
 Questions?
 • WhatsApp: +237 XXX XXX XXX
-• Email: support@agri-point.cm
+• Email: support@agri-ps.com
 • Support 24/7 disponible
 
 Cordialement,
@@ -193,7 +193,7 @@ Campagne du 1er au 31 Mars 2026
 
 #### Email 2 - Confirmation d'Inscription
 ```
-From: system@agri-point.cm
+From: system@agri-ps.com
 To: [customer@email.cm]
 Subject: ✅ Votre Inscription Campagne Engrais - Confirmée!
 
@@ -221,7 +221,7 @@ Merci de vous être enregistré à la campagne ENGRAIS MARS 2026!
 ✅ STATUT: CONFIRMÉ & PAYABLE
 
 Procédez au paiement:
-1. Allez sur: https://agri-point.cm/campagne-engrais
+1. Allez sur: https://agri-ps.com/campagne-engrais
 2. Saisissez: Paiement dans 'Panier'
 3. Terminez: Validation de votre livraison
 
@@ -230,7 +230,7 @@ Procédez au paiement:
    
 Besoin d'aide?
 • WhatsApp: +237 XXX XXX XXX
-• Email: support@agri-point.cm
+• Email: support@agri-ps.com
 
 Merci d'être partenaire Agri-Point!
 ```
@@ -269,7 +269,7 @@ CAMPAGNE ENGRAIS MARS 2026 🎯
 💰 Paiement 70/30 (maintenant + 60 jours)
 
 👉 S'enregistrer ici:
-https://agri-point.cm/campagne-engrais
+https://agri-ps.com/campagne-engrais
 
 [QR Code Image]
 Scannez pour accéder à la campagne
@@ -297,7 +297,7 @@ Qui est éligible?
 ✅ C'est simple et sécurisé
 
 🎯 S'ENREGISTRER MAINTENANT:
-https://agri-point.cm/campagne-engrais
+https://agri-ps.com/campagne-engrais
 
 #CampagneEngrais2026 #AgriPoint #EngraisAffordable #SupportFarmers
 
@@ -314,7 +314,7 @@ Merci à tous nos membres coopératives!
 📊 Stock: Minéral (abundent) | Bio (limitées)
 
 Vous n'êtes pas encore enregistré(e)?
-👉 https://agri-point.cm/campagne-engrais
+👉 https://agri-ps.com/campagne-engrais
 
 ⏰ Plus que 2 SEMAINES pour profiter des bas prix!
 
@@ -360,13 +360,13 @@ Vous n'êtes pas encore enregistré(e)?
 Nginx config (add to /etc/nginx/sites-available/agri-point):
 
 location /engrais {
-  return 301 https://agri-point.cm/campagne-engrais;
+  return 301 https://agri-ps.com/campagne-engrais;
 }
 ```
 
 ### Updated Template URLs
 ```
-Long:  https://agri-point.cm/campagne-engrais
+Long:  https://agri-ps.com/campagne-engrais
 Short: https://bit.ly/engrais2026 (or your short domain)
 
 Use SHORT URLs in all SMS templates!
@@ -401,7 +401,7 @@ sendSMS(testNumber, SMS_TEMPLATES.announcement);
 1. Generate QR codes (script above)
 2. Print or display on phone
 3. Scan with camera or QR app
-4. Should redirect to https://agri-point.cm/campagne-engrais
+4. Should redirect to https://agri-ps.com/campagne-engrais
 5. Form should be responsive and working
 ```
 

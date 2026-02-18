@@ -39,7 +39,7 @@ See real-time orders and statistics.
 ### **Step 1: Activate Campaign in Database**
 
 ```bash
-MONGODB_URI="mongodb+srv://..." API_URL="https://agri-point.cm" npm run campaign:go-live
+MONGODB_URI="mongodb+srv://..." API_URL="https://agri-ps.com" npm run campaign:go-live
 ```
 
 **Output:**
@@ -109,7 +109,7 @@ pm2 restart agri-point
 
 ```bash
 # Activate campaign (Step 1)
-MONGODB_URI="..." API_URL="https://agri-point.cm" npm run campaign:go-live
+MONGODB_URI="..." API_URL="https://agri-ps.com" npm run campaign:go-live
 
 # Build Next.js (Step 2)
 npm run build

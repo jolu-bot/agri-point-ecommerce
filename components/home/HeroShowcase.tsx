@@ -12,7 +12,7 @@ export default async function HeroShowcase() {
   let product: IProduct | null = null;
   
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://blue-goose-561723.hostingersite.com';
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://agri-ps.com';
     const response = await fetch(`${baseUrl}/api/products?limit=1`, {
       next: { revalidate: false } // Static generation (no revalidation)
     });

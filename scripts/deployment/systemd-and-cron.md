@@ -33,7 +33,7 @@ Cron example (si vous préférez cron plutôt que systemd timer):
 
 ```
 # Run export-payments every day at 08:05
-5 8 * * * cd /var/www/agri-point-ecommerce && /usr/bin/env API_URL=https://agri-point.cm /usr/bin/node scripts/export-payments.js --date=$(date +\%Y-\%m-\%d) >> /var/log/agri/export-payments.log 2>&1
+5 8 * * * cd /var/www/agri-point-ecommerce && /usr/bin/env API_URL=https://agri-ps.com /usr/bin/node scripts/export-payments.js --date=$(date +\%Y-\%m-\%d) >> /var/log/agri/export-payments.log 2>&1
 ```
 
 PM2 startup snippet (to run agent with PM2 and persist across reboots):

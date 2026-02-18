@@ -4,7 +4,7 @@ Objectif
 - Offrir réponses rapides, tracking d'incidents et canal de feedback pour clients de la campagne.
 
 Canaux support
-- Email: support@agri-point.cm
+- Email: support@agri-ps.com
 - WhatsApp: numéro support
 - Formulaire: /contact → category = "campaign"
 - Téléphone: centralisé (heures ouvrées)

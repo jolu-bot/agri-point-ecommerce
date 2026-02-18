@@ -142,21 +142,21 @@ export const CAMPAIGN_SMS = {
 Minéral: 15,000 FCFA/unité • Bio: 10,000 FCFA/unité
 ✅ Paiement 70% maintenant + 30% à J+60
 
-S'enregistrer: https://agri-point.cm/campagne-engrais`,
+S'enregistrer: https://agri-ps.com/campagne-engrais`,
 
   reminder: () =>
     `📢 CAMPAGNE TOUJOURS ACTIVE! 
 Engrais -40% jusqu'au 31 Mars.
 Minéral: 15,000 FCFA • Bio: 10,000 FCFA
-Réserver: https://agri-point.cm/campagne-engrais`,
+Réserver: https://agri-ps.com/campagne-engrais`,
 
   lastCall: () =>
     `⚠️ DERNIER JOUR DEMAIN! 
 Engrais -40% expire le 31 Mars.
-Réserver: https://agri-point.cm/campagne-engrais`,
+Réserver: https://agri-ps.com/campagne-engrais`,
 
   paymentReminder: (dueDate: string) =>
     `💰 PAIEMENT DÛ - ${dueDate}
 30% de votre commande engrais.
-Détails: https://agri-point.cm/compte`,
+Détails: https://agri-ps.com/compte`,
 };

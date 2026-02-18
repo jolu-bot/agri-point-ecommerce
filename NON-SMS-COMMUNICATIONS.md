@@ -12,8 +12,8 @@ Canaux alternatifs
 Templates — WhatsApp court
 ```
 Bonjour {name},
-Votre commande pour la campagne Engrais Mars a été enregistrée. Vérifiez votre éligibilité et paiement ici: https://agri-point.cm/campagne-engrais
-Contact: support@agri-point.cm
+Votre commande pour la campagne Engrais Mars a été enregistrée. Vérifiez votre éligibilité et paiement ici: https://agri-ps.com/campagne-engrais
+Contact: support@agri-ps.com
 ```
 
 Procédure d'usage

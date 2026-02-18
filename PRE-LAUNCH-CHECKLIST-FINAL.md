@@ -107,15 +107,15 @@ HOSTINGER VPS SETUP:
   Expiry: > 90 days
   
 □ Domain DNS configured
-  Domain: agri-point.cm (or your domain)
+  Domain: agri-ps.com (or your domain)
   Type: A Record
   Points to: [Hostinger IP]
-  Verification: nslookup agri-point.cm
+  Verification: nslookup agri-ps.com
   
 □ Environment variables set on VPS
   /home/app/.env:
   □ MONGODB_URI=mongodb+srv://...
-  □ NEXTAUTH_URL=https://agri-point.cm
+  □ NEXTAUTH_URL=https://agri-ps.com
   □ NEXTAUTH_SECRET=[secret]
   □ SMS_PROVIDER=test (or infobip)
   □ ADMIN_SMS_TOKEN=[token]
@@ -154,7 +154,7 @@ STAGING DEPLOYMENT:
   Output: "app started"
   
 □ App accessible via HTTPS
-  Browser: https://staging.agri-point.cm (or staging IP)
+  Browser: https://staging.agri-ps.com (or staging IP)
   Expected: Campaign page loads
   
 □ Redis/Cache (if configured)
@@ -527,7 +527,7 @@ BUSINESS ISSUES:
   Secondary: [Marketing] - [Phone]
   
 24/7 SUPPORT:
-  Email: support@agri-point.cm
+  Email: support@agri-ps.com
   Message: [Slack/Teams bot]
 ```
 

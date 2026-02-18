@@ -4,7 +4,7 @@
 
 const https = require('https');
 
-const SITE_URL = 'https://blue-goose-561723.hostingersite.com';
+const SITE_URL = 'https://agri-ps.com';
 
 async function checkImage(path) {
   return new Promise((resolve) => {
@@ -72,7 +72,7 @@ async function verify() {
 
   if (successCount === images.length) {
     console.log('🎉 PARFAIT ! Toutes les images WebP sont accessibles !');
-    console.log('👉 Visitez: https://blue-goose-561723.hostingersite.com/produits\n');
+    console.log('👉 Visitez: https://agri-ps.com/produits\n');
   } else {
     console.log('⚠️  Certaines images sont manquantes ou inaccessibles.\n');
   }

@@ -330,7 +330,7 @@ Une fois le mois de mars terminé:
 
 Pour les questions techniques:
 - Issues GitHub: [repo]/issues
-- Contact: support@agri-point.cm
+- Contact: support@agri-ps.com
 - WhatsApp: +237 6XX XXX XXX
 
 ---
