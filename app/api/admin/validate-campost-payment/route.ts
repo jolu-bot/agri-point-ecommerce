@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Order from '@/models/Order';
-import { verifyToken } from '@/lib/auth';
+import { verifyAccessToken } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
     }
 
-    const decoded = await verifyToken(token);
+    const decoded = verifyAccessToken(token);
     if (!decoded || decoded.role !== 'admin') {
       return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
     }
