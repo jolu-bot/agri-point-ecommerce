@@ -39,7 +39,7 @@ const pageContent = {
       city: "BP 12345, Yaoundé, Cameroun",
       phone: "+237 6 XX XX XX XX",
       whatsapp: "+237 6 XX XX XX XX",
-      email: "contact@agripoint.cm",
+      email: "contact@agri-ps.com",
       hours: "Lun-Ven: 8h00 - 17h00\nSamedi: 8h00 - 13h00"
     },
     
@@ -48,25 +48,25 @@ const pageContent = {
         city: "Douala",
         address: "Bonapriso, Avenue de la Liberté",
         phone: "+237 6 XX XX XX XX",
-        email: "douala@agripoint.cm"
+        email: "douala@agri-ps.com"
       },
       {
         city: "Bafoussam",
         address: "Centre-ville, Marché A",
         phone: "+237 6 XX XX XX XX",
-        email: "bafoussam@agripoint.cm"
+        email: "bafoussam@agri-ps.com"
       },
       {
         city: "Garoua",
         address: "Quartier Dougoï",
         phone: "+237 6 XX XX XX XX",
-        email: "garoua@agripoint.cm"
+        email: "garoua@agri-ps.com"
       },
       {
         city: "Maroua",
         address: "Centre commercial",
         phone: "+237 6 XX XX XX XX",
-        email: "maroua@agripoint.cm"
+        email: "maroua@agri-ps.com"
       }
     ]
   },
@@ -76,7 +76,7 @@ const pageContent = {
       icon: Headphones,
       title: "Service Client",
       description: "Questions sur vos commandes et produits",
-      email: "support@agripoint.cm",
+      email: "support@agri-ps.com",
       phone: "+237 6 XX XX XX XX",
       hours: "Lun-Sam: 8h-18h",
       color: "blue"
@@ -85,7 +85,7 @@ const pageContent = {
       icon: Users,
       title: "Conseil Agricole",
       description: "Accompagnement technique et formations",
-      email: "conseil@agripoint.cm",
+      email: "conseil@agri-ps.com",
       phone: "+237 6 XX XX XX XX",
       hours: "Lun-Ven: 8h-17h",
       color: "green"
@@ -94,7 +94,7 @@ const pageContent = {
       icon: Building2,
       title: "Partenariats",
       description: "Collaboration et opportunités business",
-      email: "partenariat@agripoint.cm",
+      email: "partenariat@agri-ps.com",
       phone: "+237 6 XX XX XX XX",
       hours: "Lun-Ven: 9h-16h",
       color: "purple"
@@ -103,7 +103,7 @@ const pageContent = {
       icon: MessageSquare,
       title: "Service Presse",
       description: "Demandes médias et communication",
-      email: "presse@agripoint.cm",
+      email: "presse@agri-ps.com",
       phone: "+237 6 XX XX XX XX",
       hours: "Lun-Ven: 9h-17h",
       color: "amber"

@@ -220,7 +220,7 @@ const pageContent = {
     headquarters: "Yaoundé, Cameroun",
     address: "BP 12345, Rue de l'Agriculture, Bastos",
     phone: "+237 6 XX XX XX XX",
-    email: "contact@agripoint.cm",
+    email: "contact@agri-ps.com",
     hours: "Lun-Ven: 8h-17h, Sam: 8h-13h"
   }
 };
