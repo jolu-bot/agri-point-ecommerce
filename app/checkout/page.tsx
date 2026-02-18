@@ -28,7 +28,7 @@ export default function CheckoutPage() {
     notes: '',
     
     // Paiement
-    paymentMethod: 'cash' as 'cash' | 'mtn' | 'orange' | 'stripe',
+    paymentMethod: 'campost' as 'cash' | 'mtn' | 'orange' | 'stripe' | 'campost',
   });
 
   const cities = [
@@ -160,7 +160,13 @@ export default function CheckoutPage() {
         const data = await response.json();
         clearCart();
         toast.success('Commande passée avec succès !');
-        router.push(`/commande/${data.order._id}`);
+        
+        // Rediriger vers la page de confirmation Campost
+        if (formData.paymentMethod === 'campost') {
+          router.push(`/commande/confirmation/${data.order._id}`);
+        } else {
+          router.push(`/commande/${data.order._id}`);
+        }
       } else {
         const error = await response.json();
         toast.error(error.error || 'Erreur lors de la commande');
@@ -420,15 +426,18 @@ export default function CheckoutPage() {
 
                   <div className="space-y-4">
                     {[
+                      { value: 'campost', label: '🏢 Campost (Recommandé)', description: 'Versement au bureau Campost le plus proche - Compte Agri Point Services', recommended: true },
                       { value: 'cash', label: 'Paiement à la livraison', description: 'Payez en espèces à la réception' },
-                      { value: 'mtn', label: 'MTN Mobile Money', description: 'Paiement mobile avec MTN' },
-                      { value: 'orange', label: 'Orange Money', description: 'Paiement mobile avec Orange' },
+                      { value: 'mtn', label: 'MTN Mobile Money', description: 'Paiement mobile avec MTN (Bientôt disponible)' },
+                      { value: 'orange', label: 'Orange Money', description: 'Paiement mobile avec Orange (Bientôt disponible)' },
                     ].map((method) => (
                       <label
                         key={method.value}
-                        className={`block p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                        className={`block p-4 border-2 rounded-lg cursor-pointer transition-all relative ${
                           formData.paymentMethod === method.value
                             ? 'border-primary-600 bg-primary-50 dark:bg-primary-900/20'
+                            : method.recommended
+                            ? 'border-emerald-400 bg-emerald-50/50 dark:bg-emerald-900/20 hover:border-emerald-500'
                             : 'border-gray-300 dark:border-gray-600 hover:border-primary-400'
                         }`}
                       >
@@ -438,14 +447,22 @@ export default function CheckoutPage() {
                             name="paymentMethod"
                             value={method.value}
                             checked={formData.paymentMethod === method.value}
-                            onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as 'cash' | 'mtn' | 'orange' | 'stripe' })}
+                            onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as 'cash' | 'mtn' | 'orange' | 'stripe' | 'campost' })}
+                            disabled={['mtn', 'orange'].includes(method.value)}
                             className="mt-1"
                           />
-                          <div className="ml-3">
-                            <div className="font-semibold text-gray-900 dark:text-white">
-                              {method.label}
+                          <div className="ml-3 flex-1">
+                            <div className="flex items-center gap-2">
+                              <div className="font-semibold text-gray-900 dark:text-white">
+                                {method.label}
+                              </div>
+                              {method.recommended && (
+                                <span className="text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full font-medium">
+                                  Recommandé
+                                </span>
+                              )}
                             </div>
-                            <div className="text-sm text-gray-600 dark:text-gray-400">
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                               {method.description}
                             </div>
                           </div>

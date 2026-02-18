@@ -64,14 +64,25 @@ export interface IOrder {
     notes?: string;
   };
   
-  paymentMethod: 'stripe' | 'paypal' | 'mtn' | 'orange' | 'cash';
-  paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded';
+  paymentMethod: 'stripe' | 'paypal' | 'mtn' | 'orange' | 'cash' | 'campost';
+  paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded' | 'awaiting_proof';
   paymentDetails?: {
     transactionId?: string;
     paidAt?: Date;
   };
   
-  status: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  // Paiement Campost
+  campostPayment?: {
+    accountNumber: string; // Compte Agri Point Services
+    accountName: string;
+    receiptImage?: string; // URL de l'image du reçu uploadée
+    receiptUploadedAt?: Date;
+    validatedBy?: mongoose.Types.ObjectId | string; // Admin qui valide
+    validatedAt?: Date;
+    validationNotes?: string;
+  };
+  
+  status: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'awaiting_payment';
   
   tracking?: {
     carrier?: string;
@@ -218,22 +229,42 @@ const OrderSchema = new Schema<IOrder>({
   paymentMethod: {
     type: String,
     required: true,
-    enum: ['stripe', 'paypal', 'mtn', 'orange', 'cash'],
+    enum: ['stripe', 'paypal', 'mtn', 'orange', 'cash', 'campost'],
   },
   paymentStatus: {
     type: String,
     default: 'pending',
-    enum: ['pending', 'paid', 'failed', 'refunded'],
+    enum: ['pending', 'paid', 'failed', 'refunded', 'awaiting_proof'],
   },
   paymentDetails: {
     transactionId: String,
     paidAt: Date,
   },
   
+  // Paiement Campost
+  campostPayment: {
+    accountNumber: {
+      type: String,
+      default: 'XXXX-XXXX-XXXX', // À configurer
+    },
+    accountName: {
+      type: String,
+      default: 'Agri Point Services',
+    },
+    receiptImage: String,
+    receiptUploadedAt: Date,
+    validatedBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    validatedAt: Date,
+    validationNotes: String,
+  },
+  
   status: {
     type: String,
-    default: 'pending',
-    enum: ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'],
+    default: 'awaiting_payment',
+    enum: ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled', 'awaiting_payment'],
   },
   
   tracking: {
