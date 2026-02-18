@@ -9,7 +9,7 @@
 ### **00:00-00:15: ACTIVATION PHASE**
 
 ```
-1. [Admin] Login: https://agri-point.cm/admin
+1. [Admin] Login: https://agri-ps.com/admin
    User: [admin account] | Password: [see Slack]
    
 2. [Admin] Navigate: Campaigns > Manage > "engrais-mars-2026"
@@ -18,7 +18,7 @@
    Click: "Publier Campagne" → SAVE
    ✅ Check: Status shows "ACTIVE"
    
-4. [Dev] Test page: https://agri-point.cm/campagne-engrais
+4. [Dev] Test page: https://agri-ps.com/campagne-engrais
    ✅ Hero image loads
    ✅ Form visible
    ✅ < 3 seconds load
@@ -71,7 +71,7 @@ Via Infobip if configured:
   5. Send
   
 Via API:
-  curl -X POST https://agri-point.cm/api/sms/send \
+  curl -X POST https://agri-ps.com/api/sms/send \
     -H "Authorization: Bearer $ADMIN_SMS_TOKEN" \
     -d '{"recipients": ["+237..."], "templateKey": "announcement"}'
 
@@ -188,7 +188,7 @@ Share with: Management & stakeholders
 > **Campaign goes live = customers can reach the form & place orders**
 
 ```
-□ Domain works: https://agri-point.cm/campagne-engrais → 200 OK
+□ Domain works: https://agri-ps.com/campagne-engrais → 200 OK
 □ Form loads: All 4 fields visible & functional
 □ Submissions processed: API returns eligibility response
 □ Admin dashboard: Shows incoming orders in real-time

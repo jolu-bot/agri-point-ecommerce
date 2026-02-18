@@ -311,9 +311,9 @@ CRITICAL (Database down / System offline):
 ## 📞 CONTACT FOR QUESTIONS
 
 ```
-Technical:  [Dev Team Lead] - dev-lead@agri-point.cm
-Operations: [DevOps Lead] - devops@agri-point.cm
-Business:   [Project Manager] - pm@agri-point.cm
+Technical:  [Dev Team Lead] - dev-lead@agri-ps.com
+Operations: [DevOps Lead] - devops@agri-ps.com
+Business:   [Project Manager] - pm@agri-ps.com
 ```
 
 ---

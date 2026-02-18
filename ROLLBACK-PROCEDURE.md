@@ -14,7 +14,7 @@ npm ci
 npm run build
 pm2 restart agri-point
 ```
-5. Valider: `curl -I https://agri-point.cm/campagne-engrais` → HTTP 200
+5. Valider: `curl -I https://agri-ps.com/campagne-engrais` → HTTP 200
 6. Si rollback impossible: activer failover vers backup server (documenté par DevOps)
 
 Check-list post-rollback

@@ -4,7 +4,7 @@
 
 const https = require('https');
 
-const SITE_URL = 'https://blue-goose-561723.hostingersite.com';
+const SITE_URL = 'https://agri-ps.com';
 
 async function analyzePage(path, name) {
   return new Promise((resolve) => {

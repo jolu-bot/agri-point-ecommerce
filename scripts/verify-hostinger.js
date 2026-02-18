@@ -5,7 +5,7 @@
 
 const https = require('https');
 
-const SITE_URL = 'https://blue-goose-561723.hostingersite.com';
+const SITE_URL = 'https://agri-ps.com';
 
 const images = [
   '/products/aminol-20.jpeg',

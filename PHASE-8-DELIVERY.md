@@ -23,7 +23,7 @@
 #### Export & Dashboard
 
 - `scripts/export-payments.js` — Export CSV via `/api/admin/orders`
-  - Usage: `API_URL=https://agri-point.cm npm run export:payments -- --date=2026-03-01`
+  - Usage: `API_URL=https://agri-ps.com npm run export:payments -- --date=2026-03-01`
   - Output: `exports/payments-YYYY-MM-DD.csv`
 
 - `scripts/generate-dashboard-data.js` — Agrégations MongoDB for Grafana
@@ -74,10 +74,10 @@
 
 ```bash
 # One-shot export
-API_URL='https://agri-point.cm' npm run export:payments -- --date=2026-03-01
+API_URL='https://agri-ps.com' npm run export:payments -- --date=2026-03-01
 
 # With verbose
-VERBOSE=1 API_URL='https://agri-point.cm' npm run export:payments -- --date=2026-03-01
+VERBOSE=1 API_URL='https://agri-ps.com' npm run export:payments -- --date=2026-03-01
 ```
 
 ### **2) Push to Google Sheets**
@@ -96,11 +96,11 @@ GAS_TOKEN='secret_token_16_chars' GAS_URL='https://script.google.com/.../exec' \
 
 ```bash
 # One-shot (checks localhost:3000/api/health)
-HEALTH_URL='https://agri-point.cm/api/health' npm run monitor:agent
+HEALTH_URL='https://agri-ps.com/api/health' npm run monitor:agent
 
 # Persistent with PM2
 npm install -g pm2
-HEALTH_URL='https://agri-point.cm/api/health' npm run pm2:monitor:start
+HEALTH_URL='https://agri-ps.com/api/health' npm run pm2:monitor:start
 pm2 save
 pm2 startup systemd -u $USER --hp $HOME
 ```
@@ -125,7 +125,7 @@ npm run test:export  # Starts mock API server & validates CSV output
 sudo cp scripts/deployment/systemd-and-cron.md /etc/systemd/system/monitoring-agent.service
 
 # Or use cron for export-payments:
-# 5 8 * * * cd /var/www/agri-point && API_URL=https://agri-point.cm npm run export:payments
+# 5 8 * * * cd /var/www/agri-point && API_URL=https://agri-ps.com npm run export:payments
 ```
 
 ---

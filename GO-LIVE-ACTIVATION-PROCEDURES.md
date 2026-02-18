@@ -19,7 +19,7 @@ SYSTEM VERIFICATION:
   Status: All steps completed (green)
   
 □ DNS verification
-  Command: nslookup agri-point.cm
+  Command: nslookup agri-ps.com
   Expected: Points to Hostinger IP
   
 □ SSL certificate check
@@ -39,7 +39,7 @@ SYSTEM VERIFICATION:
   Expected: "nginx: configuration test is successful"
   
 □ Application health
-  curl https://agri-point.cm/api/health
+  curl https://agri-ps.com/api/health
   Expected: 200 OK response
 ```
 
@@ -54,7 +54,7 @@ TEAM & COMMUNICATIONS:
   
 □ Communication channels active
   □ Slack: #campaign-launch
-  □ Email: support@agri-point.cm
+  □ Email: support@agri-ps.com
   □ Phone: [Support team mobile numbers]
   
 □ Escalation contacts confirmed
@@ -92,12 +92,12 @@ FINAL SYSTEM CHECKS:
   □ GET /api/sms/send (status) → 200
   
 □ Admin dashboard accessible
-  URL: https://agri-point.cm/admin/campaigns
+  URL: https://agri-ps.com/admin/campaigns
   Auth: Verified
   Data: Campaign visible
   
 □ Campaign page displays correctly
-  URL: https://agri-point.cm/campagne-engrais
+  URL: https://agri-ps.com/campagne-engrais
   Hero image: Loading
   Form: All fields visible
   Mobile: Responsive
@@ -133,7 +133,7 @@ FINAL DECISION:
 STEP 1: Activate Campaign in Admin (00:00-00:05)
 
 1. Login to admin panel
-   URL: https://agri-point.cm/admin
+   URL: https://agri-ps.com/admin
    Username: [admin account]
    Password: [from .env]
 
@@ -146,7 +146,7 @@ STEP 1: Activate Campaign in Admin (00:00-00:05)
 STEP 2: Verify Campaign Live (00:05-00:10)
 
 1. Visit campaign page
-   URL: https://agri-point.cm/campagne-engrais
+   URL: https://agri-ps.com/campagne-engrais
    Expected: Page loads, form visible
 
 2. Test eligibility form
@@ -159,14 +159,14 @@ STEP 2: Verify Campaign Live (00:05-00:10)
    Expected: ✅ Response in < 2 seconds
 
 3. Check admin dashboard
-   URL: https://agri-point.cm/admin/campaigns
+   URL: https://agri-ps.com/admin/campaigns
    Expected: Stats card shows "1 campaign active"
 
 STEP 3: Notify Team (00:10-00:15)
 
 □ Send Slack message to #campaign-launch
   Message: "🚀 CAMPAIGN IS LIVE! Status: ACTIVE ✅
-           Page: https://agri-point.cm/campagne-engrais
+           Page: https://agri-ps.com/campagne-engrais
            Time: [timestamp]
            Team: Monitoring active"
 
@@ -211,7 +211,7 @@ Support Team:
   Response: Answer questions, collect feedback
   
 □ Monitor email & chat
-  Email: support@agri-point.cm
+  Email: support@agri-ps.com
   Chat: No active marketing yet
 
 Marketing Team:
@@ -238,7 +238,7 @@ STEP 1: Send SMS Announcement (06:00)
    
 3. Via API (alternative):
    Command:
-   curl -X POST https://agri-point.cm/api/sms/send \
+   curl -X POST https://agri-ps.com/api/sms/send \
      -H "Authorization: Bearer $ADMIN_SMS_TOKEN" \
      -H "Content-Type: application/json" \
      -d '{
@@ -268,7 +268,7 @@ STEP 3: Social Media Announcement (09:00)
 
 1. Post to Facebook
    Content: Campaign post with hero image
-   CTA: Link to https://agri-point.cm/campagne-engrais
+   CTA: Link to https://agri-ps.com/campagne-engrais
    
 2. Share on WhatsApp Business
    Message: Broadcast to contact list
@@ -329,7 +329,7 @@ Incoming inquiries expected:
   Action: Check MongoDB, verify status
 
 Support Channels:
-□ Email: support@agri-point.cm
+□ Email: support@agri-ps.com
   Response time: < 1 hour
   
 □ Phone: [Number]
@@ -388,7 +388,7 @@ RESOLUTION (Choose One):
 Option A: Restart application
   pm2 restart agri-point
   Wait: 30 seconds
-  Test: curl https://agri-point.cm/
+  Test: curl https://agri-ps.com/
   Expected: 200 OK
 
 Option B: Rebuild & redeploy

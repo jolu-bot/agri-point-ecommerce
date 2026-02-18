@@ -100,7 +100,7 @@ sudo systemctl restart node-app
 
 ### ÉTAPE 3 : Tester la connexion
 
-1. Rechargez votre site : https://blue-goose-561723.hostingersite.com
+1. Rechargez votre site : https://blue-goose-561723.agri-ps.com
 2. Cliquez sur "Connexion"
 3. Utilisez les identifiants :
    - **Email** : `admin@agri-ps.com`

@@ -78,7 +78,7 @@ async function seedCampaign() {
         terms: {
           paymentTerms: 'Les engrais minéraux sont payables en deux tranches (70% à la commande, 30% après récolte). Les biofertilisants en une seule tranche.',
           refundPolicy: 'Remboursement possible jusqu\'à 7 jours après la commande si les conditions d\'éligibilité ne sont pas respectées.',
-          contactInfo: '+237 XXX XXX XXX - support@agri-point.cm',
+          contactInfo: '+237 XXX XXX XXX - support@agri-ps.com',
           additionalInfo: 'Pour plus d\'informations, consultez le document officiel de la campagne ou contactez votre coopérative.',
         },
         stats: {
