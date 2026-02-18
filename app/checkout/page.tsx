@@ -28,7 +28,7 @@ export default function CheckoutPage() {
     notes: '',
     
     // Paiement
-    paymentMethod: 'campost' as 'cash' | 'mtn' | 'orange' | 'stripe' | 'campost',
+    paymentMethod: 'campost' as 'campost' | 'cash',
   });
 
   const cities = [
@@ -428,8 +428,6 @@ export default function CheckoutPage() {
                     {[
                       { value: 'campost', label: '🏢 Campost (Recommandé)', description: 'Versement au bureau Campost le plus proche - Compte Agri Point Services', recommended: true },
                       { value: 'cash', label: 'Paiement à la livraison', description: 'Payez en espèces à la réception' },
-                      { value: 'mtn', label: 'MTN Mobile Money', description: 'Paiement mobile avec MTN (Bientôt disponible)' },
-                      { value: 'orange', label: 'Orange Money', description: 'Paiement mobile avec Orange (Bientôt disponible)' },
                     ].map((method) => (
                       <label
                         key={method.value}
@@ -447,8 +445,7 @@ export default function CheckoutPage() {
                             name="paymentMethod"
                             value={method.value}
                             checked={formData.paymentMethod === method.value}
-                            onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as 'cash' | 'mtn' | 'orange' | 'stripe' | 'campost' })}
-                            disabled={['mtn', 'orange'].includes(method.value)}
+                            onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as 'campost' | 'cash' })}
                             className="mt-1"
                           />
                           <div className="ml-3 flex-1">

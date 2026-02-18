@@ -28,18 +28,13 @@ interface Settings {
     fromEmail: string;
   };
   payment: {
-    stripe: {
+    campost: {
       enabled: boolean;
-      publicKey: string;
+      accountNumber: string;
+      accountName: string;
     };
-    paypal: {
+    cashOnDelivery: {
       enabled: boolean;
-      clientId: string;
-    };
-    mobileMoney: {
-      enabled: boolean;
-      mtnEnabled: boolean;
-      orangeEnabled: boolean;
     };
   };
   shipping: {
@@ -73,18 +68,13 @@ export default function SettingsPage() {
       fromEmail: 'noreply@agri-ps.com',
     },
     payment: {
-      stripe: {
-        enabled: false,
-        publicKey: '',
+      campost: {
+        enabled: true,
+        accountNumber: '',
+        accountName: 'Agri Point Services',
       },
-      paypal: {
-        enabled: false,
-        clientId: '',
-      },
-      mobileMoney: {
-        enabled: false,
-        mtnEnabled: false,
-        orangeEnabled: false,
+      cashOnDelivery: {
+        enabled: true,
       },
     },
     shipping: {
@@ -372,99 +362,108 @@ export default function SettingsPage() {
         </h2>
 
         <div className="space-y-4">
-          {/* Stripe */}
-          <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+          {/* Campost */}
+          <div className="p-4 border-2 border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-medium text-gray-900 dark:text-white">Stripe</h3>
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-white flex items-center gap-2">
+                  🏢 Campost
+                  <span className="text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full">Principal</span>
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  Paiement via versement au bureau Campost
+                </p>
+              </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={settings.payment.stripe.enabled}
+                  checked={settings.payment.campost.enabled}
                   onChange={(e) => setSettings({
                     ...settings,
                     payment: {
                       ...settings.payment,
-                      stripe: { ...settings.payment.stripe, enabled: e.target.checked }
+                      campost: { ...settings.payment.campost, enabled: e.target.checked }
                     }
                   })}
                   className="sr-only peer"
-                  aria-label="Activer Stripe"
+                  aria-label="Activer Campost"
                 />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
               </label>
             </div>
-            {settings.payment.stripe.enabled && (
-              <input
-                type="text"
-                placeholder="Clé publique Stripe"
-                value={settings.payment.stripe.publicKey}
-                onChange={(e) => setSettings({
-                  ...settings,
-                  payment: {
-                    ...settings.payment,
-                    stripe: { ...settings.payment.stripe, publicKey: e.target.value }
-                  }
-                })}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-              />
+            {settings.payment.campost.enabled && (
+              <div className="space-y-3 mt-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Numéro de Compte Campost
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="1234-5678-9012-3456"
+                    value={settings.payment.campost.accountNumber}
+                    onChange={(e) => setSettings({
+                      ...settings,
+                      payment: {
+                        ...settings.payment,
+                        campost: { ...settings.payment.campost, accountNumber: e.target.value }
+                      }
+                    })}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Nom du Bénéficiaire
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Agri Point Services SARL"
+                    value={settings.payment.campost.accountName}
+                    onChange={(e) => setSettings({
+                      ...settings,
+                      payment: {
+                        ...settings.payment,
+                        campost: { ...settings.payment.campost, accountName: e.target.value }
+                      }
+                    })}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  />
+                </div>
+                <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 mt-3">
+                  <p className="text-sm text-blue-800 dark:text-blue-400">
+                    💡 <strong>Note:</strong> Ces informations seront affichées aux clients après leur commande pour effectuer le paiement Campost.
+                  </p>
+                </div>
+              </div>
             )}
           </div>
 
-          {/* Mobile Money */}
+          {/* Paiement à la livraison */}
           <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-medium text-gray-900 dark:text-white">Mobile Money</h3>
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-white">💵 Paiement à la Livraison</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  Le client paie en espèces lors de la réception
+                </p>
+              </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={settings.payment.mobileMoney.enabled}
+                  checked={settings.payment.cashOnDelivery.enabled}
                   onChange={(e) => setSettings({
                     ...settings,
                     payment: {
                       ...settings.payment,
-                      mobileMoney: { ...settings.payment.mobileMoney, enabled: e.target.checked }
+                      cashOnDelivery: { ...settings.payment.cashOnDelivery, enabled: e.target.checked }
                     }
                   })}
                   className="sr-only peer"
-                  aria-label="Activer Mobile Money"
+                  aria-label="Activer Paiement à la livraison"
                 />
                 <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
               </label>
             </div>
-            {settings.payment.mobileMoney.enabled && (
-              <div className="space-y-2">
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={settings.payment.mobileMoney.mtnEnabled}
-                    onChange={(e) => setSettings({
-                      ...settings,
-                      payment: {
-                        ...settings.payment,
-                        mobileMoney: { ...settings.payment.mobileMoney, mtnEnabled: e.target.checked }
-                      }
-                    })}
-                    className="rounded text-primary-600 focus:ring-primary-500"
-                  />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">MTN Mobile Money</span>
-                </label>
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={settings.payment.mobileMoney.orangeEnabled}
-                    onChange={(e) => setSettings({
-                      ...settings,
-                      payment: {
-                        ...settings.payment,
-                        mobileMoney: { ...settings.payment.mobileMoney, orangeEnabled: e.target.checked }
-                      }
-                    })}
-                    className="rounded text-primary-600 focus:ring-primary-500"
-                  />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">Orange Money</span>
-                </label>
-              </div>
-            )}
           </div>
         </div>
       </motion.div>

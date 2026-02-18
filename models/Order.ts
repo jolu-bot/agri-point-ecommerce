@@ -64,7 +64,7 @@ export interface IOrder {
     notes?: string;
   };
   
-  paymentMethod: 'stripe' | 'paypal' | 'mtn' | 'orange' | 'cash' | 'campost';
+  paymentMethod: 'campost' | 'cash';
   paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded' | 'awaiting_proof';
   paymentDetails?: {
     transactionId?: string;
@@ -229,7 +229,8 @@ const OrderSchema = new Schema<IOrder>({
   paymentMethod: {
     type: String,
     required: true,
-    enum: ['stripe', 'paypal', 'mtn', 'orange', 'cash', 'campost'],
+    enum: ['campost', 'cash'],
+    default: 'campost',
   },
   paymentStatus: {
     type: String,

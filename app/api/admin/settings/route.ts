@@ -55,9 +55,12 @@ export async function GET(req: NextRequest) {
           fromEmail: 'noreply@agri-ps.com',
         },
         payment: {
-          stripe: { enabled: false, publicKey: '' },
-          paypal: { enabled: false, clientId: '' },
-          mobileMoney: { enabled: true, mtnEnabled: true, orangeEnabled: true },
+          campost: { 
+            enabled: true, 
+            accountNumber: '', 
+            accountName: 'Agri Point Services' 
+          },
+          cashOnDelivery: { enabled: true },
         },
         shipping: {
           freeShippingThreshold: 50000,
