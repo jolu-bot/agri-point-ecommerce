@@ -55,24 +55,24 @@ export default function Header() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 3xl:px-12">
-        <div className="flex justify-between items-center h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36">
+        <div className="flex justify-between items-center h-16 sm:h-20 lg:h-24">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 sm:space-x-4 group">
-            <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 xl:w-36 xl:h-36 transform group-hover:scale-105 transition-transform">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 group">
+            <div className="relative w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 flex-shrink-0 transform group-hover:scale-105 transition-transform">
               <Image
                 src="/images/logo.svg"
                 alt="AGRI POINT Logo"
                 fill
                 className="object-contain"
                 priority
-                sizes="(max-width: 640px) 80px, (max-width: 768px) 96px, (max-width: 1024px) 112px, (max-width: 1280px) 128px, 144px"
+                sizes="(max-width: 640px) 48px, (max-width: 1024px) 56px, 64px"
               />
             </div>
-            <div className="hidden xs:block">
-              <div className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-gradient-primary leading-none">
+            <div className="flex flex-col">
+              <div className="font-display text-lg xs:text-xl sm:text-2xl lg:text-3xl font-extrabold text-gradient-primary leading-tight">
                 AGRI POINT
               </div>
-              <div className="text-sm sm:text-base md:text-lg text-emerald-600 dark:text-emerald-400 font-semibold mt-1">
+              <div className="text-xs sm:text-sm text-emerald-600 dark:text-emerald-400 font-semibold leading-tight">
                 Service Agricole
               </div>
             </div>

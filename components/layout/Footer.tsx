@@ -13,8 +13,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* À propos */}
           <div>
-            <div className="flex items-center space-x-4 mb-4">
-              <div className="relative w-20 h-20">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="relative w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0">
                 <Image
                   src="/images/logo.svg"
                   alt="AGRI POINT Logo"
@@ -22,9 +22,9 @@ export default function Footer() {
                   className="object-contain"
                 />
               </div>
-              <div>
-                <div className="text-2xl font-bold text-white">AGRI POINT</div>
-                <div className="text-base text-emerald-400 font-semibold">Service Agricole</div>
+              <div className="flex flex-col">
+                <div className="text-xl sm:text-2xl font-bold text-white">AGRI POINT</div>
+                <div className="text-sm text-emerald-400 font-semibold">Service Agricole</div>
               </div>
             </div>
             <p className="text-sm text-gray-400 mb-4">
