@@ -295,6 +295,7 @@ export default function OrderConfirmationPage() {
             <button
               onClick={() => window.print()}
               className="px-4 py-3 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
+              aria-label="Imprimer le bon de commande"
             >
               <Download className="w-5 h-5" />
             </button>
@@ -349,7 +350,7 @@ export default function OrderConfirmationPage() {
                     accept="image/*,video/*"
                     onChange={handleFileSelect}
                     className="hidden"
-                    capture="environment"
+                    capture="environment" // Active la caméra sur mobile (progressive enhancement)
                   />
                   <div className="border-3 border-dashed border-gray-300 rounded-xl p-12 text-center hover:border-emerald-500 hover:bg-emerald-50/50 transition-all">
                     <Upload className="w-16 h-16 text-gray-400 mx-auto mb-4" />

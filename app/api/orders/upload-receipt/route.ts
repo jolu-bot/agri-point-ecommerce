@@ -51,6 +51,8 @@ export async function POST(req: NextRequest) {
     // Mettre à jour la commande
     const publicUrl = `/receipts/${fileName}`;
     order.campostPayment = {
+      accountNumber: order.campostPayment?.accountNumber || 'XXXX-XXXX-XXXX',
+      accountName: order.campostPayment?.accountName || 'Agri Point Services',
       ...order.campostPayment,
       receiptImage: publicUrl,
       receiptUploadedAt: new Date(),
