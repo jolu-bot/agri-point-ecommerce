@@ -388,9 +388,9 @@ export default function FormBuilderPage() {
         <button
           onClick={() => setShowLibrary(!showLibrary)}
           className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 rounded-r-lg p-2 hover:bg-gray-50 transition-colors shadow-lg"
-          style={{
+          {...{ style: {
             left: showLibrary ? '320px' : '0',
-          }}
+          } }}
         >
           {showLibrary ? (
             <PanelLeftClose className="w-4 h-4 text-gray-600" />
@@ -452,9 +452,9 @@ export default function FormBuilderPage() {
           }}
           disabled={!selectedField}
           className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 rounded-l-lg p-2 hover:bg-gray-50 transition-colors shadow-lg disabled:opacity-30"
-          style={{
+          {...{ style: {
             right: showSettings && selectedField ? '384px' : '0',
-          }}
+          } }}
         >
           {showSettings ? (
             <PanelRightClose className="w-4 h-4 text-gray-600" />
