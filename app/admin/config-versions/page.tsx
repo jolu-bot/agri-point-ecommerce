@@ -507,6 +507,7 @@ export default function ConfigVersionsPage() {
                   <button
                     onClick={() => setShowImportModal(false)}
                     className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg transition-colors"
+                    aria-label="Fermer la fenêtre d'importation"
                   >
                     <ArrowLeft className="w-5 h-5" />
                   </button>
