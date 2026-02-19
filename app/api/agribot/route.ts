@@ -1461,8 +1461,10 @@ export async function POST(req: NextRequest) {
           }
         }
 
-        const tags = extractTags(message);
-        send({ type: 'done', tags });
+        const { tags, intent: intentV2 } = extractMeta(message);
+        const escaladeKw = ['contactez', 'appelez', 'urgence', 'expert', 'agronome', 'rappel', 'technicien'];
+        const escalateV2 = intentV2 === 'urgence' || escaladeKw.some(w => fullContent.toLowerCase().includes(w));
+        send({ type: 'done', tags, intent: intentV2, escalate: escalateV2 });
 
         // Persistance MongoDB en background (non-bloquant)
         if (sessionId) {
