@@ -121,6 +121,7 @@ export default function PWAInstallPrompt() {
 
               <button
                 onClick={handleDismiss}
+                aria-label="Fermer le message d'installation"
                 className="flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors"
               >
                 <X className="w-5 h-5" />

@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
+// @ts-expect-error - QRCode package à installer : npm install qrcode @types/qrcode
 import QRCode from 'qrcode';
 
 // Status d'inscription
@@ -428,7 +429,7 @@ EventRegistrationSchema.statics.exportToCSV = async function(eventId: mongoose.T
   // CSV
   const csv = [
     headers.join(','),
-    ...rows.map(row => row.join(',')),
+    ...rows.map((row: any[]) => row.join(',')),
   ].join('\n');
   
   return csv;

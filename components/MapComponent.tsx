@@ -18,7 +18,7 @@ export interface MapMarker {
   lng: number;
   title: string;
   description?: string;
-  type?: 'farm' | 'market' | 'distribution' | 'event' | 'other';
+  type?: 'farm' | 'market' | 'distribution' | 'other' | 'event';
   icon?: string;
 }
 

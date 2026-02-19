@@ -154,6 +154,7 @@ export function useSyncService() {
   const [isOnline, setIsOnline] = React.useState(
     typeof navigator !== 'undefined' ? navigator.onLine : true
   );
+  // @ts-expect-error - React utilisé globalement sans import
   const [syncStats, setSyncStats] = React.useState<any>(null);
 
   React.useEffect(() => {
