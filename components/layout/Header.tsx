@@ -55,24 +55,24 @@ export default function Header() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 3xl:px-12">
-        <div className="flex justify-between items-center h-14 sm:h-16 lg:h-20">
+        <div className="flex justify-between items-center h-14 sm:h-16 lg:h-18">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="relative w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 flex-shrink-0 transform group-hover:scale-105 transition-transform">
+            <div className="relative w-11 h-11 sm:w-13 sm:h-13 lg:w-15 lg:h-15 flex-shrink-0 transform group-hover:scale-105 transition-transform">
               <Image
                 src="/images/logo.svg"
                 alt="AGRI POINT Logo"
                 fill
                 className="object-contain"
                 priority
-                sizes="(max-width: 640px) 40px, (max-width: 1024px) 48px, 56px"
+                sizes="(max-width: 640px) 44px, (max-width: 1024px) 52px, 60px"
               />
             </div>
             <div className="flex flex-col min-w-0">
-              <div className="font-display text-base xs:text-lg sm:text-xl lg:text-2xl font-extrabold text-gradient-primary leading-tight whitespace-nowrap">
+              <div className="font-display text-sm xs:text-base sm:text-lg lg:text-xl font-extrabold text-gradient-primary leading-tight whitespace-nowrap">
                 AGRI POINT
               </div>
-              <div className="text-xs sm:text-xs lg:text-sm text-emerald-600 dark:text-emerald-400 font-semibold leading-tight whitespace-nowrap">
+              <div className="text-[10px] sm:text-xs text-emerald-600 dark:text-emerald-400 font-semibold leading-tight whitespace-nowrap">
                 Service Agricole
               </div>
             </div>

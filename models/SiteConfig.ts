@@ -9,6 +9,44 @@ const SiteConfigSchema = new mongoose.Schema({
     faviconUrl: { type: String, default: '/favicon.ico' },
   },
 
+  // Header Configuration (Dynamique pour CMS)
+  header: {
+    logo: {
+      url: { type: String, default: '/images/logo.svg' },
+      sizes: {
+        mobile: { type: String, default: 'w-11 h-11' },
+        tablet: { type: String, default: 'w-13 h-13' },
+        desktop: { type: String, default: 'w-15 h-15' },
+      },
+    },
+    primaryText: {
+      content: { type: String, default: 'AGRI POINT' },
+      sizes: {
+        mobile: { type: String, default: 'text-sm' },
+        tablet: { type: String, default: 'text-lg' },
+        desktop: { type: String, default: 'text-xl' },
+      },
+      fontWeight: { type: String, default: 'font-extrabold' },
+      color: { type: String, default: 'text-gradient-primary' },
+    },
+    secondaryText: {
+      content: { type: String, default: 'Service Agricole' },
+      sizes: {
+        mobile: { type: String, default: 'text-[10px]' },
+        tablet: { type: String, default: 'text-xs' },
+        desktop: { type: String, default: 'text-xs' },
+      },
+      fontWeight: { type: String, default: 'font-semibold' },
+      color: { type: String, default: 'text-emerald-600' },
+    },
+    height: {
+      mobile: { type: String, default: 'h-14' },
+      tablet: { type: String, default: 'h-16' },
+      desktop: { type: String, default: 'h-18' },
+    },
+    spacing: { type: String, default: 'gap-2' },
+  },
+
   // Couleurs du thème
   colors: {
     primary: { type: String, default: '#1B5E20' },
@@ -130,6 +168,54 @@ const SiteConfigSchema = new mongoose.Schema({
     enableNewsletter: { type: Boolean, default: true },
     googleAnalyticsId: { type: String, default: '' },
     facebookPixelId: { type: String, default: '' },
+  },
+
+  // Modules et Fonctionnalités (Activables/Désactivables)
+  modules: {
+    products: { 
+      enabled: { type: Boolean, default: true },
+      allowReviews: { type: Boolean, default: true },
+      showStock: { type: Boolean, default: true },
+    },
+    orders: { 
+      enabled: { type: Boolean, default: true },
+      autoConfirmation: { type: Boolean, default: false },
+      requireEmailVerification: { type: Boolean, default: true },
+    },
+    payments: {
+      campost: { type: Boolean, default: true },
+      mtnMomo: { type: Boolean, default: false },
+      orangeMoney: { type: Boolean, default: false },
+      notchPay: { type: Boolean, default: false },
+      cineTPay: { type: Boolean, default: false },
+      cash: { type: Boolean, default: true },
+    },
+    blog: { 
+      enabled: { type: Boolean, default: false },
+      allowComments: { type: Boolean, default: false },
+    },
+    campaigns: { 
+      enabled: { type: Boolean, default: true },
+      showCountdown: { type: Boolean, default: true },
+    },
+    urbanAgriculture: { 
+      enabled: { type: Boolean, default: true },
+      showCourses: { type: Boolean, default: false },
+    },
+  },
+
+  // Système de Permissions et Rôles
+  permissions: {
+    roles: [{
+      name: { type: String, required: true },
+      displayName: { type: String, required: true },
+      permissions: [{
+        resource: { type: String, required: true }, // products, orders, users, etc.
+        actions: [{ type: String }], // view, create, edit, delete, manage
+      }],
+      createdAt: { type: Date, default: Date.now },
+    }],
+    defaultUserRole: { type: String, default: 'customer' },
   },
 
   // Version et dernière mise à jour
