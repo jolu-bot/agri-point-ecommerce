@@ -276,6 +276,7 @@ export default function SiteConfigAdvancedPage() {
                           }
                         })}
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500"
+                        aria-label="URL du logo"
                       />
                     </div>
 
@@ -391,6 +392,7 @@ export default function SiteConfigAdvancedPage() {
                           }
                         })}
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500"
+                        aria-label="Contenu du texte primaire"
                       />
                     </div>
 
@@ -412,6 +414,7 @@ export default function SiteConfigAdvancedPage() {
                             }
                           })}
                           className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-emerald-500"
+                          aria-label="Taille mobile du texte primaire"
                         >
                           <option value="text-xs">text-xs (12px)</option>
                           <option value="text-sm">text-sm (14px)</option>
@@ -437,6 +440,7 @@ export default function SiteConfigAdvancedPage() {
                             }
                           })}
                           className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-emerald-500"
+                          aria-label="Taille tablet du texte primaire"
                         >
                           <option value="text-sm">text-sm (14px)</option>
                           <option value="text-base">text-base (16px)</option>
@@ -504,7 +508,7 @@ export default function SiteConfigAdvancedPage() {
                       <input
                         type="text"
                         value={config.header.secondaryText.content}
-                        onChange={(e) => setConfig({
+                        onChange=(e) => setConfig({
                           ...config,
                           header: {
                             ...config.header,
@@ -512,6 +516,7 @@ export default function SiteConfigAdvancedPage() {
                           }
                         })}
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500"
+                        aria-label="Contenu du texte secondaire"
                       />
                     </div>
 
@@ -615,6 +620,7 @@ export default function SiteConfigAdvancedPage() {
                           }
                         })}
                         className="sr-only peer"
+                        aria-label="Activer ou désactiver le module Produits"
                       />
                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 dark:peer-focus:ring-emerald-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-emerald-600"></div>
                     </label>
@@ -679,6 +685,7 @@ export default function SiteConfigAdvancedPage() {
                           }
                         })}
                         className="sr-only peer"
+                        aria-label="Activer ou désactiver le module Commandes"
                       />
                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                     </label>
@@ -822,6 +829,7 @@ export default function SiteConfigAdvancedPage() {
                           }
                         })}
                         className="sr-only peer"
+                        aria-label="Activer ou désactiver le module Campagnes"
                       />
                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 dark:peer-focus:ring-orange-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-orange-600"></div>
                     </label>
@@ -874,6 +882,7 @@ export default function SiteConfigAdvancedPage() {
                           advanced: { ...config.advanced, maintenanceMode: e.target.checked }
                         })}
                         className="sr-only peer"
+                        aria-label="Activer ou désactiver le mode maintenance"
                       />
                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-yellow-300 dark:peer-focus:ring-yellow-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-yellow-600"></div>
                     </label>
@@ -898,6 +907,7 @@ export default function SiteConfigAdvancedPage() {
                           advanced: { ...config.advanced, allowRegistration: e.target.checked }
                         })}
                         className="sr-only peer"
+                        aria-label="Autoriser les nouvelles inscriptions"
                       />
                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
                     </label>
@@ -922,6 +932,7 @@ export default function SiteConfigAdvancedPage() {
                           advanced: { ...config.advanced, enableAgriBot: e.target.checked }
                         })}
                         className="sr-only peer"
+                        aria-label="Activer ou désactiver AgriBot"
                       />
                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                     </label>
@@ -946,6 +957,7 @@ export default function SiteConfigAdvancedPage() {
                           advanced: { ...config.advanced, enableNewsletter: e.target.checked }
                         })}
                         className="sr-only peer"
+                        aria-label="Activer ou désactiver la newsletter"
                       />
                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-purple-600"></div>
                     </label>

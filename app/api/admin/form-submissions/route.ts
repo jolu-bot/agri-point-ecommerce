@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from '@/lib/db';
+import { verifyAccessToken } from '@/lib/auth';
+import connectDB from '@/lib/db';
 import FormSubmission from '@/models/FormSubmission';
 import Form from '@/models/Form';
-import { verifyToken } from '@/lib/auth';
-import Security from '@/models/Security';
+import { ActivityLog } from '@/models/Security';
+import mongoose from 'mongoose';
 
 // GET - Liste des soumissions
 export async function GET(request: NextRequest) {
@@ -19,7 +20,7 @@ export async function GET(request: NextRequest) {
       );
     }
     
-    const payload = await verifyToken(token);
+    const payload = verifyAccessToken(token);
     if (!payload || !['admin', 'editor'].includes(payload.role)) {
       return NextResponse.json(
         { error: 'Non autorisé' },
@@ -93,7 +94,23 @@ export async function GET(request: NextRequest) {
     
     // Export CSV
     if (exportFormat === 'csv' && formId) {
-      const csv = await FormSubmission.exportToCSV(formId);
+      const submissions = await FormSubmission.find({ formId })
+        .populate('submittedBy', 'name email')
+        .sort({ createdAt: -1 });
+      
+      // Générer le CSV
+      const csvLines = ['Date,Email,Statut,Lu,Données'];
+      
+      submissions.forEach((sub: any) => {
+        const date = new Date(sub.createdAt).toLocaleString();
+        const email = sub.email || '';
+        const status = sub.status || '';
+        const isRead = sub.isRead ? 'Oui' : 'Non';
+        const data = JSON.stringify(sub.data).replace(/"/g, '""');
+        csvLines.push(`"${date}","${email}","${status}","${isRead}","${data}"`);
+      });
+      
+      const csv = csvLines.join('\n');
       
       return new NextResponse(csv, {
         headers: {
@@ -123,7 +140,14 @@ export async function GET(request: NextRequest) {
     // Statistiques
     let stats: any = {};
     if (formId) {
-      stats = await FormSubmission.getStats(formId);
+      stats = {
+        total: await FormSubmission.countDocuments({ formId }),
+        pending: await FormSubmission.countDocuments({ formId, status: 'pending' }),
+        processed: await FormSubmission.countDocuments({ formId, status: 'processed' }),
+        archived: await FormSubmission.countDocuments({ formId, status: 'archived' }),
+        spam: await FormSubmission.countDocuments({ formId, status: 'spam' }),
+        unread: await FormSubmission.countDocuments({ formId, isRead: false }),
+      };
     }
     
     return NextResponse.json({
@@ -160,7 +184,7 @@ export async function PATCH(request: NextRequest) {
       );
     }
     
-    const payload = await verifyToken(token);
+    const payload = verifyAccessToken(token);
     if (!payload || !['admin', 'editor'].includes(payload.role)) {
       return NextResponse.json(
         { error: 'Non autorisé' },
@@ -196,7 +220,7 @@ export async function PATCH(request: NextRequest) {
       
       if (status === 'processed') {
         submission.processedAt = new Date();
-        submission.processedBy = payload.userId;
+        submission.processedBy = new mongoose.Types.ObjectId(payload.userId);
       }
     }
     
@@ -208,14 +232,13 @@ export async function PATCH(request: NextRequest) {
     await submission.save();
     
     // Log d'audit
-    await Security.create({
-      type: 'audit',
-      severity: 'info',
+    await ActivityLog.create({
+      user: payload.userId,
       action: 'update',
-      resource: 'form-submission',
-      resourceId: submission._id.toString(),
-      userId: payload.userId,
-      metadata: {
+      category: 'form-submission',
+      details: {
+        resource: 'form-submission',
+        resourceId: submission._id.toString(),
         formName: submission.formName,
         updatedFields: Object.keys(body),
       },
@@ -246,7 +269,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
     
-    const payload = await verifyToken(token);
+    const payload = verifyAccessToken(token);
     if (!payload || payload.role !== 'admin') {
       return NextResponse.json(
         { error: 'Non autorisé - Admin uniquement' },
@@ -288,14 +311,13 @@ export async function DELETE(request: NextRequest) {
     }
     
     // Log d'audit
-    await Security.create({
-      type: 'audit',
-      severity: 'warning',
+    await ActivityLog.create({
+      user: payload.userId,
       action: 'delete',
-      resource: 'form-submission',
-      resourceId: submissionId || formId || '',
-      userId: payload.userId,
+      category: 'form-submission',
       details: {
+        resource: 'form-submission',
+        resourceId: submissionId || formId || '',
         deletedCount,
         deleteAll,
       },

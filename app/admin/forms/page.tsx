@@ -264,6 +264,7 @@ export default function FormsListPage() {
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              aria-label="Filtrer par statut"
             >
               <option value="">Tous les statuts</option>
               <option value="draft">Brouillons</option>
@@ -281,6 +282,7 @@ export default function FormsListPage() {
                 setSortOrder(order);
               }}
               className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              aria-label="Trier les formulaires"
             >
               <option value="createdAt-desc">Plus récent</option>
               <option value="createdAt-asc">Plus ancien</option>

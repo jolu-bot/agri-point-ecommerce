@@ -40,7 +40,7 @@ interface Stats {
 export default function FormSubmissionsPage() {
   const router = useRouter();
   const params = useParams();
-  const form_Id = params?.id as string;
+  const formId = params?.id as string;
 
   const [formName, setFormName] = useState('');
   const [submissions, setSubmissions] = useState<Submission[]>([]);
@@ -220,6 +220,7 @@ export default function FormSubmissionsPage() {
             <button
               onClick={() => router.push('/admin/forms')}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              aria-label="Retour aux formulaires"
             >
               <ArrowLeft className="w-5 h-5 text-gray-600" />
             </button>
@@ -310,6 +311,7 @@ export default function FormSubmissionsPage() {
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+              aria-label="Filtrer par statut"
             >
               <option value="">Tous les statuts</option>
               <option value="pending">En attente</option>
@@ -322,6 +324,7 @@ export default function FormSubmissionsPage() {
               value={isReadFilter}
               onChange={(e) => setIsReadFilter(e.target.value)}
               className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+              aria-label="Filtrer par état de lecture"
             >
               <option value="">Tous</option>
               <option value="false">Non lus</option>
@@ -421,6 +424,7 @@ export default function FormSubmissionsPage() {
                           isStarred: !selectedSubmission.isStarred
                         })}
                         className="p-2 hover:bg-gray-100 rounded-lg"
+                        aria-label={selectedSubmission.isStarred ? "Retirer des favoris" : "Ajouter aux favoris"}
                       >
                         <Star className={`w-5 h-5 ${selectedSubmission.isStarred ? 'text-yellow-500 fill-yellow-500' : 'text-gray-400'}`} />
                       </button>
@@ -428,6 +432,7 @@ export default function FormSubmissionsPage() {
                       <button
                         onClick={() => handleDelete(selectedSubmission._id)}
                         className="p-2 hover:bg-red-50 text-red-600 rounded-lg"
+                        aria-label="Supprimer la soumission"
                       >
                         <Trash2 className="w-5 h-5" />
                       </button>
@@ -454,6 +459,7 @@ export default function FormSubmissionsPage() {
                         status: e.target.value as any
                       })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                      aria-label="Changer le statut"
                     >
                       <option value="pending">En attente</option>
                       <option value="processed">Traité</option>
