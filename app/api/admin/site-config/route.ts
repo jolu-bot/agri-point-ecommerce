@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import SiteConfig from '@/models/SiteConfig';
+import { validateSiteConfig } from '@/lib/config-validator';
 
 // GET - Récupérer la configuration du site
 export async function GET() {
@@ -129,6 +130,17 @@ export async function PATCH(request: NextRequest) {
     await dbConnect();
     
     const body = await request.json();
+    
+    // Valider la configuration AVANT modification
+    const validation = await validateSiteConfig({ ...body });
+    
+    // Si des erreurs critiques, bloquer la sauvegarde
+    if (!validation.valid) {
+      return NextResponse.json({
+        error: 'Configuration invalide',
+        validation
+      }, { status: 400 });
+    }
     
     // Récupérer la config active avant modification
     const oldConfig = await SiteConfig.findOne({ isActive: true }).lean();
