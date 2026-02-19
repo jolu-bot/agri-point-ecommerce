@@ -322,6 +322,21 @@ const tools: OpenAI.Chat.ChatCompletionTool[] = [
       },
     },
   },
+  {
+    type: 'function',
+    function: {
+      name: 'escalate_to_human',
+      description: 'Transférer la conversation vers un conseiller humain AGRI POINT SERVICE quand le problème est complexe, urgent ou hors de la compétence du bot (urgence terrain, pathologie grave, litige commercial, demande de devis sur-mesure).',
+      parameters: {
+        type: 'object',
+        required: ['reason'],
+        properties: {
+          reason: { type: 'string', description: 'Raison concise de l\'escalade : urgence_terrain | pathologie_grave | litige | devis_sur_mesure | autre' },
+          summary: { type: 'string', description: 'Résumé optionnel de la conversation à transmettre au conseiller' },
+        },
+      },
+    },
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════════
@@ -688,6 +703,21 @@ Vous souhaitez revendre nos produits dans votre zone ?
       return `Je peux vous expliquer les procédures suivantes :\n- Inscription / Connexion\n- Achat et paiement\n- Suivi de commande\n- Retour produit\n- Livraison\n- Devenir revendeur\n\nQuelle procédure souhaitez-vous ?`;
     }
 
+    // ── escalate_to_human ──
+    if (name === 'escalate_to_human') {
+      const reasonMap: Record<string, string> = {
+        urgence_terrain:  '🚨 Urgence terrain',
+        pathologie_grave: '🌿 Pathologie grave sur cultures',
+        litige:           '⚖️ Litige ou réclamation',
+        devis_sur_mesure: '📋 Devis sur-mesure',
+        autre:            '💬 Question spécialisée',
+      };
+      const label  = reasonMap[args.reason] ?? reasonMap.autre;
+      const ctx    = args.summary ? `\n\n📝 Contexte transmis au conseiller :\n_${args.summary}_` : '';
+      const waText = encodeURIComponent(`Bonjour, je suis mis en relation par AgriBot.\nMotif : ${label}${args.summary ? '\n' + args.summary : ''}`);
+      return `## 👨‍💼 Passage à un conseiller humain\n\n**Motif :** ${label}${ctx}\n\nUn agronome AGRI POINT SERVICE va prendre en charge votre demande :\n\n- 💬 [**WhatsApp maintenant**](https://wa.me/237657393939?text=${waText}) — réponse rapide\n- 📞 [**+237 657 39 39 39**](tel:+237657393939) — lun-sam 7h-19h\n- ✉️ infos@agri-ps.com\n\nPrésentez votre numéro de commande si vous en avez un. Notre équipe vous répondra dans les meilleurs délais 🌱`;
+    }
+
     return 'Tool non reconnu.';
   } catch (err) {
     console.error('AgriBot tool error:', err);
@@ -738,12 +768,14 @@ const SYSTEM_PROMPT = `Tu es **AgriBot** 🌱, l'assistant IA numéro 1 d'AGRI P
 ${KNOWLEDGE_BASE}
 
 ## RÈGLES ABSOLUES
-1. **TOUJOURS utiliser un tool** quand : prix/stock demandé, suivi commande, recommandation culture précise, calcul dose, comparatif, procédure e-commerce
+1. **TOUJOURS utiliser un tool** quand : prix/stock demandé, suivi commande, recommandation culture précise, calcul dose, comparatif, procédure e-commerce, passage à un humain
 2. **Format markdown riche** : titres, gras, tableaux, listes — les clients lisent sur mobile
 3. **Réponse ciblée** : 100-300 mots. Qualité > quantité.
 4. **CTA obligatoire** : Finir par une action concrète (WhatsApp, lien commande, ou proposition de continuer)
-5. **Escalade intelligente** : Urgences terrain (maladie grave, perte de récolte) → orienter vers expert humain
+5. **Escalade intelligente** : Urgences terrain (maladie grave, perte de récolte, litige) → appeler `escalate_to_human`. Ne jamais laisser un client sans solution.
 6. **Multilingue light** : Si le client écrit en pidgin anglais ou camfranglais, s'adapter naturellement
+7. **Anticipation proactive** : Ne jamais répondre vaguement. Si une culture est mentionnée → demander la phase (semis/végétation/floraison/fructification). Si un problème est décrit → proposer un diagnostic complet avec le tool `get_recommendation`. Si une commande est bloquée → proposer contact humain immédiat.
+8. **Guide étape par étape** : Pour toute procédure, numéroter les étapes. Jamais de réponse type "allez sur le site" sans détailler comment. Utiliser `get_procedure` systématiquement.
 
 ## SUGGESTIONS POST-RÉPONSE
 À la fin de chaque réponse, ajouter EXACTEMENT cette ligne JSON (jamais affichée, juste pour le système) :
@@ -819,6 +851,7 @@ export async function POST(req: NextRequest) {
 
         const choice = firstPass.choices[0];
         totalTokens = firstPass.usage?.total_tokens || 0;
+        let forceEscalate = false;
 
         if (choice.finish_reason === 'tool_calls' && choice.message.tool_calls?.length) {
           const toolNames = choice.message.tool_calls.map(t => t.function.name);
@@ -828,7 +861,9 @@ export async function POST(req: NextRequest) {
             : toolNames.includes('compare_products') ? '⚖️ Comparaison produits...'
             : toolNames.includes('get_seasonal_advice') ? '🌤️ Conseils saisonniers...'
             : toolNames.includes('get_procedure') ? '📋 Récupération procédure...'
+            : toolNames.includes('escalate_to_human') ? '👨‍💼 Transfert vers un conseiller...'
             : '🔍 Consultation base de données...';
+          forceEscalate = toolNames.includes('escalate_to_human');
 
           send({ type: 'tool_start', message: toolLabel });
 
@@ -868,7 +903,13 @@ export async function POST(req: NextRequest) {
           fullContent = fullContent.replace(/<!--\s*SUGGESTIONS:.*?-->/g, '').trim();
         }
 
-        send({ type: 'done', tags, intent, suggestions });
+        // Détecter si une escalade humaine est nécessaire
+        const escaladeKw = ['contactez', 'appelez', 'urgence', 'expert', 'agronome', 'rappel', 'technicien'];
+        const escalate = forceEscalate
+          || intent === 'urgence'
+          || escaladeKw.some(w => fullContent.toLowerCase().includes(w));
+
+        send({ type: 'done', tags, intent, suggestions, escalate });
 
         // Persistance MongoDB background
         if (sessionId) {
@@ -1331,11 +1372,13 @@ ${KNOWLEDGE_BASE}
 
 ## RÈGLES DE COMPORTEMENT
 1. **Réponses concises** : 150-250 mots max, format markdown avec émojis pertinents
-2. **Utiliser les tools** quand on te demande : un prix, un stock, un suivi de commande, ou une recommandation précise par culture
+2. **Utiliser les tools** quand on te demande : un prix, un stock, un suivi de commande, une recommandation précise par culture, ou si escalade nécessaire
 3. **CTA systématique** : Finir par un appel à l'action (WhatsApp, commande, appel)
 4. **Langage** : Français adapté au contexte camerounais, professionnel mais accessible
 5. **Cross-sell intelligent** : Si l'utilisateur cite une culture, propose le pack adapté à toutes ses phases
-6. **Escalade** : Si problème complexe ou urgent (pathologie grave, urgence terrain), proposer contact direct
+6. **Escalade prioritaire** : À la moindre urgence terrain, pathologie grave ou litige → appeler `escalate_to_human`. Ne jamais laisser le client sans solution.
+7. **Anticipation** : Si culture mentionnée → demander la phase de culture. Si problème décrit → diagnostic complet. Si commande bloquée → contact humain immédiat.
+8. **Étapes détaillées** : Numéroter toujours les procédures. Jamais de "allez sur le site" sans expliquer précisément comment.
 
 ## FORMAT DES RÉPONSES
 - Utilise **gras**, *italique*, listes à puces et tableaux markdown
