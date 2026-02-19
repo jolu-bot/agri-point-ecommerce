@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from '@/lib/db';
+import { verifyAccessToken } from '@/lib/auth';
+import connectDB from '@/lib/db';
 import Form from '@/models/Form';
 import FormSubmission from '@/models/FormSubmission';
-import { verifyToken } from '@/lib/auth';
-import Security from '@/models/Security';
+import { ActivityLog } from '@/models/Security';
 
 // GET - Liste des formulaires avec stats
 export async function GET(request: NextRequest) {
@@ -33,7 +33,12 @@ export async function GET(request: NextRequest) {
       }
       
       // Stats des soumissions
-      const submissionStats = await FormSubmission.getStats(id);
+      const submissionCount = await FormSubmission.countDocuments({ formId: id });
+      const submissionStats = {
+        total: submissionCount,
+        pending: await FormSubmission.countDocuments({ formId: id, status: 'pending' }),
+        processed: await FormSubmission.countDocuments({ formId: id, status: 'processed' }),
+      };
       
       return NextResponse.json({
         form: {
@@ -141,7 +146,7 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    const payload = await verifyToken(token);
+    const payload = verifyAccessToken(token);
     if (!payload || !['admin', 'editor'].includes(payload.role)) {
       return NextResponse.json(
         { error: 'Non autorisé' },
@@ -207,14 +212,13 @@ export async function POST(request: NextRequest) {
     await form.save();
     
     // Log d'audit
-    await Security.create({
-      type: 'audit',
-      severity: 'info',
+    await ActivityLog.create({
+      user: payload.userId,
       action: 'create',
-      resource: 'form',
-      resourceId: form._id.toString(),
-      userId: payload.userId,
+      category: 'form',
       details: {
+        resource: 'form',
+        resourceId: form._id.toString(),
         formName: name,
         fieldsCount: processedFields.length,
       },
@@ -253,7 +257,7 @@ export async function PATCH(request: NextRequest) {
       );
     }
     
-    const payload = await verifyToken(token);
+    const payload = verifyAccessToken(token);
     if (!payload || !['admin', 'editor'].includes(payload.role)) {
       return NextResponse.json(
         { error: 'Non autorisé' },
@@ -305,14 +309,13 @@ export async function PATCH(request: NextRequest) {
     
     // Log d'audit
     const updatedFields = Object.keys(body);
-    await Security.create({
-      type: 'audit',
-      severity: 'info',
+    await ActivityLog.create({
+      user: payload.userId,
       action: 'update',
-      resource: 'form',
-      resourceId: form._id.toString(),
-      userId: payload.userId,
-      metadata: {
+      category: 'form',
+      details: {
+        resource: 'form',
+        resourceId: form._id.toString(),
         updatedFields,
         fieldsCount: form.fields.length,
       },
@@ -343,7 +346,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
     
-    const payload = await verifyToken(token);
+    const payload = verifyAccessToken(token);
     if (!payload || payload.role !== 'admin') {
       return NextResponse.json(
         { error: 'Non autorisé - Admin uniquement' },
@@ -383,14 +386,13 @@ export async function DELETE(request: NextRequest) {
     await form.deleteOne();
     
     // Log d'audit
-    await Security.create({
-      type: 'audit',
-      severity: 'warning',
+    await ActivityLog.create({
+      user: payload.userId,
       action: 'delete',
-      resource: 'form',
-      resourceId: formId,
-      userId: payload.userId,
+      category: 'form',
       details: {
+        resource: 'form',
+        resourceId: formId,
         formName: form.name,
         submissionsCount,
         submissionsDeleted: deleteSubmissions,
