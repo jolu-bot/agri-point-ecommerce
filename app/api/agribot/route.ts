@@ -5,6 +5,12 @@ import Product from '@/models/Product';
 import Order from '@/models/Order';
 import ChatConversation from '@/models/ChatConversation';
 
+// Vérifie que la clé OpenAI est bien configurée (pas un placeholder)
+function isOpenAIReady(): boolean {
+  const k = process.env.OPENAI_API_KEY || '';
+  return k.startsWith('sk-') && k.length > 30 && !k.includes('votre') && !k.includes('your');
+}
+
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // ═══════════════════════════════════════════════════════════════════
@@ -794,8 +800,8 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'Message requis' }), { status: 400 });
   }
 
-  // Mode démo sans clé OpenAI
-  if (!process.env.OPENAI_API_KEY) {
+  // Mode démo si clé OpenAI absente ou non configurée
+  if (!isOpenAIReady()) {
     const { demo, intent } = getDemoResponse(message);
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
@@ -1093,8 +1099,6 @@ Comment puis-je vous aider aujourd'hui ?
 📞 +237 657 39 39 39 | 💬 WhatsApp 676026601` };
 }
 
-
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // ─────────────────────────────────────────────
 // BASE DE CONNAISSANCES AGRI POINT (RAG statique)
@@ -1399,8 +1403,8 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'Message requis' }), { status: 400 });
   }
 
-  // Mode démo sans clé OpenAI
-  if (!process.env.OPENAI_API_KEY) {
+  // Mode démo si clé OpenAI absente ou non configurée
+  if (!isOpenAIReady()) {
     const demo = getDemoResponse(message);
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
