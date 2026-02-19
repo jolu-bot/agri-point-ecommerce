@@ -27,7 +27,7 @@ function DraggableField({ config }: { config: FieldConfig }) {
   return (
     <div
       ref={setNodeRef}
-      style={style}
+      {...{ style }}
       className="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition-all cursor-move group"
       {...attributes}
       {...listeners}

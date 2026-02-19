@@ -3,10 +3,12 @@ export function HeroImageSkeleton() {
   return (
     <div 
       className="aspect-square bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center overflow-hidden rounded-2xl w-full"
-      style={{
-        width: '100%',
-        aspectRatio: '1 / 1',
-        minHeight: '400px'
+      {...{
+        style: {
+          width: '100%',
+          aspectRatio: '1 / 1',
+          minHeight: '400px'
+        }
       }}
     >
       {/* Shimmer animation */}

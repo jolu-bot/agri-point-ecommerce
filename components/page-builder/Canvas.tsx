@@ -68,7 +68,7 @@ function SortableBlock({
   return (
     <div
       ref={setNodeRef}
-      style={style}
+      {...{ style }}
       className={`group relative rounded-lg border-2 transition-all ${
         isSelected
           ? 'border-blue-500 ring-2 ring-blue-500/20'
@@ -218,7 +218,7 @@ function BlockPreview({ block }: { block: IPageBlock }) {
       return (
         <div
           className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg flex items-center justify-center text-gray-400"
-          style={{ height }}
+          {...{ style: { height } }}
         >
           Espace ({block.props.height || 'md'})
         </div>
@@ -229,9 +229,11 @@ function BlockPreview({ block }: { block: IPageBlock }) {
         <div className="flex items-center justify-center py-4">
           <div
             className={`border-t-${block.props.thickness === 'thick' ? '4' : block.props.thickness === 'medium' ? '2' : '1'}`}
-            style={{
-              borderColor: block.props.color || '#e5e7eb',
-              width: block.props.width === 'full' ? '100%' : block.props.width === 'half' ? '50%' : '33.333%',
+            {...{
+              style: {
+                borderColor: block.props.color || '#e5e7eb',
+                width: block.props.width === 'full' ? '100%' : block.props.width === 'half' ? '50%' : '33.333%',
+              }
             }}
           ></div>
         </div>
