@@ -149,7 +149,7 @@ export default function MapComponent({
   return (
     <div
       ref={mapContainerRef}
-      style={{ height, width: '100%' }}
+      {...{ style: { height, width: '100%' } }}
       className="rounded-lg overflow-hidden shadow-lg z-0"
     />
   );

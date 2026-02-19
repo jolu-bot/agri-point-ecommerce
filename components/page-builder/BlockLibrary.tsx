@@ -25,7 +25,7 @@ function DraggableBlock({ config }: { config: BlockConfig }) {
   return (
     <div
       ref={setNodeRef}
-      style={style}
+      {...{ style }}
       {...listeners}
       {...attributes}
       className="group relative flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-md transition-all cursor-grab active:cursor-grabbing"

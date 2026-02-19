@@ -7,7 +7,7 @@ param(
     [string]$VpsHost,
     
     [Parameter(Mandatory=$true)]
-    [string]$VpsPassword,
+    [System.Security.SecureString]$VpsPassword,
     
     [string]$VpsUser = "root",
     [int]$VpsPort = 65002,
@@ -43,31 +43,24 @@ function Invoke-RemoteCommand {
     # Utiliser plink si disponible, sinon sshpass, sinon methode standard
     $plinkPath = Get-Command plink.exe -ErrorAction SilentlyContinue
     
+    # Convertir SecureString en texte clair pour l'utilisation (uniquement en m\u00e9moire)
+    $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($VpsPassword)
+    $PlainPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
+    [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($BSTR)
+    
     if ($plinkPath) {
-        $output = & plink.exe -batch -pw $VpsPassword -P $VpsPort "$VpsUser@$VpsHost" $Command 2>&1
+        & plink.exe -batch -pw $PlainPassword -P $VpsPort \"$VpsUser@$VpsHost\" $Command 2>&1 | Out-Null
     } else {
         # Methode alternative: creer un script expect
-        Write-Host "Utilisation de SSH standard..." -ForegroundColor Yellow
-        
-        # Cette methode necessite une interaction
-        $sshCommand = "ssh -o StrictHostKeyChecking=no -p $VpsPort $VpsUser@$VpsHost `"$Command`""
-        
-        # Creer un mini script PowerShell pour automatiser la saisie
-        $expectScript = @"
-`$password = '$VpsPassword'
-`$proc = Start-Process -FilePath 'ssh' -ArgumentList '-o','StrictHostKeyChecking=no','-p','$VpsPort','$VpsUser@$VpsHost','$Command' -NoNewWindow -PassThru -RedirectStandardInput `$stdin -Wait
-Start-Sleep -Milliseconds 500
-`$stdin.WriteLine(`$password)
-`$proc.WaitForExit()
-"@
+        Write-Host \"Utilisation de SSH standard...\" -ForegroundColor Yellow
         
         # Pour l'instant, on va utiliser une approche plus simple
         # En vous guidant commande par commande
-        Write-Host "COMMANDE A EXECUTER:" -ForegroundColor Yellow
+        Write-Host \"COMMANDE A EXECUTER:\" -ForegroundColor Yellow
         Write-Host $Command -ForegroundColor White
-        Write-Host "(Le mot de passe sera demande)" -ForegroundColor Gray
+        Write-Host \"(Le mot de passe sera demande)\" -ForegroundColor Gray
         
-        & ssh -o StrictHostKeyChecking=no -p $VpsPort "$VpsUser@$VpsHost" $Command
+        & ssh -o StrictHostKeyChecking=no -p $VpsPort \"$VpsUser@$VpsHost\" $Command
     }
     
     if ($LASTEXITCODE -eq 0) {
