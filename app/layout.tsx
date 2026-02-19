@@ -3,10 +3,12 @@ import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SiteConfigProvider } from "@/contexts/SiteConfigContext";
+import { PreviewModeProvider } from "@/contexts/PreviewModeContext";
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import AgriBotWrapper from "@/components/AgriBotWrapper";
+import PreviewModeBanner from "@/components/admin/PreviewModeBanner";
 
 // Polices modernes et attrayantes
 const inter = Inter({
@@ -85,38 +87,41 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${montserrat.variable} font-sans antialiased`}>
         <SiteConfigProvider>
-          <ThemeProvider>
-            <div className="flex flex-col min-h-screen">
-              <Header />
-              <main className="flex-grow">
-                {children}
-              </main>
-              <Footer />
-              <AgriBotWrapper />
-              <Toaster
-                position="top-right"
-                toastOptions={{
-                  duration: 4000,
-                  style: {
-                    background: '#1B5E20', // Vert profond
-                    color: '#fff',
-                  },
-                  success: {
-                    iconTheme: {
-                      primary: '#22c55e',
-                      secondary: '#fff',
+          <PreviewModeProvider>
+            <ThemeProvider>
+              <PreviewModeBanner />
+              <div className="flex flex-col min-h-screen">
+                <Header />
+                <main className="flex-grow">
+                  {children}
+                </main>
+                <Footer />
+                <AgriBotWrapper />
+                <Toaster
+                  position="top-right"
+                  toastOptions={{
+                    duration: 4000,
+                    style: {
+                      background: '#1B5E20', // Vert profond
+                      color: '#fff',
                     },
-                  },
-                  error: {
-                    iconTheme: {
-                      primary: '#ef4444',
-                      secondary: '#fff',
+                    success: {
+                      iconTheme: {
+                        primary: '#22c55e',
+                        secondary: '#fff',
+                      },
                     },
-                  },
-                }}
-              />
-            </div>
-          </ThemeProvider>
+                    error: {
+                      iconTheme: {
+                        primary: '#ef4444',
+                        secondary: '#fff',
+                      },
+                    },
+                  }}
+                />
+              </div>
+            </ThemeProvider>
+          </PreviewModeProvider>
         </SiteConfigProvider>
       </body>
     </html>

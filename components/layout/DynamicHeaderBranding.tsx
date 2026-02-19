@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSiteConfig } from '@/contexts/SiteConfigContext';
+import { usePreviewMode } from '@/contexts/PreviewModeContext';
 
 interface DynamicHeaderBrandingProps {
   className?: string;
@@ -12,9 +13,11 @@ interface DynamicHeaderBrandingProps {
  * Composant Header Branding Dynamique
  * Utilise la configuration du CMS (SiteConfig) pour afficher le logo et les textes
  * Tout est configurable depuis l'interface admin /admin/site-config-advanced
+ * Supporte le mode prévisualisation pour tester les changements avant sauvegarde
  */
 export default function DynamicHeaderBranding({ className = '' }: DynamicHeaderBrandingProps) {
   const { config, loading } = useSiteConfig();
+  const { isPreviewMode, previewConfig } = usePreviewMode();
 
   // Configuration par défaut en cas de chargement ou d'erreur
   const defaultConfig = {
@@ -49,7 +52,9 @@ export default function DynamicHeaderBranding({ className = '' }: DynamicHeaderB
     spacing: 'gap-2',
   };
 
-  const headerConfig = config?.header || defaultConfig;
+  // Utiliser previewConfig si le mode preview est actif, sinon config normale
+  const activeConfig = isPreviewMode && previewConfig ? previewConfig : config;
+  const headerConfig = activeConfig?.header || defaultConfig;
 
   // Classes CSS pour les tailles (Tailwind)
   const logoSizeClasses = `${headerConfig.logo.sizes.mobile} sm:${headerConfig.logo.sizes.tablet} lg:${headerConfig.logo.sizes.desktop}`;

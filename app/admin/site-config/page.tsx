@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSiteConfig } from '@/contexts/SiteConfigContext';
+import { usePreviewMode } from '@/contexts/PreviewModeContext';
 import { 
   Save, 
   RefreshCw, 
@@ -23,6 +24,7 @@ import { toast } from 'react-hot-toast';
 
 export default function SiteConfigPage() {
   const { config, loading, updateConfig, refreshConfig } = useSiteConfig();
+  const { enablePreview, disablePreview, isPreviewMode } = usePreviewMode();
   const [activeTab, setActiveTab] = useState('branding');
   const [formData, setFormData] = useState<any>(null);
   const [saving, setSaving] = useState(false);
@@ -39,11 +41,22 @@ export default function SiteConfigPage() {
       setSaving(true);
       await updateConfig(formData);
       toast.success('Configuration enregistrée avec succès !');
+      // Désactiver le mode preview après sauvegarde
+      if (isPreviewMode) {
+        disablePreview();
+      }
     } catch (error) {
       toast.error('Erreur lors de l\'enregistrement');
     } finally {
       setSaving(false);
     }
+  };
+
+  const handlePreview = () => {
+    enablePreview(formData);
+    toast.success('Mode prévisualisation activé ! Consultez le site pour voir les changements.');
+    // Ouvrir la page d'accueil dans un nouvel onglet pour voir le preview
+    window.open('/', '_blank');
   };
 
   const handleExport = () => {
@@ -156,6 +169,14 @@ export default function SiteConfigPage() {
               >
                 <RefreshCw className="w-4 h-4" />
                 Actualiser
+              </button>
+
+              <button
+                onClick={handlePreview}
+                className="btn-secondary flex items-center gap-2 bg-purple-50 hover:bg-purple-100 text-purple-700 border-purple-200"
+              >
+                <Eye className="w-4 h-4" />
+                Prévisualiser
               </button>
               
               <button
