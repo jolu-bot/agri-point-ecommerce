@@ -122,3 +122,38 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+// PATCH - Mise à jour partielle de la configuration
+export async function PATCH(request: NextRequest) {
+  try {
+    await dbConnect();
+    
+    const body = await request.json();
+    
+    // Récupérer la config active
+    let config = await SiteConfig.findOne({ isActive: true });
+    
+    if (!config) {
+      // Créer une nouvelle config si elle n'existe pas
+      config = await SiteConfig.create({ ...body, isActive: true });
+    } else {
+      // Mise à jour partielle avec merge
+      config = await SiteConfig.findByIdAndUpdate(
+        config._id,
+        { $set: body },
+        { new: true, runValidators: true }
+      );
+    }
+    
+    return NextResponse.json({
+      message: 'Configuration mise à jour avec succès',
+      config
+    }, { status: 200 });
+  } catch (error) {
+    console.error('Erreur mise à jour partielle configuration:', error);
+    return NextResponse.json(
+      { error: 'Erreur lors de la mise à jour de la configuration' },
+      { status: 500 }
+    );
+  }
+}
