@@ -117,9 +117,6 @@ const nextConfig = {
     '@heroicons/react': {
       transform: '@heroicons/react/{{member}}',
     },
-    'recharts': {
-      transform: 'recharts/lib/{{member}}',
-    },
   },
   
   compiler: {
