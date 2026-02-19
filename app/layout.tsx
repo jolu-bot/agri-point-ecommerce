@@ -9,6 +9,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import AgriBotWrapper from "@/components/AgriBotWrapper";
 import PreviewModeBanner from "@/components/admin/PreviewModeBanner";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt";
+import OfflineIndicator from "@/components/OfflineIndicator";
 
 // Polices modernes et attrayantes
 const inter = Inter({
@@ -119,6 +121,8 @@ export default function RootLayout({
                     },
                   }}
                 />
+                <PWAInstallPrompt />
+                <OfflineIndicator />
               </div>
             </ThemeProvider>
           </PreviewModeProvider>

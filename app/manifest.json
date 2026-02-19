@@ -1,21 +1,139 @@
 {
   "name": "AGRI POINT SERVICE",
-  "short_name": "AGRI POINT",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}  );    </AnimatePresence>      )}        </motion.div>          )}            </div>              </div>                </button>                  Réessayer                >                  className="bg-white text-orange-600 px-3 py-1 rounded text-sm font-medium hover:bg-orange-50 transition-colors"                  onClick={handleRetry}                <button                </div>                  </span>                    Mode hors ligne - Certaines fonctionnalités sont limitées                  <span className="font-medium">                  <WifiOff className="w-5 h-5" />                <div className="flex items-center gap-2">              <div className="container mx-auto flex items-center justify-between">            <div className="bg-orange-600 text-white py-3 px-4">            // Bannière hors ligne          ) : (            </div>              </div>                <span className="font-medium">Connexion rétablie</span>                <RefreshCw className="w-5 h-5" />              <div className="container mx-auto flex items-center justify-center gap-2">            <div className="bg-green-600 text-white py-3 px-4">            // Bannière en ligne          {isOnline ? (        >          className="fixed top-0 left-0 right-0 z-50"          exit={{ y: -100, opacity: 0 }}          animate={{ y: 0, opacity: 1 }}          initial={{ y: -100, opacity: 0 }}        <motion.div      {showBanner && (    <AnimatePresence>  return (  };    window.location.reload();  const handleRetry = () => {  }, []);    };      window.removeEventListener('offline', handleOffline);      window.removeEventListener('online', handleOnline);    return () => {    window.addEventListener('offline', handleOffline);    window.addEventListener('online', handleOnline);    };      setShowBanner(true);      setIsOnline(false);    const handleOffline = () => {    };      setTimeout(() => setShowBanner(false), 3000);      // Masquer après 3 secondes            setShowBanner(true);      setIsOnline(true);    const handleOnline = () => {    setIsOnline(navigator.onLine);    // Initialiser l'état  useEffect(() => {  const [showBanner, setShowBanner] = useState(false);  const [isOnline, setIsOnline] = useState(true);export default function OfflineIndicator() {import { motion, AnimatePresence } from 'framer-motion';import { WifiOff, RefreshCw } from 'lucide-react';import { useEffect, useState } from 'react';  "short_name": "AGRI POINT",
   "description": "Distributeur de biofertilisants de qualité au Cameroun",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#16a34a",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "categories": ["shopping", "agriculture", "business"],
+  "lang": "fr-FR",
+  "dir": "ltr",
   "icons": [
     {
       "src": "/favicon.ico",
-      "sizes": "any",
+      "sizes": "32x32",
       "type": "image/x-icon"
     },
     {
       "src": "/images/logo.svg",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "screenshots": [
+    {
+      "src": "/images/screenshot-home.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "label": "Page d'accueil"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Produits",
+      "short_name": "Produits",
+      "description": "Voir tous les produits",
+      "url": "/produits",
+      "icons": [{ "src": "/favicon.ico", "sizes": "32x32" }]
+    },
+    {
+      "name": "Panier",
+      "short_name": "Panier",
+      "description": "Voir votre panier",
+      "url": "/panier",
+      "icons": [{ "src": "/favicon.ico", "sizes": "32x32" }]
+    },
+    {
+      "name": "Compte",
+      "short_name": "Compte",
+      "description": "Gérer votre compte",
+      "url": "/compte",
+      "icons": [{ "src": "/favicon.ico", "sizes": "32x32" }]
+    }
+  ],
+  "prefer_related_applications": false
 }
