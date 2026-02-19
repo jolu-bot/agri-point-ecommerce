@@ -130,13 +130,46 @@ export async function PATCH(request: NextRequest) {
     
     const body = await request.json();
     
+    // Récupérer la config active avant modification
+    const oldConfig = await SiteConfig.findOne({ isActive: true }).lean();
+    
     // Récupérer la config active
     let config = await SiteConfig.findOne({ isActive: true });
     
-    if (!config) {
+   if (!config) {
       // Créer une nouvelle config si elle n'existe pas
       config = await SiteConfig.create({ ...body, isActive: true });
     } else {
+      // Sauvegarder snapshot AVANT modification (auto-versioning)
+      const ConfigVersion = (await import('@/models/ConfigVersion')).default;
+      const lastVersion = await ConfigVersion.findOne().sort({ version: -1 }).lean();
+      
+      // Calculer les changements
+      const changes: any[] = [];
+      Object.keys(body).forEach(key => {
+        if (JSON.stringify(body[key]) !== JSON.stringify(oldConfig?.[key])) {
+          changes.push({
+            field: key,
+            oldValue: oldConfig?.[key],
+            newValue: body[key],
+          });
+        }
+      });
+      
+      // Créer version automatique
+      await ConfigVersion.create({
+        version: (lastVersion?.version || 0) + 1,
+        config: oldConfig,
+        changedBy: {
+          userId: 'system',
+          userName: 'Auto-Save',
+          userEmail: 'system@agri-ps.com',
+        },
+        changes,
+        description: `Sauvegarde automatique avant modification`,
+        tags: ['auto-save'],
+      });
+      
       // Mise à jour partielle avec merge
       config = await SiteConfig.findByIdAndUpdate(
         config._id,
