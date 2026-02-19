@@ -142,7 +142,7 @@ export default function FormBuilderPage() {
         const newFields = arrayMove(fields, oldIndex, newIndex);
         
         // Mettre à jour les ordres
-        newFields.forEach((field, index) => {
+        newFields.forEach((field: any, index: number) => {
           field.order = index;
         });
         
@@ -317,6 +317,7 @@ export default function FormBuilderPage() {
           <button
             onClick={() => router.push('/admin/forms')}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            aria-label="Retour aux formulaires"
           >
             <ArrowLeft className="w-5 h-5 text-gray-600" />
           </button>

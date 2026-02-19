@@ -232,6 +232,7 @@ export default function ContentTypesPage() {
                   ? 'bg-white dark:bg-gray-600 shadow'
                   : 'hover:bg-gray-200 dark:hover:bg-gray-600'
               } transition-colors`}
+              aria-label="Affichage en grille"
             >
               <Grid className="w-5 h-5" />
             </button>
@@ -242,6 +243,7 @@ export default function ContentTypesPage() {
                   ? 'bg-white dark:bg-gray-600 shadow'
                   : 'hover:bg-gray-200 dark:hover:bg-gray-600'
               } transition-colors`}
+              aria-label="Affichage en liste"
             >
               <List className="w-5 h-5" />
             </button>

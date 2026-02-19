@@ -294,10 +294,11 @@ export default function AuditLogsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="filter-action" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Action
                   </label>
                   <select
+                    id="filter-action"
                     value={filters.action}
                     onChange={(e) => setFilters(prev => ({ ...prev, action: e.target.value }))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
@@ -315,10 +316,11 @@ export default function AuditLogsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="filter-severity" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Sévérité
                   </label>
                   <select
+                    id="filter-severity"
                     value={filters.severity}
                     onChange={(e) => setFilters(prev => ({ ...prev, severity: e.target.value }))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
@@ -345,10 +347,11 @@ export default function AuditLogsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="filter-start-date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Date début
                   </label>
                   <input
+                    id="filter-start-date"
                     type="date"
                     value={filters.startDate}
                     onChange={(e) => setFilters(prev => ({ ...prev, startDate: e.target.value }))}
@@ -357,10 +360,11 @@ export default function AuditLogsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="filter-end-date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Date fin
                   </label>
                   <input
+                    id="filter-end-date"
                     type="date"
                     value={filters.endDate}
                     onChange={(e) => setFilters(prev => ({ ...prev, endDate: e.target.value }))}
@@ -502,6 +506,7 @@ export default function AuditLogsPage() {
                       <button
                         onClick={() => setSelectedLog(selectedLog?._id === log._id ? null : log)}
                         className="btn-ghost p-2"
+                        aria-label="Voir les détails du log"
                       >
                         <Eye className="w-4 h-4" />
                       </button>

@@ -160,6 +160,7 @@ export default function CMSAnalyticsPage() {
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value)}
                 className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                aria-label="Sélectionner la période de temps"
               >
                 <option value="7">7 derniers jours</option>
                 <option value="30">30 derniers jours</option>
