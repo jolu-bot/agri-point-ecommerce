@@ -11,6 +11,7 @@ import AgriBotWrapper from "@/components/AgriBotWrapper";
 import PreviewModeBanner from "@/components/admin/PreviewModeBanner";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 import OfflineIndicator from "@/components/OfflineIndicator";
+import SyncStatusPanel from "@/components/SyncStatusPanel";
 
 // Polices modernes et attrayantes
 const inter = Inter({
@@ -123,6 +124,7 @@ export default function RootLayout({
                 />
                 <PWAInstallPrompt />
                 <OfflineIndicator />
+                <SyncStatusPanel />
               </div>
             </ThemeProvider>
           </PreviewModeProvider>
