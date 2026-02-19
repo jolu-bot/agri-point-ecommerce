@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from '@/lib/db';
+import connectDB from '@/lib/db';
 import Event, { IEvent } from '@/models/Event';
 import EventRegistration from '@/models/EventRegistration';
-import { verifyJWT } from '@/lib/auth';
+import { verifyAccessToken } from '@/lib/auth';
 
 // GET - Liste des événements ou événement unique
 export async function GET(request: NextRequest) {
@@ -26,7 +26,12 @@ export async function GET(request: NextRequest) {
       }
       
       // Récupérer les statistiques d'inscription
-      const registrationStats = await EventRegistration.getEventStats(event._id);
+      const registrationStats = {
+        total: await EventRegistration.countDocuments({ event: event._id }),
+        confirmed: await EventRegistration.countDocuments({ event: event._id, status: 'confirmed' }),
+        pending: await EventRegistration.countDocuments({ event: event._id, status: 'pending' }),
+        cancelled: await EventRegistration.countDocuments({ event: event._id, status: 'cancelled' }),
+      };
       
       return NextResponse.json({
         event,
@@ -143,11 +148,19 @@ export async function POST(request: NextRequest) {
     await connectDB();
     
     // Vérification authentification
-    const user = await verifyJWT(request);
-    if (!user || (user.role !== 'admin' && user.role !== 'editor')) {
+    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+    if (!token) {
+      return NextResponse.json(
+        { error: 'Non authentifié' },
+        { status: 401 }
+      );
+    }
+    
+    const payload = verifyAccessToken(token);
+    if (!payload || (payload.role !== 'admin' && payload.role !== 'editor')) {
       return NextResponse.json(
         { error: 'Non autorisé' },
-        { status: 401 }
+        { status: 403 }
       );
     }
     
@@ -187,13 +200,13 @@ export async function POST(request: NextRequest) {
     const event = new Event({
       ...body,
       slug,
-      createdBy: user.id,
+      createdBy: payload.userId,
     });
     
     await event.save();
     
     // Audit log
-    console.log(`[AUDIT] Événement créé: ${event.title} par ${user.email}`);
+    console.log(`[AUDIT] Événement créé: ${event.title} par userId ${payload.userId}`);
     
     return NextResponse.json({ event }, { status: 201 });
   } catch (error: any) {
@@ -219,11 +232,19 @@ export async function PATCH(request: NextRequest) {
     await connectDB();
     
     // Vérification authentification
-    const user = await verifyJWT(request);
-    if (!user || (user.role !== 'admin' && user.role !== 'editor')) {
+    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+    if (!token) {
+      return NextResponse.json(
+        { error: 'Non authentifié' },
+        { status: 401 }
+      );
+    }
+    
+    const payload = verifyAccessToken(token);
+    if (!payload || (payload.role !== 'admin' && payload.role !== 'editor')) {
       return NextResponse.json(
         { error: 'Non autorisé' },
-        { status: 401 }
+        { status: 403 }
       );
     }
     
@@ -253,7 +274,7 @@ export async function PATCH(request: NextRequest) {
       id,
       {
         ...body,
-        updatedBy: user.id,
+        updatedBy: payload.userId,
       },
       { new: true, runValidators: true }
     );
@@ -266,7 +287,7 @@ export async function PATCH(request: NextRequest) {
     }
     
     // Audit log
-    console.log(`[AUDIT] Événement modifié: ${event.title} par ${user.email}`);
+    console.log(`[AUDIT] Événement modifié: ${event.title} par userId ${payload.userId}`);
     
     return NextResponse.json({ event });
   } catch (error: any) {
@@ -284,11 +305,19 @@ export async function DELETE(request: NextRequest) {
     await connectDB();
     
     // Vérification authentification (admin seulement)
-    const user = await verifyJWT(request);
-    if (!user || user.role !== 'admin') {
+    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+    if (!token) {
+      return NextResponse.json(
+        { error: 'Non authentifié' },
+        { status: 401 }
+      );
+    }
+    
+    const payload = verifyAccessToken(token);
+    if (!payload || payload.role !== 'admin') {
       return NextResponse.json(
         { error: 'Non autorisé' },
-        { status: 401 }
+        { status: 403 }
       );
     }
     
@@ -325,7 +354,7 @@ export async function DELETE(request: NextRequest) {
     await Event.findByIdAndDelete(id);
     
     // Audit log
-    console.log(`[AUDIT] Événement supprimé: ${event.title} par ${user.email} (${registrationsCount} inscriptions, ${registrationsDeleted} supprimées)`);
+    console.log(`[AUDIT] Événement supprimé: ${event.title} par userId ${payload.userId} (${registrationsCount} inscriptions, ${registrationsDeleted} supprimées)`);
     
     return NextResponse.json({
       message: 'Événement supprimé',

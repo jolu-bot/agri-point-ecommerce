@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from '@/lib/db';
+import connectDB from '@/lib/db';
 import Form from '@/models/Form';
-import { verifyToken } from '@/lib/auth';
-import Security from '@/models/Security';
+import { verifyAccessToken } from '@/lib/auth';
+import { ActivityLog } from '@/models/Security';
 
 // POST - Dupliquer un formulaire
 export async function POST(request: NextRequest) {
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    const payload = await verifyToken(token);
+    const payload = verifyAccessToken(token);
     if (!payload || !['admin', 'editor'].includes(payload.role)) {
       return NextResponse.json(
         { error: 'Non autorisé' },
@@ -66,19 +66,23 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Dupliquer le formulaire
-    const duplicatedForm = await originalForm.duplicate(newSlug, newName);
-    duplicatedForm.createdBy = payload.userId;
+    // Dupliquer le formulaire manuellement
+    const duplicatedForm = new Form({
+      name: newName || `${originalForm.name} (copie)`,
+      slug: newSlug,
+      description: originalForm.description,
+      fields: originalForm.fields,
+      settings: originalForm.settings,
+      isActive: false, // Désactivé par défaut pour la copie
+      createdBy: payload.userId,
+    });
     await duplicatedForm.save();
     
     // Log d'audit
-    await Security.create({
-      type: 'audit',
-      severity: 'info',
+    await ActivityLog.create({
+      user: payload.userId,
       action: 'duplicate',
-      resource: 'form',
-      resourceId: duplicatedForm._id.toString(),
-      userId: payload.userId,
+      category: 'form',
       details: {
         originalFormId: formId,
         originalFormName: originalForm.name,

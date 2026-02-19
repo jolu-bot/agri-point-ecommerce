@@ -140,7 +140,13 @@ export default function LocationsAdminPage() {
       name: location.name,
       type: location.type,
       coordinates: location.coordinates,
-      address: location.address,
+      address: {
+        city: location.address.city,
+        zipCode: location.address.zipCode || '',
+        street: location.address.street || '',
+        region: location.address.region || '',
+        country: location.address.country
+      },
       description: location.description || '',
       phone: '',
       email: '',
@@ -275,6 +281,7 @@ export default function LocationsAdminPage() {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 required
+                aria-label="Nom de la location"
                 className="w-full px-3 py-2 border rounded-lg"
               />
             </div>
@@ -284,6 +291,7 @@ export default function LocationsAdminPage() {
               <select
                 value={formData.type}
                 onChange={(e) => setFormData({ ...formData, type: e.target.value as Location['type'] })}
+                aria-label="Type de location"
                 className="w-full px-3 py-2 border rounded-lg"
               >
                 <option value="farm">Ferme</option>
@@ -307,6 +315,7 @@ export default function LocationsAdminPage() {
                   })
                 }
                 required
+                aria-label="Latitude"
                 className="w-full px-3 py-2 border rounded-lg"
               />
             </div>
@@ -324,6 +333,7 @@ export default function LocationsAdminPage() {
                   })
                 }
                 required
+                aria-label="Longitude"
                 className="w-full px-3 py-2 border rounded-lg"
               />
             </div>
@@ -340,6 +350,7 @@ export default function LocationsAdminPage() {
                   })
                 }
                 required
+                aria-label="Ville"
                 className="w-full px-3 py-2 border rounded-lg"
               />
             </div>
@@ -355,6 +366,7 @@ export default function LocationsAdminPage() {
                     address: { ...formData.address, zipCode: e.target.value },
                   })
                 }
+                aria-label="Code postal"
                 className="w-full px-3 py-2 border rounded-lg"
               />
             </div>
@@ -365,6 +377,7 @@ export default function LocationsAdminPage() {
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 rows={3}
+                aria-label="Description de la location"
                 className="w-full px-3 py-2 border rounded-lg"
               />
             </div>
@@ -442,6 +455,7 @@ export default function LocationsAdminPage() {
         <select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
+          aria-label="Filtrer par type"
           className="px-4 py-2 border rounded-lg"
         >
           <option value="">Tous les types</option>
@@ -494,12 +508,14 @@ export default function LocationsAdminPage() {
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleEdit(location)}
+                        aria-label="Modifier la location"
                         className="text-blue-600 hover:text-blue-800"
                       >
                         <Edit className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(location._id)}
+                        aria-label="Supprimer la location"
                         className="text-red-600 hover:text-red-800"
                       >
                         <Trash2 className="w-4 h-4" />

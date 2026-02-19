@@ -310,6 +310,7 @@ export default function PageBuilderPage() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => router.push('/admin/pages')}
+            aria-label="Retour aux pages"
             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -426,7 +427,7 @@ export default function PageBuilderPage() {
         <button
           onClick={() => setShowLibrary(!showLibrary)}
           className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-r-lg p-1 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-          style={{ left: showLibrary ? '320px' : '0' }}
+          {...{ style: { left: showLibrary ? '320px' : '0' } }}
         >
           {showLibrary ? (
             <ChevronLeft className="w-4 h-4" />
@@ -439,7 +440,7 @@ export default function PageBuilderPage() {
         <div className="flex-1 overflow-y-auto p-6">
           <div
             className="mx-auto transition-all duration-300"
-            style={{ width: getViewModeWidth(), minHeight: '100%' }}
+            {...{ style: { width: getViewModeWidth(), minHeight: '100%' } }}
           >
             <DndContext
               sensors={sensors}
@@ -496,7 +497,7 @@ export default function PageBuilderPage() {
           <button
             onClick={() => setShowSettings(!showSettings)}
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-l-lg p-1 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-            style={{ right: showSettings ? '384px' : '0' }}
+            {...{ style: { right: showSettings ? '384px' : '0' } }}
           >
             {showSettings ? (
               <ChevronRight className="w-4 h-4" />

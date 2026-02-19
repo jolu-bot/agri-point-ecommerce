@@ -109,6 +109,7 @@ export default function MediaManagerPage() {
           <select
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
+            aria-label="Filtrer par type de média"
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
           >
             <option value="all">Tous les types</option>

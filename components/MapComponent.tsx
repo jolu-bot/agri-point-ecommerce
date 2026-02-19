@@ -18,7 +18,7 @@ export interface MapMarker {
   lng: number;
   title: string;
   description?: string;
-  type?: 'farm' | 'market' | 'distribution' | 'other';
+  type?: 'farm' | 'market' | 'distribution' | 'event' | 'other';
   icon?: string;
 }
 
@@ -67,10 +67,11 @@ export default function MapComponent({
 
       // Icône personnalisée selon le type
       let markerIcon;
-      const iconColors = {
+      const iconColors: Record<'farm' | 'market' | 'distribution' | 'event' | 'other', string> = {
         farm: '#10b981', // vert
         market: '#f59e0b', // orange
         distribution: '#3b82f6', // bleu
+        event: '#8b5cf6', // violet
         other: '#6b7280', // gris
       };
 
