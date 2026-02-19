@@ -348,6 +348,7 @@ export default function OrderConfirmationPage() {
                   <input
                     type="file"
                     accept="image/*,video/*"
+                    aria-label="Uploader le reçu Campost (photo ou vidéo)"
                     onChange={handleFileSelect}
                     className="hidden"
                     capture="environment" // Active la caméra sur mobile (progressive enhancement)

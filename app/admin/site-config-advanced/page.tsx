@@ -454,6 +454,7 @@ export default function SiteConfigAdvancedPage() {
                           Taille Desktop
                         </label>
                         <select
+                          aria-label="Taille Desktop"
                           value={config.header.primaryText.sizes.desktop}
                           onChange={(e) => setConfig({
                             ...config,
