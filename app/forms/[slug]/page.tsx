@@ -258,6 +258,7 @@ export default function PublicFormPage() {
             onChange={(e) => handleChange(field, e.target.value)}
             required={field.required}
             multiple={field.multiple}
+            aria-label={field.label || 'Sélection'}
             className={`w-full px-4 py-3 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
               error ? 'border-red-500' : 'border-gray-300'
             }`}
@@ -341,6 +342,7 @@ export default function PublicFormPage() {
             required={field.required}
             min={field.min}
             max={field.max}
+            aria-label={field.label || field.type}
             className={`w-full px-4 py-3 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
               error ? 'border-red-500' : 'border-gray-300'
             }`}
@@ -355,6 +357,7 @@ export default function PublicFormPage() {
                 key={i}
                 type="button"
                 onClick={() => handleChange(field, i + 1)}
+                aria-label={`Note ${i + 1} sur ${field.max || 5}`}
                 className="focus:outline-none"
               >
                 <Star
@@ -380,6 +383,7 @@ export default function PublicFormPage() {
               min={field.min || 0}
               max={field.max || 100}
               step={field.step || 1}
+              aria-label={field.label || 'Curseur'}
               className="w-full"
             />
             <div className="flex justify-between text-sm text-gray-600 mt-2">
@@ -398,12 +402,14 @@ export default function PublicFormPage() {
               name={field.name}
               value={value || '#000000'}
               onChange={(e) => handleChange(field, e.target.value)}
+              aria-label={`${field.label || 'Couleur'} - sélecteur`}
               className="w-14 h-14 rounded border-2 border-gray-300 cursor-pointer"
             />
             <input
               type="text"
               value={value || '#000000'}
               onChange={(e) => handleChange(field, e.target.value)}
+              aria-label={`${field.label || 'Couleur'} - code hexadécimal`}
               className="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-sm font-mono"
             />
           </div>
@@ -420,6 +426,7 @@ export default function PublicFormPage() {
               accept={field.accept?.join(',')}
               multiple={field.multiple}
               required={field.required}
+              aria-label={field.label || 'Télécharger un fichier'}
               className="text-sm text-gray-600"
             />
             <p className="text-xs text-gray-500 mt-2">
@@ -485,10 +492,12 @@ export default function PublicFormPage() {
           {/* Header */}
           <div
             className="p-8 text-white"
-            style={{
-              background: form.settings.theme?.primaryColor
-                ? `linear-gradient(135deg, ${form.settings.theme.primaryColor}, ${form.settings.theme.primaryColor}dd)`
-                : 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+            {...{
+              style: {
+                background: form.settings.theme?.primaryColor
+                  ? `linear-gradient(135deg, ${form.settings.theme.primaryColor}, ${form.settings.theme.primaryColor}dd)`
+                  : 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+              },
             }}
           >
             <h1 className="text-3xl md:text-4xl font-bold mb-3">{form.name}</h1>

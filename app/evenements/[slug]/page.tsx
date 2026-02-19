@@ -168,6 +168,7 @@ export default function EventDetailPage() {
                 <input
                   type="text"
                   required
+                  aria-label="Prénom"
                   value={formData.firstName}
                   onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -180,6 +181,7 @@ export default function EventDetailPage() {
                 <input
                   type="text"
                   required
+                  aria-label="Nom"
                   value={formData.lastName}
                   onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -194,6 +196,7 @@ export default function EventDetailPage() {
               <input
                 type="email"
                 required
+                aria-label="Adresse email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -207,6 +210,7 @@ export default function EventDetailPage() {
                 </label>
                 <input
                   type="tel"
+                  aria-label="Numéro de téléphone"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -222,6 +226,7 @@ export default function EventDetailPage() {
                 type="number"
                 min="1"
                 max="10"
+                aria-label="Nombre de places"
                 value={formData.numberOfAttendees}
                 onChange={(e) => setFormData({ ...formData, numberOfAttendees: parseInt(e.target.value) })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
