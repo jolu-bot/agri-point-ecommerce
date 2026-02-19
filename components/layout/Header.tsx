@@ -55,24 +55,24 @@ export default function Header() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 3xl:px-12">
-        <div className="flex justify-between items-center h-16 sm:h-20 lg:h-24">
+        <div className="flex justify-between items-center h-14 sm:h-16 lg:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 sm:gap-3 group">
-            <div className="relative w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 flex-shrink-0 transform group-hover:scale-105 transition-transform">
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="relative w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 flex-shrink-0 transform group-hover:scale-105 transition-transform">
               <Image
                 src="/images/logo.svg"
                 alt="AGRI POINT Logo"
                 fill
                 className="object-contain"
                 priority
-                sizes="(max-width: 640px) 48px, (max-width: 1024px) 56px, 64px"
+                sizes="(max-width: 640px) 40px, (max-width: 1024px) 48px, 56px"
               />
             </div>
             <div className="flex flex-col min-w-0">
-              <div className="font-display text-lg xs:text-xl sm:text-2xl lg:text-3xl font-extrabold text-gradient-primary leading-tight whitespace-nowrap">
+              <div className="font-display text-base xs:text-lg sm:text-xl lg:text-2xl font-extrabold text-gradient-primary leading-tight whitespace-nowrap">
                 AGRI POINT
               </div>
-              <div className="text-xs sm:text-sm text-emerald-600 dark:text-emerald-400 font-semibold leading-tight whitespace-nowrap">
+              <div className="text-xs sm:text-xs lg:text-sm text-emerald-600 dark:text-emerald-400 font-semibold leading-tight whitespace-nowrap">
                 Service Agricole
               </div>
             </div>
