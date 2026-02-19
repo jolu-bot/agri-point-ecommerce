@@ -3,6 +3,7 @@ import dbConnect from '@/lib/db';
 import ConfigVersion from '@/models/ConfigVersion';
 import SiteConfig from '@/models/SiteConfig';
 import { verifyAccessToken } from '@/lib/auth';
+import { createAuditLog } from '@/lib/audit-logger';
 
 /**
  * API de gestion des versions de configuration
@@ -102,6 +103,21 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    // Audit log
+    await createAuditLog({
+      userId: decoded.userId,
+      userName: userName || decoded.name || 'Admin',
+      userEmail: userEmail || decoded.email || '',
+      userRole: decoded.role,
+      action: 'create',
+      resource: 'config-version',
+      resourceId: newVersion._id.toString(),
+      description: `Version ${newVersionNumber} créée: ${description}`,
+      severity: 'info',
+      metadata: { version: newVersionNumber, tags },
+      request
+    });
+
     return NextResponse.json({
       message: 'Version créée avec succès',
       version: newVersion,
@@ -184,6 +200,25 @@ export async function PUT(request: NextRequest) {
       restoredFrom: versionId,
     });
 
+    // Audit log - CRITICAL
+    await createAuditLog({
+      userId: decoded.userId,
+      userName: decoded.name || 'Admin',
+      userEmail: decoded.email || '',
+      userRole: decoded.role,
+      action: 'rollback',
+      resource: 'site-config',
+      resourceId: versionId,
+      description: `Rollback vers version ${versionToRestore.version}`,
+      severity: 'warning',
+      metadata: {
+        restoredVersion: versionToRestore.version,
+        restoredFrom: versionId
+      },
+      tags: ['rollback', 'critical'],
+      request
+    });
+
     return NextResponse.json({
       message: 'Configuration restaurée avec succès',
       config: restoredConfig,
@@ -220,7 +255,21 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'ID version requis' }, { status: 400 });
     }
 
-    await ConfigVersion.findByIdAndDelete(versionId);
+    const deletedVersion = await ConfigVersion.findByIdAndDelete(versionId);
+
+    // Audit log
+    await createAuditLog({
+      userId: decoded.userId,
+      userName: decoded.name || 'Admin',
+      userEmail: decoded.email || '',
+      userRole: decoded.role,
+      action: 'delete',
+      resource: 'config-version',
+      resourceId: versionId,
+      description: `Version ${deletedVersion?.version || 'unknown'} supprimée`,
+      severity: 'warning',
+      request
+    });
 
     return NextResponse.json({
       message: 'Version supprimée avec succès',

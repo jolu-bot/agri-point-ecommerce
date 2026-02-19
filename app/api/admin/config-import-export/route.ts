@@ -3,6 +3,7 @@ import dbConnect from '@/lib/db';
 import SiteConfig from '@/models/SiteConfig';
 import ConfigVersion from '@/models/ConfigVersion';
 import { verifyAccessToken } from '@/lib/auth';
+import { createAuditLog } from '@/lib/audit-logger';
 
 /**
  * API Import/Export de configurations
@@ -54,6 +55,20 @@ export async function GET(request: NextRequest) {
     }
 
     if (format === 'json') {
+      // Audit log
+      await createAuditLog({
+        userId: decoded.userId,
+        userName: decoded.name || 'Admin',
+        userEmail: decoded.email || '',
+        userRole: decoded.role,
+        action: 'export',
+        resource: 'site-config',
+        description: `Export configuration${includeVersions ? ' avec historique' : ''}`,
+        severity: 'info',
+        metadata: { includeVersions },
+        request
+      });
+
       // Export JSON avec formatage
       const jsonStr = JSON.stringify(exportData, null, 2);
       
@@ -181,6 +196,24 @@ export async function POST(request: NextRequest) {
       }],
       description: `Import de configuration (${overwrite ? 'overwrite' : 'merge'})`,
       tags: ['import', 'manual'],
+    });
+
+    // Audit log - CRITICAL
+    await createAuditLog({
+      userId: decoded.userId,
+      userName: decoded.name || 'Admin',
+      userEmail: decoded.email || '',
+      userRole: decoded.role,
+      action: 'import',
+      resource: 'site-config',
+      description: `Import configuration (${overwrite ? 'overwrite' : 'merge'})`,
+      severity: 'warning',
+      metadata: {
+        overwrite,
+        fieldsCount: Object.keys(config).length
+      },
+      tags: ['import', 'critical'],
+      request
     });
 
     return NextResponse.json({
