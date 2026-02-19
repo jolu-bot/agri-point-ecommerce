@@ -327,6 +327,7 @@ export default function PagesAdminPage() {
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
+          aria-label="Filtrer par statut"
           className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
         >
           <option value="all">Tous les statuts</option>
@@ -340,6 +341,7 @@ export default function PagesAdminPage() {
         <select
           value={layoutFilter}
           onChange={(e) => setLayoutFilter(e.target.value)}
+          aria-label="Filtrer par layout"
           className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
         >
           <option value="all">Tous les layouts</option>
@@ -371,6 +373,7 @@ export default function PagesAdminPage() {
             setSortBy(field);
             setSortOrder(order as 'asc' | 'desc');
           }}
+          aria-label="Trier les pages"
           className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
         >
           <option value="createdAt-desc">Plus récentes</option>

@@ -295,6 +295,7 @@ export default function PromotionsPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
+            aria-label="Filtrer par statut"
             className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
           >
             <option value="all">Tous les statuts</option>
@@ -307,6 +308,7 @@ export default function PromotionsPage() {
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
+            aria-label="Filtrer par type"
             className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
           >
             <option value="">Tous les types</option>
@@ -493,6 +495,7 @@ export default function PromotionsPage() {
                 </h2>
                 <button
                   onClick={() => setShowModal(false)}
+                  aria-label="Fermer le modal"
                   className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                 >
                   <X className="w-6 h-6" />

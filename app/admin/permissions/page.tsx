@@ -265,6 +265,7 @@ export default function PermissionsManagementPage() {
                     setShowNewRoleForm(false);
                     setEditingRole(null);
                   }}
+                  aria-label="Fermer le formulaire"
                   className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                 >
                   <X className="w-5 h-5" />
@@ -339,6 +340,7 @@ export default function PermissionsManagementPage() {
                         e.stopPropagation();
                         handleDeleteRole(role.name);
                       }}
+                      aria-label="Supprimer le rôle"
                       className="p-2 text-red-600 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -440,6 +442,7 @@ export default function PermissionsManagementPage() {
                     <select
                       value={user.role}
                       onChange={(e) => handleUpdateUserRole(user._id, e.target.value)}
+                      aria-label="Changer le rôle de l'utilisateur"
                       className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500"
                     >
                       {roles.map(role => (
