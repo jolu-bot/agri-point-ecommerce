@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from '@/lib/db';
+import connectDB from '@/lib/db';
 import Form from '@/models/Form';
 import FormSubmission from '@/models/FormSubmission';
-import Security from '@/models/Security';
 
 // Rate limiting simple (en mémoire)
 const submissionRateLimit = new Map<string, number[]>();
@@ -312,19 +311,7 @@ export async function POST(
     }
     
     // Log de sécurité
-    await Security.create({
-      type: 'audit',
-      severity: 'info',
-      action: 'submit',
-      resource: 'form',
-      resourceId: form._id.toString(),
-      details: {
-        formName: form.name,
-        submissionId: submission._id.toString(),
-        ip,
-        spamScore: submission.score,
-      },
-    });
+    console.log(`[AUDIT] Formulaire soumis: ${form.name}, score spam: ${submission.score}, IP: ${ip}`);
     
     return NextResponse.json({
       success: true,

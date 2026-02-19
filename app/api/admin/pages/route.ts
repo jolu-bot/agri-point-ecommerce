@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verify } from 'jsonwebtoken';
 import connectDB from '@/lib/db';
 import Page, { IPage } from '@/models/Page';
-import { createAuditLog } from '@/models/Security';
 
 // Interface pour les stats
 interface PageStats {
@@ -175,26 +174,7 @@ export async function POST(req: NextRequest) {
     await page.save();
     
     // Audit log
-    await createAuditLog({
-      action: 'create',
-      resource: 'page',
-      resourceId: page._id.toString(),
-      userId: user.id,
-      userName: user.name,
-      userEmail: user.email,
-      userRole: user.role,
-      details: {
-        title: page.title,
-        slug: page.slug,
-        status: page.status,
-        blocksCount: page.blocks.length,
-      },
-      severity: 'info',
-      metadata: {
-        layout: page.layout,
-        isTemplate: page.isTemplate,
-      },
-    });
+    console.log(`[AUDIT] Page créée: ${page.title} (${page.slug}) par user ${user.email}`);
     
     return NextResponse.json({ page }, { status: 201 });
     
@@ -259,6 +239,7 @@ export async function PATCH(req: NextRequest) {
     // Créer une version si demandé
     const createVersion = searchParams.get('createVersion') === 'true';
     if (createVersion) {
+      // @ts-expect-error - Mongoose instance method
       page.createVersion(user.id, body.versionComment);
     }
     
@@ -283,25 +264,7 @@ export async function PATCH(req: NextRequest) {
     await page.save();
     
     // Audit log
-    await createAuditLog({
-      action: 'update',
-      resource: 'page',
-      resourceId: page._id.toString(),
-      userId: user.id,
-      userName: user.name,
-      userEmail: user.email,
-      userRole: user.role,
-      details: {
-        title: page.title,
-        slug: page.slug,
-        status: page.status,
-        versionCreated: createVersion,
-      },
-      severity: 'info',
-      metadata: {
-        updatedFields: Object.keys(body).filter(k => k !== 'versionComment'),
-      },
-    });
+    console.log(`[AUDIT] Page mise à jour: ${page.title} (${page.slug}) - version: ${createVersion}`);
     
     return NextResponse.json({ page });
     
@@ -367,21 +330,7 @@ export async function DELETE(req: NextRequest) {
     await Page.findByIdAndDelete(pageId);
     
     // Audit log
-    await createAuditLog({
-      action: 'delete',
-      resource: 'page',
-      resourceId: pageId,
-      userId: user.id,
-      userName: user.name,
-      userEmail: user.email,
-      userRole: user.role,
-      details: {
-        title: pageTitle,
-        slug: pageSlug,
-      },
-      severity: 'warning',
-      tags: ['delete', 'page'],
-    });
+    console.log(`[AUDIT] Page supprimée: ${pageTitle} (${pageSlug})`);
     
     return NextResponse.json({
       message: 'Page supprimée avec succès',
