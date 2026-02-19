@@ -508,7 +508,7 @@ export default function SiteConfigAdvancedPage() {
                       <input
                         type="text"
                         value={config.header.secondaryText.content}
-                        onChange=(e) => setConfig({
+                        onChange={(e) => setConfig({
                           ...config,
                           header: {
                             ...config.header,
