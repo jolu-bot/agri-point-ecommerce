@@ -111,9 +111,8 @@ export default function CartePage() {
     <div className="relative h-screen flex">
       {/* Carte */}
       <div className="flex-1">
-        {/* @ts-ignore - MapMarker type cache issue */}
         <MapComponent
-          markers={mapMarkers}
+          markers={mapMarkers as any}
           height="100vh"
           onMarkerClick={(marker) => {
             const loc = locations.find((l) => l._id === marker.id);

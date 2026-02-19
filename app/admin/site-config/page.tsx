@@ -335,7 +335,7 @@ export default function SiteConfigPage() {
                     <div key={key} className="text-center">
                       <div
                         className="w-full h-20 rounded-lg mb-2 border"
-                        style={{ backgroundColor: value as string }}
+                        {...{ style: { backgroundColor: value as string } }}
                         role="presentation"
                         aria-label={`Aperçu couleur ${key}`}
                       />
