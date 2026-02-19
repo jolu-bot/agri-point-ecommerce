@@ -461,7 +461,6 @@ const ContentTypeSchema = new Schema<IContentType>({
 });
 
 // Index
-ContentTypeSchema.index({ slug: 1 }, { unique: true });
 ContentTypeSchema.index({ isActive: 1 });
 ContentTypeSchema.index({ isSystem: 1 });
 ContentTypeSchema.index({ createdAt: -1 });

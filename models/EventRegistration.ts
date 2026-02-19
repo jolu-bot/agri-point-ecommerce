@@ -241,7 +241,6 @@ EventRegistrationSchema.index({ eventId: 1, createdAt: -1 });
 EventRegistrationSchema.index({ eventSlug: 1, status: 1 });
 EventRegistrationSchema.index({ email: 1, eventId: 1 });
 EventRegistrationSchema.index({ userId: 1, createdAt: -1 });
-EventRegistrationSchema.index({ registrationNumber: 1 }, { unique: true, sparse: true });
 EventRegistrationSchema.index({ status: 1, eventStartDate: 1 });
 EventRegistrationSchema.index({ isWaitlist: 1, waitlistPosition: 1 });
 

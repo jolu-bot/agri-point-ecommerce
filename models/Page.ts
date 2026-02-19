@@ -469,8 +469,6 @@ const PageSchema = new Schema<IPage>({
 });
 
 // Index pour performance
-PageSchema.index({ slug: 1 }, { unique: true });
-PageSchema.index({ path: 1 }, { unique: true });
 PageSchema.index({ status: 1, publishedAt: -1 });
 PageSchema.index({ isTemplate: 1, templateCategory: 1 });
 PageSchema.index({ locale: 1, status: 1 });
