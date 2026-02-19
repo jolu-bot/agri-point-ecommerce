@@ -77,7 +77,7 @@ const AuditLogSchema: Schema = new Schema<IAuditLog>({
   
   tags: [{ type: String }],
   
-  createdAt: { type: Date, default: Date.now, index: true }
+  createdAt: { type: Date, default: Date.now } // index via TTL index ci-dessous
 });
 
 // Index composés pour requêtes fréquentes
