@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useTheme } from 'next-themes';
 import { ShoppingCart, User, Menu, X, Sun, Moon, Search, ChevronDown } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
+import DynamicHeaderBranding from './DynamicHeaderBranding';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -56,27 +57,9 @@ export default function Header() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 3xl:px-12">
         <div className="flex justify-between items-center h-14 sm:h-16 lg:h-18">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="relative w-11 h-11 sm:w-13 sm:h-13 lg:w-15 lg:h-15 flex-shrink-0 transform group-hover:scale-105 transition-transform">
-              <Image
-                src="/images/logo.svg"
-                alt="AGRI POINT Logo"
-                fill
-                className="object-contain"
-                priority
-                sizes="(max-width: 640px) 44px, (max-width: 1024px) 52px, 60px"
-              />
-            </div>
-            <div className="flex flex-col min-w-0">
-              <div className="font-display text-sm xs:text-base sm:text-lg lg:text-xl font-extrabold text-gradient-primary leading-tight whitespace-nowrap">
-                AGRI POINT
-              </div>
-              <div className="text-[10px] sm:text-xs text-emerald-600 dark:text-emerald-400 font-semibold leading-tight whitespace-nowrap">
-                Service Agricole
-              </div>
-            </div>
-          </Link>
+          {/* Logo - Dynamique depuis CMS */}
+          <DynamicHeaderBranding />
+
 
           {/* Navigation Desktop */}
           <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6 2xl:space-x-8">
