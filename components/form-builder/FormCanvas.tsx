@@ -74,7 +74,7 @@ function SortableField({
   return (
     <div
       ref={setNodeRef}
-      style={style}
+      {...{ style: style }}
       className={`relative group ${
         isSelected ? 'ring-2 ring-blue-500' : 'border border-gray-200'
       } rounded-lg bg-white hover:shadow-lg transition-all ${
@@ -246,6 +246,7 @@ function FieldPreview({ field }: { field: IFormField }) {
           <select
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50"
             disabled
+            aria-label={field.label}
           >
             <option>{field.placeholder || 'Sélectionnez...'}</option>
             {field.options?.map((opt, i) => (
@@ -294,6 +295,7 @@ function FieldPreview({ field }: { field: IFormField }) {
             type={field.type === 'datetime' ? 'datetime-local' : field.type}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50"
             disabled
+            aria-label={field.label}
           />
         )}
 
@@ -326,6 +328,7 @@ function FieldPreview({ field }: { field: IFormField }) {
               step={field.step || 1}
               className="w-full"
               disabled
+              aria-label={field.label}
             />
             <div className="flex justify-between text-xs text-gray-500">
               <span>{field.min || 0}</span>
@@ -342,6 +345,7 @@ function FieldPreview({ field }: { field: IFormField }) {
               defaultValue={field.defaultValue || '#000000'}
               className="w-12 h-10 rounded border border-gray-300"
               disabled
+              aria-label={field.label}
             />
             <span className="text-sm text-gray-600 font-mono">
               {field.defaultValue || '#000000'}

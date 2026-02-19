@@ -69,6 +69,7 @@ export default function BlockEditor({ block, onUpdate, onClose }: BlockEditorPro
             type="text"
             value={value || ''}
             onChange={(e) => updateProps(field.name, e.target.value)}
+            aria-label={field.label}
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
           />
         );
@@ -79,6 +80,7 @@ export default function BlockEditor({ block, onUpdate, onClose }: BlockEditorPro
             value={value || ''}
             onChange={(e) => updateProps(field.name, e.target.value)}
             rows={3}
+            aria-label={field.label}
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
           />
         );
@@ -97,6 +99,7 @@ export default function BlockEditor({ block, onUpdate, onClose }: BlockEditorPro
             type="number"
             value={value || 0}
             onChange={(e) => updateProps(field.name, parseInt(e.target.value))}
+            aria-label={field.label}
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
           />
         );
@@ -106,6 +109,7 @@ export default function BlockEditor({ block, onUpdate, onClose }: BlockEditorPro
           <select
             value={value || ''}
             onChange={(e) => updateProps(field.name, e.target.value)}
+            aria-label={field.label}
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
           >
             {field.options?.map(option => (
@@ -123,12 +127,14 @@ export default function BlockEditor({ block, onUpdate, onClose }: BlockEditorPro
               type="color"
               value={value || '#000000'}
               onChange={(e) => updateProps(field.name, e.target.value)}
+              aria-label={`${field.label} (sélecteur de couleur)`}
               className="h-10 w-20 rounded cursor-pointer"
             />
             <input
               type="text"
               value={value || '#000000'}
               onChange={(e) => updateProps(field.name, e.target.value)}
+              aria-label={`${field.label} (code couleur)`}
               className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -142,6 +148,7 @@ export default function BlockEditor({ block, onUpdate, onClose }: BlockEditorPro
                 type="checkbox"
                 checked={value || false}
                 onChange={(e) => updateProps(field.name, e.target.checked)}
+                aria-label={field.label}
                 className="sr-only"
               />
               <div className={`block w-14 h-8 rounded-full transition-colors ${
@@ -174,6 +181,7 @@ export default function BlockEditor({ block, onUpdate, onClose }: BlockEditorPro
                           newItems[index] = { ...newItems[index], [subField.name]: e.target.value };
                           updateProps(field.name, newItems);
                         }}
+                        aria-label={subField.label}
                         className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       />
                     )}
@@ -186,6 +194,7 @@ export default function BlockEditor({ block, onUpdate, onClose }: BlockEditorPro
                           updateProps(field.name, newItems);
                         }}
                         rows={2}
+                        aria-label={subField.label}
                         className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       />
                     )}
@@ -198,6 +207,7 @@ export default function BlockEditor({ block, onUpdate, onClose }: BlockEditorPro
                           newItems[index] = { ...newItems[index], [subField.name]: parseInt(e.target.value) };
                           updateProps(field.name, newItems);
                         }}
+                        aria-label={subField.label}
                         className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       />
                     )}
@@ -267,6 +277,7 @@ export default function BlockEditor({ block, onUpdate, onClose }: BlockEditorPro
         </h3>
         <button
           onClick={onClose}
+          aria-label="Fermer l'éditeur"
           className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
         >
           <X className="w-5 h-5" />
@@ -331,6 +342,7 @@ export default function BlockEditor({ block, onUpdate, onClose }: BlockEditorPro
                   <select
                     value={block.styles.paddingTop || 'lg'}
                     onChange={(e) => updateStyle('paddingTop', e.target.value)}
+                    aria-label="Padding haut"
                     className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700"
                   >
                     <option value="0">Aucun</option>
@@ -346,6 +358,7 @@ export default function BlockEditor({ block, onUpdate, onClose }: BlockEditorPro
                   <select
                     value={block.styles.paddingBottom || 'lg'}
                     onChange={(e) => updateStyle('paddingBottom', e.target.value)}
+                    aria-label="Padding bas"
                     className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700"
                   >
                     <option value="0">Aucun</option>
@@ -367,6 +380,7 @@ export default function BlockEditor({ block, onUpdate, onClose }: BlockEditorPro
                     type="color"
                     value={block.styles.backgroundColor || '#ffffff'}
                     onChange={(e) => updateStyle('backgroundColor', e.target.value)}
+                    aria-label="Couleur de fond"
                     className="h-10 w-20 rounded cursor-pointer"
                   />
                   <input
@@ -386,6 +400,7 @@ export default function BlockEditor({ block, onUpdate, onClose }: BlockEditorPro
                 <select
                   value={block.styles.containerWidth || 'container'}
                   onChange={(e) => updateStyle('containerWidth', e.target.value)}
+                  aria-label="Largeur du conteneur"
                   className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700"
                 >
                   <option value="full">Pleine largeur</option>
