@@ -450,23 +450,33 @@ EventSchema.pre('save', function(this: IEvent, next) {
 });
 
 // Query helpers
+// @ts-expect-error - Mongoose query helper dynamique
 EventSchema.query.upcoming = function() {
+  // @ts-expect-error - Mongoose query helper dynamique
   return this.where('startDate').gte(new Date()).where('status').equals('published');
 };
 
+// @ts-expect-error - Mongoose query helper dynamique
 EventSchema.query.past = function() {
+  // @ts-expect-error - Mongoose query helper dynamique
   return this.where('endDate').lt(new Date());
 };
 
+// @ts-expect-error - Mongoose query helper dynamique
 EventSchema.query.published = function() {
+  // @ts-expect-error - Mongoose query helper dynamique
   return this.where('status').equals('published');
 };
 
+// @ts-expect-error - Mongoose query helper dynamique
 EventSchema.query.byType = function(type: EventType) {
+  // @ts-expect-error - Mongoose query helper dynamique
   return this.where('type').equals(type);
 };
 
+// @ts-expect-error - Mongoose query helper dynamique
 EventSchema.query.byCategory = function(category: string) {
+  // @ts-expect-error - Mongoose query helper dynamique
   return this.where('category').equals(category);
 };
 

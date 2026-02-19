@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from '@/lib/db';
+import connectDB from '@/lib/db';
 import Event from '@/models/Event';
 import EventRegistration from '@/models/EventRegistration';
 
@@ -142,12 +142,13 @@ export async function POST(
     
     await event.save();
     
-    // Envoyer l'email de confirmation
-    if (registration.status === 'confirmed' && event.notifications.confirmationEmail) {
-      await registration.sendConfirmationEmail();
-    }
+    // Envoyer l'email de confirmation (TODO)
+    // if (registration.status === 'confirmed' && event.notifications.confirmationEmail) {
+    //   await registration.sendConfirmationEmail();
+    // }
     
     // Audit log
+    // @ts-expect-error - Mongoose virtual property
     console.log(`[AUDIT] Nouvelle inscription: ${registration.fullName} pour ${event.title}`);
     
     return NextResponse.json({

@@ -51,6 +51,7 @@ export default function FieldEditor({ field, onUpdate, onClose }: FieldEditorPro
             type="text"
             value={value || ''}
             onChange={(e) => updateProp(configField.name, e.target.value)}
+            aria-label={configField.label}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         );
@@ -61,6 +62,7 @@ export default function FieldEditor({ field, onUpdate, onClose }: FieldEditorPro
             type="number"
             value={value || ''}
             onChange={(e) => updateProp(configField.name, e.target.value ? parseFloat(e.target.value) : undefined)}
+            aria-label={configField.label}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         );
@@ -71,6 +73,7 @@ export default function FieldEditor({ field, onUpdate, onClose }: FieldEditorPro
             value={value || ''}
             onChange={(e) => updateProp(configField.name, e.target.value)}
             rows={3}
+            aria-label={configField.label}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
           />
         );
@@ -79,6 +82,7 @@ export default function FieldEditor({ field, onUpdate, onClose }: FieldEditorPro
         return (
           <button
             onClick={() => updateProp(configField.name, !value)}
+            aria-label={`${configField.label}: ${value ? 'activé' : 'désactivé'}`}
             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
               value ? 'bg-blue-600' : 'bg-gray-300'
             }`}
@@ -96,6 +100,7 @@ export default function FieldEditor({ field, onUpdate, onClose }: FieldEditorPro
           <select
             value={value || ''}
             onChange={(e) => updateProp(configField.name, e.target.value)}
+            aria-label={configField.label}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             {configField.options?.map((opt: any) => (
@@ -139,6 +144,7 @@ export default function FieldEditor({ field, onUpdate, onClose }: FieldEditorPro
                     const newOptions = (value || []).filter((_: any, i: number) => i !== index);
                     updateProp('options', newOptions);
                   }}
+                  aria-label={`Supprimer l'option ${option.label}`}
                   className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -176,6 +182,7 @@ export default function FieldEditor({ field, onUpdate, onClose }: FieldEditorPro
           </h2>
           <button
             onClick={onClose}
+            aria-label="Fermer l'éditeur"
             className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
           >
             <X className="w-5 h-5 text-gray-500" />
@@ -269,6 +276,7 @@ export default function FieldEditor({ field, onUpdate, onClose }: FieldEditorPro
                           const newOptions = (field.options || []).filter((_, i) => i !== index);
                           updateProp('options', newOptions);
                         }}
+                        aria-label={`Supprimer l'option ${option.label}`}
                         className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -309,6 +317,7 @@ export default function FieldEditor({ field, onUpdate, onClose }: FieldEditorPro
                   <select
                     value={field.width || 'full'}
                     onChange={(e) => updateProp('width', e.target.value)}
+                    aria-label="Largeur du champ"
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
                   >
                     <option value="full">Pleine largeur</option>
@@ -336,6 +345,7 @@ export default function FieldEditor({ field, onUpdate, onClose }: FieldEditorPro
                   </label>
                   <button
                     onClick={() => updateProp('required', !field.required)}
+                    aria-label={`Champ requis: ${field.required ? 'oui' : 'non'}`}
                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                       field.required ? 'bg-blue-600' : 'bg-gray-300'
                     }`}
@@ -359,6 +369,7 @@ export default function FieldEditor({ field, onUpdate, onClose }: FieldEditorPro
                         type="number"
                         value={field.min || ''}
                         onChange={(e) => updateProp('min', e.target.value ? parseFloat(e.target.value) : undefined)}
+                        aria-label="Valeur minimum"
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
                       />
                     </div>
@@ -370,6 +381,7 @@ export default function FieldEditor({ field, onUpdate, onClose }: FieldEditorPro
                         type="number"
                         value={field.max || ''}
                         onChange={(e) => updateProp('max', e.target.value ? parseFloat(e.target.value) : undefined)}
+                        aria-label="Valeur maximum"
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
                       />
                     </div>
@@ -386,6 +398,7 @@ export default function FieldEditor({ field, onUpdate, onClose }: FieldEditorPro
                       <input
                         type="number"
                         placeholder="Ex: 3"
+                        aria-label="Longueur minimum"
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
                       />
                     </div>
@@ -430,6 +443,7 @@ export default function FieldEditor({ field, onUpdate, onClose }: FieldEditorPro
                         type="number"
                         value={field.maxFileSize ? field.maxFileSize / 1024 / 1024 : 5}
                         onChange={(e) => updateProp('maxFileSize', parseFloat(e.target.value) * 1024 * 1024)}
+                        aria-label="Taille maximum du fichier en MB"
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
                       />
                     </div>
@@ -439,6 +453,7 @@ export default function FieldEditor({ field, onUpdate, onClose }: FieldEditorPro
                       </label>
                       <button
                         onClick={() => updateProp('multiple', !field.multiple)}
+                        aria-label={`Fichiers multiples: ${field.multiple ? 'oui' : 'non'}`}
                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                           field.multiple ? 'bg-blue-600' : 'bg-gray-300'
                         }`}
