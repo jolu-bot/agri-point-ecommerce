@@ -68,11 +68,11 @@ export default function Header() {
                 sizes="(max-width: 640px) 48px, (max-width: 1024px) 56px, 64px"
               />
             </div>
-            <div className="flex flex-col">
-              <div className="font-display text-lg xs:text-xl sm:text-2xl lg:text-3xl font-extrabold text-gradient-primary leading-tight">
+            <div className="flex flex-col min-w-0">
+              <div className="font-display text-lg xs:text-xl sm:text-2xl lg:text-3xl font-extrabold text-gradient-primary leading-tight whitespace-nowrap">
                 AGRI POINT
               </div>
-              <div className="text-xs sm:text-sm text-emerald-600 dark:text-emerald-400 font-semibold leading-tight">
+              <div className="text-xs sm:text-sm text-emerald-600 dark:text-emerald-400 font-semibold leading-tight whitespace-nowrap">
                 Service Agricole
               </div>
             </div>
