@@ -418,7 +418,6 @@ const FormSchema = new Schema<IForm>({
 });
 
 // Index pour performance
-FormSchema.index({ slug: 1 }, { unique: true });
 FormSchema.index({ status: 1, createdAt: -1 });
 FormSchema.index({ createdBy: 1, createdAt: -1 });
 

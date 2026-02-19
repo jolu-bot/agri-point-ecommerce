@@ -298,7 +298,6 @@ const PromotionSchema = new Schema<IPromotion>({
 
 // Index pour performance
 PromotionSchema.index({ isActive: 1, startDate: 1, endDate: 1 });
-PromotionSchema.index({ code: 1 });
 PromotionSchema.index({ 'targeting.appliesTo': 1 });
 PromotionSchema.index({ 'display.priority': -1 });
 PromotionSchema.index({ createdAt: -1 });
