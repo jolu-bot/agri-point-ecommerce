@@ -332,12 +332,12 @@ FormSubmissionSchema.statics.exportToCSV = async function(formId: string): Promi
   ];
   
   // Lignes
-  const rows = submissions.map(sub => sub.toCSVRow());
+  const rows = submissions.map((sub: any) => sub.toCSVRow());
   
   // Construire le CSV
   const csv = [
     headers.join(','),
-    ...rows.map(row => row.map(cell => `"${cell}"`).join(',')),
+    ...rows.map((row: any) => row.map((cell: any) => `"${cell}"`).join(',')),
   ].join('\n');
   
   return csv;
