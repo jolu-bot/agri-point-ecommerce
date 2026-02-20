@@ -535,7 +535,7 @@ export default function ContactPage() {
                   onClick={() => setActiveFaq(activeFaq === index ? null : index)}
                   className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 >
-                  <span className="font-semibold pr-4">{item.question}</span>
+                  <span className="font-semibold pr-4 text-gray-900 dark:text-white">{item.question}</span>
                   <span className="text-2xl text-green-600 flex-shrink-0">{activeFaq === index ? '−' : '+'}</span>
                 </button>
                 {activeFaq === index && (

@@ -314,18 +314,16 @@ export default function GagnerPlusPage() {
                 transition={{ delay: index * 0.1 }}
                 className="relative bg-gradient-to-br from-blue-50 to-green-50 dark:from-gray-800 dark:to-gray-700 rounded-xl p-6 hover:shadow-xl transition-all group"
               >
-                <div className="absolute top-4 right-4 text-3xl font-bold text-blue-600 dark:text-blue-400">
-                  {benefit.savings}
+                {/* Badge saving — positionné pour ne pas chevaucher le contenu */}
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-14 h-14 rounded-xl bg-white dark:bg-gray-600 shadow-sm flex items-center justify-center flex-shrink-0">
+                    <benefit.icon className="w-8 h-8 text-green-600 dark:text-emerald-400" />
+                  </div>
+                  <span className="text-2xl font-black text-green-700 dark:text-emerald-400 ml-2">
+                    {benefit.savings}
+                  </span>
                 </div>
-                <div className="relative w-full h-28 mb-4 rounded-lg overflow-hidden">
-                  <Image
-                    src={benefit.image}
-                    alt={benefit.title}
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-                <h3 className="text-xl font-bold mb-3">{benefit.title}</h3>
+                <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{benefit.title}</h3>
                 <p className="text-gray-600 dark:text-gray-300">{benefit.description}</p>
               </motion.div>
             ))}
