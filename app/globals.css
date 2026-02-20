@@ -510,17 +510,9 @@
     margin-bottom: var(--space-md);
   }
 
-  /* — Titre héro avec dégradé animé — */
+  /* — Titre héro avec dégradé animé — (fond toujours sombre) */
   .hero-animated-gradient {
     display: block;
-    background: linear-gradient(120deg, #1B5E20, #16a34a, #4ade80, #16a34a, #1B5E20);
-    background-size: 300% 100%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: hero-gradient-shift 7s ease infinite;
-  }
-  .dark .hero-animated-gradient {
     background: linear-gradient(120deg, #4ade80, #86efac, #d1fae5, #86efac, #4ade80);
     background-size: 300% 100%;
     -webkit-background-clip: text;
@@ -534,19 +526,13 @@
     100% { background-position: 0% 50%; }
   }
 
-  /* Tagline héro — "Tout en Un" */
+  /* Tagline héro — "Tout en Un" (fond toujours sombre) */
   .hero-tagline {
     display: block;
     margin-top: 0.25rem;
     font-size: clamp(1.1rem, 2vw, 1.6rem);
     font-weight: 600;
     letter-spacing: normal;
-    background: linear-gradient(120deg, #16a34a, #4ade80);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .dark .hero-tagline {
     background: linear-gradient(120deg, #4ade80, #86efac);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -568,9 +554,34 @@
     background: rgba(22, 163, 74, 0.07);
     border-color: rgba(74, 222, 128, 0.1);
   }
-  .stat-pill-card:hover {
+  /* Stat pill toujours sur fond sombre (hero always-dark) */
+  .stat-pill-hero {
+    padding: 0.75rem 0.5rem;
+    border-radius: 0.875rem;
+    background: rgba(22, 163, 74, 0.08);
+    border: 1px solid rgba(74, 222, 128, 0.15);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    text-align: center;
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease;
+  }
+  .stat-pill-hero:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 16px -6px rgba(22, 163, 74, 0.22);
+    box-shadow: 0 6px 16px -6px rgba(74, 222, 128, 0.2);
+    border-color: rgba(74, 222, 128, 0.28);
+  }
+  /* Gradient texte hero — toujours émeraude clair (sur fond dark) */
+  .hero-stat-primary {
+    background: linear-gradient(135deg, #4ade80 0%, #86efac 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-stat-secondary {
+    background: linear-gradient(135deg, #f87171 0%, #fca5a5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
   .stat-value {

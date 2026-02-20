@@ -18,7 +18,7 @@ export default function HeroAnimated() {
           initial={{ opacity: 0, scale: 0.88 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="inline-flex items-center gap-2.5 self-start px-4 py-2 rounded-full border border-emerald-200/80 dark:border-emerald-700/35 bg-white/80 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 text-[12.5px] font-semibold tracking-wide shadow-sm mb-6 hero-badge brand-shimmer"
+          className="inline-flex items-center gap-2.5 self-start px-4 py-2 rounded-full border border-emerald-700/35 bg-emerald-950/50 text-emerald-300 text-[12.5px] font-semibold tracking-wide shadow-sm mb-6 hero-badge brand-shimmer"
         >
           <span className="brand-pulse-dot" />
           Le partenaire sûr de l&apos;entrepreneur agricole
@@ -49,10 +49,10 @@ export default function HeroAnimated() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.32, duration: 0.5 }}
-          className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-lg hero-description"
+          className="text-gray-300 leading-relaxed max-w-lg hero-description"
         >
           Gamme complète de{' '}
-          <strong className="text-gray-800 dark:text-gray-200 font-semibold">biofertilisants de grande qualité</strong>{' '}
+          <strong className="text-white font-semibold">biofertilisants de grande qualité</strong>{' '}
           pour augmenter la production de toutes les cultures au Cameroun.
         </m.p>
 
@@ -91,14 +91,14 @@ export default function HeroAnimated() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.58 + i * 0.08, duration: 0.35 }}
-              className="stat-pill-card"
+              className="stat-pill-hero"
             >
               <div className={`font-display font-black stat-value ${
                 type === 'secondary'
-                  ? 'text-gradient-secondary'
-                  : 'text-gradient-primary'
+                  ? 'hero-stat-secondary'
+                  : 'hero-stat-primary'
               }`}>{value}</div>
-              <div className="stat-label text-gray-500 dark:text-gray-400">{label}</div>
+              <div className="stat-label text-gray-400">{label}</div>
             </m.div>
           ))}
         </m.div>
