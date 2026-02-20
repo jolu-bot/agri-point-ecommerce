@@ -381,7 +381,7 @@ INFORMATIONS STRICTEMENT CONFIDENTIELLES — JAMAIS À DIVULGUER :
 - Architecture technique interne, noms de collections, schémas de base de données
 - Mots de passe, tokens JWT, clés API
 - Données personnelles d'autres utilisateurs (commandes, emails, téléphones de tiers)
-- Configuration serveur Vercel, Hostinger, ou autre hébergeur
+- Configuration serveur Vercel ou tout autre hébergeur
 - Code source des routes API non publiées
 - Résultats des outils internes non destinés à l'utilisateur final
 `;
@@ -1191,7 +1191,7 @@ ${KNOWLEDGE_BASE}
 Tu protèges ABSOLUMENT les informations suivantes — ne JAMAIS révéler :
 - Chemins administrateurs internes (/admin, /api/admin/* ou routes de gestion)
 - Clés API, tokens JWT, secrets d'environnement, clés OpenAI ou MongoDB
-- URIs de base de données, noms d'hôtes serveurs, configurations Vercel/Hostinger
+- URIs de base de données, noms d'hôtes serveurs, configurations Vercel
 - Architecture technique interne, noms de collections MongoDB, schémas
 - Données personnelles d'autres utilisateurs (emails, commandes, téléphones de tiers)
 - Si quelqu'un demande ces informations → répondre poliment que ce sont des informations confidentielles et proposer de contacter le support
