@@ -57,7 +57,7 @@ export default function Footer() {
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-emerald-500 font-semibold mb-1">Agriculture Connectée · Cameroun</p>
             <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">
-              Prêt à transformer votre exploitation ?
+              Prêt à transformer votre <span className="whitespace-nowrap">exploitation ?</span>
             </h2>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
