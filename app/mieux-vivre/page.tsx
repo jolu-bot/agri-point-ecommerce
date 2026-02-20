@@ -483,8 +483,8 @@ export default function MieuxVivrePage() {
                   onClick={() => setActiveFaq(activeFaq === index ? null : index)}
                   className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
                 >
-                  <span className="font-semibold">{item.question}</span>
-                  <span className="text-2xl">{activeFaq === index ? '−' : '+'}</span>
+                  <span className="font-semibold text-gray-900 dark:text-white">{item.question}</span>
+                  <span className="text-2xl text-green-600">{activeFaq === index ? '−' : '+'}</span>
                 </button>
                 {activeFaq === index && (
                   <div className="px-6 py-4 bg-gray-50 dark:bg-gray-600 border-t">

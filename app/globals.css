@@ -66,6 +66,12 @@
     font-weight: 700;
     letter-spacing: -0.025em;
     line-height: 1.2;
+    /* Couleur explicite systématique — évite tout problème d'héritage */
+    color: #111827; /* gray-900 — remplacé par les classes utilitaires Tailwind si présentes */
+  }
+  /* Dark mode : les titres restent toujours lisibles */
+  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+    color: #f9fafb; /* white */
   }
   
   h1 {
@@ -119,6 +125,19 @@
     font-kerning: normal;
   }
   
+  /* ——— Visibilité garantie des éléments de formulaire ——— */
+  /* Label, span et button non colorés héritent du dark mode correctement */
+  label {
+    color: #374151; /* gray-700 */
+  }
+  .dark label {
+    color: #e5e7eb; /* gray-200 */
+  }
+  /* Boutons FAQ / accordéon : texte toujours lisible */
+  button:not(.btn-primary):not(.btn-outline):not(.btn-secondary):not([class*="bg-"]) {
+    color: inherit;
+  }
+
   /* Touch-friendly sur mobile */
   @media (hover: none) and (pointer: coarse) {
     button, a, [role="button"] {
