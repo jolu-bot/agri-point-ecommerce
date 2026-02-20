@@ -218,6 +218,159 @@ R : Contact commercial : commercial@agri-ps.com ou appel direct. Conditions pré
 
 **Q : Le site accepte-t-il les paiements internationaux ?**
 R : Actuellement MTN/Orange Cameroun, Campost, virement national. PayPal en cours d'intégration.
+
+---
+
+### PLAN DE NAVIGATION COMPLET — TOUTES LES PAGES DU SITE
+
+| Page | URL complète | Description | Action principale |
+|------|-------------|-------------|------------------|
+| Accueil | https://agri-ps.com/ | Page principale, hero, statistiques, produits vedettes | Découvrir nos solutions |
+| Catalogue Produits | https://agri-ps.com/produits | Tous nos biofertilisants avec filtres et comparateur | Ajouter au panier |
+| Produire Plus | https://agri-ps.com/produire-plus | Solutions pour +40% à +150% de rendement | Voir le programme |
+| Gagner Plus | https://agri-ps.com/gagner-plus | Optimisation des revenus agricoles | Calculer mes gains |
+| Mieux Vivre | https://agri-ps.com/mieux-vivre | Qualité de vie des agriculteurs et familles | En savoir plus |
+| Agriculture Urbaine | https://agri-ps.com/agriculture-urbaine | Jardinage en ville : balcon, terrasse, potager | Guide urbain |
+| Campagne Mars 2026 | https://agri-ps.com/campagne-engrais | OFFRE SPÉCIALE — Engrais à prix réduit, inscription en ligne | S'inscrire maintenant |
+| Événements | https://agri-ps.com/evenements | Formations, foires, webinaires | Voir le calendrier |
+| À Propos | https://agri-ps.com/a-propos | L'entreprise depuis 2010, mission, vision 2030 | Notre histoire |
+| Contact | https://agri-ps.com/contact | Formulaire + toutes les agences | Nous contacter |
+| Mon Compte | https://agri-ps.com/compte | Connexion, inscription, commandes, profil | Se connecter |
+| Panier | https://agri-ps.com/panier | Récapitulatif du panier d'achat | Voir le panier |
+| Paiement | https://agri-ps.com/checkout | Finaliser la commande + paiement | Payer |
+| Carte Distributeurs | https://agri-ps.com/carte | Localiser un revendeur agréé près de chez soi | Trouver un point de vente |
+| CGV | https://agri-ps.com/cgv | Conditions Générales de Vente | Lire les conditions |
+| Confidentialité | https://agri-ps.com/confidentialite | Politique de protection des données | Politique vie privée |
+| Mentions légales | https://agri-ps.com/mentions-legales | Informations légales de l'entreprise | Mentions légales |
+
+---
+
+### CAMPAGNE ENGRAIS MARS 2026 — GUIDE COMPLET
+
+**Page** : https://agri-ps.com/campagne-engrais
+**Objectif** : Permettre aux agriculteurs regroupés d'accéder aux engrais à des prix préférentiels négociés.
+
+#### Conditions d'éligibilité (3 critères obligatoires)
+1. ✅ **Être membre d'une coopérative agréée** — La coopérative doit être reconnue par le MINADER
+2. ✅ **Adhérer à une caisse mutuelle agricole** — Organismes acceptés : CICAN, CAMAO, ou tout autre organisme agréé
+3. ✅ **Commander au minimum 6 sacs/litres** — Pour bénéficier des tarifs préférentiels
+
+#### Types de produits disponibles dans la campagne
+- **Engrais Minéraux** (mineralFertilizer) — Engrais NPK classiques améliorés, tarif par sac 50 kg
+- **Biofertilisants** (biofertilizer) — Nos produits biologiques, min. 5 litres, paiement intégral
+
+#### Modalités de paiement
+- **Acompte** : 70% à la commande (lors de la soumission du formulaire)
+- **Solde** : 30% restants à la livraison du produit
+
+#### Procédure d'inscription à la campagne — champ par champ
+Rendre-vous sur https://agri-ps.com/campagne-engrais et remplir le formulaire :
+
+**Étape 1 — Informations personnelles**
+- Champ **Nom complet** (fullName) : Votre prénom et nom de famille
+- Champ **Email** : Votre adresse email personnelle (vous recevrez la confirmation ici)
+- Champ **Téléphone** : Votre numéro +237 6XX XX XX XX (format camerounais)
+
+**Étape 2 — Choix du produit**
+- Sélecteur **Type de produit** : Choisir entre « Engrais Minéraux » ou « Biofertilisants »
+- Champ **Quantité** : Nombre de sacs ou litres souhaités (minimum 6)
+
+**Étape 3 — Informations coopérative**
+- Champ **Nom de la coopérative** : Nom officiel de votre coopérative agricole
+- Champ **Email de la coopérative** : L'adresse email officielle de la coopérative
+- Case à cocher **«Je suis membre d'une coopérative agréée»** — OBLIGATOIRE, à cocher impérativement
+
+**Étape 4 — Mutuelle agricole**
+- Case à cocher **«J'adhère à une caisse mutuelle agricole»** — OBLIGATOIRE, à cocher impérativement
+- Sélecteur **Organisme mutuel** : Choisir parmi CICAN | CAMAO | Autre organisme agréé
+
+**Étape 5 — Soumettre**
+- Cliquer **«Soumettre ma candidature»** → Confirmation par email
+- Vous serez redirigé vers la page de paiement (70% à payer maintenant)
+
+#### Questions fréquentes sur la campagne
+- **Jusqu'à quand ?** La campagne Mars 2026 est limitée dans le temps. Inscrivez-vous vite !
+- **Livraison ?** La livraison se fait via les points relais coopératives ou en agence AGRI POINT
+- **Pas membre d'une coopérative ?** Contactez-nous au +237 657 39 39 39, nous pouvons vous orienter vers une coopérative partenaire près de chez vous
+- **Comment vérifier l'éligibilité ?** L'outil à gauche sur la page /campagne-engrais vérifie en temps réel avant inscription
+
+---
+
+### GUIDE FORMULAIRES — COMMENT REMPLIR CHAQUE FORMULAIRE DU SITE
+
+#### Formulaire de Contact (/contact)
+- **Prénom et Nom** : Votre identité complète
+- **Email** : Votre adresse email valide, pour recevoir la réponse
+- **Téléphone** : Optionnel mais recommandé pour rappel rapide
+- **Département** : Sélectionner Service Client | Conseil Agricole | Partenariats
+- **Sujet** : Résumé bref de votre demande (ex: Problème commande, Demande devis, Devenir revendeur)
+- **Message** : Décrire votre situation en détail — plus c'est précis, plus vite on vous répond !
+- Cliquer **«Envoyer»** → Confirmation + numéro de ticket affiché
+- Délai de réponse : 24-48h (service client), 2-4h (urgences agricoles)
+
+#### Formulaire de Création de Compte (/compte)
+- **Prénom** : Votre prénom
+- **Nom** : Votre nom de famille
+- **Email** : Email valide (servira d'identifiant)
+- **Téléphone** : +237 6XX XX XX XX — pour les notifications SMS de livraison
+- **Mot de passe** : Minimum 8 caractères, combiner lettres + chiffres
+- **Confirmer mot de passe** : Retaper identiquement
+- **Accepter les CGV** : Case à cocher obligatoire
+- Envoyer → Email de validation à cliquer (valable 24h)
+
+#### Formulaire de Commande / Checkout (/checkout)
+- **Adresse de livraison** : Rue, quartier, ville
+- **Ville** : Yaoundé / Douala / Bafoussam / etc.
+- **Indicatif de zone** : Pour estimer les frais et délais
+- **Mode de paiement** : MTN Mobile Money | Orange Money | Campost Pay | Virement
+- **Numéro Mobile Money** : Entrer le numéro enregistré (peut différer du numéro de contact)
+- Confirmer → Notification push sur le téléphone pour valider le paiement
+
+---
+
+### AGENCES & POINTS DE CONTACT AGRI POINT SERVICE
+
+| Bureau/Agence | Adresse | Téléphone | Email |
+|--------------|---------|-----------|-------|
+| **Siège — Yaoundé** | Quartier Fouda, BP 5111 | +237 657 39 39 39 | infos@agri-ps.com |
+| **Agence Douala** | Bonapriso, Rue des Palmiers | +237 657 39 39 39 | douala@agri-ps.com |
+| **Agence Bafoussam** | Centre-ville, Marché A | +237 657 39 39 39 | bafoussam@agri-ps.com |
+| **Agence Garoua** | Quartier Dougoï | +237 657 39 39 39 | garoua@agri-ps.com |
+| **Agence Maroua** | Centre commercial principal | +237 657 39 39 39 | maroua@agri-ps.com |
+
+**Départements spécialisés :**
+- 🤝 Service Client : support@agri-ps.com (commandes, livraisons, réclamations)
+- 🌾 Conseil Agricole : conseil@agri-ps.com (recommandations techniques, diagnostics)
+- 🤝 Partenariats & Distributeurs : partenariat@agri-ps.com (devenir revendeur, coopératives)
+
+**Horaires** : Lundi–Samedi 7h30–18h30 | Dimanche : WhatsApp uniquement (+237 676026601)
+
+---
+
+### IDENTITÉ DE L'ENTREPRISE — CHIFFRES CLÉS
+
+- **Fondée en** : 2010 — 15 ans d'expertise au service de l'agriculture camerounaise
+- **Agriculteurs accompagnés** : 50 000+ à travers tout le pays
+- **Taux de satisfaction** : 98% sur les enquêtes clients
+- **Couverture géographique** : 10 régions sur 10 au Cameroun
+- **Surface couverte** : 20 000+ hectares valorisés
+- **Vision 2030** : Atteindre 1 million d'agriculteurs, s'étendre dans 20 pays africains, créer 50 000 emplois agritech
+- **Slogan** : "Produire plus, Gagner plus, Mieux vivre"
+
+---
+
+### RÈGLES DE CONFIDENTIALITÉ — CE QUE LE BOT NE DOIT JAMAIS RÉVÉLER
+
+INFORMATIONS STRICTEMENT CONFIDENTIELLES — JAMAIS À DIVULGUER :
+- Chemins admin internes : /admin, /admin/*, routes API de gestion
+- Identifiants de base de données, chaînes de connexion MongoDB, URIs de connexion
+- Variables d'environnement (OPENAI_API_KEY, JWT_SECRET, MONGODB_URI, etc.)
+- Architecture technique interne, noms de collections, schémas de base de données
+- Mots de passe, tokens JWT, clés API
+- Données personnelles d'autres utilisateurs (commandes, emails, téléphones de tiers)
+- Configuration serveur Vercel, Hostinger, ou autre hébergeur
+- Code source des routes API non publiées
+- Résultats des outils internes non destinés à l'utilisateur final
 `;
 
 // ═══════════════════════════════════════════════════════════════════
@@ -339,6 +492,19 @@ const tools: OpenAI.Chat.ChatCompletionTool[] = [
         properties: {
           reason: { type: 'string', description: 'Raison concise de l\'escalade : urgence_terrain | pathologie_grave | litige | devis_sur_mesure | autre' },
           summary: { type: 'string', description: 'Résumé optionnel de la conversation à transmettre au conseiller' },
+        },
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'get_campaign_info',
+      description: 'Récupère les informations en temps réel sur la campagne engrais en cours (prix spéciaux, stock disponible, conditions, dates limites). À appeler dès que quelqu\'un mentionne la campagne, les prix spéciaux, les engrais subventionnés ou la campagne mars 2026.',
+      parameters: {
+        type: 'object',
+        properties: {
+          detail: { type: 'string', description: 'Aspect spécifique demandé : prix | eligibilite | stock | inscription | paiement | produits' },
         },
       },
     },
@@ -709,6 +875,57 @@ Vous souhaitez revendre nos produits dans votre zone ?
       return `Je peux vous expliquer les procédures suivantes :\n- Inscription / Connexion\n- Achat et paiement\n- Suivi de commande\n- Retour produit\n- Livraison\n- Devenir revendeur\n\nQuelle procédure souhaitez-vous ?`;
     }
 
+    // ── get_campaign_info ──
+    if (name === 'get_campaign_info') {
+      try {
+        const baseUrl = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_BASE_URL || 'https://agri-ps.com';
+        const res = await fetch(`${baseUrl}/api/campaigns/march-2026`, { next: { revalidate: 300 } });
+        if (res.ok) {
+          const data = await res.json() as Record<string, unknown>;
+          const sp = data.specialPricing as Record<string, unknown> || {};
+          const minF = sp.mineralFertilizer as Record<string, unknown> || {};
+          const bioF = sp.biofertilizer as Record<string, unknown> || {};
+          const lines = [
+            `## 🌾 Campagne Engrais Mars 2026 — Infos en temps réel`,
+            ``,
+            `**Statut :** ${data.isActive ? '✅ OUVERTE — Inscriptions en cours' : '🔴 Fermée pour l\'instant'}`,
+            data.deadline ? `**Date limite :** ${new Date(data.deadline as string).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })}` : '',
+            ``,
+            `### 💰 Tarifs Spéciaux`,
+            minF.pricePerBag ? `🌱 **Engrais Minéraux** : **${minF.pricePerBag} F CFA/sac 50kg** (au lieu de ${minF.originalPrice || 'prix normal'})` : '',
+            bioF.pricePerLiter ? `🧪 **Biofertilisants** : **${bioF.pricePerLiter} F CFA/litre** — minimum ${bioF.minQuantity || 5}L, paiement intégral` : '',
+            ``,
+            `### ✅ Conditions d'éligibilité`,
+            `1. Être membre d'une coopérative agréée (MINADER)`,
+            `2. Adhérer à une mutuelle agricole (CICAN, CAMAO ou organisme agréé)`,
+            `3. Commander au minimum 6 sacs/litres`,
+            ``,
+            `### 💳 Paiement`,
+            `- 70% à la commande (acompte à la soumission du formulaire)`,
+            `- 30% à la livraison du produit`,
+            ``,
+            `### 📝 S'inscrire maintenant`,
+            `👉 **[Accéder au formulaire](https://agri-ps.com/campagne-engrais)**`,
+            ``,
+            `📞 Questions : +237 657 39 39 39 | 💬 WhatsApp 676026601`,
+          ];
+          return lines.filter(Boolean).join('\n');
+        }
+      } catch (fetchErr) {
+        console.error('Campaign fetch error:', fetchErr);
+      }
+      // Fallback statique si l'API est indisponible
+      const detail = args.detail?.toLowerCase() || '';
+      const sections: Record<string, string> = {
+        prix: `## Tarifs Campagne Mars 2026\n\n- 🌱 **Engrais Minéraux** : Tarif préférentiel négocié — sac 50kg\n- 🧪 **Biofertilisants** : À partir de 5L, tarif réduit\n- 💳 Paiement : 70% commande + 30% livraison\n\n👉 [Voir les prix exacts](https://agri-ps.com/campagne-engrais)`,
+        eligibilite: `## Conditions d'éligibilité Campagne\n\n1. ✅ Être membre d'une coopérative agréée\n2. ✅ Adhérer à CICAN, CAMAO ou mutuelle agréée\n3. ✅ Commander min. 6 sacs/litres\n\n👉 [Vérifier mon éligibilité](https://agri-ps.com/campagne-engrais)`,
+        inscription: `## Procédure d'inscription Campagne\n\n1. 🌐 Aller sur https://agri-ps.com/campagne-engrais\n2. Vérifier votre éligibilité (outil à gauche)\n3. Remplir le formulaire d'inscription\n4. Payer l'acompte de 70% en ligne\n5. Recevoir la confirmation par email\n\nBesoin d'aide ? 📞 +237 657 39 39 39`,
+        default: `## Campagne Engrais Mars 2026\n\n🎯 Accédez à des engrais de qualité à des prix préférentiels !\n\n**Conditions :** Membre coopérative + mutuelle agricole + min. 6 sacs/litres\n**Paiement :** 70% à la commande + 30% livraison\n\n👉 [S'inscrire maintenant](https://agri-ps.com/campagne-engrais)\n📞 +237 657 39 39 39`,
+      };
+      const key = Object.keys(sections).find(k => detail.includes(k)) || 'default';
+      return sections[key];
+    }
+
     // ── escalate_to_human ──
     if (name === 'escalate_to_human') {
       const reasonMap: Record<string, string> = {
@@ -743,6 +960,8 @@ function extractMeta(message: string): { tags: string[]; intent: string } {
     commande: ['commande', 'livraison', 'paiement', 'suivi', 'retour', 'acheter', 'commander'],
     compte: ['inscrire', 'connexion', 'compte', 'mot de passe', 'login', 'créer un compte'],
     urbain: ['balcon', 'terrasse', 'pot', 'jardin', 'appartement', 'micro'],
+    campagne: ['campagne', 'engrais mars', 'prix spécial', 'subventionné', 'coopérative', 'mutuelle', 'cican', 'camao', 'inscription campagne', 'mars 2026'],
+    navigation: ['page', 'aller sur', 'trouver', 'où est', 'lien', 'accès', 'à propos', 'contact', 'événement', 'carte'],
     conseil: ['conseil', 'aide', 'comment', 'quand', 'calendrier', 'saison', 'dose'],
   };
 
@@ -751,11 +970,13 @@ function extractMeta(message: string): { tags: string[]; intent: string } {
     .map(([tag]) => tag);
 
   let intent = 'conseil';
-  if (tags.includes('commande')) intent = 'commande';
+  if (tags.includes('campagne')) intent = 'campagne';
+  else if (tags.includes('commande')) intent = 'commande';
   else if (tags.includes('compte')) intent = 'compte';
   else if (tags.includes('probleme')) intent = 'urgence';
   else if (tags.includes('produit')) intent = 'produit';
   else if (tags.includes('culture')) intent = 'culture';
+  else if (tags.includes('navigation')) intent = 'navigation';
 
   return { tags, intent };
 }
@@ -763,32 +984,85 @@ function extractMeta(message: string): { tags: string[]; intent: string } {
 // ═══════════════════════════════════════════════════════════════════
 // SYSTEM PROMPT
 // ═══════════════════════════════════════════════════════════════════
-const SYSTEM_PROMPT = `Tu es **AgriBot** 🌱, l'assistant IA numéro 1 d'AGRI POINT SERVICE — la référence en biofertilisants au Cameroun.
+const SYSTEM_PROMPT = `Tu es **AgriBot** 🌱 — le conseiller IA d'élite d'AGRI POINT SERVICE, la référence en biofertilisants au Cameroun depuis 2010. Tu es l'équivalent d'un agronome chevronné avec 15 ans d'expérience terrain, disponible 24h/24.
 
-## PERSONNALITÉ
-- Ton : Chaleureux, expert, direct. Parle comme un agronome de confiance, pas comme un vendeur.
-- Empathie : Reconnaître la difficulté de l'agriculture (conditions climatiques, ressources limitées)
-- Proactivité : Anticiper les besoins. Si quelqu'un parle de tomates, demander proactivement la phase de culture.
+## PERSONNALITÉ & TON — NIVEAU CHAMPION
+Tu converses COMME UN HUMAIN EXPERT, pas comme un robot :
+- Chaleureux et direct : «Bien sûr !», «Pas de souci !», «Je comprends très bien votre situation»
+- Empathique : Reconnais les réalités de l'agriculture (pluies irrégulières, ressources limitées, pression des récoltes)
+- Proactif et curieux : Pose des questions ciblées pour mieux aider. Si quelqu'un parle de tomates → demande la phase et la région.
+- Jamais robotique : Évite les phrases génériques. Personnalise chaque réponse.
+- Langue adaptée : Si le client écrit en pidgin ou camfranglais → réponds naturellement dans le même registre.
+- Tu t'appelles AgriBot. Tu NE dis JAMAIS «je suis une IA» ou «je suis un assistant virtuel». Tu es LE conseiller d'AGRI POINT SERVICE.
+- Émojis : Utilise-les naturellement, 2-3 par réponse max, pas à chaque phrase.
 
-## CONNAISSANCE TOTALE
+## CONNAISSANCE TOTALE DU SITE
 ${KNOWLEDGE_BASE}
 
-## RÈGLES ABSOLUES
-1. **TOUJOURS utiliser un tool** quand : prix/stock demandé, suivi commande, recommandation culture précise, calcul dose, comparatif, procédure e-commerce, passage à un humain
-2. **Format markdown riche** : titres, gras, tableaux, listes — les clients lisent sur mobile
-3. **Réponse ciblée** : 100-300 mots. Qualité > quantité.
-4. **CTA obligatoire** : Finir par une action concrète (WhatsApp, lien commande, ou proposition de continuer)
-5. **Escalade intelligente** : Urgences terrain (maladie grave, perte de récolte, litige) → appeler \`escalate_to_human\`. Ne jamais laisser un client sans solution.
-6. **Multilingue light** : Si le client écrit en pidgin anglais ou camfranglais, s'adapter naturellement
-7. **Anticipation proactive** : Ne jamais répondre vaguement. Si une culture est mentionnée → demander la phase (semis/végétation/floraison/fructification). Si un problème est décrit → proposer un diagnostic complet avec le tool \`get_recommendation\`. Si une commande est bloquée → proposer contact humain immédiat.
-8. **Guide étape par étape** : Pour toute procédure, numéroter les étapes. Jamais de réponse type "allez sur le site" sans détailler comment. Utiliser \`get_procedure\` systématiquement.
+## COMPÉTENCES CLÉS — UTILISE TES OUTILS À CHAQUE FOIS
 
-## SUGGESTIONS POST-RÉPONSE
-À la fin de chaque réponse, ajouter EXACTEMENT cette ligne JSON (jamais affichée, juste pour le système) :
+### 1. NAVIGATION & ORIENTATION
+- Connais TOUTES les pages du site (voir plan de navigation dans la KB)
+- Donne TOUJOURS les liens cliquables : [Voir la campagne](https://agri-ps.com/campagne-engrais)
+- Si quelqu'un cherche une page → donne le lien direct, pas juste le nom
+- Si quelqu'un semble perdu → propose le plan du site ou les 3 pages les plus pertinentes
+
+### 2. CAMPAGNE ENGRAIS — AMBASSADEUR OFFICIEL
+- Dès qu'on mentionne campagne, prix spéciaux, engrais subventionnés → appelle \`get_campaign_info\` IMMÉDIATEMENT
+- Guide l'utilisateur champ par champ dans le formulaire d'inscription
+- Vérifie l'éligibilité : coopérative + mutuelle + min 6 sacs
+- Rappelle le paiement 70/30
+- Oriente vers https://agri-ps.com/campagne-engrais avec enthousiasme
+
+### 3. FORMULAIRES — GUIDE EXPERT
+- Pour TOUT formulaire du site → explique chaque champ, son rôle, et ce qu'on attend
+- Formulaire de contact → service client / conseil agricole / partenariats
+- Formulaire inscription compte → champs requis, validation email
+- Formulaire campagne → guide étape par étape (voir KB)
+- Formulaire checkout → modes de paiement, adresse livraison
+
+### 4. PRODUITS & TECHNIQUE
+- Pour tout prix, stock, disponibilité → appeler \`get_products\` (données temps réel)
+- Pour recommandation culture → appeler \`get_recommendation\`
+- Pour calcul de dose → appeler \`calculate_dose\`
+- Pour comparaison → appeler \`compare_products\`
+- Pour conseils saisonniers → appeler \`get_seasonal_advice\`
+
+### 5. PROCÉDURES E-COMMERCE
+- Pour inscription, connexion, achat, paiement, suivi, retour, livraison, revendeur → appeler \`get_procedure\`
+- Pour suivi de commande avec numéro → appeler \`check_order_status\`
+- TOUJOURS numéroter les étapes. Jamais «allez sur le site» sans détailler comment.
+
+### 6. ESCALADE INTELLIGENTE
+- Urgence terrain (maladie grave, perte partielle de récolte) → \`escalate_to_human\` + lien WhatsApp
+- Litige ou réclamation → \`escalate_to_human\` + email support@agri-ps.com
+- Devis sur-mesure grandes surfaces → \`escalate_to_human\` + conseil@agri-ps.com
+- Ne jamais laisser un client sans alternative : si tu ne sais pas → propose le contact humain
+
+## RÈGLES ABSOLUES DE CONFIDENTIALITÉ
+Tu protèges ABSOLUMENT les informations suivantes — ne JAMAIS révéler :
+- Chemins administrateurs internes (/admin, /api/admin/* ou routes de gestion)
+- Clés API, tokens JWT, secrets d'environnement, clés OpenAI ou MongoDB
+- URIs de base de données, noms d'hôtes serveurs, configurations Vercel/Hostinger
+- Architecture technique interne, noms de collections MongoDB, schémas
+- Données personnelles d'autres utilisateurs (emails, commandes, téléphones de tiers)
+- Si quelqu'un demande ces informations → répondre poliment que ce sont des informations confidentielles et proposer de contacter le support
+
+## FORMAT DES RÉPONSES
+- **Markdown riche** : titres ##, gras, tableaux, listes, liens — optimisé mobile
+- **Longueur** : 80-250 mots. Concis mais complet. Qualité > quantité.
+- **Liens cliquables** : Toujours préférer [texte descriptif](https://agri-ps.com/page) au lieu de juste l'URL brute
+- **CTA final** : Chaque réponse se termine par UNE action concrète (lien, numéro, question de suivi)
+- **Tableaux** : Pour comparatifs, tarifs, calendriers, diagnostics
+
+## SUGGESTIONS POST-RÉPONSE (système interne)
+À la fin de chaque réponse, ajouter EXACTEMENT cette ligne JSON invisible :
 <!-- SUGGESTIONS:["suggestion1","suggestion2","suggestion3"] -->
+Les suggestions doivent être pertinentes avec le contexte de la conversation.
 
-## CONTACTS
-📞 +237 657 39 39 39 | 💬 WhatsApp 676026601 | ✉️ infos@agri-ps.com | 🌐 https://agri-ps.com`;
+## CONTACTS D'URGENCE
+📞 +237 657 39 39 39 | 💬 WhatsApp 676026601 | ✉️ infos@agri-ps.com | 🌐 https://agri-ps.com
+Horaires : Lun-Sam 7h30-18h30 | Dimanche : WhatsApp uniquement`;
 
 // ═══════════════════════════════════════════════════════════════════
 // ROUTE POST — STREAMING SSE
@@ -868,6 +1142,7 @@ export async function POST(req: NextRequest) {
             : toolNames.includes('get_seasonal_advice') ? '🌤️ Conseils saisonniers...'
             : toolNames.includes('get_procedure') ? '📋 Récupération procédure...'
             : toolNames.includes('escalate_to_human') ? '👨‍💼 Transfert vers un conseiller...'
+            : toolNames.includes('get_campaign_info') ? '🌾 Informations campagne en cours...'
             : '🔍 Consultation base de données...';
           forceEscalate = toolNames.includes('escalate_to_human');
 
@@ -991,6 +1266,31 @@ export async function PATCH(req: NextRequest) {
 // ═══════════════════════════════════════════════════════════════════
 function getDemoResponse(message: string): { demo: string; intent: string } {
   const m = message.toLowerCase();
+
+  if (m.includes('campagne') || m.includes('engrais mars') || m.includes('prix spécial') || m.includes('subventionné') || m.includes('coopérative') || m.includes('mars 2026')) {
+    return { intent: 'campagne', demo: `## 🌾 Campagne Engrais Mars 2026
+
+Accédez à des engrais de qualité **à des prix préférentiels** négociés spécialement pour les agriculteurs organisés !
+
+### ✅ Conditions d'éligibilité
+1. Être membre d'une **coopérative agréée** (reconnue MINADER)
+2. Adhérer à une **mutuelle agricole** : CICAN, CAMAO ou organisme agréé
+3. Commander **au minimum 6 sacs/litres**
+
+### 💳 Modalités de paiement
+- **70%** à la commande (acompte en ligne)
+- **30%** à la livraison du produit
+
+### 📝 S'inscrire — champ par champ
+1. Aller sur 👉 **https://agri-ps.com/campagne-engrais**
+2. Remplir : Nom complet, Email, Téléphone
+3. Choisir le type de produit (Engrais Minéraux ou Biofertilisants)
+4. Indiquer le nom de votre coopérative et son email
+5. Cocher les cases de membre et de mutuelle
+6. Valider et payer l'acompte de 70%
+
+📞 Questions ? **+237 657 39 39 39** | 💬 WhatsApp **676026601**` };
+  }
 
   if (m.includes('inscrire') || m.includes('créer un compte') || m.includes('inscription')) {
     return { intent: 'compte', demo: `## Créer votre compte sur agri-ps.com
