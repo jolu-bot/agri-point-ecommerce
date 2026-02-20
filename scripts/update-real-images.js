@@ -120,7 +120,7 @@ updateProductsWithRealImages()
     console.log('\n🎯 PROCHAINES ÉTAPES:');
     console.log('   1. Les images sont maintenant dans le dossier public/products/');
     console.log('   2. Commiter et pusher sur GitHub');
-    console.log('   3. Attendre le redéploiement sur Hostinger (2-3 min)');
+    console.log('   3. Attendre le redéploiement sur Vercel (1-2 min)');
     console.log('   4. Actualiser le site (Ctrl+F5)\n');
     process.exit(0);
   })

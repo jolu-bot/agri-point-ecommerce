@@ -33,7 +33,7 @@ async function testEndpoint(path, description) {
 
 async function runTests() {
   console.log('╔════════════════════════════════════════════════╗');
-  console.log('║   TEST COMPLET HOSTINGER                      ║');
+  console.log('║   TEST COMPLET PRODUCTION (VERCEL)            ║');
   console.log('╚════════════════════════════════════════════════╝');
 
   const tests = [

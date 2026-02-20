@@ -3,7 +3,7 @@
  * À exécuter depuis le navigateur (console DevTools) sur https://agri-ps.com
  */
 
-// Copier-coller ce code dans la console du navigateur de votre site Hostinger
+// Copier-coller ce code dans la console du navigateur (DevTools) sur agri-ps.com
 
 async function updateImagePathsViaAPI() {
   console.log('Mise a jour des chemins d\'images...\n');
