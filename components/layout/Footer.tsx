@@ -11,10 +11,11 @@ export default function Footer() {
     <footer className="bg-gray-900 text-gray-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* À propos */}
+          {/* Brand */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="relative w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0">
+            {/* Logo + Nom */}
+            <div className="flex items-center gap-3 mb-3">
+              <div className="relative w-12 h-12 flex-shrink-0 rounded-xl overflow-hidden ring-2 ring-emerald-500/30 bg-gray-800 p-1">
                 <Image
                   src="/images/logo.svg"
                   alt="AGRI POINT Logo"
@@ -22,27 +23,48 @@ export default function Footer() {
                   className="object-contain"
                 />
               </div>
-              <div className="flex flex-col">
-                <div className="text-xl sm:text-2xl font-bold text-white">AGRI POINT</div>
-                <div className="text-sm text-emerald-400 font-semibold">Distributeur officiel · Cameroun</div>
+              <div className="flex flex-col leading-tight">
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-lg font-extrabold tracking-widest text-white uppercase">AGRI</span>
+                  <span className="text-lg font-extrabold tracking-widest text-emerald-400 uppercase">POINT</span>
+                </div>
+                <span className="text-[10px] tracking-[0.2em] text-gray-500 uppercase font-medium">Services SARL</span>
               </div>
             </div>
-            <p className="text-sm text-gray-400 mb-4">
-              Le partenaire sûr de l&apos;entrepreneur agricole. Produire plus, Gagner plus, Mieux vivre.
+
+            {/* Badge Distributeur */}
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-950/60 border border-emerald-700/40 mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+              <span className="text-[11px] font-semibold text-emerald-300 tracking-wide whitespace-nowrap">
+                Distributeur Officiel pour le Cameroun
+              </span>
+            </div>
+
+            {/* Séparateur dégradé */}
+            <div className="h-px w-full bg-gradient-to-r from-emerald-600/50 via-gray-600/30 to-transparent mb-4" />
+
+            <p className="text-xs text-gray-400 mb-5 leading-relaxed">
+              Le partenaire sûr de l&apos;entrepreneur agricole.<br />
+              <span className="text-emerald-500 font-medium">Produire plus · Gagner plus · Mieux vivre.</span>
             </p>
-            <div className="flex space-x-3">
-              <a href="#" className="text-gray-400 hover:text-primary-400 transition-colors" aria-label="Facebook">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary-400 transition-colors" aria-label="Instagram">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary-400 transition-colors" aria-label="Twitter">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary-400 transition-colors" aria-label="LinkedIn">
-                <Linkedin className="w-5 h-5" />
-              </a>
+
+            {/* Réseaux sociaux */}
+            <div className="flex gap-2">
+              {[
+                { icon: Facebook, label: 'Facebook' },
+                { icon: Instagram, label: 'Instagram' },
+                { icon: Twitter, label: 'Twitter' },
+                { icon: Linkedin, label: 'LinkedIn' },
+              ].map(({ icon: Icon, label }) => (
+                <a
+                  key={label}
+                  href="#"
+                  aria-label={label}
+                  className="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 hover:bg-emerald-600 text-gray-400 hover:text-white transition-all duration-200 hover:scale-110 border border-gray-700/50 hover:border-emerald-500"
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
             </div>
           </div>
 
