@@ -218,9 +218,9 @@ const pageContent = {
 
   contact: {
     headquarters: "Yaoundé, Cameroun",
-    address: "BP 12345, Rue de l'Agriculture, Bastos",
-    phone: "+237 6 XX XX XX XX",
-    email: "contact@agri-ps.com",
+    address: "Quartier Fouda · B.P. 5111",
+    phone: "(+237) 657 39 39 39  |  (+237) 651 92 09 20",
+    email: "infos@agri-ps.com",
     hours: "Lun-Ven: 8h-17h, Sam: 8h-13h"
   }
 };
@@ -539,7 +539,7 @@ export default function AProposPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Nous Trouver</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Notre siège social à Yaoundé</p>
+            <p className="text-xl text-gray-600 dark:text-gray-400">AGRI POINT SERVICES SARL · Yaoundé</p>
           </div>
 
           <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-8 shadow-xl">
@@ -562,7 +562,11 @@ export default function AProposPage() {
                   </div>
                   <div>
                     <h3 className="font-bold mb-1">Téléphone</h3>
-                    <p className="text-gray-600 dark:text-gray-300">{pageContent.contact.phone}</p>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      <a href="tel:+237657393939" className="hover:text-green-600 transition-colors block">(+237) 657 39 39 39</a>
+                      <a href="tel:+237651920920" className="hover:text-green-600 transition-colors block">(+237) 651 92 09 20</a>
+                    </p>
+                    <a href="https://wa.me/237651920920" className="text-sm text-green-600 hover:underline flex items-center gap-1 mt-1">💬 WhatsApp disponible</a>
                   </div>
                 </div>
 

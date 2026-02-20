@@ -24,7 +24,7 @@ export default function Footer() {
               </div>
               <div className="flex flex-col">
                 <div className="text-xl sm:text-2xl font-bold text-white">AGRI POINT</div>
-                <div className="text-sm text-emerald-400 font-semibold">Service Agricole</div>
+                <div className="text-sm text-emerald-400 font-semibold">Distributeur officiel · Cameroun</div>
               </div>
             </div>
             <p className="text-sm text-gray-400 mb-4">
@@ -133,14 +133,19 @@ export default function Footer() {
               </li>
               <li className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-primary-400 flex-shrink-0" />
-                <a href="tel:+237657393939" className="text-sm hover:text-primary-400 transition-colors">
-                  +237 657 39 39 39
-                </a>
+                <div className="flex flex-col gap-0.5">
+                  <a href="tel:+237657393939" className="text-sm hover:text-primary-400 transition-colors">
+                    (+237) 657 39 39 39
+                  </a>
+                  <a href="tel:+237651920920" className="text-sm hover:text-primary-400 transition-colors">
+                    (+237) 651 92 09 20
+                  </a>
+                </div>
               </li>
               <li className="flex items-center space-x-3">
                 <MessageCircle className="w-5 h-5 text-primary-400 flex-shrink-0" />
-                <a href="https://wa.me/237676026601" className="text-sm hover:text-primary-400 transition-colors">
-                  676 02 66 01
+                <a href="https://wa.me/237651920920" className="text-sm hover:text-primary-400 transition-colors">
+                  WhatsApp: 651 92 09 20
                 </a>
               </li>
               <li className="flex items-center space-x-3">
@@ -157,7 +162,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <p className="text-sm text-gray-400">
-                © {currentYear} AGRI POINT. Tous droits réservés.
+                © {currentYear} AGRI POINT SERVICES SARL. Tous droits réservés.
               </p>
               <a 
                 href="https://www.joyeds.com" 
