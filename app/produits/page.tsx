@@ -26,8 +26,13 @@ async function getProducts() {
   }
 }
 
-export default async function ProductsPage() {
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams?: { search?: string };
+}) {
   const initialProducts = await getProducts();
+  const initialSearch = searchParams?.search || '';
   
-  return <ProductsClient initialProducts={initialProducts} />;
+  return <ProductsClient initialProducts={initialProducts} initialSearch={initialSearch} />;
 }

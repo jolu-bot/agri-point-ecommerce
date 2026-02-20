@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { ShoppingCart, User, Menu, X, Sun, Moon, Search, ChevronDown } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
@@ -12,9 +12,14 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const { items } = useCartStore();
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
@@ -26,6 +31,30 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Focus l'input de recherche à l'ouverture
+  useEffect(() => {
+    if (isSearchOpen) {
+      setTimeout(() => searchInputRef.current?.focus(), 80);
+    }
+  }, [isSearchOpen]);
+
+  // Soumission de la recherche → redirect vers /produits?search=...
+  const handleSearch = useCallback((e?: React.FormEvent) => {
+    e?.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/produits?search=${encodeURIComponent(searchQuery.trim())}`);
+      setIsSearchOpen(false);
+      setSearchQuery('');
+    }
+  }, [searchQuery, router]);
+
+  // Détection de l'onglet actif
+  const isNavActive = useCallback((item: { href: string; submenu?: { name: string; href: string }[] }) => {
+    if (item.href === '/') return pathname === '/';
+    if (item.submenu) return item.submenu.some(sub => pathname === sub.href || pathname.startsWith(sub.href + '/'));
+    return pathname === item.href || pathname.startsWith(item.href + '/');
+  }, [pathname]);
 
   const cartItemsCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -78,12 +107,18 @@ export default function Header() {
                   onMouseLeave={() => setOpenSubmenu(null)}
                 >
                   <button
-                    className="text-fluid-sm text-gray-600 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-emerald-400 font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-1 px-0.5"
+                    className={`text-fluid-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-1 px-0.5 ${
+                      isNavActive(item)
+                        ? 'text-emerald-700 dark:text-emerald-400 font-semibold'
+                        : 'text-gray-600 dark:text-gray-300 hover:text-emerald-700 dark:hover:text-emerald-400'
+                    }`}
                   >
                     {item.name}
                     <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${openSubmenu === item.name ? 'rotate-180 text-emerald-600' : ''}`} />
-                    {/* Dot indicator premium */}
-                    <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-emerald-500 opacity-0 group-hover:opacity-100 transition-all duration-200 scale-0 group-hover:scale-100" />
+                    {/* Indicateur actif / hover */}
+                    <span className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-emerald-500 transition-all duration-200 ${
+                      isNavActive(item) ? 'w-4/5 opacity-100' : 'w-0 opacity-0 group-hover:w-4/5 group-hover:opacity-100'
+                    }`} />
                   </button>
                   
                   {/* Dropdown Menu — glassmorphism premium */}
@@ -110,13 +145,21 @@ export default function Header() {
                   href={item.href}
                   className={`text-fluid-sm font-medium transition-all duration-200 relative group whitespace-nowrap py-1 px-0.5 ${
                     (item as any).highlight 
-                      ? 'text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 font-bold bg-emerald-50/50 dark:bg-emerald-900/25 px-3 py-1.5 rounded-lg border border-emerald-200/70 dark:border-emerald-700/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/40 hover:-translate-y-0.5 shadow-sm hover:shadow-emerald-100 dark:hover:shadow-emerald-900/30' 
-                      : 'text-gray-600 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-emerald-400'
+                      ? `text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 font-bold px-3 py-1.5 rounded-lg border hover:-translate-y-0.5 shadow-sm ${
+                          isNavActive(item)
+                            ? 'bg-emerald-100 dark:bg-emerald-900/50 border-emerald-400 dark:border-emerald-600'
+                            : 'bg-emerald-50/50 dark:bg-emerald-900/25 border-emerald-200/70 dark:border-emerald-700/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/40'
+                        }`
+                      : isNavActive(item)
+                        ? 'text-emerald-700 dark:text-emerald-400 font-semibold'
+                        : 'text-gray-600 dark:text-gray-300 hover:text-emerald-700 dark:hover:text-emerald-400'
                   }`}
                 >
                   {item.name}
                   {!(item as any).highlight && (
-                    <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-emerald-500 opacity-0 group-hover:opacity-100 scale-0 group-hover:scale-100 transition-all duration-200" />
+                    <span className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-emerald-500 transition-all duration-200 ${
+                      isNavActive(item) ? 'w-4/5 opacity-100' : 'w-0 opacity-0 group-hover:w-4/5 group-hover:opacity-100'
+                    }`} />
                   )}
                 </Link>
               )
@@ -125,10 +168,36 @@ export default function Header() {
 
           {/* Actions */}
           <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4">
-            {/* Search - caché sur très petits écrans */}
-            <button className="hidden sm:flex p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50/80 dark:hover:bg-emerald-900/25 transition-all duration-150" aria-label="Rechercher">
-              <Search className="w-5 h-5 lg:w-5 lg:h-5" />
-            </button>
+            {/* Search expandable — caché sur très petits écrans */}
+            <div className="hidden sm:flex items-center">
+              {isSearchOpen ? (
+                <form onSubmit={handleSearch} className="flex items-center gap-1 animate-fadeInUp">
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Escape') { setIsSearchOpen(false); setSearchQuery(''); } }}
+                    placeholder="Rechercher un produit…"
+                    className="w-44 lg:w-56 px-3 py-1.5 text-sm rounded-lg border border-emerald-300 dark:border-emerald-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all duration-200"
+                  />
+                  <button type="submit" className="p-2 rounded-lg text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/25 transition-all duration-150" aria-label="Lancer la recherche">
+                    <Search className="w-4 h-4" />
+                  </button>
+                  <button type="button" onClick={() => { setIsSearchOpen(false); setSearchQuery(''); }} className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-150" aria-label="Fermer la recherche">
+                    <X className="w-4 h-4" />
+                  </button>
+                </form>
+              ) : (
+                <button
+                  onClick={() => setIsSearchOpen(true)}
+                  className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50/80 dark:hover:bg-emerald-900/25 transition-all duration-150"
+                  aria-label="Rechercher"
+                >
+                  <Search className="w-5 h-5" />
+                </button>
+              )}
+            </div>
 
             {/* Dark Mode Toggle */}
             {mounted && (
@@ -213,13 +282,18 @@ export default function Header() {
                     key={item.name}
                     href={item.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`text-fluid-base font-medium transition-colors px-3 py-2 rounded-lg ${
+                    className={`text-fluid-base font-medium transition-colors px-3 py-2 rounded-lg flex items-center justify-between ${
                       (item as any).highlight 
-                        ? 'text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-bold bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800' 
-                        : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                        ? 'text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 font-bold bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800' 
+                        : isNavActive(item)
+                          ? 'text-emerald-700 dark:text-emerald-400 font-semibold bg-emerald-50/70 dark:bg-emerald-900/20'
+                          : 'text-gray-700 dark:text-gray-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-800'
                     }`}
                   >
                     {item.name}
+                    {isNavActive(item) && !(item as any).highlight && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
+                    )}
                   </Link>
                 )
               ))}
@@ -231,11 +305,25 @@ export default function Header() {
                 <User className="w-5 h-5 mr-2" />
                 Mon Compte
               </Link>
-              {/* Search mobile */}
-              <button className="sm:hidden text-fluid-base text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center" aria-label="Rechercher">
-                <Search className="w-5 h-5 mr-2" />
-                Rechercher
-              </button>
+              {/* Search mobile fonctionnel */}
+              <form
+                onSubmit={(e) => { handleSearch(e); setIsMenuOpen(false); }}
+                className="flex items-center gap-2 px-3 py-2"
+              >
+                <div className="flex-1 flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-lg px-3 py-2">
+                  <Search className="w-4 h-4 text-gray-400 dark:text-gray-500 flex-shrink-0" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Rechercher un produit…"
+                    className="flex-1 bg-transparent text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none"
+                  />
+                </div>
+                <button type="submit" className="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition-colors">
+                  OK
+                </button>
+              </form>
             </nav>
           </div>
         )}

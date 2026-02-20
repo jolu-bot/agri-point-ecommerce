@@ -24,9 +24,9 @@ export default function DynamicHeaderBranding({ className = '' }: DynamicHeaderB
     logo: {
       url: '/images/logo.svg',
       sizes: {
-        mobile: 'w-11 h-11',
-        tablet: 'w-13 h-13',
-        desktop: 'w-15 h-15',
+        mobile: 'w-12 h-12',
+        tablet: 'w-15 h-15',
+        desktop: 'w-18 h-18',
       },
     },
     primaryText: {
@@ -83,7 +83,7 @@ export default function DynamicHeaderBranding({ className = '' }: DynamicHeaderB
           fill
           className="object-contain"
           priority
-          sizes="(max-width: 640px) 44px, (max-width: 1024px) 52px, 60px"
+          sizes="(max-width: 640px) 48px, (max-width: 1024px) 60px, 72px"
         />
       </div>
 
@@ -96,12 +96,7 @@ export default function DynamicHeaderBranding({ className = '' }: DynamicHeaderB
           {headerConfig.primaryText.content}
         </div>
 
-        {/* Sous-titre */}
-        <div 
-          className={`${secondaryTextSizeClasses} ${headerConfig.secondaryText.color} dark:text-emerald-400 ${headerConfig.secondaryText.fontWeight} leading-tight whitespace-nowrap`}
-        >
-          {headerConfig.secondaryText.content}
-        </div>
+
       </div>
     </Link>
   );
