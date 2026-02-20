@@ -15,7 +15,7 @@ function HeroContent() {
   return (
     <div className="flex flex-col">
       {/* Badge premium avec shimmer */}
-      <div className="inline-flex items-center gap-2.5 self-start px-4 py-2 rounded-full border border-emerald-200/80 dark:border-emerald-700/35 bg-white/80 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 text-[12.5px] font-semibold tracking-wide shadow-sm mb-6 hero-badge brand-shimmer">
+      <div className="inline-flex items-center gap-2.5 self-start px-4 py-2 rounded-full border border-emerald-700/35 bg-emerald-950/50 text-emerald-300 text-[12.5px] font-semibold tracking-wide shadow-sm mb-6 hero-badge brand-shimmer">
         <span className="brand-pulse-dot" />
         Le partenaire sûr de l&apos;entrepreneur agricole
         <Leaf className="w-3.5 h-3.5 opacity-60" />
@@ -29,8 +29,8 @@ function HeroContent() {
         <span className="hero-tagline">Tout en Un</span>
       </h1>
 
-      <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-lg hero-description">
-        Gamme complète de <strong className="text-gray-800 dark:text-gray-200 font-semibold">biofertilisants de grande qualité</strong> pour augmenter la production de toutes les cultures au Cameroun.
+      <p className="text-gray-300 leading-relaxed max-w-lg hero-description">
+        Gamme complète de <strong className="text-white font-semibold">biofertilisants de grande qualité</strong> pour augmenter la production de toutes les cultures au Cameroun.
       </p>
 
       <div className="flex flex-col sm:flex-row gap-3 hero-buttons">
@@ -51,9 +51,9 @@ function HeroContent() {
           { value: '10K+', label: 'Agriculteurs', type: 'primary' },
           { value: '100%', label: 'Bio Certifié', type: 'secondary' },
         ].map(({ value, label, type }) => (
-          <div key={label} className="stat-pill-card">
-            <div className={`font-display font-black stat-value ${type === 'secondary' ? 'text-gradient-secondary' : 'text-gradient-primary'}`}>{value}</div>
-            <div className="stat-label text-gray-500 dark:text-gray-400">{label}</div>
+          <div key={label} className="stat-pill-hero">
+            <div className={`font-display font-black stat-value ${type === 'secondary' ? 'hero-stat-secondary' : 'hero-stat-primary'}`}>{value}</div>
+            <div className="stat-label text-gray-400">{label}</div>
           </div>
         ))}
       </div>
@@ -64,7 +64,7 @@ function HeroContent() {
 function FloatingCards() {
   return (
     <>
-      <div className="hidden md:block absolute -bottom-4 -left-4 lg:-bottom-6 lg:-left-6 bg-white/90 dark:bg-gray-900/85 backdrop-blur-sm rounded-2xl shadow-xl border border-white/80 dark:border-white/[0.08] p-3 max-w-[180px] lg:max-w-[210px] hover-lift">
+      <div className="hidden md:block absolute -bottom-4 -left-4 lg:-bottom-6 lg:-left-6 bg-gray-900/90 backdrop-blur-sm rounded-2xl shadow-xl border border-white/[0.08] p-3 max-w-[180px] lg:max-w-[210px] hover-lift">
         <div className="flex items-center space-x-2 lg:space-x-3">
           <div className="relative w-10 h-10 lg:w-12 lg:h-12 flex-shrink-0">
             <Image
@@ -75,13 +75,13 @@ function FloatingCards() {
             />
           </div>
           <div>
-            <div className="font-semibold text-sm text-gray-900 dark:text-white">Produire Plus</div>
-            <div className="text-xs text-emerald-600 dark:text-emerald-400">Rendement optimisé</div>
+            <div className="font-semibold text-sm text-white">Produire Plus</div>
+            <div className="text-xs text-emerald-400">Rendement optimisé</div>
           </div>
         </div>
       </div>
 
-      <div className="hidden md:block absolute -top-4 -right-4 lg:-top-6 lg:-right-6 bg-white/90 dark:bg-gray-900/85 backdrop-blur-sm rounded-2xl shadow-xl border border-white/80 dark:border-white/[0.08] p-3 max-w-[180px] lg:max-w-[210px] hover-lift">
+      <div className="hidden md:block absolute -top-4 -right-4 lg:-top-6 lg:-right-6 bg-gray-900/90 backdrop-blur-sm rounded-2xl shadow-xl border border-white/[0.08] p-3 max-w-[180px] lg:max-w-[210px] hover-lift">
         <div className="flex items-center space-x-2 lg:space-x-3">
           <div className="relative w-10 h-10 lg:w-12 lg:h-12 flex-shrink-0">
             <Image
@@ -92,8 +92,8 @@ function FloatingCards() {
             />
           </div>
           <div>
-            <div className="font-semibold text-sm text-gray-900 dark:text-white">Gagner Plus</div>
-            <div className="text-xs text-emerald-600 dark:text-emerald-400">Revenus augmentés</div>
+            <div className="font-semibold text-sm text-white">Gagner Plus</div>
+            <div className="text-xs text-emerald-400">Revenus augmentés</div>
           </div>
         </div>
       </div>

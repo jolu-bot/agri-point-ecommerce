@@ -2,7 +2,7 @@
 export function HeroImageSkeleton() {
   return (
     <div 
-      className="aspect-square bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center overflow-hidden rounded-2xl w-full"
+      className="aspect-square bg-[#0d1a0e] border border-emerald-900/30 flex items-center justify-center overflow-hidden rounded-2xl w-full"
       {...{
         style: {
           width: '100%',
@@ -12,7 +12,7 @@ export function HeroImageSkeleton() {
       }}
     >
       {/* Shimmer animation */}
-      <div className="w-full h-full bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 animate-pulse" />
+      <div className="w-full h-full bg-gradient-to-r from-emerald-950/50 via-emerald-900/20 to-emerald-950/50 animate-pulse" />
     </div>
   );
 }

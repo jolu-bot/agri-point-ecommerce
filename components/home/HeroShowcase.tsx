@@ -30,8 +30,8 @@ export default async function HeroShowcase() {
   const productName = product?.name || 'Produit phare';
 
   return (
-    <Link href={`/produits/${productSlug}`} className="block w-full h-full">
-      <div className="aspect-square bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden rounded-2xl w-full relative">
+    <Link href={`/produits/${productSlug}`} className="block w-full h-full group">
+      <div className="aspect-square bg-[#0d1a0e] border border-emerald-900/30 flex items-center justify-center overflow-hidden rounded-2xl w-full relative transition-all duration-300 group-hover:border-emerald-700/50 group-hover:shadow-[0_0_40px_rgba(74,222,128,0.08)]">
         <img
           src={imageUrl}
           alt={productName}
