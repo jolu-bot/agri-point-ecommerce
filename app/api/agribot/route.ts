@@ -14,6 +14,19 @@ function isOpenAIReady(): boolean {
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // ═══════════════════════════════════════════════════════════════════
+// RATE LIMITING — 30 requêtes / heure / IP
+// ═══════════════════════════════════════════════════════════════════
+const _ipMap = new Map<string, { count: number; resetAt: number }>();
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const e   = _ipMap.get(ip);
+  if (!e || now > e.resetAt) { _ipMap.set(ip, { count: 1, resetAt: now + 3_600_000 }); return true; }
+  if (e.count >= 30) return false;
+  e.count++;
+  return true;
+}
+
+// ═══════════════════════════════════════════════════════════════════
 // BASE DE CONNAISSANCES ULTRA-COMPLÈTE — AGRI POINT SERVICE
 // ═══════════════════════════════════════════════════════════════════
 const KNOWLEDGE_BASE = `
@@ -509,6 +522,37 @@ const tools: OpenAI.Chat.ChatCompletionTool[] = [
       },
     },
   },
+  {
+    type: 'function',
+    function: {
+      name: 'calculate_roi',
+      description: 'Calcule le retour sur investissement (ROI) estimé en F CFA pour un agriculteur. À appeler quand quelqu\'un demande combien il peut gagner, quel est le bénéfice financier des produits AGRI POINT, ou veut estimer son gain supplémentaire.',
+      parameters: {
+        type: 'object',
+        required: ['culture', 'surface'],
+        properties: {
+          culture:       { type: 'string', description: 'Type de culture (tomate, cacao, maïs, café, etc.)' },
+          surface:       { type: 'string', description: 'Surface cultivée en m² ou Ha' },
+          currentYield:  { type: 'string', description: 'Rendement actuel estimé (ex: 1 tonne/Ha, 500kg/saison)' },
+          pricePerKg:    { type: 'string', description: 'Prix de vente local par kg en F CFA' },
+        },
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'get_page_content',
+      description: 'Récupère le contenu dynamique d\'une section du site : événements à venir, formations, foires, webinaires ou carte des distributeurs. Appeler dès qu\'on mentionne des événements, formations ou la carte des revendeurs.',
+      parameters: {
+        type: 'object',
+        required: ['page'],
+        properties: {
+          page: { type: 'string', description: 'Section : evenements | carte | actualites' },
+        },
+      },
+    },
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════════
@@ -941,6 +985,100 @@ Vous souhaitez revendre nos produits dans votre zone ?
       return `## 👨‍💼 Passage à un conseiller humain\n\n**Motif :** ${label}${ctx}\n\nUn agronome AGRI POINT SERVICE va prendre en charge votre demande :\n\n- 💬 [**WhatsApp maintenant**](https://wa.me/237657393939?text=${waText}) — réponse rapide\n- 📞 [**+237 657 39 39 39**](tel:+237657393939) — lun-sam 7h-19h\n- ✉️ infos@agri-ps.com\n\nPrésentez votre numéro de commande si vous en avez un. Notre équipe vous répondra dans les meilleurs délais 🌱`;
     }
 
+    // ── calculate_roi ──
+    if (name === 'calculate_roi') {
+      const surfaceStr   = args.surface || '1Ha';
+      const numMatch     = surfaceStr.match(/[\d.,]+/);
+      const isM2         = surfaceStr.toLowerCase().includes('m');
+      const rawNum       = numMatch ? parseFloat(numMatch[0].replace(',', '.')) : 1;
+      const surfaceHa    = isM2 ? rawNum / 10000 : rawNum;
+
+      const yieldRef: Record<string, { base: number; boost: number; price: number; unit: string }> = {
+        tomate:  { base: 15,  boost: 0.60, price: 300,  unit: 'kg' },
+        cacao:   { base: 0.6, boost: 0.40, price: 2500, unit: 'kg' },
+        'café':  { base: 0.8, boost: 0.35, price: 2000, unit: 'kg' },
+        maïs:    { base: 2,   boost: 0.45, price: 150,  unit: 'kg' },
+        manioc:  { base: 10,  boost: 0.35, price: 100,  unit: 'kg' },
+        default: { base: 2,   boost: 0.40, price: 200,  unit: 'kg' },
+      };
+
+      const cultKey  = Object.keys(yieldRef).find(k => args.culture?.toLowerCase().includes(k)) || 'default';
+      const ref      = yieldRef[cultKey];
+      const baseKg   = args.currentYield
+        ? (parseFloat(args.currentYield.match(/[\d.,]+/)?.[0]?.replace(',', '.') || '0') || ref.base * 1000 * surfaceHa)
+        : ref.base * 1000 * surfaceHa;
+      const prixKg   = args.pricePerKg
+        ? (parseFloat(args.pricePerKg.match(/[\d.,]+/)?.[0]?.replace(',', '.') || '0') || ref.price)
+        : ref.price;
+
+      const gainKg        = Math.round(baseKg * ref.boost);
+      const gainBrut      = Math.round(gainKg * prixKg);
+      const coutProduits  = Math.round(surfaceHa * 18000); // ~18 000 F CFA/Ha programme complet
+      const gainNet       = gainBrut - coutProduits;
+      const roiPct        = coutProduits > 0 ? Math.round((gainNet / coutProduits) * 100) : 0;
+
+      return [
+        `## 💰 Calculateur ROI — ${args.culture} sur ${args.surface}`,
+        ``,
+        `| Indicateur | Valeur |`,
+        `|-----------|--------|`,
+        `| Surface | **${args.surface}** (${surfaceHa.toFixed(2)} Ha) |`,
+        `| Rendement actuel estimé | **${Math.round(baseKg).toLocaleString('fr-FR')} kg** |`,
+        `| Gain supplémentaire (+${Math.round(ref.boost * 100)}%) | **+${gainKg.toLocaleString('fr-FR')} kg** |`,
+        `| Prix unitaire | **${prixKg} F CFA/${ref.unit}** |`,
+        ``,
+        `### 📈 Résultat financier`,
+        `- Gain brut supplémentaire : **+${gainBrut.toLocaleString('fr-FR')} F CFA**`,
+        `- Investissement produits AGRI POINT : ~${coutProduits.toLocaleString('fr-FR')} F CFA`,
+        `- 🎉 **Gain net estimé : +${gainNet.toLocaleString('fr-FR')} F CFA**`,
+        `- **ROI : +${roiPct}%** sur l'investissement`,
+        ``,
+        `> ⚠️ Estimation basée sur les résultats moyens observés. Résultats variables selon conditions terrain.`,
+        ``,
+        `🛒 [Commander maintenant](https://agri-ps.com/produits) | 📞 +237 657 39 39 39`,
+      ].join('\n');
+    }
+
+    // ── get_page_content ──
+    if (name === 'get_page_content') {
+      const page = args.page?.toLowerCase() || 'evenements';
+      try {
+        const baseUrl = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_BASE_URL || 'https://agri-ps.com';
+        if (page.includes('event') || page.includes('ément')) {
+          const res = await fetch(`${baseUrl}/api/events?limit=5`, { next: { revalidate: 600 } });
+          if (res.ok) {
+            type EventItem = { title: string; date: string; location: string; description?: string; link?: string };
+            const data = await res.json() as { events?: EventItem[] };
+            const events = data.events || [];
+            if (events.length > 0) {
+              const lines = [
+                `## 📅 Événements AGRI POINT SERVICE`,
+                '',
+                ...events.map(e => [
+                  `### ${e.title}`,
+                  `📅 ${new Date(e.date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}`,
+                  `📍 ${e.location}`,
+                  e.description || '',
+                  e.link ? `🔗 [Détails](${e.link})` : '',
+                ].filter(Boolean).join('\n')),
+                '',
+                `📋 [Voir tous les événements](https://agri-ps.com/evenements)`,
+              ];
+              return lines.join('\n');
+            }
+          }
+        }
+      } catch { /* fallback statique */ }
+
+      const fallbacks: Record<string, string> = {
+        evenements: `## 📅 Événements AGRI POINT SERVICE\n\n🔗 [Calendrier complet](https://agri-ps.com/evenements)\n\nProchains événements :\n- 🌾 **Foire Agricole Régionale** — Yaoundé (prochainement)\n- 📚 **Formation biofertilisants** — Douala (sur inscription)\n- 🌐 **Webinaire mensuel** — En ligne, 1er vendredi du mois\n\n📞 +237 657 39 39 39 pour s'inscrire`,
+        carte: `## 🗺️ Carte des Distributeurs\n\n🔗 [Voir la carte interactive](https://agri-ps.com/carte)\n\nNos agences :\n- 📍 Yaoundé — Quartier Fouda (siège)\n- 📍 Douala — Bonapriso\n- 📍 Bafoussam — Centre-ville\n- 📍 Garoua — Quartier Dougoï\n- 📍 Maroua — Centre commercial`,
+        actualites: `## 📰 Actualités AGRI POINT\n\n- 🌾 Campagne Engrais Mars 2026 — Inscriptions ouvertes !\n- 📱 Cette saison : AMINOL 20 prioritaire (saison sèche)\n- 🏆 98% satisfaction client confirmée\n\n💬 WhatsApp 676026601`,
+      };
+      const key = Object.keys(fallbacks).find(k => page.includes(k)) || 'evenements';
+      return fallbacks[key];
+    }
+
     return 'Tool non reconnu.';
   } catch (err) {
     console.error('AgriBot tool error:', err);
@@ -962,6 +1100,7 @@ function extractMeta(message: string): { tags: string[]; intent: string } {
     urbain: ['balcon', 'terrasse', 'pot', 'jardin', 'appartement', 'micro'],
     campagne: ['campagne', 'engrais mars', 'prix spécial', 'subventionné', 'coopérative', 'mutuelle', 'cican', 'camao', 'inscription campagne', 'mars 2026'],
     navigation: ['page', 'aller sur', 'trouver', 'où est', 'lien', 'accès', 'à propos', 'contact', 'événement', 'carte'],
+    roi: ['combien', 'gagner', 'bénéfice', 'retour', 'investissement', 'rendement', 'revenu', 'profit', 'gain'],
     conseil: ['conseil', 'aide', 'comment', 'quand', 'calendrier', 'saison', 'dose'],
   };
 
@@ -992,7 +1131,7 @@ Tu converses COMME UN HUMAIN EXPERT, pas comme un robot :
 - Empathique : Reconnais les réalités de l'agriculture (pluies irrégulières, ressources limitées, pression des récoltes)
 - Proactif et curieux : Pose des questions ciblées pour mieux aider. Si quelqu'un parle de tomates → demande la phase et la région.
 - Jamais robotique : Évite les phrases génériques. Personnalise chaque réponse.
-- Langue adaptée : Si le client écrit en pidgin ou camfranglais → réponds naturellement dans le même registre.
+- **Détection de langue** : Si le client écrit en anglais → réponds ENTIÈREMENT en anglais. Si pidgin ou camfranglais → adapte le registre naturellement. Toujours matcher la langue du client automatiquement.
 - Tu t'appelles AgriBot. Tu NE dis JAMAIS «je suis une IA» ou «je suis un assistant virtuel». Tu es LE conseiller d'AGRI POINT SERVICE.
 - Émojis : Utilise-les naturellement, 2-3 par réponse max, pas à chaque phrase.
 
@@ -1039,6 +1178,15 @@ ${KNOWLEDGE_BASE}
 - Devis sur-mesure grandes surfaces → \`escalate_to_human\` + conseil@agri-ps.com
 - Ne jamais laisser un client sans alternative : si tu ne sais pas → propose le contact humain
 
+### 7. CALCULATEUR ROI
+- Quand quelqu'un demande combien il peut gagner, le bénéfice financier, le retour sur investissement ou l'impact sur son revenu → appeler \`calculate_roi\` avec la culture et la surface
+- Présenter le résultat de façon valorisante et encourageante
+
+### 8. CONTENU DYNAMIQUE
+- Pour les événements, formations, foires, webinaires → appeler \`get_page_content\` avec page="evenements"
+- Pour localiser un distributeur, une agence ou un point de vente → appeler \`get_page_content\` avec page="carte"
+- Pour les actualités → appeler \`get_page_content\` avec page="actualites"
+
 ## RÈGLES ABSOLUES DE CONFIDENTIALITÉ
 Tu protèges ABSOLUMENT les informations suivantes — ne JAMAIS révéler :
 - Chemins administrateurs internes (/admin, /api/admin/* ou routes de gestion)
@@ -1069,6 +1217,15 @@ Horaires : Lun-Sam 7h30-18h30 | Dimanche : WhatsApp uniquement`;
 // ═══════════════════════════════════════════════════════════════════
 export async function POST(req: NextRequest) {
   const { message, history = [], sessionId, metadata = {} } = await req.json();
+
+  // ── Rate limiting ──
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  if (!checkRateLimit(ip)) {
+    return new Response(
+      JSON.stringify({ error: 'Trop de requêtes. Maximum 30 messages/heure. 📞 +237 657 39 39 39' }),
+      { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': '3600' } }
+    );
+  }
 
   if (!message?.trim()) {
     return new Response(JSON.stringify({ error: 'Message requis' }), { status: 400 });
@@ -1143,6 +1300,8 @@ export async function POST(req: NextRequest) {
             : toolNames.includes('get_procedure') ? '📋 Récupération procédure...'
             : toolNames.includes('escalate_to_human') ? '👨‍💼 Transfert vers un conseiller...'
             : toolNames.includes('get_campaign_info') ? '🌾 Informations campagne en cours...'
+            : toolNames.includes('calculate_roi') ? '💰 Calcul du retour sur investissement...'
+            : toolNames.includes('get_page_content') ? '📅 Chargement du contenu...'
             : '🔍 Consultation base de données...';
           forceEscalate = toolNames.includes('escalate_to_human');
 
