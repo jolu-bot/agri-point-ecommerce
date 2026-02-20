@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   MessageCircle, X, Send, ThumbsUp, ThumbsDown, RotateCcw,
   Loader2, Copy, Check, Maximize2, Minimize2, Mic, MicOff,
   ChevronDown, Sparkles, ShoppingCart, Leaf, AlertTriangle,
-  UserCircle2, Package, Phone,
+  UserCircle2, Package, Phone, Mail, TrendingUp, Map, Calendar,
 } from 'lucide-react';
 
 // ═══════════════════════════════════════════════════════════════════
@@ -110,12 +111,15 @@ function MarkdownMessage({ content }: { content: string }) {
 // BADGE D'INTENTION
 // ═══════════════════════════════════════════════════════════════════
 const INTENT_CONFIG: Record<string, { label: string; icon: React.ReactNode; color: string }> = {
-  conseil:  { label: 'Conseil',    icon: <Leaf className="w-2.5 h-2.5" />,         color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
-  produit:  { label: 'Produit',    icon: <Package className="w-2.5 h-2.5" />,       color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
-  commande: { label: 'Commande',   icon: <ShoppingCart className="w-2.5 h-2.5" />,  color: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' },
-  compte:   { label: 'Mon compte', icon: <UserCircle2 className="w-2.5 h-2.5" />,   color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' },
-  urgence:  { label: 'Urgent',     icon: <AlertTriangle className="w-2.5 h-2.5" />, color: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' },
-  culture:  { label: 'Culture',    icon: <Sparkles className="w-2.5 h-2.5" />,      color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' },
+  conseil:    { label: 'Conseil',    icon: <Leaf className="w-2.5 h-2.5" />,         color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
+  produit:    { label: 'Produit',    icon: <Package className="w-2.5 h-2.5" />,       color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
+  commande:   { label: 'Commande',   icon: <ShoppingCart className="w-2.5 h-2.5" />,  color: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' },
+  compte:     { label: 'Mon compte', icon: <UserCircle2 className="w-2.5 h-2.5" />,   color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' },
+  urgence:    { label: 'Urgent',     icon: <AlertTriangle className="w-2.5 h-2.5" />, color: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' },
+  culture:    { label: 'Culture',    icon: <Sparkles className="w-2.5 h-2.5" />,      color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' },
+  campagne:   { label: 'Campagne',   icon: <Leaf className="w-2.5 h-2.5" />,          color: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' },
+  roi:        { label: 'ROI',        icon: <TrendingUp className="w-2.5 h-2.5" />,    color: 'bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400' },
+  navigation: { label: 'Navigation', icon: <Map className="w-2.5 h-2.5" />,           color: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400' },
 };
 
 function IntentBadge({ intent }: { intent: string }) {
@@ -196,21 +200,101 @@ function EscalationCard({ context }: { context: string }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════
+// WIDGET ÉLIGIBILITÉ CAMPAGNE — Mini-flow 3 questions
+// ═══════════════════════════════════════════════════════════════════
+const ELIGIBILITY_QUESTIONS = [
+  { text: 'Être membre d\'une coopérative agréée (reconnue MINADER) ?', icon: '🏢' },
+  { text: 'Adhérer à une mutuelle agricole (CICAN, CAMAO ou agréé) ?', icon: '🤝' },
+  { text: 'Commander au minimum 6 sacs ou litres ?', icon: '📦' },
+];
+
+function EligibilityWidget({ onComplete }: { onComplete: (msg: string) => void }) {
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState<boolean[]>([]);
+
+  const answer = (yes: boolean) => {
+    const newAns = [...answers, yes];
+    if (step < ELIGIBILITY_QUESTIONS.length - 1) {
+      setAnswers(newAns);
+      setStep(step + 1);
+    } else {
+      const eligible = newAns.every(Boolean);
+      const summary  = ELIGIBILITY_QUESTIONS.map((q, i) => `${newAns[i] ? '✅' : '❌'} ${q.text}`).join('\n');
+      onComplete(
+        eligible
+          ? `✅ Test d'éligibilité campagne :\n${summary}\n\nJe remplis toutes les conditions ! Comment m'inscrire à la campagne Mars 2026 ?`
+          : `❌ Test d'éligibilité campagne :\n${summary}\n\nJe ne remplis pas toutes les conditions. Que puis-je faire ?`
+      );
+    }
+  };
+
+  const q = ELIGIBILITY_QUESTIONS[step];
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="mx-3 mb-2 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl"
+    >
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-[12px] font-semibold text-amber-700 dark:text-amber-400">🌾 Vérification éligibilité</span>
+        <span className="text-[11px] text-amber-500">{step + 1}/{ELIGIBILITY_QUESTIONS.length}</span>
+      </div>
+      <div className="flex gap-1 mb-2.5">
+        {ELIGIBILITY_QUESTIONS.map((_, i) => (
+          <div key={i} className={`h-1 flex-1 rounded-full transition-colors ${
+            i < step ? 'bg-green-500' : i === step ? 'bg-amber-400 animate-pulse' : 'bg-gray-200 dark:bg-gray-700'
+          }`} />
+        ))}
+      </div>
+      <p className="text-[12px] text-amber-800 dark:text-amber-200 mb-3 font-medium">{q.icon} {q.text}</p>
+      <div className="flex gap-2">
+        <button
+          onClick={() => answer(true)}
+          className="flex-1 py-2 px-3 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[12px] font-medium rounded-lg hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors"
+        >✅ Oui</button>
+        <button
+          onClick={() => answer(false)}
+          className="flex-1 py-2 px-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-[12px] font-medium rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"
+        >❌ Non</button>
+      </div>
+    </motion.div>
+  );
+}
+// ═══════════════════════════════════════════════════════════════════
 // SUGGESTIONS PAR DÉFAUT
 // ═══════════════════════════════════════════════════════════════════
 const DEFAULT_SUGGESTIONS: { label: string; text: string; intent: Intent }[] = [
-  { label: '🍅 Tomates',      text: 'Quel programme complet pour mes tomates ?',      intent: 'culture'  },
-  { label: '☕ Cacao/Café',   text: 'Conseils pour booster mon cacao et café ?',       intent: 'culture'  },
-  { label: '🏙️ Balcon',      text: 'Comment jardiner sur mon balcon en ville ?',      intent: 'conseil'  },
-  { label: '🛒 Commander',    text: 'Comment passer une commande sur le site ?',       intent: 'commande' },
-  { label: '🚚 Livraison',    text: 'Délais et frais de livraison ?',                  intent: 'commande' },
-  { label: '💊 Dosage',       text: 'Comment calculer la dose pour 500 m² ?',         intent: 'conseil'  },
-  { label: '📋 Mon compte',   text: 'Comment créer mon compte client ?',              intent: 'compte'   },
-  { label: '🌿 Saison',       text: 'Quels produits utiliser en ce moment ?',         intent: 'conseil'  },
+  { label: '🍅 Tomates',     text: 'Quel programme complet pour mes tomates ?',         intent: 'culture'    },
+  { label: '☕ Cacao/Café',  text: 'Conseils pour booster mon cacao et café ?',          intent: 'culture'    },
+  { label: '🏙️ Balcon',     text: 'Comment jardiner sur mon balcon en ville ?',          intent: 'conseil'    },
+  { label: '🛒 Commander',   text: 'Comment passer une commande sur le site ?',          intent: 'commande'   },
+  { label: '🚚 Livraison',   text: 'Délais et frais de livraison ?',                     intent: 'commande'   },
+  { label: '💰 ROI',         text: 'Combien puis-je gagner avec vos produits sur 1 Ha ?', intent: 'roi'       },
+  { label: '📋 Mon compte',  text: 'Comment créer mon compte client ?',                 intent: 'compte'     },
+  { label: '🌿 Saison',      text: 'Quels produits utiliser en ce moment ?',             intent: 'conseil'    },
+  { label: '📅 Événements',  text: 'Quels sont les prochains événements AGRI POINT ?',  intent: 'navigation' },
 ];
 
 // ═══════════════════════════════════════════════════════════════════
-// HOOK VOICE INPUT (Web Speech API fr-FR)
+// HELPER — Message d'accueil contextuel selon la page
+// ═══════════════════════════════════════════════════════════════════
+function getWelcomeMessage(path: string | null): string {
+  if (path?.includes('campagne')) {
+    return 'Bienvenue sur la **Campagne Engrais Mars 2026** 🌾\n\nJe suis AgriBot, votre conseiller AGRI POINT SERVICE. Je vois que vous consultez notre offre spéciale.\n\nJe peux :\n- ✅ **Vérifier votre éligibilité** en 3 questions (bouton ci-dessous)\n- 📝 **Guider le formulaire** champ par champ\n- 💳 Expliquer le **paiement 70/30**\n\nComment puis-je vous aider ?';
+  }
+  if (path?.includes('produits')) {
+    return 'Bonjour ! Je suis **AgriBot** 🌱\n\nVous explorez notre catalogue de biofertilisants.\n\nDites-moi votre **type de culture** et je vous recommande les produits les plus adaptés avec les doses exactes !\n\n🌿 Tomate, cacao, café, maïs, agrumes... Quelle est votre culture ?';
+  }
+  if (path?.includes('checkout') || path?.includes('panier')) {
+    return 'Bonjour ! Je suis **AgriBot** 🛒\n\nVous êtes en cours de commande. Besoin d\'aide avec les **modes de paiement**, les **délais de livraison** ou une question sur votre commande ?';
+  }
+  if (path?.includes('contact')) {
+    return 'Bonjour ! Je suis **AgriBot** 📞\n\nVous êtes sur la page Contact. Je peux vous orienter vers le bon département :\n- 🤝 **Service Client** — commandes et livraisons\n- 🌾 **Conseil Agricole** — recommandations techniques\n- 🤝 **Partenariats** — devenir distributeur\n\nQuelle est votre demande ?';
+  }
+  return 'Bonjour ! Je suis **AgriBot** 🌱, votre conseiller expert d\'AGRI POINT SERVICE.\n\nJe peux vous aider à :\n- 🌱 **Conseils cultures** : tomate, cacao, café, maïs, agrumes…\n- 💰 Calculer votre **ROI** avec nos produits\n- 🌾 La **Campagne Mars 2026** — prix spéciaux\n- 🛒 **Commander** et suivre vos livraisons\n\nComment puis-je vous aider aujourd\'hui ?';
+}
+
+
 // ═══════════════════════════════════════════════════════════════════
 function useVoiceInput(onResult: (text: string) => void) {
   const [listening, setListening] = useState(false);
@@ -244,25 +328,23 @@ function useVoiceInput(onResult: (text: string) => void) {
 // COMPOSANT PRINCIPAL AgriBot v3
 // ═══════════════════════════════════════════════════════════════════
 export default function AgriBot() {
-  const [isOpen, setIsOpen]               = useState(false);
-  const [isFullscreen, setIsFullscreen]   = useState(false);
-  const [sessionId]                       = useState(() =>
+  const pathname        = usePathname();
+  const isCampaignPage  = !!pathname?.includes('campagne');
+  const isProductsPage  = !!pathname?.includes('produits');
+  const isPulsingPage   = isCampaignPage || isProductsPage;
+
+  const [isOpen, setIsOpen]                     = useState(false);
+  const [isFullscreen, setIsFullscreen]          = useState(false);
+  const [hasAutoOpened, setHasAutoOpened]        = useState(false);
+  const [showEligibility, setShowEligibility]    = useState(false);
+  const [sessionId]                              = useState(() =>
     typeof crypto !== 'undefined' ? crypto.randomUUID() : Math.random().toString(36).slice(2)
   );
-  const [messages, setMessages] = useState<Message[]>([{
+  const [messages, setMessages] = useState<Message[]>(() => [{
     id: '0',
     role: 'assistant',
     intent: 'conseil',
-    content: `Bonjour ! Je suis **AgriBot** 🌱, votre conseiller expert d'AGRI POINT SERVICE.
-
-Je peux vous aider à :
-- 🌱 **Conseils cultures** : tomate, cacao, café, maïs, agrumes…
-- 💊 **Choisir vos produits** et calculer les doses exactes
-- 🛒 **Commander** et suivre vos livraisons en temps réel
-- 👤 **Gérer votre compte** client
-- 🚨 **Diagnostiquer** un problème urgent sur vos plants
-
-Comment puis-je vous aider aujourd'hui ?`,
+    content: getWelcomeMessage(typeof window !== 'undefined' ? window.location.pathname : null),
     timestamp: new Date(),
     suggestions: [],
   }]);
@@ -305,18 +387,49 @@ Comment puis-je vous aider aujourd'hui ?`,
     return () => document.removeEventListener('keydown', fn);
   }, [isOpen]);
 
+  // ─── Ouverture proactive sur pages clés (après 8 secondes) ───
+  useEffect(() => {
+    if (hasAutoOpened || isOpen) return;
+    if (!isCampaignPage && !isProductsPage) return;
+    const timer = setTimeout(() => {
+      setIsOpen(true);
+      setHasAutoOpened(true);
+      setMessages(prev => prev.map((m, i) => i !== 0 ? m : {
+        ...m,
+        content: isCampaignPage
+          ? `👋 Bonjour ! Je suis **AgriBot** 🌾\n\nJe vois que vous consultez la **Campagne Engrais Mars 2026**.\n\nVoulez-vous que je **vérifie votre éligibilité** maintenant en 3 questions ? Ou besoin d'aide pour remplir le formulaire ?`
+          : `👋 Bonjour ! Je suis **AgriBot** 🌱\n\nVous parcourez notre catalogue de biofertilisants.\n\nDites-moi votre **culture** et je vous recommande les produits les plus adaptés avec les doses exactes !`,
+      }));
+    }, 8000);
+    return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+
+  // ─── Résumé par email ───
+  const sendEmailSummary = useCallback(() => {
+    const lines = messages
+      .filter(m => m.content.length > 5)
+      .map(m => `[${m.role === 'user' ? 'Vous' : 'AgriBot'}]\n${m.content.replace(/<[^>]+>/g, '').replace(/<!--.*?-->/gs, '').slice(0, 600)}`)
+      .join('\n\n--------------------\n\n');
+    const subject = encodeURIComponent('Mon résumé AgriBot — AGRI POINT SERVICE');
+    const body    = encodeURIComponent(`Résumé de ma conversation AgriBot :\n\n${lines}\n\n--------------------\nAGRI POINT SERVICE | https://agri-ps.com | +237 657 39 39 39`);
+    window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
+  }, [messages]);
+
+
   // ─── Reset ───
   const resetChat = useCallback(() => {
     abortRef.current?.abort();
     setIsStreaming(false);
+    setShowEligibility(false);
     setMessages([{
       id: Date.now().toString(),
       role: 'assistant',
       intent: 'conseil',
-      content: 'Nouvelle conversation démarrée 🌱 Comment puis-je vous aider ?',
+      content: getWelcomeMessage(pathname),
       timestamp: new Date(),
     }]);
-  }, []);
+  }, [pathname]);
 
   // ─── Feedback ───
   const sendFeedback = useCallback(async (messageId: string, feedback: 'positive' | 'negative') => {
@@ -424,11 +537,21 @@ Comment puis-je vous aider aujourd'hui ?`,
 
   // ─── Suggestions actives ───
   const lastAiMsg  = [...messages].reverse().find(m => m.role === 'assistant' && !m.isStreaming);
-  const activeSugs = (lastAiMsg?.suggestions?.length ?? 0) > 0
-    ? (lastAiMsg!.suggestions!).map((s: string) => ({ label: s, text: s, intent: 'conseil' as Intent }))
-    : messages.length <= 1
-    ? DEFAULT_SUGGESTIONS.slice(0, 4)
-    : DEFAULT_SUGGESTIONS.slice(4, 7);
+  const activeSugs: { label: string; text: string; intent: Intent }[] = useMemo(() => {
+    if ((lastAiMsg?.suggestions?.length ?? 0) > 0)
+      return (lastAiMsg!.suggestions!).map((s: string) => ({ label: s, text: s, intent: 'conseil' as Intent }));
+    if (isCampaignPage)
+      return [
+        { label: '🌾 Vérifier éligibilité', text: '3_ELIGIBILITY_FLOW',                                                              intent: 'campagne' as Intent },
+        { label: '📝 Guide formulaire',    text: 'Comment remplir le formulaire d\'inscription à la campagne Mars 2026 ?',          intent: 'campagne' as Intent },
+        { label: '💳 Paiement 70/30',     text: 'Expliquez-moi le paiement acompte 70% + 30% livraison de la campagne.',           intent: 'campagne' as Intent },
+        { label: '❓ Conditions',          text: 'Quelles sont exactement les conditions pour participer à la campagne engrais ?', intent: 'campagne' as Intent },
+      ];
+    if (messages.length <= 1)
+      return DEFAULT_SUGGESTIONS.slice(0, 5);
+    return DEFAULT_SUGGESTIONS.slice(5, 9);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastAiMsg?.suggestions, isCampaignPage, messages.length]);
 
   const chatClass = isFullscreen
     ? 'fixed inset-4 sm:inset-8 z-50 rounded-2xl'
@@ -442,10 +565,13 @@ Comment puis-je vous aider aujourd'hui ?`,
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 1.2, type: 'spring', stiffness: 280, damping: 22 }}
         onClick={() => setIsOpen(o => !o)}
-        className="fixed bottom-6 right-4 sm:right-6 z-50 w-[58px] h-[58px] bg-gradient-to-br from-green-600 via-green-700 to-emerald-800 text-white rounded-full shadow-2xl shadow-green-900/30 hover:scale-105 active:scale-95 transition-transform flex items-center justify-center"
+        className={`fixed bottom-6 right-4 sm:right-6 z-50 w-[58px] h-[58px] bg-gradient-to-br from-green-600 via-green-700 to-emerald-800 text-white rounded-full shadow-2xl shadow-green-900/30 hover:scale-105 active:scale-95 transition-transform flex items-center justify-center${isPulsingPage && !isOpen ? ' ring-4 ring-green-400/60 ring-offset-2' : ''}`}
         aria-label="Ouvrir AgriBot"
       >
         {!isOpen && <span className="absolute inset-0 rounded-full bg-green-500 opacity-20 animate-ping" />}
+        {isPulsingPage && !isOpen && (
+          <span className="absolute -top-1.5 -left-1.5 w-[72px] h-[72px] rounded-full border-2 border-green-400/50 animate-ping" />
+        )}
         <AnimatePresence mode="wait">
           {isOpen ? (
             <motion.span key="x" initial={{ rotate: -90, opacity: 0, scale: 0.5 }} animate={{ rotate: 0, opacity: 1, scale: 1 }} exit={{ rotate: 90, opacity: 0, scale: 0.5 }} transition={{ duration: 0.18 }}>
@@ -487,6 +613,14 @@ Comment puis-je vous aider aujourd'hui ?`,
                 </div>
               </div>
               <div className="flex items-center gap-1">
+                <button
+                  onClick={sendEmailSummary}
+                  className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                  title="Envoyer résumé par email"
+                  aria-label="Résumé par email"
+                >
+                  <Mail className="w-3.5 h-3.5" />
+                </button>
                 <button
                   onClick={() => setIsFullscreen(f => !f)}
                   className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
@@ -572,6 +706,14 @@ Comment puis-je vous aider aujourd'hui ?`,
               <div ref={messagesEndRef} />
             </div>
 
+            {/* WIDGET ÉLIGIBILITÉ CAMPAGNE */}
+            {isCampaignPage && showEligibility && !isStreaming && (
+              <EligibilityWidget onComplete={(msg) => {
+                setShowEligibility(false);
+                handleSend(msg);
+              }} />
+            )}
+
             {/* Scroll-to-bottom */}
             <AnimatePresence>
               {showScrollBtn && (
@@ -592,7 +734,13 @@ Comment puis-je vous aider aujourd'hui ?`,
                 {activeSugs.map((s, i) => (
                   <button
                     key={i}
-                    onClick={() => handleSend(s.text)}
+                    onClick={() => {
+                    if (s.text === '3_ELIGIBILITY_FLOW') {
+                      setShowEligibility(true);
+                    } else {
+                      handleSend(s.text);
+                    }
+                  }}
                     disabled={isStreaming}
                     className="text-[11px] px-2.5 py-1 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded-full hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors disabled:opacity-40 border border-green-200 dark:border-green-800 whitespace-nowrap"
                   >
