@@ -34,39 +34,39 @@ const pageContent = {
 
   contactInfo: {
     headquarters: {
-      title: "Siège Social - Yaoundé",
-      address: "Bastos, Rue de l'Agriculture",
-      city: "BP 12345, Yaoundé, Cameroun",
-      phone: "+237 6 XX XX XX XX",
-      whatsapp: "+237 6 XX XX XX XX",
-      email: "contact@agri-ps.com",
+      title: "AGRI POINT SERVICES SARL",
+      address: "Quartier Fouda",
+      city: "B.P. 5111 Yaoundé, Cameroun",
+      phone: "(+237) 657 39 39 39",
+      whatsapp: "+237651920920",
+      email: "infos@agri-ps.com",
       hours: "Lun-Ven: 8h00 - 17h00\nSamedi: 8h00 - 13h00"
     },
     
     branches: [
       {
-        city: "Douala",
-        address: "Bonapriso, Avenue de la Liberté",
-        phone: "+237 6 XX XX XX XX",
-        email: "douala@agri-ps.com"
+        city: "Yaoundé",
+        address: "Quartier Fouda, B.P. 5111",
+        phone: "(+237) 657 39 39 39",
+        email: "infos@agri-ps.com"
       },
       {
-        city: "Bafoussam",
-        address: "Centre-ville, Marché A",
-        phone: "+237 6 XX XX XX XX",
-        email: "bafoussam@agri-ps.com"
+        city: "Support WhatsApp",
+        address: "Disponible 7j/7",
+        phone: "(+237) 651 92 09 20",
+        email: "infos@agri-ps.com"
       },
       {
-        city: "Garoua",
-        address: "Quartier Dougoï",
-        phone: "+237 6 XX XX XX XX",
-        email: "garoua@agri-ps.com"
+        city: "Livraison Nationale",
+        address: "Toutes les régions du Cameroun",
+        phone: "(+237) 657 39 39 39",
+        email: "infos@agri-ps.com"
       },
       {
-        city: "Maroua",
-        address: "Centre commercial",
-        phone: "+237 6 XX XX XX XX",
-        email: "maroua@agri-ps.com"
+        city: "Site Web",
+        address: "www.agri-ps.com",
+        phone: "(+237) 651 92 09 20",
+        email: "infos@agri-ps.com"
       }
     ]
   },
@@ -76,8 +76,8 @@ const pageContent = {
       icon: Headphones,
       title: "Service Client",
       description: "Questions sur vos commandes et produits",
-      email: "support@agri-ps.com",
-      phone: "+237 6 XX XX XX XX",
+      email: "infos@agri-ps.com",
+      phone: "(+237) 657 39 39 39",
       hours: "Lun-Sam: 8h-18h",
       color: "blue"
     },
@@ -85,8 +85,8 @@ const pageContent = {
       icon: Users,
       title: "Conseil Agricole",
       description: "Accompagnement technique et formations",
-      email: "conseil@agri-ps.com",
-      phone: "+237 6 XX XX XX XX",
+      email: "infos@agri-ps.com",
+      phone: "(+237) 651 92 09 20",
       hours: "Lun-Ven: 8h-17h",
       color: "green"
     },
@@ -94,18 +94,18 @@ const pageContent = {
       icon: Building2,
       title: "Partenariats",
       description: "Collaboration et opportunités business",
-      email: "partenariat@agri-ps.com",
-      phone: "+237 6 XX XX XX XX",
+      email: "infos@agri-ps.com",
+      phone: "(+237) 657 39 39 39",
       hours: "Lun-Ven: 9h-16h",
       color: "purple"
     },
     {
       icon: MessageSquare,
-      title: "Service Presse",
-      description: "Demandes médias et communication",
-      email: "presse@agri-ps.com",
-      phone: "+237 6 XX XX XX XX",
-      hours: "Lun-Ven: 9h-17h",
+      title: "WhatsApp Direct",
+      description: "Réponse rapide via WhatsApp",
+      email: "infos@agri-ps.com",
+      phone: "(+237) 651 92 09 20",
+      hours: "Lun-Sam: 8h-20h",
       color: "amber"
     }
   ],
@@ -389,7 +389,7 @@ export default function ContactPage() {
               <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
                 <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
                   <Building2 className="w-6 h-6 text-green-600" />
-                  {pageContent.contactInfo.headquarters.title}
+                  <span className="leading-tight">{pageContent.contactInfo.headquarters.title}<br /><span className="text-sm font-normal text-gray-500 dark:text-gray-400">Distributeur officiel pour le Cameroun</span></span>
                 </h3>
                 
                 <div className="space-y-4">
@@ -406,7 +406,8 @@ export default function ContactPage() {
                     <div>
                       <p className="font-semibold">Téléphone</p>
                       <p className="text-gray-600 dark:text-gray-300">{pageContent.contactInfo.headquarters.phone}</p>
-                      <p className="text-sm text-green-600">WhatsApp: {pageContent.contactInfo.headquarters.whatsapp}</p>
+                      <p className="text-gray-600 dark:text-gray-300">(+237) 651 92 09 20</p>
+                      <a href={`https://wa.me/${pageContent.contactInfo.headquarters.whatsapp}`} className="text-sm text-green-600 hover:underline flex items-center gap-1 mt-1">💬 WhatsApp: 651 92 09 20</a>
                     </div>
                   </div>
 
@@ -432,7 +433,7 @@ export default function ContactPage() {
               <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
                 <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
                   <Globe className="w-6 h-6 text-green-600" />
-                  Nos Agences Régionales
+                  Nos Canaux de Contact
                 </h3>
 
                 <div className="grid grid-cols-2 gap-4">
