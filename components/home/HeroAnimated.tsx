@@ -25,16 +25,23 @@ export default function HeroAnimated() {
           <Leaf className="w-3.5 h-3.5 opacity-60" />
         </m.div>
 
-        {/* Titre avec dégradé animé */}
+        {/* Titre — structure en blocs typographiques */}
         <m.h1
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.18, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="font-display font-black leading-[1.05] tracking-tight hero-title text-gray-900 dark:text-white"
+          className="font-display font-black leading-[1.0] tracking-tight hero-title"
         >
-          AGRI&nbsp;<span className="text-gradient-primary">POINT</span>
-          <span className="hero-animated-gradient">SERVICES</span>
-          <span className="block text-gradient-primary hero-subtitle">Tout en Un</span>
+          {/* Ligne 1 — AGRI blanc + POINT émeraude, même poids visuel */}
+          <span className="block text-white">
+            AGRI<span className="text-emerald-400"> POINT</span>
+          </span>
+          {/* Ligne 2 — SERVICES avec dégradé animé */}
+          <span className="hero-animated-gradient">
+            SERVICES
+          </span>
+          {/* Ligne 3 — tagline plus légère */}
+          <span className="hero-tagline">Tout en Un</span>
         </m.h1>
 
         {/* Description */}
@@ -60,8 +67,10 @@ export default function HeroAnimated() {
             Découvrir nos produits
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-200" />
           </Link>
-          <Link href="/agriculture-urbaine" className="btn-hero-outline inline-flex items-center justify-center gap-2">
-            Agriculture Urbaine
+          {/* CTA secondaire Campagne Engrais — accent rouge marque */}
+          <Link href="/campagne-engrais" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-red-800/30 dark:border-red-700/25 bg-red-950/5 dark:bg-red-900/10 text-red-700 dark:text-red-400 hover:bg-red-950/10 dark:hover:bg-red-900/20 hover:border-red-700/50 dark:hover:border-red-600/40 font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5">
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 dark:bg-red-400 animate-pulse flex-shrink-0" />
+            Campagne Engrais
           </Link>
         </m.div>
 
@@ -73,10 +82,10 @@ export default function HeroAnimated() {
           className="grid grid-cols-3 gap-3"
         >
           {[
-            { value: '20K+', label: 'Hectares', primary: true },
-            { value: '10K+', label: 'Agriculteurs', primary: true },
-            { value: '100%', label: 'Bio Certifié', primary: false },
-          ].map(({ value, label, primary }, i) => (
+            { value: '20K+', label: 'Hectares', type: 'primary' },
+            { value: '10K+', label: 'Agriculteurs', type: 'primary' },
+            { value: '100%', label: 'Bio Certifié', type: 'secondary' },
+          ].map(({ value, label, type }, i) => (
             <m.div
               key={label}
               initial={{ opacity: 0, y: 8 }}
@@ -84,7 +93,11 @@ export default function HeroAnimated() {
               transition={{ delay: 0.58 + i * 0.08, duration: 0.35 }}
               className="stat-pill-card"
             >
-              <div className={`font-display font-black stat-value ${primary ? 'text-gradient-primary' : 'text-gradient-secondary'}`}>{value}</div>
+              <div className={`font-display font-black stat-value ${
+                type === 'secondary'
+                  ? 'text-gradient-secondary'
+                  : 'text-gradient-primary'
+              }`}>{value}</div>
               <div className="stat-label text-gray-500 dark:text-gray-400">{label}</div>
             </m.div>
           ))}

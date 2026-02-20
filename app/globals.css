@@ -515,6 +515,25 @@
     100% { background-position: 0% 50%; }
   }
 
+  /* Tagline héro — "Tout en Un" */
+  .hero-tagline {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+    font-weight: 600;
+    letter-spacing: normal;
+    background: linear-gradient(120deg, #16a34a, #4ade80);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .dark .hero-tagline {
+    background: linear-gradient(120deg, #4ade80, #86efac);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
   /* — Cartes stats premium (glass pill) — */
   .stat-pill-card {
     padding: 0.75rem 0.5rem;
