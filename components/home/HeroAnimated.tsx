@@ -2,56 +2,93 @@
 
 import Link from 'next/link';
 import { LazyMotion, domAnimation, m } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Leaf } from 'lucide-react';
 
 export default function HeroAnimated() {
   return (
     <LazyMotion features={domAnimation} strict>
       <m.div
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="flex flex-col"
       >
-        <div className="inline-block px-fluid-sm py-fluid-xs gradient-primary text-white rounded-fluid-2xl shadow-lg hero-badge">
-          🌱 Le partenaire sûr de l&apos;entrepreneur agricole
-        </div>
-        
-        <h1 className="font-display font-black text-gray-900 dark:text-white leading-tight hero-title">
-          AGRI POINT SERVICE
-          <span className="block text-gradient-primary hero-subtitle">
-            Tout en Un
-          </span>
-        </h1>
+        {/* Badge premium shimmer */}
+        <m.div
+          initial={{ opacity: 0, scale: 0.88 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.1, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="inline-flex items-center gap-2.5 self-start px-4 py-2 rounded-full border border-emerald-200/80 dark:border-emerald-700/35 bg-white/80 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 text-[12.5px] font-semibold tracking-wide shadow-sm mb-6 hero-badge brand-shimmer"
+        >
+          <span className="brand-pulse-dot" />
+          Le partenaire sûr de l&apos;entrepreneur agricole
+          <Leaf className="w-3.5 h-3.5 opacity-60" />
+        </m.div>
 
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl hero-description">
-          Gamme complète de biofertilisants de grande qualité pour augmenter la production de toutes les cultures.
-        </p>
+        {/* Titre avec dégradé animé */}
+        <m.h1
+          initial={{ opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.18, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          className="font-display font-black leading-[1.05] tracking-tight hero-title text-gray-900 dark:text-white"
+        >
+          AGRI&nbsp;<span className="text-gradient-primary">POINT</span>
+          <span className="hero-animated-gradient">SERVICES</span>
+          <span className="block text-gradient-primary hero-subtitle">Tout en Un</span>
+        </m.h1>
 
-        <div className="flex flex-col sm:flex-row gap-fluid-xs hero-buttons">
-          <Link href="/boutique" className="btn-primary inline-flex items-center justify-center group">
+        {/* Description */}
+        <m.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.32, duration: 0.5 }}
+          className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-lg hero-description"
+        >
+          Gamme complète de{' '}
+          <strong className="text-gray-800 dark:text-gray-200 font-semibold">biofertilisants de grande qualité</strong>{' '}
+          pour augmenter la production de toutes les cultures au Cameroun.
+        </m.p>
+
+        {/* CTAs */}
+        <m.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.44, duration: 0.4 }}
+          className="flex flex-col sm:flex-row gap-3 hero-buttons"
+        >
+          <Link href="/produits" className="btn-primary btn-glow inline-flex items-center justify-center gap-2 group">
             Découvrir nos produits
-            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-200" />
           </Link>
-          <Link href="/agriculture-urbaine" className="btn-outline inline-flex items-center justify-center">
+          <Link href="/agriculture-urbaine" className="btn-hero-outline inline-flex items-center justify-center gap-2">
             Agriculture Urbaine
           </Link>
-        </div>
+        </m.div>
 
-        {/* Trust Indicators */}
-        <div className="grid grid-cols-3 gap-fluid-sm">
-          <div className="text-center">
-            <div className="font-display font-bold text-gradient-primary stat-value">20K+</div>
-            <div className="text-gray-600 dark:text-gray-400 font-medium stat-label">Hectares</div>
-          </div>
-          <div className="text-center">
-            <div className="font-display font-bold text-gradient-primary stat-value">10K+</div>
-            <div className="text-gray-600 dark:text-gray-400 font-medium stat-label">Agriculteurs</div>
-          </div>
-          <div className="text-center">
-            <div className="font-display font-bold text-gradient-secondary stat-value">100%</div>
-            <div className="text-gray-600 dark:text-gray-400 font-medium stat-label">Bio</div>
-          </div>
-        </div>
+        {/* Stats — glass pill cards */}
+        <m.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.54, duration: 0.4 }}
+          className="grid grid-cols-3 gap-3"
+        >
+          {[
+            { value: '20K+', label: 'Hectares', primary: true },
+            { value: '10K+', label: 'Agriculteurs', primary: true },
+            { value: '100%', label: 'Bio Certifié', primary: false },
+          ].map(({ value, label, primary }, i) => (
+            <m.div
+              key={label}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.58 + i * 0.08, duration: 0.35 }}
+              className="stat-pill-card"
+            >
+              <div className={`font-display font-black stat-value ${primary ? 'text-gradient-primary' : 'text-gradient-secondary'}`}>{value}</div>
+              <div className="stat-label text-gray-500 dark:text-gray-400">{label}</div>
+            </m.div>
+          ))}
+        </m.div>
       </m.div>
     </LazyMotion>
   );

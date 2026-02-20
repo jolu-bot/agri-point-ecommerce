@@ -153,9 +153,9 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
   }
   return (
     <Link href={`/produits/${product.slug}`} className="group">
-      <div className="card hover:shadow-2xl transition-all duration-300 overflow-hidden">
+      <div className="card product-card-premium hover:shadow-2xl overflow-hidden">
         {/* Image */}
-        <div className="relative aspect-square mb-4 bg-white dark:bg-gray-800 rounded-lg overflow-hidden p-4">
+        <div className="relative aspect-square mb-4 bg-gray-50 dark:bg-gray-800/60 rounded-xl overflow-hidden p-4">
           {product.images[0] ? (
             <img
               src={product.images[0]}
@@ -188,12 +188,12 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
           </div>
 
           {/* Quick Actions */}
-          <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button className="p-2 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-colors" aria-label="Ajouter aux favoris">
-              <Heart className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+          <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-200">
+            <button className="w-8 h-8 flex items-center justify-center bg-white dark:bg-gray-900 rounded-lg shadow-md hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-700 dark:hover:text-emerald-400 text-gray-600 dark:text-gray-400 transition-colors border border-gray-100 dark:border-white/10" aria-label="Ajouter aux favoris">
+              <Heart className="w-3.5 h-3.5" />
             </button>
-            <button className="p-2 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-colors" aria-label="Aperçu rapide">
-              <Eye className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+            <button className="w-8 h-8 flex items-center justify-center bg-white dark:bg-gray-900 rounded-lg shadow-md hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-700 dark:hover:text-emerald-400 text-gray-600 dark:text-gray-400 transition-colors border border-gray-100 dark:border-white/10" aria-label="Aperçu rapide">
+              <Eye className="w-3.5 h-3.5" />
             </button>
           </div>
 
@@ -218,12 +218,12 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
         {/* Content */}
         <div className="product-content">
           {/* Category */}
-          <div className="text-primary-600 dark:text-primary-400 font-semibold uppercase product-category">
+          <div className="text-emerald-700 dark:text-emerald-400 font-semibold uppercase product-category text-[11px] tracking-wider">
             {product.category.replace('_', ' ')}
           </div>
 
           {/* Name */}
-          <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2 product-title">
+          <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors duration-150 line-clamp-2 product-title">
             {product.name}
           </h3>
 
@@ -252,14 +252,14 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
           )}
 
           {/* Price & Action */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-100 dark:border-white/[0.06]">
             <div>
               {hasDiscount && (
-                <div className="text-gray-500 dark:text-gray-400 line-through product-price-old">
+                <div className="text-gray-400 dark:text-gray-600 line-through product-price-old">
                   {product.price.toLocaleString()} FCFA
                 </div>
               )}
-              <div className="text-primary-600 dark:text-primary-400 font-bold product-price">
+              <div className="text-gradient-primary font-extrabold product-price">
                 {finalPrice.toLocaleString()} FCFA
               </div>
             </div>
@@ -267,10 +267,10 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
             <button
               onClick={handleAddToCart}
               disabled={product.stock === 0}
-              className="btn-primary p-3 rounded-fluid-lg flex items-center justify-center disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="btn-primary w-10 h-10 flex items-center justify-center rounded-xl disabled:bg-gray-300 dark:disabled:bg-gray-700 disabled:cursor-not-allowed shadow-none hover:shadow-emerald-900/30"
               aria-label="Ajouter au panier"
             >
-              <ShoppingCart className="w-5 h-5" />
+              <ShoppingCart className="w-4 h-4" />
             </button>
           </div>
         </div>
