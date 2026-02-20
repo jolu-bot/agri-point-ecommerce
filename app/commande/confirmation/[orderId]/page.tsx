@@ -351,7 +351,6 @@ export default function OrderConfirmationPage() {
                     aria-label="Uploader le reçu Campost (photo ou vidéo)"
                     onChange={handleFileSelect}
                     className="hidden"
-                    capture="environment" // Active la caméra sur mobile (progressive enhancement)
                   />
                   <div className="border-3 border-dashed border-gray-300 rounded-xl p-12 text-center hover:border-emerald-500 hover:bg-emerald-50/50 transition-all">
                     <Upload className="w-16 h-16 text-gray-400 mx-auto mb-4" />
