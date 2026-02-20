@@ -21,10 +21,12 @@ function HeroContent() {
         <Leaf className="w-3.5 h-3.5 opacity-60" />
       </div>
       
-      <h1 className="font-display font-black leading-[1.05] tracking-tight hero-title text-gray-900 dark:text-white">
-        AGRI{' '}<span className="text-gradient-primary">POINT</span>
+      <h1 className="font-display font-black leading-[1.0] tracking-tight hero-title">
+        <span className="block text-white">
+          AGRI<span className="text-emerald-400"> POINT</span>
+        </span>
         <span className="hero-animated-gradient">SERVICES</span>
-        <span className="block text-gradient-primary hero-subtitle">Tout en Un</span>
+        <span className="hero-tagline">Tout en Un</span>
       </h1>
 
       <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-lg hero-description">
@@ -36,20 +38,21 @@ function HeroContent() {
           Découvrir nos produits
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-200" />
         </Link>
-        <Link href="/agriculture-urbaine" className="btn-hero-outline inline-flex items-center justify-center gap-2">
-          Agriculture Urbaine
+        <Link href="/campagne-engrais" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-red-800/30 dark:border-red-700/25 bg-red-950/5 dark:bg-red-900/10 text-red-700 dark:text-red-400 hover:bg-red-950/10 font-semibold text-sm transition-all duration-200">
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 dark:bg-red-400 animate-pulse flex-shrink-0" />
+          Campagne Engrais
         </Link>
       </div>
 
       {/* Stats — glass pill cards */}
       <div className="grid grid-cols-3 gap-3">
         {[
-          { value: '20K+', label: 'Hectares', primary: true },
-          { value: '10K+', label: 'Agriculteurs', primary: true },
-          { value: '100%', label: 'Bio Certifié', primary: false },
-        ].map(({ value, label, primary }) => (
+          { value: '20K+', label: 'Hectares', type: 'primary' },
+          { value: '10K+', label: 'Agriculteurs', type: 'primary' },
+          { value: '100%', label: 'Bio Certifié', type: 'secondary' },
+        ].map(({ value, label, type }) => (
           <div key={label} className="stat-pill-card">
-            <div className={`font-display font-black stat-value ${primary ? 'text-gradient-primary' : 'text-gradient-secondary'}`}>{value}</div>
+            <div className={`font-display font-black stat-value ${type === 'secondary' ? 'text-gradient-secondary' : 'text-gradient-primary'}`}>{value}</div>
             <div className="stat-label text-gray-500 dark:text-gray-400">{label}</div>
           </div>
         ))}
