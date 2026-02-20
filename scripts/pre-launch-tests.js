@@ -330,7 +330,7 @@ class PreLaunchTester {
       console.log('');
       console.log('📋 Next Steps:');
       console.log('   1. Run final functionality tests manually');
-      console.log('   2. Deploy to Hostinger staging');
+      console.log('   2. Deploy to Vercel (git push origin main)');
       console.log('   3. Get team sign-off');
       console.log('   4. Deploy to production (Mar 1, 00:00)');
       console.log('');

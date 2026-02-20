@@ -1,12 +1,12 @@
 /**
- * VÉRIFICATION DES IMAGES EN PRODUCTION (HOSTINGER)
+ * VÉRIFICATION DES IMAGES EN PRODUCTION (VERCEL)
  * Teste l'accessibilité des images des produits sur le site déployé
  */
 
 const https = require('https');
 const http = require('http');
 
-// À CONFIGURER : URL de votre site Hostinger
+// À CONFIGURER : URL de votre site en production
 const PRODUCTION_URL = 'https://votre-site.com'; // REMPLACER PAR L'URL RÉELLE
 
 const productsToCheck = [
@@ -79,7 +79,7 @@ function checkUrl(url) {
 
 async function checkProductImages() {
   console.log('╔════════════════════════════════════════════════╗');
-  console.log('║  VÉRIFICATION IMAGES PRODUCTION (HOSTINGER)   ║');
+  console.log('║  VÉRIFICATION IMAGES PRODUCTION (VERCEL)      ║');
   console.log('╚════════════════════════════════════════════════╝\n');
 
   // Vérifier si l'URL est configurée
@@ -90,8 +90,7 @@ async function checkProductImages() {
     console.log('   2. Remplacez la ligne 9:');
     console.log('      const PRODUCTION_URL = \'https://votre-site-reel.com\';');
     console.log('   3. Relancez ce script\n');
-    console.log('💡 Pour trouver votre URL Hostinger:');
-    console.log('   - Connectez-vous à votre compte Hostinger');
+    console.log('  💡 L\'URL de production est: https://agri-ps.com');
     console.log('   - Allez dans "Websites" ou "Hébergement"');
     console.log('   - Copiez l\'URL de votre site\n');
     return;
@@ -110,7 +109,7 @@ async function checkProductImages() {
     console.log(`❌ Site non accessible (Status: ${siteCheck.status})`);
     console.log(`   Erreur: ${siteCheck.error || 'Unknown'}\n`);
     console.log('⚠️  Vérifiez que:');
-    console.log('   - Le site est bien déployé sur Hostinger');
+    console.log('   - Le site est bien déployé sur Vercel');
     console.log('   - L\'URL est correcte');
     console.log('   - Le domaine est actif\n');
     return;
@@ -178,7 +177,7 @@ async function checkProductImages() {
   console.log('═'.repeat(60));
   
   if (failedImages === 0 && failedPages === 0) {
-    console.log('\n🎉 PARFAIT ! Tout fonctionne correctement sur Hostinger !\n');
+    console.log('\n🎉 PARFAIT ! Tout fonctionne correctement sur Vercel !\n');
     console.log('✅ Toutes les images sont accessibles');
     console.log('✅ Toutes les pages sont accessibles');
     console.log('\n👉 Visitez: ' + PRODUCTION_URL);
@@ -193,7 +192,7 @@ async function checkProductImages() {
       console.log('');
       console.log('💡 Solutions:');
       console.log('   1. Vérifiez que les images sont bien dans public/products/');
-      console.log('   2. Redéployez le site sur Hostinger');
+      console.log('   2. Redéployez le site sur Vercel (git push origin main)');
       console.log('   3. Attendez 2-3 minutes pour la propagation');
       console.log('');
     }

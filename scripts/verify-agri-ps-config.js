@@ -3,7 +3,7 @@
  * VÉRIFICATION CONFIGURATION agri-ps.com
  * 
  * Ce script vérifie que tout est bien configuré pour le domaine agri-ps.com
- * Utilisez-le APRÈS avoir appliqué le guide HOSTINGER-DOMAIN-FIX-AGRI-PS.md
+ * Utilisez-le pour vérifier la configuration agri-ps.com sur Vercel
  * 
  * Utilisation:
  *   node scripts/verify-agri-ps-config.js
@@ -248,11 +248,11 @@ async function verify() {
   } else if (failed <= 2) {
     log(colors.yellow, '\n⚠️  Quelques éléments à corriger:')
     log(colors.yellow, '  - Vérifiez les erreurs en rouge ci-dessus')
-    log(colors.yellow, '  - Suivez le guide HOSTINGER-DOMAIN-FIX-AGRI-PS.md')
+    log(colors.yellow, '  - Consultez la configuration des variables Vercel')
     return 1
   } else {
     log(colors.red, '\n❌ Configuration incomplète!')
-    log(colors.red, '  - Exécutez le guide HOSTINGER-DOMAIN-FIX-AGRI-PS.md entièrement')
+    log(colors.red, '  - Vérifiez les variables d\'environnement dans le dashboard Vercel')
     log(colors.red, '  - Réexécutez ce script pour vérifier')
     return 1
   }
