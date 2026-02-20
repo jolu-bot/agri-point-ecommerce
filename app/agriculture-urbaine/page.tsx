@@ -407,37 +407,37 @@ export default function AgricultureUrbainePage() {
                   </div>
                 )}
 
-                <div className={`relative bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all ${
+                <div className={`relative bg-gradient-to-br from-white to-gray-50 dark:from-gray-800/90 dark:to-gray-800 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all ${
                   solution.popular ? 'ring-4 ring-green-500' : ''
                 }`}>
                   <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br from-${solution.color}-400 to-${solution.color}-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg`}>
                     <solution.icon className="w-10 h-10 text-white" />
                   </div>
 
-                  <h3 className="text-2xl font-black mb-3">{solution.title}</h3>
+                  <h3 className="text-2xl font-black mb-3 text-gray-900 dark:text-white">{solution.title}</h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-6">{solution.description}</p>
 
-                  <div className="grid grid-cols-2 gap-4 mb-6 p-4 bg-gray-100 dark:bg-gray-600 rounded-xl">
+                  <div className="grid grid-cols-2 gap-4 mb-6 p-4 bg-gray-100 dark:bg-gray-700/60 rounded-xl">
                     <div>
                       <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Espace</p>
-                      <p className="font-bold text-green-600">{solution.space}</p>
+                      <p className="font-bold text-green-600 dark:text-emerald-400">{solution.space}</p>
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Production</p>
-                      <p className="font-bold text-green-600">{solution.products}</p>
+                      <p className="font-bold text-green-600 dark:text-emerald-400">{solution.products}</p>
                     </div>
                   </div>
 
                   <div className="mb-6">
-                    <p className="text-sm text-gray-500 mb-2">Investissement départ</p>
-                    <p className="text-3xl font-black text-green-600">{solution.investment}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Investissement départ</p>
+                    <p className="text-3xl font-black text-green-600 dark:text-emerald-400">{solution.investment}</p>
                   </div>
 
                   <ul className="space-y-3 mb-8">
                     {solution.features.map((feature, i) => (
                       <li key={i} className="flex items-start gap-2">
-                        <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm">{feature}</span>
+                        <CheckCircle className="w-5 h-5 text-green-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm text-gray-700 dark:text-gray-200">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -447,7 +447,7 @@ export default function AgricultureUrbainePage() {
                     className={`block text-center px-6 py-4 rounded-xl font-bold transition-all ${
                       solution.popular
                         ? 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-lg'
-                        : 'border-2 border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20'
+                        : 'border-2 border-green-600 text-green-600 dark:text-emerald-400 dark:border-emerald-500 hover:bg-green-50 dark:hover:bg-green-900/20'
                     }`}
                   >
                     Démarrer maintenant
@@ -486,12 +486,12 @@ export default function AgricultureUrbainePage() {
                   <div className={`w-16 h-16 rounded-xl bg-${tech.color}-100 dark:bg-${tech.color}-900/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                     <tech.icon className={`w-8 h-8 text-${tech.color}-600`} />
                   </div>
-                  <h3 className="text-xl font-black mb-3">{tech.name}</h3>
+                  <h3 className="text-xl font-black mb-3 text-gray-900 dark:text-white">{tech.name}</h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">{tech.description}</p>
                   <ul className="space-y-2">
                     {tech.advantages.map((adv, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm">
-                        <CheckCircle className={`w-4 h-4 text-${tech.color}-600 flex-shrink-0 mt-0.5`} />
+                      <li key={i} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-200">
+                        <CheckCircle className={`w-4 h-4 text-${tech.color}-600 dark:text-${tech.color}-400 flex-shrink-0 mt-0.5`} />
                         <span>{adv}</span>
                       </li>
                     ))}
@@ -523,7 +523,7 @@ export default function AgricultureUrbainePage() {
                 <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center mx-auto mb-6 shadow-lg">
                   <benefit.icon className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">{benefit.title}</h3>
+                <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{benefit.title}</h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4">{benefit.description}</p>
                 <div className="inline-block px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-bold">
                   {benefit.stat}
@@ -551,14 +551,14 @@ export default function AgricultureUrbainePage() {
                 transition={{ delay: index * 0.1 }}
                 className="relative"
               >
-                <div className="bg-white dark:bg-gray-700 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all h-full">
-                  <div className="text-6xl font-black text-green-200 dark:text-green-900/50 mb-4">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all h-full">
+                  <div className="text-6xl font-black text-green-200 dark:text-emerald-900/60 mb-4">
                     {step.number}
                   </div>
                   <div className="w-14 h-14 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4">
                     <step.icon className="w-7 h-7 text-green-600" />
                   </div>
-                  <h3 className="text-xl font-bold mb-3">{step.title}</h3>
+                  <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{step.title}</h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-4">{step.description}</p>
                   <div className="inline-block px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs font-bold">
                     ⏱️ {step.duration}
@@ -587,10 +587,10 @@ export default function AgricultureUrbainePage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b-2 border-green-600">
-                  <th className="text-left py-4 px-4 font-bold">Culture</th>
-                  <th className="text-left py-4 px-4 font-bold">Difficulté</th>
-                  <th className="text-left py-4 px-4 font-bold">Temps</th>
-                  <th className="text-left py-4 px-4 font-bold">Rendement</th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Culture</th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Difficulté</th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Temps</th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Rendement</th>
                 </tr>
               </thead>
               <tbody>
@@ -603,7 +603,7 @@ export default function AgricultureUrbainePage() {
                     transition={{ delay: index * 0.05 }}
                     className="border-b border-green-200 dark:border-gray-600 hover:bg-green-100 dark:hover:bg-gray-600 transition-colors"
                   >
-                    <td className="py-4 px-4 font-semibold">{crop.name}</td>
+                    <td className="py-4 px-4 font-semibold text-gray-900 dark:text-gray-100">{crop.name}</td>
                     <td className="py-4 px-4">
                       <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
                         crop.difficulty === 'Très facile' 
@@ -615,7 +615,7 @@ export default function AgricultureUrbainePage() {
                         {crop.difficulty}
                       </span>
                     </td>
-                    <td className="py-4 px-4">{crop.time}</td>
+                    <td className="py-4 px-4 text-gray-700 dark:text-gray-300">{crop.time}</td>
                     <td className="py-4 px-4 font-semibold text-green-600">{crop.yield}</td>
                   </motion.tr>
                 ))}
@@ -661,7 +661,7 @@ export default function AgricultureUrbainePage() {
                     {testimonial.name.charAt(0)}
                   </div>
                   <div>
-                    <p className="font-bold">{testimonial.name}</p>
+                    <p className="font-bold text-gray-900 dark:text-white">{testimonial.name}</p>
                     <p className="text-sm text-gray-500 dark:text-gray-400">{testimonial.location}</p>
                     <p className="text-xs text-green-600 font-semibold">{testimonial.space}</p>
                   </div>

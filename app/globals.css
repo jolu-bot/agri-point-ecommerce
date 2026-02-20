@@ -111,8 +111,37 @@
     font-size: var(--text-base);
     line-height: 1.6;
   }
-  
+
+  /* ——— Couleurs de base garanties pour les deux modes ——— */
+  /* IMPORTANT : next-themes utilise les classes html.dark / html (light) */
+  /* Ne jamais utiliser prefers-color-scheme pour les couleurs de texte */
+  body {
+    color: #111827; /* gray-900 — texte sombre en mode clair */
+    background-color: #ffffff;
+  }
+  .dark body {
+    color: #f1f5f9; /* slate-100 — texte clair en mode sombre */
+    background-color: #030712; /* gray-950 */
+  }
+
+  /* Héritage propre pour tous les éléments de contenu */
+  p {
+    color: inherit;
+  }
+  span, li, td, th, dt, dd, blockquote, figcaption {
+    color: inherit;
+  }
+  /* Textes secondaires sans couleur explicite → variant gris adaptatif */
+  .text-sm:not([class*="text-gray"]):not([class*="text-white"]):not([class*="text-black"]):not([class*="text-emerald"]):not([class*="text-green"]):not([class*="text-red"]):not([class*="text-blue"]):not([class*="text-amber"]):not([class*="text-yellow"]):not([class*="text-purple"]):not([class*="text-indigo"]):not([class*="text-teal"]):not([class*="text-cyan"]):not([class*="text-transparent"]) {
+    color: #374151; /* gray-700 */
+  }
+  .dark .text-sm:not([class*="text-gray"]):not([class*="text-white"]):not([class*="text-black"]):not([class*="text-emerald"]):not([class*="text-green"]):not([class*="text-red"]):not([class*="text-blue"]):not([class*="text-amber"]):not([class*="text-yellow"]):not([class*="text-purple"]):not([class*="text-indigo"]):not([class*="text-teal"]):not([class*="text-cyan"]):not([class*="text-transparent"]) {
+    color: #d1d5db; /* gray-300 */
+  }
+
   small {
+    font-size: var(--text-sm);
+  }
     font-size: var(--text-sm);
   }
   
