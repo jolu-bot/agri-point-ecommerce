@@ -142,8 +142,6 @@
   small {
     font-size: var(--text-sm);
   }
-    font-size: var(--text-sm);
-  }
   
   /* Amélioration de la lisibilité sur tous les écrans */
   html {
