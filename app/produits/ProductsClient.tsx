@@ -7,14 +7,14 @@ import ProductCard from '@/components/products/ProductCard';
 import { IProduct } from '@/models/Product';
 import toast from 'react-hot-toast';
 
-export default function ProductsClient({ initialProducts = [] }: { initialProducts?: IProduct[] }) {
+export default function ProductsClient({ initialProducts = [], initialSearch = '' }: { initialProducts?: IProduct[]; initialSearch?: string }) {
   const [products, setProducts] = useState<IProduct[]>(initialProducts);
   const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   
   // Filtres
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [priceRange, setPriceRange] = useState({ min: 0, max: 500000 });
   const [sortBy, setSortBy] = useState('featured');
