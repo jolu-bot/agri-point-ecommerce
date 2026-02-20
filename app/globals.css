@@ -685,3 +685,125 @@ input, textarea, select {
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-primary-600;
 }
+
+/* ======================================================
+   BRAND UTILITIES — Fil conducteur visuel AGRI POINT
+   ====================================================== */
+
+/* Ligne accent header (scroll) */
+.header-accent-line {
+  background: linear-gradient(90deg, transparent 0%, #16a34a 30%, #4ade80 50%, #16a34a 70%, transparent 100%);
+}
+
+/* --- Texture grain de marque ---
+   Applique un bruit subtil en overlay sur n'importe quel bloc.
+   Usage: <div className="brand-grain"> */
+.brand-grain {
+  position: relative;
+}
+.brand-grain::after {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px;
+  border-radius: inherit;
+}
+
+/* --- Séparateur de section marque ---
+   Ligne dégradé émeraude pour séparer visuellement les sections.
+   Usage: <div className="section-brand-divider"> */
+.section-brand-divider {
+  position: relative;
+  padding-top: 1px;
+}
+.section-brand-divider::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 640px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #16a34a 30%, #4ade80 50%, #16a34a 70%, transparent 100%);
+  opacity: 0.35;
+}
+
+/* --- Badge de statut pulsant ---
+   Usage: <span className="brand-pulse-dot"> */
+.brand-pulse-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: #4ade80;
+  box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5);
+  animation: brand-pulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes brand-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5); }
+  60%       { box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
+}
+
+/* --- Hover lift premium (cartes, boutons) ---
+   Usage: <div className="hover-lift"> */
+.hover-lift {
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.12), 0 6px 12px -6px rgba(0, 0, 0, 0.06);
+}
+
+/* --- Shimmer brand (loading states, highlights) ---
+   Usage: <div className="brand-shimmer"> */
+.brand-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.brand-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(74, 222, 128, 0.12) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: brand-shimmer-move 2.2s ease infinite;
+}
+
+@keyframes brand-shimmer-move {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* --- Bordure accent émeraude sur focus/hover ---
+   Usage: <div className="brand-focus-ring"> */
+.brand-focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #16a34a, 0 0 0 4px rgba(22, 163, 74, 0.2);
+}
+
+/* --- Séparateur végétal SVG — full width entre sections ---
+   Usage: <div className="brand-wave-divider brand-wave-divider--light"> 
+          <div className="brand-wave-divider brand-wave-divider--dark"> */
+.brand-wave-divider {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  height: 48px;
+}
+.brand-wave-divider svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.brand-wave-divider--light { color: #fff; }
+.brand-wave-divider--dark  { color: #0a0f0d; }
