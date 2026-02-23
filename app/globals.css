@@ -106,10 +106,22 @@
     /* Pas de gradient ici : appliqué via classes Tailwind pour compatibilité dark mode */
   }
   
-  body, p, span, div {
+  body, p, div {
     font-family: var(--font-inter);
     font-size: var(--text-base);
     line-height: 1.6;
+  }
+
+  span {
+    font-family: inherit;
+    /* font-size héritée du parent — ne pas forcer var(--text-base) ici */
+  }
+
+  /* Garantit que les spans dans les titres héritent la taille du titre */
+  h1 span, h2 span, h3 span, h4 span, h5 span, h6 span {
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
   }
 
   /* ——— Couleurs de base garanties pour les deux modes ——— */

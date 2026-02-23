@@ -72,8 +72,8 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                 {/* Badges */}
                 <div className="absolute top-2 left-2 flex flex-col gap-1">
                   {product.isFeatured && (
-                    <span className="flex items-center gap-1 px-2 py-1 bg-amber-400 text-amber-900 text-[10px] font-bold rounded-lg shadow-sm">
-                      <Star className="w-3 h-3 fill-amber-900" /> Vedette
+                    <span className="flex items-center gap-1 px-2.5 py-1 bg-gradient-to-br from-red-700 to-amber-500 text-white text-[10px] font-bold rounded-lg shadow-sm shadow-red-900/20">
+                      <Star className="w-3 h-3 fill-white" /> Vedette
                     </span>
                   )}
                   {product.isNew && (
@@ -82,7 +82,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                     </span>
                   )}
                   {hasDiscount && (
-                    <span className="px-2 py-1 bg-red-500 text-white text-[10px] font-bold rounded-lg shadow-sm">
+                    <span className="px-2.5 py-0.5 bg-[#B71C1C] text-white text-[10px] font-bold rounded-full shadow">
                       -{discountPercent}%
                     </span>
                   )}
@@ -177,7 +177,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
       <Link href={`/produits/${product.slug}`} className="group block h-full">
         <div className={`relative h-full flex flex-col bg-white dark:bg-gray-900 rounded-2xl border transition-all duration-300 overflow-hidden
           ${product.isFeatured
-            ? 'border-amber-300/60 dark:border-amber-700/40 shadow-[0_0_0_1px_rgba(251,191,36,0.2)]'
+            ? 'border-red-300/50 dark:border-red-800/40 shadow-[0_0_0_1px_rgba(185,28,28,0.12)]'
             : 'border-gray-100 dark:border-white/[0.06]'}
           hover:shadow-[0_8px_40px_rgba(16,163,74,0.18)] hover:border-emerald-200 dark:hover:border-emerald-700/50
           hover:-translate-y-1
@@ -218,7 +218,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                 </span>
               )}
               {hasDiscount && (
-                <span className="px-2.5 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full shadow">
+                <span className="px-2.5 py-0.5 bg-[#B71C1C] text-white text-[10px] font-bold rounded-full shadow">
                   -{discountPercent}%
                 </span>
               )}
@@ -227,11 +227,8 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
             {/* Featured badge top-right */}
             {product.isFeatured && (
               <div className="absolute top-2.5 right-2.5 z-10">
-                <span className="flex items-center gap-1 px-2 py-1 bg-amber-400 text-amber-900 text-[10px] font-black rounded-full shadow-sm">
-                  <Star className="w-2.5 h-2.5 fill-amber-900" /> Vedette
-                </span>
-              </div>
-            )}
+                <span className="flex items-center gap-1 px-2.5 py-1 bg-gradient-to-br from-red-700 to-amber-500 text-white text-[10px] font-black rounded-full shadow shadow-red-900/30">
+                  <Star className="w-2.5 h-2.5 fill-white" /> Vedette
 
             {/* Quick Actions (hover) */}
             {!product.isFeatured && (

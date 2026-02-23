@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import { Search, SlidersHorizontal, Grid3x3, List, X, Leaf, ChevronDown, Sprout, ShoppingBag } from 'lucide-react';
@@ -8,20 +8,20 @@ import { IProduct } from '@/models/Product';
 import toast from 'react-hot-toast';
 
 const categories = [
-  { value: 'all', label: 'Tout voir', icon: 'ðŸŒ¿' },
-  { value: 'biofertilisant', label: 'Biofertilisants', icon: 'ðŸ§ª' },
-  { value: 'engrais_mineral', label: 'Engrais MinÃ©raux', icon: 'âš—ï¸' },
-  { value: 'kit_urbain', label: 'Kits Urbains', icon: 'ðŸ™ï¸' },
-  { value: 'service', label: 'Services', icon: 'ðŸ¤' },
-  { value: 'autre', label: 'Autres', icon: 'ðŸ“¦' },
+  { value: 'all', label: 'Tout voir', icon: '🌿' },
+  { value: 'biofertilisant', label: 'Biofertilisants', icon: '🧪' },
+  { value: 'engrais_mineral', label: 'Engrais Minéraux', icon: '⚗️' },
+  { value: 'kit_urbain', label: 'Kits Urbains', icon: '🏙️' },
+  { value: 'service', label: 'Services', icon: '🤝' },
+  { value: 'autre', label: 'Autres', icon: '📦' },
 ];
 
 const sortOptions = [
   { value: 'featured', label: 'En vedette' },
-  { value: 'newest', label: 'NouveautÃ©s' },
-  { value: 'price-asc', label: 'Prix â†‘' },
-  { value: 'price-desc', label: 'Prix â†“' },
-  { value: 'name', label: 'A â†’ Z' },
+  { value: 'newest', label: 'Nouveautés' },
+  { value: 'price-asc', label: 'Prix ↑' },
+  { value: 'price-desc', label: 'Prix ↓' },
+  { value: 'name', label: 'A → Z' },
 ];
 
 export default function ProductsClient({
@@ -144,7 +144,7 @@ export default function ProductsClient({
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-500 dark:text-gray-400 text-sm">Chargement des produitsâ€¦</p>
+          <p className="text-gray-500 dark:text-gray-400 text-sm">Chargement des produits…</p>
         </div>
       </div>
     );
@@ -172,7 +172,7 @@ export default function ProductsClient({
                 </span>
               </h1>
               <p className="text-gray-500 dark:text-gray-400 text-lg max-w-xl">
-                Solutions biofertilisantes de qualitÃ© pour une agriculture performante et durable.
+                Solutions biofertilisantes de qualité pour une agriculture performante et durable.
               </p>
             </div>
 
@@ -182,9 +182,9 @@ export default function ProductsClient({
                 <ShoppingBag className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span className="text-sm font-bold text-emerald-700 dark:text-emerald-300">{activeCount} produits</span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2.5 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-100 dark:border-amber-800/40">
-                <Sprout className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-                <span className="text-sm font-bold text-amber-700 dark:text-amber-300">{featuredCount} vedettes</span>
+              <div className="flex items-center gap-2 px-4 py-2.5 bg-red-50 dark:bg-red-950/20 rounded-xl border border-red-200/70 dark:border-red-800/40">
+                <Sprout className="w-4 h-4 text-red-700 dark:text-red-400" />
+                <span className="text-sm font-bold text-red-800 dark:text-red-300">{featuredCount} vedettes</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2.5 bg-teal-50 dark:bg-teal-900/20 rounded-xl border border-teal-100 dark:border-teal-800/40">
                 <Leaf className="w-4 h-4 text-teal-600 dark:text-teal-400" />
@@ -203,7 +203,7 @@ export default function ProductsClient({
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
               <input
                 type="text"
-                placeholder="Rechercher un produitâ€¦"
+                placeholder="Rechercher un produit…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-9 py-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all"
@@ -273,7 +273,7 @@ export default function ProductsClient({
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
                       <label htmlFor="filter-category" className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">
-                        CatÃ©gorie
+                        Catégorie
                       </label>
                       <select
                         id="filter-category"
@@ -320,7 +320,7 @@ export default function ProductsClient({
                       onClick={resetFilters}
                       className="mt-2 text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-medium"
                     >
-                      âœ• RÃ©initialiser tous les filtres
+                      ✕ Réinitialiser tous les filtres
                     </button>
                   )}
                 </div>
@@ -359,7 +359,7 @@ export default function ProductsClient({
             produit{filteredProducts.length > 1 ? 's' : ''}
             {hasActiveFilters && (
               <span className="ml-2 text-emerald-600 dark:text-emerald-400 font-medium">
-                Â· filtrÃ©{filteredProducts.length > 1 ? 's' : ''}
+                · filtré{filteredProducts.length > 1 ? 's' : ''}
               </span>
             )}
           </p>
@@ -436,10 +436,10 @@ export default function ProductsClient({
               className="flex flex-col items-center justify-center py-20 text-center"
             >
               <div className="w-20 h-20 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-4xl mb-5">
-                ðŸŒ±
+                🌱
               </div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                Aucun produit trouvÃ©
+                Aucun produit trouvé
               </h3>
               <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-sm">
                 Essayez de modifier vos filtres ou votre recherche
@@ -448,7 +448,7 @@ export default function ProductsClient({
                 onClick={resetFilters}
                 className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold text-sm transition-colors"
               >
-                RÃ©initialiser les filtres
+                Réinitialiser les filtres
               </button>
             </motion.div>
           )}
