@@ -138,7 +138,7 @@ const pageContent = {
     {
       year: "2018",
       title: "Services Sociaux",
-      description: "Lancement assurance santé, micro-crédit et épargne pour nos adhérents",
+      description: "Lancement assurance santé, micro-crédit et Épargne pour nos adhérents",
       icon: Heart
     },
     {
@@ -156,7 +156,7 @@ const pageContent = {
   ],
 
   team: {
-    title: "Notre Équipe",
+    title: "Notre équipe",
     subtitle: "Experts passionnés au service de l'agriculture",
     members: [
       {
@@ -203,7 +203,7 @@ const pageContent = {
       year: "2021"
     },
     {
-      name: "Label Commerce Équitable",
+      name: "Label Commerce équitable",
       description: "Partenariats agriculteurs certifiés équitables",
       year: "2022"
     }
@@ -218,7 +218,7 @@ const pageContent = {
 
   contact: {
     headquarters: "Yaoundé, Cameroun",
-    address: "Quartier Fouda · B.P. 5111",
+    address: "Quartier Fouda — B.P. 5111",
     phone: "(+237) 657 39 39 39  |  (+237) 651 92 09 20",
     email: "infos@agri-ps.com",
     hours: "Lun-Ven: 8h-17h, Sam: 8h-13h"
@@ -539,7 +539,7 @@ export default function AProposPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Nous Trouver</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">AGRI POINT SERVICES SARL · Yaoundé</p>
+            <p className="text-xl text-gray-600 dark:text-gray-400">AGRI POINT SERVICES SARL à Yaoundé</p>
           </div>
 
           <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-8 shadow-xl">

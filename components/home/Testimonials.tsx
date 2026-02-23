@@ -7,10 +7,10 @@ const testimonials = [
   {
     name: 'Jean-Pierre M.',
     role: 'Agriculteur',
-    location: 'YaoundÃ©',
-    content: 'GrÃ¢ce aux biofertilisants AGRI POINT, ma production de tomates a doublÃ©. Service excellent et conseils prÃ©cieux !',
+    location: 'Yaoundé',
+    content: 'Grâce aux biofertilisants AGRI POINT, ma production de tomates a doublé. Service excellent et conseils précieux !',
     rating: 5,
-    avatar: 'ðŸ‘¨â€ðŸŒ¾',
+    avatar: '👨‍🌾',
     color: 'from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/20',
     border: 'border-emerald-100 dark:border-emerald-800/30',
   },
@@ -18,9 +18,9 @@ const testimonials = [
     name: 'Marie K.',
     role: 'Agriculture urbaine',
     location: 'Douala',
-    content: 'AgriBot m\'a aidÃ©e Ã  dÃ©marrer mon potager urbain. Je cultive maintenant mes propres lÃ©gumes sur mon balcon !',
+    content: 'AgriBot m\'a aidée à démarrer mon potager urbain. Je cultive maintenant mes propres légumes sur mon balcon !',
     rating: 5,
-    avatar: 'ðŸ‘©â€ðŸŒ¾',
+    avatar: '👨‍🌾',
     color: 'from-teal-50 to-emerald-50 dark:from-teal-950/30 dark:to-emerald-950/20',
     border: 'border-teal-100 dark:border-teal-800/30',
   },
@@ -28,9 +28,9 @@ const testimonials = [
     name: 'Thomas B.',
     role: 'Producteur de cacao',
     location: 'Bafoussam',
-    content: 'Les produits sont de qualitÃ© supÃ©rieure et les rÃ©sultats sont visibles dÃ¨s les premiÃ¨res semaines. Je recommande !',
+    content: 'Les produits sont de qualité supérieure et les résultats sont visibles dés les premières semaines. Je recommande !',
     rating: 5,
-    avatar: 'ðŸ§‘â€ðŸŒ¾',
+    avatar: '👨‍🌾',
     color: 'from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/20',
     border: 'border-green-100 dark:border-green-800/30',
   },
@@ -49,7 +49,7 @@ export default function Testimonials() {
           viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <p className="text-xs uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-500 font-bold mb-2">TÃ©moignages</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-500 font-bold mb-2">Témoignages</p>
           <h2 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white mb-3">
             Ce que disent nos clients
           </h2>
@@ -91,7 +91,7 @@ export default function Testimonials() {
                 </div>
                 <div>
                   <p className="font-bold text-gray-900 dark:text-white text-sm">{t.name}</p>
-                  <p className="text-xs text-emerald-700 dark:text-emerald-400 font-medium">{t.role} Â· {t.location}</p>
+                  <p className="text-xs text-emerald-700 dark:text-emerald-400 font-medium">{t.role} é {t.location}</p>
                 </div>
               </div>
             </motion.div>
@@ -121,7 +121,7 @@ export default function Testimonials() {
           <div className="hidden sm:block w-px h-8 bg-gray-200 dark:bg-gray-700" />
           <div>
             <p className="text-2xl font-black text-gradient-primary">24 avis</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">VÃ©rifiÃ©s</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Vérifiés</p>
           </div>
         </motion.div>
       </div>

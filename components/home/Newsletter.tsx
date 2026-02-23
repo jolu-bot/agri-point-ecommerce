@@ -6,9 +6,9 @@ import toast from 'react-hot-toast';
 import { Mail, ArrowRight, Leaf, CheckCircle } from 'lucide-react';
 
 const perks = [
-  { icon: 'ðŸŒ¿', text: 'Conseils agricoles exclusifs' },
-  { icon: 'ðŸŽ', text: 'Offres membres en avant-premiÃ¨re' },
-  { icon: 'ðŸ“¦', text: 'Nouveaux produits en primeur' },
+  { icon: '🌱', text: 'Conseils agricoles exclusifs' },
+  { icon: '🎁', text: 'Offres membres en avant-première' },
+  { icon: '📢', text: 'Nouveaux produits en primeur' },
 ];
 
 export default function Newsletter() {
@@ -20,7 +20,7 @@ export default function Newsletter() {
     e.preventDefault();
     setLoading(true);
     await new Promise(r => setTimeout(r, 900));
-    toast.success('Merci ! Vous Ãªtes inscrit Ã  notre newsletter.');
+    toast.success('Merci ! Vous êtes inscrit à notre newsletter.');
     setEmail('');
     setLoading(false);
     setDone(true);
@@ -54,7 +54,7 @@ export default function Newsletter() {
                 <span className="text-emerald-300">savoir agricole</span>
               </h2>
               <p className="text-emerald-100/80 mb-6 leading-relaxed">
-                Rejoignez plus de 5 000 agriculteurs qui reÃ§oivent nos conseils chaque semaine.
+                Rejoignez plus de 5 000 agriculteurs qui reçoivent nos conseils chaque semaine.
               </p>
               <ul className="space-y-2">
                 {perks.map((p, i) => (
@@ -76,11 +76,11 @@ export default function Newsletter() {
                 >
                   <CheckCircle className="w-14 h-14 text-emerald-300 mx-auto mb-3" />
                   <h3 className="text-white text-xl font-bold mb-1">Bienvenue !</h3>
-                  <p className="text-emerald-100/80 text-sm">Vous recevrez bientÃ´t nos conseils.</p>
+                  <p className="text-emerald-100/80 text-sm">Vous recevrez bientôt nos conseils.</p>
                 </motion.div>
               ) : (
                 <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 md:p-8">
-                  <p className="text-white font-semibold mb-4">Votre email, c&apos;est parti ðŸš€</p>
+                  <p className="text-white font-semibold mb-4">Votre email, c&apos;est parti 🚀</p>
                   <form onSubmit={handleSubmit} className="space-y-3">
                     <label htmlFor="newsletter-email" className="sr-only">Adresse email</label>
                     <div className="relative">
@@ -111,7 +111,7 @@ export default function Newsletter() {
                     </button>
                   </form>
                   <p className="text-xs text-emerald-200/60 mt-3 text-center">
-                    ðŸ”’ Vos donnÃ©es restent confidentielles. DÃ©sinscription en 1 clic.
+                    🔒 Vos données restent confidentielles. Désinscription en 1 clic.
                   </p>
                 </div>
               )}

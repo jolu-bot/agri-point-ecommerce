@@ -229,6 +229,9 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
               <div className="absolute top-2.5 right-2.5 z-10">
                 <span className="flex items-center gap-1 px-2.5 py-1 bg-gradient-to-br from-red-700 to-amber-500 text-white text-[10px] font-black rounded-full shadow shadow-red-900/30">
                   <Star className="w-2.5 h-2.5 fill-white" /> Vedette
+                </span>
+              </div>
+            )}
 
             {/* Quick Actions (hover) */}
             {!product.isFeatured && (

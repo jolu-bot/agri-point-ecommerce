@@ -32,7 +32,7 @@ export default function CartPage() {
     const discount = codes[promoCode.toUpperCase()];
     if (discount) {
       setAppliedPromo({ code: promoCode.toUpperCase(), discount });
-      toast.success(`Code ${promoCode.toUpperCase()} appliquÃ© ! -${discount}%`);
+      toast.success(`Code ${promoCode.toUpperCase()} appliqué ! -${discount}%`);
     } else {
       toast.error('Code promo invalide');
     }
@@ -89,7 +89,7 @@ export default function CartPage() {
               </p>
             </div>
             <button
-              onClick={() => { if (confirm('Vider le panier ?')) { clearCart(); toast.success('Panier vidÃ©'); } }}
+              onClick={() => { if (confirm('Vider le panier ?')) { clearCart(); toast.success('Panier vidé'); } }}
               className="text-sm text-red-500 hover:text-red-700 dark:hover:text-red-400 font-medium transition-colors"
             >
               Tout supprimer
@@ -102,14 +102,14 @@ export default function CartPage() {
           {subtotal >= FREE_SHIPPING_THRESHOLD ? (
             <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 text-sm font-semibold">
               <CheckCircle className="w-5 h-5" />
-              ðŸŽ‰ Livraison offerte dÃ©bloquÃ©e !
+              🎉 Livraison offerte débloquée !
             </div>
           ) : (
             <div>
               <div className="flex items-center justify-between text-sm mb-2">
                 <span className="flex items-center gap-1.5 text-gray-600 dark:text-gray-400">
                   <Truck className="w-4 h-4" />
-                  Livraison gratuite dÃ¨s {FREE_SHIPPING_THRESHOLD.toLocaleString()} FCFA
+                  Livraison gratuite dès {FREE_SHIPPING_THRESHOLD.toLocaleString()} FCFA
                 </span>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   Plus que {remaining.toLocaleString()} FCFA
@@ -128,7 +128,7 @@ export default function CartPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* â”€â”€ Cart Items â”€â”€ */}
+          {/* ─── Cart Items ─── */}
           <div className="lg:col-span-2">
             <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] overflow-hidden">
               <AnimatePresence>
@@ -147,7 +147,7 @@ export default function CartPage() {
                         {item.image ? (
                           <Image src={item.image} alt={item.name} fill className="object-contain p-2" />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-3xl">ðŸŒ±</div>
+                          <div className="w-full h-full flex items-center justify-center text-3xl">🌱</div>
                         )}
                       </Link>
 
@@ -159,7 +159,7 @@ export default function CartPage() {
                             {item.name}
                           </Link>
                           <button
-                            onClick={() => { removeItem(item.id); toast.success('Article retirÃ©'); }}
+                            onClick={() => { removeItem(item.id); toast.success('Article retiré'); }}
                             aria-label="Supprimer"
                             className="p-1.5 text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-all flex-shrink-0"
                           >
@@ -221,10 +221,10 @@ export default function CartPage() {
             </div>
           </div>
 
-          {/* â”€â”€ Order Summary â”€â”€ */}
+          {/* ─── Order Summary ─── */}
           <div className="lg:col-span-1">
             <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] p-6 sticky top-20">
-              <h2 className="text-xl font-black text-gray-900 dark:text-white mb-6">RÃ©capitulatif</h2>
+              <h2 className="text-xl font-black text-gray-900 dark:text-white mb-6">Récapitulatif</h2>
 
               {/* Promo code */}
               <div className="mb-5">
@@ -264,7 +264,7 @@ export default function CartPage() {
                 {appliedPromo && (
                   <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1.5 flex items-center gap-1">
                     <CheckCircle className="w-3.5 h-3.5" />
-                    Code {appliedPromo.code} Â· -{appliedPromo.discount}%
+                    Code {appliedPromo.code} · -{appliedPromo.discount}%
                   </p>
                 )}
               </div>
@@ -277,14 +277,14 @@ export default function CartPage() {
                 </div>
                 {appliedPromo && (
                   <div className="flex justify-between text-sm text-emerald-600 dark:text-emerald-400">
-                    <span>RÃ©duction -{appliedPromo.discount}%</span>
+                    <span>Réduction -{appliedPromo.discount}%</span>
                     <span className="font-semibold">-{promoDiscount.toLocaleString()} FCFA</span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
                   <span>Livraison</span>
                   <span className={`font-semibold ${shippingCost === 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-900 dark:text-white'}`}>
-                    {shippingCost === 0 ? 'GRATUITE ðŸŽ‰' : `${shippingCost.toLocaleString()} FCFA`}
+                    {shippingCost === 0 ? 'GRATUITE 🎉' : `${shippingCost.toLocaleString()} FCFA`}
                   </span>
                 </div>
               </div>
@@ -309,7 +309,7 @@ export default function CartPage() {
 
               {/* Payment methods */}
               <div className="mt-5 pt-5 border-t border-gray-100 dark:border-white/[0.06]">
-                <p className="text-xs text-gray-400 dark:text-gray-500 mb-2 text-center">Modes de paiement acceptÃ©s</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 mb-2 text-center">Modes de paiement acceptés</p>
                 <div className="flex flex-wrap gap-2 justify-center">
                   {['MTN Money', 'Orange Money', 'Cash'].map((m) => (
                     <span key={m} className="px-2.5 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs font-medium rounded-lg border border-gray-200 dark:border-gray-700">
