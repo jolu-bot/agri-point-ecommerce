@@ -34,10 +34,10 @@ const REPLACEMENTS = [
   ['Â·', '·'],
   ['Â«', '«'],
   ['Â»', '»'],
-  // Flèches
-  ['â†'', '↑'],
-  ['â†"', '↓'],
-  ['â†'', '→'],
+  // Flèches (clés en échappement unicode pour éviter les guillemets courbes)
+  ['\u00e2\u2020\u2018', '\u2191'],
+  ['\u00e2\u2020\u201c', '\u2193'],
+  ['\u00e2\u2020\u2019', '\u2192'],
   // Checkmark
   ['âœ•', '✕'],
   // Tirets/boîte
