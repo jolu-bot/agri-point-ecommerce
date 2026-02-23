@@ -6,9 +6,9 @@ import toast from 'react-hot-toast';
 import { Mail, ArrowRight, Leaf, CheckCircle } from 'lucide-react';
 
 const perks = [
-  { icon: '🌿', text: 'Conseils agricoles exclusifs' },
-  { icon: '🎁', text: 'Offres membres en avant-première' },
-  { icon: '📦', text: 'Nouveaux produits en primeur' },
+  { icon: 'ðŸŒ¿', text: 'Conseils agricoles exclusifs' },
+  { icon: 'ðŸŽ', text: 'Offres membres en avant-premiÃ¨re' },
+  { icon: 'ðŸ“¦', text: 'Nouveaux produits en primeur' },
 ];
 
 export default function Newsletter() {
@@ -20,7 +20,7 @@ export default function Newsletter() {
     e.preventDefault();
     setLoading(true);
     await new Promise(r => setTimeout(r, 900));
-    toast.success('Merci ! Vous êtes inscrit à notre newsletter.');
+    toast.success('Merci ! Vous Ãªtes inscrit Ã  notre newsletter.');
     setEmail('');
     setLoading(false);
     setDone(true);
@@ -54,7 +54,7 @@ export default function Newsletter() {
                 <span className="text-emerald-300">savoir agricole</span>
               </h2>
               <p className="text-emerald-100/80 mb-6 leading-relaxed">
-                Rejoignez plus de 5 000 agriculteurs qui reçoivent nos conseils chaque semaine.
+                Rejoignez plus de 5 000 agriculteurs qui reÃ§oivent nos conseils chaque semaine.
               </p>
               <ul className="space-y-2">
                 {perks.map((p, i) => (
@@ -76,11 +76,11 @@ export default function Newsletter() {
                 >
                   <CheckCircle className="w-14 h-14 text-emerald-300 mx-auto mb-3" />
                   <h3 className="text-white text-xl font-bold mb-1">Bienvenue !</h3>
-                  <p className="text-emerald-100/80 text-sm">Vous recevrez bientôt nos conseils.</p>
+                  <p className="text-emerald-100/80 text-sm">Vous recevrez bientÃ´t nos conseils.</p>
                 </motion.div>
               ) : (
                 <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 md:p-8">
-                  <p className="text-white font-semibold mb-4">Votre email, c&apos;est parti 🚀</p>
+                  <p className="text-white font-semibold mb-4">Votre email, c&apos;est parti ðŸš€</p>
                   <form onSubmit={handleSubmit} className="space-y-3">
                     <label htmlFor="newsletter-email" className="sr-only">Adresse email</label>
                     <div className="relative">
@@ -111,7 +111,7 @@ export default function Newsletter() {
                     </button>
                   </form>
                   <p className="text-xs text-emerald-200/60 mt-3 text-center">
-                    🔒 Vos données restent confidentielles. Désinscription en 1 clic.
+                    ðŸ”’ Vos donnÃ©es restent confidentielles. DÃ©sinscription en 1 clic.
                   </p>
                 </div>
               )}
@@ -123,67 +123,3 @@ export default function Newsletter() {
   );
 }
 
-export default function Newsletter() {
-  const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    // Simuler l'envoi (à remplacer par un vrai appel API)
-    setTimeout(() => {
-      toast.success('Merci ! Vous êtes inscrit à notre newsletter.');
-      setEmail('');
-      setLoading(false);
-    }, 1000);
-  };
-
-  return (
-    <section className="py-20 bg-white dark:bg-gray-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl p-8 md:p-12 text-center text-white"
-        >
-          <div className="w-16 h-16 bg-white/20 backdrop-blur rounded-full flex items-center justify-center mx-auto mb-6">
-            <Mail className="w-8 h-8" />
-          </div>
-
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Restez informé
-          </h2>
-          
-          <p className="text-lg text-primary-50 mb-8 max-w-2xl mx-auto">
-            Recevez nos conseils agricoles, nos nouveaux produits et nos offres exclusives directement dans votre boîte mail.
-          </p>
-
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-            <div className="flex flex-col sm:flex-row gap-3">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Votre adresse email"
-                required
-                className="flex-1 px-4 py-3 rounded-lg bg-white/10 backdrop-blur border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50"
-              />
-              <button
-                type="submit"
-                disabled={loading}
-                className="px-8 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:bg-primary-50 transition-colors disabled:opacity-50"
-              >
-                {loading ? 'Envoi...' : 'S\'inscrire'}
-              </button>
-            </div>
-            <p className="text-xs text-primary-100 mt-3">
-              Vos données sont protégées et ne seront jamais partagées.
-            </p>
-          </form>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
