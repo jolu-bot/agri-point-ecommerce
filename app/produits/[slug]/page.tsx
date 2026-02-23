@@ -49,9 +49,9 @@ const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
 ];
 
 const MOCK_REVIEWS = [
-  { name: 'Jean-Pierre M.', rating: 5, date: 'Janvier 2026', text: 'Résultats visibles dès la 2e semaine. Ma production a nettement augmenté !' },
-  { name: 'Marie K.', rating: 5, date: 'Décembre 2025', text: 'Produit de grande qualité et livraison rapide. Je recommande vivement.' },
-  { name: 'Thomas B.', rating: 4, date: 'Novembre 2025', text: 'Très bon produit, dosage facile à respecter. Je rachèterai.' },
+  { name: 'Jean-Pierre M.', rating: 5, date: 'Janvier 2026', text: 'RÃ©sultats visibles dÃ¨s la 2e semaine. Ma production a nettement augmentÃ© !' },
+  { name: 'Marie K.', rating: 5, date: 'DÃ©cembre 2025', text: 'Produit de grande qualitÃ© et livraison rapide. Je recommande vivement.' },
+  { name: 'Thomas B.', rating: 4, date: 'Novembre 2025', text: 'TrÃ¨s bon produit, dosage facile Ã  respecter. Je rachÃ¨terai.' },
 ];
 
 export default function ProductDetailPage() {
@@ -78,7 +78,7 @@ export default function ProductDetailPage() {
         setProduct(data.product);
         loadRelated(data.product.category, data.product._id);
       } else {
-        toast.error('Produit non trouvé');
+        toast.error('Produit non trouvÃ©');
         router.push('/produits');
       }
     } catch (error) {
@@ -110,7 +110,7 @@ export default function ProductDetailPage() {
       store.addItem({ id: product._id, name: product.name, slug: product.slug, price: product.price, promoPrice: product.promoPrice, image: product.images[0] || '/images/fallback-product.svg', maxStock: product.stock });
       if (quantity > 1) store.updateQuantity(product._id, quantity);
     }
-    toast.success(`${quantity} article(s) ajouté(s) au panier !`);
+    toast.success(`${quantity} article(s) ajoutÃ©(s) au panier !`);
   };
 
   const handleShare = async () => {
@@ -119,7 +119,7 @@ export default function ProductDetailPage() {
       catch { /* user dismissed */ }
     } else {
       navigator.clipboard.writeText(window.location.href);
-      toast.success('Lien copié !');
+      toast.success('Lien copiÃ© !');
     }
   };
 
@@ -157,9 +157,9 @@ export default function ProductDetailPage() {
           Retour
         </button>
 
-        {/* ── Main Grid ── */}
+        {/* â”€â”€ Main Grid â”€â”€ */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
-          {/* ── Images ── */}
+          {/* â”€â”€ Images â”€â”€ */}
           <div className="space-y-3">
             {/* Main image */}
             <div className="relative aspect-square bg-gradient-to-br from-gray-50 to-emerald-50/30 dark:from-gray-900 dark:to-emerald-950/20 rounded-2xl overflow-hidden border border-gray-100 dark:border-white/[0.06] shadow-sm">
@@ -172,7 +172,7 @@ export default function ProductDetailPage() {
                   priority
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-9xl">🌱</div>
+                <div className="w-full h-full flex items-center justify-center text-9xl">ðŸŒ±</div>
               )}
 
               {/* Badges */}
@@ -228,7 +228,7 @@ export default function ProductDetailPage() {
             )}
           </div>
 
-          {/* ── Details ── */}
+          {/* â”€â”€ Details â”€â”€ */}
           <div className="flex flex-col">
             {/* Category */}
             <span className="inline-block self-start text-emerald-700 dark:text-emerald-400 font-semibold uppercase text-[11px] tracking-widest bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full mb-3">
@@ -244,7 +244,7 @@ export default function ProductDetailPage() {
               <div className="flex gap-0.5">
                 {[1,2,3,4,5].map(s => <Star key={s} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
               </div>
-              <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">4.9 · 24 avis</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">4.9 Â· 24 avis</span>
             </div>
 
             {/* Price */}
@@ -289,7 +289,7 @@ export default function ProductDetailPage() {
             {/* Quantity */}
             {product.stock > 0 && (
               <div className="mb-6">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Quantité</label>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">QuantitÃ©</label>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
                     <button onClick={() => setQuantity(Math.max(1, quantity - 1))} aria-label="Diminuer" className="px-3.5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
@@ -298,7 +298,7 @@ export default function ProductDetailPage() {
                     <input
                       type="number" min="1" max={product.stock} value={quantity}
                       onChange={(e) => setQuantity(Math.min(product.stock, Math.max(1, parseInt(e.target.value) || 1)))}
-                      aria-label="Quantité"
+                      aria-label="QuantitÃ©"
                       className="w-14 text-center py-3 bg-transparent font-bold text-gray-900 dark:text-white focus:outline-none text-sm"
                     />
                     <button onClick={() => setQuantity(Math.min(product.stock, quantity + 1))} aria-label="Augmenter" className="px-3.5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
@@ -324,7 +324,7 @@ export default function ProductDetailPage() {
             <div className="grid grid-cols-3 gap-3">
               {[
                 { icon: <Truck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />, title: 'Livraison', sub: 'Partout au Cameroun' },
-                { icon: <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />, title: 'Garanti', sub: 'Qualité certifiée' },
+                { icon: <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />, title: 'Garanti', sub: 'QualitÃ© certifiÃ©e' },
                 { icon: <Package className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />, title: 'Emballage', sub: 'Protection optimale' },
               ].map((b, i) => (
                 <div key={i} className="flex flex-col items-center text-center p-3 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-white/[0.06]">
@@ -337,7 +337,7 @@ export default function ProductDetailPage() {
           </div>
         </div>
 
-        {/* ── Tabs ── */}
+        {/* â”€â”€ Tabs â”€â”€ */}
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-sm mb-12 overflow-hidden">
           {/* Tab bar */}
           <div className="flex border-b border-gray-100 dark:border-white/[0.06] overflow-x-auto">
@@ -376,7 +376,7 @@ export default function ProductDetailPage() {
                   {product.features?.cultures && product.features.cultures.length > 0 && (
                     <div>
                       <h3 className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-white mb-4">
-                        <Sprout className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> Cultures adaptées
+                        <Sprout className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> Cultures adaptÃ©es
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {product.features.cultures.map((c, i) => (
@@ -391,7 +391,7 @@ export default function ProductDetailPage() {
                   {product.features?.benefits && product.features.benefits.length > 0 && (
                     <div>
                       <h3 className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-white mb-4">
-                        <Check className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> Bénéfices
+                        <Check className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> BÃ©nÃ©fices
                       </h3>
                       <ul className="space-y-2.5">
                         {product.features.benefits.map((b, i) => (
@@ -431,9 +431,9 @@ export default function ProductDetailPage() {
 
                   {product.features?.dosage && (
                     <div>
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Dosage recommandé</h3>
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Dosage recommandÃ©</h3>
                       <div className="p-4 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/40 rounded-xl flex items-start gap-3">
-                        <span className="text-amber-500 text-xl flex-shrink-0">⚗️</span>
+                        <span className="text-amber-500 text-xl flex-shrink-0">âš—ï¸</span>
                         <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{product.features.dosage}</p>
                       </div>
                     </div>
@@ -456,7 +456,7 @@ export default function ProductDetailPage() {
                   {product.features?.precautions && product.features.precautions.length > 0 && (
                     <div>
                       <h3 className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-white mb-4">
-                        <AlertTriangle className="w-5 h-5 text-orange-500" /> Précautions d&apos;emploi
+                        <AlertTriangle className="w-5 h-5 text-orange-500" /> PrÃ©cautions d&apos;emploi
                       </h3>
                       <ul className="space-y-2">
                         {product.features.precautions.map((p, i) => (
@@ -474,7 +474,7 @@ export default function ProductDetailPage() {
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Fiche technique</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {[
-                        { label: 'Référence (SKU)', value: product.sku },
+                        { label: 'RÃ©fÃ©rence (SKU)', value: product.sku },
                         product.weight ? { label: 'Poids', value: `${product.weight} kg` } : null,
                       ].filter(Boolean).map((row, i) => (
                         <div key={i} className="flex justify-between items-center px-4 py-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
@@ -533,7 +533,7 @@ export default function ProductDetailPage() {
           </AnimatePresence>
         </div>
 
-        {/* ── Related products ── */}
+        {/* â”€â”€ Related products â”€â”€ */}
         {related.length > 0 && (
           <div className="mb-12">
             <div className="flex items-center justify-between mb-6">
@@ -550,7 +550,7 @@ export default function ProductDetailPage() {
                       {rel.images[0] ? (
                         <Image src={rel.images[0]} alt={rel.name} fill className="object-contain p-4 group-hover:scale-105 transition-transform duration-300" />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-5xl">🌱</div>
+                        <div className="w-full h-full flex items-center justify-center text-5xl">ðŸŒ±</div>
                       )}
                     </div>
                     <div className="p-4">
@@ -565,7 +565,7 @@ export default function ProductDetailPage() {
           </div>
         )}
 
-        {/* ── Mobile sticky CTA ── */}
+        {/* â”€â”€ Mobile sticky CTA â”€â”€ */}
         {product.stock > 0 && (
           <div className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-100 dark:border-white/[0.06] px-4 py-3 shadow-xl">
             <div className="flex items-center gap-3">
@@ -617,496 +617,3 @@ interface Product {
   metaDescription?: string;
 }
 
-export default function ProductDetailPage() {
-  const params = useParams();
-  const router = useRouter();
-  
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [quantity, setQuantity] = useState(1);
-  const [selectedImage, setSelectedImage] = useState(0);
-
-  useEffect(() => {
-    loadProduct();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.slug]);
-
-  const loadProduct = async () => {
-    try {
-      const response = await fetch(`/api/products/${params.slug}`);
-      if (response.ok) {
-        const data = await response.json();
-        setProduct(data.product);
-      } else {
-        toast.error('Produit non trouvé');
-        router.push('/produits');
-      }
-    } catch (error) {
-      console.error('Erreur chargement produit:', error);
-      toast.error('Erreur de chargement');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleAddToCart = () => {
-    if (!product || product.stock === 0) {
-      toast.error('Produit en rupture de stock');
-      return;
-    }
-
-    if (quantity > product.stock) {
-      toast.error(`Seulement ${product.stock} disponible(s)`);
-      return;
-    }
-
-    // Check if item exists
-    const existingItem = useCartStore.getState().items.find(item => item.id === product._id);
-    
-    if (existingItem) {
-      // Update quantity for existing item
-      const newQuantity = existingItem.quantity + quantity;
-      useCartStore.getState().updateQuantity(product._id, newQuantity);
-    } else {
-      // Add new item with quantity 1
-      useCartStore.getState().addItem({
-        id: product._id,
-        name: product.name,
-        slug: product.slug,
-        price: product.price,
-        promoPrice: product.promoPrice,
-        image: product.images[0] || '/placeholder-product.jpg',
-        maxStock: product.stock,
-      });
-      
-      // If quantity > 1, update to the desired quantity
-      if (quantity > 1) {
-        useCartStore.getState().updateQuantity(product._id, quantity);
-      }
-    }
-
-    toast.success(`${quantity} article(s) ajouté(s) au panier !`);
-  };
-
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: product?.name,
-          text: product?.description,
-          url: window.location.href,
-        });
-      } catch (error) {
-        console.error('Erreur partage:', error);
-      }
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      toast.success('Lien copié dans le presse-papiers');
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-600 dark:text-gray-400">Chargement...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!product) {
-    return null;
-  }
-
-  const finalPrice = product.promoPrice || product.price;
-  const hasDiscount = product.promoPrice && product.promoPrice < product.price;
-  const discountPercent = hasDiscount
-    ? Math.round(((product.price - product.promoPrice!) / product.price) * 100)
-    : 0;
-
-  return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-8">
-          <Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400">
-            Accueil
-          </Link>
-          <span>/</span>
-          <Link href="/produits" className="hover:text-primary-600 dark:hover:text-primary-400">
-            Produits
-          </Link>
-          <span>/</span>
-          <span className="text-gray-900 dark:text-white">{product.name}</span>
-        </nav>
-
-        {/* Bouton retour */}
-        <button
-          onClick={() => router.back()}
-          className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 mb-6 transition-colors"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          <span>Retour</span>
-        </button>
-
-        {/* Product Info */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
-          {/* Images */}
-          <div>
-            {/* Image principale */}
-            <div className="relative aspect-square bg-white dark:bg-gray-800 rounded-2xl overflow-hidden mb-4 shadow-lg">
-              {product.images[selectedImage] ? (
-                <Image
-                  src={product.images[selectedImage]}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-9xl">
-                  🌱
-                </div>
-              )}
-
-              {/* Badges */}
-              <div className="absolute top-4 left-4 flex flex-col gap-2">
-                {product.isNew && (
-                  <span className="px-3 py-1 bg-primary-600 text-white text-sm font-bold rounded-lg shadow">
-                    NOUVEAU
-                  </span>
-                )}
-                {hasDiscount && (
-                  <span className="px-3 py-1 bg-red-600 text-white text-sm font-bold rounded-lg shadow">
-                    -{discountPercent}%
-                  </span>
-                )}
-              </div>
-
-              {product.stock === 0 && (
-                <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                  <span className="px-6 py-3 bg-red-600 text-white font-bold rounded-lg text-lg shadow-xl">
-                    RUPTURE DE STOCK
-                  </span>
-                </div>
-              )}
-            </div>
-
-            {/* Thumbnails */}
-            {product.images.length > 1 && (
-              <div className="grid grid-cols-4 gap-4">
-                {product.images.map((image, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedImage(index)}
-                    className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${
-                      selectedImage === index
-                        ? 'border-primary-600 scale-105'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-primary-400'
-                    }`}
-                    aria-label={`Voir l'image ${index + 1} de ${product.name}`}
-                  >
-                    <Image
-                      src={image}
-                      alt={`${product.name} ${index + 1}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Details */}
-          <div>
-            <div className="text-sm text-primary-600 dark:text-primary-400 font-semibold mb-2 uppercase">
-              {product.category.replace('_', ' ')}
-            </div>
-
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              {product.name}
-            </h1>
-
-            {/* Reviews (mockup) */}
-            <div className="flex items-center gap-2 mb-6">
-              <div className="flex">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-              <span className="text-gray-600 dark:text-gray-400">(24 avis)</span>
-            </div>
-
-            {/* Price */}
-            <div className="mb-6">
-              {hasDiscount && (
-                <div className="text-xl text-gray-500 dark:text-gray-400 line-through mb-1">
-                  {product.price.toLocaleString()} FCFA
-                </div>
-              )}
-              <div className="text-4xl font-bold text-primary-600 dark:text-primary-400">
-                {finalPrice.toLocaleString()} FCFA
-              </div>
-            </div>
-
-            {/* Stock */}
-            <div className="mb-6">
-              {product.stock > 10 ? (
-                <span className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 font-medium">
-                  <Check className="w-5 h-5" />
-                  En stock ({product.stock} disponibles)
-                </span>
-              ) : product.stock > 0 ? (
-                <span className="inline-flex items-center gap-2 text-orange-500 font-medium">
-                  <Package className="w-5 h-5" />
-                  Dernières pièces ({product.stock} restants)
-                </span>
-              ) : (
-                <span className="text-red-600 dark:text-red-400 font-medium">
-                  Rupture de stock
-                </span>
-              )}
-            </div>
-
-            {/* Description */}
-            <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-              {product.description}
-            </p>
-
-            {/* NPK */}
-            {product.features?.npk && (
-              <div className="bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 rounded-lg p-4 mb-6">
-                <div className="text-sm text-primary-700 dark:text-primary-300 font-medium mb-1">
-                  Formule NPK
-                </div>
-                <div className="text-2xl font-bold text-primary-900 dark:text-primary-100">
-                  {product.features.npk}
-                </div>
-              </div>
-            )}
-
-            {/* Quantity Selector */}
-            {product.stock > 0 && (
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Quantité
-                </label>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg">
-                    <button
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                      aria-label="Diminuer la quantité"
-                    >
-                      <Minus className="w-4 h-4" />
-                    </button>
-                    <input
-                      type="number"
-                      min="1"
-                      max={product.stock}
-                      value={quantity}
-                      onChange={(e) => setQuantity(Math.min(product.stock, Math.max(1, parseInt(e.target.value) || 1)))}
-                      className="w-16 text-center border-x border-gray-300 dark:border-gray-600 py-3 bg-transparent focus:outline-none"
-                      aria-label="Quantité à ajouter au panier"
-                    />
-                    <button
-                      onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                      className="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                      aria-label="Augmenter la quantité"
-                    >
-                      <Plus className="w-4 h-4" />
-                    </button>
-                  </div>
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
-                    {product.stock} disponible(s)
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {/* Actions */}
-            <div className="flex gap-4 mb-8">
-              <button
-                onClick={handleAddToCart}
-                disabled={product.stock === 0}
-                className="flex-1 flex items-center justify-center gap-2 px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-semibold transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed text-lg"
-              >
-                <ShoppingCart className="w-6 h-6" />
-                <span>Ajouter au panier</span>
-              </button>
-
-              <button
-                className="p-4 border-2 border-gray-300 dark:border-gray-600 hover:border-primary-600 dark:hover:border-primary-400 rounded-lg transition-colors"
-                aria-label="Ajouter aux favoris"
-              >
-                <Heart className="w-6 h-6" />
-              </button>
-
-              <button
-                onClick={handleShare}
-                className="p-4 border-2 border-gray-300 dark:border-gray-600 hover:border-primary-600 dark:hover:border-primary-400 rounded-lg transition-colors"
-                aria-label="Partager"
-              >
-                <Share2 className="w-6 h-6" />
-              </button>
-            </div>
-
-            {/* Benefits */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-6 bg-gray-100 dark:bg-gray-800 rounded-xl">
-              <div className="flex items-center gap-3">
-                <Truck className="w-8 h-8 text-primary-600 dark:text-primary-400 flex-shrink-0" />
-                <div>
-                  <div className="font-semibold text-gray-900 dark:text-white text-sm">
-                    Livraison rapide
-                  </div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400">
-                    Partout au Cameroun
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <Shield className="w-8 h-8 text-primary-600 dark:text-primary-400 flex-shrink-0" />
-                <div>
-                  <div className="font-semibold text-gray-900 dark:text-white text-sm">
-                    Produit garanti
-                  </div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400">
-                    Qualité certifiée
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <Package className="w-8 h-8 text-primary-600 dark:text-primary-400 flex-shrink-0" />
-                <div>
-                  <div className="font-semibold text-gray-900 dark:text-white text-sm">
-                    Emballage sécurisé
-                  </div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400">
-                    Protection optimale
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Product Details Tabs */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-8">
-          {/* Cultures */}
-          {product.features?.cultures && product.features.cultures.length > 0 && (
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                Cultures adaptées
-              </h2>
-              <div className="flex flex-wrap gap-3">
-                {product.features.cultures.map((culture, index) => (
-                  <span
-                    key={index}
-                    className="px-4 py-2 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 rounded-lg font-medium"
-                  >
-                    {culture}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Benefits */}
-          {product.features?.benefits && product.features.benefits.length > 0 && (
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                Bénéfices
-              </h2>
-              <ul className="space-y-3">
-                {product.features.benefits.map((benefit, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <Check className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 dark:text-gray-300">{benefit}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Applications */}
-          {product.features?.applications && product.features.applications.length > 0 && (
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                Applications
-              </h2>
-              <ul className="space-y-3">
-                {product.features.applications.map((application, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-primary-600 text-white flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">
-                      {index + 1}
-                    </div>
-                    <span className="text-gray-700 dark:text-gray-300">{application}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Dosage */}
-          {product.features?.dosage && (
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                Dosage recommandé
-              </h2>
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
-                <p className="text-gray-700 dark:text-gray-300">{product.features.dosage}</p>
-              </div>
-            </div>
-          )}
-
-          {/* Précautions */}
-          {product.features?.precautions && product.features.precautions.length > 0 && (
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                Précautions d&apos;emploi
-              </h2>
-              <ul className="space-y-2">
-                {product.features.precautions.map((precaution, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <span className="text-orange-500 font-bold flex-shrink-0">⚠️</span>
-                    <span className="text-gray-700 dark:text-gray-300">{precaution}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Infos techniques */}
-          <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Informations techniques
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                <span className="text-gray-600 dark:text-gray-400">Référence</span>
-                <span className="font-semibold text-gray-900 dark:text-white">{product.sku}</span>
-              </div>
-              {product.weight && (
-                <div className="flex justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                  <span className="text-gray-600 dark:text-gray-400">Poids</span>
-                  <span className="font-semibold text-gray-900 dark:text-white">{product.weight} kg</span>
-                </div>
-              )}
-              {product.features?.composition && (
-                <div className="md:col-span-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                  <span className="text-gray-600 dark:text-gray-400 block mb-2">Composition</span>
-                  <span className="font-semibold text-gray-900 dark:text-white">{product.features.composition}</span>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}

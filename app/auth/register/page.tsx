@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 
 function PasswordStrength({ password }: { password: string }) {
   const checks = [
-    { label: '6+ caractères', ok: password.length >= 6 },
+    { label: '6+ caractÃ¨res', ok: password.length >= 6 },
     { label: 'Majuscule', ok: /[A-Z]/.test(password) },
     { label: 'Chiffre', ok: /[0-9]/.test(password) },
   ];
@@ -51,7 +51,7 @@ export default function RegisterPage() {
       return;
     }
     if (formData.password.length < 6) {
-      toast.error('Le mot de passe doit contenir au moins 6 caractères');
+      toast.error('Le mot de passe doit contenir au moins 6 caractÃ¨res');
       return;
     }
     setLoading(true);
@@ -66,7 +66,7 @@ export default function RegisterPage() {
       localStorage.setItem('accessToken', data.accessToken);
       localStorage.setItem('refreshToken', data.refreshToken);
       localStorage.setItem('user', JSON.stringify(data.user));
-      toast.success('Compte créé avec succès !');
+      toast.success('Compte crÃ©Ã© avec succÃ¨s !');
       router.push('/');
     } catch (error: unknown) {
       const err = error as { message?: string };
@@ -82,7 +82,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* ── Left panel (brand) ── */}
+      {/* â”€â”€ Left panel (brand) â”€â”€ */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-emerald-700 via-emerald-800 to-green-900 items-center justify-center p-12 overflow-hidden">
         <div className="absolute -top-32 -left-32 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
         <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-teal-400/10 rounded-full blur-3xl" />
@@ -93,13 +93,13 @@ export default function RegisterPage() {
           </div>
           <h1 className="text-4xl font-black mb-4 leading-tight">
             Rejoignez<br />
-            <span className="text-emerald-300">la communauté</span>
+            <span className="text-emerald-300">la communautÃ©</span>
           </h1>
           <p className="text-emerald-100/80 leading-relaxed mb-8">
-            Plus de 10 000 agriculteurs font déjà confiance à AGRI POINT pour leurs cultures.
+            Plus de 10 000 agriculteurs font dÃ©jÃ  confiance Ã  AGRI POINT pour leurs cultures.
           </p>
           <div className="space-y-3 text-left">
-            {['Accès à tous nos produits', 'Suivi de vos commandes', 'Conseils AgriBot personnalisés', 'Offres exclusives membres'].map((item, i) => (
+            {['AccÃ¨s Ã  tous nos produits', 'Suivi de vos commandes', 'Conseils AgriBot personnalisÃ©s', 'Offres exclusives membres'].map((item, i) => (
               <div key={i} className="flex items-center gap-2 text-sm text-emerald-100/90">
                 <div className="w-5 h-5 rounded-full bg-emerald-400/30 flex items-center justify-center flex-shrink-0">
                   <ArrowRight className="w-3 h-3 text-emerald-300" />
@@ -111,7 +111,7 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      {/* ── Right panel (form) ── */}
+      {/* â”€â”€ Right panel (form) â”€â”€ */}
       <div className="flex-1 flex items-center justify-center px-6 py-12 bg-gray-50 dark:bg-gray-950 overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, x: 20 }}
@@ -127,8 +127,8 @@ export default function RegisterPage() {
           </div>
 
           <div className="mb-8">
-            <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-1">Créer un compte</h2>
-            <p className="text-gray-500 dark:text-gray-400">Rejoignez la communauté AGRI POINT</p>
+            <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-1">CrÃ©er un compte</h2>
+            <p className="text-gray-500 dark:text-gray-400">Rejoignez la communautÃ© AGRI POINT</p>
           </div>
 
           <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-lg p-8">
@@ -175,7 +175,7 @@ export default function RegisterPage() {
                   <input
                     type={showPassword ? 'text' : 'password'} id="password" name="password"
                     value={formData.password} onChange={handleChange}
-                    required minLength={6} placeholder="••••••••"
+                    required minLength={6} placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                     className="w-full pl-11 pr-12 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all text-sm"
                   />
                   <button type="button" onClick={() => setShowPassword(!showPassword)}
@@ -197,7 +197,7 @@ export default function RegisterPage() {
                   <input
                     type={showConfirm ? 'text' : 'password'} id="confirmPassword" name="confirmPassword"
                     value={formData.confirmPassword} onChange={handleChange}
-                    required minLength={6} placeholder="••••••••"
+                    required minLength={6} placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                     className={`w-full pl-11 pr-12 py-3 bg-gray-50 dark:bg-gray-800 border rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all text-sm
                       ${formData.confirmPassword && formData.password !== formData.confirmPassword
                         ? 'border-red-400 dark:border-red-600'
@@ -222,7 +222,7 @@ export default function RegisterPage() {
                   J&apos;accepte les{' '}
                   <Link href="/conditions" className="text-emerald-600 hover:underline font-medium">CGU</Link>
                   {' '}et la{' '}
-                  <Link href="/confidentialite" className="text-emerald-600 hover:underline font-medium">politique de confidentialité</Link>
+                  <Link href="/confidentialite" className="text-emerald-600 hover:underline font-medium">politique de confidentialitÃ©</Link>
                 </label>
               </div>
 
@@ -237,14 +237,14 @@ export default function RegisterPage() {
                 ) : (
                   <>
                     <UserPlus className="w-4 h-4" />
-                    <span>Créer mon compte</span>
+                    <span>CrÃ©er mon compte</span>
                   </>
                 )}
               </button>
             </form>
 
             <div className="mt-5 text-center text-sm text-gray-500 dark:text-gray-400">
-              Déjà un compte ?{' '}
+              DÃ©jÃ  un compte ?{' '}
               <Link href="/auth/login" className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline">
                 Se connecter
               </Link>
@@ -252,263 +252,6 @@ export default function RegisterPage() {
           </div>
         </motion.div>
       </div>
-    </div>
-  );
-}
-
-export default function RegisterPage() {
-  const router = useRouter();
-  
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Validation
-    if (formData.password !== formData.confirmPassword) {
-      toast.error('Les mots de passe ne correspondent pas');
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      toast.error('Le mot de passe doit contenir au moins 6 caractères');
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Erreur d\'inscription');
-      }
-
-      // Sauvegarder les tokens
-      localStorage.setItem('accessToken', data.accessToken);
-      localStorage.setItem('refreshToken', data.refreshToken);
-      localStorage.setItem('user', JSON.stringify(data.user));
-
-      toast.success('Compte créé avec succès !');
-      
-      // Rediriger vers la page d'accueil
-      router.push('/');
-      
-    } catch (error: unknown) {
-      console.error('Erreur inscription:', error);
-      const err = error as { message?: string };
-      toast.error(err.message || 'Erreur d\'inscription');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-green-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center px-4 py-12">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full"
-      >
-        {/* Logo et titre */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-block mb-4">
-            <Image
-              src="/images/logo.svg"
-              alt="AGRI POINT"
-              width={100}
-              height={120}
-              className="mx-auto"
-            />
-          </Link>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Créer un compte
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Rejoignez la communauté AGRI POINT
-          </p>
-        </div>
-
-        {/* Formulaire */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Nom */}
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Nom complet
-              </label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full pl-11 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="Jean Dupont"
-                />
-              </div>
-            </div>
-
-            {/* Email */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Email
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full pl-11 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="votre@email.com"
-                />
-              </div>
-            </div>
-
-            {/* Mot de passe */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Mot de passe
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  minLength={6}
-                  className="w-full pl-11 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="••••••••"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
-              </div>
-            </div>
-
-            {/* Confirmation mot de passe */}
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Confirmer le mot de passe
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  required
-                  minLength={6}
-                  className="w-full pl-11 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="••••••••"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                >
-                  {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
-              </div>
-            </div>
-
-            {/* Conditions */}
-            <div className="flex items-start">
-              <input
-                id="terms"
-                type="checkbox"
-                required
-                className="w-4 h-4 mt-1 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
-              />
-              <label htmlFor="terms" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                J&apos;accepte les{' '}
-                <Link href="/conditions" className="text-primary-600 hover:text-primary-700">
-                  conditions d&apos;utilisation
-                </Link>
-                {' '}et la{' '}
-                <Link href="/confidentialite" className="text-primary-600 hover:text-primary-700">
-                  politique de confidentialité
-                </Link>
-              </label>
-            </div>
-
-            {/* Bouton d'inscription */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-            >
-              {loading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Création...</span>
-                </>
-              ) : (
-                <>
-                  <UserPlus className="w-5 h-5" />
-                  <span>Créer mon compte</span>
-                </>
-              )}
-            </button>
-          </form>
-
-          {/* Lien de connexion */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Vous avez déjà un compte ?{' '}
-              <Link
-                href="/auth/login"
-                className="text-primary-600 hover:text-primary-700 dark:text-primary-400 font-semibold"
-              >
-                Se connecter
-              </Link>
-            </p>
-          </div>
-        </div>
-      </motion.div>
     </div>
   );
 }
