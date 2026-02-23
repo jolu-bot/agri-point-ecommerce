@@ -61,10 +61,10 @@ function LoginForm() {
             <span className="text-emerald-300">SERVICE</span>
           </h1>
           <p className="text-emerald-100/80 leading-relaxed mb-8">
-            La plateforme de rÃ©fÃ©rence pour les agriculteurs camerounais. Biofertilisants, conseils, livraison.
+            La plateforme de référence pour les agriculteurs camerounais. Biofertilisants, conseils, livraison.
           </p>
           <div className="space-y-3 text-left">
-            {['20 000+ hectares cultivÃ©s', '10 000 agriculteurs satisfaits', '100% produits biologiques'].map((item, i) => (
+            {['20 000+ hectares cultivés', '10 000 agriculteurs satisfaits', '100% produits biologiques'].map((item, i) => (
               <div key={i} className="flex items-center gap-2 text-sm text-emerald-100/90">
                 <div className="w-5 h-5 rounded-full bg-emerald-400/30 flex items-center justify-center flex-shrink-0">
                   <ArrowRight className="w-3 h-3 text-emerald-300" />
@@ -93,7 +93,7 @@ function LoginForm() {
 
           <div className="mb-8">
             <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-1">Connexion</h2>
-            <p className="text-gray-500 dark:text-gray-400">AccÃ©dez Ã  votre espace AGRI POINT</p>
+            <p className="text-gray-500 dark:text-gray-400">Accédez à votre espace AGRI POINT</p>
           </div>
 
           <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-lg p-8">
@@ -132,7 +132,7 @@ function LoginForm() {
                     value={formData.password}
                     onChange={handleChange}
                     required
-                    placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                    placeholder="••••••••"
                     className="w-full pl-11 pr-12 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all text-sm"
                   />
                   <button
@@ -153,7 +153,7 @@ function LoginForm() {
                   <span className="text-sm text-gray-600 dark:text-gray-400">Se souvenir de moi</span>
                 </label>
                 <Link href="/auth/forgot-password" className="text-sm text-emerald-600 dark:text-emerald-400 hover:underline font-medium">
-                  Mot de passe oubliÃ© ?
+                  Mot de passe oublié ?
                 </Link>
               </div>
 
@@ -177,14 +177,14 @@ function LoginForm() {
             <div className="mt-5 text-center text-sm text-gray-500 dark:text-gray-400">
               Pas encore de compte ?{' '}
               <Link href="/auth/register" className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline">
-                CrÃ©er un compte
+                Créer un compte
               </Link>
             </div>
           </div>
 
           {/* Demo credentials */}
           <div className="mt-5 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/50 rounded-xl p-4">
-            <p className="text-xs font-bold text-blue-800 dark:text-blue-300 mb-2">ðŸ”‘ Comptes de dÃ©monstration</p>
+            <p className="text-xs font-bold text-blue-800 dark:text-blue-300 mb-2">ðŸ”‘ Comptes de démonstration</p>
             <div className="text-xs text-blue-700 dark:text-blue-400 space-y-1">
               <p><strong>Admin :</strong> admin@agri-ps.com / admin123</p>
               <p><strong>Manager :</strong> manager@agri-ps.com / manager123</p>

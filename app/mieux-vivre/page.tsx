@@ -57,7 +57,7 @@ const pageContent = {
     },
     {
       title: "Épargne & Micro-crédit",
-      description: "Solutions d'épargne sécurisées. Crédits agricoles accessibles. Warrantage pour sécuriser vos récoltes.",
+      description: "Solutions d'épargne ssécurisées. Crédits agricoles accessibles. Warrantage pour sécuriser vos récoltes.",
       icon: PiggyBank,
       color: "blue",
       benefits: [
@@ -69,7 +69,7 @@ const pageContent = {
       image: "/products/icon-croissance-fruits.png"
     },
     {
-      title: "Éducation",
+      title: "éducation",
       description: "Formation continue pour vous et vos enfants. Bourses d'études. Alphabétisation numérique.",
       icon: GraduationCap,
       color: "green",
@@ -123,7 +123,7 @@ const pageContent = {
   ],
 
   savingsPlans: {
-    title: "Plans d'Épargne",
+    title: "Plans d'épargne",
     subtitle: "Construisez votre avenir financier",
     plans: [
       {

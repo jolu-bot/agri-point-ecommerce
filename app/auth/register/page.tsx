@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 
 function PasswordStrength({ password }: { password: string }) {
   const checks = [
-    { label: '6+ caractÃ¨res', ok: password.length >= 6 },
+    { label: '6+ caractères', ok: password.length >= 6 },
     { label: 'Majuscule', ok: /[A-Z]/.test(password) },
     { label: 'Chiffre', ok: /[0-9]/.test(password) },
   ];
@@ -51,7 +51,7 @@ export default function RegisterPage() {
       return;
     }
     if (formData.password.length < 6) {
-      toast.error('Le mot de passe doit contenir au moins 6 caractÃ¨res');
+      toast.error('Le mot de passe doit contenir au moins 6 caractères');
       return;
     }
     setLoading(true);
@@ -66,7 +66,7 @@ export default function RegisterPage() {
       localStorage.setItem('accessToken', data.accessToken);
       localStorage.setItem('refreshToken', data.refreshToken);
       localStorage.setItem('user', JSON.stringify(data.user));
-      toast.success('Compte crÃ©Ã© avec succÃ¨s !');
+      toast.success('Compte créé avec succès !');
       router.push('/');
     } catch (error: unknown) {
       const err = error as { message?: string };
@@ -93,13 +93,13 @@ export default function RegisterPage() {
           </div>
           <h1 className="text-4xl font-black mb-4 leading-tight">
             Rejoignez<br />
-            <span className="text-emerald-300">la communautÃ©</span>
+            <span className="text-emerald-300">la communauté</span>
           </h1>
           <p className="text-emerald-100/80 leading-relaxed mb-8">
-            Plus de 10 000 agriculteurs font dÃ©jÃ  confiance Ã  AGRI POINT pour leurs cultures.
+            Plus de 10 000 agriculteurs font déjà confiance à AGRI POINT pour leurs cultures.
           </p>
           <div className="space-y-3 text-left">
-            {['AccÃ¨s Ã  tous nos produits', 'Suivi de vos commandes', 'Conseils AgriBot personnalisÃ©s', 'Offres exclusives membres'].map((item, i) => (
+            {['Accès à tous nos produits', 'Suivi de vos commandes', 'Conseils AgriBot personnalisés', 'Offres exclusives membres'].map((item, i) => (
               <div key={i} className="flex items-center gap-2 text-sm text-emerald-100/90">
                 <div className="w-5 h-5 rounded-full bg-emerald-400/30 flex items-center justify-center flex-shrink-0">
                   <ArrowRight className="w-3 h-3 text-emerald-300" />
@@ -127,8 +127,8 @@ export default function RegisterPage() {
           </div>
 
           <div className="mb-8">
-            <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-1">CrÃ©er un compte</h2>
-            <p className="text-gray-500 dark:text-gray-400">Rejoignez la communautÃ© AGRI POINT</p>
+            <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-1">Créer un compte</h2>
+            <p className="text-gray-500 dark:text-gray-400">Rejoignez la communauté AGRI POINT</p>
           </div>
 
           <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-lg p-8">
@@ -175,7 +175,7 @@ export default function RegisterPage() {
                   <input
                     type={showPassword ? 'text' : 'password'} id="password" name="password"
                     value={formData.password} onChange={handleChange}
-                    required minLength={6} placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                    required minLength={6} placeholder="••••••••"
                     className="w-full pl-11 pr-12 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all text-sm"
                   />
                   <button type="button" onClick={() => setShowPassword(!showPassword)}
@@ -197,7 +197,7 @@ export default function RegisterPage() {
                   <input
                     type={showConfirm ? 'text' : 'password'} id="confirmPassword" name="confirmPassword"
                     value={formData.confirmPassword} onChange={handleChange}
-                    required minLength={6} placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                    required minLength={6} placeholder="••••••••"
                     className={`w-full pl-11 pr-12 py-3 bg-gray-50 dark:bg-gray-800 border rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all text-sm
                       ${formData.confirmPassword && formData.password !== formData.confirmPassword
                         ? 'border-red-400 dark:border-red-600'
@@ -222,7 +222,7 @@ export default function RegisterPage() {
                   J&apos;accepte les{' '}
                   <Link href="/conditions" className="text-emerald-600 hover:underline font-medium">CGU</Link>
                   {' '}et la{' '}
-                  <Link href="/confidentialite" className="text-emerald-600 hover:underline font-medium">politique de confidentialitÃ©</Link>
+                  <Link href="/confidentialite" className="text-emerald-600 hover:underline font-medium">politique de confidentialité</Link>
                 </label>
               </div>
 
@@ -237,14 +237,14 @@ export default function RegisterPage() {
                 ) : (
                   <>
                     <UserPlus className="w-4 h-4" />
-                    <span>CrÃ©er mon compte</span>
+                    <span>Créer mon compte</span>
                   </>
                 )}
               </button>
             </form>
 
             <div className="mt-5 text-center text-sm text-gray-500 dark:text-gray-400">
-              DÃ©jÃ  un compte ?{' '}
+              Déjà un compte ?{' '}
               <Link href="/auth/login" className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline">
                 Se connecter
               </Link>

@@ -100,7 +100,7 @@ const pageContent = {
       after: "1 800 000 FCFA/an",
       increase: "+260%",
       image: "/images/success-1.jpg",
-      quote: "J'ai triplé mes revenus en une seule saison. Mes oignons sont vendus 50% plus cher grâce à leur qualité."
+      quote: "J'ai   mes revenus en une seule saison. Mes oignons sont vendus 50% plus cher grâce à leur qualité."
     },
     {
       name: "Célestine Mballa",
@@ -110,7 +110,7 @@ const pageContent = {
       after: "950 000 FCFA/mois",
       increase: "+217%",
       image: "/images/success-2.jpg",
-      quote: "Je fournis maintenant les grands restaurants et hôtels. Ma production bio se vend comme des petits pains."
+      quote: "Je fournis maintenant les grands restaurants et hhôtels. Ma production bio se vend comme des petits pains."
     },
     {
       name: "Joseph Talla",
@@ -144,7 +144,7 @@ const pageContent = {
           "Plateforme en ligne",
           "Réseau de clients directs",
           "Livraison organisée",
-          "Paiement sécurisé"
+          "Paiement ssécurisé"
         ]
       },
       {

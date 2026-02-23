@@ -49,9 +49,9 @@ const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
 ];
 
 const MOCK_REVIEWS = [
-  { name: 'Jean-Pierre M.', rating: 5, date: 'Janvier 2026', text: 'RÃ©sultats visibles dÃ¨s la 2e semaine. Ma production a nettement augmentÃ© !' },
-  { name: 'Marie K.', rating: 5, date: 'DÃ©cembre 2025', text: 'Produit de grande qualitÃ© et livraison rapide. Je recommande vivement.' },
-  { name: 'Thomas B.', rating: 4, date: 'Novembre 2025', text: 'TrÃ¨s bon produit, dosage facile Ã  respecter. Je rachÃ¨terai.' },
+  { name: 'Jean-Pierre M.', rating: 5, date: 'Janvier 2026', text: 'Résultats visibles dès la 2e semaine. Ma production a nettement augmenté !' },
+  { name: 'Marie K.', rating: 5, date: 'Décembre 2025', text: 'Produit de grande qualité et livraison rapide. Je recommande vivement.' },
+  { name: 'Thomas B.', rating: 4, date: 'Novembre 2025', text: 'Très bon produit, dosage facile à respecter. Je rachèterai.' },
 ];
 
 export default function ProductDetailPage() {
@@ -78,7 +78,7 @@ export default function ProductDetailPage() {
         setProduct(data.product);
         loadRelated(data.product.category, data.product._id);
       } else {
-        toast.error('Produit non trouvÃ©');
+        toast.error('Produit non trouvé');
         router.push('/produits');
       }
     } catch (error) {
@@ -110,7 +110,7 @@ export default function ProductDetailPage() {
       store.addItem({ id: product._id, name: product.name, slug: product.slug, price: product.price, promoPrice: product.promoPrice, image: product.images[0] || '/images/fallback-product.svg', maxStock: product.stock });
       if (quantity > 1) store.updateQuantity(product._id, quantity);
     }
-    toast.success(`${quantity} article(s) ajoutÃ©(s) au panier !`);
+    toast.success(`${quantity} article(s) ajouté(s) au panier !`);
   };
 
   const handleShare = async () => {
@@ -119,7 +119,7 @@ export default function ProductDetailPage() {
       catch { /* user dismissed */ }
     } else {
       navigator.clipboard.writeText(window.location.href);
-      toast.success('Lien copiÃ© !');
+      toast.success('Lien copié !');
     }
   };
 
@@ -157,9 +157,9 @@ export default function ProductDetailPage() {
           Retour
         </button>
 
-        {/* â”€â”€ Main Grid â”€â”€ */}
+        {/* ── Main Grid ── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
-          {/* â”€â”€ Images â”€â”€ */}
+          {/* ── Images ── */}
           <div className="space-y-3">
             {/* Main image */}
             <div className="relative aspect-square bg-gradient-to-br from-gray-50 to-emerald-50/30 dark:from-gray-900 dark:to-emerald-950/20 rounded-2xl overflow-hidden border border-gray-100 dark:border-white/[0.06] shadow-sm">
@@ -172,7 +172,7 @@ export default function ProductDetailPage() {
                   priority
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-9xl">ðŸŒ±</div>
+                <div className="w-full h-full flex items-center justify-center text-9xl">🌱</div>
               )}
 
               {/* Badges */}
@@ -228,7 +228,7 @@ export default function ProductDetailPage() {
             )}
           </div>
 
-          {/* â”€â”€ Details â”€â”€ */}
+          {/* ── Details ── */}
           <div className="flex flex-col">
             {/* Category */}
             <span className="inline-block self-start text-emerald-700 dark:text-emerald-400 font-semibold uppercase text-[11px] tracking-widest bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full mb-3">
@@ -244,7 +244,7 @@ export default function ProductDetailPage() {
               <div className="flex gap-0.5">
                 {[1,2,3,4,5].map(s => <Star key={s} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
               </div>
-              <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">4.9 Â· 24 avis</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">4.9 ★ 24 avis</span>
             </div>
 
             {/* Price */}
@@ -289,7 +289,7 @@ export default function ProductDetailPage() {
             {/* Quantity */}
             {product.stock > 0 && (
               <div className="mb-6">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">QuantitÃ©</label>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Quantité</label>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
                     <button onClick={() => setQuantity(Math.max(1, quantity - 1))} aria-label="Diminuer" className="px-3.5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
@@ -298,7 +298,7 @@ export default function ProductDetailPage() {
                     <input
                       type="number" min="1" max={product.stock} value={quantity}
                       onChange={(e) => setQuantity(Math.min(product.stock, Math.max(1, parseInt(e.target.value) || 1)))}
-                      aria-label="QuantitÃ©"
+                      aria-label="Quantité"
                       className="w-14 text-center py-3 bg-transparent font-bold text-gray-900 dark:text-white focus:outline-none text-sm"
                     />
                     <button onClick={() => setQuantity(Math.min(product.stock, quantity + 1))} aria-label="Augmenter" className="px-3.5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
@@ -324,7 +324,7 @@ export default function ProductDetailPage() {
             <div className="grid grid-cols-3 gap-3">
               {[
                 { icon: <Truck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />, title: 'Livraison', sub: 'Partout au Cameroun' },
-                { icon: <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />, title: 'Garanti', sub: 'QualitÃ© certifiÃ©e' },
+                { icon: <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />, title: 'Garanti', sub: 'Qualité certifiée' },
                 { icon: <Package className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />, title: 'Emballage', sub: 'Protection optimale' },
               ].map((b, i) => (
                 <div key={i} className="flex flex-col items-center text-center p-3 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-white/[0.06]">
@@ -337,7 +337,7 @@ export default function ProductDetailPage() {
           </div>
         </div>
 
-        {/* â”€â”€ Tabs â”€â”€ */}
+        {/* ── Tabs ── */}
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-sm mb-12 overflow-hidden">
           {/* Tab bar */}
           <div className="flex border-b border-gray-100 dark:border-white/[0.06] overflow-x-auto">
@@ -376,7 +376,7 @@ export default function ProductDetailPage() {
                   {product.features?.cultures && product.features.cultures.length > 0 && (
                     <div>
                       <h3 className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-white mb-4">
-                        <Sprout className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> Cultures adaptÃ©es
+                        <Sprout className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> Cultures adaptées
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {product.features.cultures.map((c, i) => (
@@ -391,7 +391,7 @@ export default function ProductDetailPage() {
                   {product.features?.benefits && product.features.benefits.length > 0 && (
                     <div>
                       <h3 className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-white mb-4">
-                        <Check className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> BÃ©nÃ©fices
+                        <Check className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> Bénéfices
                       </h3>
                       <ul className="space-y-2.5">
                         {product.features.benefits.map((b, i) => (
@@ -431,9 +431,9 @@ export default function ProductDetailPage() {
 
                   {product.features?.dosage && (
                     <div>
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Dosage recommandÃ©</h3>
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Dosage recommandé</h3>
                       <div className="p-4 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/40 rounded-xl flex items-start gap-3">
-                        <span className="text-amber-500 text-xl flex-shrink-0">âš—ï¸</span>
+                        <span className="text-amber-500 text-xl flex-shrink-0">⚗️</span>
                         <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{product.features.dosage}</p>
                       </div>
                     </div>
@@ -456,7 +456,7 @@ export default function ProductDetailPage() {
                   {product.features?.precautions && product.features.precautions.length > 0 && (
                     <div>
                       <h3 className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-white mb-4">
-                        <AlertTriangle className="w-5 h-5 text-orange-500" /> PrÃ©cautions d&apos;emploi
+                        <AlertTriangle className="w-5 h-5 text-orange-500" /> Précautions d&apos;emploi
                       </h3>
                       <ul className="space-y-2">
                         {product.features.precautions.map((p, i) => (
@@ -474,7 +474,7 @@ export default function ProductDetailPage() {
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Fiche technique</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {[
-                        { label: 'RÃ©fÃ©rence (SKU)', value: product.sku },
+                        { label: 'Référence (SKU)', value: product.sku },
                         product.weight ? { label: 'Poids', value: `${product.weight} kg` } : null,
                       ].filter(Boolean).map((row, i) => (
                         <div key={i} className="flex justify-between items-center px-4 py-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
@@ -533,7 +533,7 @@ export default function ProductDetailPage() {
           </AnimatePresence>
         </div>
 
-        {/* â”€â”€ Related products â”€â”€ */}
+        {/* ── Related products ── */}
         {related.length > 0 && (
           <div className="mb-12">
             <div className="flex items-center justify-between mb-6">
@@ -550,7 +550,7 @@ export default function ProductDetailPage() {
                       {rel.images[0] ? (
                         <Image src={rel.images[0]} alt={rel.name} fill className="object-contain p-4 group-hover:scale-105 transition-transform duration-300" />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-5xl">ðŸŒ±</div>
+                        <div className="w-full h-full flex items-center justify-center text-5xl">🌱</div>
                       )}
                     </div>
                     <div className="p-4">
@@ -565,7 +565,7 @@ export default function ProductDetailPage() {
           </div>
         )}
 
-        {/* â”€â”€ Mobile sticky CTA â”€â”€ */}
+        {/* ── Mobile sticky CTA ── */}
         {product.stock > 0 && (
           <div className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-100 dark:border-white/[0.06] px-4 py-3 shadow-xl">
             <div className="flex items-center gap-3">
