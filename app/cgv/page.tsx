@@ -120,11 +120,12 @@ export default function CGVPage() {
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-2">4.2 - Moyens de paiement acceptés</h3>
                 <ul className="list-disc list-inside space-y-1 ml-4">
-                  <li>Mobile Money (MTN Mobile Money, Orange Money)</li>
-                  <li>Virement bancaire</li>
-                  <li>Paiement à la livraison (cash)</li>
-                  <li>Carte bancaire (Visa, Mastercard)</li>
+                  <li><strong>Campost – Versement en bureau de poste</strong> (mode principal recommandé) — disponible dans les 10 régions du Cameroun</li>
+                  <li>Paiement à la livraison (espèces)</li>
                 </ul>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                  Le versement s&apos;effectue directement sur le compte <strong>AGRI POINT SERVICES SAS</strong> au bureau Campost le plus proche. Le numéro de commande doit être mentionné comme référence.
+                </p>
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-2">4.3 - Sécurité des paiements</h3>

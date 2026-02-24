@@ -18,6 +18,7 @@ const footerLinks = {
     { label: 'Kits Urbains', href: '/produits?category=kit' },
     { label: 'Services', href: '/produits?category=service' },
     { label: 'Semences', href: '/produits?category=semence' },
+    { label: '🏢 Points Campost', href: '/points-campost' },
   ],
 };
 
