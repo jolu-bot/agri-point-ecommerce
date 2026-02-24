@@ -15,22 +15,22 @@ function HeroContent() {
   return (
     <div className="flex flex-col">
       {/* Badge premium avec shimmer */}
-      <div className="inline-flex items-center gap-2.5 self-start px-4 py-2 rounded-full border border-emerald-700/35 bg-emerald-950/50 text-emerald-300 text-[12.5px] font-semibold tracking-wide shadow-sm mb-6 hero-badge brand-shimmer">
+        className="inline-flex items-center gap-2.5 self-start px-4 py-2 rounded-full border border-emerald-200 dark:border-emerald-700/35 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 text-[12.5px] font-semibold tracking-wide shadow-sm mb-6 hero-badge brand-shimmer"
         <span className="brand-pulse-dot" />
         Le partenaire sûr de l&apos;entrepreneur agricole
         <Leaf className="w-3.5 h-3.5 opacity-60" />
       </div>
       
       <h1 className="font-display font-black leading-[1.0] tracking-tight hero-title">
-        <span className="block text-white">
-          AGRI<span className="text-emerald-400"> POINT</span>
+        <span className="block">
+          <span className="text-[#B71C1C]">AGRI</span><span className="text-emerald-600 dark:text-emerald-400"> POINT</span>
         </span>
         <span className="hero-animated-gradient">SERVICES</span>
         <span className="hero-tagline">Tout en Un</span>
       </h1>
 
-      <p className="text-gray-300 leading-relaxed max-w-lg hero-description">
-        Gamme complète de <strong className="text-white font-semibold">biofertilisants de grande qualité</strong> pour augmenter la production de toutes les cultures au Cameroun.
+      <p className="text-gray-700 dark:text-gray-300 leading-relaxed max-w-lg hero-description">
+        Gamme complète de <strong className="text-gray-900 dark:text-white font-semibold">biofertilisants de grande qualité</strong> pour augmenter la production de toutes les cultures au Cameroun.
       </p>
 
       <div className="flex flex-col sm:flex-row gap-3 hero-buttons">
@@ -53,7 +53,7 @@ function HeroContent() {
         ].map(({ value, label, type }) => (
           <div key={label} className="stat-pill-hero">
             <div className={`font-display font-black stat-value ${type === 'secondary' ? 'hero-stat-secondary' : 'hero-stat-primary'}`}>{value}</div>
-            <div className="stat-label text-gray-400">{label}</div>
+            <div className="stat-label text-gray-600 dark:text-gray-400">{label}</div>
           </div>
         ))}
       </div>

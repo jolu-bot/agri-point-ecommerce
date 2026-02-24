@@ -18,7 +18,7 @@ export default function HeroAnimated() {
           initial={{ opacity: 0, scale: 0.88 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="inline-flex items-center gap-2.5 self-start px-4 py-2 rounded-full border border-emerald-700/35 bg-emerald-950/50 text-emerald-300 text-[12.5px] font-semibold tracking-wide shadow-sm mb-6 hero-badge brand-shimmer"
+          className="inline-flex items-center gap-2.5 self-start px-4 py-2 rounded-full border border-emerald-200 dark:border-emerald-700/35 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 text-[12.5px] font-semibold tracking-wide shadow-sm mb-6 hero-badge brand-shimmer"
         >
           <span className="brand-pulse-dot" />
           Le partenaire sûr de l&apos;entrepreneur agricole
@@ -32,9 +32,9 @@ export default function HeroAnimated() {
           transition={{ delay: 0.18, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="font-display font-black leading-[1.0] tracking-tight hero-title"
         >
-          {/* Ligne 1 — AGRI blanc + POINT émeraude, même poids visuel */}
-          <span className="block text-white">
-            AGRI<span className="text-emerald-400"> POINT</span>
+          {/* Ligne 1 — AGRI rouge marque + POINT émeraude */}
+          <span className="block">
+            <span className="text-[#B71C1C]">AGRI</span><span className="text-emerald-600 dark:text-emerald-400"> POINT</span>
           </span>
           {/* Ligne 2 — SERVICES avec dégradé animé */}
           <span className="hero-animated-gradient">
@@ -49,10 +49,10 @@ export default function HeroAnimated() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.32, duration: 0.5 }}
-          className="text-gray-300 leading-relaxed max-w-lg hero-description"
+          className="text-gray-700 dark:text-gray-300 leading-relaxed max-w-lg hero-description"
         >
           Gamme complète de{' '}
-          <strong className="text-white font-semibold">biofertilisants de grande qualité</strong>{' '}
+          <strong className="text-gray-900 dark:text-white font-semibold">biofertilisants de grande qualité</strong>{' '}
           pour augmenter la production de toutes les cultures au Cameroun.
         </m.p>
 
@@ -98,7 +98,7 @@ export default function HeroAnimated() {
                   ? 'hero-stat-secondary'
                   : 'hero-stat-primary'
               }`}>{value}</div>
-              <div className="stat-label text-gray-400">{label}</div>
+              <div className="stat-label text-gray-600 dark:text-gray-400">{label}</div>
             </m.div>
           ))}
         </m.div>
