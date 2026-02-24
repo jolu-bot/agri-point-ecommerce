@@ -1,8 +1,9 @@
-'use client';
+﻿'use client';
 
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { ExternalLink } from 'lucide-react';
 
 const partners = [
   {
@@ -10,40 +11,64 @@ const partners = [
     name: 'CAMPOST',
     subtitle: 'La Poste du Cameroun',
     logo: '/images/partners/campost-real.png',
-    color: 'from-red-900/20 to-yellow-900/10',
-    border: 'border-red-500/20',
-    glow: 'group-hover:shadow-red-500/20',
+    url: 'https://www.campost.cm',
+    color: 'from-red-50 to-orange-50',
+    colorDark: 'from-red-900/20 to-yellow-900/10',
+    border: 'border-red-100',
+    borderDark: 'border-red-500/20',
+    accent: 'text-red-600',
+    accentDark: 'text-red-400',
+    badge: 'bg-red-50 text-red-600 border-red-100',
+    badgeDark: 'bg-red-900/30 text-red-400 border-red-500/20',
   },
   {
     id: 'minader',
     name: 'MINADER',
-    subtitle: 'Ministère de l\'Agriculture',
+    subtitle: "MinistÃ¨re de l'Agriculture",
     logo: '/images/partners/minader-real.jpg',
-    color: 'from-green-900/20 to-emerald-900/10',
-    border: 'border-green-500/20',
-    glow: 'group-hover:shadow-green-500/20',
+    url: 'https://www.minader.cm',
+    color: 'from-green-50 to-emerald-50',
+    colorDark: 'from-green-900/20 to-emerald-900/10',
+    border: 'border-green-100',
+    borderDark: 'border-green-500/20',
+    accent: 'text-green-700',
+    accentDark: 'text-green-400',
+    badge: 'bg-green-50 text-green-700 border-green-100',
+    badgeDark: 'bg-green-900/30 text-green-400 border-green-500/20',
   },
   {
     id: 'emoh',
-    name: 'EMOH',
-    subtitle: 'Enterprise Market Opportunity Hub',
-    logo: '/images/partners/emoh-real.png',
-    color: 'from-blue-900/20 to-sky-900/10',
-    border: 'border-blue-500/20',
-    glow: 'group-hover:shadow-blue-500/20',
+    name: 'EMOH Compagnie',
+    subtitle: 'Compagnie SARL',
+    logo: '/images/partners/emoh-bleu.png',
+    url: 'https://www.emoh-compagnie.com',
+    color: 'from-blue-50 to-sky-50',
+    colorDark: 'from-blue-900/20 to-sky-900/10',
+    border: 'border-blue-100',
+    borderDark: 'border-blue-500/20',
+    accent: 'text-blue-700',
+    accentDark: 'text-blue-400',
+    badge: 'bg-blue-50 text-blue-700 border-blue-100',
+    badgeDark: 'bg-blue-900/30 text-blue-400 border-blue-500/20',
   },
   {
     id: 'civia',
     name: 'CIVIA',
-    subtitle: 'Coopérative Indépendante Vivrière',
+    subtitle: 'CoopÃ©rative IndÃ©pendante VivriÃ¨re',
     logo: '/images/partners/civia-real.jpeg',
-    color: 'from-teal-900/20 to-green-900/10',
-    border: 'border-teal-500/20',
-    glow: 'group-hover:shadow-teal-500/20',
+    url: '#',
+    color: 'from-teal-50 to-green-50',
+    colorDark: 'from-teal-900/20 to-green-900/10',
+    border: 'border-teal-100',
+    borderDark: 'border-teal-500/20',
+    accent: 'text-teal-700',
+    accentDark: 'text-teal-400',
+    badge: 'bg-teal-50 text-teal-700 border-teal-100',
+    badgeDark: 'bg-teal-900/30 text-teal-400 border-teal-500/20',
   },
 ];
 
-// Double the list for seamless infinite loop
+// Triple the list for seamless mobile marquee
 const loopPartners = [...partners, ...partners, ...partners];
 
 interface PartnersSectionProps {
@@ -59,126 +84,128 @@ export default function PartnersSection({
 
   return (
     <section
-      className={`relative overflow-hidden py-12 ${
+      className={`relative overflow-hidden py-14 ${
         isDark
           ? 'bg-[#050a06] border-t border-white/5'
           : 'bg-white border-t border-gray-100'
       }`}
     >
-      {/* Background grain texture */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM0YWRlODAiIGZpbGwtb3BhY2l0eT0iMC40Ij48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIxIi8+PC9nPjwvZz48L3N2Zz4=')]" />
-
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* â”€â”€ Header â”€â”€ */}
         {showTitle && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-10"
+            className="text-center mb-12"
           >
-            {/* Label */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border mb-4
-              border-green-500/30 bg-green-500/5">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+            <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border mb-4 ${
+              isDark
+                ? 'border-green-500/30 bg-green-500/5'
+                : 'border-green-200 bg-green-50'
+            }`}>
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               <span className={`text-xs font-semibold tracking-widest uppercase ${
-                isDark ? 'text-green-400' : 'text-green-600'
+                isDark ? 'text-green-400' : 'text-green-700'
               }`}>
                 Partenaires de Confiance
               </span>
             </div>
-
             <h2 className={`text-2xl md:text-3xl font-extrabold tracking-tight ${
               isDark ? 'text-white' : 'text-gray-900'
             }`}>
               Nos Partenaires{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-400">
                 Institutionnels
               </span>{' '}
               &amp; Sponsors
             </h2>
             <p className={`mt-2 text-sm max-w-xl mx-auto ${
-              isDark ? 'text-white/50' : 'text-gray-500'
+              isDark ? 'text-white/45' : 'text-gray-500'
             }`}>
-              AGRI POINT bénéficie du soutien d&apos;acteurs clés du développement agricole camerounais.
+              AGRI POINT bÃ©nÃ©ficie du soutien d&apos;acteurs clÃ©s du dÃ©veloppement agricole camerounais.
+              Cliquez sur un logo pour visiter leur site officiel.
             </p>
           </motion.div>
         )}
 
-        {/* ── Static grid (md+) ── */}
-        <div className="hidden md:grid grid-cols-4 gap-6">
+        {/* â”€â”€ Desktop grid (md+) â”€â”€ */}
+        <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-5">
           {partners.map((p, i) => (
-            <motion.div
+            <motion.a
               key={p.id}
+              href={p.url}
+              target={p.url !== '#' ? '_blank' : undefined}
+              rel={p.url !== '#' ? 'noopener noreferrer' : undefined}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className={`group relative rounded-2xl p-1 bg-gradient-to-br ${p.color} border ${p.border}
-                cursor-default select-none transition-all duration-300
-                hover:scale-105 hover:shadow-xl ${p.glow}`}
+              className={`group relative rounded-2xl overflow-hidden border transition-all duration-300
+                hover:scale-[1.03] hover:shadow-2xl focus-visible:ring-2 focus-visible:ring-green-500 outline-none
+                ${isDark
+                  ? `bg-gradient-to-br ${p.colorDark} ${p.borderDark}`
+                  : `bg-gradient-to-br ${p.color} ${p.border}`
+                }`}
+              aria-label={`Visiter le site officiel de ${p.name}`}
             >
-              {/* Shimmer overlay on hover */}
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100
-                transition-opacity duration-500 pointer-events-none overflow-hidden">
-                <div className="absolute -inset-full top-0 h-full w-1/2 z-10
-                  bg-gradient-to-r from-transparent via-white/5 to-transparent
-                  skew-x-[-20deg] translate-x-[-200%] group-hover:translate-x-[400%]
-                  transition-transform duration-1000 ease-in-out" />
+              {/* Shimmer */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none overflow-hidden rounded-2xl">
+                <div className="absolute -inset-full h-full w-1/2 z-10 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-20deg] translate-x-[-200%] group-hover:translate-x-[400%] transition-transform duration-1000 ease-in-out" />
               </div>
 
-              <div className={`relative rounded-xl overflow-hidden px-4 py-5 flex flex-col items-center gap-3
-                ${isDark ? 'bg-white/3' : 'bg-gray-50 border border-gray-100'} backdrop-blur-sm`}>
+              <div className="relative px-5 py-6 flex flex-col items-center gap-4">
                 {/* Logo */}
-                <div className="relative w-full h-16">
+                <div className="relative w-full h-[72px]">
                   <Image
                     src={p.logo}
                     alt={`Logo ${p.name}`}
                     fill
-                    className="object-contain drop-shadow-lg"
+                    className="object-contain drop-shadow-md transition-transform duration-300 group-hover:scale-105"
                     unoptimized
                   />
                 </div>
-                {/* Name + subtitle */}
-                <div className="text-center">
-                  <div className={`text-xs font-bold tracking-wider uppercase mt-1 ${
-                    isDark ? 'text-white/40' : 'text-gray-400'
-                  }`}>{p.subtitle}</div>
-                </div>
 
-                {/* Verified badge */}
-                <div className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium
-                  ${isDark
-                    ? 'bg-green-900/40 text-green-400 border border-green-500/20'
-                    : 'bg-green-100 text-green-700 border border-green-200'
-                  }`}>
-                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none">
-                    <path d="M9 12L11 14L15 10M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22Z"
-                      stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  Partenaire officiel
+                {/* Subtitle */}
+                <p className={`text-[11px] font-semibold tracking-wider uppercase leading-tight text-center ${
+                  isDark ? 'text-white/40' : 'text-gray-500'
+                }`}>{p.subtitle}</p>
+
+                {/* CTA â€” apparaÃ®t au hover */}
+                <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold
+                  border transition-all duration-300
+                  opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0
+                  ${isDark ? p.badgeDark : p.badge}`}
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  Visiter le site
                 </div>
               </div>
-            </motion.div>
+            </motion.a>
           ))}
         </div>
 
-        {/* ── Marquee ticker (mobile < md) ── */}
-        <div className="md:hidden overflow-hidden -mx-4">
+        {/* â”€â”€ Mobile marquee (< md) â”€â”€ */}
+        <div className="md:hidden overflow-hidden -mx-4 px-4">
           <motion.div
-            className="flex gap-4 w-max"
+            className="flex gap-3 w-max"
             animate={{ x: ['0%', '-33.333%'] }}
-            transition={{
-              duration: 18,
-              repeat: Infinity,
-              ease: 'linear',
-            }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
           >
             {loopPartners.map((p, i) => (
-              <div
+              <a
                 key={`${p.id}-${i}`}
-                className={`flex-shrink-0 rounded-xl border ${p.border} bg-gradient-to-br ${p.color}
-                  w-44 px-3 py-4 flex flex-col items-center gap-2`}
+                href={p.url}
+                target={p.url !== '#' ? '_blank' : undefined}
+                rel={p.url !== '#' ? 'noopener noreferrer' : undefined}
+                aria-label={`Site officiel ${p.name}`}
+                className={`flex-shrink-0 w-36 rounded-xl border overflow-hidden p-3 flex flex-col items-center gap-2 active:scale-95 transition-transform ${
+                  isDark
+                    ? `bg-gradient-to-br ${p.colorDark} ${p.borderDark}`
+                    : `bg-gradient-to-br ${p.color} ${p.border} shadow-sm`
+                }`}
               >
                 <div className="relative w-full h-12">
                   <Image
@@ -189,24 +216,30 @@ export default function PartnersSection({
                     unoptimized
                   />
                 </div>
-                <span className={`text-xs font-bold tracking-widest uppercase ${
+                <span className={`text-[10px] font-bold tracking-widest uppercase text-center leading-tight ${
                   isDark ? 'text-white/50' : 'text-gray-500'
                 }`}>{p.name}</span>
-              </div>
+                <div className={`flex items-center gap-1 text-[10px] font-semibold ${
+                  isDark ? p.accentDark : p.accent
+                }`}>
+                  <ExternalLink className="w-2.5 h-2.5" />
+                  Site officiel
+                </div>
+              </a>
             ))}
           </motion.div>
         </div>
 
-        {/* Subtle divider with tagline */}
+        {/* Divider tagline */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-8 flex items-center gap-4"
+          className="mt-10 flex items-center gap-4"
         >
           <div className={`flex-1 h-px ${isDark ? 'bg-white/8' : 'bg-gray-200'}`} />
-          <span className={`text-xs whitespace-nowrap ${isDark ? 'text-white/25' : 'text-gray-400'}`}>
+          <span className={`text-[11px] whitespace-nowrap ${isDark ? 'text-white/20' : 'text-gray-400'}`}>
             Ensemble pour une agriculture durable au Cameroun
           </span>
           <div className={`flex-1 h-px ${isDark ? 'bg-white/8' : 'bg-gray-200'}`} />
