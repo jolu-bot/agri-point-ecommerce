@@ -71,7 +71,14 @@ export default function Header() {
       ]
     },
     { name: '🌱 Campagne Engrais', href: '/campagne-engrais', highlight: true },
-    { name: 'Agriculture Urbaine', href: '/agriculture-urbaine' },
+    { 
+      name: '🌿 Nos Agricultures', 
+      href: '#',
+      submenu: [
+        { name: '🏙️ Agriculture Urbaine', href: '/agriculture-urbaine' },
+        { name: '🌾 Agriculture Périurbaine', href: '/agriculture-periurbaine' },
+      ]
+    },
     { name: 'À propos', href: '/a-propos' },
     { name: 'Contact', href: '/contact' },
   ];

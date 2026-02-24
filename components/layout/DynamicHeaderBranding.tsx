@@ -63,40 +63,24 @@ export default function DynamicHeaderBranding({ className = '' }: DynamicHeaderB
 
   if (loading) {
     return (
-      <div className={`flex items-center ${headerConfig.spacing} animate-pulse ${className}`}>
-        <div className={`${logoSizeClasses} bg-gray-200 dark:bg-gray-700 rounded-full`}></div>
-        <div className="flex flex-col gap-1">
-          <div className="h-5 w-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
-          <div className="h-3 w-20 bg-gray-200 dark:bg-gray-700 rounded"></div>
-        </div>
+      <div className={`flex items-center animate-pulse ${className}`}>
+        <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-[4.5rem] lg:h-[4.5rem] bg-gray-200 dark:bg-gray-700 rounded-full flex-shrink-0"></div>
       </div>
     );
   }
 
   return (
-    <Link href="/" className={`flex items-center ${headerConfig.spacing} group ${className}`}>
-      {/* Logo */}
-      <div className={`relative ${logoSizeClasses} flex-shrink-0 transform group-hover:scale-105 transition-transform`}>
+    <Link href="/" className={`flex items-center group ${className}`}>
+      {/* Logo agrandi — seul élément de marque visible */}
+      <div className="relative w-12 h-12 sm:w-16 sm:h-16 lg:w-[4.5rem] lg:h-[4.5rem] flex-shrink-0 transform group-hover:scale-110 transition-transform duration-300 drop-shadow-md group-hover:drop-shadow-lg">
         <Image
           src={headerConfig.logo.url}
           alt={`${headerConfig.primaryText.content} Logo`}
           fill
           className="object-contain"
           priority
-          sizes="(max-width: 640px) 48px, (max-width: 1024px) 60px, 72px"
+          sizes="(max-width: 640px) 48px, (max-width: 1024px) 64px, 72px"
         />
-      </div>
-
-      {/* Textes */}
-      <div className="flex flex-col min-w-0">
-        {/* Texte principal */}
-        <div 
-          className={`font-display ${primaryTextSizeClasses} ${headerConfig.primaryText.fontWeight} ${headerConfig.primaryText.color} leading-tight whitespace-nowrap`}
-        >
-          {headerConfig.primaryText.content}
-        </div>
-
-
       </div>
     </Link>
   );
