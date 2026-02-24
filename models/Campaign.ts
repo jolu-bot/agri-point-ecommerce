@@ -45,6 +45,9 @@ export interface ICampaign {
     additionalInfo?: string;
   };
   
+  // Objectif d'inscriptions
+  goal: number;
+
   // Statistiques
   stats: {
     totalOrders: number;
@@ -169,6 +172,10 @@ const CampaignSchema = new Schema<ICampaign>({
       type: Number,
       default: 0,
     },
+  },
+  goal: {
+    type: Number,
+    default: 200,
   },
 }, {
   timestamps: true,
