@@ -62,7 +62,7 @@ export default function PartnersSection({
       className={`relative overflow-hidden py-12 ${
         isDark
           ? 'bg-[#050a06] border-t border-white/5'
-          : 'bg-gradient-to-br from-gray-50 to-green-50/50 border-t border-green-100'
+          : 'bg-white border-t border-gray-100'
       }`}
     >
       {/* Background grain texture */}
@@ -128,7 +128,7 @@ export default function PartnersSection({
               </div>
 
               <div className={`relative rounded-xl overflow-hidden px-4 py-5 flex flex-col items-center gap-3
-                ${isDark ? 'bg-white/3' : 'bg-white/70'} backdrop-blur-sm`}>
+                ${isDark ? 'bg-white/3' : 'bg-gray-50 border border-gray-100'} backdrop-blur-sm`}>
                 {/* Logo */}
                 <div className="relative w-full h-16">
                   <Image
