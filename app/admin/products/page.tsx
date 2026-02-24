@@ -8,7 +8,10 @@ import {
   Search,
   Filter,
   Eye,
-  Package
+  Package,
+  Boxes,
+  CheckCircle,
+  AlertCircle,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -34,6 +37,13 @@ export default function ProductsPage() {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState<string | null>(null);
+  // Stock management
+  const [showStockModal, setShowStockModal] = useState(false);
+  const [productForStock, setProductForStock] = useState<Product | null>(null);
+  const [stockOperation, setStockOperation] = useState<'set' | 'add' | 'subtract'>('set');
+  const [stockValue, setStockValue] = useState('');
+  const [stockReason, setStockReason] = useState('');
+  const [stockLoading, setStockLoading] = useState(false);
 
   const categories = [
     'all',
@@ -92,6 +102,44 @@ export default function ProductsPage() {
     } catch (error) {
       console.error('Erreur suppression:', error);
       toast.error('Erreur serveur');
+    }
+  };
+
+  const openStockModal = (product: Product) => {
+    setProductForStock(product);
+    setStockOperation('set');
+    setStockValue(product.stock.toString());
+    setStockReason('');
+    setShowStockModal(true);
+  };
+
+  const handleStockUpdate = async () => {
+    if (!productForStock || !stockValue) return;
+    const value = parseInt(stockValue, 10);
+    if (isNaN(value) || value < 0) { toast.error('Valeur invalide'); return; }
+    setStockLoading(true);
+    try {
+      const token = localStorage.getItem('accessToken');
+      const res = await fetch(`/api/admin/products/${productForStock._id}/stock`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ operation: stockOperation, value, reason: stockReason }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setProducts(products.map(p =>
+          p._id === productForStock._id ? { ...p, stock: data.product.newStock } : p
+        ));
+        toast.success(`Stock mis à jour : ${data.product.newStock} unités`);
+        setShowStockModal(false);
+      } else {
+        const err = await res.json();
+        toast.error(err.error || 'Erreur mise à jour stock');
+      }
+    } catch {
+      toast.error('Erreur serveur');
+    } finally {
+      setStockLoading(false);
     }
   };
 
@@ -282,6 +330,13 @@ export default function ProductsPage() {
                         >
                           <Eye className="w-5 h-5" />
                         </button>
+                        <button
+                          onClick={() => openStockModal(product)}
+                          className="p-2 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
+                          title="Gérer le stock"
+                        >
+                          <Boxes className="w-5 h-5" />
+                        </button>
                         <Link
                           href={`/admin/products/${product._id}/edit`}
                           className="p-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
@@ -347,6 +402,117 @@ export default function ProductsPage() {
                 className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
               >
                 Supprimer
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+      {/* Stock Management Modal */}
+      {showStockModal && productForStock && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-md w-full p-6"
+          >
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center">
+                <Boxes className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-gray-900 dark:text-white">Gérer le stock</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{productForStock.name}</p>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 dark:bg-gray-900/50 rounded-xl p-3 mb-5 flex items-center justify-between">
+              <span className="text-sm text-gray-600 dark:text-gray-400">Stock actuel</span>
+              <span className={`text-lg font-black ${
+                productForStock.stock === 0 ? 'text-red-600' :
+                productForStock.stock <= 5 ? 'text-amber-600' : 'text-emerald-600'
+              }`}>
+                {productForStock.stock} unités
+              </span>
+            </div>
+
+            <div className="space-y-4">
+              {/* Operation */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Opération</label>
+                <div className="grid grid-cols-3 gap-2">
+                  {(['set', 'add', 'subtract'] as const).map(op => (
+                    <button
+                      key={op}
+                      onClick={() => setStockOperation(op)}
+                      className={`py-2 px-3 rounded-lg text-sm font-semibold border transition-colors ${
+                        stockOperation === op
+                          ? 'bg-emerald-600 text-white border-emerald-600'
+                          : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-emerald-400'
+                      }`}
+                    >
+                      {op === 'set' ? 'Définir' : op === 'add' ? '+ Ajouter' : '− Retirer'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Value */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                  {stockOperation === 'set' ? 'Nouveau stock' : stockOperation === 'add' ? 'Quantité à ajouter' : 'Quantité à retirer'}
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  value={stockValue}
+                  onChange={(e) => setStockValue(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-semibold text-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  placeholder="0"
+                />
+                {stockOperation !== 'set' && stockValue && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    Résultat estimé : {
+                      stockOperation === 'add'
+                        ? productForStock.stock + parseInt(stockValue || '0')
+                        : Math.max(0, productForStock.stock - parseInt(stockValue || '0'))
+                    } unités
+                  </p>
+                )}
+              </div>
+
+              {/* Reason */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                  Motif <span className="text-gray-400 font-normal">(optionnel)</span>
+                </label>
+                <input
+                  type="text"
+                  value={stockReason}
+                  onChange={(e) => setStockReason(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  placeholder="Ex : Réapprovisionnement fournisseur"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setShowStockModal(false)}
+                className="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-semibold"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={handleStockUpdate}
+                disabled={stockLoading || !stockValue}
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white rounded-xl transition-colors font-semibold"
+              >
+                {stockLoading ? (
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <CheckCircle className="w-4 h-4" />
+                )}
+                Valider
               </button>
             </div>
           </motion.div>

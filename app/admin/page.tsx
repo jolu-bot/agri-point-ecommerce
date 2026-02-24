@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import {
   ShoppingBag,
@@ -25,6 +25,7 @@ import {
   Calendar,
   ShieldCheck,
   Megaphone,
+  Inbox,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -48,12 +49,27 @@ interface RecentOrder {
   date: string;
 }
 
+interface LowStockItem {
+  id: string;
+  name: string;
+  stock: number;
+  level: 'out' | 'critical' | 'low';
+}
+
+interface CampaignStats {
+  name: string;
+  totalOrders: number;
+  goal: number;
+  progress: number;
+  daysLeft: number;
+}
+
 const STATUS_CONFIG: Record<string, { label: string; color: string; icon: typeof CheckCircle2 }> = {
   pending:    { label: 'En attente',  color: 'text-amber-600 bg-amber-50 dark:bg-amber-900/20 dark:text-amber-400',    icon: Clock },
   processing: { label: 'En cours',   color: 'text-blue-600 bg-blue-50 dark:bg-blue-900/20 dark:text-blue-400',         icon: RefreshCw },
-  shipped:    { label: 'ExpÃ©diÃ©e',   color: 'text-purple-600 bg-purple-50 dark:bg-purple-900/20 dark:text-purple-400', icon: Truck },
-  delivered:  { label: 'LivrÃ©e',     color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20 dark:text-emerald-400', icon: CheckCircle2 },
-  cancelled:  { label: 'AnnulÃ©e',    color: 'text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400',             icon: XCircle },
+  shipped:    { label: 'Expédiée',   color: 'text-purple-600 bg-purple-50 dark:bg-purple-900/20 dark:text-purple-400', icon: Truck },
+  delivered:  { label: 'Livrée',     color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20 dark:text-emerald-400', icon: CheckCircle2 },
+  cancelled:  { label: 'Annulée',    color: 'text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400',             icon: XCircle },
 };
 
 const QUICK_ACTIONS = [
@@ -73,31 +89,40 @@ export default function AdminDashboard() {
     revenueGrowth: 0, ordersGrowth: 0, productsGrowth: 0, usersGrowth: 0,
   });
   const [recentOrders, setRecentOrders] = useState<RecentOrder[]>([]);
+  const [lowStockItems, setLowStockItems] = useState<LowStockItem[]>([]);
+  const [campaignStats, setCampaignStats] = useState<CampaignStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [lastRefresh, setLastRefresh] = useState(new Date());
 
-  useEffect(() => { loadDashboardData(); }, []);
-
-  const loadDashboardData = async () => {
+  const loadDashboardData = useCallback(async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('accessToken');
       const headers = { Authorization: `Bearer ${token}` };
 
-      const [statsRes, ordersRes] = await Promise.all([
+      const [statsRes, ordersRes, lowStockRes, campaignRes] = await Promise.all([
         fetch('/api/admin/stats', { headers }),
         fetch('/api/admin/orders/recent', { headers }),
+        fetch('/api/admin/products/low-stock?threshold=10&limit=6', { headers }),
+        fetch('/api/admin/campaigns/stats', { headers }),
       ]);
 
-      if (statsRes.ok)  setStats(await statsRes.json());
-      if (ordersRes.ok) { const d = await ordersRes.json(); setRecentOrders(d.orders || []); }
+      if (statsRes.ok)    setStats(await statsRes.json());
+      if (ordersRes.ok)   { const d = await ordersRes.json(); setRecentOrders(d.orders || []); }
+      if (lowStockRes.ok) { const d = await lowStockRes.json(); setLowStockItems(d.items || []); }
+      if (campaignRes.ok) {
+        const campaigns: CampaignStats[] = await campaignRes.json();
+        if (campaigns.length > 0) setCampaignStats(campaigns[0]);
+      }
       setLastRefresh(new Date());
     } catch (e) { console.error('Dashboard error:', e); }
     finally { setLoading(false); }
-  };
+  }, []);
+
+  useEffect(() => { loadDashboardData(); }, [loadDashboardData]);
 
   const now = new Date();
-  const greeting = now.getHours() < 12 ? 'Bonjour' : now.getHours() < 18 ? 'Bon aprÃ¨s-midi' : 'Bonsoir';
+  const greeting = now.getHours() < 12 ? 'Bonjour' : now.getHours() < 18 ? 'Bon après-midi' : 'Bonsoir';
   const dateLabel = now.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
   const statCards = [
@@ -112,7 +137,7 @@ export default function AdminDashboard() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <div className="w-14 h-14 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Chargement du tableau de bordâ€¦</p>
+          <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Chargement du tableau de bord…</p>
         </div>
       </div>
     );
@@ -125,7 +150,7 @@ export default function AdminDashboard() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-black text-gray-900 dark:text-white">
-            {greeting} ðŸ‘‹
+            {greeting} 👋
           </h1>
           <div className="flex items-center gap-2 mt-1">
             <Calendar className="w-4 h-4 text-gray-400" />
@@ -134,7 +159,7 @@ export default function AdminDashboard() {
         </div>
         <div className="flex items-center gap-3">
           <span className="text-xs text-gray-400 hidden sm:block">
-            Mis Ã  jour : {lastRefresh.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+            Mis à jour : {lastRefresh.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
           </span>
           <button
             onClick={loadDashboardData}
@@ -187,8 +212,14 @@ export default function AdminDashboard() {
               <Sprout className="w-6 h-6 text-emerald-300" />
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-emerald-300 mb-1">Campagne Engrais 2026</p>
-              <h3 className="text-lg font-black">Programme actif â€” Se termine le 31 mars 2026</h3>
+              <p className="text-xs font-bold uppercase tracking-widest text-emerald-300 mb-1">
+                {campaignStats ? campaignStats.name : 'Campagne Engrais 2026'}
+              </p>
+              <h3 className="text-lg font-black">
+                {campaignStats
+                  ? `Programme actif — ${campaignStats.daysLeft} jours restants`
+                  : 'Programme actif — Se termine le 31 mars 2026'}
+              </h3>
             </div>
           </div>
           <Link href="/campagne-engrais" target="_blank"
@@ -197,28 +228,51 @@ export default function AdminDashboard() {
           </Link>
         </div>
         <div className="mt-5">
-          <div className="flex justify-between text-xs text-emerald-300/70 mb-2">
-            <span>Inscriptions reÃ§ues</span>
-            <span className="font-bold text-white">67 / 200 objectif</span>
-          </div>
-          <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
-            <motion.div className="h-full bg-gradient-to-r from-amber-400 to-yellow-300 rounded-full"
-              initial={{ width: 0 }} animate={{ width: '33.5%' }} transition={{ duration: 1.2, delay: 0.5 }} />
-          </div>
-          <p className="text-xs text-emerald-300/60 mt-2">33% de l&apos;objectif atteint Â· 35 jours restants</p>
+          {campaignStats ? (
+            <>
+              <div className="flex justify-between text-xs text-emerald-300/70 mb-2">
+                <span>Inscriptions reçues</span>
+                <span className="font-bold text-white">
+                  {campaignStats.totalOrders} / {campaignStats.goal} objectif
+                </span>
+              </div>
+              <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full bg-gradient-to-r from-amber-400 to-yellow-300 rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${Math.min(campaignStats.progress, 100)}%` }}
+                  transition={{ duration: 1.2, delay: 0.5 }}
+                />
+              </div>
+              <p className="text-xs text-emerald-300/60 mt-2">
+                {campaignStats.progress}% de l&apos;objectif atteint · {campaignStats.daysLeft} jours restants
+              </p>
+            </>
+          ) : (
+            <>
+              <div className="flex justify-between text-xs text-emerald-300/70 mb-2">
+                <span>Inscriptions reçues</span>
+                <span className="font-bold text-white">— / — objectif</span>
+              </div>
+              <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
+                <div className="h-full w-16 bg-white/20 rounded-full animate-pulse" />
+              </div>
+              <p className="text-xs text-emerald-300/60 mt-2">Aucune campagne active trouvée</p>
+            </>
+          )}
         </div>
       </motion.div>
 
       {/* â”€â”€ Grille principale â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
-        {/* Commandes rÃ©centes â€” 2/3 largeur */}
+        {/* Commandes récentes â€” 2/3 largeur */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
           className="xl:col-span-2 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-white/[0.05] overflow-hidden">
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-white/[0.05]">
             <div className="flex items-center gap-2">
               <Activity className="w-5 h-5 text-emerald-600" />
-              <h2 className="text-base font-black text-gray-900 dark:text-white">Commandes rÃ©centes</h2>
+              <h2 className="text-base font-black text-gray-900 dark:text-white">Commandes récentes</h2>
             </div>
             <Link href="/admin/orders" className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 font-semibold hover:underline">
               Tout voir <ArrowRight className="w-3.5 h-3.5" />
@@ -250,8 +304,8 @@ export default function AdminDashboard() {
                 <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-2xl flex items-center justify-center mb-4">
                   <Package className="w-8 h-8 text-gray-300 dark:text-gray-600" />
                 </div>
-                <p className="font-semibold text-gray-500 dark:text-gray-400">Aucune commande rÃ©cente</p>
-                <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">Les nouvelles commandes apparaÃ®tront ici</p>
+                <p className="font-semibold text-gray-500 dark:text-gray-400">Aucune commande récente</p>
+                <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">Les nouvelles commandes apparaîtront ici</p>
               </div>
             )}
           </div>
@@ -265,25 +319,39 @@ export default function AdminDashboard() {
             <h2 className="text-base font-black text-gray-900 dark:text-white">Alertes stock</h2>
           </div>
           <div className="p-5 space-y-3">
-            {[
-              { name: 'NPK 20-10-10', qty: 3, color: 'text-red-600 bg-red-50 dark:bg-red-900/20' },
-              { name: 'Biofert. Liquide', qty: 7, color: 'text-amber-600 bg-amber-50 dark:bg-amber-900/20' },
-              { name: 'UrÃ©e 46%', qty: 5, color: 'text-red-600 bg-red-50 dark:bg-red-900/20' },
-              { name: 'Kit Urbain Starter', qty: 12, color: 'text-amber-600 bg-amber-50 dark:bg-amber-900/20' },
-            ].map(item => (
-              <div key={item.name} className="flex items-center justify-between gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-900/50">
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-gray-800 dark:text-gray-200 truncate">{item.name}</p>
-                  <p className="text-xs text-gray-400 mt-0.5">Stock restant</p>
+            {lowStockItems.length > 0 ? (
+              lowStockItems.map(item => {
+                const isOut = item.level === 'out';
+                const isCritical = item.level === 'critical';
+                const colorClass = isOut
+                  ? 'text-red-700 bg-red-100 dark:bg-red-900/30 dark:text-red-400'
+                  : isCritical
+                  ? 'text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400'
+                  : 'text-amber-600 bg-amber-50 dark:bg-amber-900/20 dark:text-amber-400';
+                return (
+                  <div key={item.id} className="flex items-center justify-between gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-900/50">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-gray-800 dark:text-gray-200 truncate">{item.name}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">{isOut ? 'Rupture de stock' : 'Stock faible'}</p>
+                    </div>
+                    <span className={`text-xs font-black px-2.5 py-1 rounded-lg flex-shrink-0 ${colorClass}`}>
+                      {item.stock} unités
+                    </span>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="flex flex-col items-center justify-center py-8 text-center">
+                <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl flex items-center justify-center mb-3">
+                  <CheckCircle2 className="w-6 h-6 text-emerald-500" />
                 </div>
-                <span className={`text-xs font-black px-2.5 py-1 rounded-lg flex-shrink-0 ${item.color}`}>
-                  {item.qty} unitÃ©s
-                </span>
+                <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">Stocks en ordre</p>
+                <p className="text-xs text-gray-400 mt-1">Aucun produit sous le seuil critique</p>
               </div>
-            ))}
+            )}
             <Link href="/admin/products"
               className="flex items-center justify-center gap-2 w-full py-2.5 mt-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 rounded-xl transition-colors">
-              GÃ©rer les stocks <ArrowRight className="w-4 h-4" />
+              Gérer les stocks <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </motion.div>
@@ -291,7 +359,7 @@ export default function AdminDashboard() {
 
       {/* â”€â”€ Actions rapides â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-        <h2 className="text-lg font-black text-gray-900 dark:text-white mb-4">AccÃ¨s rapides</h2>
+        <h2 className="text-lg font-black text-gray-900 dark:text-white mb-4">Accès rapides</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
           {QUICK_ACTIONS.map((action) => {
             const Icon = action.icon;
