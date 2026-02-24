@@ -9,6 +9,7 @@ import {
   ArrowRight, Phone, Mail, MapPin, Calculator, Package,
   Leaf, BadgeCheck, Zap, Gift, HeartHandshake, Timer
 } from 'lucide-react';
+import CampostPaymentInfo from '@/components/shared/CampostPaymentInfo';
 
 // ─── Countdown Hook ──────────────────────────────────────────────────────────
 
@@ -63,7 +64,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Comment fonctionne le paiement échelonné 70/30 ?",
-    a: "Vous payez 70% du montant à la commande via Mobile Money (MTN/Orange). Les 30% restants sont réglés à la réception de la marchandise, dans un délai de 30 jours maximum.",
+    a: "Vous versez 70% du montant directement au bureau Campost le plus proche, sur le compte AGRI POINT SERVICES SAS. Notre équipe vous confirme la commande sous 24h après réception du reçu. Les 30% restants sont réglés à la réception de la marchandise, dans un délai de 30 jours maximum.",
   },
   {
     q: "Quels sont les délais de livraison ?",
@@ -463,7 +464,7 @@ export default function CampagnePremiumPage() {
               {[
                 { step: '01', icon: BadgeCheck, color: 'from-emerald-500 to-teal-500', title: "Vérifiez votre éligibilité", desc: "Renseignez vos informations personnelles, votre coopérative et votre assurance agricole." },
                 { step: '02', icon: Package, color: 'from-teal-500 to-cyan-500', title: "Choisissez vos produits", desc: "Sélectionnez le type d'engrais et la quantité souhaitée. Le calculateur affiche vos économies instantanément." },
-                { step: '03', icon: Zap, color: 'from-amber-500 to-orange-500', title: "Commandez & Recevez", desc: "Payez via Mobile Money (MTN/Orange), recevez la confirmation et suivez votre livraison en temps réel." },
+                { step: '03', icon: Zap, color: 'from-amber-500 to-orange-500', title: "Commandez & Recevez", desc: "Versez 70% au bureau Campost le plus proche, envoyez votre reçu par WhatsApp, et suivez votre livraison en temps réel." },
               ].map(({ step, icon: Icon, color, title, desc }, i) => (
                 <motion.div key={step} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }} className="text-center">
                   <div className="relative inline-block mb-8">
@@ -699,11 +700,15 @@ export default function CampagnePremiumPage() {
                           </div>
                         ))}
                       </div>
-                      <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/30 rounded-2xl p-4">
+                      <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/30 rounded-2xl p-4 mb-4">
                         <p className="text-sm text-blue-700 dark:text-blue-300">
-                          <strong>Note :</strong> Notre équipe vous contactera sous 24h via WhatsApp pour confirmer la commande et organiser le paiement Mobile Money.
+                          <strong>Note :</strong> Notre équipe vous contactera sous 24h via WhatsApp (+237 676 026 601) pour confirmer votre commande et vous communiquer le numéro de compte Campost (AGRI POINT SERVICES SAS) pour le versement des 70%.
                         </p>
                       </div>
+                      <CampostPaymentInfo
+                        variant="full"
+                        amount70={Math.round(formData.quantity * (formData.productType === 'mineral' ? 18500 : 12000) * 0.7)}
+                      />
                     </motion.div>
                   )}
                 </AnimatePresence>

@@ -7,6 +7,7 @@ import { ArrowLeft, Check, CreditCard, Truck, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useCartStore } from '@/store/cartStore';
 import toast from 'react-hot-toast';
+import CampostPaymentInfo from '@/components/shared/CampostPaymentInfo';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -467,6 +468,13 @@ export default function CheckoutPage() {
                       </label>
                     ))}
                   </div>
+
+                  {/* Informations Campost si mode sélectionné */}
+                  {formData.paymentMethod === 'campost' && (
+                    <div className="mt-4">
+                      <CampostPaymentInfo variant="compact" />
+                    </div>
+                  )}
                 </motion.div>
               )}
 

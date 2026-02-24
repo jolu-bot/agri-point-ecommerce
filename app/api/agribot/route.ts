@@ -133,11 +133,13 @@ const KNOWLEDGE_BASE = `
 - Vérifier les produits et quantités
 - Remplir l'adresse de livraison (ou utiliser adresse sauvegardée)
 
-**Étape 4 — Paiement**
-- **MTN Mobile Money** : Entrer votre numéro, valider le paiement sur votre téléphone
-- **Orange Money** : Entrer votre numéro, confirmer via menu *150*50#
-- **Campost Pay** : Numéro de compte Campost requis
-- **Virement bancaire** : Coordonnées bancaires affichées à la validation
+**Étape 4 — Paiement via Campost**
+- Rendez-vous au bureau Campost le plus proche de chez vous
+- Demandez un versement sur le compte **AGRI POINT SERVICES SAS**
+- Mentionnez votre numéro de commande comme référence
+- Photographiez le reçu et envoyez-le par WhatsApp au +237 676 026 601
+- Confirmation de commande sous 24h après réception du reçu
+- **Paiement à la livraison (cash)** : Option disponible selon la zone
 
 **Étape 5 — Confirmation**
 - Email de confirmation avec numéro de commande (ex: AP-2026-00123)
@@ -335,9 +337,9 @@ Rendre-vous sur https://agri-ps.com/campagne-engrais et remplir le formulaire :
 - **Adresse de livraison** : Rue, quartier, ville
 - **Ville** : Yaoundé / Douala / Bafoussam / etc.
 - **Indicatif de zone** : Pour estimer les frais et délais
-- **Mode de paiement** : MTN Mobile Money | Orange Money | Campost Pay | Virement
-- **Numéro Mobile Money** : Entrer le numéro enregistré (peut différer du numéro de contact)
-- Confirmer → Notification push sur le téléphone pour valider le paiement
+- **Mode de paiement** : Campost (versement en bureau) | Cash à la livraison
+- **Référence** : Mentionner le numéro de commande lors du versement Campost
+- Confirmer → Notre équipe valide sous 24h après réception du reçu
 
 ---
 
@@ -825,30 +827,27 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
 → Vérifier le récapitulatif
 → Remplir ou sélectionner adresse de livraison
 
-**Étape 4** — Payer
-→ MTN Mobile Money / Orange Money / Campost / Virement
+**Étape 4** — Payer via Campost
+→ Versement au bureau Campost le plus proche sur le compte AGRI POINT SERVICES SAS
 
 **Étape 5** — Confirmation
 → Email + SMS avec numéro de commande AP-XXXX-XXXXX`,
 
         paiement: `## Modes de Paiement Acceptés
 
-💛 **MTN Mobile Money**
-→ Entrer numéro MTN → valider notification sur téléphone
+🏢 **Campost – Versement en bureau de poste** (Mode principal recommandé)
+→ Rendez-vous au bureau Campost le plus proche
+→ Versement sur le compte **AGRI POINT SERVICES SAS**
+→ Mentionnez votre numéro de commande comme référence
+→ Envoyez le reçu par WhatsApp : +237 676 026 601
+→ Confirmation sous 24h — disponible dans les 10 régions du Cameroun
+→ Voir tous les points de dépôt : [/points-campost]
 
-🟠 **Orange Money**
-→ Entrer numéro Orange → confirmer via *150*50#
+💵 **Cash à la livraison**
+→ Payez en espèces directement au livreur à la réception
+→ Disponible selon la zone de livraison
 
-🟦 **Campost Pay**
-→ Numéro de compte Campost requis
-
-🏦 **Virement Bancaire**
-→ Coordonnées affichées lors de la validation commande
-→ Délai validation : 1-2 jours ouvrables
-
-💳 **PayPal** (en cours d'intégration)
-
-📌 Toutes les transactions sont sécurisées et cryptées (SSL).`,
+📌 Le numéro de compte AGRI POINT SERVICES SAS vous sera communiqué lors de la confirmation de commande.`,
 
         suivi: `## Suivre ma Commande
 
