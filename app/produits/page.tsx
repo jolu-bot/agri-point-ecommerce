@@ -1,4 +1,29 @@
+import type { Metadata } from 'next';
 import ProductsClient from './ProductsClient';
+
+export const metadata: Metadata = {
+  title: 'Boutique | AGRI POINT SERVICE — Biofertilisants & Engrais au Cameroun',
+  description:
+    'Achetez en ligne nos biofertilisants, engrais minéraux et kits d\'agriculture urbaine. Livraison partout au Cameroun. Qualité certifiée MINADER.',
+  keywords: [
+    'acheter biofertilisant Cameroun', 'engrais en ligne', 'boutique agricole',
+    'kits agriculture urbaine', 'biofertilisant prix', 'engrais minéral Cameroun',
+  ],
+  openGraph: {
+    title: 'Boutique AGRI POINT SERVICE — Biofertilisants & Engrais',
+    description: 'Des solutions biofertilisantes de qualité pour une agriculture performante. Livraison gratuite dès 6 sacs.',
+    url: 'https://agri-point.cm/produits',
+    siteName: 'AGRI POINT SERVICE',
+    locale: 'fr_FR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Boutique — AGRI POINT SERVICE',
+    description: 'Biofertilisants et engrais de qualité. Livraison partout au Cameroun.',
+  },
+  alternates: { canonical: 'https://agri-point.cm/produits' },
+};
 
 // Server Component avec fetch côté serveur
 export const dynamic = 'force-dynamic';
