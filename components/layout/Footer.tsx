@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, MessageCircle, ArrowUpRight, Leaf, Globe } from 'lucide-react';
+import PartnersSection from '@/components/shared/PartnersSection';
 
 const footerLinks = {
   solutions: [
@@ -216,6 +217,8 @@ export default function Footer() {
 
         </div>
       </div>
+
+      <PartnersSection variant="dark" showTitle={true} />
 
       {/* BOTTOM BAR */}
       <div className="relative border-t border-white/[0.06]">

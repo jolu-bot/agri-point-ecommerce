@@ -1,0 +1,8 @@
+seedling: f0 9f 8c b1 cp=1f331
+herb: f0 9f 8c bf cp=1f33f
+sheaf: f0 9f 8c be cp=1f33e
+gift: f0 9f 8e 81 cp=1f381
+megaphone: f0 9f 93 a2 cp=1f4e2
+rocket: f0 9f 9a 80 cp=1f680
+lock: f0 9f 94 92 cp=1f512
+speech: f0 9f 92 ac cp=1f4ac

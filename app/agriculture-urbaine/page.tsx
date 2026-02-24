@@ -24,7 +24,13 @@ import {
   Sparkles,
   TreePine,
   Lightbulb,
-  Target
+  Target,
+  AlertCircle,
+  MapPin,
+  Wrench,
+  Shield,
+  Package,
+  ThumbsUp
 } from 'lucide-react';
 import ProductCard from '@/components/products/ProductCard';
 import { IProduct } from '@/models/Product';
@@ -248,14 +254,14 @@ const pageContent = {
   ],
 
   crops: [
-    { name: "Tomates", difficulty: "Facile", time: "60-80 jours", yield: "3-5 kg/plant" },
-    { name: "Salades", difficulty: "Très facile", time: "30-40 jours", yield: "Continue" },
-    { name: "Herbes aromatiques", difficulty: "Très facile", time: "20-30 jours", yield: "Continue" },
-    { name: "Piments", difficulty: "Facile", time: "70-90 jours", yield: "2-4 kg/plant" },
-    { name: "Concombres", difficulty: "Moyen", time: "50-70 jours", yield: "4-8 kg/plant" },
-    { name: "Aubergines", difficulty: "Moyen", time: "80-100 jours", yield: "4-6 kg/plant" },
-    { name: "Fraises", difficulty: "Facile", time: "90 jours", yield: "Continue 6 mois" },
-    { name: "Épinards", difficulty: "Très facile", time: "40-50 jours", yield: "Continue" }
+    { name: "Tomates cerises", difficulty: "Facile", time: "60-80 jours", yield: "3-5 kg/plant", investment: "3 500 FCFA", roi: "×4 en 3 cycles", space: "1 pot 10 L" },
+    { name: "Salade / Laitue", difficulty: "Très facile", time: "30-40 jours", yield: "Continue", investment: "1 500 FCFA", roi: "×5 en 4 cycles", space: "0.1 m²/plant" },
+    { name: "Herbes aromatiques", difficulty: "Très facile", time: "20-30 jours", yield: "Continue", investment: "1 000 FCFA", roi: "×8 annuel", space: "Pot 5 L" },
+    { name: "Piments", difficulty: "Facile", time: "70-90 jours", yield: "2-4 kg/plant", investment: "2 500 FCFA", roi: "×6 en 2 cycles", space: "Pot 8 L" },
+    { name: "Concombres", difficulty: "Moyen", time: "50-70 jours", yield: "4-8 kg/plant", investment: "4 000 FCFA", roi: "×3.5 par cycle", space: "Tuteur 1 m²" },
+    { name: "Aubergines", difficulty: "Moyen", time: "80-100 jours", yield: "4-6 kg/plant", investment: "3 000 FCFA", roi: "×4 en 2 cycles", space: "Pot 15 L" },
+    { name: "Épinards", difficulty: "Très facile", time: "40-50 jours", yield: "Continue", investment: "1 200 FCFA", roi: "×7 annuel", space: "0.05 m²/plant" },
+    { name: "Ciboulette / Oignon", difficulty: "Très facile", time: "30-40 jours", yield: "Continue", investment: "800 FCFA", roi: "×10 annuel", space: "Pot 5 L" }
   ]
 };
 
@@ -503,6 +509,388 @@ export default function AgricultureUrbainePage() {
         </div>
       </section>
 
+      {/* ═══════════════════════════════════════════════════════
+          DÉFIS URBAINS & SOLUTIONS AGRI POINT
+      ════════════════════════════════════════════════════════ */}
+      <section className="py-24 bg-gray-900 dark:bg-gray-950 relative overflow-hidden">
+        {/* Decorative background */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-green-600/5 blur-3xl" />
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-emerald-600/5 blur-3xl" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 mb-5">
+              <AlertCircle className="w-4 h-4 text-orange-400" />
+              <span className="text-sm font-semibold text-orange-400 tracking-wider uppercase">Défis du quotidien</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
+              Défis Urbains &amp;{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300">
+                Solutions AGRI POINT
+              </span>
+            </h2>
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+              Chaque obstacle de l&apos;agriculture en ville a une solution pensée pour le contexte camerounais.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                icon: Home,
+                challenge: "Espace restreint",
+                context: "Balcon de 4 m² à Yaoundé",
+                solution: "Jardinage vertical : structure PVC + sacs culture superposés. Jusqu'à 30 plantes sur 1 m² de sol.",
+                color: "green",
+                badge: "Adapté balcons"
+              },
+              {
+                icon: Droplets,
+                challenge: "Accès eau limité",
+                context: "Coupures fréquentes à Douala",
+                solution: "Arrosage goutte-à-goutte + réservoir de collecte eau de pluie. 70% d'économie d'eau vs arrosage classique.",
+                color: "blue",
+                badge: "Éco-eau"
+              },
+              {
+                icon: Sun,
+                challenge: "Ensoleillement variable",
+                context: "Saison des pluies & harmattan",
+                solution: "Choix variétaux adaptés à chaque saison. Espèces d'ombre (épinard, persil) pour saison pluvieuse.",
+                color: "yellow",
+                badge: "Toute saison"
+              },
+              {
+                icon: Shield,
+                challenge: "Sol absent / pollué",
+                context: "Sites urbains dégradés",
+                solution: "Culture hors-sol (substrat coco, lombricompost). Zéro sol naturel requis — propre et sain.",
+                color: "purple",
+                badge: "Hors-sol"
+              },
+              {
+                icon: Target,
+                challenge: "Budget de démarrage",
+                context: "Primo-jardiniers urbains",
+                solution: "Kit starter AGRI POINT dès 8 000 FCFA. Retour sur investissement en 6-8 semaines pour les tomates cerises.",
+                color: "emerald",
+                badge: "ROI rapide"
+              },
+              {
+                icon: Wrench,
+                challenge: "Ravageurs & maladies",
+                context: "Milieu dense et humide",
+                solution: "Filets insect-proof + biofertilisants AGRI POINT. Traitement préventif 100% naturel, sans odeur.",
+                color: "orange",
+                badge: "Bio & sain"
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.5 }}
+                className="group relative bg-white/[0.03] border border-white/10 rounded-2xl p-6 hover:border-green-500/30 hover:bg-white/[0.06] transition-all duration-300"
+              >
+                {/* Challenge header */}
+                <div className="flex items-start gap-4 mb-4">
+                  <div className={`w-12 h-12 rounded-xl bg-${item.color}-500/10 border border-${item.color}-500/20 flex items-center justify-center flex-shrink-0`}>
+                    <item.icon className={`w-6 h-6 text-${item.color}-400`} />
+                  </div>
+                  <div>
+                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Défi</div>
+                    <h3 className="text-lg font-black text-white">{item.challenge}</h3>
+                    <p className="text-xs text-gray-500 mt-0.5 italic">{item.context}</p>
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="h-px bg-gradient-to-r from-green-500/30 to-transparent mb-4" />
+
+                {/* Solution */}
+                <div className="flex items-start gap-2 mb-4">
+                  <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-gray-300 leading-relaxed">{item.solution}</p>
+                </div>
+
+                {/* Badge */}
+                <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-${item.color}-500/10 text-${item.color}-400 border border-${item.color}-500/20`}>
+                  <ThumbsUp className="w-3 h-3" />
+                  {item.badge}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          QUARTIERS VERTS CAMEROUN
+      ════════════════════════════════════════════════════════ */}
+      <section className="py-24 bg-gradient-to-br from-emerald-950 to-gray-900 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none opacity-30">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500/50 to-transparent" />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 mb-5">
+              <MapPin className="w-4 h-4 text-emerald-400" />
+              <span className="text-sm font-semibold text-emerald-400 tracking-wider uppercase">Meilleures zones</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
+              Quartiers{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-300">
+                Verts du Cameroun
+              </span>
+            </h2>
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+              Ces quartiers offrent les meilleures conditions pour pratiquer l&apos;agriculture urbaine. Vous habitez là ? Vous avez une longueur d&apos;avance !
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            {/* Yaoundé */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="bg-white/[0.04] border border-white/10 rounded-3xl p-8"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-xl bg-green-500/20 border border-green-500/30 flex items-center justify-center">
+                  <span className="text-lg">🏙️</span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-white">Yaoundé</h3>
+                  <p className="text-sm text-green-400 font-medium">Capitale — Altitude favorable</p>
+                </div>
+              </div>
+              <div className="space-y-4">
+                {[
+                  { quartier: "Melen / Ngousso", score: 95, atout: "Jardins communs, sol riche, bonne pluie" },
+                  { quartier: "Biyem-Assi", score: 90, atout: "Quartier résidentiel, toits plats, communauté active" },
+                  { quartier: "Bastos", score: 88, atout: "Grandes cours, espace générable, eau constante" },
+                  { quartier: "Nkol-Essing", score: 82, atout: "Périphérie verte, espace péri-urbain" },
+                ].map((q, i) => (
+                  <div key={i} className="flex items-center gap-4">
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-sm font-semibold text-gray-200">{q.quartier}</span>
+                        <span className="text-sm font-black text-emerald-400">{q.score}/100</span>
+                      </div>
+                      <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${q.score}%` }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1, delay: i * 0.15 }}
+                          className="h-full bg-gradient-to-r from-green-500 to-emerald-400 rounded-full"
+                        />
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">{q.atout}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Douala */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="bg-white/[0.04] border border-white/10 rounded-3xl p-8"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
+                  <span className="text-lg">🌊</span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-white">Douala</h3>
+                  <p className="text-sm text-blue-400 font-medium">Capital économique — Climat chaud & humide</p>
+                </div>
+              </div>
+              <div className="space-y-4">
+                {[
+                  { quartier: "Bonapriso", score: 92, atout: "Résidentiel huppé, toits accessibles, espaces privatifs" },
+                  { quartier: "Akwa / Bonanjo", score: 85, atout: "Cours intérieures, balcons, bonne logistique" },
+                  { quartier: "Makepe", score: 83, atout: "Grands espaces, communauté agri, sol adapté" },
+                  { quartier: "Logpom", score: 78, atout: "Quartier en développement, prix foncier bas" },
+                ].map((q, i) => (
+                  <div key={i} className="flex items-center gap-4">
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-sm font-semibold text-gray-200">{q.quartier}</span>
+                        <span className="text-sm font-black text-blue-400">{q.score}/100</span>
+                      </div>
+                      <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${q.score}%` }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1, delay: i * 0.15 }}
+                          className="h-full bg-gradient-to-r from-blue-500 to-sky-400 rounded-full"
+                        />
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">{q.atout}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <p className="text-sm text-gray-500 italic">
+              🗺️ Vous ne trouvez pas votre quartier ?{' '}
+              <Link href="/contact" className="text-emerald-400 hover:text-emerald-300 underline underline-offset-2">
+                Contactez-nous pour une analyse gratuite de votre espace.
+              </Link>
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          BOÎTE À OUTILS DU JARDINIER URBAIN
+      ════════════════════════════════════════════════════════ */}
+      <section className="py-24 bg-white dark:bg-gray-900 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-green-500/30 bg-green-500/5 mb-5">
+              <Wrench className="w-4 h-4 text-green-600 dark:text-green-400" />
+              <span className="text-sm font-semibold text-green-600 dark:text-green-400 tracking-wider uppercase">Matériel essentiel</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4">
+              Boîte à Outils du{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">
+                Jardinier Urbain
+              </span>
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Du matériel local accessible +  les équipements modernes AGRI POINT pour optimiser vos rendements.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                emoji: "🪣",
+                local: "Bassine / arrosoir local",
+                localPrice: "500 – 1 500 FCFA",
+                modern: "Kit arrosage goutte-à-goutte AGRI POINT",
+                modernBenefit: "Économise 70% d'eau, arrosage automatique programmable",
+                upgrade: true
+              },
+              {
+                emoji: "🪴",
+                local: "Sac plastique recyclé",
+                localPrice: "0 – 200 FCFA",
+                modern: "Jardinière suspendue ou grow bag 10 L",
+                modernBenefit: "Drainage optimisé, réutilisable 3+ ans, anti-racines",
+                upgrade: true
+              },
+              {
+                emoji: "🌱",
+                local: "Terre de jardin classique",
+                localPrice: "Gratuit",
+                modern: "Substrat coco + lombricompost AGRI POINT",
+                modernBenefit: "Léger, stérile, pH neutre, parfait pour balcons",
+                upgrade: true
+              },
+              {
+                emoji: "🕸️",
+                local: "Tissu vieux / moustiquaire",
+                localPrice: "0 – 300 FCFA",
+                modern: "Filet insect-proof 50 mesh AGRI POINT",
+                modernBenefit: "Bloque 100% ravageurs, laisse passer lumière & air",
+                upgrade: true
+              },
+              {
+                emoji: "🪵",
+                local: "Bambou / bâton local",
+                localPrice: "Gratuit",
+                modern: "Tuteur spirale galvanisé + clips",
+                modernBenefit: "Supporte 20+ kg, anti-rouille, réutilisable",
+                upgrade: false
+              },
+              {
+                emoji: "♻️",
+                local: "Compostage simple (fosse)",
+                localPrice: "Gratuit",
+                modern: "Lombricomposteur compact AGRI POINT",
+                modernBenefit: "Compost en 3 semaines, zéro odeur, pour appartement",
+                upgrade: true
+              },
+            ].map((tool, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.5 }}
+                className="group bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-2xl overflow-hidden hover:shadow-xl hover:border-green-500/30 transition-all duration-300"
+              >
+                {/* Header */}
+                <div className="p-5 border-b border-gray-200 dark:border-gray-700/30 flex items-center gap-3">
+                  <span className="text-3xl">{tool.emoji}</span>
+                  <div>
+                    <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold">Solution locale</p>
+                    <p className="text-sm font-bold text-gray-900 dark:text-white">{tool.local}</p>
+                    <span className="text-xs text-green-600 dark:text-emerald-400 font-semibold">{tool.localPrice}</span>
+                  </div>
+                </div>
+
+                {/* Upgrade */}
+                <div className="p-5">
+                  <div className="flex items-center gap-2 mb-2">
+                    <ArrowRight className="w-4 h-4 text-green-600 dark:text-emerald-400 flex-shrink-0" />
+                    <p className="text-sm font-black text-gray-900 dark:text-white">{tool.modern}</p>
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed pl-6">{tool.modernBenefit}</p>
+
+                  {tool.upgrade && (
+                    <div className="mt-4 pl-6">
+                      <Link
+                        href="/produits"
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-green-600 dark:text-emerald-400 hover:underline"
+                      >
+                        <Package className="w-3.5 h-3.5" />
+                        Voir dans la boutique
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Benefits */}
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -591,6 +979,9 @@ export default function AgricultureUrbainePage() {
                   <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Difficulté</th>
                   <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Temps</th>
                   <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Rendement</th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Démarrage</th>
+                  <th className="text-left py-4 px-4 font-bold text-green-700 dark:text-green-300">ROI</th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Espace</th>
                 </tr>
               </thead>
               <tbody>
@@ -617,6 +1008,13 @@ export default function AgricultureUrbainePage() {
                     </td>
                     <td className="py-4 px-4 text-gray-700 dark:text-gray-300">{crop.time}</td>
                     <td className="py-4 px-4 font-semibold text-green-600">{crop.yield}</td>
+                    <td className="py-4 px-4 text-gray-700 dark:text-gray-300 text-sm">{crop.investment}</td>
+                    <td className="py-4 px-4">
+                      <span className="inline-block px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded text-xs font-black">
+                        {crop.roi}
+                      </span>
+                    </td>
+                    <td className="py-4 px-4 text-gray-500 dark:text-gray-400 text-sm">{crop.space}</td>
                   </motion.tr>
                 ))}
               </tbody>
