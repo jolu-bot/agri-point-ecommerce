@@ -15,7 +15,7 @@ function HeroContent() {
   return (
     <div className="flex flex-col">
       {/* Badge premium avec shimmer */}
-        className="inline-flex items-center gap-2.5 self-start px-4 py-2 rounded-full border border-emerald-200 dark:border-emerald-700/35 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 text-[12.5px] font-semibold tracking-wide shadow-sm mb-6 hero-badge brand-shimmer"
+      <div className="inline-flex items-center gap-2.5 self-start px-4 py-2 rounded-full border border-emerald-200 dark:border-emerald-700/35 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 text-[12.5px] font-semibold tracking-wide shadow-sm mb-6 hero-badge brand-shimmer">
         <span className="brand-pulse-dot" />
         Le partenaire sûr de l&apos;entrepreneur agricole
         <Leaf className="w-3.5 h-3.5 opacity-60" />
