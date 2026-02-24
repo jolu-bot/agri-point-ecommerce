@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" fill="none">
+  <!-- Background -->
+  <rect width="200" height="80" rx="12" fill="#1a4d2e"/>
+  <!-- Leaf/Wheat icon -->
+  <g transform="translate(14,12)">
+    <!-- Stem -->
+    <line x1="18" y1="56" x2="18" y2="20" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Left leaf -->
+    <path d="M18 42 C10 36 8 28 14 24 C20 20 22 28 18 42Z" fill="#4ade80" opacity="0.9"/>
+    <!-- Right leaf -->
+    <path d="M18 42 C26 36 28 28 22 24 C16 20 14 28 18 42Z" fill="#16a34a" opacity="0.9"/>
+    <!-- Top wheat head -->
+    <ellipse cx="18" cy="17" rx="4" ry="6" fill="#FFD700" opacity="0.95"/>
+    <ellipse cx="14" cy="20" rx="3" ry="5" fill="#FFD700" opacity="0.9"/>
+    <ellipse cx="22" cy="20" rx="3" ry="5" fill="#FFD700" opacity="0.9"/>
+  </g>
+  <!-- MINADER text -->
+  <text x="58" y="35" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="900" letter-spacing="2" fill="#FFFFFF">MINADER</text>
+  <text x="58" y="49" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="400" letter-spacing="0.5" fill="#86efac">MINISTÈRE DE L'AGRICULTURE</text>
+  <text x="58" y="60" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="400" letter-spacing="0.5" fill="#86efac">ET DU DÉVELOPPEMENT RURAL</text>
+  <!-- Accent line -->
+  <rect x="58" y="39" width="90" height="1.5" rx="1" fill="#4ade80" opacity="0.5"/>
+</svg>

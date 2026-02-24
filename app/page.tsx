@@ -14,6 +14,10 @@ const Newsletter = dynamic(() => import('@/components/home/Newsletter'), {
   loading: () => <div className="h-64 animate-pulse bg-gray-100 dark:bg-gray-800" />
 });
 
+const PartnersSection = dynamic(() => import('@/components/shared/PartnersSection'), {
+  loading: () => <div className="h-64 animate-pulse bg-gray-900" />
+});
+
 export default function Home() {
   return (
     <>
@@ -23,6 +27,7 @@ export default function Home() {
       <Sections />
       <UrbanAgriculture />
       <Testimonials />
+      <PartnersSection variant="dark" showTitle={true} />
       <Newsletter />
     </>
   );

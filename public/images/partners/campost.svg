@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" fill="none">
+  <!-- Background -->
+  <rect width="200" height="80" rx="12" fill="#CC0000"/>
+  <!-- Envelope icon -->
+  <rect x="14" y="22" width="36" height="26" rx="3" fill="none" stroke="#FFD700" stroke-width="2.5"/>
+  <polyline points="14,22 32,38 50,22" fill="none" stroke="#FFD700" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- CAMPOST text -->
+  <text x="60" y="38" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="900" letter-spacing="2" fill="#FFFFFF">CAMPOST</text>
+  <text x="60" y="54" font-family="Arial, Helvetica, sans-serif" font-size="8" font-weight="500" letter-spacing="1.5" fill="#FFD700">LA POSTE DU CAMEROUN</text>
+  <!-- Gold accent bar -->
+  <rect x="14" y="56" width="172" height="3" rx="1.5" fill="#FFD700" opacity="0.6"/>
+</svg>
