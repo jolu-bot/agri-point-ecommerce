@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { MapPin, Search, Clock, Phone, ChevronDown, ArrowLeft, Building2, AlertCircle } from 'lucide-react';
-import { CAMPOST_POINTS, CAMPOST_REGIONS, CAMPOST_ACCOUNT, getPointsByRegion, type CampostPoint } from '@/lib/campost-points';
+import { CAMPOST_POINTS, CAMPOST_REGIONS, CAMPOST_ACCOUNT, type CampostPoint } from '@/lib/campost-points';
 
 const REGION_FLAGS: Record<string, string> = {
   'Adamaoua': '🏔️',
@@ -21,7 +21,7 @@ const REGION_FLAGS: Record<string, string> = {
 export default function PointsCampostPage() {
   const [search, setSearch] = useState('');
   const [selectedRegion, setSelectedRegion] = useState<string>('');
-  const [expandedRegions, setExpandedRegions] = useState<Set<string>>(new Set(['Centre']));
+  const [expandedRegions, setExpandedRegions] = useState<Set<string>>(() => new Set(CAMPOST_REGIONS));
 
   const isAccountReady = CAMPOST_ACCOUNT.accountNumber !== 'À COMPLÉTER';
 

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Package, Truck, CheckCircle, XCircle, Clock, Eye, ChevronRight } from 'lucide-react';
+import { Package, Truck, CheckCircle, XCircle, Clock, Eye, ChevronRight, AlertTriangle, CreditCard } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface OrderItem {
@@ -16,6 +16,15 @@ interface OrderItem {
   total: number;
 }
 
+interface InstallmentPayment {
+  enabled: boolean;
+  firstAmount: number;
+  secondAmount: number;
+  firstPaymentStatus: 'pending' | 'paid';
+  secondPaymentStatus: 'pending' | 'paid' | 'overdue';
+  secondDueDate?: string;
+}
+
 interface Order {
   _id: string;
   orderNumber: string;
@@ -23,6 +32,8 @@ interface Order {
   total: number;
   status: string;
   paymentStatus: string;
+  isCampaignOrder?: boolean;
+  installmentPayment?: InstallmentPayment;
   createdAt: string;
 }
 
@@ -257,6 +268,71 @@ export default function OrdersPage() {
                         </p>
                       )}
                     </div>
+
+                    {/* Suivi tranche Campost (campagne uniquement) */}
+                    {order.installmentPayment?.enabled && (
+                      <div className="mt-4 p-4 rounded-xl border border-emerald-200 dark:border-emerald-800/40 bg-emerald-50 dark:bg-emerald-950/20">
+                        <div className="flex items-center gap-2 mb-3">
+                          <CreditCard className="w-4 h-4 text-emerald-600" />
+                          <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">Paiement échelonné 70/30 — Campagne engrais 2026</span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          {/* 1ère tranche */}
+                          <div className={`p-3 rounded-lg border ${
+                            order.installmentPayment.firstPaymentStatus === 'paid'
+                              ? 'bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800/40'
+                              : 'bg-yellow-50 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-800/40'
+                          }`}>
+                            <p className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1">1ère tranche (70%)</p>
+                            <p className="font-bold text-gray-900 dark:text-white text-sm">
+                              {order.installmentPayment.firstAmount.toLocaleString()} FCFA
+                            </p>
+                            <div className={`mt-1 inline-flex items-center gap-1 text-xs font-semibold ${
+                              order.installmentPayment.firstPaymentStatus === 'paid'
+                                ? 'text-green-600'
+                                : 'text-yellow-600'
+                            }`}>
+                              {order.installmentPayment.firstPaymentStatus === 'paid'
+                                ? <><CheckCircle className="w-3.5 h-3.5" /> Payée</>
+                                : <><Clock className="w-3.5 h-3.5" /> En attente</>}
+                            </div>
+                          </div>
+
+                          {/* 2ème tranche */}
+                          <div className={`p-3 rounded-lg border ${
+                            order.installmentPayment.secondPaymentStatus === 'paid'
+                              ? 'bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800/40'
+                              : order.installmentPayment.secondPaymentStatus === 'overdue'
+                                ? 'bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800/40'
+                                : 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/40'
+                          }`}>
+                            <p className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1">2ème tranche (30%)</p>
+                            <p className="font-bold text-gray-900 dark:text-white text-sm">
+                              {order.installmentPayment.secondAmount.toLocaleString()} FCFA
+                            </p>
+                            <div className={`mt-1 inline-flex items-center gap-1 text-xs font-semibold ${
+                              order.installmentPayment.secondPaymentStatus === 'paid'
+                                ? 'text-green-600'
+                                : order.installmentPayment.secondPaymentStatus === 'overdue'
+                                  ? 'text-red-600'
+                                  : 'text-amber-600'
+                            }`}>
+                              {order.installmentPayment.secondPaymentStatus === 'paid'
+                                ? <><CheckCircle className="w-3.5 h-3.5" /> Payée</>
+                                : order.installmentPayment.secondPaymentStatus === 'overdue'
+                                  ? <><AlertTriangle className="w-3.5 h-3.5" /> En retard</>
+                                  : <><Clock className="w-3.5 h-3.5" /> Dû avant le 30 avril</>}
+                            </div>
+                          </div>
+                        </div>
+
+                        {order.installmentPayment.secondPaymentStatus !== 'paid' && (
+                          <p className="mt-3 text-xs text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/30 px-3 py-2 rounded-lg">
+                            ⚠️ Date limite du 2ème versement : <strong>30 avril 2026</strong> au bureau Campost le plus proche.
+                          </p>
+                        )}
+                      </div>
+                    )}
 
                     {/* Order Total */}
                     <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">

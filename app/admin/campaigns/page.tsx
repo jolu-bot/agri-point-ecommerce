@@ -2,7 +2,27 @@
 
 import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell, LineChart, Line, ResponsiveContainer } from 'recharts';
-import { Download, Eye, AlertCircle, CheckCircle2, Clock } from 'lucide-react';
+import { Download, Eye, AlertCircle, CheckCircle2, Clock, Send, Bell, AlertTriangle } from 'lucide-react';
+
+interface ReminderSummary {
+  total: number;
+  overdue: number;
+  urgent: number;
+  pending: number;
+  totalAmount: number;
+}
+
+interface ReminderOrder {
+  _id: string;
+  orderNumber: string;
+  contactName: string;
+  contactPhone: string;
+  secondAmount: number;
+  daysUntilDue: number;
+  isOverdue: boolean;
+  isUrgent: boolean;
+  status: string;
+}
 
 interface CampaignStats {
   _id: string;
@@ -31,10 +51,52 @@ export default function CampaignsDashboard() {
   const [campaigns, setCampaigns] = useState<CampaignStats[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCampaign, setSelectedCampaign] = useState<string | null>(null);
+  const [reminderSummary, setReminderSummary] = useState<ReminderSummary | null>(null);
+  const [reminderOrders, setReminderOrders] = useState<ReminderOrder[]>([]);
+  const [sendingReminders, setSendingReminders] = useState(false);
+  const [reminderResult, setReminderResult] = useState<string | null>(null);
 
   useEffect(() => {
     fetchCampaignStats();
+    fetchReminders();
   }, []);
+
+  const fetchReminders = async () => {
+    try {
+      const res = await fetch('/api/admin/campaigns/reminders');
+      if (res.ok) {
+        const data = await res.json() as { summary: ReminderSummary; orders: ReminderOrder[] };
+        setReminderSummary(data.summary);
+        setReminderOrders(data.orders);
+      }
+    } catch {
+      /* silencieux - les rappels ne bloquent pas le dashboard */
+    }
+  };
+
+  const handleSendReminders = async () => {
+    const pendingIds = reminderOrders.map((o) => o._id);
+    if (pendingIds.length === 0) return;
+    setSendingReminders(true);
+    setReminderResult(null);
+    try {
+      const res = await fetch('/api/admin/campaigns/reminders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderIds: pendingIds, channel: 'sms' }),
+      });
+      const data = await res.json() as { sent?: number; failed?: number; error?: string };
+      if (res.ok) {
+        setReminderResult(`✅ ${data.sent} rappel(s) SMS envoyé(s). ${data.failed ? `${data.failed} échec(s).` : ''}`);
+      } else {
+        setReminderResult(`❌ ${data.error ?? 'Erreur inconnue'}`);
+      }
+    } catch {
+      setReminderResult('❌ Erreur réseau');
+    } finally {
+      setSendingReminders(false);
+    }
+  };
 
   const fetchCampaignStats = async () => {
     try {
@@ -197,6 +259,155 @@ export default function CampaignsDashboard() {
                 </div>
               </div>
             </div>
+
+            {/* ── Timeline Communications ── */}
+            {(() => {
+              const now = new Date();
+              const events: { date: Date; label: string; type: string; icon: string; detail: string }[] = [
+                { date: new Date('2026-02-28'), label: 'Lancement campagne', type: 'sent', icon: '🚀', detail: 'SMS annonce diffusé à toutes les coopératives enregistrées' },
+                { date: new Date('2026-03-02'), label: 'Rappel inscriptions J+3', type: 'sent', icon: '📱', detail: 'SMS de relance 3 jours après le lancement' },
+                { date: new Date('2026-03-15'), label: 'Relance mi-campagne', type: now >= new Date('2026-03-15') ? 'sent' : 'scheduled', icon: '📣', detail: 'SMS + email aux coopératives non inscrites' },
+                { date: new Date('2026-03-25'), label: 'Dernier appel avant clôture', type: now >= new Date('2026-03-25') ? 'sent' : 'scheduled', icon: '⚠️', detail: 'SMS d\'urgence + email : 6 jours restants' },
+                { date: new Date('2026-03-31'), label: 'Clôture campagne', type: now >= new Date('2026-03-31') ? 'sent' : 'upcoming', icon: '🏁', detail: 'Fin des inscriptions à minuit' },
+                { date: new Date('2026-04-13'), label: 'Rappel 2ème tranche', type: now >= new Date('2026-04-13') ? 'sent' : 'critical', icon: '💳', detail: 'SMS rappel paiement des 30% restants (J-17 avant limite)' },
+                { date: new Date('2026-04-30'), label: 'Date limite 2ème tranche', type: now >= new Date('2026-04-30') ? 'sent' : 'critical', icon: '🔔', detail: 'Dernier délai pour le règlement des 30% restants' },
+              ];
+              const typeColors: Record<string, string> = {
+                sent: 'border-green-500 bg-green-50',
+                scheduled: 'border-blue-400 bg-blue-50',
+                upcoming: 'border-yellow-400 bg-yellow-50',
+                critical: 'border-red-400 bg-red-50',
+              };
+              const typeLabels: Record<string, string> = {
+                sent: '✅ Envoyé',
+                scheduled: '📅 Planifié',
+                upcoming: '⏳ À venir',
+                critical: '🔴 Critique',
+              };
+              return (
+                <div className="bg-white rounded-lg shadow p-6 mb-8">
+                  <h2 className="text-xl font-bold text-gray-900 mb-2">📅 Timeline de Communication</h2>
+                  <p className="text-gray-500 text-sm mb-6">Planning SMS/email officiel de la campagne engrais 2026</p>
+                  <div className="relative">
+                    <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gray-200" />
+                    <div className="space-y-5 pl-14">
+                      {events.map((ev, i) => (
+                        <div key={i} className={`relative p-4 rounded-xl border-2 ${typeColors[ev.type]}`}>
+                          <div className="absolute -left-11 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border-2 border-gray-300 flex items-center justify-center text-lg shadow-sm">
+                            {ev.icon}
+                          </div>
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                            <div>
+                              <p className="font-bold text-gray-900 text-sm">{ev.label}</p>
+                              <p className="text-gray-500 text-xs mt-0.5">{ev.detail}</p>
+                            </div>
+                            <div className="flex flex-col items-start sm:items-end gap-1 flex-shrink-0">
+                              <span className="text-xs font-bold text-gray-700 bg-white border border-gray-200 px-2 py-1 rounded-lg">
+                                {ev.date.toLocaleDateString('fr-CM', { day: 'numeric', month: 'long', year: 'numeric' })}
+                              </span>
+                              <span className="text-xs font-semibold">{typeLabels[ev.type]}</span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* ── Rappels 2ème tranche ── */}
+            {reminderSummary && (
+              <div className={`rounded-lg shadow p-6 mb-8 border-2 ${
+                reminderSummary.overdue > 0 ? 'bg-red-50 border-red-300' :
+                reminderSummary.urgent > 0  ? 'bg-amber-50 border-amber-300' :
+                'bg-white border-gray-200'
+              }`}>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                  <div>
+                    <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                      <Bell className="w-5 h-5 text-amber-500" />
+                      Rappels 2ème Tranche (30%)
+                    </h2>
+                    <p className="text-gray-500 text-sm mt-1">
+                      Date limite : <strong>30 avril 2026</strong> — Rappel automatique : 13 avril 2026
+                    </p>
+                  </div>
+                  <button
+                    onClick={handleSendReminders}
+                    disabled={sendingReminders || reminderSummary.total === 0}
+                    className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 text-white px-5 py-2.5 rounded-lg font-semibold text-sm transition-colors"
+                  >
+                    {sendingReminders ? (
+                      <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <Send className="w-4 h-4" />
+                    )}
+                    Envoyer rappels SMS ({reminderSummary.total})
+                  </button>
+                </div>
+
+                {reminderResult && (
+                  <div className="mb-4 p-3 rounded-lg bg-white border border-gray-200 text-sm font-semibold text-gray-700">
+                    {reminderResult}
+                  </div>
+                )}
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-5">
+                  {[
+                    { label: 'Total en attente', val: reminderSummary.total, color: 'text-gray-900' },
+                    { label: 'En retard', val: reminderSummary.overdue, color: 'text-red-600' },
+                    { label: 'Urgent (≤ 17 j)', val: reminderSummary.urgent, color: 'text-amber-600' },
+                    { label: 'Montant total dû', val: `${(reminderSummary.totalAmount / 1000).toFixed(0)}K FCFA`, color: 'text-emerald-600' },
+                  ].map(({ label, val, color }) => (
+                    <div key={label} className="bg-white rounded-lg p-3 border border-gray-200">
+                      <p className="text-xs text-gray-500 mb-1">{label}</p>
+                      <p className={`text-xl font-black ${color}`}>{val}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {reminderOrders.length > 0 && (
+                  <div className="overflow-x-auto rounded-lg border border-gray-200">
+                    <table className="w-full text-sm">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-4 py-2 text-left font-semibold text-gray-700">Commande</th>
+                          <th className="px-4 py-2 text-left font-semibold text-gray-700">Contact</th>
+                          <th className="px-4 py-2 text-left font-semibold text-gray-700">Téléphone</th>
+                          <th className="px-4 py-2 text-left font-semibold text-gray-700">Montant dû</th>
+                          <th className="px-4 py-2 text-left font-semibold text-gray-700">Jours restants</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {reminderOrders.slice(0, 10).map(o => (
+                          <tr key={o._id} className="hover:bg-gray-50">
+                            <td className="px-4 py-2 font-mono font-semibold">{o.orderNumber}</td>
+                            <td className="px-4 py-2">{o.contactName}</td>
+                            <td className="px-4 py-2 font-mono">{o.contactPhone}</td>
+                            <td className="px-4 py-2 font-semibold text-emerald-700">{o.secondAmount.toLocaleString()} FCFA</td>
+                            <td className="px-4 py-2">
+                              <span className={`px-2 py-1 rounded-full text-xs font-bold ${
+                                o.isOverdue ? 'bg-red-100 text-red-700' :
+                                o.isUrgent  ? 'bg-amber-100 text-amber-700' :
+                                'bg-gray-100 text-gray-700'
+                              }`}>
+                                {o.isOverdue ? '⚠️ En retard' : `J-${o.daysUntilDue}`}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    {reminderOrders.length > 10 && (
+                      <p className="px-4 py-3 text-xs text-gray-500 border-t border-gray-200 text-center">
+                        + {reminderOrders.length - 10} autres commandes — exportez depuis l&apos;API
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Tableau des commandes */}
             <div className="bg-white rounded-lg shadow overflow-hidden">
