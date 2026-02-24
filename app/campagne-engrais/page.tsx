@@ -471,7 +471,7 @@ export default function CampagnePremiumPage() {
                   </div>
                 </div>
                 <div className="space-y-3 mb-8">
-                  {['Paiement intégral requis', 'Livraison gratuite dès 5 litres', 'Certification agriculture biologique', 'Compatible toutes cultures'].map(item => (
+                  {['Paiement échelonné 70/30 disponible', 'Livraison gratuite dès 5 litres', 'Certification agriculture biologique', 'Compatible toutes cultures'].map(item => (
                     <div key={item} className="flex items-center gap-3">
                       <CheckCircle2 className="w-5 h-5 text-teal-500 flex-shrink-0" />
                       <span className="text-gray-700 dark:text-gray-300 text-sm">{item}</span>
