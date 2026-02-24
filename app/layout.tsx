@@ -7,6 +7,7 @@ import { PreviewModeProvider } from "@/contexts/PreviewModeContext";
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import PartnersSection from "@/components/shared/PartnersSection";
 import AgriBotWrapper from "@/components/AgriBotWrapper";
 import PreviewModeBanner from "@/components/admin/PreviewModeBanner";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
@@ -97,6 +98,7 @@ export default function RootLayout({
                 <main className="flex-grow">
                   {children}
                 </main>
+                <PartnersSection variant="light" showTitle={true} />
                 <Footer />
                 <AgriBotWrapper />
                 <Toaster
