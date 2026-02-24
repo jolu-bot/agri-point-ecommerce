@@ -34,7 +34,7 @@ export default function HeroAnimated() {
         >
           {/* Ligne 1 — AGRI rouge marque + POINT émeraude */}
           <span className="block">
-            <span className="text-[#B71C1C]">AGRI</span><span className="text-emerald-600 dark:text-emerald-400"> POINT</span>
+            <span className="text-red-700">AGRI</span><span className="text-emerald-600 dark:text-emerald-400"> POINT</span>
           </span>
           {/* Ligne 2 — SERVICES avec dégradé animé */}
           <span className="hero-animated-gradient">

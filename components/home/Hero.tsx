@@ -23,7 +23,7 @@ function HeroContent() {
       
       <h1 className="font-display font-black leading-[1.0] tracking-tight hero-title">
         <span className="block">
-          <span className="text-[#B71C1C]">AGRI</span><span className="text-emerald-600 dark:text-emerald-400"> POINT</span>
+          <span className="text-red-700">AGRI</span><span className="text-emerald-600 dark:text-emerald-400"> POINT</span>
         </span>
         <span className="hero-animated-gradient">SERVICES</span>
         <span className="hero-tagline">Tout en Un</span>
