@@ -1,16 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Save, RefreshCw } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-export default function AgriBotSettingsPage() {
-  const [settings, setSettings] = useState({
-    enabled: true,
-    model: 'gpt-4',
-    temperature: 0.7,
-    maxTokens: 500,
-    systemPrompt: `Tu es AgriBot, l'assistant IA expert en agriculture d'AGRI POINT SERVICE au Cameroun.
+const DEFAULT_SYSTEM_PROMPT = `Tu es AgriBot, l'assistant IA expert en agriculture d'AGRI POINT SERVICE au Cameroun.
 
 CONTEXTE :
 - AGRI POINT SERVICE est le distributeur exclusif au Cameroun des produits TIMAC AGRO (Groupe Roullier)
@@ -45,19 +39,107 @@ INSTRUCTIONS :
 - Sois concis mais complet (2-4 phrases)
 - Utilise des émojis agricoles occasionnellement 🌱🌾🍅
 - Propose toujours des solutions concrètes
-- Invite à contacter l'équipe pour plus d'infos`,
+- Invite à contacter l'équipe pour plus d'infos`;
+
+interface AgribotStats {
+  totalConversations: number;
+  convsThisMonth: number;
+  convsLast7days: number;
+  resolutionRate: number;
+}
+
+export default function AgriBotSettingsPage() {
+  const [settings, setSettings] = useState({
+    enabled: true,
+    model: 'gpt-4',
+    temperature: 0.7,
+    maxTokens: 500,
+    systemPrompt: DEFAULT_SYSTEM_PROMPT,
   });
 
   const [saving, setSaving] = useState(false);
+  const [loadingSettings, setLoadingSettings] = useState(true);
+  const [agribotStats, setAgribotStats] = useState<AgribotStats | null>(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+
+  // Charger les paramètres depuis l'API
+  const loadSettings = useCallback(async () => {
+    try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+      const res = await fetch('/api/admin/settings', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.agribot) {
+          setSettings(prev => ({
+            ...prev,
+            enabled: data.agribot.enabled ?? prev.enabled,
+            model: data.agribot.model ?? prev.model,
+            temperature: data.agribot.temperature ?? prev.temperature,
+            maxTokens: data.agribot.maxTokens ?? prev.maxTokens,
+            systemPrompt: data.agribot.systemPrompt ?? prev.systemPrompt,
+          }));
+        }
+      }
+    } catch {
+      // silencieux au chargement
+    } finally {
+      setLoadingSettings(false);
+    }
+  }, []);
+
+  // Charger les statistiques agribot depuis l'API
+  const loadStats = useCallback(async () => {
+    try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+      const res = await fetch('/api/admin/agribot/stats', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setAgribotStats(data);
+      }
+    } catch {
+      // silencieux
+    } finally {
+      setStatsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadSettings();
+    loadStats();
+  }, [loadSettings, loadStats]);
 
   const handleSave = async () => {
     setSaving(true);
     try {
-      // Simuler la sauvegarde
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      toast.success('Paramètres sauvegardés avec succès');
+      const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+      const res = await fetch('/api/admin/settings', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          agribot: {
+            enabled: settings.enabled,
+            model: settings.model,
+            temperature: settings.temperature,
+            maxTokens: settings.maxTokens,
+            systemPrompt: settings.systemPrompt,
+          },
+        }),
+      });
+      if (res.ok) {
+        toast.success('Paramètres sauvegardés avec succès');
+      } else {
+        const err = await res.json().catch(() => ({}));
+        toast.error(err.error || 'Erreur lors de la sauvegarde');
+      }
     } catch {
-      toast.error('Erreur lors de la sauvegarde');
+      toast.error('Erreur serveur');
     } finally {
       setSaving(false);
     }
@@ -65,14 +147,23 @@ INSTRUCTIONS :
 
   const handleReset = () => {
     if (confirm('Réinitialiser tous les paramètres ?')) {
-      setSettings({
-        ...settings,
+      setSettings(prev => ({
+        ...prev,
         temperature: 0.7,
         maxTokens: 500,
-      });
+        systemPrompt: DEFAULT_SYSTEM_PROMPT,
+      }));
       toast.success('Paramètres réinitialisés');
     }
   };
+
+  if (loadingSettings) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -216,21 +307,47 @@ INSTRUCTIONS :
       {/* Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <div className="text-3xl font-bold text-primary-600">1,247</div>
+          <div className="text-3xl font-bold text-primary-600">
+            {statsLoading ? (
+              <span className="inline-block w-16 h-8 bg-gray-200 dark:bg-gray-700 animate-pulse rounded" />
+            ) : (
+              (agribotStats?.totalConversations ?? 0).toLocaleString('fr-FR')
+            )}
+          </div>
           <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
             Conversations totales
           </div>
+          {!statsLoading && agribotStats && (
+            <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+              {agribotStats.convsLast7days} cette semaine
+            </div>
+          )}
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <div className="text-3xl font-bold text-primary-600">4.8/5</div>
+          <div className="text-3xl font-bold text-primary-600">
+            {statsLoading ? (
+              <span className="inline-block w-16 h-8 bg-gray-200 dark:bg-gray-700 animate-pulse rounded" />
+            ) : (
+              (agribotStats?.convsThisMonth ?? 0).toLocaleString('fr-FR')
+            )}
+          </div>
           <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-            Satisfaction moyenne
+            Ce mois-ci
           </div>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <div className="text-3xl font-bold text-primary-600">92%</div>
+          <div className="text-3xl font-bold text-primary-600">
+            {statsLoading ? (
+              <span className="inline-block w-16 h-8 bg-gray-200 dark:bg-gray-700 animate-pulse rounded" />
+            ) : (
+              `${agribotStats?.resolutionRate ?? 0}%`
+            )}
+          </div>
           <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
             Taux de résolution
+          </div>
+          <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+            Messages répondus / clôturés
           </div>
         </div>
       </div>

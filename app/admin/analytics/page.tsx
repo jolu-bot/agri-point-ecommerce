@@ -1,235 +1,329 @@
 'use client';
 
-import { useState } from 'react';
-import { 
-  TrendingUp, ShoppingCart, Users, Eye, 
-  Download 
+import { useState, useEffect, useCallback } from 'react';
+import {
+  TrendingUp, TrendingDown, ShoppingCart, Users, Package, Download, RefreshCw,
+  BarChart2, DollarSign, MessageSquare, Calendar,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+const PERIODS = [
+  { value: '24hours', label: '24 heures' },
+  { value: '7days', label: '7 jours' },
+  { value: '30days', label: '30 jours' },
+  { value: '90days', label: '90 jours' },
+];
+
+interface AnalyticsData {
+  period: string;
+  kpis: {
+    orders: { value: number; growth: number };
+    revenue: { value: number; growth: number };
+    newUsers: { value: number; growth: number };
+    avgOrderValue: { value: number };
+    conversionRate: number;
+    contactMessages: number;
+  };
+  totals: { orders: number; users: number };
+  topProducts: Array<{ rank: number; name: string; category: string; sales: number; revenue: number; image?: string }>;
+  categorySales: Array<{ name: string; value: number }>;
+  dailyOrders: Array<{ _id: string; count: number; revenue: number }>;
+  statusDistribution: Record<string, number>;
+}
+
+const CAT_COLORS = [
+  'bg-emerald-500', 'bg-blue-500', 'bg-violet-500', 'bg-amber-500', 'bg-rose-500',
+];
+
+const STATUS_COLORS: Record<string, string> = {
+  pending: 'bg-amber-400',
+  processing: 'bg-blue-400',
+  shipped: 'bg-violet-400',
+  delivered: 'bg-emerald-500',
+  cancelled: 'bg-red-400',
+};
+const STATUS_FR: Record<string, string> = {
+  pending: 'En attente',
+  processing: 'En cours',
+  shipped: 'Expédié',
+  delivered: 'Livré',
+  cancelled: 'Annulé',
+};
 
 export default function AnalyticsPage() {
-  const [period, setPeriod] = useState('7days');
+  const [period, setPeriod] = useState('30days');
+  const [data, setData] = useState<AnalyticsData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [lastRefresh, setLastRefresh] = useState(new Date());
 
-  const stats = {
-    pageViews: 15420,
-    uniqueVisitors: 8934,
-    conversionRate: 3.2,
-    averageOrderValue: 78500,
-    topProducts: [
-      { name: 'HUMIFORTE', sales: 145, revenue: 3625000 },
-      { name: 'FOSNUTREN 20', sales: 128, revenue: 4096000 },
-      { name: 'KADOSTIM 20', sales: 96, revenue: 2688000 },
-    ],
-    topPages: [
-      { page: '/boutique', views: 4523 },
-      { page: '/produits/humiforte', views: 2341 },
-      { page: '/', views: 1987 },
-    ],
+  const fetchAnalytics = useCallback(async (p: string) => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('accessToken');
+      const res = await fetch(`/api/admin/analytics?period=${p}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        setData(await res.json());
+        setLastRefresh(new Date());
+      }
+    } catch (e) { console.error('Analytics error:', e); }
+    finally { setLoading(false); }
+  }, []);
+
+  useEffect(() => { fetchAnalytics(period); }, [period, fetchAnalytics]);
+
+  const handleExport = () => {
+    if (!data) return;
+    const rows = [
+      ['Métrique', 'Valeur', 'Période'],
+      ['Commandes', data.kpis.orders.value, period],
+      ['Revenu (FCFA)', data.kpis.revenue.value, period],
+      ['Nouveaux utilisateurs', data.kpis.newUsers.value, period],
+      ['Panier moyen (FCFA)', data.kpis.avgOrderValue.value, period],
+      ['Taux conversion (%)', data.kpis.conversionRate, period],
+      ...data.topProducts.map(p => [`Produit: ${p.name}`, p.sales + ' ventes', '']),
+    ];
+    const csv = rows.map(r => r.join(',')).join('\n');
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+    const a = document.createElement('a'); a.href = url;
+    a.download = `analytics-${period}-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
   };
 
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+  const Stat = ({ title, value, growth, icon: Icon, color }: {
+    title: string; value: string; growth?: number; icon: typeof Package; color: string;
+  }) => (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+      className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-white/[0.05]"
+    >
+      <div className="flex items-start justify-between gap-3">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">{title}</p>
+          <p className="text-2xl font-black text-gray-900 dark:text-white">{value}</p>
+          {growth !== undefined && (
+            <div className={`flex items-center gap-1 mt-2 text-xs font-semibold ${growth >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>
+              {growth >= 0 ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
+              {Math.abs(growth)}% vs période préc.
+            </div>
+          )}
+        </div>
+        <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center flex-shrink-0 shadow-md`}>
+          <Icon className="w-5 h-5 text-white" />
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  return (
+    <div className="space-y-8 pb-12">
+
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-black text-gray-900 dark:text-white flex items-center gap-3">
+            <BarChart2 className="w-8 h-8 text-emerald-600" />
             Analytics
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">
-            Analyse des performances du site
+          <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm">
+            Données réelles · Mis à jour : {lastRefresh.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
           </p>
         </div>
-        <div className="flex items-center space-x-4">
-          <label htmlFor="period-select" className="sr-only">Sélectionner la période d&apos;analyse</label>
+        <div className="flex items-center gap-3">
           <select
-            id="period-select"
+            title="Sélectionner la période d'analyse"
+            aria-label="Sélectionner la période d'analyse"
             value={period}
             onChange={(e) => setPeriod(e.target.value)}
-            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-            aria-label="Sélectionner la période d&apos;analyse"
+            className="px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm font-medium"
           >
-            <option value="24hours">24 heures</option>
-            <option value="7days">7 jours</option>
-            <option value="30days">30 jours</option>
-            <option value="90days">90 jours</option>
+            {PERIODS.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
           </select>
-          <button className="flex items-center space-x-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors">
-            <Download className="w-5 h-5" />
-            <span>Exporter</span>
+          <button
+            title="Rafraîchir les données"
+            aria-label="Rafraîchir les données"
+            onClick={() => fetchAnalytics(period)}
+            className="p-2.5 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-600 dark:text-gray-400 hover:text-emerald-600 hover:border-emerald-400 transition-colors"
+          >
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          </button>
+          <button
+            onClick={handleExport}
+            disabled={!data}
+            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white rounded-xl text-sm font-semibold transition-colors"
+          >
+            <Download className="w-4 h-4" />
+            Exporter CSV
           </button>
         </div>
       </div>
 
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
-              <Eye className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-green-600 text-sm font-semibold">+12.5%</span>
-          </div>
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">
-            {stats.pageViews.toLocaleString('fr-FR')}
-          </div>
-          <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-            Pages vues
+      {loading ? (
+        <div className="flex items-center justify-center min-h-[40vh]">
+          <div className="text-center">
+            <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <p className="text-gray-500 text-sm">Chargement des données analytics…</p>
           </div>
         </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center">
-              <Users className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-green-600 text-sm font-semibold">+8.3%</span>
-          </div>
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">
-            {stats.uniqueVisitors.toLocaleString('fr-FR')}
-          </div>
-          <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-            Visiteurs uniques
-          </div>
+      ) : !data ? (
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-12 text-center text-gray-500">
+          Impossible de charger les données analytics.
         </div>
+      ) : (
+        <>
+          {/* KPI Cards */}
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+            <Stat title="Commandes" value={data.kpis.orders.value.toString()} growth={data.kpis.orders.growth} icon={ShoppingCart} color="from-blue-500 to-cyan-500" />
+            <Stat title="Revenu" value={`${data.kpis.revenue.value.toLocaleString('fr-FR')} FCFA`} growth={data.kpis.revenue.growth} icon={DollarSign} color="from-emerald-500 to-teal-500" />
+            <Stat title="Nouveaux clients" value={data.kpis.newUsers.value.toString()} growth={data.kpis.newUsers.growth} icon={Users} color="from-violet-500 to-purple-500" />
+            <Stat title="Panier moyen" value={`${data.kpis.avgOrderValue.value.toLocaleString('fr-FR')} F`} icon={ShoppingCart} color="from-orange-500 to-amber-500" />
+            <Stat title="Taux conversion" value={`${data.kpis.conversionRate}%`} icon={TrendingUp} color="from-rose-500 to-pink-500" />
+            <Stat title="Msgs contact" value={data.kpis.contactMessages.toString()} icon={MessageSquare} color="from-teal-500 to-cyan-500" />
+          </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
-              <TrendingUp className="w-6 h-6 text-white" />
+          {/* Totaux globaux bannière */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl p-5 text-white flex items-center gap-4">
+              <Package className="w-10 h-10 opacity-80" />
+              <div>
+                <p className="text-sm font-semibold opacity-80">Total commandes (all time)</p>
+                <p className="text-3xl font-black">{data.totals.orders.toLocaleString('fr-FR')}</p>
+              </div>
             </div>
-            <span className="text-green-600 text-sm font-semibold">+2.1%</span>
-          </div>
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">
-            {stats.conversionRate}%
-          </div>
-          <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-            Taux de conversion
-          </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
-              <ShoppingCart className="w-6 h-6 text-white" />
+            <div className="bg-gradient-to-r from-violet-600 to-purple-600 rounded-2xl p-5 text-white flex items-center gap-4">
+              <Users className="w-10 h-10 opacity-80" />
+              <div>
+                <p className="text-sm font-semibold opacity-80">Total clients (all time)</p>
+                <p className="text-3xl font-black">{data.totals.users.toLocaleString('fr-FR')}</p>
+              </div>
             </div>
-            <span className="text-green-600 text-sm font-semibold">+15.7%</span>
           </div>
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">
-            {stats.averageOrderValue.toLocaleString('fr-FR')}
-          </div>
-          <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-            Panier moyen (FCFA)
-          </div>
-        </div>
-      </div>
 
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Top Products */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-              Produits les plus vendus
-            </h2>
-          </div>
-          <div className="p-6">
-            <div className="space-y-4">
-              {stats.topProducts.map((product, index) => (
-                <div key={index} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
-                      <span className="text-primary-600 font-bold">{index + 1}</span>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Top Produits */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-white/[0.05] overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-100 dark:border-white/[0.05] flex items-center gap-2">
+                <Package className="w-5 h-5 text-emerald-600" />
+                <h2 className="text-base font-black text-gray-900 dark:text-white">Produits les plus vendus</h2>
+              </div>
+              <div className="p-5 space-y-3">
+                {data.topProducts.length > 0 ? data.topProducts.map((product) => (
+                  <div key={product.rank} className="flex items-center gap-4">
+                    <div className="w-8 h-8 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <span className="text-emerald-700 dark:text-emerald-400 font-black text-sm">{product.rank}</span>
                     </div>
-                    <div>
-                      <div className="font-semibold text-gray-900 dark:text-white">
-                        {product.name}
-                      </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400">
-                        {product.sales} ventes
-                      </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-sm text-gray-900 dark:text-white truncate">{product.name}</p>
+                      <p className="text-xs text-gray-400 capitalize">{product.category}</p>
+                    </div>
+                    <div className="text-right flex-shrink-0">
+                      <p className="font-black text-sm text-gray-900 dark:text-white">{product.sales} ventes</p>
+                      <p className="text-xs text-gray-500">{product.revenue.toLocaleString('fr-FR')} FCFA</p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <div className="font-semibold text-gray-900 dark:text-white">
-                      {product.revenue.toLocaleString('fr-FR')} FCFA
-                    </div>
+                )) : (
+                  <div className="py-8 text-center text-gray-400 text-sm">
+                    Aucune vente enregistrée · Lancez les premières commandes
                   </div>
-                </div>
-              ))}
+                )}
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Top Pages */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-              Pages les plus visitées
-            </h2>
-          </div>
-          <div className="p-6">
-            <div className="space-y-4">
-              {stats.topPages.map((page, index) => {
-                const widthPercentage = `${(page.views / stats.topPages[0].views) * 100}%`;
-                return (
-                <div key={index} className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <div className="font-medium text-gray-900 dark:text-white">
-                      {page.page}
+            {/* Répartition par catégorie */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-white/[0.05] overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-100 dark:border-white/[0.05] flex items-center gap-2">
+                <BarChart2 className="w-5 h-5 text-emerald-600" />
+                <h2 className="text-base font-black text-gray-900 dark:text-white">Ventes par catégorie</h2>
+              </div>
+              <div className="p-5 space-y-4">
+                {data.categorySales.length > 0 ? data.categorySales.map((cat, i) => (
+                  <div key={cat.name}>
+                    <div className="flex justify-between text-sm mb-1.5">
+                      <span className="font-semibold text-gray-800 dark:text-gray-200 capitalize">{cat.name}</span>
+                      <span className="font-black text-gray-900 dark:text-white">{cat.value}%</span>
                     </div>
-                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-2 relative">
-                      <div
-                        className="bg-primary-600 h-2 rounded-full transition-all absolute top-0 left-0"
-                        style={{ width: widthPercentage }}
+                    <div className="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${cat.value}%` }}
+                        transition={{ duration: 0.8, delay: i * 0.1 }}
+                        className={`h-full rounded-full ${CAT_COLORS[i % CAT_COLORS.length]}`}
                       />
                     </div>
                   </div>
-                  <div className="ml-4 text-right">
-                    <div className="font-semibold text-gray-900 dark:text-white">
-                      {page.views.toLocaleString('fr-FR')}
-                    </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
-                      vues
-                    </div>
+                )) : (
+                  <div className="py-8 text-center text-gray-400 text-sm">Aucune donnée disponible</div>
+                )}
+              </div>
+            </div>
+
+            {/* Activité 7 derniers jours */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-white/[0.05] overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-100 dark:border-white/[0.05] flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-emerald-600" />
+                <h2 className="text-base font-black text-gray-900 dark:text-white">Commandes — 7 derniers jours</h2>
+              </div>
+              <div className="p-5">
+                {data.dailyOrders.length > 0 ? (
+                  <div className="space-y-3">
+                    {data.dailyOrders.map((day) => {
+                      const maxCount = Math.max(...data.dailyOrders.map(d => d.count), 1);
+                      return (
+                        <div key={day._id} className="flex items-center gap-3">
+                          <span className="text-xs text-gray-500 w-28 flex-shrink-0">
+                            {new Date(day._id).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}
+                          </span>
+                          <div className="flex-1 h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${(day.count / maxCount) * 100}%` }}
+                              transition={{ duration: 0.7 }}
+                              className="h-full bg-emerald-500 rounded-full"
+                            />
+                          </div>
+                          <span className="text-xs font-bold text-gray-900 dark:text-white w-8 text-right">{day.count}</span>
+                        </div>
+                      );
+                    })}
                   </div>
-                </div>
-                );
-              })}
+                ) : (
+                  <div className="py-8 text-center text-gray-400 text-sm">Aucune commande ces 7 derniers jours</div>
+                )}
+              </div>
+            </div>
+
+            {/* Répartition statuts commandes */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-white/[0.05] overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-100 dark:border-white/[0.05] flex items-center gap-2">
+                <ShoppingCart className="w-5 h-5 text-emerald-600" />
+                <h2 className="text-base font-black text-gray-900 dark:text-white">Statuts des commandes</h2>
+              </div>
+              <div className="p-5 space-y-3">
+                {Object.entries(data.statusDistribution).length > 0 ? (
+                  Object.entries(data.statusDistribution).map(([status, count]) => {
+                    const total = Object.values(data.statusDistribution).reduce((a, b) => a + b, 0);
+                    const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+                    return (
+                      <div key={status} className="flex items-center gap-3">
+                        <div className={`w-3 h-3 rounded-full flex-shrink-0 ${STATUS_COLORS[status] || 'bg-gray-400'}`} />
+                        <span className="text-sm text-gray-700 dark:text-gray-300 flex-1">
+                          {STATUS_FR[status] || status}
+                        </span>
+                        <span className="text-sm font-bold text-gray-900 dark:text-white">{count}</span>
+                        <span className="text-xs text-gray-400 w-10 text-right">{pct}%</span>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="py-8 text-center text-gray-400 text-sm">Aucune commande</div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Traffic Sources */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-            Sources de trafic
-          </h2>
-        </div>
-        <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {[
-              { name: 'Recherche organique', value: 45, color: 'bg-blue-500' },
-              { name: 'Direct', value: 30, color: 'bg-green-500' },
-              { name: 'Réseaux sociaux', value: 15, color: 'bg-purple-500' },
-              { name: 'Référents', value: 10, color: 'bg-orange-500' },
-            ].map((source, index) => (
-              <div key={index} className="text-center">
-                <div className="relative w-32 h-32 mx-auto mb-4">
-                  <div className={`w-full h-full ${source.color} rounded-full flex items-center justify-center`}>
-                    <span className="text-3xl font-bold text-white">
-                      {source.value}%
-                    </span>
-                  </div>
-                </div>
-                <div className="font-medium text-gray-900 dark:text-white">
-                  {source.name}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 }
+
