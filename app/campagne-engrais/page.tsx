@@ -178,7 +178,7 @@ export default function CampagnePremiumPage() {
       <section className="relative min-h-[92vh] flex flex-col justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-900 via-green-900 to-teal-950" />
         <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-emerald-600/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/3 animate-pulse" />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-teal-600/20 rounded-full blur-3xl translate-x-1/3 translate-y-1/3 animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-teal-600/20 rounded-full blur-3xl translate-x-1/3 translate-y-1/3 animate-pulse [animation-delay:1s]" />
         <div className="absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:60px_60px]" />
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
@@ -418,10 +418,10 @@ export default function CampagnePremiumPage() {
             className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12">
             <div className="mb-10">
               <div className="flex items-center justify-between mb-4">
-                <label className="text-emerald-200 font-semibold">Nombre de sacs d&apos;engrais minéraux</label>
+                <label htmlFor="calc-qty-range" className="text-emerald-200 font-semibold">Nombre de sacs d&apos;engrais minéraux</label>
                 <span className="text-3xl font-black text-amber-400">{calcQty} sacs</span>
               </div>
-              <input type="range" min={6} max={200} step={1} value={calcQty}
+              <input id="calc-qty-range" type="range" min={6} max={200} step={1} value={calcQty}
                 onChange={e => setCalcQty(parseInt(e.target.value))}
                 className="w-full h-3 rounded-full appearance-none cursor-pointer accent-emerald-500"
               />
