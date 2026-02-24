@@ -7,7 +7,8 @@ import {
   CheckCircle2, AlertCircle, Clock, ChevronDown, ChevronRight,
   Sprout, Shield, Truck, Users, TrendingUp, Award, Star,
   ArrowRight, Phone, Mail, MapPin, Calculator, Package,
-  Leaf, BadgeCheck, Zap, Gift, HeartHandshake, Timer
+  Leaf, BadgeCheck, Zap, Gift, HeartHandshake, Timer,
+  Download, QrCode, Share2,
 } from 'lucide-react';
 import CampostPaymentInfo from '@/components/shared/CampostPaymentInfo';
 
@@ -55,16 +56,97 @@ function AnimatedCounter({ value, duration = 2000 }: { value: number; duration?:
   return <span ref={ref}>{current.toLocaleString('fr-FR')}</span>;
 }
 
+// ─── QR Code Section ────────────────────────────────────────────────────────
+
+function QRCodeSection() {
+  const [qrDataUrl, setQrDataUrl] = useState<string>('');
+
+  useEffect(() => {
+    const url = 'https://agri-ps.com/campagne-engrais';
+    import('qrcode').then(QRCode => {
+      QRCode.toDataURL(url, {
+        width: 200,
+        margin: 2,
+        color: { dark: '#064e3b', light: '#ffffff' },
+      }).then((dataUrl: string) => setQrDataUrl(dataUrl));
+    });
+  }, []);
+
+  const handleDownload = () => {
+    if (!qrDataUrl) return;
+    const link = document.createElement('a');
+    link.href = qrDataUrl;
+    link.download = 'campagne-engrais-2026-qr.png';
+    link.click();
+  };
+
+  return (
+    <section className="py-16 bg-emerald-50 dark:bg-emerald-950/20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex flex-col md:flex-row items-center gap-10 bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-lg border border-emerald-100 dark:border-emerald-900/50"
+        >
+          {/* QR Code image */}
+          <div className="flex-shrink-0 flex flex-col items-center gap-4">
+            <div className="w-[180px] h-[180px] bg-white rounded-2xl border-4 border-emerald-600/20 flex items-center justify-center overflow-hidden shadow-md">
+              {qrDataUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={qrDataUrl} alt="QR Code Campagne Engrais 2026" className="w-full h-full" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gray-100 animate-pulse rounded-xl">
+                  <QrCode className="w-16 h-16 text-gray-300" />
+                </div>
+              )}
+            </div>
+            <button
+              onClick={handleDownload}
+              disabled={!qrDataUrl}
+              className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 text-white rounded-xl font-semibold text-sm transition-colors"
+            >
+              <Download className="w-4 h-4" />
+              Télécharger le QR
+            </button>
+          </div>
+
+          {/* Description */}
+          <div className="flex-1 text-center md:text-left">
+            <div className="inline-flex items-center gap-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full mb-4">
+              <Share2 className="w-3.5 h-3.5" />
+              Partager la campagne
+            </div>
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white mb-3">
+              Partagez avec votre coopérative
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+              Scannez ce QR code pour accéder directement à la page de la campagne.
+              Partagez-le avec les membres de votre GIC ou coopérative pour les inviter à s&apos;inscrire avant le{' '}
+              <strong className="text-emerald-700 dark:text-emerald-400">31 mars 2026</strong>.
+            </p>
+            <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+              <div className="flex items-center gap-2 text-xs text-gray-500 bg-gray-100 dark:bg-gray-800 px-3 py-2 rounded-lg font-mono border border-gray-200 dark:border-gray-700">
+                agri-ps.com/campagne-engrais
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const FAQ_ITEMS = [
   {
     q: "Qui peut bénéficier de cette campagne ?",
-    a: "Tout agriculteur membre d'une coopérative agréée par le MINADER et adhérent à une caisse mutuelle agricole (CICAN, CAMAO ou équivalent) peut participer. La commande minimale est de 6 sacs ou litres.",
+    a: "Tout GIC ou coopérative ayant un compte CAMPOST et adhérent à une caisse mutuelle agricole (CICAN ou CAMAO) peut participer. La commande minimale est de 6 sacs de 50 kg pour les engrais minéraux ou 5 litres pour les biofertilisants.",
   },
   {
     q: "Comment fonctionne le paiement échelonné 70/30 ?",
-    a: "Vous versez 70% du montant directement au bureau Campost le plus proche, sur le compte AGRI POINT SERVICES SAS. Notre équipe vous confirme la commande sous 24h après réception du reçu. Les 30% restants sont réglés à la réception de la marchandise, dans un délai de 30 jours maximum.",
+    a: "Vous versez 70% du montant directement au bureau Campost le plus proche, sur le compte AGRI POINT SERVICES SAS. Notre équipe vous confirme la commande sous 24h après réception du reçu. Les 30% restants sont réglés à partir du 15 avril 2026, date limite le 30 avril 2026.",
   },
   {
     q: "Quels sont les délais de livraison ?",
@@ -76,7 +158,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Que se passe-t-il si ma coopérative n'est pas reconnue ?",
-    a: "Contactez notre service commercial au +237 6XX XXX XXX. Nous travaillons avec la plupart des coopératives agréées MINADER. Une vérification manuelle est possible sous 48h.",
+    a: "Contactez notre service commercial au +237 651 92 09 20. Nous travaillons avec la plupart des coopératives agréées MINADER. Une vérification manuelle est possible sous 48h.",
   },
   {
     q: "La livraison est-elle vraiment gratuite ?",
@@ -89,27 +171,27 @@ const TESTIMONIALS = [
     name: "Jean-Pierre Mballa",
     role: "Maïsiculture, 12 ha",
     region: "Centre",
-    text: "Grâce au programme campagne, j'ai économisé 185 000 FCFA sur ma commande d'engrais de mars. Le rendement a augmenté de 40% cette saison.",
+    text: "J'ai commandé 20 sacs d'engrais NPK à 15 000 FCFA au lieu de 25 000 FCFA. 200 000 FCFA d'économies et le paiement 70/30 a libéré ma trésorerie pour la saison.",
     rating: 5,
-    savings: "185 000 FCFA",
+    savings: "200 000 FCFA",
     color: "from-emerald-500 to-teal-600",
   },
   {
     name: "Marie Kamgaing",
     role: "Maraîchage bio, 5 ha",
     region: "Ouest",
-    text: "Le paiement 70/30 m'a permis de commander le double de biofertilisants habituel. Le service de livraison est excellent et ponctuel.",
+    text: "Les biofertilisants à 10 000 FCFA au lieu de 16 000 FCFA — c'est 37,5% d'économie ! Le paiement échelonné 70/30 m'a permis de doubler ma commande habituelle.",
     rating: 5,
-    savings: "92 000 FCFA",
+    savings: "60 000 FCFA",
     color: "from-teal-500 to-emerald-600",
   },
   {
     name: "Thomas Nguetsop",
     role: "Cacaoyer & café, 8 ha",
     region: "Littoral",
-    text: "Ma coopérative a groupé les commandes. Résultat : livraison accélérée et 20% de remise supplémentaire. Je recommande vivement.",
+    text: "Notre coopérative a groupé les commandes de 25 sacs. 250 000 FCFA d'économies au total, livrés directement à notre dépôt. Je recommande vivement.",
     rating: 5,
-    savings: "240 000 FCFA",
+    savings: "250 000 FCFA",
     color: "from-green-500 to-emerald-600",
   },
 ];
@@ -117,10 +199,10 @@ const TESTIMONIALS = [
 // ─── Page ────────────────────────────────────────────────────────────────────
 
 export default function CampagnePremiumPage() {
-  const MINERAL_PRICE = 18500;
-  const BIO_PRICE = 12000;
-  const MINERAL_ORIGINAL = 22000;
-  const BIO_ORIGINAL = 15000;
+  const MINERAL_PRICE = 15000;
+  const BIO_PRICE = 10000;
+  const MINERAL_ORIGINAL = 25000;
+  const BIO_ORIGINAL = 16000;
 
   const campaignEndDate = new Date('2026-03-31T23:59:59');
   const timeLeft = useCountdown(campaignEndDate);
@@ -152,8 +234,8 @@ export default function CampagnePremiumPage() {
   const validateStep = (step: number) => {
     if (step === 1) return formData.fullName.trim() !== '' && formData.email.trim() !== '' && formData.phone.trim() !== '';
     if (step === 2) {
-      if (!formData.isMember) { setEligibilityMsg({ ok: false, text: "Vous devez être membre d'une coopérative agréée." }); return false; }
-      if (!formData.hasInsurance) { setEligibilityMsg({ ok: false, text: "Vous devez adhérer à une caisse mutuelle agricole." }); return false; }
+      if (!formData.isMember) { setEligibilityMsg({ ok: false, text: "Vous devez être un GIC ou une coopérative avec un compte CAMPOST actif." }); return false; }
+      if (!formData.hasInsurance) { setEligibilityMsg({ ok: false, text: "Vous devez être adhérant à la CICAN ou à la CAMAO." }); return false; }
       setEligibilityMsg({ ok: true, text: "Conditions d'éligibilité validées ✓" });
       return true;
     }
@@ -266,9 +348,9 @@ export default function CampagnePremiumPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { icon: Users, value: 2400, suffix: '+', label: 'Agriculteurs bénéficiaires', color: 'text-amber-400' },
-              { icon: Package, value: 18500, suffix: ' FCFA', label: 'Prix/sac engrais minéral', color: 'text-emerald-400' },
+              { icon: Package, value: 15000, suffix: ' FCFA', label: 'Prix/sac engrais minéral', color: 'text-emerald-400' },
               { icon: Truck, value: 10, suffix: ' régions', label: 'Couverture nationale', color: 'text-teal-400' },
-              { icon: TrendingUp, value: 22, suffix: '%', label: 'Économies réalisées', color: 'text-yellow-400' },
+              { icon: TrendingUp, value: 40, suffix: '%', label: 'Économies réalisées', color: 'text-yellow-400' },
             ].map(({ icon: Icon, value, suffix, label, color }) => (
               <div key={label} className="text-center">
                 <Icon className={`w-7 h-7 ${color} mx-auto mb-3`} />
@@ -294,8 +376,8 @@ export default function CampagnePremiumPage() {
           </motion.div>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { icon: Gift, color: 'from-amber-500 to-orange-500', bg: 'bg-amber-50 dark:bg-amber-950/20', border: 'border-amber-100 dark:border-amber-800/30', title: 'Prix Subventionnés', desc: "Des intrants agricoles jusqu'à 22% moins chers que le marché classique, grâce à notre partenariat avec les coopératives agréées MINADER." },
-              { icon: HeartHandshake, color: 'from-emerald-500 to-teal-500', bg: 'bg-emerald-50 dark:bg-emerald-950/20', border: 'border-emerald-100 dark:border-emerald-800/30', title: 'Paiement Flexible', desc: "Le système 70/30 unique au Cameroun : payez 70% à la commande, 30% à la réception. Zéro intérêt, zéro stress financier." },
+              { icon: Gift, color: 'from-amber-500 to-orange-500', bg: 'bg-amber-50 dark:bg-amber-950/20', border: 'border-amber-100 dark:border-amber-800/30', title: 'Prix Subventionnés', desc: "Jusqu'à 40% de réduction sur les engrais minéraux et 37,5% sur les biofertilisants. Des prix accessibles pour tous les membres de coopératives." },
+              { icon: HeartHandshake, color: 'from-emerald-500 to-teal-500', bg: 'bg-emerald-50 dark:bg-emerald-950/20', border: 'border-emerald-100 dark:border-emerald-800/30', title: 'Paiement Flexible', desc: "Payez 70% à l'inscription, 30% à partir du 15 avril (date limite : 30 avril 2026). Zéro intérêt, zéro stress financier." },
               { icon: Truck, color: 'from-teal-500 to-cyan-500', bg: 'bg-teal-50 dark:bg-teal-950/20', border: 'border-teal-100 dark:border-teal-800/30', title: 'Livraison Gratuite', desc: "Livraison incluse pour toute commande de 6 sacs ou plus. Partout dans les 10 régions, en 5 à 10 jours ouvrables." },
             ].map(({ icon: Icon, color, bg, border, title, desc }, i) => (
               <motion.div key={title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
@@ -496,9 +578,9 @@ export default function CampagnePremiumPage() {
           </motion.div>
           <div className="space-y-4">
             {[
-              { icon: Users, num: '1', title: "Membre d'une coopérative agréée", desc: "Être adhérent à une coopérative de producteurs agraires reconnue par le MINADER. Votre carte de membre sera vérifiée.", color: 'from-emerald-500 to-teal-500', bg: 'bg-emerald-50 dark:bg-emerald-950/20' },
-              { icon: Shield, num: '2', title: "Adhérent à une mutuelle agricole", desc: "Être assuré auprès d'une caisse mutuelle agréée : CICAN, CAMAO, ou tout organisme équivalent accrédité.", color: 'from-teal-500 to-cyan-500', bg: 'bg-teal-50 dark:bg-teal-950/20' },
-              { icon: Package, num: '3', title: "Commander au minimum 6 sacs ou litres", desc: "La quantité minimale d'engagement est de 6 unités par commande pour bénéficier des prix subventionnés et de la livraison gratuite.", color: 'from-amber-500 to-orange-500', bg: 'bg-amber-50 dark:bg-amber-950/20' },
+              { icon: Users, num: '1', title: "GIC ou coopérative avec compte CAMPOST", desc: "Être un GIC ou une coopérative agréée disposant d'un compte actif à CAMPOST. Ce compte servira pour le versement de la tranche 70%.", color: 'from-emerald-500 to-teal-500', bg: 'bg-emerald-50 dark:bg-emerald-950/20' },
+              { icon: Shield, num: '2', title: "Adhérent CICAN ou CAMAO", desc: "Être membre adhérant d'une caisse mutuelle agricole reconnue : CICAN (Caisse Inter-mutuelle) ou CAMAO. Votre adhésion sera vérifiée.", color: 'from-teal-500 to-cyan-500', bg: 'bg-teal-50 dark:bg-teal-950/20' },
+              { icon: Package, num: '3', title: "6 sacs de 50 kg ou 5 litres minimum", desc: "Quantité minimale : 6 sacs de 50 kg pour les engrais minéraux NPK, ou 5 litres pour les biofertilisants organiques.", color: 'from-amber-500 to-orange-500', bg: 'bg-amber-50 dark:bg-amber-950/20' },
             ].map(({ icon: Icon, num, title, desc, color, bg }, i) => (
               <motion.div key={num} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
                 className={`${bg} rounded-2xl p-6 flex items-start gap-6`}>
@@ -516,6 +598,11 @@ export default function CampagnePremiumPage() {
           </div>
         </div>
       </section>
+
+      {/* ══════════════════════════════════════════
+          QR CODE PARTAGE
+      ══════════════════════════════════════════ */}
+      <QRCodeSection />
 
       {/* ══════════════════════════════════════════
           FORMULAIRE MULTI-ÉTAPES
@@ -707,7 +794,7 @@ export default function CampagnePremiumPage() {
                       </div>
                       <CampostPaymentInfo
                         variant="full"
-                        amount70={Math.round(formData.quantity * (formData.productType === 'mineral' ? 18500 : 12000) * 0.7)}
+                        amount70={Math.round(formData.quantity * (formData.productType === 'mineral' ? MINERAL_PRICE : BIO_PRICE) * 0.7)}
                       />
                     </motion.div>
                   )}
@@ -839,13 +926,13 @@ export default function CampagnePremiumPage() {
               <a href="#formulaire" className="group flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-gray-900 font-black text-lg px-10 py-5 rounded-2xl transition-all duration-200 shadow-2xl shadow-amber-400/30 hover:shadow-amber-400/50 hover:-translate-y-1">
                 Participer maintenant <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
               </a>
-              <a href="tel:+2376XXXXXXX" className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-base px-8 py-5 rounded-2xl transition-all backdrop-blur-sm hover:-translate-y-1">
+              <a href="tel:+237651920920" className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-base px-8 py-5 rounded-2xl transition-all backdrop-blur-sm hover:-translate-y-1">
                 <Phone className="w-5 h-5" /> Nous appeler
               </a>
             </div>
             <div className="flex flex-wrap gap-8 justify-center">
               {[
-                { icon: Phone, label: '+237 6XX XXX XXX', href: 'tel:+2376XXXXXXX' },
+                { icon: Phone, label: '+237 651 92 09 20', href: 'tel:+237651920920' },
                 { icon: Mail, label: 'campagne@agri-point.cm', href: 'mailto:campagne@agri-point.cm' },
                 { icon: MapPin, label: 'Yaoundé, Cameroun', href: '#' },
               ].map(({ icon: Icon, label, href }) => (
