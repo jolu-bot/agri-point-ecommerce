@@ -24,7 +24,7 @@ const partners = [
   {
     id: 'minader',
     name: 'MINADER',
-    subtitle: "MinistÃ¨re de l'Agriculture",
+    subtitle: "Ministère de l'Agriculture",
     logo: '/images/partners/minader-real.jpg',
     url: 'https://www.minader.cm',
     color: 'from-green-50 to-emerald-50',
@@ -41,6 +41,7 @@ const partners = [
     name: 'EMOH Compagnie',
     subtitle: 'Compagnie SARL',
     logo: '/images/partners/emoh-bleu.png',
+    logoHeight: 'h-[108px]',
     url: 'https://www.emoh-compagnie.com',
     color: 'from-blue-50 to-sky-50',
     colorDark: 'from-blue-900/20 to-sky-900/10',
@@ -54,7 +55,7 @@ const partners = [
   {
     id: 'civia',
     name: 'CIVIA',
-    subtitle: 'CoopÃ©rative IndÃ©pendante VivriÃ¨re',
+    subtitle: 'Coopérative Indépendante Vivrière',
     logo: '/images/partners/civia-real.jpeg',
     url: '#',
     color: 'from-teal-50 to-green-50',
@@ -125,7 +126,7 @@ export default function PartnersSection({
             <p className={`mt-2 text-sm max-w-xl mx-auto ${
               isDark ? 'text-white/45' : 'text-gray-500'
             }`}>
-              AGRI POINT bÃ©nÃ©ficie du soutien d&apos;acteurs clÃ©s du dÃ©veloppement agricole camerounais.
+              AGRI POINT bénéficie du soutien d&apos;acteurs clés du développement agricole camerounais.
               Cliquez sur un logo pour visiter leur site officiel.
             </p>
           </motion.div>
@@ -158,7 +159,7 @@ export default function PartnersSection({
 
               <div className="relative px-5 py-6 flex flex-col items-center gap-4">
                 {/* Logo */}
-                <div className="relative w-full h-[72px]">
+                <div className={`relative w-full ${ (p as { logoHeight?: string }).logoHeight ?? 'h-[72px]' }`}>
                   <Image
                     src={p.logo}
                     alt={`Logo ${p.name}`}
