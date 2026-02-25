@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import HeroSlideshow from '@/components/home/HeroSlideshow';
 import { motion } from 'framer-motion';
 import { 
   DollarSign,
@@ -19,6 +20,14 @@ import ProductCard from '@/components/products/ProductCard';
 import { IProduct } from '@/models/Product';
 
 // Contenu modifiable facilement
+const GAGNER_PLUS_IMAGES = [
+  '/images/gagner-plus/gagner-plus-1.png',
+  '/images/gagner-plus/gagner-plus-2.jpg',
+  '/images/gagner-plus/gagner-plus-3.png',
+  '/images/gagner-plus/gagner-plus-4.png',
+  '/images/gagner-plus/gagner-plus-5.png',
+];
+
 const pageContent = {
   hero: {
     badge: "💰 Rentabilité Maximale Garantie",
@@ -263,15 +272,11 @@ export default function GagnerPlusPage() {
               className="relative"
             >
               <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-green-600/20"></div>
-                <Image
-                  src="/images/gagner-plus-hero.jpg"
-                  alt="Agriculteur prospère"
-                  fill
-                  className="object-cover"
-                  onError={(e) => {
-                    e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iIzEwYjk4MSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+8J+SsiBHQUdORVIgUExVUzwvdGV4dD48L3N2Zz4=';
-                  }}
+                <HeroSlideshow
+                  images={GAGNER_PLUS_IMAGES}
+                  alt="Gagner Plus"
+                  objectFit="cover"
+                  interval={4000}
                 />
               </div>
             </motion.div>
