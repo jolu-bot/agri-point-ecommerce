@@ -48,7 +48,7 @@ export default function Footer() {
       />
 
       {/* PRE-FOOTER — Bande d'impact */}
-      <div className="relative border-b border-white/5">
+      <div className="relative z-10 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-emerald-500 font-semibold mb-1">Agriculture Connectée · Cameroun</p>
@@ -75,14 +75,14 @@ export default function Footer() {
       </div>
 
       {/* CORPS PRINCIPAL */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
 
           {/* Brand col (4/12) */}
           <div className="lg:col-span-4">
             <Link href="/" className="inline-flex items-center gap-3 group mb-5">
-              <div className="relative w-11 h-11 flex-shrink-0 rounded-xl overflow-hidden ring-1 ring-white/10 group-hover:ring-emerald-500/40 bg-gray-900 p-1 transition-all">
-                <Image src="/images/logo.svg" alt="AGRI POINT" fill className="object-contain" />
+              <div className="relative w-14 h-14 flex-shrink-0 transition-all transform group-hover:scale-105 drop-shadow-lg">
+                <Image src="/images/logo-transparent.svg" alt="AGRI POINT logo officiel" fill className="object-contain" priority />
               </div>
               <div className="flex flex-col leading-snug">
                 <div className="flex items-baseline gap-1">
@@ -138,7 +138,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {footerLinks.solutions.map(({ label, href }) => (
                 <li key={href}>
-                  <Link href={href} className="group text-[13px] text-gray-500 hover:text-white transition-colors duration-150 flex items-center gap-2">
+                  <Link href={href} className="group text-[13px] text-gray-500 hover:text-white transition-colors duration-150 flex items-center gap-2 cursor-pointer">
                     <span className="w-0 h-px bg-emerald-500 group-hover:w-3 transition-all duration-200 flex-shrink-0" />
                     {label}
                   </Link>
@@ -155,7 +155,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {footerLinks.boutique.map(({ label, href }) => (
                 <li key={href}>
-                  <Link href={href} className="group text-[13px] text-gray-500 hover:text-white transition-colors duration-150 flex items-center gap-2">
+                  <Link href={href} className="group text-[13px] text-gray-500 hover:text-white transition-colors duration-150 flex items-center gap-2 cursor-pointer">
                     <span className="w-0 h-px bg-emerald-500 group-hover:w-3 transition-all duration-200 flex-shrink-0" />
                     {label}
                   </Link>
@@ -219,7 +219,7 @@ export default function Footer() {
       </div>
 
       {/* BOTTOM BAR */}
-      <div className="relative border-t border-white/[0.06]">
+      <div className="relative z-10 border-t border-white/[0.06]">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-700/50 to-transparent" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">

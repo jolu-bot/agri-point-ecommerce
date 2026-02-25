@@ -36,11 +36,12 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
-      { url: '/images/logo.svg', type: 'image/svg+xml' },
+      { url: '/images/logo-transparent.svg', type: 'image/svg+xml' },
+      { url: '/images/logo.png', type: 'image/png', sizes: '512x512' },
     ],
     shortcut: '/favicon.ico',
     apple: [
-      { url: '/images/logo.svg', sizes: '180x180', type: 'image/svg+xml' },
+      { url: '/images/logo.png', sizes: '180x180', type: 'image/png' },
     ],
   },
   openGraph: {
@@ -49,7 +50,7 @@ export const metadata: Metadata = {
     title: "AGRI POINT SERVICE",
     description: "Produire plus, Gagner plus, Mieux vivre",
     siteName: "AGRI POINT SERVICE",
-    images: ['/images/logo.svg'],
+    images: ['/images/logo.png'],
   },
   twitter: {
     card: 'summary_large_image',

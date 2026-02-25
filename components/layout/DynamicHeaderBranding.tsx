@@ -22,7 +22,7 @@ export default function DynamicHeaderBranding({ className = '' }: DynamicHeaderB
   // Configuration par défaut en cas de chargement ou d'erreur
   const defaultConfig = {
     logo: {
-      url: '/images/logo.svg',
+      url: '/images/logo-transparent.svg',
       sizes: {
         mobile: 'w-12 h-12',
         tablet: 'w-15 h-15',

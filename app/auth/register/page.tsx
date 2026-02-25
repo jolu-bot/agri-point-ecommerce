@@ -122,7 +122,7 @@ export default function RegisterPage() {
           {/* Logo mobile */}
           <div className="lg:hidden text-center mb-8">
             <Link href="/">
-              <Image src="/images/logo.svg" alt="AGRI POINT" width={80} height={96} className="mx-auto mb-3" />
+              <Image src="/images/logo-transparent.svg" alt="AGRI POINT" width={80} height={96} className="mx-auto mb-3" />
             </Link>
           </div>
 

@@ -5,14 +5,14 @@ const SiteConfigSchema = new mongoose.Schema({
   branding: {
     siteName: { type: String, default: 'AGRI POINT SERVICE' },
     tagline: { type: String, default: 'Le partenaire sûr de l\'entrepreneur agricole' },
-    logoUrl: { type: String, default: '/images/logo.svg' },
+    logoUrl: { type: String, default: '/images/logo-transparent.svg' },
     faviconUrl: { type: String, default: '/favicon.ico' },
   },
 
   // Header Configuration (Dynamique pour CMS)
   header: {
     logo: {
-      url: { type: String, default: '/images/logo.svg' },
+      url: { type: String, default: '/images/logo-transparent.svg' },
       sizes: {
         mobile: { type: String, default: 'w-11 h-11' },
         tablet: { type: String, default: 'w-13 h-13' },
@@ -147,7 +147,7 @@ const SiteConfigSchema = new mongoose.Schema({
     metaTitle: { type: String, default: 'AGRI POINT SERVICE - Produire plus, Gagner plus, Mieux vivre' },
     metaDescription: { type: String, default: 'Distributeur de biofertilisants de qualité au Cameroun. Solutions complètes pour l\'agriculture moderne et urbaine.' },
     keywords: [{ type: String }],
-    ogImage: { type: String, default: '/images/logo.svg' },
+    ogImage: { type: String, default: '/images/logo.png' },
   },
 
   // Footer
