@@ -80,17 +80,15 @@ export default function Footer() {
 
           {/* Brand col (4/12) */}
           <div className="lg:col-span-4">
-            <Link href="/" className="inline-flex items-center gap-3 group mb-5">
-              <div className="relative w-14 h-14 flex-shrink-0 transition-all transform group-hover:scale-105 drop-shadow-lg">
-                <Image src="/images/logo-transparent.svg" alt="AGRI POINT logo officiel" fill className="object-contain" priority />
-              </div>
-              <div className="flex flex-col leading-snug">
-                <div className="flex items-baseline gap-1">
-                  <span className="text-[17px] font-extrabold tracking-[0.12em] text-white uppercase">AGRI</span>
-                  <span className="text-[17px] font-extrabold tracking-[0.12em] text-emerald-400 uppercase">POINT</span>
-                </div>
-                <span className="text-[9.5px] tracking-[0.22em] text-gray-500 uppercase font-medium">Services SARL</span>
-              </div>
+            <Link href="/" className="inline-block group mb-5">
+              <Image
+                src="/images/logo-slogan-transparent.png"
+                alt="AGRI POINT SERVICE SAS — Tout en Un"
+                width={1280}
+                height={1012}
+                className="h-[100px] w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-lg"
+                priority
+              />
             </Link>
 
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-700/30 mb-5">

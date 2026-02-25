@@ -5,14 +5,14 @@ const SiteConfigSchema = new mongoose.Schema({
   branding: {
     siteName: { type: String, default: 'AGRI POINT SERVICE' },
     tagline: { type: String, default: 'Le partenaire sûr de l\'entrepreneur agricole' },
-    logoUrl: { type: String, default: '/images/logo-transparent.svg' },
+    logoUrl: { type: String, default: '/images/logo-slogan-transparent.png' },
     faviconUrl: { type: String, default: '/favicon.ico' },
   },
 
   // Header Configuration (Dynamique pour CMS)
   header: {
     logo: {
-      url: { type: String, default: '/images/logo-transparent.svg' },
+      url: { type: String, default: '/images/logo-slogan-transparent.png' },
       sizes: {
         mobile: { type: String, default: 'w-11 h-11' },
         tablet: { type: String, default: 'w-13 h-13' },

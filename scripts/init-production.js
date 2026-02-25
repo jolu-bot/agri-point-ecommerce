@@ -38,7 +38,7 @@ const siteConfigSchema = new mongoose.Schema({
   branding: {
     siteName: { type: String, default: 'AGRI POINT SERVICE' },
     tagline: { type: String, default: 'Le partenaire sûr de l\'entrepreneur agricole' },
-    logoUrl: { type: String, default: '/images/logo-transparent.svg' },
+    logoUrl: { type: String, default: '/images/logo-slogan-transparent.png' },
     faviconUrl: { type: String, default: '/favicon.ico' },
   },
   colors: {

@@ -22,7 +22,7 @@ export default function DynamicHeaderBranding({ className = '' }: DynamicHeaderB
   // Configuration par défaut en cas de chargement ou d'erreur
   const defaultConfig = {
     logo: {
-      url: '/images/logo-transparent.svg',
+      url: '/images/logo-slogan-transparent.png',
       sizes: {
         mobile: 'w-12 h-12',
         tablet: 'w-15 h-15',
@@ -64,22 +64,22 @@ export default function DynamicHeaderBranding({ className = '' }: DynamicHeaderB
   if (loading) {
     return (
       <div className={`flex items-center animate-pulse ${className}`}>
-        <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-[4.5rem] lg:h-[4.5rem] bg-gray-200 dark:bg-gray-700 rounded-full flex-shrink-0"></div>
+        <div className="w-[80px] h-[63px] sm:w-[96px] sm:h-[76px] lg:w-[110px] lg:h-[87px] bg-gray-200 dark:bg-gray-700 rounded-lg flex-shrink-0"></div>
       </div>
     );
   }
 
   return (
     <Link href="/" className={`flex items-center group ${className}`}>
-      {/* Logo agrandi — seul élément de marque visible */}
-      <div className="relative w-12 h-12 sm:w-16 sm:h-16 lg:w-[4.5rem] lg:h-[4.5rem] flex-shrink-0 transform group-hover:scale-110 transition-transform duration-300 drop-shadow-md group-hover:drop-shadow-lg">
+      {/* Logo officiel complet avec slogan */}
+      <div className="flex-shrink-0 transform group-hover:scale-105 transition-transform duration-300 drop-shadow-md group-hover:drop-shadow-lg">
         <Image
           src={headerConfig.logo.url}
-          alt={`${headerConfig.primaryText.content} Logo`}
-          fill
-          className="object-contain"
+          alt={`${headerConfig.primaryText.content} — Service SAS, Tout en Un`}
+          width={1280}
+          height={1012}
+          className="h-12 sm:h-14 lg:h-[3.75rem] w-auto object-contain"
           priority
-          sizes="(max-width: 640px) 48px, (max-width: 1024px) 64px, 72px"
         />
       </div>
     </Link>
