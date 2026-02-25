@@ -9,7 +9,7 @@ const siteConfigSchema = new mongoose.Schema({
   branding: {
     siteName: { type: String, default: 'AGRI POINT SERVICE' },
     tagline: { type: String, default: 'Produire plus, Gagner plus, Mieux vivre' },
-    logoUrl: { type: String, default: '/images/logo-slogan-transparent.png' },
+    logoUrl: { type: String, default: '/images/logo.png' },
     faviconUrl: { type: String, default: '/favicon.ico' },
   },
   colors: {
@@ -134,7 +134,7 @@ async function seedSiteConfig() {
       branding: {
         siteName: 'AGRI POINT SERVICE',
         tagline: 'Produire plus, Gagner plus, Mieux vivre',
-        logoUrl: '/images/logo-slogan-transparent.png',
+        logoUrl: '/images/logo.png',
         faviconUrl: '/favicon.ico',
       },
       colors: {
