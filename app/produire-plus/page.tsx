@@ -25,13 +25,13 @@ import toast from 'react-hot-toast';
 
 // Contenu modifiable facilement
 const PRODUIRE_PLUS_IMAGES = [
-  '/images/produire-plus/produire-plus-1.png',
-  '/images/produire-plus/produire-plus-2.png',
-  '/images/produire-plus/produire-plus-3.jpg',
-  '/images/produire-plus/produire-plus-4.jpg',
-  '/images/produire-plus/produire-plus-5.jpg',
-  '/images/produire-plus/produire-plus-6.jpg',
-  '/images/produire-plus/produire-plus-7.jpg',
+  '/images/produire-plus/produire-plus-1.webp',
+  '/images/produire-plus/produire-plus-2.webp',
+  '/images/produire-plus/produire-plus-3.webp',
+  '/images/produire-plus/produire-plus-4.webp',
+  '/images/produire-plus/produire-plus-5.webp',
+  '/images/produire-plus/produire-plus-6.webp',
+  '/images/produire-plus/produire-plus-7.webp',
 ];
 
 const pageContent = {

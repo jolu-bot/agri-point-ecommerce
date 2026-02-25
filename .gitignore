@@ -21,6 +21,11 @@ dist
 *.pem
 Thumbs.db
 
+# Dossiers sources images (non destinés au repo, seul public/ est nécessaire)
+images produir plus/
+images Gagner plus/
+images mieux vivre/
+
 # Logs
 npm-debug.log*
 yarn-debug.log*

@@ -21,11 +21,11 @@ import { IProduct } from '@/models/Product';
 
 // Contenu modifiable facilement
 const GAGNER_PLUS_IMAGES = [
-  '/images/gagner-plus/gagner-plus-1.png',
-  '/images/gagner-plus/gagner-plus-2.jpg',
-  '/images/gagner-plus/gagner-plus-3.png',
-  '/images/gagner-plus/gagner-plus-4.png',
-  '/images/gagner-plus/gagner-plus-5.png',
+  '/images/gagner-plus/gagner-plus-1.webp',
+  '/images/gagner-plus/gagner-plus-2.webp',
+  '/images/gagner-plus/gagner-plus-3.webp',
+  '/images/gagner-plus/gagner-plus-4.webp',
+  '/images/gagner-plus/gagner-plus-5.webp',
 ];
 
 const pageContent = {
