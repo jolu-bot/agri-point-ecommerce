@@ -98,9 +98,15 @@
       "type": "image/x-icon"
     },
     {
-      "src": "/images/logo.svg",
+      "src": "/images/logo-transparent.svg",
       "sizes": "any",
       "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ],
