@@ -24,8 +24,8 @@ import { IProduct } from '@/models/Product';
 
 // Contenu modifiable facilement
 const MIEUX_VIVRE_IMAGES = [
-  '/images/mieux-vivre/mieux-vivre-1.jpg',
-  '/images/mieux-vivre/mieux-vivre-2.png',
+  '/images/mieux-vivre/mieux-vivre-1.webp',
+  '/images/mieux-vivre/mieux-vivre-2.webp',
 ];
 
 const pageContent = {
