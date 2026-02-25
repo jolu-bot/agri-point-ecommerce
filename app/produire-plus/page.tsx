@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import HeroSlideshow from '@/components/home/HeroSlideshow';
 import { motion } from 'framer-motion';
 import { 
   TrendingUp, 
@@ -23,6 +24,16 @@ import { IProduct } from '@/models/Product';
 import toast from 'react-hot-toast';
 
 // Contenu modifiable facilement
+const PRODUIRE_PLUS_IMAGES = [
+  '/images/produire-plus/produire-plus-1.png',
+  '/images/produire-plus/produire-plus-2.png',
+  '/images/produire-plus/produire-plus-3.jpg',
+  '/images/produire-plus/produire-plus-4.jpg',
+  '/images/produire-plus/produire-plus-5.jpg',
+  '/images/produire-plus/produire-plus-6.jpg',
+  '/images/produire-plus/produire-plus-7.jpg',
+];
+
 const pageContent = {
   hero: {
     badge: "🌾 Solution N°1 pour l'Agriculture Performante",
@@ -199,15 +210,11 @@ export default function ProduirePlusPage() {
               className="relative"
             >
               <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-emerald-600/20"></div>
-                <Image
-                  src="/images/produire-plus-hero.jpg"
-                  alt="Cultures abondantes"
-                  fill
-                  className="object-cover"
-                  onError={(e) => {
-                    e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iIzIyYzU1ZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+8J+MviDguLvguLfguLXguJ/guLnguLkgUFJPRFVJUkUgUExVUzwvdGV4dD48L3N2Zz4=';
-                  }}
+                <HeroSlideshow
+                  images={PRODUIRE_PLUS_IMAGES}
+                  alt="Produire Plus"
+                  objectFit="cover"
+                  interval={4000}
                 />
               </div>
             </motion.div>

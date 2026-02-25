@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import HeroSlideshow from '@/components/home/HeroSlideshow';
 import { motion } from 'framer-motion';
 import { 
   Heart,
@@ -22,6 +23,11 @@ import ProductCard from '@/components/products/ProductCard';
 import { IProduct } from '@/models/Product';
 
 // Contenu modifiable facilement
+const MIEUX_VIVRE_IMAGES = [
+  '/images/mieux-vivre/mieux-vivre-1.jpg',
+  '/images/mieux-vivre/mieux-vivre-2.png',
+];
+
 const pageContent = {
   hero: {
     badge: "❤️ Votre Bien-être, Notre Priorité",
@@ -291,15 +297,11 @@ export default function MieuxVivrePage() {
               className="relative"
             >
               <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-red-400/20 to-purple-600/20"></div>
-                <Image
-                  src="/images/mieux-vivre-hero.jpg"
-                  alt="Famille heureuse"
-                  fill
-                  className="object-cover"
-                  onError={(e) => {
-                    e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2VmNDQ0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+4p2k77iPIE1JRVVYIFZJVlJFPC90ZXh0Pjwvc3ZnPg==';
-                  }}
+                <HeroSlideshow
+                  images={MIEUX_VIVRE_IMAGES}
+                  alt="Mieux Vivre"
+                  objectFit="cover"
+                  interval={5000}
                 />
               </div>
             </motion.div>
