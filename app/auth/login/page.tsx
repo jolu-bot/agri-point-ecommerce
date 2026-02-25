@@ -87,7 +87,7 @@ function LoginForm() {
           {/* Logo mobile */}
           <div className="lg:hidden text-center mb-8">
             <Link href="/">
-              <Image src="/images/logo-slogan-transparent.png" alt="AGRI POINT SERVICE SAS" width={1280} height={1012} className="mx-auto mb-3 h-24 w-auto" />
+              <Image src="/images/logo.png" alt="AGRI POINT SERVICE SAS" width={1280} height={1012} className="mx-auto mb-3 h-24 w-auto" />
             </Link>
           </div>
 

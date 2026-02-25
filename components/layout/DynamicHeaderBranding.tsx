@@ -22,7 +22,7 @@ export default function DynamicHeaderBranding({ className = '' }: DynamicHeaderB
   // Configuration par défaut en cas de chargement ou d'erreur
   const defaultConfig = {
     logo: {
-      url: '/images/logo-slogan-transparent.png',
+      url: '/images/logo.png',
       sizes: {
         mobile: 'w-12 h-12',
         tablet: 'w-15 h-15',
@@ -75,7 +75,7 @@ export default function DynamicHeaderBranding({ className = '' }: DynamicHeaderB
       <div className="flex-shrink-0 transform group-hover:scale-105 transition-transform duration-300 drop-shadow-md group-hover:drop-shadow-lg">
         <Image
           src={headerConfig.logo.url}
-          alt={`${headerConfig.primaryText.content} — Service SAS, Tout en Un`}
+          alt="AGRI POINT SERVICE SAS — Logo officiel"
           width={1280}
           height={1012}
           className="h-12 sm:h-14 lg:h-[3.75rem] w-auto object-contain"

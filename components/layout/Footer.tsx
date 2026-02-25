@@ -82,11 +82,11 @@ export default function Footer() {
           <div className="lg:col-span-4">
             <Link href="/" className="inline-block group mb-5">
               <Image
-                src="/images/logo-slogan-transparent.png"
-                alt="AGRI POINT SERVICE SAS — Tout en Un"
+                src="/images/logo.png"
+                alt="AGRI POINT SERVICE SAS — Logo officiel"
                 width={1280}
                 height={1012}
-                className="h-[100px] w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-lg"
+                className="h-[110px] w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-lg"
                 priority
               />
             </Link>
@@ -100,9 +100,6 @@ export default function Footer() {
 
             <p className="text-[13px] text-gray-500 leading-relaxed mb-6 max-w-xs">
               Le partenaire sûr de l&apos;entrepreneur agricole.
-              <span className="block mt-1 font-semibold text-gray-400">
-                Produire plus · Gagner plus · Mieux vivre.
-              </span>
             </p>
 
             <div className="h-px w-full bg-gradient-to-r from-emerald-700/40 via-gray-700/20 to-transparent mb-6" />
