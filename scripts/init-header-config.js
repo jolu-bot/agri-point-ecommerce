@@ -29,7 +29,7 @@ async function initHeaderConfig() {
     // Ajouter la configuration du header par défaut
     config.header = {
       logo: {
-        url: '/images/logo-transparent.svg',
+        url: '/images/logo-slogan-transparent.png',
         sizes: {
           mobile: 'w-11 h-11',
           tablet: 'w-13 h-13',
