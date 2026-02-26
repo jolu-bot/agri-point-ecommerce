@@ -31,10 +31,10 @@ export default function BackToTop() {
           whileTap={{ scale: 0.95 }}
           aria-label="Retour en haut de la page"
           className="
-            fixed bottom-6 right-6 z-50
-            w-12 h-12 rounded-full
+            fixed bottom-24 right-6 z-40
+            w-11 h-11 rounded-full
             bg-[#B71C1C] hover:bg-[#8e1616]
-            text-white shadow-[0_4px_24px_rgba(183,28,28,0.45)]
+            text-white shadow-[0_4px_20px_rgba(183,28,28,0.40)]
             flex items-center justify-center
             transition-colors duration-200
             ring-2 ring-white/20

@@ -51,12 +51,12 @@ export default function Sections() {
   ];
 
   return (
-    <section className="py-20 bg-white dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="section-premium bg-white dark:bg-gray-900">
+      <div className="container-fluid">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: '-60px' }}
           className="text-center mb-16"
         >
           <h2 className="section-title">Nos Objectifs</h2>
@@ -65,18 +65,18 @@ export default function Sections() {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {sections.map((section, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.2 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ delay: index * 0.15, type: 'spring', stiffness: 240, damping: 24 }}
               className="group"
             >
-              <div className="card hover:scale-105 transition-transform duration-300 h-full">
-                <div className={`w-16 h-16 bg-${section.color}-100 dark:bg-${section.color}-900/30 rounded-xl flex items-center justify-center text-${section.color}-600 dark:text-${section.color}-400 mb-6 group-hover:scale-110 transition-transform`}>
+              <div className="card product-card-premium h-full flex flex-col">
+                <div className={`w-14 h-14 bg-${section.color}-100 dark:bg-${section.color}-900/30 rounded-xl flex items-center justify-center text-${section.color}-600 dark:text-${section.color}-400 mb-6 group-hover:scale-110 transition-transform duration-300`}>
                   {section.icon}
                 </div>
 
