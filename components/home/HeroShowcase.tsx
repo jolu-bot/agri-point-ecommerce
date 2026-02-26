@@ -20,7 +20,7 @@ const PRODUCT_IMAGES = [
 export default function HeroShowcase() {
   return (
     <Link href="/produits" className="block w-full group">
-      <div className="aspect-square bg-white border border-gray-200 overflow-hidden rounded-2xl w-full relative transition-all duration-300 group-hover:border-gray-300 group-hover:shadow-lg">
+      <div className="w-full bg-white border border-gray-200 overflow-hidden rounded-2xl relative transition-all duration-300 group-hover:border-emerald-300 group-hover:shadow-[0_8px_32px_rgba(22,163,74,0.12)] aspect-square sm:aspect-[4/3] lg:aspect-square xl:aspect-[5/4]">
         <HeroSlideshow
           images={PRODUCT_IMAGES}
           alt="Produit Agri Point"

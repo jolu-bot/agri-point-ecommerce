@@ -35,16 +35,16 @@ export default function FeaturedProducts() {
 
   if (loading) {
     return (
-      <section className="section-brand-divider py-20 bg-white dark:bg-gray-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="section-brand-divider section-premium bg-white dark:bg-gray-950">
+        <div className="container-fluid">
           <div className="text-center mb-12">
             <p className="text-xs uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-500 font-bold mb-2">Nos produits phares</p>
             <h2 className="section-title">Sélection Premium</h2>
             <p className="section-subtitle">Découvrez notre sélection de biofertilisants de qualité supérieure</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="product-grid-responsive">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-96 bg-gray-100 dark:bg-gray-800/60 rounded-2xl animate-pulse" />
+              <div key={i} className="h-96 skeleton rounded-2xl" />
             ))}
           </div>
         </div>
@@ -53,12 +53,12 @@ export default function FeaturedProducts() {
   }
 
   return (
-    <section className="section-brand-divider py-20 bg-white dark:bg-gray-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="section-brand-divider section-premium bg-white dark:bg-gray-950">
+      <div className="container-fluid">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: '-60px' }}
           className="text-center mb-12"
         >
           <p className="text-xs uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-500 font-bold mb-2">Notre sélection</p>
@@ -69,14 +69,14 @@ export default function FeaturedProducts() {
           <div className="mt-4 mx-auto w-16 h-0.5 bg-gradient-to-r from-transparent via-emerald-500 to-transparent" />
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div className="product-grid-responsive mb-12">
           {products.map((product, index) => (
             <motion.div
               key={product._id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ delay: index * 0.08, type: 'spring', stiffness: 260, damping: 22 }}
             >
               <ProductCard product={product} />
             </motion.div>

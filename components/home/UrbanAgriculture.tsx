@@ -6,13 +6,14 @@ import { ArrowRight } from 'lucide-react';
 
 export default function UrbanAgriculture() {
   return (
-    <section className="py-20 bg-gradient-to-br from-primary-600 to-primary-800 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+    <section className="section-premium bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] text-white">
+      <div className="container-fluid">
+        <div className="grid lg:grid-cols-2 gap-fluid-md items-center">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ type: 'spring', stiffness: 220, damping: 28 }}
           >
             <div className="inline-block px-4 py-2 bg-white/20 backdrop-blur rounded-full text-sm font-semibold mb-6">
               🏙️ Agriculture Urbaine
@@ -52,9 +53,10 @@ export default function UrbanAgriculture() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ type: 'spring', stiffness: 220, damping: 28, delay: 0.1 }}
             className="relative"
           >
             <div className="grid grid-cols-2 gap-4">
