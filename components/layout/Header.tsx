@@ -127,20 +127,22 @@ export default function Header() {
                       isNavActive(item) ? 'w-4/5 opacity-100' : 'w-0 opacity-0 group-hover:w-4/5 group-hover:opacity-100'
                     }`} />
                   </button>
-                  
-                  {/* Dropdown Menu — glassmorphism premium */}
-                  <div className={`absolute top-full left-0 mt-3 w-52 bg-white/97 dark:bg-gray-950/97 backdrop-blur-xl rounded-xl shadow-[0_16px_48px_-12px_rgba(0,0,0,0.18)] dark:shadow-[0_16px_48px_-12px_rgba(0,0,0,0.6)] border border-gray-100/80 dark:border-white/[0.06] overflow-hidden transition-all duration-200 ${
+
+                  {/* Pont invisible — comble le gap mt-3 pour éviter le mouseLeave intempestif */}
+                  <div className="absolute top-full left-0 right-0 h-3 z-10" />
+
+                  {/* Dropdown Menu — fond solide pour lisibilité maximale */}
+                  <div className={`absolute top-full left-0 mt-3 w-56 bg-white dark:bg-gray-900 rounded-xl shadow-[0_16px_48px_-12px_rgba(0,0,0,0.22)] dark:shadow-[0_16px_48px_-12px_rgba(0,0,0,0.65)] border border-gray-200 dark:border-gray-700/70 border-l-[3px] border-l-emerald-500 overflow-hidden transition-all duration-200 ${
                     openSubmenu === item.name ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
                   }`}>
-                    {/* Accent lateral */}
-                    <div className="absolute left-0 top-3 bottom-3 w-0.5 bg-gradient-to-b from-transparent via-emerald-500/60 to-transparent" />
                     {item.submenu.map((subitem) => (
                       <Link
                         key={subitem.name}
                         href={subitem.href}
-                        className="group flex items-center gap-2.5 pl-5 pr-4 py-3 text-[13px] text-gray-600 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-emerald-300 hover:bg-emerald-50/70 dark:hover:bg-emerald-900/15 transition-all duration-150 border-b border-gray-50 dark:border-white/[0.04] last:border-0 font-medium"
+                        className="group flex items-center gap-2.5 pl-4 pr-4 py-3 text-[13px] text-gray-700 dark:text-gray-200 hover:text-emerald-700 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/25 transition-all duration-150 border-b border-gray-100 dark:border-gray-700/50 last:border-0 font-medium"
+                        onClick={() => setOpenSubmenu(null)}
                       >
-                        <span className="w-1 h-1 rounded-full bg-emerald-500/50 group-hover:bg-emerald-500 group-hover:scale-125 transition-all duration-150 flex-shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/60 group-hover:bg-emerald-500 group-hover:scale-125 transition-all duration-150 flex-shrink-0" />
                         {subitem.name}
                       </Link>
                     ))}

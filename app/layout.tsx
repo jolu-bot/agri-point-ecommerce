@@ -11,8 +11,7 @@ import PartnersSection from "@/components/shared/PartnersSection";
 import AgriBotWrapper from "@/components/AgriBotWrapper";
 import PreviewModeBanner from "@/components/admin/PreviewModeBanner";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
-import SyncStatusPanel from "@/components/SyncStatusPanel";
-
+import SyncStatusPanel from "@/components/SyncStatusPanel";import BackToTop from '@/components/layout/BackToTop';
 // Polices modernes et attrayantes
 const inter = Inter({
   subsets: ["latin"],
@@ -126,6 +125,7 @@ export default function RootLayout({
                 />
                 <PWAInstallPrompt />
                 <SyncStatusPanel />
+                <BackToTop />
               </div>
             </ThemeProvider>
           </PreviewModeProvider>
