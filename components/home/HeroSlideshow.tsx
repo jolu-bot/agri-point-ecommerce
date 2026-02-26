@@ -11,6 +11,7 @@ interface HeroSlideshowProps {
   objectFit?: 'contain' | 'cover';
   variant?: 'dark' | 'light';
   interval?: number;
+  onIndexChange?: (index: number) => void;
 }
 
 export default function HeroSlideshow({
@@ -20,12 +21,18 @@ export default function HeroSlideshow({
   objectFit = 'cover',
   variant = 'light',
   interval = 3500,
+  onIndexChange,
 }: HeroSlideshowProps) {
   const [current, setCurrent] = useState(0);
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % images.length);
   }, [images.length]);
+
+  // Notifier le parent quand l'index change
+  useEffect(() => {
+    onIndexChange?.(current);
+  }, [current, onIndexChange]);
 
   useEffect(() => {
     if (images.length <= 1) return;
