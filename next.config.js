@@ -34,17 +34,20 @@ const nextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
+      // Autoriser uniquement les domaines connus — ne pas utiliser hostname: '**'
+      { protocol: 'https', hostname: 'res.cloudinary.com' },
+      { protocol: 'https', hostname: '*.amazonaws.com' },
+      { protocol: 'https', hostname: '*.googleusercontent.com' },
+      { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
+      { protocol: 'https', hostname: 'agri-ps.com' },
+      { protocol: 'https', hostname: 'www.agri-ps.com' },
     ],
     unoptimized: false,
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 3600, // Augmenter cache des images: 1h
-    dangerouslyAllowSVG: true,
-    contentDispositionType: 'inline',
+    minimumCacheTTL: 86400, // 24h (au lieu de 1h)
+    dangerouslyAllowSVG: false, // Désactivé — XSS possible via SVG
+    contentDispositionType: 'attachment',
   },
   experimental: {
     serverActions: {
@@ -57,10 +60,10 @@ const nextConfig = {
   reactStrictMode: true,
   compress: true,
   poweredByHeader: false,
-  // Configuration Turbopack (Next.js 16+)
+  // Configuration Turbopack
   turbopack: {
     resolveAlias: {
-      '@': './src',
+      '@': '.', // Racine du projet (app/ components/ lib/ etc.)
     },
   },
   // Optimisation Webpack (fallback si webpack est utilisé)
@@ -131,22 +134,16 @@ const nextConfig = {
       {
         source: '/:path*',
         headers: [
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN'
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin'
-          },
+          { key: 'X-DNS-Prefetch-Control', value: 'on' },
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          // HSTS : forcer HTTPS pendant 1 an
+          { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+          // Désactiver les API navigateur non utilisées
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=()' },
+          // Empêcher le MIME sniffing + clickjacking via CSP frame-ancestors
+          { key: 'Content-Security-Policy', value: "frame-ancestors 'self'" },
         ],
       },
       {
