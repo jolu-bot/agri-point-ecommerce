@@ -61,49 +61,9 @@ function HeroContent() {
   );
 }
 
-function FloatingCards() {
-  return (
-    <>
-      <div className="hidden md:block absolute -bottom-4 -left-4 lg:-bottom-6 lg:-left-6 bg-gray-900/90 backdrop-blur-sm rounded-2xl shadow-xl border border-white/[0.08] p-3 max-w-[180px] lg:max-w-[210px] hover-lift">
-        <div className="flex items-center space-x-2 lg:space-x-3">
-          <div className="relative w-10 h-10 lg:w-12 lg:h-12 flex-shrink-0">
-            <Image
-              src="/products/icon-croissance-fruits.png"
-              alt="Produire Plus"
-              fill
-              className="object-contain"
-            />
-          </div>
-          <div>
-            <div className="font-semibold text-sm text-white">Produire Plus</div>
-            <div className="text-xs text-emerald-400">Rendement optimisé</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="hidden md:block absolute -top-4 -right-4 lg:-top-6 lg:-right-6 bg-gray-900/90 backdrop-blur-sm rounded-2xl shadow-xl border border-white/[0.08] p-3 max-w-[180px] lg:max-w-[210px] hover-lift">
-        <div className="flex items-center space-x-2 lg:space-x-3">
-          <div className="relative w-10 h-10 lg:w-12 lg:h-12 flex-shrink-0">
-            <Image
-              src="/products/icon-floraison.png"
-              alt="Gagner Plus"
-              fill
-              className="object-contain"
-            />
-          </div>
-          <div>
-            <div className="font-semibold text-sm text-white">Gagner Plus</div>
-            <div className="text-xs text-emerald-400">Revenus augmentés</div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-[#f7fdf8] dark:bg-[#060d07]">
+    <section className="relative overflow-hidden bg-white dark:bg-[#060d07]">
       {/* Grain texture (classe CSS ::after — pas d’inline style) */}
       <div aria-hidden="true" className="brand-grain pointer-events-none absolute inset-0 z-0" />
 
@@ -129,9 +89,6 @@ export default function Hero() {
                 <HeroShowcase />
               </Suspense>
             </div>
-
-            {/* Floating Cards */}
-            <FloatingCards />
           </div>
         </div>
       </div>
