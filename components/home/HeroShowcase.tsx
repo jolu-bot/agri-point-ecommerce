@@ -25,7 +25,7 @@ export default function HeroShowcase() {
           images={PRODUCT_IMAGES}
           alt="Produit Agri Point"
           objectFit="contain"
-          variant="dark"
+          variant="light"
           interval={3000}
         />
       </div>

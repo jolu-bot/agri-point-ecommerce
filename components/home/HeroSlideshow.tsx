@@ -44,9 +44,7 @@ export default function HeroSlideshow({
 
   return (
     <div
-      className={`relative w-full h-full overflow-hidden ${
-        variant === 'dark' ? 'bg-[#0d1a0e]' : ''
-      } ${className}`}
+      className={`relative w-full h-full overflow-hidden bg-white ${className}`}
     >
       <AnimatePresence mode="wait">
         <motion.div
