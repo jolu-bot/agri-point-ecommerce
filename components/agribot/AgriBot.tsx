@@ -600,16 +600,20 @@ export default function AgriBot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 14, scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className={`${chatClass} bg-white dark:bg-gray-900 shadow-2xl shadow-gray-900/25 flex flex-col overflow-hidden border border-gray-100 dark:border-gray-800`}
+            className={`${chatClass} bg-white dark:bg-gray-900 shadow-[0_24px_80px_-12px_rgba(22,101,52,0.22),0_8px_24px_-4px_rgba(0,0,0,0.12)] flex flex-col overflow-hidden border border-green-100/60 dark:border-gray-800`}
           >
             {/* HEADER */}
-            <div className="bg-gradient-to-r from-green-700 via-green-600 to-emerald-600 text-white px-4 py-3 flex items-center gap-3 shrink-0">
-              <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-xl shrink-0">🌱</div>
-              <div className="flex-1 min-w-0">
-                <div className="font-semibold text-sm leading-tight">AgriBot</div>
-                <div className="text-[11px] text-green-100 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-green-300 rounded-full inline-block animate-pulse" />
-                  Conseiller IA · AGRI POINT SERVICE
+            <div className="bg-gradient-to-br from-green-800 via-green-700 to-emerald-600 text-white px-4 py-3 flex items-center gap-3 shrink-0 relative overflow-hidden">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.08)_0%,transparent_60%)]" />
+              <div className="relative w-11 h-11 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shrink-0 ring-2 ring-white/30 shadow-lg">
+                <span className="text-xl">🌿</span>
+                <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-green-800 animate-pulse" />
+              </div>
+              <div className="flex-1 min-w-0 relative">
+                <div className="font-bold text-sm leading-tight tracking-wide">AgriBot</div>
+                <div className="text-[11px] text-green-100/90 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 bg-emerald-300 rounded-full inline-block animate-pulse" />
+                  Expert Agricole IA · 15 ans Cameroun
                 </div>
               </div>
               <div className="flex items-center gap-1">
@@ -647,7 +651,7 @@ export default function AgriBot() {
                   <div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 ${
                     msg.role === 'user'
                       ? 'bg-gradient-to-br from-green-600 to-emerald-700 text-white rounded-br-sm shadow-sm'
-                      : 'bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-bl-sm border border-gray-100 dark:border-gray-700'
+                      : 'bg-white dark:bg-gray-800/90 text-gray-900 dark:text-gray-100 rounded-bl-sm border border-gray-100/80 dark:border-gray-700 shadow-sm'
                   }`}>
                     {msg.toolStatus && (
                       <div className="flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 mb-1.5 font-medium">
@@ -720,7 +724,7 @@ export default function AgriBot() {
                 <motion.button
                   initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }}
                   onClick={() => scrollToBottom(true)}
-                  className="absolute bottom-[7.5rem] right-4 w-8 h-8 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full shadow-md flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors z-10"
+                  className="absolute bottom-[7.5rem] right-4 w-9 h-9 bg-white dark:bg-gray-800 border border-green-200 dark:border-green-800 rounded-full shadow-lg shadow-green-900/10 flex items-center justify-center text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/30 hover:scale-110 transition-all z-10"
                   aria-label="Défiler vers le bas"
                 >
                   <ChevronDown className="w-4 h-4" />
@@ -742,7 +746,7 @@ export default function AgriBot() {
                     }
                   }}
                     disabled={isStreaming}
-                    className="text-[11px] px-2.5 py-1 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded-full hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors disabled:opacity-40 border border-green-200 dark:border-green-800 whitespace-nowrap"
+                    className="text-[11px] px-3 py-1.5 bg-white dark:bg-gray-800 text-green-700 dark:text-green-400 rounded-full hover:bg-green-50 dark:hover:bg-green-900/40 hover:border-green-400 hover:shadow-sm transition-all disabled:opacity-40 border border-green-200 dark:border-green-700 whitespace-nowrap font-medium shadow-[0_1px_3px_rgba(0,0,0,0.06)] active:scale-95"
                   >
                     {s.label}
                   </button>
@@ -776,7 +780,7 @@ export default function AgriBot() {
                     placeholder="Votre question…"
                     disabled={isStreaming}
                     maxLength={500}
-                    className="w-full px-3.5 py-2.5 text-sm border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 disabled:opacity-50 transition-all outline-none"
+                    className="w-full px-3.5 py-2.5 text-sm border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-green-500/70 focus:border-green-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[13px] disabled:opacity-50 transition-all outline-none shadow-[inset_0_1px_3px_rgba(0,0,0,0.04)]"
                   />
                   {input.length > 300 && (
                     <span className={`absolute right-2 bottom-1.5 text-[10px] ${input.length > 480 ? 'text-red-500' : 'text-gray-400'}`}>
@@ -793,8 +797,10 @@ export default function AgriBot() {
                   {isStreaming ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 </button>
               </div>
-              <p className="text-[10px] text-gray-400 dark:text-gray-600 mt-1.5 text-center select-none">
-                AgriBot IA · AGRI POINT SERVICE · 📞 +237 657 39 39 39
+              <p className="text-[10px] text-gray-400 dark:text-gray-600 mt-1.5 text-center select-none flex items-center justify-center gap-1">
+                <span className="w-1 h-1 rounded-full bg-green-400 inline-block" />
+                AgriBot IA · AGRI POINT SERVICE · +237 657 39 39 39
+                <span className="w-1 h-1 rounded-full bg-green-400 inline-block" />
               </p>
             </div>
           </motion.div>
