@@ -9,7 +9,7 @@ import {
   ChevronDown, Sparkles, ShoppingCart, Leaf, AlertTriangle,
   UserCircle2, Package, Phone, Mail, TrendingUp, Map, Calendar,
   Settings, SaveAll, Download, History, MapPin, Share2, Trash2,
-  ChevronRight, BookOpen, Cpu, Volume2, VolumeX, ImageIcon,
+  ChevronRight, BookOpen, Cpu, Volume2, VolumeX, Image,
   ExternalLink, Globe,
 } from 'lucide-react';
 import {
@@ -1200,7 +1200,7 @@ export default function AgriBot() {
                   title="Envoyer une photo pour diagnostic"
                   aria-label="Diagnostic photo"
                 >
-                  <ImageIcon className="w-4 h-4" />
+                  <Image className="w-4 h-4" />
                 </button>
                 <div className="flex-1 relative">
                   <input
