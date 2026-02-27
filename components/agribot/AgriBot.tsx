@@ -9,7 +9,8 @@ import {
   ChevronDown, Sparkles, ShoppingCart, Leaf, AlertTriangle,
   UserCircle2, Package, Phone, Mail, TrendingUp, Map, Calendar,
   Settings, SaveAll, Download, History, MapPin, Share2, Trash2,
-  ChevronRight, BookOpen, Cpu,
+  ChevronRight, BookOpen, Cpu, Volume2, VolumeX, ImageIcon,
+  ExternalLink, Globe,
 } from 'lucide-react';
 import {
   type UserMemory,
@@ -23,6 +24,10 @@ import {
   exportConversationTxt,
   shareOnWhatsApp,
 } from '@/lib/agribot-memory';
+import {
+  extractProductsFromText,
+  getSeasonalGreeting,
+} from '@/lib/agribot-calendar';
 
 // ═══════════════════════════════════════════════════════════════════
 // TYPES
@@ -388,6 +393,18 @@ export default function AgriBot() {
     useCallback((text: string) => setInput(prev => prev + text), [])
   );
 
+  // ─── TTS — Synthèse vocale ───
+  const [ttsEnabled, setTtsEnabled]               = useState(false);
+
+  // ─── Photo — Diagnostic maladie ───
+  const [imageFile, setImageFile]                 = useState<File | null>(null);
+  const [imagePreview, setImagePreview]           = useState<string | null>(null);
+  const [isAnalyzing, setIsAnalyzing]             = useState(false);
+  const imageInputRef                             = useRef<HTMLInputElement>(null);
+
+  // ─── Suggestion saisonnière ───
+  const [seasonalBanner, setSeasonalBanner]       = useState<string | null>(null);
+
   // ─── Scroll ───
   const scrollToBottom = useCallback((force = false) => {
     if (force) { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); return; }
@@ -436,6 +453,49 @@ export default function AgriBot() {
     setToastMsg(msg);
     setTimeout(() => setToastMsg(null), 3000);
   }, []);
+
+  // ─── TTS — Lire un message à voix haute ───
+  const speakText = useCallback((text: string) => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(
+      text.replace(/<[^>]+>/g, '').replace(/<!--.*?-->/gs, '').slice(0, 400)
+    );
+    utterance.lang = 'fr-FR';
+    utterance.rate = 0.92;
+    utterance.pitch = 1;
+    window.speechSynthesis.speak(utterance);
+  }, []);
+
+  // ─── MongoDB Memory Sync (debounced 3s) ───
+  useEffect(() => {
+    if (!userMemory.location && !userMemory.mainCrops?.length) return;
+    const timer = setTimeout(() => {
+      fetch('/api/agribot/memory', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          location: userMemory.location,
+          region: userMemory.region,
+          mainCrops: userMemory.mainCrops,
+          surface: userMemory.surface,
+          farmType: userMemory.farmType,
+          keyFacts: userMemory.keyFacts?.slice(0, 8),
+        }),
+      }).catch(() => {/* fire and forget */});
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [userMemory.location, userMemory.region, userMemory.mainCrops, sessionId, userMemory.surface, userMemory.farmType, userMemory.keyFacts]);
+
+  // ─── Bannière saisonnière — affiché à l'ouverture si localisation connue ───
+  useEffect(() => {
+    if (!isOpen) return;
+    if (!userMemory.location && !userMemory.mainCrops?.length) return;
+    const greeting = getSeasonalGreeting(userMemory.region, userMemory.mainCrops);
+    if (greeting) setSeasonalBanner(greeting);
+    else setSeasonalBanner(null);
+  }, [isOpen, userMemory.location, userMemory.region, userMemory.mainCrops]);
 
   // ─── Sauvegarder la conversation courante ───
   const saveCurrentConversation = useCallback(() => {
@@ -536,6 +596,56 @@ export default function AgriBot() {
     } catch { /* fire-and-forget */ }
   }, [messages, sessionId]);
 
+  // ─── Diagnostic photo de maladie (GPT-4o Vision) ───
+  const handleAnalyzeImage = useCallback(async () => {
+    if (!imageFile || isAnalyzing) return;
+    setIsAnalyzing(true);
+    const userMsg: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: `📷 **Diagnostic photo** — ${imageFile.name}`,
+      timestamp: new Date(),
+      intent: 'culture',
+    };
+    const assistantId = (Date.now() + 1).toString();
+    const assistantMsg: Message = {
+      id: assistantId,
+      role: 'assistant',
+      content: '',
+      timestamp: new Date(),
+      isStreaming: true,
+      toolStatus: '🔍 Analyse de la photo en cours…',
+    };
+    setMessages(prev => [...prev, userMsg, assistantMsg]);
+    setImageFile(null);
+    setImagePreview(null);
+
+    try {
+      const formData = new FormData();
+      formData.append('image', imageFile);
+      formData.append('context', `Diagnostic de ma culture${userMemory.mainCrops?.length ? ' (' + userMemory.mainCrops.join(', ') + ')' : ''}`);
+      formData.append('memory', JSON.stringify({
+        location: userMemory.location,
+        mainCrops: userMemory.mainCrops,
+      }));
+      const res = await fetch('/api/agribot/analyze', { method: 'POST', body: formData });
+      const data = await res.json() as { diagnosis?: string; error?: string; fallback?: boolean };
+      const content = data.diagnosis
+        || data.error
+        || '⚠️ Analyse impossible.\n\nVérifiez que votre image est claire et bien cadrée, puis réessayez.';
+      setMessages(prev => prev.map(m =>
+        m.id === assistantId ? { ...m, content, isStreaming: false, toolStatus: undefined, intent: 'culture' } : m
+      ));
+      if (ttsEnabled && data.diagnosis) speakText(data.diagnosis);
+    } catch {
+      setMessages(prev => prev.map(m =>
+        m.id === assistantId ? { ...m, content: '⚠️ Erreur réseau. Réessayez.', isStreaming: false, toolStatus: undefined } : m
+      ));
+    } finally {
+      setIsAnalyzing(false);
+    }
+  }, [imageFile, isAnalyzing, userMemory.location, userMemory.mainCrops, ttsEnabled, speakText]);
+
   // ─── Envoi + streaming SSE ───
   const handleSend = useCallback(async (text?: string) => {
     const messageText = (text || input).trim();
@@ -603,11 +713,19 @@ export default function AgriBot() {
                 m.id === assistantId ? { ...m, toolStatus: ev.message } : m
               ));
             } else if (ev.type === 'done') {
-              setMessages(prev => prev.map(m =>
-                m.id === assistantId
-                  ? { ...m, isStreaming: false, toolStatus: undefined, intent: ev.intent, suggestions: ev.suggestions || [], escalated: ev.escalate }
-                  : m
-              ));
+              setMessages(prev => {
+                const updated = prev.map(m =>
+                  m.id === assistantId
+                    ? { ...m, isStreaming: false, toolStatus: undefined, intent: ev.intent, suggestions: ev.suggestions || [], escalated: ev.escalate }
+                    : m
+                );
+                // TTS: lire la réponse complète
+                if (ttsEnabled) {
+                  const finalMsg = updated.find(m => m.id === assistantId);
+                  if (finalMsg?.content) speakText(finalMsg.content);
+                }
+                return updated;
+              });
               if (!isOpen) setUnreadCount(n => n + 1);
             } else if (ev.type === 'error') {
               setMessages(prev => prev.map(m =>
@@ -628,7 +746,7 @@ export default function AgriBot() {
     } finally {
       setIsStreaming(false);
     }
-  }, [input, isStreaming, messages, sessionId, isOpen]);
+  }, [input, isStreaming, messages, sessionId, isOpen, ttsEnabled, speakText]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
@@ -796,6 +914,18 @@ export default function AgriBot() {
                           <span className="text-green-600 dark:text-green-400">{icon}</span>{label}
                         </button>
                       ))}
+                      {/* Toggle TTS */}
+                      <button
+                        onClick={() => { setTtsEnabled(v => !v); showToast(ttsEnabled ? '🔇 Voix désactivée' : '🔊 Voix activée'); setShowOptionsMenu(false); }}
+                        className="flex items-center gap-2 px-3 py-2.5 text-[12px] font-medium bg-white dark:bg-gray-900 hover:bg-green-50 dark:hover:bg-green-900/30 transition-colors col-span-2 border-t border-gray-100 dark:border-gray-800"
+                      >
+                        <span className={`text-green-600 dark:text-green-400`}>
+                          {ttsEnabled ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+                        </span>
+                        <span className={ttsEnabled ? 'text-green-700 dark:text-green-400 font-semibold' : 'text-gray-700 dark:text-gray-200'}>
+                          {ttsEnabled ? '🔊 Voix activée — cliquer pour désactiver' : '🔇 Activer la voix (TTS)'}
+                        </span>
+                      </button>
                     </div>
                   </motion.div>
                 )}
@@ -845,6 +975,29 @@ export default function AgriBot() {
 
             {/* MESSAGES */}
             <div ref={messagesListRef} onScroll={handleScroll} className="flex-1 overflow-y-auto px-3 py-3 space-y-3 scroll-smooth">
+
+              {/* Bannière saisonnière */}
+              <AnimatePresence>
+                {seasonalBanner && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    className="rounded-xl bg-gradient-to-r from-amber-50 to-green-50 dark:from-amber-900/20 dark:to-green-900/20 border border-amber-200 dark:border-amber-800 px-3 py-2.5"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="text-[11px] text-amber-800 dark:text-amber-300 leading-relaxed">
+                        <MarkdownMessage content={seasonalBanner} />
+                      </div>
+                      <button
+                        onClick={() => setSeasonalBanner(null)}
+                        className="shrink-0 text-amber-400 hover:text-amber-600 mt-0.5"
+                        aria-label="Fermer"
+                      ><X className="w-3 h-3" /></button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex flex-col gap-1 ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
 
@@ -873,6 +1026,12 @@ export default function AgriBot() {
                   {msg.role === 'assistant' && !msg.isStreaming && msg.content.length > 20 && (
                     <div className="flex items-center gap-1.5 ml-1 flex-wrap">
                       {msg.intent && <IntentBadge intent={msg.intent} />}
+                      {/* Badge langue (EN/Pidgin détecté) */}
+                      {msg.role === 'assistant' && /\b(the|and|for|you|your|with|this|that|have|from|will|can|please|thank)\b/i.test(msg.content.replace(/<[^>]+>/g, '')) && (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
+                          <Globe className="w-2.5 h-2.5" />EN
+                        </span>
+                      )}
                       <button
                         onClick={() => sendFeedback(msg.id, 'positive')}
                         className={`w-6 h-6 rounded-full flex items-center justify-center transition-all ${msg.feedback === 'positive' ? 'bg-green-100 text-green-600' : 'text-gray-400 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-900/30'}`}
@@ -884,8 +1043,38 @@ export default function AgriBot() {
                         title="Pas utile" aria-label="Marquer comme inutile"
                       ><ThumbsDown className="w-3 h-3" /></button>
                       <CopyButton text={msg.content} />
+                      {/* Bouton TTS par message */}
+                      {typeof window !== 'undefined' && 'speechSynthesis' in window && (
+                        <button
+                          onClick={() => speakText(msg.content)}
+                          className="w-6 h-6 rounded-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-900/30 transition-all"
+                          title="Écouter ce message"
+                          aria-label="Écouter ce message"
+                        ><Volume2 className="w-3 h-3" /></button>
+                      )}
                     </div>
                   )}
+
+                  {/* Boutons "Acheter →" pour les produits mentionnés */}
+                  {msg.role === 'assistant' && !msg.isStreaming && msg.content.length > 20 && (() => {
+                    const prods = extractProductsFromText(msg.content);
+                    if (!prods.length) return null;
+                    return (
+                      <div className="flex flex-wrap gap-1.5 ml-1 mt-1">
+                        {prods.map(p => (
+                          <a
+                            key={p.slug}
+                            href={`/produits?search=${encodeURIComponent(p.name)}`}
+                            className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-600 hover:bg-green-700 text-white text-[11px] font-semibold rounded-lg shadow-sm transition-all active:scale-95"
+                          >
+                            <ShoppingCart className="w-2.5 h-2.5" />
+                            {p.name}
+                            <ExternalLink className="w-2 h-2 opacity-70" />
+                          </a>
+                        ))}
+                      </div>
+                    );
+                  })()}
 
                   {/* Escalade humaine — intent urgence OU signal API */}
                   {msg.role === 'assistant' && !msg.isStreaming && (msg.intent === 'urgence' || msg.escalated) && (
@@ -957,6 +1146,39 @@ export default function AgriBot() {
 
             {/* INPUT */}
             <div className="border-t border-gray-100 dark:border-gray-800 px-3 py-3 shrink-0">
+              {/* Prévisualisation image sélectionnée */}
+              <AnimatePresence>
+                {imagePreview && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mb-2 flex items-center gap-2 p-2 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={imagePreview} alt="Preview" className="w-12 h-12 rounded-lg object-cover border border-green-200 shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[11px] font-medium text-green-800 dark:text-green-300 truncate">{imageFile?.name}</p>
+                      <p className="text-[10px] text-green-600 dark:text-green-500">Photo prête pour diagnostic IA</p>
+                    </div>
+                    <div className="flex gap-1.5 shrink-0">
+                      <button
+                        onClick={handleAnalyzeImage}
+                        disabled={isAnalyzing}
+                        className="px-2.5 py-1.5 bg-green-600 hover:bg-green-700 text-white text-[11px] font-semibold rounded-lg flex items-center gap-1 transition-all disabled:opacity-50"
+                      >
+                        {isAnalyzing ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+                        Analyser
+                      </button>
+                      <button
+                        onClick={() => { setImageFile(null); setImagePreview(null); }}
+                        className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all"
+                        aria-label="Supprimer la photo"
+                      ><X className="w-3.5 h-3.5" /></button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
               <div className="flex items-end gap-2">
                 {voiceSupported && (
                   <button
@@ -971,6 +1193,15 @@ export default function AgriBot() {
                     {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
                   </button>
                 )}
+                {/* Bouton upload photo */}
+                <button
+                  onClick={() => imageInputRef.current?.click()}
+                  className="w-9 h-9 rounded-xl flex items-center justify-center transition-all shrink-0 bg-gray-100 dark:bg-gray-800 text-gray-500 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-600 dark:hover:text-green-400"
+                  title="Envoyer une photo pour diagnostic"
+                  aria-label="Diagnostic photo"
+                >
+                  <ImageIcon className="w-4 h-4" />
+                </button>
                 <div className="flex-1 relative">
                   <input
                     ref={inputRef}
@@ -1007,6 +1238,27 @@ export default function AgriBot() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* ══ INPUT FICHIER CACHÉ (photo diagnostic) ══ */}
+      <input
+        ref={imageInputRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        aria-label="Sélectionner une photo pour diagnostic"
+        title="Sélectionner une photo de plante pour diagnostic"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+          if (file.size > 5 * 1024 * 1024) { showToast('⚠️ Image trop grande (max 5 Mo)'); return; }
+          setImageFile(file);
+          const reader = new FileReader();
+          reader.onload = (ev) => setImagePreview(ev.target?.result as string);
+          reader.readAsDataURL(file);
+          // Reset pour permettre re-sélection du même fichier
+          e.target.value = '';
+        }}
+      />
 
       {/* ══ MODAL LOCALISATION ══ */}
       <AnimatePresence>

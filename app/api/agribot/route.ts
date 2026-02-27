@@ -261,7 +261,7 @@ const KNOWLEDGE_BASE = `
 
 #### Comment suivre ma commande ?
 - **Option 1** : Se connecter → "Mon Compte" → "Mes Commandes"
-- **Option 2** : Demander à AgriBot le statut avec votre numéro de commande
+- **Option 2** : Demander à l'Assistant le statut avec votre numéro de commande
 - **Option 3** : Appeler le +237 657 39 39 39 avec votre numéro de commande
 - **États commande** : En attente → Confirmée → En préparation → Expédiée → Livrée
 
@@ -969,7 +969,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
 → Se connecter → "Mon Compte" → "Mes Commandes"
 → Voir statut en temps réel
 
-**Option 2** — Via AgriBot (ici même !)
+**Option 2** — Via l'Assistant Agri Point (ici même !)
 → Donner votre numéro de commande AP-XXXX-XXXXX
 
 **Option 3** — Par téléphone
@@ -1094,7 +1094,7 @@ Vous souhaitez revendre nos produits dans votre zone ?
       };
       const label  = reasonMap[args.reason] ?? reasonMap.autre;
       const ctx    = args.summary ? `\n\n📝 Contexte transmis au conseiller :\n_${args.summary}_` : '';
-      const waText = encodeURIComponent(`Bonjour, je suis mis en relation par AgriBot.\nMotif : ${label}${args.summary ? '\n' + args.summary : ''}`);
+      const waText = encodeURIComponent(`Bonjour, je suis mis en relation par l'Assistant Agri Point Services.\nMotif : ${label}${args.summary ? '\n' + args.summary : ''}`);
       return `## 👨‍💼 Passage à un conseiller humain\n\n**Motif :** ${label}${ctx}\n\nUn agronome AGRI POINT SERVICE va prendre en charge votre demande :\n\n- 💬 [**WhatsApp maintenant**](https://wa.me/237657393939?text=${waText}) — réponse rapide\n- 📞 [**+237 657 39 39 39**](tel:+237657393939) — lun-sam 7h-19h\n- ✉️ infos@agri-ps.com\n\nPrésentez votre numéro de commande si vous en avez un. Notre équipe vous répondra dans les meilleurs délais 🌱`;
     }
 
@@ -2768,9 +2768,9 @@ Dites-moi votre **situation** (surface, culture, objectif) et je vous guide vers
   }
 
   // ── RÉPONSE PAR DÉFAUT — Accueil + Guidance ───────────────────────
-  return { intent: 'conseil', demo: `## Bonjour ! Je suis **AgriBot** 🌱
+  return { intent: 'conseil', demo: `## Bonjour ! Je suis **l'Assistant d'Agri Point Services** 🌿
 
-Votre conseiller expert AGRI POINT SERVICE — **15 ans d'expertise agricole** au Cameroun.
+Votre conseiller expert AGRI POINT — **15 ans d'expertise agricole** au Cameroun.
 
 ### 🎯 Je peux vous aider sur :
 
