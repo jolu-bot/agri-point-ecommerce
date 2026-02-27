@@ -8,7 +8,21 @@ import {
   Loader2, Copy, Check, Maximize2, Minimize2, Mic, MicOff,
   ChevronDown, Sparkles, ShoppingCart, Leaf, AlertTriangle,
   UserCircle2, Package, Phone, Mail, TrendingUp, Map, Calendar,
+  Settings, SaveAll, Download, History, MapPin, Share2, Trash2,
+  ChevronRight, BookOpen, Cpu,
 } from 'lucide-react';
+import {
+  type UserMemory,
+  type SavedConversation,
+  loadMemory,
+  saveMemory,
+  extractFactsFromMessages,
+  loadSavedConversations,
+  saveConversation,
+  deleteSavedConversation,
+  exportConversationTxt,
+  shareOnWhatsApp,
+} from '@/lib/agribot-memory';
 
 // ═══════════════════════════════════════════════════════════════════
 // TYPES
@@ -157,7 +171,7 @@ function CopyButton({ text }: { text: string }) {
 // ═══════════════════════════════════════════════════════════════════
 function EscalationCard({ context }: { context: string }) {
   const summary = encodeURIComponent(
-    `Bonjour, j'ai besoin d'aide après ma conversation avec AgriBot.\n\nSujet : ${context.replace(/<[^>]+>/g, '').slice(0, 200)}`
+    `Bonjour, j'ai besoin d'aide après ma conversation avec l'Assistant d'Agri Point Services.\n\nSujet : ${context.replace(/<[^>]+>/g, '').slice(0, 200)}`
   );
   const waUrl = `https://wa.me/237657393939?text=${summary}`;
 
@@ -280,18 +294,18 @@ const DEFAULT_SUGGESTIONS: { label: string; text: string; intent: Intent }[] = [
 // ═══════════════════════════════════════════════════════════════════
 function getWelcomeMessage(path: string | null): string {
   if (path?.includes('campagne')) {
-    return 'Bienvenue sur la **Campagne Engrais Mars 2026** 🌾\n\nJe suis AgriBot, votre conseiller AGRI POINT SERVICE. Je vois que vous consultez notre offre spéciale.\n\nJe peux :\n- ✅ **Vérifier votre éligibilité** en 3 questions (bouton ci-dessous)\n- 📝 **Guider le formulaire** champ par champ\n- 💳 Expliquer le **paiement 70/30**\n\nComment puis-je vous aider ?';
+    return 'Bienvenue sur la **Campagne Engrais Mars 2026** 🌾\n\nJe suis **l\'Assistant d\'Agri Point Services** — votre conseiller expert 24h/24. Je vois que vous consultez notre offre spéciale.\n\nJe peux :\n- ✅ **Vérifier votre éligibilité** en 3 questions\n- 📝 **Guider le formulaire** champ par champ\n- 💳 Expliquer le **paiement 70/30**\n\nUn Conseiller Expert Agri Point peut aussi intervenir si besoin.\n\nComment puis-je vous aider ?';
   }
   if (path?.includes('produits')) {
-    return 'Bonjour ! Je suis **AgriBot** 🌱\n\nVous explorez notre catalogue de biofertilisants.\n\nDites-moi votre **type de culture** et je vous recommande les produits les plus adaptés avec les doses exactes !\n\n🌿 Tomate, cacao, café, maïs, agrumes... Quelle est votre culture ?';
+    return 'Bonjour ! Je suis **l\'Assistant d\'Agri Point Services** 🌿\n\nVous explorez notre catalogue de biofertilisants.\n\nDites-moi votre **type de culture** et je vous recommande les produits les plus adaptés avec les doses exactes !\n\n🌱 Tomate, cacao, café, maïs, agrumes… Quelle est votre culture ?';
   }
   if (path?.includes('checkout') || path?.includes('panier')) {
-    return 'Bonjour ! Je suis **AgriBot** 🛒\n\nVous êtes en cours de commande. Besoin d\'aide avec les **modes de paiement**, les **délais de livraison** ou une question sur votre commande ?';
+    return 'Bonjour ! Je suis **l\'Assistant d\'Agri Point Services** 🛒\n\nVous êtes en cours de commande. Besoin d\'aide avec les **modes de paiement**, les **délais de livraison** ou une question sur votre commande ?';
   }
   if (path?.includes('contact')) {
-    return 'Bonjour ! Je suis **AgriBot** 📞\n\nVous êtes sur la page Contact. Je peux vous orienter vers le bon département :\n- 🤝 **Service Client** — commandes et livraisons\n- 🌾 **Conseil Agricole** — recommandations techniques\n- 🤝 **Partenariats** — devenir distributeur\n\nQuelle est votre demande ?';
+    return 'Bonjour ! Je suis **l\'Assistant d\'Agri Point Services** 📞\n\nVous êtes sur la page Contact. Je peux vous orienter vers le bon département :\n- 🤝 **Service Client** — commandes et livraisons\n- 🌾 **Conseil Agricole** — recommandations techniques\n- 🤝 **Partenariats** — devenir distributeur\n\nQuelle est votre demande ?';
   }
-  return 'Bonjour ! Je suis **AgriBot** 🌱, votre conseiller expert d\'AGRI POINT SERVICE.\n\nJe peux vous aider à :\n- 🌱 **Conseils cultures** : tomate, cacao, café, maïs, agrumes…\n- 💰 Calculer votre **ROI** avec nos produits\n- 🌾 La **Campagne Mars 2026** — prix spéciaux\n- 🛒 **Commander** et suivre vos livraisons\n\nComment puis-je vous aider aujourd\'hui ?';
+  return 'Bonjour ! Je suis **l\'Assistant d\'Agri Point Services** 🌿 — votre conseiller agricole expert 24h/24.\n\nJe peux vous aider à :\n- 🌱 **Conseils cultures** : tomate, cacao, café, maïs, agrumes…\n- 💰 Calculer votre **ROI** avec nos produits\n- 🌾 La **Campagne Mars 2026** — prix spéciaux\n- 🛒 **Commander** et suivre vos livraisons\n\n💡 *Un Conseiller Expert Agri Point peut également intervenir à tout moment.*\n\nComment puis-je vous aider aujourd\'hui ?';
 }
 
 
@@ -340,6 +354,16 @@ export default function AgriBot() {
   const [sessionId]                              = useState(() =>
     typeof crypto !== 'undefined' ? crypto.randomUUID() : Math.random().toString(36).slice(2)
   );
+
+  // ─── Mémoire & localisation ───
+  const [userMemory, setUserMemory]              = useState<UserMemory>(() => loadMemory('tmp'));
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const [showOptionsMenu, setShowOptionsMenu]    = useState(false);
+  const [showHistoryPanel, setShowHistoryPanel]  = useState(false);
+  const [savedConversations, setSavedConversations] = useState<SavedConversation[]>([]);
+  const [toastMsg, setToastMsg]                  = useState<string | null>(null);
+
+  // ─── Messages ───
   const [messages, setMessages] = useState<Message[]>(() => [{
     id: '0',
     role: 'assistant',
@@ -387,6 +411,73 @@ export default function AgriBot() {
     return () => document.removeEventListener('keydown', fn);
   }, [isOpen]);
 
+  // ─── Chargement mémoire depuis localStorage (sessionId stable) ───
+  useEffect(() => {
+    const mem = loadMemory(sessionId);
+    setUserMemory({ ...mem, sessionId });
+    setSavedConversations(loadSavedConversations());
+  }, [sessionId]);
+
+  // ─── Apprentissage : extraction de faits après chaque échange ───
+  useEffect(() => {
+    if (messages.length < 2) return;
+    const lastTwo = messages.slice(-2);
+    const updates = extractFactsFromMessages(lastTwo, userMemory);
+    if (Object.keys(updates).length > 0) {
+      const updated: UserMemory = { ...userMemory, sessionId, ...updates };
+      setUserMemory(updated);
+      saveMemory(updated);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages]);
+
+  // ─── Toast helper ───
+  const showToast = useCallback((msg: string) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(null), 3000);
+  }, []);
+
+  // ─── Sauvegarder la conversation courante ───
+  const saveCurrentConversation = useCallback(() => {
+    if (messages.length < 2) { showToast('Aucun message à sauvegarder.'); return; }
+    saveConversation(messages as Parameters<typeof saveConversation>[0], userMemory);
+    setSavedConversations(loadSavedConversations());
+    showToast('✅ Conversation sauvegardée !');
+  }, [messages, userMemory, showToast]);
+
+  // ─── Charger une conversation sauvegardée ───
+  const loadConversation = useCallback((conv: SavedConversation) => {
+    setMessages(conv.messages.map(m => ({
+      ...m,
+      timestamp: new Date(m.timestamp),
+      id: m.timestamp,
+    })));
+    if (conv.userMemory) {
+      const merged = { ...userMemory, ...conv.userMemory };
+      setUserMemory(merged);
+      saveMemory(merged);
+    }
+    setShowHistoryPanel(false);
+    showToast('📂 Conversation chargée');
+  }, [userMemory, showToast]);
+
+  // ─── Supprimer une conversation sauvegardée ───
+  const deleteConversation = useCallback((id: string) => {
+    deleteSavedConversation(id);
+    setSavedConversations(loadSavedConversations());
+    showToast('🗑️ Supprimée');
+  }, [showToast]);
+
+  // ─── Copier toute la conversation ───
+  const copyAllMessages = useCallback(async () => {
+    const text = messages
+      .filter(m => m.content?.trim())
+      .map(m => `[${m.role === 'user' ? 'Vous' : 'Assistant Agri Point'}]\n${m.content.replace(/<[^>]+>/g, '').trim()}`)
+      .join('\n\n---\n\n');
+    await navigator.clipboard.writeText(text);
+    showToast('✅ Conversation copiée !');
+  }, [messages, showToast]);
+
   // ─── Ouverture proactive sur pages clés (après 8 secondes) ───
   useEffect(() => {
     if (hasAutoOpened || isOpen) return;
@@ -397,8 +488,8 @@ export default function AgriBot() {
       setMessages(prev => prev.map((m, i) => i !== 0 ? m : {
         ...m,
         content: isCampaignPage
-          ? `👋 Bonjour ! Je suis **AgriBot** 🌾\n\nJe vois que vous consultez la **Campagne Engrais Mars 2026**.\n\nVoulez-vous que je **vérifie votre éligibilité** maintenant en 3 questions ? Ou besoin d'aide pour remplir le formulaire ?`
-          : `👋 Bonjour ! Je suis **AgriBot** 🌱\n\nVous parcourez notre catalogue de biofertilisants.\n\nDites-moi votre **culture** et je vous recommande les produits les plus adaptés avec les doses exactes !`,
+          ? `👋 Bonjour ! Je suis **l'Assistant d'Agri Point Services** 🌾\n\nJe vois que vous consultez la **Campagne Engrais Mars 2026**.\n\nVoulez-vous que je **vérifie votre éligibilité** maintenant en 3 questions ? Ou besoin d'aide pour remplir le formulaire ?`
+          : `👋 Bonjour ! Je suis **l'Assistant d'Agri Point Services** 🌿\n\nVous parcourez notre catalogue de biofertilisants.\n\nDites-moi votre **culture** et je vous recommande les produits les plus adaptés avec les doses exactes !`,
       }));
     }, 8000);
     return () => clearTimeout(timer);
@@ -409,10 +500,10 @@ export default function AgriBot() {
   const sendEmailSummary = useCallback(() => {
     const lines = messages
       .filter(m => m.content.length > 5)
-      .map(m => `[${m.role === 'user' ? 'Vous' : 'AgriBot'}]\n${m.content.replace(/<[^>]+>/g, '').replace(/<!--.*?-->/gs, '').slice(0, 600)}`)
+      .map(m => `[${m.role === 'user' ? 'Vous' : 'Assistant Agri Point'}]\n${m.content.replace(/<[^>]+>/g, '').replace(/<!--.*?-->/gs, '').slice(0, 600)}`)
       .join('\n\n--------------------\n\n');
-    const subject = encodeURIComponent('Mon résumé AgriBot — AGRI POINT SERVICE');
-    const body    = encodeURIComponent(`Résumé de ma conversation AgriBot :\n\n${lines}\n\n--------------------\nAGRI POINT SERVICE | https://agri-ps.com | +237 657 39 39 39`);
+    const subject = encodeURIComponent('Mon résumé — Assistant Agri Point Services');
+    const body    = encodeURIComponent(`Résumé de ma conversation avec l'Assistant Agri Point Services :\n\n${lines}\n\n--------------------\nAGRI POINT SERVICES | https://agri-ps.com | +237 657 39 39 39`);
     window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
   }, [messages]);
 
@@ -472,6 +563,14 @@ export default function AgriBot() {
           history: messages.slice(-10).map(m => ({ role: m.role, content: m.content })),
           sessionId,
           metadata: { page: typeof window !== 'undefined' ? window.location.pathname : '/' },
+          userMemory: {
+            location: userMemory.location,
+            region: userMemory.region,
+            mainCrops: userMemory.mainCrops,
+            surface: userMemory.surface,
+            farmType: userMemory.farmType,
+            keyFacts: userMemory.keyFacts?.slice(0, 5),
+          },
         }),
       });
 
@@ -566,7 +665,7 @@ export default function AgriBot() {
         transition={{ delay: 1.2, type: 'spring', stiffness: 280, damping: 22 }}
         onClick={() => setIsOpen(o => !o)}
         className={`fixed bottom-6 right-4 sm:right-6 z-50 w-[58px] h-[58px] bg-gradient-to-br from-green-600 via-green-700 to-emerald-800 text-white rounded-full shadow-2xl shadow-green-900/30 hover:scale-105 active:scale-95 transition-transform flex items-center justify-center${isPulsingPage && !isOpen ? ' ring-4 ring-green-400/60 ring-offset-2' : ''}`}
-        aria-label="Ouvrir AgriBot"
+        aria-label="Ouvrir l'Assistant Agri Point Services"
       >
         {!isOpen && <span className="absolute inset-0 rounded-full bg-green-500 opacity-20 animate-ping" />}
         {isPulsingPage && !isOpen && (
@@ -603,43 +702,145 @@ export default function AgriBot() {
             className={`${chatClass} bg-white dark:bg-gray-900 shadow-[0_24px_80px_-12px_rgba(22,101,52,0.22),0_8px_24px_-4px_rgba(0,0,0,0.12)] flex flex-col overflow-hidden border border-green-100/60 dark:border-gray-800`}
           >
             {/* HEADER */}
-            <div className="bg-gradient-to-br from-green-800 via-green-700 to-emerald-600 text-white px-4 py-3 flex items-center gap-3 shrink-0 relative overflow-hidden">
+            <div className="bg-gradient-to-br from-green-800 via-green-700 to-emerald-600 text-white px-4 py-3 flex flex-col shrink-0 relative overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.08)_0%,transparent_60%)]" />
-              <div className="relative w-11 h-11 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shrink-0 ring-2 ring-white/30 shadow-lg">
-                <span className="text-xl">🌿</span>
-                <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-green-800 animate-pulse" />
-              </div>
-              <div className="flex-1 min-w-0 relative">
-                <div className="font-bold text-sm leading-tight tracking-wide">AgriBot</div>
-                <div className="text-[11px] text-green-100/90 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-emerald-300 rounded-full inline-block animate-pulse" />
-                  Expert Agricole IA · 15 ans Cameroun
+              <div className="flex items-center gap-3">
+                <div className="relative w-11 h-11 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shrink-0 ring-2 ring-white/30 shadow-lg">
+                  <span className="text-xl">🌿</span>
+                  <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-green-800 animate-pulse" />
+                </div>
+                <div className="flex-1 min-w-0 relative">
+                  <div className="font-bold text-[13px] leading-tight tracking-wide">Assistant Agri Point Services</div>
+                  <div className="text-[10px] text-green-100/90 flex items-center gap-1.5 flex-wrap">
+                    <span className="w-1.5 h-1.5 bg-emerald-300 rounded-full inline-block animate-pulse" />
+                    Expert Agricole IA · Cameroun
+                    {userMemory.location && (
+                      <span className="flex items-center gap-0.5 bg-white/10 rounded-full px-1.5 py-0.5 text-[10px]">
+                        <MapPin className="w-2 h-2" />{userMemory.location}
+                      </span>
+                    )}
+                    {userMemory.mainCrops?.length ? (
+                      <span className="flex items-center gap-0.5 bg-white/10 rounded-full px-1.5 py-0.5 text-[10px]">
+                        🌱 {userMemory.mainCrops.slice(0, 2).join(', ')}
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+                <div className="flex items-center gap-1">
+                  {/* Préciser localisation */}
+                  <button
+                    onClick={() => setShowLocationModal(true)}
+                    className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                    title="Ma localisation"
+                    aria-label="Définir ma localisation"
+                  >
+                    <MapPin className="w-3.5 h-3.5" />
+                  </button>
+                  {/* Options menu */}
+                  <button
+                    onClick={() => { setShowOptionsMenu(o => !o); setShowHistoryPanel(false); }}
+                    className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                    title="Options"
+                    aria-label="Options"
+                  >
+                    <Settings className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => setIsFullscreen(f => !f)}
+                    className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                    title={isFullscreen ? 'Réduire' : 'Plein écran'}
+                  >
+                    {isFullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+                  </button>
+                  <button
+                    onClick={resetChat}
+                    className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                    title="Nouvelle conversation"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={sendEmailSummary}
-                  className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                  title="Envoyer résumé par email"
-                  aria-label="Résumé par email"
-                >
-                  <Mail className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={() => setIsFullscreen(f => !f)}
-                  className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                  title={isFullscreen ? 'Réduire' : 'Plein écran'}
-                >
-                  {isFullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
-                </button>
-                <button
-                  onClick={resetChat}
-                  className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                  title="Nouvelle conversation"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                </button>
+
+              {/* Bannière "Conseiller expert peut intervenir" */}
+              <div className="mt-2 flex items-center gap-1.5 text-[10px] text-green-100/80 bg-white/5 rounded-lg px-2.5 py-1.5">
+                <UserCircle2 className="w-3 h-3 shrink-0 text-emerald-200" />
+                <span>Un Conseiller Expert Agri Point peut intervenir à tout moment</span>
+                <a href="https://wa.me/237657393939" target="_blank" rel="noopener noreferrer"
+                  className="ml-auto shrink-0 text-emerald-200 underline">WhatsApp</a>
               </div>
+
+              {/* Panneau OPTIONS (dropdown) */}
+              <AnimatePresence>
+                {showOptionsMenu && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -6, scale: 0.96 }}
+                    className="absolute top-full left-0 right-0 z-50 bg-white dark:bg-gray-900 border-b border-green-200 dark:border-gray-700 shadow-xl overflow-hidden"
+                  >
+                    <div className="grid grid-cols-2 gap-px bg-gray-100 dark:bg-gray-800 p-0.5">
+                      {[
+                        { icon: <SaveAll className="w-3.5 h-3.5" />, label: 'Sauvegarder', action: () => { saveCurrentConversation(); setShowOptionsMenu(false); } },
+                        { icon: <History className="w-3.5 h-3.5" />, label: 'Historique', action: () => { setShowHistoryPanel(h => !h); setShowOptionsMenu(false); } },
+                        { icon: <Download className="w-3.5 h-3.5" />, label: 'Exporter TXT', action: () => { exportConversationTxt(messages as Parameters<typeof exportConversationTxt>[0], userMemory); setShowOptionsMenu(false); } },
+                        { icon: <Copy className="w-3.5 h-3.5" />, label: 'Tout copier', action: () => { copyAllMessages(); setShowOptionsMenu(false); } },
+                        { icon: <Mail className="w-3.5 h-3.5" />, label: 'Par email', action: () => { sendEmailSummary(); setShowOptionsMenu(false); } },
+                        { icon: <Share2 className="w-3.5 h-3.5" />, label: 'WhatsApp', action: () => { shareOnWhatsApp(messages); setShowOptionsMenu(false); } },
+                      ].map(({ icon, label, action }) => (
+                        <button
+                          key={label}
+                          onClick={action}
+                          className="flex items-center gap-2 px-3 py-2.5 text-[12px] font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 hover:bg-green-50 dark:hover:bg-green-900/30 hover:text-green-700 dark:hover:text-green-400 transition-colors"
+                        >
+                          <span className="text-green-600 dark:text-green-400">{icon}</span>{label}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Panneau HISTORIQUE */}
+              <AnimatePresence>
+                {showHistoryPanel && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    className="absolute top-full left-0 right-0 z-50 bg-white dark:bg-gray-900 border-b border-green-200 dark:border-gray-700 shadow-xl max-h-64 overflow-y-auto"
+                  >
+                    <div className="p-2">
+                      <p className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 px-2 py-1 flex items-center gap-1.5">
+                        <BookOpen className="w-3 h-3" />Conversations sauvegardées ({savedConversations.length})
+                      </p>
+                      {savedConversations.length === 0 ? (
+                        <p className="px-3 py-4 text-[12px] text-gray-400 text-center">Aucune conversation sauvegardée</p>
+                      ) : savedConversations.map(conv => (
+                        <div key={conv.id} className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 group">
+                          <button
+                            onClick={() => loadConversation(conv)}
+                            className="flex-1 text-left min-w-0"
+                          >
+                            <p className="text-[12px] font-medium text-gray-800 dark:text-gray-200 truncate">{conv.title}</p>
+                            <p className="text-[10px] text-gray-400">
+                              {new Date(conv.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                              {conv.userMemory?.location ? ` · ${conv.userMemory.location}` : ''}
+                            </p>
+                          </button>
+                          <button
+                            onClick={() => deleteConversation(conv.id)}
+                            aria-label="Supprimer cette conversation"
+                            title="Supprimer"
+                            className="w-6 h-6 rounded flex items-center justify-center text-gray-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all opacity-0 group-hover:opacity-100"
+                          ><Trash2 className="w-3 h-3" /></button>
+                          <ChevronRight className="w-3 h-3 text-gray-300 shrink-0" />
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* MESSAGES */}
@@ -798,11 +999,125 @@ export default function AgriBot() {
                 </button>
               </div>
               <p className="text-[10px] text-gray-400 dark:text-gray-600 mt-1.5 text-center select-none flex items-center justify-center gap-1">
-                <span className="w-1 h-1 rounded-full bg-green-400 inline-block" />
-                AgriBot IA · AGRI POINT SERVICE · +237 657 39 39 39
+                <Cpu className="w-2.5 h-2.5 text-green-400" />
+                Assistant IA · AGRI POINT SERVICES · +237 657 39 39 39
                 <span className="w-1 h-1 rounded-full bg-green-400 inline-block" />
               </p>
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ══ MODAL LOCALISATION ══ */}
+      <AnimatePresence>
+        {showLocationModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] bg-black/50 flex items-end sm:items-center justify-center p-4"
+            onClick={() => setShowLocationModal(false)}
+          >
+            <motion.div
+              initial={{ y: 40, opacity: 0, scale: 0.96 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              exit={{ y: 40, opacity: 0, scale: 0.96 }}
+              className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-sm p-5"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <MapPin className="w-5 h-5 text-green-600" />
+                <h3 className="font-bold text-gray-900 dark:text-white text-sm">Votre localisation</h3>
+                <button onClick={() => setShowLocationModal(false)} title="Fermer" aria-label="Fermer" className="ml-auto text-gray-400 hover:text-gray-600">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+              <p className="text-[12px] text-gray-500 dark:text-gray-400 mb-4">
+                Indiquez votre ville pour des conseils adaptés à votre climat.
+              </p>
+              {userMemory.location && (
+                <div className="mb-3 px-3 py-2 bg-green-50 dark:bg-green-900/20 rounded-lg text-[12px] text-green-700 dark:text-green-400 flex items-center gap-2">
+                  <MapPin className="w-3.5 h-3.5 shrink-0" />
+                  Actuel : <strong>{userMemory.location}</strong>
+                  <button
+                    onClick={() => {
+                      const updated = { ...userMemory, location: undefined, region: undefined };
+                      setUserMemory(updated);
+                      saveMemory(updated);
+                      setShowLocationModal(false);
+                      showToast('📍 Localisation effacée');
+                    }}
+                    className="ml-auto text-red-400 hover:text-red-600 text-[11px]"
+                  >Effacer</button>
+                </div>
+              )}
+              <div className="grid grid-cols-2 gap-2 max-h-72 overflow-y-auto">
+                {[
+                  { city: 'Yaoundé', region: 'Centre' }, { city: 'Douala', region: 'Littoral' },
+                  { city: 'Bafoussam', region: 'Ouest' }, { city: 'Garoua', region: 'Nord' },
+                  { city: 'Maroua', region: 'Extrême-Nord' }, { city: 'Ngaoundéré', region: 'Adamaoua' },
+                  { city: 'Bertoua', region: 'Est' }, { city: 'Ebolowa', region: 'Sud' },
+                  { city: 'Bamenda', region: 'Nord-Ouest' }, { city: 'Buea', region: 'Sud-Ouest' },
+                  { city: 'Kribi', region: 'Sud' }, { city: 'Limbé', region: 'Sud-Ouest' },
+                  { city: 'Edéa', region: 'Littoral' }, { city: 'Foumban', region: 'Ouest' },
+                  { city: 'Mbalmayo', region: 'Centre' }, { city: 'Obala', region: 'Centre' },
+                ].map(({ city, region }) => (
+                  <button
+                    key={city}
+                    onClick={() => {
+                      const updated = { ...userMemory, location: city, region, sessionId };
+                      setUserMemory(updated);
+                      saveMemory(updated);
+                      setShowLocationModal(false);
+                      showToast(`📍 Localisation : ${city}`);
+                    }}
+                    className={`px-3 py-2.5 text-[12px] rounded-xl border text-left transition-all ${
+                      userMemory.location === city
+                        ? 'bg-green-600 text-white border-green-600'
+                        : 'bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:border-green-400 hover:bg-green-50 dark:hover:bg-green-900/20'
+                    }`}
+                  >
+                    <div className="font-medium">{city}</div>
+                    <div className={`text-[10px] ${userMemory.location === city ? 'text-green-200' : 'text-gray-400'}`}>{region}</div>
+                  </button>
+                ))}
+              </div>
+              <div className="mt-3 flex gap-2">
+                <input
+                  type="text"
+                  placeholder="Autre ville…"
+                  className="flex-1 px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-green-400 outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' && e.currentTarget.value.trim()) {
+                      const city = e.currentTarget.value.trim();
+                      const updated = { ...userMemory, location: city, sessionId };
+                      setUserMemory(updated);
+                      saveMemory(updated);
+                      setShowLocationModal(false);
+                      showToast(`📍 Localisation : ${city}`);
+                    }
+                  }}
+                />
+                <button
+                  onClick={() => setShowLocationModal(false)}
+                  className="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >Annuler</button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ══ TOAST NOTIFICATIONS ══ */}
+      <AnimatePresence>
+        {toastMsg && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            className="fixed bottom-28 right-4 sm:right-6 z-[70] bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-[12px] font-medium px-4 py-2.5 rounded-xl shadow-2xl"
+          >
+            {toastMsg}
           </motion.div>
         )}
       </AnimatePresence>
