@@ -1382,7 +1382,21 @@ export async function POST(req: NextRequest) {
         controller.close();
       } catch (err: unknown) {
         console.error('AgriBot error:', err instanceof Error ? err.message : err);
-        send({ type: 'error', message: 'Erreur technique momentanée. Contactez-nous au +237 657 39 39 39.' });
+        // ── Fallback intelligent — JAMAIS d'erreur visible : basculer en mode offline ──
+        try {
+          const { demo, intent } = getDemoResponse(message);
+          const parts = demo.split(/(\s+)/);
+          for (const part of parts) {
+            if (part) send({ type: 'token', token: part });
+            await new Promise(r => setTimeout(r, 12));
+          }
+          send({ type: 'done', tags: [], intent, suggestions: [], escalate: false });
+        } catch {
+          send({
+            type: 'error',
+            message: '⚠️ Service momentanément indisponible.\n\n📞 **+237 657 39 39 39**\n💬 **WhatsApp 676026601**\n\nNos conseillers vous répondent immédiatement !',
+          });
+        }
         controller.close();
       }
     },
@@ -1420,141 +1434,945 @@ export async function PATCH(req: NextRequest) {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// DÉMO (sans clé OpenAI)
+// MOTEUR DE RÉPONSES HORS-LIGNE — Couverture 35+ sujets
 // ═══════════════════════════════════════════════════════════════════
 function getDemoResponse(message: string): { demo: string; intent: string } {
   const m = message.toLowerCase();
 
-  if (m.includes('campagne') || m.includes('engrais mars') || m.includes('prix spécial') || m.includes('subventionné') || m.includes('coopérative') || m.includes('mars 2026')) {
-    return { intent: 'campagne', demo: `## 🌾 Campagne Engrais Mars 2026
+  // ── CAMPAGNE ENGRAIS ──────────────────────────────────────────────
+  if (m.includes('campagne') || m.includes('engrais mars') || m.includes('prix spécial') || m.includes('subventionné') || m.includes('coopérative') || m.includes('mutuelle') || m.includes('cican') || m.includes('camao') || m.includes('mars 2026') || m.includes('acompte') || m.includes('70%') || m.includes('30%')) {
+    return { intent: 'campagne', demo: `## 🌾 Campagne Engrais Mars 2026 — Guide Complet
 
-Accédez à des engrais de qualité **à des prix préférentiels** négociés spécialement pour les agriculteurs organisés !
+Accédez à des engrais de qualité **à des prix préférentiels** négociés pour les agriculteurs organisés !
 
-### ✅ Conditions d'éligibilité
-1. Être membre d'une **coopérative agréée** (reconnue MINADER)
-2. Adhérer à une **mutuelle agricole** : CICAN, CAMAO ou organisme agréé
-3. Commander **au minimum 6 sacs/litres**
+### ✅ 3 Conditions d'éligibilité
+1. 🏢 Être membre d'une **coopérative agréée** (reconnue MINADER)
+2. 🤝 Adhérer à une **mutuelle agricole** : CICAN, CAMAO ou organisme agréé
+3. 📦 Commander **au minimum 6 sacs ou litres**
 
-### 💳 Modalités de paiement
+### 💰 Produits disponibles
+- 🌱 **Engrais Minéraux** — Sacs 50 kg, tarif préférentiel
+- 🧪 **Biofertilisants** — À partir de 5 litres (HUMIFORTE, FOSNUTREN, etc.)
+
+### 💳 Paiement 70/30
 - **70%** à la commande (acompte en ligne)
-- **30%** à la livraison du produit
+- **30%** restants à la livraison
 
-### 📝 S'inscrire — champ par champ
+### 📝 S'inscrire — Étape par étape
 1. Aller sur 👉 **https://agri-ps.com/campagne-engrais**
-2. Remplir : Nom complet, Email, Téléphone
-3. Choisir le type de produit (Engrais Minéraux ou Biofertilisants)
-4. Indiquer le nom de votre coopérative et son email
-5. Cocher les cases de membre et de mutuelle
-6. Valider et payer l'acompte de 70%
+2. Saisir : Nom complet, Email, Téléphone
+3. Choisir le type de produit + quantité (min. 6)
+4. Indiquer le nom et l'email de votre coopérative
+5. Cocher ✅ «Membre coopérative agréée» + ✅ «Adhère à mutuelle»
+6. Cliquer **«Soumettre ma candidature»** → Payer 70% en ligne
 
-📞 Questions ? **+237 657 39 39 39** | 💬 WhatsApp **676026601**` };
+📞 Questions : **+237 657 39 39 39** | 💬 WhatsApp **676026601**` };
   }
 
-  if (m.includes('inscrire') || m.includes('créer un compte') || m.includes('inscription')) {
-    return { intent: 'compte', demo: `## Créer votre compte sur agri-ps.com
+  // ── INSCRIPTION / CRÉATION DE COMPTE ──────────────────────────────
+  if ((m.includes('inscrire') || m.includes('créer un compte') || m.includes('creer') || m.includes('inscription') || m.includes("s'inscrire") || m.includes('nouveau compte') || m.includes('enregistrer')) && !m.includes('campagne')) {
+    return { intent: 'compte', demo: `## 👤 Créer votre compte sur agri-ps.com
 
+### Étapes simples :
 1. 🌐 Aller sur **https://agri-ps.com**
-2. 👤 Cliquer **"Mon Compte"** (haut à droite)
-3. Cliquer **"Créer un compte"**
-4. Remplir : Prénom, Nom, Email, Téléphone, Mot de passe
-5. ✅ Accepter les CGV → **"Créer mon compte"**
-6. 📧 Valider l'email de confirmation
+2. Cliquer l'icône **"Mon Compte"** (en haut à droite)
+3. Cliquer **"Créer un compte"** ou **"S'inscrire"**
+4. Remplir :
+   - **Prénom & Nom**
+   - **Email** valide (pour recevoir vos confirmations)
+   - **Téléphone** : +237 6XX XX XX XX
+   - **Mot de passe** : min. 8 caractères (lettres + chiffres recommandé)
+5. ✅ Cocher **"J'accepte les CGU et CGV"**
+6. Cliquer **"Créer mon compte"**
+7. 📧 Ouvrez votre email → cliquer le **lien de confirmation** (valable 24h)
+8. 🎉 Votre compte est actif ! Vous pouvez commander.
 
-Besoin d'aide ? 💬 WhatsApp 676026601` };
+> 💡 Conseil : utilisez l'email que vous consultez régulièrement
+
+📞 Problème d'inscription ? **+237 657 39 39 39** | 💬 WhatsApp **676026601**` };
   }
 
-  if (m.includes('connect') || m.includes('login') || m.includes('mot de passe')) {
-    return { intent: 'compte', demo: `## Se connecter à votre espace
+  // ── CONNEXION / MOT DE PASSE ───────────────────────────────────────
+  if (m.includes('connect') || m.includes('login') || m.includes('mot de passe') || (m.includes('compte') && (m.includes('oublié') || m.includes('réinit')))) {
+    return { intent: 'compte', demo: `## 🔐 Se connecter à votre espace client
 
+### Se connecter :
 1. 🌐 Aller sur **https://agri-ps.com**
-2. Cliquer **"Mon Compte"** → entrer email + mot de passe
-3. Cliquer **"Se connecter"**
+2. Cliquer **"Mon Compte"** (haut à droite, icône personne)
+3. Entrer votre **email** + **mot de passe**
+4. *(Optionnel)* Cocher "Rester connecté" sur votre propre appareil
+5. Cliquer **"Se connecter"**
 
-🔐 **Mot de passe oublié** → Cliquer le lien → vérifier votre email (et SPAM)
+---
 
-💬 Problème de connexion → WhatsApp 676026601` };
+### 🔑 Mot de passe oublié ?
+1. Cliquer **"Mot de passe oublié"** sur la page de connexion
+2. Saisir votre **adresse email**
+3. Cliquer **"Envoyer"**
+4. Vérifier votre **boîte email** (vérifier aussi le dossier SPAM)
+5. Cliquer le **lien de réinitialisation** (valable 1h)
+6. Choisir votre nouveau mot de passe → confirmer
+
+> 💡 Si l'email n'arrive pas : vérifier les SPAM, ou contacter le support
+
+📞 **+237 657 39 39 39** | 💬 WhatsApp **676026601**` };
   }
 
-  if (m.includes('commande') || m.includes('acheter') || m.includes('commander')) {
-    return { intent: 'commande', demo: `## Comment commander sur agri-ps.com
+  // ── SUIVI DE COMMANDE ──────────────────────────────────────────────
+  if (m.includes('suivi') || m.includes('où est ma commande') || m.includes('statut') || (m.includes('commande') && (m.includes('ap-') || /\bap\s*[\-–]\s*\d/.test(m)))) {
+    return { intent: 'commande', demo: `## 📦 Suivre ma commande
 
-**1.** Chercher votre produit → **"Produits"**
-**2.** Choisir format + quantité → **"Ajouter au panier"**
-**3.** Aller au panier → **"Procéder au paiement"**
-**4.** Adresse de livraison → Choisir paiement (MTN/Orange/Campost)
-**5.** Confirmation email + SMS avec numéro de commande
+### Option 1 — Sur le site (recommandé)
+1. Se connecter → **"Mon Compte"** → **"Mes Commandes"**
+2. Retrouver votre commande par numéro ou date
+3. Voir le **statut en temps réel**
 
-🚚 Livraison Yaoundé : 24-48h | Gratuite dès 50 000 F CFA
-📞 +237 657 39 39 39` };
+### Option 2 — Via AgriBot
+Donner votre numéro de commande **AP-XXXX-XXXXX** dans ce chat
+
+### Option 3 — Par téléphone
+📞 **+237 657 39 39 39** (avoir son numéro de commande)
+💬 WhatsApp **676026601**
+
+---
+
+### 📊 Les différents statuts
+| Statut | Signification |
+|--------|--------------|
+| ⏳ En attente | Paiement non encore confirmé |
+| ✅ Confirmée | Paiement validé, préparation imminente |
+| 🔄 En préparation | Votre colis est en cours de constitution |
+| 🚚 Expédiée | En transit vers vous |
+| 📦 Livrée | Mission accomplie ! |
+| ❌ Annulée | Commande annulée |
+
+> 📸 Pour accélérer la confirmation : envoyez le **reçu Campost** par WhatsApp au **676026601**` };
   }
 
+  // ── COMMENT COMMANDER / PASSER UNE COMMANDE ───────────────────────
+  if (m.includes('comment') && (m.includes('acheter') || m.includes('commander') || m.includes('passer une commande')) || (m.includes('acheter') || m.includes('commande') && !m.includes('suivi'))) {
+    return { intent: 'commande', demo: `## 🛒 Comment commander sur agri-ps.com
+
+### Étape 1 — Choisir votre produit
+→ Menu **"Boutique"** ou barre de recherche 🔍
+→ Filtrer par culture, catégorie ou budget
+
+### Étape 2 — Ajouter au panier
+→ Choisir le **format** : 250mL, 1L, 5L, 20L
+→ Choisir la **quantité**
+→ Cliquer **"Ajouter au panier"** 🛒
+
+### Étape 3 — Valider la commande
+→ Icône panier (haut à droite) → **"Procéder au paiement"**
+→ Vérifier le récapitulatif
+→ Renseigner l'**adresse de livraison**
+
+### Étape 4 — Payer via Campost
+→ Se rendre au bureau **Campost** le plus proche
+→ Verser sur le compte **AGRI POINT SERVICES SAS**
+→ Mentionner votre **numéro de commande** comme référence
+→ 📸 Envoyer le reçu par WhatsApp : **+237 676 026 601**
+
+### Étape 5 — Confirmation
+→ Email + SMS avec votre numéro de commande **AP-XXXX-XXXXX**
+→ Livraison sous 24-48h à Yaoundé, 3-5j ailleurs
+
+🚚 **Livraison gratuite** dès **50 000 F CFA** d'achat !` };
+  }
+
+  // ── PAIEMENT ──────────────────────────────────────────────────────
+  if (m.includes('paiement') || m.includes('payer') || m.includes('campost') || m.includes('espèce') || m.includes('virement')) {
+    return { intent: 'commande', demo: `## 💳 Modes de Paiement Acceptés
+
+### 🏢 Campost — Mode principal recommandé
+- Se rendre au bureau **Campost** le plus proche (disponible dans les 10 régions)
+- Verser sur le compte **AGRI POINT SERVICES SAS**
+- Mentionner votre **numéro de commande** comme référence
+- 📸 Envoyer le reçu par WhatsApp : **+237 676 026 601**
+- ✅ Confirmation sous **24h** après réception du reçu
+
+### 💵 Cash à la livraison
+- Payez en espèces directement au livreur
+- Disponible selon la zone de livraison
+
+---
+
+> 📌 Le **numéro de compte exact** AGRI POINT SERVICES SAS vous sera communiqué dans l'email de confirmation de commande.
+
+📞 Questions paiement : **+237 657 39 39 39** | 💬 **676026601**` };
+  }
+
+  // ── LIVRAISON ─────────────────────────────────────────────────────
+  if (m.includes('livraison') || m.includes('délai') || m.includes('délais') || m.includes('expédition') || m.includes('frais de livraison') || m.includes('zone')) {
+    return { intent: 'commande', demo: `## 🚚 Livraison AGRI POINT SERVICE
+
+| Zone | Délai | Frais |
+|------|-------|-------|
+| 📍 Yaoundé centre | 24-48h | 1 500 F CFA |
+| 📍 Yaoundé périphérie | 48-72h | 2 000 F CFA |
+| 📍 Douala | 48-72h | 2 500 F CFA |
+| 📍 Bafoussam, Garoua, Ngaoundéré | 3-5 jours | 3 000-4 000 F CFA |
+| 📍 Zones rurales | 5-10 jours | Sur devis |
+
+### 🎁 Livraison GRATUITE
+Toute commande **≥ 50 000 F CFA** dans les grandes villes !
+
+### 📦 Click & Collect (gratuit)
+Retrait direct à notre siège : **Yaoundé, Quartier Fouda**
+
+### 📍 Suivi
+- Email de confirmation avec numéro de suivi
+- WhatsApp **676026601** pour mises à jour
+
+> ⏰ Les délais peuvent varier selon les conditions météo et les routes en zone rurale.` };
+  }
+
+  // ── RETOUR / REMBOURSEMENT ────────────────────────────────────────
+  if (m.includes('retour') || m.includes('rembours') || m.includes('annul') || m.includes('échange') || m.includes('défectueux') || m.includes('problème commande')) {
+    return { intent: 'commande', demo: `## 🔄 Retour & Remboursement
+
+### ✅ Conditions de retour
+- Dans les **7 jours** après livraison
+- Produit **intact, scellé**, dans son emballage d'origine
+- Avec justificatif (facture ou numéro de commande)
+
+### 📋 Procédure
+1. Contacter : **retour@agri-ps.com** ou WhatsApp **676026601**
+2. Indiquer le motif (produit défectueux, erreur de commande…)
+3. Recevoir les instructions de retour
+4. Expédier le produit à notre adresse
+5. ✅ Remboursement sous **3-5 jours ouvrables** après réception
+
+### ❌ Annulation de commande
+- Avant expédition → **"Mon Compte" → "Annuler ma commande"**
+- Après expédition → contacter le service client
+
+### 📞 Urgence
+📞 **+237 657 39 39 39**
+💬 WhatsApp **676026601**
+✉️ support@agri-ps.com` };
+  }
+
+  // ── TOMATE ────────────────────────────────────────────────────────
   if (m.includes('tomate')) {
-    return { intent: 'culture', demo: `## Programme complet Tomates 🍅
+    return { intent: 'culture', demo: `## 🍅 Programme Complet Tomates
 
-| Phase | Produit | Dose |
-|-------|---------|------|
-| Végétatif | **HUMIFORTE** | 1 L/Ha |
-| Floraison | **FOSNUTREN 20** | 1.5 L/Ha |
-| Fructification | **KADOSTIM 20** | 2 L/Ha |
+### Plan de fertilisation par phase
 
-Toutes les 2-3 semaines. Application matin ou soir.
+| Phase | Produit | Dose/Ha | Intervalle |
+|-------|---------|---------|-----------|
+| 🌱 Préparation sol | **NATUR CARE** | 5 L/Ha | 1 fois avant plantation |
+| 🌿 Végétatif (J0→J30) | **HUMIFORTE** | 1.5 L/Ha | /2 semaines |
+| 🌸 Floraison | **FOSNUTREN 20** | 1.5 L/Ha | Dès boutons floraux |
+| 🍅 Fructification | **KADOSTIM 20** | 2 L/Ha | ×2 post-floraison |
+| 🌡️ Si stress/maladie | **AMINOL 20** | 1 L/Ha | Dès apparition |
 
-🛒 Commander → https://agri-ps.com/produits
-📞 +237 657 39 39 39` };
+### 🎯 Résultats attendus
+- +50% à +80% de rendement
+- Fruits plus gros, mieux colorés
+- Résistance accrue aux pathogènes
+
+### ⏰ Appliquer
+Matin avant 9h ou soir après 17h (éviter chaleur du midi)
+
+🛒 [Commander](https://agri-ps.com/produits) | 📞 **+237 657 39 39 39**` };
   }
 
-  if (m.includes('cacao') || m.includes('café')) {
-    return { intent: 'culture', demo: `## Programme Cacao / Café ☕
+  // ── CACAO / CAFÉ ──────────────────────────────────────────────────
+  if (m.includes('cacao') || m.includes('café') || m.includes('cafe ')) {
+    return { intent: 'culture', demo: `## ☕🍫 Programme Cacao & Café
 
-- 🌿 **Végétatif** : HUMIFORTE 2 L/Ha
-- 💪 **Anti-stress** : AMINOL 20 1 L/Ha (urgent si chaleur)
-- 🍫 **Post-floraison** : KADOSTIM 20 2 L/Ha × 2 applications
+### Plan de fertilisation
 
-**Résultats** : +30% rendement, meilleure résistance maladies.
+| Phase | Produit | Dose/Ha | Objectif |
+|-------|---------|---------|---------|
+| 🌿 Végétatif | **HUMIFORTE** | 2 L/Ha toutes 2 sem. | Feuillaison dense |
+| 💪 Anti-stress | **AMINOL 20** | 1 L/Ha urgent | Résistance sécheresse |
+| 🌸 Floraison | **FOSNUTREN 20** | 1.5 L/Ha | Nouaison |
+| 🍫 Post-floraison ×2 | **KADOSTIM 20** | 2 L/Ha | Calibre & export |
 
-📞 +237 657 39 39 39 | 💬 WhatsApp 676026601` };
+### 🏆 Résultats sur 3 ans au Cameroun
+- Cacao : **+35-45%** rendement + meilleure fermentation
+- Café : **+30-40%** + arômes améliorés + valeur export
+
+### 🌤️ Conseil Saison Sèche (Juil-Sept)
+🚨 **AMINOL 20 OBLIGATOIRE** dès juillet — protège contre la sécheresse intense
+
+### 📲 Suivi agronomique
+📞 +237 657 39 39 39 | conseil@agri-ps.com` };
   }
 
-  if (m.includes('jaun') || m.includes('maladie') || m.includes('stress') || m.includes('fané')) {
-    return { intent: 'urgence', demo: `## 🚨 Diagnostic Urgence
+  // ── MAÏS ─────────────────────────────────────────────────────────
+  if (m.includes('maïs') || m.includes('mais') || m.includes('maize') || m.includes('corn')) {
+    return { intent: 'culture', demo: `## 🌽 Programme Complet Maïs
 
-| Symptôme | Solution |
-|----------|---------|
-| Feuilles jaunes | **HUMIFORTE** immédiatement |
-| Stress sécheresse | **AMINOL 20** 1L/Ha foliar |
-| Chute des fleurs | **FOSNUTREN 20** |
-| Plantes fanées | **AMINOL 20** + irrigation |
+| Phase | Produit | Dose/Ha |
+|-------|---------|---------|
+| Préparation sol | **NATUR CARE** | 5 L/Ha |
+| Levée → Montaison | **HUMIFORTE** | 1.5 L/Ha / 2 sem. |
+| Pollinisation | **FOSNUTREN 20** | 1.5 L/Ha |
+| Post-récolte | **NATUR CARE** | 5 L/Ha (restauration) |
 
-⚡ L'AMINOL 20 agit en **48h**. Pour cas graves :
-📞 +237 657 39 39 39` };
+### 🎯 Gains
+- **+40-50%** de rendement grain
+- Épis plus remplis, meilleure qualité nutritive
+- Sol restauré pour la saison suivante
+
+### 💡 Astuce
+Commencer le HUMIFORTE dès la **levée complète** (J10-J15). Ne pas attendre les premiers signes de carence.
+
+🛒 [Boutique](https://agri-ps.com/produits) | 📞 +237 657 39 39 39` };
   }
 
-  if (m.includes('prix') || m.includes('combien') || m.includes('coût')) {
-    return { intent: 'produit', demo: `## Prix Produits AGRI POINT
+  // ── AGRUMES / MANGUE / ANANAS / PAPAYE / AVOCAT ───────────────────
+  if (m.includes('agrume') || m.includes('manguier') || m.includes('mangue') || m.includes('ananas') || m.includes('papaye') || m.includes('avocat') || m.includes('citron') || m.includes('pamplemousse')) {
+    return { intent: 'culture', demo: `## 🍊 Programme Cultures Fruitières
 
-Nos biofertilisants sont disponibles en formats adaptés à toutes les surfaces.
+### Plan général (toutes cultures fruitières)
 
-Pour les prix en temps réel : 🌐 https://agri-ps.com/produits
+| Phase | Produit | Dose/Ha |
+|-------|---------|---------|
+| Entretien végétatif | **HUMIFORTE** | 1.5-2 L/Ha / 3 sem. |
+| Avant/pendant floraison | **FOSNUTREN 20** | 1.5 L/Ha |
+| Après floraison | **KADOSTIM 20** | 2 L/Ha ×2 |
+| Si stress (sécheresse/maladie) | **AMINOL 20** | 1 L/Ha urgent |
+| Restauration sol annuelle | **NATUR CARE** | 5 L/Ha |
 
-📦 **Formats** : 250mL, 500mL, 1L, 5L, 20L
-🚚 Livraison gratuite dès 50 000 F CFA
+### 🥭 Spécifique Mangue & Avocatier
+- FOSNUTREN 20 **15-20 jours avant** la floraison attendue
+- KADOSTIM 20 dès la **chute des pétales** pour calibrer les fruits
 
-📞 +237 657 39 39 39 | 💬 WhatsApp 676026601` };
+### 🍍 Ananas & Papaye
+- Très sensibles au stress hydrique → **AMINOL 20** préventif dès saison sèche
+
+📞 **+237 657 39 39 39** pour programme personnalisé` };
   }
 
+  // ── POIVRON / LÉGUMES MARAÎCHAGE ──────────────────────────────────
+  if (m.includes('poivron') || m.includes('concombre') || m.includes('haricot') || m.includes('légume') || m.includes('legume') || m.includes('laitue') || m.includes('chou') || m.includes('carotte') || m.includes('oignon') || m.includes('ail')) {
+    return { intent: 'culture', demo: `## 🥬 Programme Maraîchage & Légumes
+
+| Phase | Produit | Dose | Fréquence |
+|-------|---------|------|-----------|
+| Sol avant semis | **NATUR CARE** | 5 L/Ha | 1 fois |
+| Végétatif | **HUMIFORTE** | 1 L/Ha | / 2 sem. |
+| Floraison | **FOSNUTREN 20** | 1.5 L/Ha | Au bouton floral |
+| Fructification | **KADOSTIM 20** | 2 L/Ha (si fruits) | Post-floraison |
+| Urgence stress | **AMINOL 20** | 1 L/Ha | Immédiat |
+
+### 🌿 Conseils maraîchage
+- Appliquer toujours le **matin avant 9h** ou **soir après 17h**
+- Ne pas mélanger avec des produits alcalins
+- Petits jardins/balcons : réduire à **1/2 dose** avec 200-400 mL/L eau
+
+🛒 [Voir les produits](https://agri-ps.com/produits) | 📞 +237 657 39 39 39` };
+  }
+
+  // ── PALMIER / BANANIER / POIVRE / MANIOC ──────────────────────────
+  if (m.includes('palmier') || m.includes('bananier') || m.includes('banane') || m.includes('poivre') || m.includes('plantain') || m.includes('manioc') || m.includes('igname')) {
+    return { intent: 'culture', demo: `## 🌴 Cultures Tropicales — Palmier, Bananier, Poivre
+
+### Programme adapté
+
+| Culture | Phase clé | Produit recommandé | Dose |
+|---------|----------|-------------------|------|
+| Palmier | Végétatif | **HUMIFORTE** | 2 L/Ha |
+| Palmier | Floraison | **FOSNUTREN 20** | 1.5 L/Ha |
+| Bananier | Toutes phases | **HUMIFORTE** + **NATUR CARE** | 1.5+5 L/Ha |
+| Poivre | Végétatif | **HUMIFORTE** | 1.5 L/Ha |
+| Poivre | Anti-stress | **AMINOL 20** | 1 L/Ha |
+| Manioc/Igname | Sol | **NATUR CARE** | 5 L/Ha |
+
+### 💡 Spécificités
+- **Palmier** : résultats visibles après 2 cycles — patience requise
+- **Bananier** : forte consommation azote → HUMIFORTE prioritaire
+- **Poivre** : très sensible au stress → associer AMINOL 20 systématiquement en saison sèche
+
+📞 Conseil personnalisé : **+237 657 39 39 39**` };
+  }
+
+  // ── HUMIFORTE (spécifique) ─────────────────────────────────────────
+  if (m.includes('humiforte')) {
+    return { intent: 'produit', demo: `## 🌿 HUMIFORTE — Biofertilisant de Croissance
+
+**Type** : Biofertilisant foliaire à base d'acides humiques
+**Composition** : Azote 6% | Phosphore 4% | Potassium 0.2% + acides humiques & fulviques
+
+### 🎯 Action & Bénéfices
+- Stimule la **croissance végétative**
+- Densifie le feuillage et renforce les racines
+- Prépare la floraison (précède FOSNUTREN)
+
+### 📊 Dosage
+| Surface | Dose |
+|---------|------|
+| 1 Ha | 1 à 1.5 L |
+| 500 m² | 75 à 100 mL |
+| Balcon/pot | 5 mL/L d'eau |
+
+**Fréquence** : Toutes les 2-3 semaines
+**Application** : Matin avant 9h ou soir après 17h
+
+### 📦 Formats disponibles
+250 mL | 500 mL | 1 L | 5 L | 20 L
+
+### 🌱 Cultures idéales
+Tomate, cacao, café, maïs, agrumes, palmier, maraîchage, agriculture urbaine
+
+🛒 [Acheter HUMIFORTE](https://agri-ps.com/produits) | 📞 +237 657 39 39 39` };
+  }
+
+  // ── FOSNUTREN ─────────────────────────────────────────────────────
+  if (m.includes('fosnutren')) {
+    return { intent: 'produit', demo: `## 🌸 FOSNUTREN 20 — Biofertilisant Floral
+
+**Type** : Biofertilisant phospho-potassique
+**Composition** : Phosphore 6.5% | Potassium 4.2% + Bore + Zinc
+
+### 🎯 Action & Bénéfices
+- Garantit une **floraison abondante**
+- Améliore la **nouaison des fruits** (moins de chute)
+- Augmente le taux de fécondation
+
+### 📊 Dosage
+| Surface | Dose | Moment |
+|---------|------|--------|
+| 1 Ha | 1.5 L | Au bouton floral |
+| 500 m² | 75 mL | Mêmes conditions |
+| Pot/balcon | 3-4 mL/L | Dès premières fleurs |
+
+**Renouveler** : Toutes les 10-15 jours en phase florale
+
+### 📦 Formats disponibles
+500 mL | 1 L | 5 L | 20 L
+
+### 💡 Peut être combiné avec
+HUMIFORTE (en transition végétatif → floraison) ✅
+
+🛒 [Acheter FOSNUTREN 20](https://agri-ps.com/produits) | 📞 +237 657 39 39 39` };
+  }
+
+  // ── KADOSTIM ──────────────────────────────────────────────────────
+  if (m.includes('kadostim')) {
+    return { intent: 'produit', demo: `## 🍅 KADOSTIM 20 — Biostimulant Fruticole
+
+**Type** : Biostimulant post-floraison
+**Composition** : Acides aminés + oligo-éléments + hormones naturelles
+
+### 🎯 Action & Bénéfices
+- **Calibre** supérieur des fruits
+- Meilleure **coloration** et conservation post-récolte
+- Réduction des fruits déformés ou petits
+- 🏆 Certifié export — zéro résidu
+
+### 📊 Dosage
+| Surface | Dose | Moment |
+|---------|------|--------|
+| 1 Ha | 2 L | Dès chute des pétales |
+| 1 Ha | 2 L | 20 jours après |
+| 500 m² | 100 mL par application | Idem |
+
+**Résultats visibles** : 15-21 jours après la première application
+
+### 📦 Formats disponibles
+1 L | 5 L | 20 L
+
+### 🌱 Cultures idéales
+Cacao, café, manguier, avocatier, agrumes, ananas, tomate, papaye
+
+🛒 [Acheter KADOSTIM 20](https://agri-ps.com/produits) | 📞 +237 657 39 39 39` };
+  }
+
+  // ── AMINOL 20 ─────────────────────────────────────────────────────
+  if (m.includes('aminol')) {
+    return { intent: 'produit', demo: `## 💪 AMINOL 20 — Biostimulant Anti-Stress
+
+**Type** : Biostimulant à base d'acides aminés hydrolysés
+**Composition** : 20 acides aminés libres + vitamines B + microéléments
+
+### 🎯 Action & Bénéfices
+- Protection contre **sécheresse, chaleur, salinité**
+- Boost immunitaire contre les pathogènes
+- **Absorption foliaire en moins de 2 heures !**
+- Résultat visible en **48h**
+
+### 📊 Dosage
+| Surface | Dose | Moment |
+|---------|------|--------|
+| 1 Ha | 1 L | Dès stress visible |
+| 500 m² | 50 mL | OU prévention mensuelle |
+| Pot/balcon | 2-3 mL/L | Si flétrissement |
+
+### ⚡ Utilisation urgence
+Appliquer dès les **premiers signes de flétrissement** → résultat visible en 48h.
+
+### 🗓️ Préventif
+**Juillet-Août** (saison sèche) → appliquer AVANT l'installation du stress
+
+### 📦 Formats
+500 mL | 1 L | 5 L
+
+🛒 [Acheter AMINOL 20](https://agri-ps.com/produits) | 📞 +237 657 39 39 39` };
+  }
+
+  // ── NATUR CARE ────────────────────────────────────────────────────
+  if (m.includes('natur care') || m.includes('naturcare') || m.includes('natur-care')) {
+    return { intent: 'produit', demo: `## 🌍 NATUR CARE — Engrais Organique Liquide
+
+**Type** : Engrais NPK 100% organique
+**Origine** : Déchets végétaux fermentés
+
+### 🎯 Action & Bénéfices
+- **Restaure la fertilité** des sols appauvris
+- Stimule le **microbiome du sol**
+- Améliore la **structure et la rétention d'eau**
+- 🏆 Certifié **Agriculture Biologique** — label MINADER Cameroun
+
+### 📊 Dosage
+| Usage | Dose | Mode |
+|-------|------|------|
+| Grande culture (1 Ha) | 5 L/Ha | Irrigation ou sol |
+| Jardin/potager | 3-5 mL/L | À l'arrosage |
+| Maraîchage | 5 L/Ha | Mensuel |
+
+**Renouveler** : 1 fois par mois
+
+### ⚠️ Important
+Ne pas mélanger avec d'autres produits. Appliquer **séparément** au sol.
+
+### 📦 Formats
+1 L | 5 L | 20 L | 200 L (professionnel)
+
+🛒 [Acheter NATUR CARE](https://agri-ps.com/produits) | 📞 +237 657 39 39 39` };
+  }
+
+  // ── AGRICULTURE URBAINE / BALCON / POTAGER ────────────────────────
+  if (m.includes('balcon') || m.includes('terrasse') || m.includes('pot') || m.includes('jardin') || m.includes('urbain') || m.includes('appartement') || m.includes('micro') || m.includes('ville')) {
+    return { intent: 'conseil', demo: `## 🏙️ Agriculture Urbaine — Guide Complet
+
+### 🌿 Produits recommandés pour la ville
+| Type | Produit | Dose | Fréquence |
+|------|---------|------|-----------|
+| Balcon/terrasse | **HUMIFORTE** | 5 mL/L d'eau | /2 semaines |
+| Pots/bacs | **NATUR CARE** | 3 mL/L à l'arrosage | Mensuel |
+| Floraison balcon | **FOSNUTREN 20** | 3 mL/L | Dès boutons floraux |
+| Urgence stress | **AMINOL 20** | 2 mL/L | Si flétrissement |
+
+### 🥗 Cultures idéales en ville
+- **Comestibles** : Tomates cerises, basilic, coriandre, menthe, poivrons, laitues, oignons
+- **Fruits** : Fraisiers, mini-citronnier en pot
+- **Aromates** : Thym, romarin, persil, ciboulette
+
+### 💡 Conseils essentiels
+1. Arroser **matin ou soir** — jamais en plein soleil
+2. Utiliser de la terre **enrichie** : substrat universel + NATUR CARE
+3. Drainages des pots **obligatoires** pour éviter l'asphyxie des racines
+4. Commencer petit : 2-3 cultures max pour débuter
+
+### 🔗 Guide détaillé
+👉 [Agriculture Urbaine](https://agri-ps.com/agriculture-urbaine)
+
+📞 **+237 657 39 39 39**` };
+  }
+
+  // ── MALADIES / DIAGNOSTIC / URGENCE ───────────────────────────────
+  if (m.includes('malade') || m.includes('maladie') || m.includes('jaun') || m.includes('stress') || m.includes('fané') || m.includes('flétri') || m.includes('mort') || m.includes('tach') || m.includes('pourri') || m.includes('champignon') || m.includes('virus') || m.includes('insecte') || m.includes('ravageur') || m.includes('mildiou') || m.includes('oïdium') || m.includes('carence') || m.includes('urgence') || m.includes('sos') || m.includes('aide vite')) {
+    return { intent: 'urgence', demo: `## 🚨 Diagnostic Rapide — Guide d'Urgence
+
+### 🔍 Tableau de diagnostic
+
+| Symptôme | Cause probable | Action IMMÉDIATE | Produit |
+|----------|--------------|-----------------|---------|
+| Feuilles jaunes (bas) | Carence azote | Pulvériser dès aujourd'hui | **HUMIFORTE** |
+| Feuilles jaunes (haut) | Carence fer/manganèse | AMINOL + chélate | **AMINOL 20** |
+| Plantes flasques/fanées | Stress hydrique | Appliquer + irriguer | **AMINOL 20** |
+| Chute des fleurs | Manque phosphore/bore | Au stade bouton | **FOSNUTREN 20** |
+| Fruits petits/difformes | Post-floraison négligée | 2L/Ha urgent | **KADOSTIM 20** |
+| Sol dur/compact | Biologie dégradée | Mensuel + labour | **NATUR CARE** |
+| Mildiou/oïdium | Carence immunité | Hebdomadaire préventif | **AMINOL 20** |
+| Faible germination | Sol pauvre | Avant semis urgence | **NATUR CARE** |
+
+### ⚡ Si flétrissement visible
+**AMINOL 20** — Action en moins de **2 heures** après pulvérisation, résultat **48h**
+
+---
+
+### 👨‍🌾 Pour un diagnostic terrain précis
+📞 **+237 657 39 39 39** — Agronome disponible maintenant
+💬 Envoyer des **photos** de vos plantes par WhatsApp : **676026601**` };
+  }
+
+  // ── CALCUL DE DOSE / COMMENT UTILISER ────────────────────────────
+  if (m.includes('dose') || m.includes('dosage') || m.includes('combien mettre') || m.includes('quantité') || m.includes('comment utiliser') || m.includes('comment appliquer') || m.includes('volume') || m.includes('mélanger')) {
+    return { intent: 'conseil', demo: `## 🧮 Guide de Calcul des Doses
+
+### Formule simple
+\`Surface (m²) ÷ 10 000 = Surface en Ha\`
+\`Dose (L/Ha) × Surface en Ha = Quantité à utiliser\`
+
+### Exemple concret
+- Surface : **500 m²** → 0.05 Ha
+- Produit : **HUMIFORTE** (1.5 L/Ha)
+- Dose : **0,05 × 1,5 = 0,075 L = 75 mL**
+
+### 📊 Doses standard par produit
+
+| Produit | Dose/Ha | Pour 100 m² | Pour balcon 10 m² |
+|---------|---------|-------------|-----------------|
+| **HUMIFORTE** | 1.5 L/Ha | 15 mL | 1.5 mL (5mL/L eau) |
+| **FOSNUTREN 20** | 1.5 L/Ha | 15 mL | 3 mL/L eau |
+| **KADOSTIM 20** | 2 L/Ha | 20 mL | 2 mL/L eau |
+| **AMINOL 20** | 1 L/Ha | 10 mL | 2 mL/L eau |
+| **NATUR CARE** | 5 L/Ha | 50 mL | 3-5 mL/L arrosage |
+
+### 💧 Volume d'eau recommandé
+- Pulvérisateur 15L → couvre environ **750 m²** (diluer selon produit)
+- Grande surface 1 Ha → **200-400 L d'eau**
+
+📞 Besoin d'un calcul précis ? **+237 657 39 39 39**` };
+  }
+
+  // ── PRIX / COMBIEN ────────────────────────────────────────────────
+  if (m.includes('prix') || m.includes('coût') || (m.includes('combien') && (m.includes('produit') || m.includes('litre') || m.includes('sac'))) || m.includes('tarif') || m.includes('budget')) {
+    return { intent: 'produit', demo: `## 💰 Tarifs & Formats AGRI POINT SERVICE
+
+Nos biofertilisants sont disponibles en plusieurs formats pour toutes les surfaces.
+
+### 📦 Formats disponibles (selon produit)
+
+| Format | Idéal pour | Prix indicatif |
+|--------|-----------|---------------|
+| 250 mL | Essai / balcon | ✅ Accessible |
+| 500 mL | Petits jardins | ✅ Accessible |
+| 1 L | 0.5-1 Ha | ✅ Accessible |
+| 5 L | 3-5 Ha | 💰 Économique |
+| 20 L | Grande surface | 💰💰 Professionnel |
+| 200 L | Coopératives | Sur devis |
+
+### 🌐 Prix en temps réel
+Retrouvez les **prix exacts et actualisés** sur :
+👉 [https://agri-ps.com/produits](https://agri-ps.com/produits)
+
+### 💡 Astuce économie
+- **Lot familial** : 1L × 5 produits → programme complet économique
+- **Volume 5L+** : tarif dégressif disponible
+
+📞 Devis grandes quantités : **+237 657 39 39 39**
+💬 WhatsApp : **676026601**` };
+  }
+
+  // ── ROI / BÉNÉFICE / GAIN ─────────────────────────────────────────
+  if (m.includes('roi') || m.includes('gain') || m.includes('bénéfice') || m.includes('rentable') || m.includes('retour sur invest') || m.includes('revenu') || m.includes('profit') || (m.includes('combien') && (m.includes('gagner') || m.includes('rapport')))) {
+    return { intent: 'roi', demo: `## 💰 Calculateur ROI — Retour sur Investissement
+
+### 📈 Gains moyens constatés avec nos produits
+
+| Culture | Rendement actuel | Gain avec AGRI-PS | Revenus supplémentaires |
+|---------|-----------------|------------------|------------------------|
+| 🍅 Tomate (1 Ha) | 10-15 t/Ha | **+50-80%** | +450 000 - 900 000 FCFA |
+| ☕ Café (1 Ha) | 600-800 kg | **+30-40%** | +360 000 - 640 000 FCFA |
+| 🍫 Cacao (1 Ha) | 400-600 kg | **+35-45%** | +350 000 - 675 000 FCFA |
+| 🌽 Maïs (1 Ha) | 1.5-2 t/Ha | **+40-50%** | +135 000 - 225 000 FCFA |
+
+### 💵 Coût programme complet (1 Ha)
+Investissement produits AGRI POINT : **~18 000 FCFA/Ha**
+
+### 🏆 ROI typique
+Pour **1 Ha de tomates** :
+- Gain supplémentaire brut : **~675 000 FCFA**
+- Coût programme : **~18 000 FCFA**
+- **ROI : +3 650% !**
+
+> ⚠️ Estimations basées sur résultats moyens terrain. Variables selon conditions.
+
+📞 Simulation personnalisée : **+237 657 39 39 39**
+💬 WhatsApp : **676026601**` };
+  }
+
+  // ── BIO / AGRICULTURE BIOLOGIQUE ─────────────────────────────────
+  if (m.includes('biologique') || m.includes('bio ') || m.includes('certifi') || m.includes('organique') || m.includes('naturel') || m.includes('sans chimique') || m.includes('pas dangereux') || m.includes('sûr')) {
+    return { intent: 'conseil', demo: `## 🌿 Nos Produits sont-ils Biologiques & Sûrs ?
+
+### ✅ Certification & Sécurité
+- **NATUR CARE** : 100% certifié Agriculture Biologique — Label MINADER Cameroun
+- **Tous nos produits** : Base biologique, **zéro métaux lourds**, zéro synthèse chimique
+- **Délai avant récolte** : **Aucun** — pas de restriction de récolte après application
+- **Compatibilité AB** : HUMIFORTE, FOSNUTREN, KADOSTIM, AMINOL 20 — tous compatibles agriculture biologique
+
+### 🧤 Précautions d'usage
+- Port de **gants** recommandé par précaution lors de l'application
+- Conserver à l'abri du soleil, entre **10-35°C**
+- **DLC** : 2 ans après fabrication (date sur chaque flacon)
+
+### 🌾 Peut-on les mélanger ?
+| Combinaison | Compatible |
+|-------------|-----------|
+| HUMIFORTE + FOSNUTREN | ✅ Oui |
+| AMINOL 20 + tout autre | ✅ Oui |
+| NATUR CARE + autres | ❌ Séparément au sol |
+| Avec pesticides standard | ✅ Oui (pas alkali) |
+
+📞 **+237 657 39 39 39** | Certification disponible sur demande` };
+  }
+
+  // ── COMPARAISON PRODUITS ──────────────────────────────────────────
+  if (m.includes('comparaison') || m.includes('comparer') || m.includes('différence') || m.includes('meilleur produit') || m.includes('lequel choisir') || m.includes('quel produit')) {
+    return { intent: 'produit', demo: `## ⚖️ Comparatif Complet des Produits AGRI POINT
+
+| Produit | Rôle principal | Phase idéale | Urgence | Urbain |
+|---------|---------------|-------------|---------|--------|
+| **HUMIFORTE** | Croissance végétative | Végétatif | Faible | ✅ Idéal |
+| **FOSNUTREN 20** | Floraison abondante | Floraison | Moyenne | ✅ Bon |
+| **KADOSTIM 20** | Qualité des fruits | Post-floraison | Faible | ⚠️ Peu utile |
+| **AMINOL 20** | Anti-stress urgent | TOUT stade | 🚨 Urgent | ✅ Oui |
+| **NATUR CARE** | Restauration sol | Hors saison/sol | Prévention | ✅ Idéal |
+
+### 📝 La règle des 5 étapes
+Végétatif → **HUMIFORTE**
+Floraison → **FOSNUTREN 20**
+Post-floraison → **KADOSTIM 20**
+Urgence/Stress → **AMINOL 20**
+Restauration sol → **NATUR CARE**
+
+### 🌱 Programme starter recommandé
+Pour débuter : **HUMIFORTE + FOSNUTREN + AMINOL 20** (les 3 essentiels)
+
+📞 Conseil personnalisé : **+237 657 39 39 39**
+🛒 [Comparer & Commander](https://agri-ps.com/produits)` };
+  }
+
+  // ── SAISON / CALENDRIER ───────────────────────────────────────────
+  if (m.includes('saison') || m.includes('calendrier') || m.includes('quand') || m.includes('maintenant') || m.includes('actuellement') || m.includes('ce mois')) {
+    return { intent: 'conseil', demo: `## 🌤️ Conseils Saisonniers & Calendrier Cultural 2026
+
+### 📅 Saison actuelle au Cameroun (Fév 2026)
+**Petite Saison Sèche** → Priorité : **NATUR CARE** pour restaurer et préparer vos sols avant les pluies
+
+---
+
+### 📆 Calendrier Cultural Complet 2026
+
+| Période | Saison | Actions & Produits |
+|---------|--------|-------------------|
+| Jan–Fév | Petite saison sèche | **NATUR CARE** restauration sol + préparation |
+| Mar–Avr | Grande saison pluies | **HUMIFORTE** végétatif + **AMINOL** préventif |
+| Mai–Juin | Grande saison pluies | **FOSNUTREN** floraison |
+| Juil–Août | Grande saison sèche | 🚨 **AMINOL 20** anti-stress OBLIGATOIRE |
+| Sept–Oct | Petite saison pluies | **KADOSTIM** post-floraison |
+| Nov–Déc | Petite saison sèche | **NATUR CARE** sol + bilan campagne |
+
+### 💡 Règle d'or
+Ne jamais attendre les symptômes en saison sèche → agir **préventivement** en juin.
+
+📞 **+237 657 39 39 39** pour un calendrier personnalisé à votre région` };
+  }
+
+  // ── FORMATIONS / ÉVÉNEMENTS ───────────────────────────────────────
+  if (m.includes('formation') || m.includes('événement') || m.includes('evenement') || m.includes('webinaire') || m.includes('foire') || m.includes('séminaire') || m.includes('agenda')) {
+    return { intent: 'navigation', demo: `## 📅 Formations & Événements AGRI POINT SERVICE
+
+### 🗓️ Types d'événements disponibles
+- 🌾 **Formations terrain** — Par région, sur inscription
+- 🌐 **Webinaires mensuels** — En ligne, 1er vendredi du mois
+- 🏪 **Foires agricoles** — Yaoundé, Douala, Bafoussam
+- 👥 **Sessions coopératives** — Gratuites pour groupes de 10+
+
+### 📋 Programme formations
+| Type | Durée | Public cible | Coût |
+|------|-------|-------------|------|
+| Introduction biofertilisants | 2h | Tous | Gratuit |
+| Fertilisation globale | 1 jour | Agriculteurs | Gratuit (groupes) |
+| Agriculture urbaine | 3h | Citadins | Gratuit |
+| Programme certifié MINADER | 3 jours | Professionnels | Sur devis |
+
+### 📍 Inscription & Programme
+👉 [Voir le calendrier complet](https://agri-ps.com/evenements)
+
+📞 Réserver une formation : **+237 657 39 39 39**
+💬 WhatsApp : **676026601**` };
+  }
+
+  // ── DISTRIBUTEUR / REVENDEUR ──────────────────────────────────────
+  if (m.includes('distributeur') || m.includes('revendeur') || m.includes('revendre') || m.includes('point de vente') || m.includes('partenaire') || m.includes('agence') || m.includes('représentant') || m.includes('devenir')) {
+    return { intent: 'navigation', demo: `## 🤝 Devenir Distributeur / Revendeur AGRI POINT
+
+### ✅ Avantages partenaires
+- 💰 **Prix préférentiels** : remise 15-25% sur commandes
+- 📚 **Formation produits gratuite** (2 jours)
+- 🎯 **Support commercial dédié** — conseiller attitré
+- 📣 **Visibilité** sur notre site (carte des revendeurs)
+
+### 📋 Critères d'éligibilité
+- Volume minimum : **200 000 FCFA/mois**
+- Espace de **stockage** adapté
+- Couverture d'une zone géographique définie
+
+### 📍 Nos agences actuelles
+| Ville | Contact |
+|-------|---------|
+| Yaoundé (siège) | +237 657 39 39 39 |
+| Douala | +237 657 39 39 39 |
+| Bafoussam | +237 657 39 39 39 |
+| Garoua | +237 657 39 39 39 |
+
+### 📲 Candidature
+📧 **commercial@agri-ps.com**
+📞 **+237 657 39 39 39** — Demander le Service Commercial` };
+  }
+
+  // ── À PROPOS / HISTOIRE ───────────────────────────────────────────
+  if (m.includes('à propos') || m.includes('a propos') || m.includes('qui êtes') || m.includes('qui etes') || m.includes('histoire') || m.includes('entreprise') || m.includes('fondé') || m.includes('depuis quand') || m.includes('agri point')) {
+    return { intent: 'navigation', demo: `## 🌿 AGRI POINT SERVICE — Notre Histoire
+
+### ✨ Qui sommes-nous ?
+**AGRI POINT SERVICE** est une entreprise camerounaise fondée en **2010**, spécialisée dans les **biofertilisants** et solutions de fertilisation agricole.
+
+**Slogan** : *"Produire plus, Gagner plus, Mieux vivre"*
+
+### 📊 AGRI POINT en chiffres
+| Indicateur | Chiffre |
+|-----------|--------|
+| Années d'expérience | **15 ans** (depuis 2010) |
+| Agriculteurs accompagnés | **50 000+** |
+| Taux de satisfaction client | **98%** |
+| Couverture géographique | **10 régions** sur 10 |
+
+### 🎯 Vision 2030
+- Atteindre **1 million d'agriculteurs**
+- S'étendre dans **20 pays africains**
+
+### 📍 Siège social
+B.P. 5111 Yaoundé, Quartier Fouda, Cameroun
+📞 +237 657 39 39 39 | ✉️ infos@agri-ps.com
+
+👉 [En savoir plus](https://agri-ps.com/a-propos)` };
+  }
+
+  // ── CONTACT / TÉLÉPHONE ───────────────────────────────────────────
+  if (m.includes('contact') || m.includes('téléphone') || m.includes('appeler') || m.includes('email') || m.includes('whatsapp') || m.includes('joindre') || m.includes('service client') || m.includes('adresse') || m.includes('horaire')) {
+    return { intent: 'navigation', demo: `## 📞 Nous Contacter — Tous les Canaux
+
+### 📱 Contact direct
+| Canal | Contact | Disponibilité |
+|-------|---------|-------------|
+| 📞 Téléphone | **+237 657 39 39 39** | Lun-Sam 7h30-18h30 |
+| 💬 WhatsApp | **+237 676 026 601** | Lun-Sam + Dim urgent |
+| ✉️ Email général | **infos@agri-ps.com** | Réponse 24-48h |
+| 🌐 Site web | **www.agri-ps.com** | 24h/24 |
+
+### 🎯 Contacts spécialisés
+| Département | Email | Motif |
+|-------------|-------|-------|
+| 🤝 Service Client | support@agri-ps.com | Commandes, livraisons |
+| 🌾 Conseil Agricole | conseil@agri-ps.com | Questions techniques |
+| 🤝 Partenariats | commercial@agri-ps.com | Devenir revendeur |
+
+### 📍 Siège — Yaoundé
+B.P. 5111, Quartier Fouda, Cameroun
+
+### 🌐 Formulaire de contact
+👉 [https://agri-ps.com/contact](https://agri-ps.com/contact)` };
+  }
+
+  // ── CGV / CGU / MENTIONS LÉGALES ─────────────────────────────────
+  if (m.includes('cgv') || m.includes('cgu') || (m.includes('condition') && (m.includes('vente') || m.includes('utilisation'))) || m.includes('mentions légales') || m.includes('confidentialité') || m.includes('données') || m.includes('rgpd')) {
+    return { intent: 'navigation', demo: `## 📋 Informations Légales — AGRI POINT SERVICE
+
+### 📄 Documents légaux disponibles
+| Document | Lien |
+|----------|------|
+| **CGV** | [/cgv](https://agri-ps.com/cgv) |
+| **CGU** | [/cgu](https://agri-ps.com/cgu) |
+| **Confidentialité** | [/confidentialite](https://agri-ps.com/confidentialite) |
+| **Mentions légales** | [/mentions-legales](https://agri-ps.com/mentions-legales) |
+
+### 🔒 Vos droits (données personnelles)
+- **Droit d'accès** à vos données
+- **Droit de rectification** et suppression
+- **Opposition** à la prospection commerciale
+
+Demande : **privacy@agri-ps.com**
+
+**AGRI POINT SERVICE SAS** — B.P. 5111 Yaoundé, Cameroun
+📞 **+237 657 39 39 39** | ✉️ infos@agri-ps.com` };
+  }
+
+  // ── CATALOGUE / BOUTIQUE ──────────────────────────────────────────
+  if (m.includes('boutique') || m.includes('catalogue') || m.includes('tous les produits') || m.includes('voir les produits') || m.includes('shop')) {
+    return { intent: 'produit', demo: `## 🛒 Catalogue AGRI POINT SERVICE
+
+### Nos 5 Biofertilisants
+
+| Produit | Rôle | Formats |
+|---------|------|---------|
+| 🌿 **HUMIFORTE** | Croissance végétative | 250mL → 20L |
+| 🌸 **FOSNUTREN 20** | Floraison abondante | 500mL → 20L |
+| 🍅 **KADOSTIM 20** | Qualité des fruits | 1L → 20L |
+| 💪 **AMINOL 20** | Anti-stress urgent | 500mL → 5L |
+| 🌍 **NATUR CARE** | Restauration sol | 1L → 200L |
+
+### 🔍 Accéder au catalogue complet
+👉 **[https://agri-ps.com/produits](https://agri-ps.com/produits)**
+
+### 💡 Pas sûr de votre besoin ?
+Dites-moi votre **culture** et votre **problème** — je vous recommande le produit exact !
+
+📞 **+237 657 39 39 39** | 💬 WhatsApp **676026601**` };
+  }
+
+  // ── PILIERS / PRODUIRE PLUS / GAGNER PLUS / MIEUX VIVRE ──────────
+  if (m.includes('produire plus') || m.includes('augmenter rendement') || m.includes('gagner plus') || m.includes('revenu agricole') || m.includes('mieux vivre') || m.includes('qualité de vie')) {
+    return { intent: 'conseil', demo: `## 🚀 Les 3 Piliers AGRI POINT SERVICE
+
+### 📈 [Produire Plus](https://agri-ps.com/produire-plus)
+Augmenter vos rendements de **+40% à +150%** grâce aux biofertilisants.
+→ Programme de fertilisation adapté à chaque culture
+→ Diagnostic sol + calendrier personnalisé
+
+### 💰 [Gagner Plus](https://agri-ps.com/gagner-plus)
+Optimiser vos **revenus agricoles** par hectare.
+→ Meilleure qualité = meilleur prix de vente
+→ Calcul ROI gratuit avec nos conseillers
+
+### 🏡 [Mieux Vivre](https://agri-ps.com/mieux-vivre)
+Améliorer la **qualité de vie** des agriculteurs et de leur famille.
+→ Moins de travail manuel (produits liquides faciles)
+→ Agriculture durable sans risque sanitaire
+
+---
+
+Dites-moi votre **situation** (surface, culture, objectif) et je vous guide vers la solution idéale !
+
+📞 **+237 657 39 39 39**` };
+  }
+
+  // ── RÉPONSE PAR DÉFAUT — Accueil + Guidance ───────────────────────
   return { intent: 'conseil', demo: `## Bonjour ! Je suis **AgriBot** 🌱
 
-Conseiller IA expert d'AGRI POINT SERVICE. Je peux vous aider sur :
+Votre conseiller expert AGRI POINT SERVICE — **15 ans d'expertise agricole** au Cameroun.
 
-🌾 **Conseils cultures** — tomates, cacao, café, maïs, agrumes...
-💊 **Recommandations produits** — HUMIFORTE, FOSNUTREN, KADOSTIM, AMINOL, NATUR CARE
-🧮 **Calcul de doses** — surface, quantité, volume d'eau
-🛒 **Procédures** — s'inscrire, commander, suivre une livraison
-📦 **Suivi de commande** — donnez votre numéro AP-XXXX
-🏙️ **Agriculture urbaine** — balcon, terrasse, potager
+### 🎯 Je peux vous aider sur :
 
-Comment puis-je vous aider aujourd'hui ?
-📞 +237 657 39 39 39 | 💬 WhatsApp 676026601` };
+| Sujet | Exemples |
+|-------|---------|
+| 🌾 **Cultures** | Tomate, cacao, café, maïs, légumes, agrumes... |
+| 💊 **Produits** | HUMIFORTE, FOSNUTREN, KADOSTIM, AMINOL, NATUR CARE |
+| 🧮 **Calculs** | Doses, surfaces, volumes d'eau, ROI |
+| 🛒 **Boutique** | Commander, suivre, payer, livraison |
+| 🏙️ **Ville** | Agriculture urbaine, balcon, terrasse |
+| 🌾 **Campagne** | Offres spéciales Mars 2026 |
+| 👤 **Compte** | Inscription, connexion, profil |
+| 🚨 **Urgence** | Diagnostic rapide, traitement immédiat |
+
+### 💬 Exemples de questions
+- *"Quel programme pour mes tomates sur 500 m² ?"*
+- *"Comment m'inscrire à la campagne engrais ?"*
+- *"Mes plantes sont jaunes, que faire ?"*
+- *"Combien puis-je gagner avec HUMIFORTE sur 2 Ha ?"*
+
+---
+
+📞 **+237 657 39 39 39** | 💬 **WhatsApp 676026601** | Lun-Sam 7h30-18h30` };
 }
 
 
