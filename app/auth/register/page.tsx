@@ -220,7 +220,7 @@ export default function RegisterPage() {
                   className="w-4 h-4 mt-0.5 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 flex-shrink-0" />
                 <label htmlFor="terms" className="text-sm text-gray-600 dark:text-gray-400">
                   J&apos;accepte les{' '}
-                  <Link href="/conditions" className="text-emerald-600 hover:underline font-medium">CGU</Link>
+                  <Link href="/cgu" className="text-emerald-600 hover:underline font-medium">CGU</Link>
                   {' '}et la{' '}
                   <Link href="/confidentialite" className="text-emerald-600 hover:underline font-medium">politique de confidentialité</Link>
                 </label>
