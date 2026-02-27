@@ -5,10 +5,34 @@ import Product from '@/models/Product';
 import Order from '@/models/Order';
 import ChatConversation from '@/models/ChatConversation';
 
+// ─── Interfaces ───────────────────────────────────────────────────
+interface UserMemory {
+  sessionId?: string;
+  location?: string;
+  region?: string;
+  mainCrops?: string[];
+  surface?: string;
+  farmType?: string;
+  keyFacts?: string[];
+  conversationCount?: number;
+}
+
 // Vérifie que la clé OpenAI est bien configurée (pas un placeholder)
 function isOpenAIReady(): boolean {
   const k = process.env.OPENAI_API_KEY || '';
   return k.startsWith('sk-') && k.length > 30 && !k.includes('votre') && !k.includes('your');
+}
+
+// Vérifie Anthropic
+function isAnthropicReady(): boolean {
+  const k = process.env.ANTHROPIC_API_KEY || '';
+  return k.startsWith('sk-ant-') && k.length > 30;
+}
+
+// Vérifie Google Gemini
+function isGeminiReady(): boolean {
+  const k = process.env.GOOGLE_AI_API_KEY || '';
+  return k.length > 20 && !k.includes('votre') && !k.includes('your');
 }
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -24,6 +48,96 @@ function checkRateLimit(ip: string): boolean {
   if (e.count >= 30) return false;
   e.count++;
   return true;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// CACHE DE RÉPONSES — 30 min TTL
+// ═══════════════════════════════════════════════════════════════════
+const _responseCache = new Map<string, { response: string; intent: string; ts: number }>();
+const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
+
+function getCacheKey(message: string, location?: string, crops?: string[]): string {
+  const norm = message.toLowerCase().trim().replace(/[^a-z0-9\u00C0-\u024F\u1E00-\u1EFF\s]/g, '');
+  return `${norm}|${location || ''}|${(crops || []).join(',')}`;
+}
+
+function getCached(key: string): { response: string; intent: string } | null {
+  const e = _responseCache.get(key);
+  if (!e || Date.now() - e.ts > CACHE_TTL_MS) { _responseCache.delete(key); return null; }
+  return { response: e.response, intent: e.intent };
+}
+
+function setCache(key: string, response: string, intent: string) {
+  _responseCache.set(key, { response, intent, ts: Date.now() });
+  // Nettoyage si trop grand
+  if (_responseCache.size > 500) {
+    const oldest = [..._responseCache.entries()].sort((a, b) => a[1].ts - b[1].ts)[0];
+    if (oldest) _responseCache.delete(oldest[0]);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// DONNÉES CLIMATIQUES CAMEROUN
+// ═══════════════════════════════════════════════════════════════════
+const CAMEROON_CLIMATE: Record<string, { pluieAnnuelle: string; saisons: string; conseils: string }> = {
+  'Centre':       { pluieAnnuelle: '1600mm', saisons: '4 saisons (2 pluvieuses : mars-juin / sept-nov)', conseils: 'Idéal tomate, maïs, légumes. Plantation mars ou sept. Drainage important.' },
+  'Littoral':     { pluieAnnuelle: '3800mm', saisons: '2 saisons sèches courtes (jan-fév / juil-août)', conseils: 'Très humide. Attention mildiou et pourriture. Privilégier biofertilisants + fongicides préventifs.' },
+  'Ouest':        { pluieAnnuelle: '1800mm', saisons: '2 saisons nettes (sèche déc-fév / pluvieuse mars-nov)', conseils: 'Excellent pour cacao, café, maïs. Altitude fraîche favorable légumes. Bonne fertilité naturelle.' },
+  'Nord-Ouest':   { pluieAnnuelle: '1700mm', saisons: 'Pluvieuse mars-oct, sèche nov-fév', conseils: 'Collines fertiles. Café Arabica, cacao, maïs. Irrigation complémentaire en saison sèche.' },
+  'Sud-Ouest':    { pluieAnnuelle: '3000mm', saisons: 'Quasi permanente, courte sèche déc-fév', conseils: 'Zone volcanique très fertile (mont Cameroun). Bananier, cacao, café. Humidité forte → antifongiques.' },
+  'Adamaoua':     { pluieAnnuelle: '1500mm', saisons: 'Pluvieuse avr-oct, sèche nov-mars', conseils: 'Plateau frais. Élevage + maïs + pommes de terre. Températures basses la nuit → maladies fongiques.' },
+  'Nord':         { pluieAnnuelle: '900mm',  saisons: 'Pluvieuse mai-sept, longue sèche oct-avr', conseils: 'Coton, sorgho, arachide. Irrigation indispensable. Chaleur intense → stress hydrique. Arrosage matin.' },
+  'Extrême-Nord': { pluieAnnuelle: '600mm',  saisons: 'Pluvieuse juin-sept (courte), très longue sèche', conseils: 'Zone aride. Sorgho, niébé, oignon. Eau précieuse. Retenue d\'eau et goutte-à-goutte recommandés.' },
+  'Est':          { pluieAnnuelle: '1700mm', saisons: '2 saisons pluvieuses mars-juin / sept-nov', conseils: 'Forêt dense. Cacao, manioc, banane. Manque de routes = logistique complexe. Livraison possible.' },
+  'Sud':          { pluieAnnuelle: '1800mm', saisons: '4 saisons, très humide', conseils: 'Cacao excellent, palmier à huile, manioc. Humidité permanente → maladies fongiques à surveiller.' },
+};
+
+function getClimateContext(region?: string, location?: string): string {
+  const key = region || Object.keys(CAMEROON_CLIMATE).find(r =>
+    location && location.toLowerCase().includes(r.toLowerCase())
+  );
+  if (!key || !CAMEROON_CLIMATE[key]) return '';
+  const c = CAMEROON_CLIMATE[key];
+  return `\n\n[CLIMAT RÉGIONAL]\nRégion : ${key} | Pluie : ${c.pluieAnnuelle} | ${c.saisons}\nConseils clés : ${c.conseils}`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// DÉTECTION DE CONTEXTE MANQUANT
+// Retourne une question de clarification si contexte insuffisant
+// ═══════════════════════════════════════════════════════════════════
+function detectMissingContext(
+  message: string,
+  history: Array<{ role: string; content: string }>,
+  memory: UserMemory
+): string | null {
+  const m = message.toLowerCase();
+  const historyText = history.map(h => h.content).join(' ').toLowerCase();
+
+  // Questions qui nécessitent la localisation
+  const needsLocation = /conseil|programme|calendrier|quand planter|saison|maladie|fertilis|dose|rendement|récolte|semis|climat|pluie|irrigation/i.test(message);
+  const hasLocation = memory.location
+    || /yaound|douala|bafoussam|garoua|maroua|bertoua|ebolowa|bamenda|buea|kribi|centre|littoral|ouest|nord|sud|est|adamaoua/i.test(historyText)
+    || /yaound|douala|bafoussam|garoua|maroua|bertoua|ebolowa|bamenda|buea|kribi|centre|littoral|ouest|nord|sud|est|adamaoua/i.test(m);
+
+  if (needsLocation && !hasLocation) {
+    return 'Pour vous donner un conseil précis adapté à votre zone climatique, **dans quelle ville ou région du Cameroun** êtes-vous ? (ex: Yaoundé, Douala, Bafoussam, Garoua…)';
+  }
+
+  // Questions qui nécessitent la culture
+  const needsCrop = /programme|dose|calendrier|quand appliquer|combien|fertiliser|traiter|protéger|pulvéris/i.test(message)
+    && !/campagne|commande|compte|inscription|livraison|paiement/i.test(m);
+  const hasCrop = (memory.mainCrops?.length ?? 0) > 0
+    || /tomate|cacao|café|maïs|mais|banane|manioc|igname|arachide|chou|carotte|laitue|gombo|piment|poivron/i.test(historyText)
+    || /tomate|cacao|café|maïs|mais|banane|manioc|igname|arachide|chou|carotte|laitue|gombo|piment|poivron/i.test(m);
+
+  if (needsCrop && !hasCrop && !hasLocation) {
+    // Ne pose qu'une question à la fois — si location manque, elle est prioritaire
+    // Ici location est déjà présente, on peut demander la culture
+  } else if (needsCrop && !hasCrop && hasLocation) {
+    return 'Pour personnaliser mes recommandations : **quelle est votre culture principale** ? (ex: tomate, cacao, café, maïs, légumes…) Et avez-vous une idée de la **surface cultivée** ?';
+  }
+
+  return null; // Contexte suffisant
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -1122,17 +1236,25 @@ function extractMeta(message: string): { tags: string[]; intent: string } {
 // ═══════════════════════════════════════════════════════════════════
 // SYSTEM PROMPT
 // ═══════════════════════════════════════════════════════════════════
-const SYSTEM_PROMPT = `Tu es **AgriBot** 🌱 — le conseiller IA d'élite d'AGRI POINT SERVICE, la référence en biofertilisants au Cameroun depuis 2010. Tu es l'équivalent d'un agronome chevronné avec 15 ans d'expérience terrain, disponible 24h/24.
+// SYSTEM_PROMPT de base — la mémoire et le climat sont injectés dynamiquement via buildSystemPrompt()
+const SYSTEM_PROMPT_BASE = `Tu es **l'Assistant d'Agri Point Services** 🌿 — un conseiller agricole expert, empathique et disponible 24h/24.
+AGRI POINT SERVICES est la référence en biofertilisants et solutions agricoles au Cameroun depuis 2010.
+
+## IDENTITÉ & PRÉSENTATION
+- Tu te présentes TOUJOURS comme **«l'Assistant d'Agri Point Services»** — jamais comme "AgriBot" ou "une IA".
+- En début de conversation, tu te présentes naturellement : «Bonjour ! Je suis l'Assistant d'Agri Point Services 🌿 — votre conseiller agricole expert…»
+- **Important** : Un Conseiller Expert d'Agri Point Services peut également intervenir à tout moment pour vous accompagner avec une expertise terrain approfondie. Si le client a besoin d'un suivi humain → propose l'escalade vers un conseiller humain.
+- Tu incarnes l'expertise d'un agronome avec 15 ans d'expérience terrain au Cameroun.
 
 ## PERSONNALITÉ & TON — NIVEAU CHAMPION
 Tu converses COMME UN HUMAIN EXPERT, pas comme un robot :
 - Chaleureux et direct : «Bien sûr !», «Pas de souci !», «Je comprends très bien votre situation»
 - Empathique : Reconnais les réalités de l'agriculture (pluies irrégulières, ressources limitées, pression des récoltes)
-- Proactif et curieux : Pose des questions ciblées pour mieux aider. Si quelqu'un parle de tomates → demande la phase et la région.
-- Jamais robotique : Évite les phrases génériques. Personnalise chaque réponse.
-- **Détection de langue** : Si le client écrit en anglais → réponds ENTIÈREMENT en anglais. Si pidgin ou camfranglais → adapte le registre naturellement. Toujours matcher la langue du client automatiquement.
-- Tu t'appelles AgriBot. Tu NE dis JAMAIS «je suis une IA» ou «je suis un assistant virtuel». Tu es LE conseiller d'AGRI POINT SERVICE.
-- Émojis : Utilise-les naturellement, 2-3 par réponse max, pas à chaque phrase.
+- **Proactif** : Si le contexte manque (localisation, culture, surface), POSE UNE QUESTION avant de te prononcer. Un bon conseiller demande avant de prescrire.
+- **Localisation = conseil précis** : Quand tu connais la région, adapte automatiquement tes conseils au calendrier climatique local.
+- Jamais robotique : Personnalise chaque réponse selon le profil connu de l'utilisateur.
+- **Détection de langue** : Si anglais → réponds en anglais. Si pidgin/camfranglais → adapte le registre naturellement.
+- Émojis : 2-3 par réponse max, naturels, jamais mécaniques.
 
 ## CONNAISSANCE TOTALE DU SITE
 ${KNOWLEDGE_BASE}
@@ -1211,11 +1333,33 @@ Les suggestions doivent être pertinentes avec le contexte de la conversation.
 📞 +237 657 39 39 39 | 💬 WhatsApp 676026601 | ✉️ infos@agri-ps.com | 🌐 https://agri-ps.com
 Horaires : Lun-Sam 7h30-18h30 | Dimanche : WhatsApp uniquement`;
 
+// ─── Constructeur dynamique — injecte mémoire + climat ────────────
+function buildSystemPrompt(memory?: UserMemory): string {
+  let extra = '';
+
+  if (memory) {
+    const parts: string[] = [];
+    if (memory.location)           parts.push(`📍 Localisation : ${memory.location}${memory.region ? ` (${memory.region})` : ''}`);
+    if (memory.mainCrops?.length)  parts.push(`🌱 Cultures connues : ${memory.mainCrops.join(', ')}`);
+    if (memory.surface)            parts.push(`📐 Surface : ${memory.surface}`);
+    if (memory.farmType)           parts.push(`🏡 Type d'exploitation : ${memory.farmType}`);
+    if (memory.keyFacts?.length)   parts.push(`💡 Contexte : ${memory.keyFacts.slice(0, 3).join(' | ')}`);
+    if (parts.length > 0) {
+      extra += '\n\n[PROFIL DE L\'UTILISATEUR — PERSONNALISE TA RÉPONSE EN CONSÉQUENCE]\n' + parts.join('\n');
+    }
+    // Données climatiques si région connue
+    extra += getClimateContext(memory.region, memory.location);
+  }
+
+  return SYSTEM_PROMPT_BASE + extra;
+}
+
 // ═══════════════════════════════════════════════════════════════════
 // ROUTE POST — STREAMING SSE
 // ═══════════════════════════════════════════════════════════════════
 export async function POST(req: NextRequest) {
-  const { message, history = [], sessionId, metadata = {} } = await req.json();
+  const { message, history = [], sessionId, metadata = {}, userMemory = {} } = await req.json();
+  const memory = userMemory as UserMemory;
 
   // ── Rate limiting ──
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
@@ -1230,8 +1374,62 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'Message requis' }), { status: 400 });
   }
 
-  // Mode démo si clé OpenAI absente ou non configurée
-  if (!isOpenAIReady()) {
+  // ── Détection de contexte manquant ── (conseils agronomiuqes sans localisation)
+  const missingCtxQ = detectMissingContext(message, history, memory);
+  if (missingCtxQ) {
+    const { intent } = extractMeta(message);
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      start(controller) {
+        const words = missingCtxQ.split(' ');
+        let i = 0;
+        const interval = setInterval(() => {
+          if (i < words.length) {
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'token', token: words[i] + ' ' })}\n\n`));
+            i++;
+          } else {
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'done', intent, suggestions: [], tags: [] })}\n\n`));
+            clearInterval(interval);
+            controller.close();
+          }
+        }, 15);
+      },
+    });
+    return new Response(stream, { headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' } });
+  }
+
+  // ── Vérification cache de réponses (questions factuelles non personnelles) ──
+  const isCacheable = !/commande|compte|paiement|livraison|ap-\d|mon panier|ma commande/i.test(message);
+  const cacheKey = isCacheable ? getCacheKey(message, memory.location, memory.mainCrops) : null;
+  if (cacheKey) {
+    const cached = getCached(cacheKey);
+    if (cached) {
+      const encoder = new TextEncoder();
+      const stream = new ReadableStream({
+        start(controller) {
+          const words = cached.response.split(/(\s+)/);
+          let i = 0;
+          const interval = setInterval(() => {
+            if (i < words.length) {
+              if (words[i]) controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'token', token: words[i] })}\n\n`));
+              i++;
+            } else {
+              controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'done', intent: cached.intent, suggestions: [], tags: [], fromCache: true })}\n\n`));
+              clearInterval(interval);
+              controller.close();
+            }
+          }, 8);
+        },
+      });
+      return new Response(stream, { headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' } });
+    }
+  }
+
+  // ── Construit le prompt système enrichi avec la mémoire et le climat ──
+  const dynamicSystemPrompt = buildSystemPrompt(memory);
+
+  // Mode démo si aucune IA disponible
+  if (!isOpenAIReady() && !isAnthropicReady() && !isGeminiReady()) {
     const { demo, intent } = getDemoResponse(message);
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
@@ -1253,8 +1451,117 @@ export async function POST(req: NextRequest) {
     return new Response(stream, { headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' } });
   }
 
+  // ── Anthropic direct si OpenAI absent mais Anthropic configuré ──
+  if (!isOpenAIReady() && isAnthropicReady()) {
+    const { tags, intent } = extractMeta(message);
+    const anthropicMessages = [
+      ...history.slice(-8).map((m: { role: string; content: string }) => ({
+        role: m.role as 'user' | 'assistant', content: m.content,
+      })),
+      { role: 'user' as const, content: message },
+    ];
+
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      async start(controller) {
+        const send = (data: Record<string, unknown>) => {
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
+        };
+        try {
+          const res = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+              'x-api-key': process.env.ANTHROPIC_API_KEY!,
+              'anthropic-version': '2023-06-01',
+              'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+              model: process.env.ANTHROPIC_MODEL || 'claude-3-haiku-20240307',
+              max_tokens: 800, stream: true, system: dynamicSystemPrompt,
+              messages: anthropicMessages,
+            }),
+          });
+          if (!res.ok || !res.body) throw new Error('Anthropic error');
+          const reader = res.body.getReader(); const decoder = new TextDecoder();
+          let buf = ''; let full = '';
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buf += decoder.decode(value, { stream: true });
+            const lines = buf.split('\n'); buf = lines.pop() || '';
+            for (const line of lines) {
+              if (!line.startsWith('data: ')) continue;
+              const data = line.slice(6).trim();
+              if (!data || data === '[DONE]') continue;
+              try {
+                const ev = JSON.parse(data);
+                if (ev.type === 'content_block_delta' && ev.delta?.type === 'text_delta') {
+                  const t = ev.delta.text || '';
+                  if (t) { full += t; send({ type: 'token', token: t }); }
+                }
+              } catch { /* skip */ }
+            }
+          }
+          if (cacheKey && full.length > 50) setCache(cacheKey, full, intent);
+          send({ type: 'done', tags, intent, suggestions: [], escalate: false, provider: 'anthropic' });
+        } catch {
+          // Fallback Gemini ou demo
+          const { demo } = getDemoResponse(message);
+          for (const w of demo.split(/(\s+)/)) { if (w) send({ type: 'token', token: w }); await new Promise(r => setTimeout(r, 12)); }
+          send({ type: 'done', tags, intent, suggestions: [], escalate: false });
+        }
+        controller.close();
+      },
+    });
+    return new Response(stream, { headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' } });
+  }
+
+  // ── Gemini direct si OpenAI et Anthropic absents mais Gemini configuré ──
+  if (!isOpenAIReady() && !isAnthropicReady() && isGeminiReady()) {
+    const { tags, intent } = extractMeta(message);
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      async start(controller) {
+        const send = (data: Record<string, unknown>) => {
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
+        };
+        try {
+          const geminiRes = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GOOGLE_AI_API_KEY}`,
+            {
+              method: 'POST', headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({
+                system_instruction: { parts: [{ text: dynamicSystemPrompt }] },
+                contents: [
+                  ...history.slice(-6).map((m: { role: string; content: string }) => ({
+                    role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }],
+                  })),
+                  { role: 'user', parts: [{ text: message }] },
+                ],
+                generationConfig: { maxOutputTokens: 800, temperature: 0.65 },
+              }),
+            }
+          );
+          if (geminiRes.ok) {
+            const d = await geminiRes.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> };
+            const text = d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+            for (const w of text.split(/(\s+)/)) { if (w) send({ type: 'token', token: w }); await new Promise(r => setTimeout(r, 8)); }
+            if (cacheKey && text.length > 50) setCache(cacheKey, text, intent);
+            send({ type: 'done', tags, intent, suggestions: [], escalate: false, provider: 'gemini' });
+          } else { throw new Error('Gemini error'); }
+        } catch {
+          const { demo } = getDemoResponse(message);
+          for (const w of demo.split(/(\s+)/)) { if (w) send({ type: 'token', token: w }); await new Promise(r => setTimeout(r, 14)); }
+          send({ type: 'done', tags, intent, suggestions: [], escalate: false });
+        }
+        controller.close();
+      },
+    });
+    return new Response(stream, { headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' } });
+  }
+
   const chatMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
-    { role: 'system', content: SYSTEM_PROMPT },
+    { role: 'system', content: dynamicSystemPrompt },
     ...history.slice(-10).map((m: { role: string; content: string }) => ({
       role: m.role as 'user' | 'assistant',
       content: m.content,
@@ -1350,6 +1657,11 @@ export async function POST(req: NextRequest) {
 
         send({ type: 'done', tags, intent, suggestions, escalate });
 
+        // ── Mise en cache de la réponse (si cacheable) ──
+        if (cacheKey && fullContent.length > 50) {
+          setCache(cacheKey, fullContent, intent);
+        }
+
         // Persistance MongoDB background
         if (sessionId) {
           connectDB().then(async () => {
@@ -1369,8 +1681,10 @@ export async function POST(req: NextRequest) {
                   $inc: { 'metadata.totalTokens': totalTokens },
                   $set: {
                     'metadata.page': (metadata as Record<string, string>).page || '/',
-                    'metadata.model': process.env.OPENAI_MODEL || 'gpt-4o-mini',
+                    'metadata.model': isOpenAIReady() ? (process.env.OPENAI_MODEL || 'gpt-4o-mini') : isAnthropicReady() ? 'claude-haiku' : 'demo',
                     'metadata.lastIntent': intent,
+                    'metadata.userLocation': memory.location || undefined,
+                    'metadata.userCrops': memory.mainCrops?.length ? memory.mainCrops.join(',') : undefined,
                   },
                 },
                 { upsert: true, new: true }
@@ -1382,7 +1696,114 @@ export async function POST(req: NextRequest) {
         controller.close();
       } catch (err: unknown) {
         console.error('AgriBot error:', err instanceof Error ? err.message : err);
-        // ── Fallback intelligent — JAMAIS d'erreur visible : basculer en mode offline ──
+
+        // ── Tentative Anthropic Claude si disponible ──
+        if (isAnthropicReady()) {
+          try {
+            send({ type: 'token', token: '' }); // signal de démarrage
+            const anthropicMessages = [
+              ...history.slice(-8).map((m: { role: string; content: string }) => ({
+                role: m.role as 'user' | 'assistant',
+                content: m.content,
+              })),
+              { role: 'user' as const, content: message },
+            ];
+
+            const res = await fetch('https://api.anthropic.com/v1/messages', {
+              method: 'POST',
+              headers: {
+                'x-api-key': process.env.ANTHROPIC_API_KEY!,
+                'anthropic-version': '2023-06-01',
+                'content-type': 'application/json',
+              },
+              body: JSON.stringify({
+                model: process.env.ANTHROPIC_MODEL || 'claude-3-haiku-20240307',
+                max_tokens: 800,
+                stream: true,
+                system: dynamicSystemPrompt,
+                messages: anthropicMessages,
+              }),
+            });
+
+            if (res.ok && res.body) {
+              const reader  = res.body.getReader();
+              const decoder = new TextDecoder();
+              let buf = '';
+              let anthropicFull = '';
+
+              while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                buf += decoder.decode(value, { stream: true });
+                const lines = buf.split('\n');
+                buf = lines.pop() || '';
+                for (const line of lines) {
+                  if (!line.startsWith('data: ')) continue;
+                  const data = line.slice(6).trim();
+                  if (data === '[DONE]' || data === 'event: message_stop') continue;
+                  try {
+                    const ev = JSON.parse(data);
+                    if (ev.type === 'content_block_delta' && ev.delta?.type === 'text_delta') {
+                      const t = ev.delta.text || '';
+                      if (t) { anthropicFull += t; send({ type: 'token', token: t }); }
+                    }
+                  } catch { /* skip malformed */ }
+                }
+              }
+
+              const { tags, intent } = extractMeta(message);
+              if (cacheKey && anthropicFull.length > 50) setCache(cacheKey, anthropicFull, intent);
+              send({ type: 'done', tags, intent, suggestions: [], escalate: false, provider: 'anthropic' });
+              controller.close();
+              return;
+            }
+          } catch (anthropicErr) {
+            console.error('Anthropic fallback error:', anthropicErr instanceof Error ? anthropicErr.message : anthropicErr);
+          }
+        }
+
+        // ── Tentative Google Gemini si disponible ──
+        if (isGeminiReady()) {
+          try {
+            const geminiRes = await fetch(
+              `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GOOGLE_AI_API_KEY}`,
+              {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({
+                  system_instruction: { parts: [{ text: dynamicSystemPrompt }] },
+                  contents: [
+                    ...history.slice(-6).map((m: { role: string; content: string }) => ({
+                      role: m.role === 'assistant' ? 'model' : 'user',
+                      parts: [{ text: m.content }],
+                    })),
+                    { role: 'user', parts: [{ text: message }] },
+                  ],
+                  generationConfig: { maxOutputTokens: 800, temperature: 0.65 },
+                }),
+              }
+            );
+
+            if (geminiRes.ok) {
+              const geminiData = await geminiRes.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> };
+              const geminiText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || '';
+              if (geminiText) {
+                for (const word of geminiText.split(/(\s+)/)) {
+                  if (word) { send({ type: 'token', token: word }); await new Promise(r => setTimeout(r, 8)); }
+                }
+                const { tags, intent } = extractMeta(message);
+                if (cacheKey && geminiText.length > 50) setCache(cacheKey, geminiText, intent);
+                send({ type: 'done', tags, intent, suggestions: [], escalate: false, provider: 'gemini' });
+                controller.close();
+                return;
+              }
+            }
+          } catch (geminiErr) {
+            console.error('Gemini fallback error:', geminiErr instanceof Error ? geminiErr.message : geminiErr);
+          }
+        }
+
+        // ── Fallback final — JAMAIS d'erreur visible : basculer en mode offline ──
         try {
           const { demo, intent } = getDemoResponse(message);
           const parts = demo.split(/(\s+)/);
