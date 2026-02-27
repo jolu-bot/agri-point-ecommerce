@@ -233,6 +233,7 @@ export default function Footer() {
               {[
                 { label: 'Mentions légales', href: '/mentions-legales' },
                 { label: 'Confidentialité', href: '/confidentialite' },
+                { label: 'CGU', href: '/cgu' },
                 { label: 'CGV', href: '/cgv' },
               ].map(({ label, href }) => (
                 <Link key={href} href={href} className="text-[11px] text-gray-600 hover:text-gray-300 transition-colors whitespace-nowrap">{label}</Link>
