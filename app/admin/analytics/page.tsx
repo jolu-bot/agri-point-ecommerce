@@ -3,7 +3,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
   TrendingUp, TrendingDown, ShoppingCart, Users, Package, Download, RefreshCw,
-  BarChart2, DollarSign, MessageSquare, Calendar,
+  BarChart2, DollarSign, MessageSquare, Calendar, Bot, MapPin, Leaf,
+  ThumbsUp, ThumbsDown, Cpu, AlertTriangle,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -35,6 +36,28 @@ const CAT_COLORS = [
   'bg-emerald-500', 'bg-blue-500', 'bg-violet-500', 'bg-amber-500', 'bg-rose-500',
 ];
 
+// ─── Interface stats AgriBot ─────────────────────────────────────
+interface BotStatsData {
+  period: string;
+  kpis: {
+    totalConversations: number;
+    recentConversations: number;
+    totalMessages: number;
+    avgMessagesPerConv: number;
+    totalTokens: number;
+    escalations: number;
+    escalationRate: number;
+    feedbackPositive: number;
+    feedbackNegative: number;
+    satisfactionScore: number | null;
+  };
+  topIntents: Array<{ intent: string; count: number }>;
+  topTopics: Array<{ topic: string; count: number }>;
+  topLocations: Array<{ location: string; count: number }>;
+  topCrops: Array<{ crop: string; count: number }>;
+  dailyConvs: Array<{ date: string; count: number }>;
+}
+
 const STATUS_COLORS: Record<string, string> = {
   pending: 'bg-amber-400',
   processing: 'bg-blue-400',
@@ -52,8 +75,11 @@ const STATUS_FR: Record<string, string> = {
 
 export default function AnalyticsPage() {
   const [period, setPeriod] = useState('30days');
+  const [activeTab, setActiveTab] = useState<'ecommerce' | 'agribot'>('ecommerce');
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [botStats, setBotStats] = useState<BotStatsData | null>(null);
+  const [botLoading, setBotLoading] = useState(false);
   const [lastRefresh, setLastRefresh] = useState(new Date());
 
   const fetchAnalytics = useCallback(async (p: string) => {
@@ -71,7 +97,22 @@ export default function AnalyticsPage() {
     finally { setLoading(false); }
   }, []);
 
-  useEffect(() => { fetchAnalytics(period); }, [period, fetchAnalytics]);
+  const fetchBotStats = useCallback(async (p: string) => {
+    setBotLoading(true);
+    try {
+      const token = localStorage.getItem('accessToken');
+      const res = await fetch(`/api/admin/agribot-stats?period=${p}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) setBotStats(await res.json());
+    } catch (e) { console.error('Bot stats error:', e); }
+    finally { setBotLoading(false); }
+  }, []);
+
+  useEffect(() => {
+    fetchAnalytics(period);
+    fetchBotStats(period);
+  }, [period, fetchAnalytics, fetchBotStats]);
 
   const handleExport = () => {
     if (!data) return;
@@ -150,13 +191,34 @@ export default function AnalyticsPage() {
           </button>
           <button
             onClick={handleExport}
-            disabled={!data}
+            disabled={!data || activeTab !== 'ecommerce'}
             className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white rounded-xl text-sm font-semibold transition-colors"
           >
             <Download className="w-4 h-4" />
             Exporter CSV
           </button>
         </div>
+      </div>
+
+      {/* Onglets */}
+      <div className="flex gap-1 p-1 bg-gray-100 dark:bg-gray-800 rounded-2xl w-fit">
+        <button
+          onClick={() => setActiveTab('ecommerce')}
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${activeTab === 'ecommerce' ? 'bg-white dark:bg-gray-900 text-emerald-700 dark:text-emerald-400 shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+        >
+          <ShoppingCart className="w-4 h-4" />E-Commerce
+        </button>
+        <button
+          onClick={() => setActiveTab('agribot')}
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${activeTab === 'agribot' ? 'bg-white dark:bg-gray-900 text-green-700 dark:text-green-400 shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+        >
+          <Bot className="w-4 h-4" />Assistant IA
+          {botStats && botStats.kpis.recentConversations > 0 && (
+            <span className="bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400 text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+              {botStats.kpis.recentConversations}
+            </span>
+          )}
+        </button>
       </div>
 
       {loading ? (
@@ -166,11 +228,11 @@ export default function AnalyticsPage() {
             <p className="text-gray-500 text-sm">Chargement des données analytics…</p>
           </div>
         </div>
-      ) : !data ? (
+      ) : !data && activeTab === 'ecommerce' ? (
         <div className="bg-white dark:bg-gray-800 rounded-2xl p-12 text-center text-gray-500">
           Impossible de charger les données analytics.
         </div>
-      ) : (
+      ) : activeTab === 'ecommerce' && data ? (
         <>
           {/* KPI Cards */}
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
@@ -322,7 +384,206 @@ export default function AnalyticsPage() {
             </div>
           </div>
         </>
-      )}
+      ) : activeTab === 'agribot' ? (
+        // ─── TAB ASSISTANT IA ────────────────────────────────────
+        botLoading ? (
+          <div className="flex items-center justify-center min-h-[40vh]">
+            <div className="text-center">
+              <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+              <p className="text-gray-500 text-sm">Chargement des stats Assistant IA…</p>
+            </div>
+          </div>
+        ) : !botStats ? (
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-12 text-center text-gray-500">
+            Impossible de charger les stats de l&apos;assistant.<br />
+            <span className="text-xs mt-1 block">Vérifiez que la collection ChatConversation est accessible.</span>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {/* KPI Cards AgriBot */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {[
+                { label: 'Sessions récentes', value: botStats.kpis.recentConversations.toString(), icon: MessageSquare, color: 'from-green-500 to-emerald-600' },
+                { label: 'Messages traités', value: botStats.kpis.totalMessages.toLocaleString('fr-FR'), icon: Bot, color: 'from-teal-500 to-cyan-600' },
+                { label: 'Msgs / session', value: botStats.kpis.avgMessagesPerConv.toString(), icon: BarChart2, color: 'from-blue-500 to-indigo-600' },
+                { label: 'Taux escalade', value: `${botStats.kpis.escalationRate}%`, icon: AlertTriangle, color: botStats.kpis.escalationRate > 20 ? 'from-red-500 to-rose-600' : 'from-orange-400 to-amber-500' },
+              ].map(({ label, value, icon: Icon, color }) => (
+                <motion.div key={label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+                  className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-white/[0.05]"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">{label}</p>
+                      <p className="text-2xl font-black text-gray-900 dark:text-white">{value}</p>
+                    </div>
+                    <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center flex-shrink-0 shadow-md`}>
+                      <Icon className="w-5 h-5 text-white" />
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Satisfaction */}
+            {(botStats.kpis.feedbackPositive + botStats.kpis.feedbackNegative) > 0 && (
+              <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-white/[0.05]">
+                <h2 className="text-sm font-black text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                  <ThumbsUp className="w-4 h-4 text-green-600" />Satisfaction utilisateurs
+                </h2>
+                <div className="flex items-center gap-8">
+                  <div className="flex items-center gap-2">
+                    <ThumbsUp className="w-4 h-4 text-green-600" />
+                    <span className="text-2xl font-black text-green-700 dark:text-green-400">{botStats.kpis.feedbackPositive}</span>
+                    <span className="text-xs text-gray-400">Utile</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <ThumbsDown className="w-4 h-4 text-red-500" />
+                    <span className="text-2xl font-black text-red-600 dark:text-red-400">{botStats.kpis.feedbackNegative}</span>
+                    <span className="text-xs text-gray-400">Inutile</span>
+                  </div>
+                  {botStats.kpis.satisfactionScore !== null && (
+                    <div className="ml-auto">
+                      <span className="text-3xl font-black text-gray-900 dark:text-white">{botStats.kpis.satisfactionScore}%</span>
+                      <span className="text-xs text-gray-400 ml-1">satisfaction</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+              {/* Top Sujets */}
+              {botStats.topTopics.length > 0 && (
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-white/[0.05] overflow-hidden">
+                  <div className="px-6 py-4 border-b border-gray-100 dark:border-white/[0.05] flex items-center gap-2">
+                    <Cpu className="w-5 h-5 text-green-600" />
+                    <h2 className="text-base font-black text-gray-900 dark:text-white">Sujets les plus abordés</h2>
+                  </div>
+                  <div className="p-5 space-y-3">
+                    {botStats.topTopics.map((item, i) => {
+                      const maxCount = Math.max(...botStats.topTopics.map(t => t.count), 1);
+                      return (
+                        <div key={item.topic}>
+                          <div className="flex justify-between text-sm mb-1">
+                            <span className="font-semibold text-gray-800 dark:text-gray-200 capitalize">{item.topic}</span>
+                            <span className="font-black text-gray-900 dark:text-white">{item.count}</span>
+                          </div>
+                          <div className="h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }} animate={{ width: `${(item.count / maxCount) * 100}%` }}
+                              transition={{ duration: 0.7, delay: i * 0.05 }}
+                              className="h-full bg-green-500 rounded-full"
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Top Localisations */}
+              {botStats.topLocations.length > 0 && (
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-white/[0.05] overflow-hidden">
+                  <div className="px-6 py-4 border-b border-gray-100 dark:border-white/[0.05] flex items-center gap-2">
+                    <MapPin className="w-5 h-5 text-green-600" />
+                    <h2 className="text-base font-black text-gray-900 dark:text-white">Localisations des utilisateurs</h2>
+                  </div>
+                  <div className="p-5 space-y-2.5">
+                    {botStats.topLocations.map((item) => (
+                      <div key={item.location} className="flex items-center gap-3">
+                        <span className="text-sm text-gray-700 dark:text-gray-300 flex-1 font-medium">{item.location}</span>
+                        <span className="text-sm font-black text-gray-900 dark:text-white">{item.count}</span>
+                        <span className="text-[11px] text-gray-400 w-10 text-right">sessions</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Top Cultures */}
+              {botStats.topCrops.length > 0 && (
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-white/[0.05] overflow-hidden">
+                  <div className="px-6 py-4 border-b border-gray-100 dark:border-white/[0.05] flex items-center gap-2">
+                    <Leaf className="w-5 h-5 text-green-600" />
+                    <h2 className="text-base font-black text-gray-900 dark:text-white">Cultures les plus consultées</h2>
+                  </div>
+                  <div className="p-5 space-y-2.5">
+                    {botStats.topCrops.map((item, i) => {
+                      const maxCount = Math.max(...botStats.topCrops.map(c => c.count), 1);
+                      return (
+                        <div key={item.crop}>
+                          <div className="flex justify-between text-sm mb-1">
+                            <span className="font-semibold text-gray-800 dark:text-gray-200 capitalize">{item.crop}</span>
+                            <span className="font-black text-gray-900 dark:text-white">{item.count}</span>
+                          </div>
+                          <div className="h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }} animate={{ width: `${(item.count / maxCount) * 100}%` }}
+                              transition={{ duration: 0.7, delay: i * 0.05 }}
+                              className="h-full bg-emerald-500 rounded-full"
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Activité quotidienne */}
+              {botStats.dailyConvs.length > 0 && (
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-white/[0.05] overflow-hidden">
+                  <div className="px-6 py-4 border-b border-gray-100 dark:border-white/[0.05] flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-green-600" />
+                    <h2 className="text-base font-black text-gray-900 dark:text-white">Sessions quotidiennes</h2>
+                  </div>
+                  <div className="p-5 space-y-3">
+                    {botStats.dailyConvs.slice(-10).map((day) => {
+                      const maxCount = Math.max(...botStats.dailyConvs.map(d => d.count), 1);
+                      return (
+                        <div key={day.date} className="flex items-center gap-3">
+                          <span className="text-xs text-gray-500 w-24 flex-shrink-0">
+                            {new Date(day.date).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}
+                          </span>
+                          <div className="flex-1 h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }} animate={{ width: `${(day.count / maxCount) * 100}%` }}
+                              transition={{ duration: 0.7 }}
+                              className="h-full bg-green-500 rounded-full"
+                            />
+                          </div>
+                          <span className="text-xs font-bold text-gray-900 dark:text-white w-8 text-right">{day.count}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Totaux all-time */}
+            <div className="bg-gradient-to-r from-green-700 to-emerald-600 rounded-2xl p-5 text-white flex items-center gap-6">
+              <Bot className="w-12 h-12 opacity-80 shrink-0" />
+              <div className="grid grid-cols-3 gap-6 flex-1">
+                <div>
+                  <p className="text-sm font-semibold opacity-80">Sessions totales</p>
+                  <p className="text-3xl font-black">{botStats.kpis.totalConversations.toLocaleString('fr-FR')}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold opacity-80">Messages totaux</p>
+                  <p className="text-3xl font-black">{botStats.kpis.totalMessages.toLocaleString('fr-FR')}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold opacity-80">Tokens IA consommés</p>
+                  <p className="text-3xl font-black">{botStats.kpis.totalTokens.toLocaleString('fr-FR')}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      ) : null}
     </div>
   );
 }
