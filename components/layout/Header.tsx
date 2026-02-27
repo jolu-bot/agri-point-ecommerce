@@ -109,7 +109,7 @@ export default function Header() {
               item.submenu ? (
                 <div 
                   key={item.name}
-                  className="relative group"
+                  className="relative group flex items-center"
                   onMouseEnter={() => setOpenSubmenu(item.name)}
                   onMouseLeave={() => setOpenSubmenu(null)}
                 >
@@ -152,9 +152,9 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`text-fluid-sm font-medium transition-all duration-200 relative group whitespace-nowrap py-1 px-0.5 ${
+                  className={`inline-flex items-center text-fluid-sm font-medium transition-all duration-200 relative group whitespace-nowrap py-1 px-0.5 ${
                     (item as any).highlight 
-                      ? `text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 font-bold px-3 py-1.5 rounded-lg border hover:-translate-y-0.5 shadow-sm ${
+                      ? `text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 font-bold px-3 py-1 rounded-lg border shadow-sm ${
                           isNavActive(item)
                             ? 'bg-emerald-100 dark:bg-emerald-900/50 border-emerald-400 dark:border-emerald-600'
                             : 'bg-emerald-50/50 dark:bg-emerald-900/25 border-emerald-200/70 dark:border-emerald-700/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/40'
