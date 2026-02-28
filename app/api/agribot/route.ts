@@ -153,7 +153,7 @@ const KNOWLEDGE_BASE = `
 - **Mission** : Rendre les intrants de qualité accessibles à tous les agriculteurs
 - **Impact** : 1 point couvrant 20 000 hectares / 10 000 personnes
 - **Adresse** : B.P. 5111 Yaoundé, Quartier Fouda, Cameroun
-- **Téléphone/WhatsApp** : +237 657 39 39 39 | WhatsApp: 676026601
+- **Téléphone/WhatsApp** : +237 657 39 39 39 | WhatsApp: 657 39 39 39
 - **Email** : infos@agri-ps.com | **Site** : https://agri-ps.com
 - **Horaires** : Lun-Sam 7h30-18h30, Dimanche sur WhatsApp uniquement
 
@@ -268,7 +268,7 @@ const KNOWLEDGE_BASE = `
 #### Comment annuler / retourner une commande ?
 - Annulation possible AVANT expédition via "Mon Compte" → "Annuler la commande"
 - Retour produit : Dans les 7 jours suivant livraison, produit intact
-- Contact : retour@agri-ps.com ou WhatsApp 676026601
+- Contact : retour@agri-ps.com ou WhatsApp 657 39 39 39
 - Remboursement : 3-5 jours ouvrables après réception du retour
 
 #### Modes et délais de livraison
@@ -472,7 +472,7 @@ Rendre-vous sur https://agri-ps.com/campagne-engrais et remplir le formulaire :
 - 🌾 Conseil Agricole : conseil@agri-ps.com (recommandations techniques, diagnostics)
 - 🤝 Partenariats & Distributeurs : partenariat@agri-ps.com (devenir revendeur, coopératives)
 
-**Horaires** : Lundi–Samedi 7h30–18h30 | Dimanche : WhatsApp uniquement (+237 676026601)
+**Horaires** : Lundi–Samedi 7h30–18h30 | Dimanche : WhatsApp uniquement (+237 657 39 39 39)
 
 ---
 
@@ -716,7 +716,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
         .select('orderNumber status paymentStatus total createdAt items')
         .lean() as Record<string, unknown> | null;
 
-      if (!order) return `❌ Commande **${args.orderNumber}** non trouvée.\n\nVérifiez l'orthographe du numéro ou contactez-nous :\n📞 +237 657 39 39 39 | 💬 WhatsApp 676026601`;
+      if (!order) return `❌ Commande **${args.orderNumber}** non trouvée.\n\nVérifiez l'orthographe du numéro ou contactez-nous :\n📞 +237 657 39 39 39 | 💬 WhatsApp 657 39 39 39`;
 
       const statuts: Record<string, string> = {
         pending: '⏳ En attente de paiement',
@@ -736,7 +736,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
         `💰 Montant: **${order.total} F CFA**`,
         `📅 Passée le: ${new Date(order.createdAt as Date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })}`,
         items?.length ? `🛒 Produits: ${items.map(i => `${i.name} ×${i.quantity}`).join(', ')}` : '',
-        `\n💬 Questions ? WhatsApp 676026601 avec ce numéro de commande.`,
+        `\n💬 Questions ? WhatsApp 657 39 39 39 avec ce numéro de commande.`,
       ].filter(Boolean).join('\n');
     }
 
@@ -974,7 +974,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
 
 **Option 3** — Par téléphone
 → 📞 +237 657 39 39 39 (avoir le numéro sous la main)
-→ 💬 WhatsApp 676026601
+→ 💬 WhatsApp 657 39 39 39
 
 **Statuts possibles :**
 - ⏳ En attente → Paiement non encore confirmé
@@ -988,7 +988,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
 ✅ **Conditions** : Dans les 7 jours suivant la livraison, produit intact et scellé
 
 **Procédure :**
-1. Contacter : retour@agri-ps.com ou WhatsApp 676026601
+1. Contacter : retour@agri-ps.com ou WhatsApp 657 39 39 39
 2. Expliquer le motif (produit défectueux, erreur de commande…)
 3. Nous envoyons les instructions de retour
 4. Expédier le produit à notre adresse (frais remboursés si notre erreur)
@@ -1064,7 +1064,7 @@ Vous souhaitez revendre nos produits dans votre zone ?
             `### 📝 S'inscrire maintenant`,
             `👉 **[Accéder au formulaire](https://agri-ps.com/campagne-engrais)**`,
             ``,
-            `📞 Questions : +237 657 39 39 39 | 💬 WhatsApp 676026601`,
+            `📞 Questions : +237 657 39 39 39 | 💬 WhatsApp 657 39 39 39`,
           ];
           return lines.filter(Boolean).join('\n');
         }
@@ -1186,7 +1186,7 @@ Vous souhaitez revendre nos produits dans votre zone ?
       const fallbacks: Record<string, string> = {
         evenements: `## 📅 Événements AGRI POINT SERVICE\n\n🔗 [Calendrier complet](https://agri-ps.com/evenements)\n\nProchains événements :\n- 🌾 **Foire Agricole Régionale** — Yaoundé (prochainement)\n- 📚 **Formation biofertilisants** — Douala (sur inscription)\n- 🌐 **Webinaire mensuel** — En ligne, 1er vendredi du mois\n\n📞 +237 657 39 39 39 pour s'inscrire`,
         carte: `## 🗺️ Carte des Distributeurs\n\n🔗 [Voir la carte interactive](https://agri-ps.com/carte)\n\nNos agences :\n- 📍 Yaoundé — Quartier Fouda (siège)\n- 📍 Douala — Bonapriso\n- 📍 Bafoussam — Centre-ville\n- 📍 Garoua — Quartier Dougoï\n- 📍 Maroua — Centre commercial`,
-        actualites: `## 📰 Actualités AGRI POINT\n\n- 🌾 Campagne Engrais Mars 2026 — Inscriptions ouvertes !\n- 📱 Cette saison : AMINOL 20 prioritaire (saison sèche)\n- 🏆 98% satisfaction client confirmée\n\n💬 WhatsApp 676026601`,
+        actualites: `## 📰 Actualités AGRI POINT\n\n- 🌾 Campagne Engrais Mars 2026 — Inscriptions ouvertes !\n- 📱 Cette saison : AMINOL 20 prioritaire (saison sèche)\n- 🏆 98% satisfaction client confirmée\n\n💬 WhatsApp 657 39 39 39`,
       };
       const key = Object.keys(fallbacks).find(k => page.includes(k)) || 'evenements';
       return fallbacks[key];
@@ -1330,7 +1330,7 @@ Tu protèges ABSOLUMENT les informations suivantes — ne JAMAIS révéler :
 Les suggestions doivent être pertinentes avec le contexte de la conversation.
 
 ## CONTACTS D'URGENCE
-📞 +237 657 39 39 39 | 💬 WhatsApp 676026601 | ✉️ infos@agri-ps.com | 🌐 https://agri-ps.com
+📞 +237 657 39 39 39 | 💬 WhatsApp 657 39 39 39 | ✉️ infos@agri-ps.com | 🌐 https://agri-ps.com
 Horaires : Lun-Sam 7h30-18h30 | Dimanche : WhatsApp uniquement`;
 
 // ─── Constructeur dynamique — injecte mémoire + climat ────────────
@@ -1815,7 +1815,7 @@ export async function POST(req: NextRequest) {
         } catch {
           send({
             type: 'error',
-            message: '⚠️ Service momentanément indisponible.\n\n📞 **+237 657 39 39 39**\n💬 **WhatsApp 676026601**\n\nNos conseillers vous répondent immédiatement !',
+            message: '⚠️ Service momentanément indisponible.\n\n📞 **+237 657 39 39 39**\n💬 **WhatsApp 657 39 39 39**\n\nNos conseillers vous répondent immédiatement !',
           });
         }
         controller.close();
@@ -1887,7 +1887,7 @@ Accédez à des engrais de qualité **à des prix préférentiels** négociés p
 5. Cocher ✅ «Membre coopérative agréée» + ✅ «Adhère à mutuelle»
 6. Cliquer **«Soumettre ma candidature»** → Payer 70% en ligne
 
-📞 Questions : **+237 657 39 39 39** | 💬 WhatsApp **676026601**` };
+📞 Questions : **+237 657 39 39 39** | 💬 WhatsApp **657 39 39 39**` };
   }
 
   // ── INSCRIPTION / CRÉATION DE COMPTE ──────────────────────────────
@@ -1910,7 +1910,7 @@ Accédez à des engrais de qualité **à des prix préférentiels** négociés p
 
 > 💡 Conseil : utilisez l'email que vous consultez régulièrement
 
-📞 Problème d'inscription ? **+237 657 39 39 39** | 💬 WhatsApp **676026601**` };
+📞 Problème d'inscription ? **+237 657 39 39 39** | 💬 WhatsApp **657 39 39 39**` };
   }
 
   // ── CONNEXION / MOT DE PASSE ───────────────────────────────────────
@@ -1936,7 +1936,7 @@ Accédez à des engrais de qualité **à des prix préférentiels** négociés p
 
 > 💡 Si l'email n'arrive pas : vérifier les SPAM, ou contacter le support
 
-📞 **+237 657 39 39 39** | 💬 WhatsApp **676026601**` };
+📞 **+237 657 39 39 39** | 💬 WhatsApp **657 39 39 39**` };
   }
 
   // ── SUIVI DE COMMANDE ──────────────────────────────────────────────
@@ -1953,7 +1953,7 @@ Donner votre numéro de commande **AP-XXXX-XXXXX** dans ce chat
 
 ### Option 3 — Par téléphone
 📞 **+237 657 39 39 39** (avoir son numéro de commande)
-💬 WhatsApp **676026601**
+💬 WhatsApp **657 39 39 39**
 
 ---
 
@@ -1967,7 +1967,7 @@ Donner votre numéro de commande **AP-XXXX-XXXXX** dans ce chat
 | 📦 Livrée | Mission accomplie ! |
 | ❌ Annulée | Commande annulée |
 
-> 📸 Pour accélérer la confirmation : envoyez le **reçu Campost** par WhatsApp au **676026601**` };
+> 📸 Pour accélérer la confirmation : envoyez le **reçu Campost** par WhatsApp au **657 39 39 39**` };
   }
 
   // ── COMMENT COMMANDER / PASSER UNE COMMANDE ───────────────────────
@@ -2020,7 +2020,7 @@ Donner votre numéro de commande **AP-XXXX-XXXXX** dans ce chat
 
 > 📌 Le **numéro de compte exact** AGRI POINT SERVICES SAS vous sera communiqué dans l'email de confirmation de commande.
 
-📞 Questions paiement : **+237 657 39 39 39** | 💬 **676026601**` };
+📞 Questions paiement : **+237 657 39 39 39** | 💬 **657 39 39 39**` };
   }
 
   // ── LIVRAISON ─────────────────────────────────────────────────────
@@ -2043,7 +2043,7 @@ Retrait direct à notre siège : **Yaoundé, Quartier Fouda**
 
 ### 📍 Suivi
 - Email de confirmation avec numéro de suivi
-- WhatsApp **676026601** pour mises à jour
+- WhatsApp **657 39 39 39** pour mises à jour
 
 > ⏰ Les délais peuvent varier selon les conditions météo et les routes en zone rurale.` };
   }
@@ -2058,7 +2058,7 @@ Retrait direct à notre siège : **Yaoundé, Quartier Fouda**
 - Avec justificatif (facture ou numéro de commande)
 
 ### 📋 Procédure
-1. Contacter : **retour@agri-ps.com** ou WhatsApp **676026601**
+1. Contacter : **retour@agri-ps.com** ou WhatsApp **657 39 39 39**
 2. Indiquer le motif (produit défectueux, erreur de commande…)
 3. Recevoir les instructions de retour
 4. Expédier le produit à notre adresse
@@ -2070,7 +2070,7 @@ Retrait direct à notre siège : **Yaoundé, Quartier Fouda**
 
 ### 📞 Urgence
 📞 **+237 657 39 39 39**
-💬 WhatsApp **676026601**
+💬 WhatsApp **657 39 39 39**
 ✉️ support@agri-ps.com` };
   }
 
@@ -2420,7 +2420,7 @@ Ne pas mélanger avec d'autres produits. Appliquer **séparément** au sol.
 
 ### 👨‍🌾 Pour un diagnostic terrain précis
 📞 **+237 657 39 39 39** — Agronome disponible maintenant
-💬 Envoyer des **photos** de vos plantes par WhatsApp : **676026601**` };
+💬 Envoyer des **photos** de vos plantes par WhatsApp : **657 39 39 39**` };
   }
 
   // ── CALCUL DE DOSE / COMMENT UTILISER ────────────────────────────
@@ -2479,7 +2479,7 @@ Retrouvez les **prix exacts et actualisés** sur :
 - **Volume 5L+** : tarif dégressif disponible
 
 📞 Devis grandes quantités : **+237 657 39 39 39**
-💬 WhatsApp : **676026601**` };
+💬 WhatsApp : **657 39 39 39**` };
   }
 
   // ── ROI / BÉNÉFICE / GAIN ─────────────────────────────────────────
@@ -2507,7 +2507,7 @@ Pour **1 Ha de tomates** :
 > ⚠️ Estimations basées sur résultats moyens terrain. Variables selon conditions.
 
 📞 Simulation personnalisée : **+237 657 39 39 39**
-💬 WhatsApp : **676026601**` };
+💬 WhatsApp : **657 39 39 39**` };
   }
 
   // ── BIO / AGRICULTURE BIOLOGIQUE ─────────────────────────────────
@@ -2610,7 +2610,7 @@ Ne jamais attendre les symptômes en saison sèche → agir **préventivement** 
 👉 [Voir le calendrier complet](https://agri-ps.com/evenements)
 
 📞 Réserver une formation : **+237 657 39 39 39**
-💬 WhatsApp : **676026601**` };
+💬 WhatsApp : **657 39 39 39**` };
   }
 
   // ── DISTRIBUTEUR / REVENDEUR ──────────────────────────────────────
@@ -2738,7 +2738,7 @@ Demande : **privacy@agri-ps.com**
 ### 💡 Pas sûr de votre besoin ?
 Dites-moi votre **culture** et votre **problème** — je vous recommande le produit exact !
 
-📞 **+237 657 39 39 39** | 💬 WhatsApp **676026601**` };
+📞 **+237 657 39 39 39** | 💬 WhatsApp **657 39 39 39**` };
   }
 
   // ── PILIERS / PRODUIRE PLUS / GAGNER PLUS / MIEUX VIVRE ──────────
@@ -2793,7 +2793,7 @@ Votre conseiller expert AGRI POINT — **15 ans d'expertise agricole** au Camero
 
 ---
 
-📞 **+237 657 39 39 39** | 💬 **WhatsApp 676026601** | Lun-Sam 7h30-18h30` };
+📞 **+237 657 39 39 39** | 💬 **WhatsApp 657 39 39 39** | Lun-Sam 7h30-18h30` };
 }
 
 

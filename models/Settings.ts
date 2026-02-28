@@ -155,7 +155,7 @@ const SettingsSchema = new Schema<ISettings>({
   contact: {
     email: { type: String, default: 'infos@agri-ps.com' },
     phone: { type: String, default: '+237 657 39 39 39' },
-    whatsapp: { type: String, default: '676026601' },
+    whatsapp: { type: String, default: '657393939' },
     address: { type: String, default: 'B.P. 5111 Yaoundé' },
     city: { type: String, default: 'Yaoundé' },
     region: { type: String, default: 'Quartier Fouda' },
