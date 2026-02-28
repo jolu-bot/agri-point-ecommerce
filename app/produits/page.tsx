@@ -54,10 +54,11 @@ async function getProducts() {
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams?: { search?: string };
+  searchParams: Promise<{ search?: string }>;
 }) {
   const initialProducts = await getProducts();
-  const initialSearch = searchParams?.search || '';
+  const resolvedSearchParams = await searchParams;
+  const initialSearch = resolvedSearchParams?.search || '';
   
   return <ProductsClient initialProducts={initialProducts} initialSearch={initialSearch} />;
 }

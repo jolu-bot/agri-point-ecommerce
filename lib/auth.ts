@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import type { NextRequest } from 'next/server';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
@@ -14,6 +15,7 @@ export interface TokenPayload {
   userId: string;
   email: string;
   role: string;
+  name?: string;
 }
 
 export function generateAccessToken(payload: TokenPayload): string {
@@ -24,8 +26,26 @@ export function generateRefreshToken(payload: TokenPayload): string {
   return jwt.sign(payload, JWT_REFRESH_SECRET as string, { expiresIn: '7d' });
 }
 
-export function verifyAccessToken(token: string): TokenPayload | null {
+function extractBearerTokenFromRequest(request: NextRequest): string | null {
+  const authHeader = request.headers.get('authorization');
+  if (authHeader?.startsWith('Bearer ')) {
+    return authHeader.slice(7);
+  }
+
+  const cookieToken = request.cookies.get('accessToken')?.value;
+  return cookieToken || null;
+}
+
+export function verifyAccessToken(tokenOrRequest: string | NextRequest): TokenPayload | null {
   try {
+    const token = typeof tokenOrRequest === 'string'
+      ? tokenOrRequest
+      : extractBearerTokenFromRequest(tokenOrRequest);
+
+    if (!token) {
+      return null;
+    }
+
     return jwt.verify(token, JWT_SECRET as string) as TokenPayload;
   } catch {
     return null;

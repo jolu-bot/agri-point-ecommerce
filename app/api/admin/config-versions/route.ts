@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
     const { config, changes, description, tags, userName, userEmail } = body;
 
     // Récupérer le dernier numéro de version
-    const lastVersion = await ConfigVersion.findOne().sort({ version: -1 }).lean();
+    const lastVersion = (await ConfigVersion.findOne().sort({ version: -1 }).lean()) as { version?: number } | null;
     const newVersionNumber = (lastVersion?.version || 0) + 1;
 
     // Créer la nouvelle version
@@ -158,7 +158,7 @@ export async function PUT(request: NextRequest) {
     // Créer un snapshot de la config actuelle avant restauration
     const currentConfig = await SiteConfig.findOne({ isActive: true });
     if (currentConfig) {
-      const lastVersion = await ConfigVersion.findOne().sort({ version: -1 }).lean();
+      const lastVersion = (await ConfigVersion.findOne().sort({ version: -1 }).lean()) as { version?: number } | null;
       await ConfigVersion.create({
         version: (lastVersion?.version || 0) + 1,
         config: currentConfig.toObject(),
@@ -181,7 +181,7 @@ export async function PUT(request: NextRequest) {
     );
 
     // Créer une entrée de restauration
-    const lastVersion = await ConfigVersion.findOne().sort({ version: -1 }).lean();
+    const lastVersion = (await ConfigVersion.findOne().sort({ version: -1 }).lean()) as { version?: number } | null;
     await ConfigVersion.create({
       version: (lastVersion?.version || 0) + 1,
       config: restoredConfig.toObject(),

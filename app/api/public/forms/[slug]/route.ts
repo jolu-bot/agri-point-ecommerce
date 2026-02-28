@@ -57,12 +57,12 @@ function detectOS(userAgent: string): string {
 // GET - Récupérer les informations du formulaire (pour affichage public)
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
   try {
     await connectDB();
     
-    const { slug } = params;
+    const { slug } = await context.params;
     
     if (!slug) {
       return NextResponse.json(
@@ -122,12 +122,12 @@ export async function GET(
 // POST - Soumettre le formulaire
 export async function POST(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
   try {
     await connectDB();
     
-    const { slug } = params;
+    const { slug } = await context.params;
     
     if (!slug) {
       return NextResponse.json(

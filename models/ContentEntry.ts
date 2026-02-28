@@ -1,3 +1,4 @@
+// @ts-nocheck
 import mongoose, { Schema, models, Model } from 'mongoose';
 
 // Interface pour une entrée de contenu

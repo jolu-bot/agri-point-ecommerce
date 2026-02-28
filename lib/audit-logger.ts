@@ -3,8 +3,8 @@ import { NextRequest } from 'next/server';
 
 interface CreateAuditLogParams {
   userId: string;
-  userName: string;
-  userEmail: string;
+  userName?: string;
+  userEmail?: string;
   userRole?: string;
   action: 'login' | 'logout' | 'create' | 'update' | 'delete' | 'export' | 'import' | 'rollback' | 'view' | 'restore';
   resource: string;
@@ -54,8 +54,8 @@ export async function createAuditLog(params: CreateAuditLogParams): Promise<void
 
     await AuditLog.create({
       userId,
-      userName,
-      userEmail,
+      userName: userName || 'Unknown',
+      userEmail: userEmail || '',
       userRole,
       action,
       resource,
