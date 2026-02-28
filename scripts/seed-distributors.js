@@ -5,7 +5,14 @@
  */
 
 const mongoose = require('mongoose');
-require('dotenv').config();
+const dotenv = require('dotenv');
+const path = require('path');
+
+// Charger .env.local en priorité, puis .env
+dotenv.config({ path: path.join(__dirname, '..', '.env.local') });
+if (!process.env.MONGODB_URI) {
+  dotenv.config({ path: path.join(__dirname, '..', '.env') });
+}
 
 const distributorSchema = new mongoose.Schema({
   name: String,
