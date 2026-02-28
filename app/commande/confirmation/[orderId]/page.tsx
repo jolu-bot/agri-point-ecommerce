@@ -210,8 +210,6 @@ export default function OrderConfirmationPage() {
     );
   }
 
-  const hasUploadedReceipt = order.campostPayment?.receiptImage;
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 py-12 px-4">
       <div className="max-w-4xl mx-auto">

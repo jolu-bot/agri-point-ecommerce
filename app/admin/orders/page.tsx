@@ -485,8 +485,6 @@ export default function OrdersPage() {
                 )}
               </div>
             )}
-              </p>
-            </div>
 
             {/* Items */}
             <div className="mb-6">

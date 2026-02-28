@@ -1,23 +1,43 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Order from '@/models/Order';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import User from '@/models/User';
+import { verifyAccessToken } from '@/lib/auth';
 import { sendEmail } from '@/lib/email';
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    // Vérifier l'authentification
+    const authHeader = req.headers.get('authorization');
     
-    // Vérifier que l'utilisateur est admin
-    if (!session?.user || session.user.role !== 'admin') {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return NextResponse.json(
         { error: 'Non autorisé' },
-        { status: 403 }
+        { status: 401 }
+      );
+    }
+
+    const token = authHeader.substring(7);
+    const decoded = verifyAccessToken(token);
+    
+    if (!decoded) {
+      return NextResponse.json(
+        { error: 'Token invalide' },
+        { status: 401 }
       );
     }
 
     await connectDB();
+
+    const user = await User.findById(decoded.userId);
+    
+    // Vérifier que l'utilisateur est admin
+    if (!user || user.role !== 'admin') {
+      return NextResponse.json(
+        { error: 'Accès non autorisé - Rôle admin requis' },
+        { status: 403 }
+      );
+    }
 
     const body = await req.json();
     const { orderId, action, notes } = body;
@@ -37,7 +57,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const adminId = (session.user as any)._id || (session.user as any).id;
+    const adminId = decoded.userId;
 
     if (action === 'approve') {
       // Approuver le paiement
