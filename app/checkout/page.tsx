@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import { useCartStore } from '@/store/cartStore';
 import toast from 'react-hot-toast';
 import CampostPaymentInfo from '@/components/shared/CampostPaymentInfo';
+import WhatsAppPaymentInfo from '@/components/shared/WhatsAppPaymentInfo';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function CheckoutPage() {
     notes: '',
     
     // Paiement
-    paymentMethod: 'campost' as 'campost' | 'cash',
+    paymentMethod: 'campost' as 'campost' | 'cash' | 'whatsapp',
   });
 
   const cities = [
@@ -204,10 +205,12 @@ export default function CheckoutPage() {
         clearCart();
         toast.success('Commande passée avec succès !');
         
-        // Rediriger vers la page de confirmation Campost
-        if (formData.paymentMethod === 'campost') {
+        // Rediriger selon la méthode de paiement
+        if (formData.paymentMethod === 'campost' || formData.paymentMethod === 'whatsapp') {
+          // Campost et WhatsApp nécessitent confirmation avec upload
           router.push(`/commande/confirmation/${data.order._id}`);
         } else {
+          // Cash à la livraison
           router.push(`/commande/${data.order._id}`);
         }
       } else {
@@ -470,7 +473,8 @@ export default function CheckoutPage() {
                   <div className="space-y-4">
                     {[
                       { value: 'campost', label: '🏢 Campost (Recommandé)', description: 'Versement au bureau Campost le plus proche - Compte Agri Point Services', recommended: true },
-                      { value: 'cash', label: 'Paiement à la livraison', description: 'Payez en espèces à la réception' },
+                      { value: 'whatsapp', label: '📱 Mobile Money + WhatsApp', description: 'Paiement Orange/MTN avec confirmation rapide (2h)', badge: 'Rapide' },
+                      { value: 'cash', label: '💵 Paiement à la livraison', description: 'Payez en espèces à la réception' },
                     ].map((method) => (
                       <label
                         key={method.value}
@@ -488,7 +492,7 @@ export default function CheckoutPage() {
                             name="paymentMethod"
                             value={method.value}
                             checked={formData.paymentMethod === method.value}
-                            onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as 'campost' | 'cash' })}
+                            onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as 'campost' | 'cash' | 'whatsapp' })}
                             className="mt-1"
                           />
                           <div className="ml-3 flex-1">
@@ -499,6 +503,11 @@ export default function CheckoutPage() {
                               {method.recommended && (
                                 <span className="text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full font-medium">
                                   Recommandé
+                                </span>
+                              )}
+                              {(method as any).badge && (
+                                <span className="text-xs bg-blue-500 text-white px-2 py-0.5 rounded-full font-medium">
+                                  {(method as any).badge}
                                 </span>
                               )}
                             </div>
@@ -515,6 +524,13 @@ export default function CheckoutPage() {
                   {formData.paymentMethod === 'campost' && (
                     <div className="mt-4">
                       <CampostPaymentInfo variant="compact" />
+                    </div>
+                  )}
+                  
+                  {/* Informations WhatsApp si mode sélectionné */}
+                  {formData.paymentMethod === 'whatsapp' && (
+                    <div className="mt-4">
+                      <WhatsAppPaymentInfo variant="compact" />
                     </div>
                   )}
                 </motion.div>

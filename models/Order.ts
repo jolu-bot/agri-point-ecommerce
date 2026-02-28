@@ -82,6 +82,19 @@ export interface IOrder {
     validationNotes?: string;
   };
   
+  // Paiement WhatsApp Mobile Money
+  whatsappPayment?: {
+    mobileMoneyProvider?: 'orange' | 'mtn'; // Orange Money ou MTN Mobile Money
+    mobileMoneyNumber?: string; // Numéro utilisé pour le paiement
+    screenshotUrl?: string; // URL du screenshot de confirmation de paiement
+    screenshotUploadedAt?: Date;
+    validatedBy?: mongoose.Types.ObjectId | string; // Admin qui valide
+    validatedAt?: Date;
+    validationNotes?: string;
+    paymentRequestedAt?: Date; // Quand le client a été invité à payer
+    paymentConfirmedAt?: Date; // Quand le paiement a été confirmé
+  };
+  
   status: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'awaiting_payment';
   
   tracking?: {
@@ -229,7 +242,7 @@ const OrderSchema = new Schema<IOrder>({
   paymentMethod: {
     type: String,
     required: true,
-    enum: ['campost', 'cash'],
+    enum: ['campost', 'cash', 'whatsapp'],
     default: 'campost',
   },
   paymentStatus: {
@@ -260,6 +273,25 @@ const OrderSchema = new Schema<IOrder>({
     },
     validatedAt: Date,
     validationNotes: String,
+  },
+  
+  // Paiement WhatsApp Mobile Money
+  whatsappPayment: {
+    mobileMoneyProvider: {
+      type: String,
+      enum: ['orange', 'mtn'],
+    },
+    mobileMoneyNumber: String,
+    screenshotUrl: String,
+    screenshotUploadedAt: Date,
+    validatedBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    validatedAt: Date,
+    validationNotes: String,
+    paymentRequestedAt: Date,
+    paymentConfirmedAt: Date,
   },
   
   status: {
