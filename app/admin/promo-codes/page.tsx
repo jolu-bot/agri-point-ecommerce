@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Copy, Calendar } from 'lucide-react';
+import { Plus, Edit2, Trash2, Copy, Calendar, BarChart3, Users, DollarSign, TrendingUp, Percent } from 'lucide-react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 
@@ -101,6 +101,66 @@ export default function PromoManagementPage() {
   const copyCode = (code: string) => {
     navigator.clipboard.writeText(code);
     toast.success('Code copié');
+  };
+
+  const handleEdit = (promo: PromoCode) => {
+    setEditingId(promo._id);
+    setFormData({
+      code: promo.code,
+      type: promo.type,
+      value: promo.value,
+      maxUses: promo.maxUses?.toString() || '',
+      expiryDate: promo.expiryDate.split('T')[0],
+      description: promo.description || '',
+    });
+    setShowForm(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Confirmer la suppression de ce code promo ?')) return;
+
+    try {
+      const token = localStorage.getItem('accessToken');
+      const response = await fetch(`/api/admin/promo-codes?id=${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        toast.success('Code supprimé');
+        loadPromos();
+      } else {
+        toast.error('Erreur suppression');
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      toast.error('Erreur serveur');
+    }
+  };
+
+  const handleToggleActive = async (id: string, isActive: boolean) => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      const response = await fetch(`/api/admin/promo-codes?id=${id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ isActive: !isActive }),
+      });
+
+      if (response.ok) {
+        toast.success(isActive ? 'Code désactivé' : 'Code activé');
+        loadPromos();
+      } else {
+        toast.error('Erreur');
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      toast.error('Erreur serveur');
+    }
   };
 
   if (loading) {
@@ -253,19 +313,51 @@ export default function PromoManagementPage() {
                   </div>
                   <div className="flex gap-2">
                     <button 
+                      onClick={() => handleEdit(promo)}
                       title="Modifier ce code"
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
                     >
-                      <Edit2 className="w-4 h-4" />
+                      <Edit2 className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                     </button>
                     <button 
+                      onClick={() => handleToggleActive(promo._id, promo.isActive)}
+                      title={promo.isActive ? "Désactiver" : "Activer"}
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
+                    >
+                      <Percent className={`w-4 h-4 ${promo.isActive ? 'text-green-600' : 'text-gray-400'}`} />
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(promo._id)}
                       title="Supprimer ce code"
-                      className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-red-600"
+                      className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-red-600 transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
+
+                {promo.maxUses && (
+                  <div className="mb-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Utilisation</span>
+                      <span className="text-sm font-semibold">
+                        {promo.usedCount} / {promo.maxUses} ({Math.round((promo.usedCount / promo.maxUses) * 100)}%)
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-300 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                      <motion.div
+                        className={`h-full rounded-full ${
+                          (promo.usedCount / promo.maxUses) > 0.8 ? 'bg-red-500' 
+                          : (promo.usedCount / promo.maxUses) > 0.5 ? 'bg-yellow-500'
+                          : 'bg-green-500'
+                        }`}
+                        initial={{ width: 0 }}
+                        animate={{ width: `${(promo.usedCount / promo.maxUses) * 100}%` }}
+                        transition={{ duration: 0.5 }}
+                      />
+                    </div>
+                  </div>
+                )}
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
                   <div>
