@@ -293,12 +293,11 @@ export default function DistributorsMap({
       {/* Légende */}
       <div className="mt-4 flex gap-4 flex-wrap text-sm">
         {Object.entries(categoryLabels).map(([key, label]) => {
-          const color = getMarkerIcon(key).fillColor;
+          const colorClass = key === 'wholesaler' ? 'bg-green-500' : key === 'retailer' ? 'bg-blue-500' : 'bg-purple-500';
           return (
             <div key={key} className="flex items-center gap-2">
               <div
-                className="w-4 h-4 rounded-full flex-shrink-0"
-                style={{ backgroundColor: color }}
+                className={`w-4 h-4 rounded-full flex-shrink-0 ${colorClass}`}
               />
               <span className="text-gray-700 dark:text-gray-300">{label}</span>
             </div>
