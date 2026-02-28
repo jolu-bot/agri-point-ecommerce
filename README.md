@@ -78,7 +78,7 @@ EMAIL_PASS=votre_mot_de_passe
 
 # Site
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
-WHATSAPP_NUMBER=676026601
+WHATSAPP_NUMBER=657393939
 ```
 
 ### 3. Démarrer MongoDB (si local)
@@ -199,7 +199,7 @@ npm start
 ## 📞 Contact AGRI POINT SERVICE
 
 - **Téléphone** : +237 657 39 39 39
-- **WhatsApp** : 676026601
+- **WhatsApp** : 657 39 39 39
 - **Email** : infos@agri-ps.com
 - **Adresse** : B.P. 5111 Yaoundé, Quartier Fouda, Cameroun
 - **Site Web** : www.agri-ps.com

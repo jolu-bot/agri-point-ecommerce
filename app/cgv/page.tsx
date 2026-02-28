@@ -311,7 +311,7 @@ export default function CGVPage() {
               <p><strong>Samedi :</strong> 9h00 - 13h00</p>
               <p><strong>Email :</strong> <a href="mailto:support@agri-ps.com" className="text-primary-600 hover:text-primary-700">support@agri-ps.com</a></p>
               <p><strong>Téléphone :</strong> <a href="tel:+237657393939" className="text-primary-600 hover:text-primary-700">+237 657 39 39 39</a></p>
-              <p><strong>WhatsApp :</strong> <a href="https://wa.me/237676026601" className="text-primary-600 hover:text-primary-700">676 02 66 01</a></p>
+              <p><strong>WhatsApp :</strong> <a href="https://wa.me/237657393939" className="text-primary-600 hover:text-primary-700">657 39 39 39</a></p>
             </div>
           </section>
 

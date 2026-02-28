@@ -234,7 +234,7 @@ async function seed() {
       contact: {
         email: 'infos@agri-ps.com',
         phone: '+237 657 39 39 39',
-        whatsapp: '676026601',
+        whatsapp: '657393939',
       },
     });
     console.log('✅ Paramètres créés');

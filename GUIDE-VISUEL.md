@@ -105,7 +105,7 @@
 │  ────────────  ─────────────    ───────────     ────────         │
 │  Partenaire    Boutique         Bio-fertilisants 📍 Yaoundé     │
 │  agricole      Agri Urbaine     Engrais          📞 657 39..    │
-│                À propos         Kits             💬 676026601    │
+│                À propos         Kits             💬 657 39 39 39 │
 │  Facebook      Contact          Services         📧 infos@...   │
 │  Instagram                                                       │
 │                                                                  │
