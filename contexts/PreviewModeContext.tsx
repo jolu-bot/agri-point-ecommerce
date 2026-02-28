@@ -1,7 +1,6 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { SiteConfig } from '@/models/SiteConfig';
 
 interface PreviewModeContextType {
   isPreviewMode: boolean;

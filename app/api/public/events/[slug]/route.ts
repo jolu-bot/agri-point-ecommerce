@@ -6,12 +6,12 @@ import EventRegistration from '@/models/EventRegistration';
 // GET - Informations sur l'événement
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
   try {
     await connectDB();
     
-    const slug = params.slug;
+    const { slug } = await context.params;
     
     const event = await Event.findOne({ slug, status: 'published' });
     if (!event) {
@@ -40,12 +40,12 @@ export async function GET(
 // POST - S'inscrire à l'événement
 export async function POST(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
   try {
     await connectDB();
     
-    const slug = params.slug;
+    const { slug } = await context.params;
     const body = await request.json();
     
     // Récupérer l'événement

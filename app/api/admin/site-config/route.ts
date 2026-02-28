@@ -67,7 +67,7 @@ export async function PUT(request: NextRequest) {
   try {
     await dbConnect();
     
-    const body = await request.json();
+    const body = (await request.json()) as Record<string, unknown>;
     
     // Désactiver toutes les configs existantes
     await SiteConfig.updateMany({}, { isActive: false });
@@ -143,7 +143,7 @@ export async function PATCH(request: NextRequest) {
     }
     
     // Récupérer la config active avant modification
-    const oldConfig = await SiteConfig.findOne({ isActive: true }).lean();
+    const oldConfig = (await SiteConfig.findOne({ isActive: true }).lean()) as Record<string, unknown> | null;
     
     // Récupérer la config active
     let config = await SiteConfig.findOne({ isActive: true });
@@ -154,7 +154,7 @@ export async function PATCH(request: NextRequest) {
     } else {
       // Sauvegarder snapshot AVANT modification (auto-versioning)
       const ConfigVersion = (await import('@/models/ConfigVersion')).default;
-      const lastVersion = await ConfigVersion.findOne().sort({ version: -1 }).lean();
+      const lastVersion = (await ConfigVersion.findOne().sort({ version: -1 }).lean()) as { version?: number } | null;
       
       // Calculer les changements
       const changes: any[] = [];

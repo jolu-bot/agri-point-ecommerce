@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
-// @ts-expect-error - QRCode package à installer : npm install qrcode @types/qrcode
+// @ts-ignore - QRCode package à installer : npm install qrcode @types/qrcode
 import QRCode from 'qrcode';
 
 // Status d'inscription

@@ -145,7 +145,7 @@ export async function POST(request: NextRequest) {
     // Sauvegarder la config actuelle avant import
     const currentConfig = await SiteConfig.findOne({ isActive: true });
     if (currentConfig && overwrite) {
-      const lastVersion = await ConfigVersion.findOne().sort({ version: -1 }).lean();
+      const lastVersion = (await ConfigVersion.findOne().sort({ version: -1 }).lean()) as { version?: number } | null;
       await ConfigVersion.create({
         version: (lastVersion?.version || 0) + 1,
         config: currentConfig.toObject(),
@@ -180,7 +180,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Créer version de l'import
-    const lastVersion = await ConfigVersion.findOne().sort({ version: -1 }).lean();
+    const lastVersion = (await ConfigVersion.findOne().sort({ version: -1 }).lean()) as { version?: number } | null;
     await ConfigVersion.create({
       version: (lastVersion?.version || 0) + 1,
       config: importedConfig.toObject(),

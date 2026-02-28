@@ -262,7 +262,7 @@ export async function PATCH(request: NextRequest) {
 
     // Si versioning activé et createVersion=true, créer une version
     if (contentType.settings.enableVersioning && createVersion) {
-      entry.createVersion(user.userId, body.versionComment);
+      (entry as any).createVersion(user.userId, body.versionComment);
     }
 
     // Valider les nouvelles données si elles sont fournies
@@ -362,7 +362,7 @@ export async function DELETE(request: NextRequest) {
       });
     } else {
       // Soft delete
-      entry.softDelete(user.userId);
+      (entry as any).softDelete(user.userId);
       await entry.save();
     }
 

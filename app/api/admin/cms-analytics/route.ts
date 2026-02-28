@@ -239,9 +239,9 @@ export async function GET(request: NextRequest) {
         activeUsers: activeUsers.length,
         criticalActions,
         comparison: {
-          logsChange: parseFloat(logsChange),
-          usersChange: parseFloat(usersChange),
-          criticalChange: parseFloat(criticalChange)
+          logsChange: Number(logsChange),
+          usersChange: Number(usersChange),
+          criticalChange: Number(criticalChange)
         }
       },
       actionBreakdown,
