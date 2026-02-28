@@ -14,6 +14,13 @@ export default function CheckoutPage() {
   const { items, clearCart } = useCartStore();
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  
+  // Promo code
+  const [promoCodeInput, setPromoCodeInput] = useState('');
+  const [promoCode, setPromoCode] = useState<any>(null);
+  const [promoDiscount, setPromoDiscount] = useState(0);
+  const [validatingPromo, setValidatingPromo] = useState(false);
+  const [promoError, setPromoError] = useState('');
 
   const [formData, setFormData] = useState({
     // Informations client
@@ -99,7 +106,40 @@ export default function CheckoutPage() {
   }, 0);
 
   const shipping = subtotal > 50000 ? 0 : 2500;
-  const total = subtotal + shipping;
+  const discountedSubtotal = subtotal - promoDiscount;
+  const total = discountedSubtotal + shipping;
+
+  // Valider code promo
+  const validatePromoCode = async () => {
+    if (!promoCodeInput.trim()) {
+      setPromoError('Entrez un code promo');
+      return;
+    }
+
+    setValidatingPromo(true);
+    setPromoError('');
+
+    try {
+      const response = await fetch(`/api/promo-codes?code=${promoCodeInput}&orderTotal=${subtotal}`);
+      const data = await response.json();
+
+      if (data.valid) {
+        setPromoCode(data.promo);
+        setPromoDiscount(data.discount);
+        toast.success(`Code "${promoCodeInput}" appliqué ! -${data.discount.toLocaleString()} FCFA`);
+        setPromoCodeInput('');
+      } else {
+        setPromoError(data.message || 'Code promo invalide');
+        toast.error(data.message || 'Code promo invalide');
+      }
+    } catch (error) {
+      console.error('Erreur validation promo:', error);
+      setPromoError('Erreur lors de la validation');
+      toast.error('Erreur lors de la validation');
+    } finally {
+      setValidatingPromo(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -131,8 +171,10 @@ export default function CheckoutPage() {
           total: (item.promoPrice || item.price) * item.quantity,
         })),
         subtotal,
+        discount: promoDiscount,
         shipping,
         total,
+        promoCode: promoCode?.code || null,
         shippingAddress: {
           name: formData.name,
           phone: formData.phone,
@@ -549,10 +591,41 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="space-y-3 pt-6 border-t border-gray-200 dark:border-gray-700">
+                  {/* Code Promo */}
+                  <div className="mb-4">
+                    <div className="flex gap-2 mb-2">
+                      <input
+                        type="text"
+                        placeholder="Code promo (optionnel)"
+                        value={promoCodeInput}
+                        onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())}
+                        onKeyPress={(e) => e.key === 'Enter' && validatePromoCode()}
+                        className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-400 outline-none"
+                      />
+                      <button
+                        type="button"
+                        onClick={validatePromoCode}
+                        disabled={validatingPromo || !promoCodeInput.trim()}
+                        className="px-4 py-2 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 text-white rounded-lg transition-colors text-sm font-medium"
+                      >
+                        {validatingPromo ? '...' : 'Appliquer'}
+                      </button>
+                    </div>
+                    {promoError && <p className="text-red-600 dark:text-red-400 text-xs">{promoError}</p>}
+                    {promoCode && <p className="text-green-600 dark:text-green-400 text-xs">✓ Code "{promoCode.code}" appliqué !</p>}
+                  </div>
+
                   <div className="flex justify-between text-gray-600 dark:text-gray-400">
                     <span>Sous-total</span>
                     <span className="font-semibold">{subtotal.toLocaleString()} FCFA</span>
                   </div>
+
+                  {promoDiscount > 0 && (
+                    <div className="flex justify-between text-green-600 dark:text-green-400 font-semibold">
+                      <span>Réduction</span>
+                      <span>-{promoDiscount.toLocaleString()} FCFA</span>
+                    </div>
+                  )}
 
                   <div className="flex justify-between text-gray-600 dark:text-gray-400">
                     <span>Livraison</span>

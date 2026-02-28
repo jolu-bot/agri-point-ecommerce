@@ -3,6 +3,7 @@ import connectDB from '@/lib/db';
 import Order from '@/models/Order';
 import Product from '@/models/Product';
 import jwt from 'jsonwebtoken';
+import { sendOrderConfirmation, sendAdminNotification } from '@/lib/email-service';
 
 const verifyToken = async (token: string) => {
   try {
@@ -133,6 +134,17 @@ export async function POST(request: NextRequest) {
         item.product,
         { $inc: { stock: -item.quantity, sold: item.quantity } }
       );
+    }
+
+    // Envoyer les emails (sans bloquer la réponse)
+    try {
+      // Email de confirmation au client
+      await sendOrderConfirmation(order);
+      // Notification admin
+      await sendAdminNotification(order, 'new_order');
+    } catch (emailError) {
+      console.warn('Erreur envoi email:', emailError);
+      // Ne pas bloquer la réponse si l'email échoue
     }
 
     return NextResponse.json({
