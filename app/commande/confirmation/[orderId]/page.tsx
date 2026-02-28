@@ -20,6 +20,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import WhatsAppInstructions from '@/components/shared/WhatsAppInstructions';
 
 interface Order {
   _id: string;
@@ -48,6 +49,12 @@ interface Order {
     receiptImage?: string;
     receiptUploadedAt?: Date;
   };
+  whatsappPayment?: {
+    mobileMoneyProvider?: 'orange' | 'mtn';
+    mobileMoneyNumber?: string;
+    screenshotUrl?: string;
+    screenshotUploadedAt?: Date;
+  };
   createdAt: string;
 }
 
@@ -61,6 +68,13 @@ export default function OrderConfirmationPage() {
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
+
+  // Vérifier si un reçu/screenshot a été uploadé
+  const hasUploadedReceipt = order?.paymentMethod === 'campost' 
+    ? !!order?.campostPayment?.receiptImage
+    : order?.paymentMethod === 'whatsapp'
+    ? !!order?.whatsappPayment?.screenshotUrl
+    : false;
 
   // Informations Campost (à configurer)
   const CAMPOST_INFO = {
@@ -233,17 +247,19 @@ export default function OrderConfirmationPage() {
           </p>
         </motion.div>
 
-        {/* Instructions Campost */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-xl p-8 mb-6 text-white"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <Building2 className="w-8 h-8" />
-            <h2 className="text-2xl font-bold">Comment Payer via Campost</h2>
-          </div>
+        {/* Instructions selon méthode de paiement */}
+        {order.paymentMethod === 'campost' ? (
+          // Instructions Campost
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-xl p-8 mb-6 text-white"
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <Building2 className="w-8 h-8" />
+              <h2 className="text-2xl font-bold">Comment Payer via Campost</h2>
+            </div>
 
           <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-6">
             <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
@@ -301,8 +317,15 @@ export default function OrderConfirmationPage() {
             </button>
           </div>
         </motion.div>
+        ) : order.paymentMethod === 'whatsapp' ? (
+          // Instructions WhatsApp Mobile Money
+          <WhatsAppInstructions 
+            orderNumber={order.orderNumber}
+            amount={order.total}
+          />
+        ) : null}
 
-        {/* Upload Reçu */}
+        {/* Upload Reçu / Screenshot */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -311,7 +334,9 @@ export default function OrderConfirmationPage() {
         >
           <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
             <Camera className="w-7 h-7 text-emerald-600" />
-            Uploader votre Reçu de Paiement
+            {order.paymentMethod === 'whatsapp' 
+              ? 'Uploader votre Capture d\'écran de Paiement' 
+              : 'Uploader votre Reçu de Paiement'}
           </h2>
 
           {hasUploadedReceipt ? (
@@ -319,13 +344,22 @@ export default function OrderConfirmationPage() {
               <div className="flex items-start gap-4">
                 <CheckCircle2 className="w-8 h-8 text-emerald-600 flex-shrink-0" />
                 <div className="flex-1">
-                  <h3 className="font-bold text-emerald-900 mb-2">Reçu Uploadé !</h3>
+                  <h3 className="font-bold text-emerald-900 mb-2">
+                    {order.paymentMethod === 'whatsapp' ? 'Capture d\'écran Uploadée !' : 'Reçu Uploadé !'}
+                  </h3>
                   <p className="text-emerald-700 mb-4">
-                    Votre reçu a été envoyé avec succès. Notre équipe le vérifiera dans les plus brefs délais.
+                    {order.paymentMethod === 'whatsapp' 
+                      ? 'Votre capture d\'écran a été envoyée avec succès. Notre équipe la vérifiera dans les plus brefs délais.'
+                      : 'Votre reçu a été envoyé avec succès. Notre équipe le vérifiera dans les plus brefs délais.'}
                   </p>
-                  {order.campostPayment?.receiptUploadedAt && (
+                  {order.paymentMethod === 'campost' && order.campostPayment?.receiptUploadedAt && (
                     <p className="text-sm text-emerald-600">
                       Uploadé le {new Date(order.campostPayment.receiptUploadedAt).toLocaleString('fr-FR')}
+                    </p>
+                  )}
+                  {order.paymentMethod === 'whatsapp' && order.whatsappPayment?.screenshotUploadedAt && (
+                    <p className="text-sm text-emerald-600">
+                      Uploadé le {new Date(order.whatsappPayment.screenshotUploadedAt).toLocaleString('fr-FR')}
                     </p>
                   )}
                 </div>
@@ -338,7 +372,11 @@ export default function OrderConfirmationPage() {
                   <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                   <div className="text-sm text-amber-800">
                     <p className="font-semibold mb-1">Important:</p>
-                    <p>Après avoir effectué le versement à Campost, photographiez ou filmez votre reçu et uploadez-le ici pour que nous puissions valider votre commande.</p>
+                    <p>
+                      {order.paymentMethod === 'whatsapp' 
+                        ? 'Après avoir effectué le paiement Mobile Money, prenez une capture d\'écran du SMS de confirmation et uploadez-la ici pour que nous puissions valider votre commande.'
+                        : 'Après avoir effectué le versement à Campost, photographiez ou filmez votre reçu et uploadez-le ici pour que nous puissions valider votre commande.'}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -348,7 +386,9 @@ export default function OrderConfirmationPage() {
                   <input
                     type="file"
                     accept="image/*,video/*"
-                    aria-label="Uploader le reçu Campost (photo ou vidéo)"
+                    aria-label={order.paymentMethod === 'whatsapp' 
+                      ? 'Uploader la capture d\'écran de confirmation Mobile Money' 
+                      : 'Uploader le reçu Campost (photo ou vidéo)'}
                     onChange={handleFileSelect}
                     className="hidden"
                   />
@@ -358,7 +398,9 @@ export default function OrderConfirmationPage() {
                       Cliquez pour uploader
                     </p>
                     <p className="text-sm text-gray-500">
-                      Photo ou vidéo du reçu Campost (max 10MB)
+                      {order.paymentMethod === 'whatsapp' 
+                        ? 'Capture d\'écran du SMS de confirmation (max 10MB)'
+                        : 'Photo ou vidéo du reçu Campost (max 10MB)'}
                     </p>
                   </div>
                 </label>

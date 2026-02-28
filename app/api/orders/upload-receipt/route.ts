@@ -48,15 +48,27 @@ export async function POST(req: NextRequest) {
     // Sauvegarder le fichier
     await writeFile(filePath, buffer);
 
-    // Mettre à jour la commande
+    // Mettre à jour la commande selon la méthode de paiement
     const publicUrl = `/receipts/${fileName}`;
-    order.campostPayment = {
-      accountNumber: order.campostPayment?.accountNumber || 'XXXX-XXXX-XXXX',
-      accountName: order.campostPayment?.accountName || 'Agri Point Services',
-      ...order.campostPayment,
-      receiptImage: publicUrl,
-      receiptUploadedAt: new Date(),
-    };
+    
+    if (order.paymentMethod === 'whatsapp') {
+      // Paiement WhatsApp Mobile Money
+      order.whatsappPayment = {
+        ...order.whatsappPayment,
+        screenshotUrl: publicUrl,
+        screenshotUploadedAt: new Date(),
+      };
+    } else {
+      // Paiement Campost (par défaut)
+      order.campostPayment = {
+        accountNumber: order.campostPayment?.accountNumber || 'XXXX-XXXX-XXXX',
+        accountName: order.campostPayment?.accountName || 'Agri Point Services',
+        ...order.campostPayment,
+        receiptImage: publicUrl,
+        receiptUploadedAt: new Date(),
+      };
+    }
+    
     order.paymentStatus = 'awaiting_proof';
     order.status = 'awaiting_payment';
     await order.save();
@@ -102,13 +114,24 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    return NextResponse.json({
-      hasReceipt: !!order.campostPayment?.receiptImage,
-      receiptUrl: order.campostPayment?.receiptImage,
-      uploadedAt: order.campostPayment?.receiptUploadedAt,
-      validated: !!order.campostPayment?.validatedAt,
-      validatedAt: order.campostPayment?.validatedAt,
-    });
+    // Déterminer les infos selon la méthode de paiement
+    const receiptInfo = order.paymentMethod === 'whatsapp' 
+      ? {
+          hasReceipt: !!order.whatsappPayment?.screenshotUrl,
+          receiptUrl: order.whatsappPayment?.screenshotUrl,
+          uploadedAt: order.whatsappPayment?.screenshotUploadedAt,
+          validated: !!order.whatsappPayment?.validatedAt,
+          validatedAt: order.whatsappPayment?.validatedAt,
+        }
+      : {
+          hasReceipt: !!order.campostPayment?.receiptImage,
+          receiptUrl: order.campostPayment?.receiptImage,
+          uploadedAt: order.campostPayment?.receiptUploadedAt,
+          validated: !!order.campostPayment?.validatedAt,
+          validatedAt: order.campostPayment?.validatedAt,
+        };
+
+    return NextResponse.json(receiptInfo);
   } catch (error) {
     console.error('Erreur:', error);
     return NextResponse.json(
