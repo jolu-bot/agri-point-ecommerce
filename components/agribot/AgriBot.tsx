@@ -365,6 +365,8 @@ export default function AgriBot() {
   const [userMemory, setUserMemory]              = useState<UserMemory>(() => loadMemory('tmp'));
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [showDistributorsModal, setShowDistributorsModal] = useState(false);
+  const [distributors, setDistributors]          = useState<any[]>([]);
+  const [loadingDistributors, setLoadingDistributors] = useState(false);
   const [showOptionsMenu, setShowOptionsMenu]    = useState(false);
   const [showHistoryPanel, setShowHistoryPanel]  = useState(false);
   const [savedConversations, setSavedConversations] = useState<SavedConversation[]>([]);
@@ -498,6 +500,83 @@ export default function AgriBot() {
     if (greeting) setSeasonalBanner(greeting);
     else setSeasonalBanner(null);
   }, [isOpen, userMemory.location, userMemory.region, userMemory.mainCrops]);
+
+  // ─── Chargement des distributeurs depuis l'API ───
+  useEffect(() => {
+    if (!showDistributorsModal) return;
+    
+    const fetchDistributors = async () => {
+      setLoadingDistributors(true);
+      try {
+        const res = await fetch('/api/distributors');
+        if (!res.ok) throw new Error('Erreur chargement distributeurs');
+        const data = await res.json();
+        if (data.distributors) {
+          setDistributors(data.distributors.map((d: any) => ({
+            id: d._id,
+            ...d,
+          })));
+        }
+      } catch (err) {
+        console.warn('Erreur distributeurs:', err);
+        // Fallback à l'ancienne data (à retirer une fois DB remplie)
+        setDistributors([
+          {
+            id: 'dist-yao',
+            name: 'Agri Point Yaoundé',
+            category: 'wholesaler',
+            address: 'Rue Camerounaise, Centre Ville',
+            city: 'Yaoundé',
+            region: 'Centre',
+            phone: '+237 6 XX XXX XXX',
+            email: 'yaounde@agripoint.cm',
+            coordinates: { lat: 3.8474, lng: 11.5021 },
+            businessHours: 'Lun-Sam: 7h-18h'
+          },
+          {
+            id: 'dist-dou',
+            name: 'Agri Point Douala',
+            category: 'retailer',
+            address: 'Boulevard de la Liberté',
+            city: 'Douala',
+            region: 'Littoral',
+            phone: '+237 6 XX XXX XXX',
+            email: 'douala@agripoint.cm',
+            coordinates: { lat: 4.0511, lng: 9.7679 },
+            businessHours: 'Lun-Sam: 7h-18h'
+          },
+          {
+            id: 'dist-bam',
+            name: 'Agri Point Bamenda',
+            category: 'partner',
+            address: 'Avenue Prince Charles',
+            city: 'Bamenda',
+            region: 'Nord-Ouest',
+            phone: '+237 6 XX XXX XXX',
+            email: 'bamenda@agripoint.cm',
+            coordinates: { lat: 5.9631, lng: 10.1591 },
+            businessHours: 'Lun-Sam: 8h-17h'
+          },
+          {
+            id: 'dist-bue',
+            name: 'Agri Point Buea',
+            category: 'retailer',
+            address: 'Commercial Avenue',
+            city: 'Buea',
+            region: 'Sud-Ouest',
+            phone: '+237 6 XX XXX XXX',
+            email: 'buea@agripoint.cm',
+            coordinates: { lat: 4.1551, lng: 9.2414 },
+            businessHours: 'Lun-Sam: 8h-17h'
+          },
+        ]);
+      } finally {
+        setLoadingDistributors(false);
+      }
+    };
+
+    fetchDistributors();
+  }, [showDistributorsModal]);
 
   // ─── Sauvegarder la conversation courante ───
   const saveCurrentConversation = useCallback(() => {
@@ -1304,61 +1383,20 @@ export default function AgriBot() {
                 </button>
               </div>
               <div className="p-6">
-                <DistributorsMap
-                  distributors={[
-                    {
-                      id: 'dist-yao',
-                      name: 'Agri Point Yaoundé',
-                      category: 'wholesaler',
-                      address: 'Rue Camerounaise, Centre Ville',
-                      city: 'Yaoundé',
-                      region: 'Centre',
-                      phone: '+237 6 XX XXX XXX',
-                      email: 'yaounde@agripoint.cm',
-                      coordinates: { lat: 3.8474, lng: 11.5021 },
-                      businessHours: 'Lun-Sam: 7h-18h'
-                    },
-                    {
-                      id: 'dist-dou',
-                      name: 'Agri Point Douala',
-                      category: 'retailer',
-                      address: 'Boulevard de la Liberté',
-                      city: 'Douala',
-                      region: 'Littoral',
-                      phone: '+237 6 XX XXX XXX',
-                      email: 'douala@agripoint.cm',
-                      coordinates: { lat: 4.0511, lng: 9.7679 },
-                      businessHours: 'Lun-Sam: 7h-18h'
-                    },
-                    {
-                      id: 'dist-bam',
-                      name: 'Agri Point Bamenda',
-                      category: 'partner',
-                      address: 'Avenue Prince Charles',
-                      city: 'Bamenda',
-                      region: 'Nord-Ouest',
-                      phone: '+237 6 XX XXX XXX',
-                      email: 'bamenda@agripoint.cm',
-                      coordinates: { lat: 5.9631, lng: 10.1591 },
-                      businessHours: 'Lun-Sam: 8h-17h'
-                    },
-                    {
-                      id: 'dist-bue',
-                      name: 'Agri Point Buea',
-                      category: 'retailer',
-                      address: 'Commercial Avenue',
-                      city: 'Buea',
-                      region: 'Sud-Ouest',
-                      phone: '+237 6 XX XXX XXX',
-                      email: 'buea@agripoint.cm',
-                      coordinates: { lat: 4.1551, lng: 9.2414 },
-                      businessHours: 'Lun-Sam: 8h-17h'
-                    },
-                  ]}
-                  onSelectDistributor={() => {}}
-                  height="500px"
-                  showList={true}
-                />
+                {loadingDistributors ? (
+                  <div className="flex items-center justify-center h-96">
+                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
+                      <Loader2 className="w-8 h-8 text-green-500" />
+                    </motion.div>
+                  </div>
+                ) : (
+                  <DistributorsMap
+                    distributors={distributors}
+                    onSelectDistributor={() => {}}
+                    height="500px"
+                    showList={true}
+                  />
+                )}
               </div>
             </motion.div>
           </motion.div>
