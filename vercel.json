@@ -7,5 +7,11 @@
   "env": {
     "NEXT_PUBLIC_SITE_URL": "https://agri-ps.com",
     "NEXT_PUBLIC_API_URL": "https://agri-ps.com/api"
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/agribot-follow-up",
+      "schedule": "0 0 * * *"
+    }
+  ]
 }

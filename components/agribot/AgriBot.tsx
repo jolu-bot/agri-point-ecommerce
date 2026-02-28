@@ -28,6 +28,7 @@ import {
   extractProductsFromText,
   getSeasonalGreeting,
 } from '@/lib/agribot-calendar';
+import DistributorsMap from '@/components/DistributorsMap';
 
 // ═══════════════════════════════════════════════════════════════════
 // TYPES
@@ -363,6 +364,7 @@ export default function AgriBot() {
   // ─── Mémoire & localisation ───
   const [userMemory, setUserMemory]              = useState<UserMemory>(() => loadMemory('tmp'));
   const [showLocationModal, setShowLocationModal] = useState(false);
+  const [showDistributorsModal, setShowDistributorsModal] = useState(false);
   const [showOptionsMenu, setShowOptionsMenu]    = useState(false);
   const [showHistoryPanel, setShowHistoryPanel]  = useState(false);
   const [savedConversations, setSavedConversations] = useState<SavedConversation[]>([]);
@@ -854,6 +856,15 @@ export default function AgriBot() {
                   >
                     <MapPin className="w-3.5 h-3.5" />
                   </button>
+                  {/* Carte Distributeurs */}
+                  <button
+                    onClick={() => setShowDistributorsModal(true)}
+                    className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                    title="Nos distributeurs"
+                    aria-label="Voir la carte des distributeurs"
+                  >
+                    <Map className="w-3.5 h-3.5" />
+                  </button>
                   {/* Options menu */}
                   <button
                     onClick={() => { setShowOptionsMenu(o => !o); setShowHistoryPanel(false); }}
@@ -1259,6 +1270,100 @@ export default function AgriBot() {
           e.target.value = '';
         }}
       />
+
+      {/* ══ MODAL DISTRIBUTEURS ══ */}
+      <AnimatePresence>
+        {showDistributorsModal && (
+          <motion.div
+            key="distributors-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={() => setShowDistributorsModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              onClick={e => e.stopPropagation()}
+              className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[85vh] overflow-auto"
+            >
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-900 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Map className="w-6 h-6 text-green-600" />
+                  <h2 className="text-lg font-bold text-gray-900 dark:text-white">Nos Distributeurs</h2>
+                </div>
+                <button
+                  onClick={() => setShowDistributorsModal(false)}
+                  title="Fermer"
+                  aria-label="Fermer la modal"
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="p-6">
+                <DistributorsMap
+                  distributors={[
+                    {
+                      id: 'dist-yao',
+                      name: 'Agri Point Yaoundé',
+                      category: 'wholesaler',
+                      address: 'Rue Camerounaise, Centre Ville',
+                      city: 'Yaoundé',
+                      region: 'Centre',
+                      phone: '+237 6 XX XXX XXX',
+                      email: 'yaounde@agripoint.cm',
+                      coordinates: { lat: 3.8474, lng: 11.5021 },
+                      businessHours: 'Lun-Sam: 7h-18h'
+                    },
+                    {
+                      id: 'dist-dou',
+                      name: 'Agri Point Douala',
+                      category: 'retailer',
+                      address: 'Boulevard de la Liberté',
+                      city: 'Douala',
+                      region: 'Littoral',
+                      phone: '+237 6 XX XXX XXX',
+                      email: 'douala@agripoint.cm',
+                      coordinates: { lat: 4.0511, lng: 9.7679 },
+                      businessHours: 'Lun-Sam: 7h-18h'
+                    },
+                    {
+                      id: 'dist-bam',
+                      name: 'Agri Point Bamenda',
+                      category: 'partner',
+                      address: 'Avenue Prince Charles',
+                      city: 'Bamenda',
+                      region: 'Nord-Ouest',
+                      phone: '+237 6 XX XXX XXX',
+                      email: 'bamenda@agripoint.cm',
+                      coordinates: { lat: 5.9631, lng: 10.1591 },
+                      businessHours: 'Lun-Sam: 8h-17h'
+                    },
+                    {
+                      id: 'dist-bue',
+                      name: 'Agri Point Buea',
+                      category: 'retailer',
+                      address: 'Commercial Avenue',
+                      city: 'Buea',
+                      region: 'Sud-Ouest',
+                      phone: '+237 6 XX XXX XXX',
+                      email: 'buea@agripoint.cm',
+                      coordinates: { lat: 4.1551, lng: 9.2414 },
+                      businessHours: 'Lun-Sam: 8h-17h'
+                    },
+                  ]}
+                  onSelectDistributor={() => {}}
+                  height="500px"
+                  showList={true}
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ══ MODAL LOCALISATION ══ */}
       <AnimatePresence>
