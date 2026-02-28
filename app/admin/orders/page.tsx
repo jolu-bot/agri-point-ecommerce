@@ -23,6 +23,19 @@ interface Order {
   total: number;
   status: string;
   paymentStatus: string;
+  paymentMethod: 'campost' | 'cash' | 'whatsapp';
+  campostPayment?: {
+    receiptImage?: string;
+    validatedAt?: Date;
+    validationNotes?: string;
+  };
+  whatsappPayment?: {
+    mobileMoneyProvider?: 'orange' | 'mtn';
+    screenshotUrl?: string;
+    screenshotUploadedAt?: Date;
+    validatedAt?: Date;
+    validationNotes?: string;
+  };
   createdAt: string;
   shippingAddress: {
     fullName: string;
@@ -42,6 +55,8 @@ export default function OrdersPage() {
   const statuses = [
     { value: 'all', label: 'Tous' },
     { value: 'pending', label: 'En attente' },
+    { value: 'awaiting_payment', label: '⏳ Attente paiement' },
+    { value: 'confirmed', label: '✓ Confirmée' },
     { value: 'processing', label: 'En traitement' },
     { value: 'shipped', label: 'Expédiée' },
     { value: 'delivered', label: 'Livrée' },
@@ -100,9 +115,50 @@ export default function OrdersPage() {
     }
   };
 
+  const handleValidatePayment = async (orderId: string, action: 'approve' | 'reject') => {
+    const notesElement = document.getElementById('validation-notes') as HTMLTextAreaElement;
+    const notes = notesElement?.value || '';
+
+    const confirmMessage = action === 'approve' 
+      ? 'Confirmer la validation du paiement ?'
+      : 'Êtes-vous sûr de vouloir rejeter ce paiement ?';
+    
+    if (!confirm(confirmMessage)) return;
+
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('accessToken');
+      const response = await fetch('/api/admin/orders/validate-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ orderId, action, notes }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success(data.message || (action === 'approve' ? 'Paiement validé ✅' : 'Paiement rejeté'));
+        loadOrders();
+        setSelectedOrder(null); // Fermer le modal
+      } else {
+        toast.error(data.error || 'Erreur de validation');
+      }
+    } catch (error) {
+      console.error('Erreur validation paiement:', error);
+      toast.error('Erreur serveur');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     const badges: { [key: string]: string } = {
       pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
+      awaiting_payment: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300',
+      confirmed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300',
       processing: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
       shipped: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
       delivered: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
@@ -235,9 +291,35 @@ export default function OrdersPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusBadge(order.status)}`}>
-                        {statuses.find(s => s.value === order.status)?.label}
-                      </span>
+                      <div className="space-y-1">
+                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusBadge(order.status)}`}>
+                          {statuses.find(s => s.value === order.status)?.label}
+                        </span>
+                        {/* Payment Method Badge */}
+                        <div className="flex items-center space-x-1">
+                          {order.paymentMethod === 'whatsapp' && (
+                            <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
+                              📱 WhatsApp
+                            </span>
+                          )}
+                          {order.paymentMethod === 'campost' && (
+                            <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                              🏢 Campost
+                            </span>
+                          )}
+                          {order.paymentMethod === 'cash' && (
+                            <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                              💵 À livraison
+                            </span>
+                          )}
+                          {/* Receipt/Screenshot indicator */}
+                          {(order.whatsappPayment?.screenshotUrl || order.campostPayment?.receiptImage) && (
+                            <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+                              📄 Preuve
+                            </span>
+                          )}
+                        </div>
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                       {new Date(order.createdAt).toLocaleDateString('fr-FR')}
@@ -298,6 +380,111 @@ export default function OrdersPage() {
                 {selectedOrder.shippingAddress?.phone}<br />
                 {selectedOrder.shippingAddress?.address}<br />
                 {selectedOrder.shippingAddress?.city}
+              </p>
+            </div>
+
+            {/* Payment Validation Section */}
+            {(selectedOrder.paymentMethod === 'whatsapp' || selectedOrder.paymentMethod === 'campost') && 
+             (selectedOrder.whatsappPayment?.screenshotUrl || selectedOrder.campostPayment?.receiptImage) && (
+              <div className="mb-6 p-4 bg-gradient-to-r from-amber-50 to-amber-100 dark:from-amber-900/20 dark:to-amber-800/20 border border-amber-200 dark:border-amber-700 rounded-lg">
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+                  {selectedOrder.paymentMethod === 'whatsapp' ? '📱 Paiement WhatsApp Mobile Money' : '🏢 Paiement Campost'}
+                  {selectedOrder.whatsappPayment?.validatedAt || selectedOrder.campostPayment?.validatedAt ? (
+                    <span className="ml-2 text-xs px-2 py-1 bg-green-500 text-white rounded-full">✓ Validé</span>
+                  ) : (
+                    <span className="ml-2 text-xs px-2 py-1 bg-amber-500 text-white rounded-full animate-pulse">⏳ En attente</span>
+                  )}
+                </h4>
+
+                {/* Screenshot/Receipt Preview */}
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    {selectedOrder.paymentMethod === 'whatsapp' ? 'Capture d\'écran Mobile Money' : 'Reçu de paiement'}
+                  </label>
+                  <div className="relative group">
+                    <img
+                      src={selectedOrder.whatsappPayment?.screenshotUrl || selectedOrder.campostPayment?.receiptImage}
+                      alt="Preuve de paiement"
+                      className="w-full max-h-64 object-contain border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
+                      onClick={() => {
+                        const url = selectedOrder.whatsappPayment?.screenshotUrl || selectedOrder.campostPayment?.receiptImage;
+                        if (url) window.open(url, '_blank');
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100">
+                      <span className="text-white bg-black/50 px-3 py-1 rounded-lg text-sm">🔍 Cliquer pour agrandir</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                    Uploadé le {new Date(selectedOrder.whatsappPayment?.screenshotUploadedAt || selectedOrder.campostPayment?.receiptImage || '').toLocaleString('fr-FR')}
+                  </p>
+                </div>
+
+                {/* Payment Details */}
+                {selectedOrder.paymentMethod === 'whatsapp' && selectedOrder.whatsappPayment?.mobileMoneyProvider && (
+                  <div className="mb-4 p-3 bg-white dark:bg-gray-800 rounded-lg">
+                    <p className="text-sm text-gray-700 dark:text-gray-300">
+                      <span className="font-medium">Opérateur: </span>
+                      {selectedOrder.whatsappPayment.mobileMoneyProvider === 'orange' ? (
+                        <span className="inline-flex items-center px-2 py-1 bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 rounded text-xs font-semibold">
+                          🟠 Orange Money
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center px-2 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 rounded text-xs font-semibold">
+                          🟡 MTN Mobile Money
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                )}
+
+                {/* Validation Status */}
+                {(selectedOrder.whatsappPayment?.validatedAt || selectedOrder.campostPayment?.validatedAt) ? (
+                  <div className="p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg">
+                    <p className="text-sm text-green-800 dark:text-green-200">
+                      ✅ <strong>Validé</strong> le {new Date(selectedOrder.whatsappPayment?.validatedAt || selectedOrder.campostPayment?.validatedAt || '').toLocaleString('fr-FR')}
+                    </p>
+                    {(selectedOrder.whatsappPayment?.validationNotes || selectedOrder.campostPayment?.validationNotes) && (
+                      <p className="text-xs text-green-700 dark:text-green-300 mt-1">
+                        Note: {selectedOrder.whatsappPayment?.validationNotes || selectedOrder.campostPayment?.validationNotes}
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <div>
+                      <label htmlFor="validation-notes" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Notes de validation (optionnel)
+                      </label>
+                      <textarea
+                        id="validation-notes"
+                        rows={2}
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                        placeholder="Ajouter des remarques..."
+                      />
+                    </div>
+                    <div className="flex space-x-3">
+                      <button
+                        onClick={() => handleValidatePayment(selectedOrder._id, 'approve')}
+                        disabled={loading}
+                        className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white rounded-lg transition-colors flex items-center justify-center space-x-2 font-medium"
+                      >
+                        <span>✅</span>
+                        <span>Approuver le paiement</span>
+                      </button>
+                      <button
+                        onClick={() => handleValidatePayment(selectedOrder._id, 'reject')}
+                        disabled={loading}
+                        className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white rounded-lg transition-colors flex items-center justify-center space-x-2 font-medium"
+                      >
+                        <span>❌</span>
+                        <span>Rejeter</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
               </p>
             </div>
 
