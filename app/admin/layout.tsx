@@ -17,7 +17,8 @@ import {
   X,
   Home,
   Palette,
-  Building2
+  Building2,
+  MapPin
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -27,6 +28,7 @@ const menuItems = [
   { icon: ShoppingBag, label: 'Produits', href: '/admin/products' },
   { icon: Package, label: 'Commandes', href: '/admin/orders' },
   { icon: Building2, label: 'Paiements Campost', href: '/admin/campost-payments', badge: 'new' },
+  { icon: MapPin, label: 'Distributeurs', href: '/admin/distributors' },
   { icon: Users, label: 'Utilisateurs', href: '/admin/users' },
   { icon: Shield, label: 'Gestion Avancée', href: '/admin/users-management' },
   { icon: MessageSquare, label: 'Messages', href: '/admin/messages' },
