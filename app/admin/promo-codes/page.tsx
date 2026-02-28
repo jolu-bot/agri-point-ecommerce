@@ -190,6 +190,8 @@ export default function PromoManagementPage() {
                   value={formData.expiryDate}
                   onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded-lg"
+                  placeholder="2026-12-31"
+                  title="Date d'expiration du code promo"
                 />
               </div>
               <div>
