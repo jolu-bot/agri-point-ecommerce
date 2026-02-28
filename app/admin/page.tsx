@@ -28,6 +28,7 @@ import {
   Inbox,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import PaymentValidationWidget from '@/components/admin/PaymentValidationWidget';
 
 interface Stats {
   totalRevenue: number;
@@ -202,7 +203,8 @@ export default function AdminDashboard() {
           );
         })}
       </div>
-
+      {/* Widget Validation Paiement */}
+      <PaymentValidationWidget />
       {/* â”€â”€ Barre de progression campagne â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
         className="bg-gradient-to-r from-emerald-900 to-teal-900 rounded-2xl p-5 sm:p-6 text-white shadow-lg">

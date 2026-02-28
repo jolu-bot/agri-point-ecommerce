@@ -4,6 +4,7 @@ import Order from '@/models/Order';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
+import { sendEmail } from '@/lib/email';
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Vérifier que la commande existe
-    const order = await Order.findById(orderId);
+    const order = await Order.findById(orderId).populate('user', 'name email');
     if (!order) {
       return NextResponse.json(
         { error: 'Commande non trouvée' },
@@ -73,8 +74,110 @@ export async function POST(req: NextRequest) {
     order.status = 'awaiting_payment';
     await order.save();
 
-    // TODO: Envoyer notification à l'admin
-    // sendAdminNotification(order);
+    // Envoyer notification à l'admin
+    try {
+      const paymentMethodLabel = order.paymentMethod === 'whatsapp' 
+        ? 'Mobile Money (WhatsApp)' 
+        : order.paymentMethod === 'campost' 
+        ? 'Campost' 
+        : 'Paiement à la livraison';
+
+      const customerName = (order.user as any)?.name || 'Client inconnu';
+      
+      await sendEmail({
+        to: process.env.ADMIN_EMAIL || 'admin@agri-ps.com',
+        subject: `🔔 Nouvelle preuve de paiement à valider - ${order.orderNumber}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 30px; border-radius: 12px 12px 0 0;">
+              <h2 style="color: white; margin: 0; font-size: 24px;">🔔 Nouvelle Preuve de Paiement</h2>
+            </div>
+            
+            <div style="background-color: #f9fafb; padding: 30px; border: 1px solid #e5e7eb;">
+              <div style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+                <p style="margin: 0; color: #856404; font-weight: bold;">⏰ Action requise : Validation sous 2 heures</p>
+              </div>
+
+              <h3 style="color: #1f2937; margin-top: 0;">Détails de la commande</h3>
+              
+              <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                  <td style="padding: 12px 0; color: #6b7280; font-weight: 500;">Commande</td>
+                  <td style="padding: 12px 0; text-align: right; color: #1f2937; font-weight: bold;">
+                    ${order.orderNumber}
+                  </td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                  <td style="padding: 12px 0; color: #6b7280; font-weight: 500;">Client</td>
+                  <td style="padding: 12px 0; text-align: right; color: #1f2937;">
+                    ${customerName}
+                  </td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                  <td style="padding: 12px 0; color: #6b7280; font-weight: 500;">Montant</td>
+                  <td style="padding: 12px 0; text-align: right; color: #1f2937; font-weight: bold; font-size: 18px;">
+                    ${order.total.toLocaleString('fr-FR')} FCFA
+                  </td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                  <td style="padding: 12px 0; color: #6b7280; font-weight: 500;">Méthode</td>
+                  <td style="padding: 12px 0; text-align: right;">
+                    <span style="background-color: #d1fae5; color: #065f46; padding: 4px 12px; border-radius: 12px; font-size: 14px; font-weight: 600;">
+                      ${paymentMethodLabel}
+                    </span>
+                  </td>
+                </tr>
+                ${order.paymentMethod === 'whatsapp' && (order.whatsappPayment as any)?.mobileMoneyProvider ? `
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                  <td style="padding: 12px 0; color: #6b7280; font-weight: 500;">Opérateur</td>
+                  <td style="padding: 12px 0; text-align: right;">
+                    <span style="background-color: ${(order.whatsappPayment as any).mobileMoneyProvider === 'orange' ? '#fed7aa' : '#fef3c7'}; color: ${(order.whatsappPayment as any).mobileMoneyProvider === 'orange' ? '#9a3412' : '#92400e'}; padding: 4px 12px; border-radius: 12px; font-size: 14px; font-weight: 600;">
+                      ${(order.whatsappPayment as any).mobileMoneyProvider === 'orange' ? '🟠 Orange Money' : '🟡 MTN Mobile Money'}
+                    </span>
+                  </td>
+                </tr>
+                ` : ''}
+                <tr>
+                  <td style="padding: 12px 0; color: #6b7280; font-weight: 500;">Date upload</td>
+                  <td style="padding: 12px 0; text-align: right; color: #1f2937;">
+                    ${new Date().toLocaleString('fr-FR', { dateStyle: 'full', timeStyle: 'short' })}
+                  </td>
+                </tr>
+              </table>
+
+              <div style="margin: 30px 0;">
+                <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/admin/orders" 
+                   style="display: inline-block; background-color: #10b981; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
+                  🔍 Voir et Valider la Preuve
+                </a>
+              </div>
+
+              <div style="background-color: #eff6ff; border-left: 4px solid #3b82f6; padding: 15px; border-radius: 4px; margin-top: 20px;">
+                <p style="margin: 0; color: #1e40af; font-size: 14px;">
+                  <strong>💡 Rappel :</strong> Vérifiez que la capture d'écran/reçu contient :
+                </p>
+                <ul style="margin: 10px 0 0 0; padding-left: 20px; color: #1e40af; font-size: 14px;">
+                  <li>Le montant exact (${order.total.toLocaleString('fr-FR')} FCFA)</li>
+                  <li>La date et l'heure de transaction</li>
+                  <li>Le numéro de transaction ou référence</li>
+                  <li>Une image claire et lisible</li>
+                </ul>
+              </div>
+            </div>
+
+            <div style="background-color: #f9fafb; padding: 20px; text-align: center; border-radius: 0 0 12px 12px; border: 1px solid #e5e7eb; border-top: none;">
+              <p style="color: #6b7280; font-size: 14px; margin: 0;">
+                Cet email a été envoyé automatiquement.<br>
+                <strong>AGRI POINT SERVICE</strong> | Système de Gestion des Commandes
+              </p>
+            </div>
+          </div>
+        `,
+      });
+    } catch (emailError) {
+      console.error('Erreur envoi email admin:', emailError);
+      // Ne pas bloquer le processus si l'email échoue
+    }
 
     return NextResponse.json({
       success: true,
