@@ -44,7 +44,7 @@ const getTransporter = () => {
     secure: process.env.SMTP_SECURE === 'true',
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD,
+      pass: process.env.EMAIL_PASS, // ✅ Fixed: was EMAIL_PASSWORD
     },
   });
 };

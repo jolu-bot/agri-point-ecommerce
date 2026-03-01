@@ -76,7 +76,7 @@ const pageContent = {
       icon: Headphones,
       title: "Service Client",
       description: "Questions sur vos commandes et produits",
-      email: "infos@agri-ps.com",
+      email: "support@agri-ps.com", // ✅ Dédié support client
       phone: "(+237) 657 39 39 39",
       hours: "Lun-Sam: 8h-18h",
       color: "blue"
@@ -85,7 +85,7 @@ const pageContent = {
       icon: Users,
       title: "Conseil Agricole",
       description: "Accompagnement technique et formations",
-      email: "infos@agri-ps.com",
+      email: "infos@agri-ps.com", // ✅ Informations générales
       phone: "(+237) 651 92 09 20",
       hours: "Lun-Ven: 8h-17h",
       color: "green"
@@ -94,7 +94,7 @@ const pageContent = {
       icon: Building2,
       title: "Partenariats",
       description: "Collaboration et opportunités business",
-      email: "infos@agri-ps.com",
+      email: "contact@agri-ps.com", // ✅ Contact business
       phone: "(+237) 657 39 39 39",
       hours: "Lun-Ven: 9h-16h",
       color: "purple"
@@ -177,25 +177,28 @@ export default function ContactPage() {
       return;
     }
 
-    // Simuler l'envoi (à remplacer par vraie API)
+    // ✅ Vrai appel API (plus de simulation)
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Ici, vous pourriez appeler votre API
-      // const response = await fetch('/api/contact', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData)
-      // });
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Erreur lors de l\'envoi');
+      }
 
       setStatus('success');
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
       
       // Reset success message after 5 seconds
       setTimeout(() => setStatus('idle'), 5000);
-    } catch {
+    } catch (error: any) {
       setStatus('error');
-      setErrorMessage('Une erreur est survenue. Veuillez réessayer.');
+      setErrorMessage(error.message || 'Une erreur est survenue. Veuillez réessayer.');
     }
   };
 
