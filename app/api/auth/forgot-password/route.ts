@@ -2,15 +2,32 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import { sendEmail } from '@/lib/email';
+import {
+  getClientIp, isValidEmail, sanitizeString, scanForThreats,
+  applySecurityHeaders, logSecurityEvent,
+} from '@/lib/security';
 
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+  const ua = req.headers.get('user-agent') ?? 'unknown';
+
   try {
     await dbConnect();
 
-    const { email } = await req.json();
+    let body: Record<string, unknown>;
+    try { body = await req.json(); }
+    catch { return applySecurityHeaders(NextResponse.json({ error: 'Corps invalide' }, { status: 400 })); }
 
-    if (!email) {
-      return NextResponse.json({ error: 'Email requis' }, { status: 400 });
+    const threat = scanForThreats(body);
+    if (!threat.safe) {
+      logSecurityEvent({ type: 'threat_detected', ip, userAgent: ua, detail: threat.threat ?? '' });
+      return applySecurityHeaders(NextResponse.json({ error: 'Requête invalide' }, { status: 400 }));
+    }
+
+    const email = sanitizeString(body.email as string ?? '').toLowerCase();
+
+    if (!isValidEmail(email)) {
+      return applySecurityHeaders(NextResponse.json({ error: 'Email invalide' }, { status: 400 }));
     }
 
     const user = await User.findOne({ email: email.toLowerCase() });
@@ -69,73 +86,12 @@ export async function POST(req: NextRequest) {
 </html>`,
     });
 
-    return NextResponse.json({
+    return applySecurityHeaders(NextResponse.json({
       success: true,
-      message: 'Email de réinitialisation envoyé. Vérifiez votre boîte mail (et les spams).',
-    });
+      message: 'Si ce compte existe, un email de réinitialisation a été envoyé.',
+    }));
   } catch (error: any) {
     console.error('❌ Erreur forgot-password:', error);
-    return NextResponse.json(
-      { error: error.message || 'Erreur serveur' },
-      { status: 500 }
-    );
-  }
-}
-
-  try {
-    await dbConnect();
-
-    const { email } = await req.json();
-
-    if (!email) {
-      return NextResponse.json(
-        { error: 'Email requis' },
-        { status: 400 }
-      );
-    }
-
-    const user = await User.findOne({ email: email.toLowerCase() });
-
-    // ⚠️ Pour la sécurité, on retourne toujours le même message
-    // même si l'utilisateur n'existe pas (évite l'énumération des emails)
-    
-    if (user) {
-      // Générer un token de réinitialisation
-      const resetToken = crypto.randomBytes(32).toString('hex');
-      const resetTokenHash = crypto
-        .createHash('sha256')
-        .update(resetToken)
-        .digest('hex');
-
-      // Expire dans 1 heure
-      const resetTokenExpiry = new Date(Date.now() + 3600000);
-
-      user.passwordResetToken = resetTokenHash;
-      user.passwordResetExpires = resetTokenExpiry;
-      await user.save();
-
-      // TODO: Envoyer l'email avec nodemailer
-      // const resetUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/reset-password?token=${resetToken}`;
-      // await sendEmail({
-      //   to: user.email,
-      //   subject: 'Réinitialisation de mot de passe - AGRI POINT',
-      //   html: `Cliquez sur ce lien pour réinitialiser votre mot de passe: ${resetUrl}`
-      // });
-
-      console.log('🔐 Token de réinitialisation généré pour:', user.email);
-      console.log('Token (à utiliser pour test):', resetToken);
-    }
-
-    return NextResponse.json({
-      success: true,
-      message: 'Si cet email existe, un lien de réinitialisation a été envoyé',
-    });
-
-  } catch (error: any) {
-    console.error('Erreur forgot-password:', error);
-    return NextResponse.json(
-      { error: 'Erreur lors de la demande de réinitialisation' },
-      { status: 500 }
-    );
+    return applySecurityHeaders(NextResponse.json({ error: 'Erreur serveur' }, { status: 500 }));
   }
 }

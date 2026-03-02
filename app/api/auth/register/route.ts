@@ -3,6 +3,11 @@ import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import { generateAccessToken, generateRefreshToken, getRolePermissions } from '@/lib/auth';
 import { sendEmail } from '@/lib/email';
+import {
+  getClientIp, sanitizeObject, sanitizeString, scanForThreats,
+  isValidEmail, isValidCameroonPhone, checkPasswordStrength,
+  applySecurityHeaders, logSecurityEvent,
+} from '@/lib/security';
 
 // Régions administratives du Cameroun
 const CAMEROUN_REGIONS = [
@@ -11,29 +16,45 @@ const CAMEROUN_REGIONS = [
 ];
 
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+  const ua = req.headers.get('user-agent') ?? 'unknown';
+
   try {
     await dbConnect();
 
-    const body = await req.json();
+    let rawBody: Record<string, unknown>;
+    try { rawBody = await req.json(); }
+    catch { return NextResponse.json({ error: 'Corps de requête invalide' }, { status: 400 }); }
+
+    // ── Scan anti-injection/ XSS avant tout traitement ───────────────────────
+    const threat = scanForThreats(rawBody);
+    if (!threat.safe) {
+      logSecurityEvent({ type: 'threat_detected', ip, userAgent: ua, detail: `${threat.threat} in ${threat.matchedField}` });
+      return applySecurityHeaders(NextResponse.json({ error: 'Données invalides' }, { status: 400 }));
+    }
+
+    // ── Sanitisation complète ────────────────────────────────────────────────
+    const body = sanitizeObject(rawBody);
     const {
       name, email, password, confirmPassword,
       phone, whatsapp,
       city, region, quartier, street,
-    } = body;
+    } = body as Record<string, string>;
 
     // ── Validation ────────────────────────────────────────────────────────────
     const errors: string[] = [];
 
     if (!name?.trim() || name.trim().length < 2)
       errors.push('Le nom doit contenir au moins 2 caractères');
-    if (!email?.trim() || !/^\S+@\S+\.\S+$/.test(email))
+    if (!isValidEmail(email ?? ''))
       errors.push('Adresse email invalide');
-    if (!password || password.length < 8)
-      errors.push('Le mot de passe doit contenir au moins 8 caractères');
+    const pwdCheck = checkPasswordStrength(password ?? '');
+    if (!pwdCheck.strong)
+      errors.push(pwdCheck.issues[0] ?? 'Mot de passe trop faible');
     if (confirmPassword && password !== confirmPassword)
       errors.push('Les mots de passe ne correspondent pas');
-    if (!phone?.trim())
-      errors.push('Le numéro de téléphone est requis');
+    if (!phone?.trim() || !isValidCameroonPhone(phone))
+      errors.push('Numéro de téléphone invalide (format camerounais requis)');
     if (!city?.trim())
       errors.push('La ville est requise');
     if (!region?.trim() || !CAMEROUN_REGIONS.includes(region))
@@ -149,20 +170,21 @@ export async function POST(req: NextRequest) {
       path:     '/',
     });
 
-    return response;
+    logSecurityEvent({ type: 'register_success', ip, userAgent: ua, email: user.email, userId: user._id.toString() });
+    return applySecurityHeaders(response);
 
   } catch (error: any) {
     console.error('❌ Erreur inscription:', error);
     if (error.code === 11000) {
-      return NextResponse.json(
+      return applySecurityHeaders(NextResponse.json(
         { error: 'Un compte existe déjà avec cet email ou ce code' },
         { status: 409 }
-      );
+      ));
     }
-    return NextResponse.json(
-      { error: error.message || 'Erreur lors de l\'inscription' },
+    return applySecurityHeaders(NextResponse.json(
+      { error: 'Erreur lors de l\'inscription' },
       { status: 500 }
-    );
+    ));
   }
 }
 
@@ -213,70 +235,4 @@ function buildVerificationEmailHtml(name: string, verifyUrl: string, code: strin
   </table>
 </body>
 </html>`;
-}
-
-  try {
-    await dbConnect();
-
-    const { name, email, password } = await req.json();
-
-    // Validation
-    if (!name || !email || !password) {
-      return NextResponse.json(
-        { error: 'Tous les champs sont requis' },
-        { status: 400 }
-      );
-    }
-
-    // Vérifier si l'utilisateur existe déjà
-    const existingUser = await User.findOne({ email: email.toLowerCase() });
-    if (existingUser) {
-      return NextResponse.json(
-        { error: 'Cet email est déjà utilisé' },
-        { status: 400 }
-      );
-    }
-
-    // Créer l'utilisateur
-    const user = await User.create({
-      name,
-      email: email.toLowerCase(),
-      password,
-      role: 'client',
-    });
-
-    // Générer les tokens
-    const accessToken = generateAccessToken({
-      userId: user._id.toString(),
-      email: user.email,
-      role: user.role,
-    });
-
-    const refreshToken = generateRefreshToken({
-      userId: user._id.toString(),
-      email: user.email,
-      role: user.role,
-    });
-
-    // Retourner la réponse
-    return NextResponse.json({
-      success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        permissions: getRolePermissions(user.role),
-      },
-      accessToken,
-      refreshToken,
-    }, { status: 201 });
-
-  } catch (error: any) {
-    console.error('Erreur inscription:', error);
-    return NextResponse.json(
-      { error: error.message || 'Erreur lors de l\'inscription' },
-      { status: 500 }
-    );
-  }
 }

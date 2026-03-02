@@ -74,7 +74,7 @@ function UserDetailModal({ user, onClose, onAction }: { user: AdminUser; onClose
               <p className="text-sm text-gray-500 dark:text-gray-400">{user.email}</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition">
+          <button onClick={onClose} title="Fermer" aria-label="Fermer" className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition">
             <X className="w-5 h-5 text-gray-500" />
           </button>
         </div>
@@ -267,6 +267,8 @@ export default function AdminUsersPage() {
         <select
           value={filterRole}
           onChange={e => setFilterRole(e.target.value)}
+          title="Filtrer par rôle"
+          aria-label="Filtrer par rôle"
           className="px-4 py-2.5 text-sm rounded-xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
         >
           <option value="all">Tous les rôles</option>
@@ -384,6 +386,8 @@ export default function AdminUsersPage() {
                           <div className="relative">
                             <button
                               onClick={() => setOpenMenu(openMenu === user._id ? null : user._id)}
+                              aria-label="Options"
+                              title="Options"
                               className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition"
                             >
                               <MoreVertical className="w-4 h-4" />

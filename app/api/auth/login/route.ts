@@ -2,15 +2,40 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import { generateAccessToken, generateRefreshToken, getRolePermissions } from '@/lib/auth';
+import {
+  getClientIp, sanitizeString, scanForThreats,
+  isValidEmail, applySecurityHeaders, logSecurityEvent,
+} from '@/lib/security';
 
 const MAX_LOGIN_ATTEMPTS = 5;
 const LOCK_TIME_MINUTES  = 30;
 
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+  const ua = req.headers.get('user-agent') ?? 'unknown';
+
   try {
     await dbConnect();
 
-    const { email, password } = await req.json();
+    let body: Record<string, unknown>;
+    try { body = await req.json(); }
+    catch { return NextResponse.json({ error: 'Corps de requête invalide' }, { status: 400 }); }
+
+    // ── Scan anti-injection avant toute manipulation ──────────────────────────
+    const threat = scanForThreats(body);
+    if (!threat.safe) {
+      logSecurityEvent({ type: 'threat_detected', ip, userAgent: ua, detail: `${threat.threat} in ${threat.matchedField}` });
+      return applySecurityHeaders(NextResponse.json({ error: 'Requête invalide' }, { status: 400 }));
+    }
+
+    const email    = sanitizeString(body.email    as string).toLowerCase();
+    const password = (body.password as string) ?? '';
+
+    if (!isValidEmail(email) || !password) {
+      return applySecurityHeaders(NextResponse.json(
+        { error: 'Email et mot de passe requis' }, { status: 400 }
+      ));
+    }
 
     if (!email || !password) {
       return NextResponse.json(
@@ -73,10 +98,11 @@ export async function POST(req: NextRequest) {
 
       await user.save();
       const remaining = MAX_LOGIN_ATTEMPTS - user.loginAttempts;
-      return NextResponse.json(
+      logSecurityEvent({ type: 'login_failure', ip, userAgent: ua, email, detail: `tentatives: ${user.loginAttempts}` });
+      return applySecurityHeaders(NextResponse.json(
         { error: `Email ou mot de passe incorrect. ${remaining} tentative(s) restante(s).` },
         { status: 401 }
-      );
+      ));
     }
 
     // ── Email non vérifié ─────────────────────────────────────────────────────
@@ -95,8 +121,8 @@ export async function POST(req: NextRequest) {
     user.loginAttempts = 0;
     user.lockUntil     = undefined;
     user.lastLoginAt   = new Date();
-    user.lastLoginIp   = req.headers.get('x-forwarded-for') ||
-                         req.headers.get('x-real-ip') || 'unknown';
+    user.lastLoginIp   = ip;
+    logSecurityEvent({ type: 'login_success', ip, userAgent: ua, userId: user._id.toString(), email: user.email });
     await user.save();
 
     // ── Générer les tokens ────────────────────────────────────────────────────
@@ -146,90 +172,13 @@ export async function POST(req: NextRequest) {
       path:     '/',
     });
 
-    return response;
+    return applySecurityHeaders(response);
 
   } catch (error: any) {
     console.error('❌ Erreur connexion:', error);
-    return NextResponse.json(
-      { error: error.message || 'Erreur lors de la connexion' },
+    return applySecurityHeaders(NextResponse.json(
+      { error: 'Erreur lors de la connexion' },
       { status: 500 }
-    );
-  }
-}
-
-  try {
-    await dbConnect();
-
-    const { email, password } = await req.json();
-
-    // Validation
-    if (!email || !password) {
-      return NextResponse.json(
-        { error: 'Email et mot de passe requis' },
-        { status: 400 }
-      );
-    }
-
-    // Trouver l'utilisateur avec le mot de passe
-    const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
-    
-    if (!user) {
-      return NextResponse.json(
-        { error: 'Email ou mot de passe incorrect' },
-        { status: 401 }
-      );
-    }
-
-    // Vérifier si l'utilisateur est actif
-    if (!user.isActive) {
-      return NextResponse.json(
-        { error: 'Compte désactivé. Contactez l\'administrateur.' },
-        { status: 403 }
-      );
-    }
-
-    // Vérifier le mot de passe
-    const isPasswordValid = await user.comparePassword(password);
-    if (!isPasswordValid) {
-      return NextResponse.json(
-        { error: 'Email ou mot de passe incorrect' },
-        { status: 401 }
-      );
-    }
-
-    // Générer les tokens
-    const accessToken = generateAccessToken({
-      userId: user._id.toString(),
-      email: user.email,
-      role: user.role,
-    });
-
-    const refreshToken = generateRefreshToken({
-      userId: user._id.toString(),
-      email: user.email,
-      role: user.role,
-    });
-
-    // Retourner la réponse
-    return NextResponse.json({
-      success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        avatar: user.avatar,
-        permissions: getRolePermissions(user.role),
-      },
-      accessToken,
-      refreshToken,
-    });
-
-  } catch (error: any) {
-    console.error('Erreur connexion:', error);
-    return NextResponse.json(
-      { error: error.message || 'Erreur lors de la connexion' },
-      { status: 500 }
-    );
+    ));
   }
 }

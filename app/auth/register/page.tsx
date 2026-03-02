@@ -434,6 +434,8 @@ export default function RegisterPage() {
                             value={form.region}
                             onChange={e => { set('region', e.target.value); set('city', ''); }}
                             required
+                            title="Choisir une région"
+                            aria-label="Choisir une région"
                             className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-white/[0.08] bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition appearance-none cursor-pointer"
                           >
                             <option value="">— Choisir une région —</option>
@@ -452,6 +454,8 @@ export default function RegisterPage() {
                           onChange={e => set('city', e.target.value)}
                           required
                           disabled={!form.region}
+                          title="Choisir une ville"
+                          aria-label="Choisir une ville"
                           className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-white/[0.08] bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition disabled:opacity-50 cursor-pointer"
                         >
                           <option value="">
@@ -623,4 +627,4 @@ export default function RegisterPage() {
   );
 }
 
-
+
