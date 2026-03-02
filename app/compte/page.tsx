@@ -1,310 +1,428 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Phone, Calendar, LogOut, ShoppingBag, Settings, Shield } from 'lucide-react';
-import { motion } from 'framer-motion';
+import {
+  User, Mail, Phone, MapPin, ShieldCheck, LogOut, Edit3, Save, X,
+  CheckCircle, Clock, AlertTriangle, XCircle, Package, ChevronRight,
+  Fingerprint, Calendar, Wifi, Copy, Camera,
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 
-interface UserData {
+// ── Types ──────────────────────────────────────────────────────────────────────
+interface UserProfile {
   _id: string;
   name: string;
   email: string;
   phone?: string;
+  whatsapp?: boolean;
+  avatar?: string;
   role: string;
-  permissions: string[];
+  accountStatus: 'pending_email' | 'pending_admin' | 'approved' | 'rejected' | 'suspended';
+  emailVerified: boolean;
+  uniqueCode?: string;
+  address?: {
+    street?: string;
+    city?: string;
+    region?: string;
+    quartier?: string;
+    country?: string;
+  };
   createdAt: string;
+  lastLoginAt?: string;
 }
 
-export default function AccountPage() {
+interface EditData {
+  name: string;
+  phone: string;
+  whatsapp: boolean;
+  address: { city: string; region: string; quartier: string; street: string };
+}
+
+// ── Badges statut ──────────────────────────────────────────────────────────────
+const STATUS_CONFIG = {
+  approved:      { label: 'Compte actif',            icon: CheckCircle,   color: 'text-emerald-700 bg-emerald-50 border-emerald-200 dark:text-emerald-400 dark:bg-emerald-900/20 dark:border-emerald-800/40' },
+  pending_email: { label: 'Email à vérifier',        icon: Mail,          color: 'text-blue-700 bg-blue-50 border-blue-200 dark:text-blue-400 dark:bg-blue-900/20 dark:border-blue-800/40' },
+  pending_admin: { label: 'En attente de validation', icon: Clock,         color: 'text-amber-700 bg-amber-50 border-amber-200 dark:text-amber-400 dark:bg-amber-900/20 dark:border-amber-800/40' },
+  suspended:     { label: 'Compte suspendu',         icon: AlertTriangle, color: 'text-orange-700 bg-orange-50 border-orange-200 dark:text-orange-400 dark:bg-orange-900/20 dark:border-orange-800/40' },
+  rejected:      { label: 'Compte désactivé',        icon: XCircle,       color: 'text-red-700 bg-red-50 border-red-200 dark:text-red-400 dark:bg-red-900/20 dark:border-red-800/40' },
+} as const;
+
+const ROLE_LABELS: Record<string, string> = {
+  user: 'Client', admin: 'Admin', superadmin: 'Super Admin', moderator: 'Modérateur', distributor: 'Distributeur',
+};
+
+// ── Helpers ────────────────────────────────────────────────────────────────────
+function fmtDate(iso?: string) {
+  if (!iso) return '—';
+  return new Intl.DateTimeFormat('fr-FR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(iso));
+}
+function fmtShortDate(iso?: string) {
+  if (!iso) return '—';
+  return new Intl.DateTimeFormat('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' }).format(new Date(iso));
+}
+
+export default function ComptePage() {
   const router = useRouter();
-  const [user, setUser] = useState<UserData | null>(null);
+  const [user,    setUser]    = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [editing, setEditing] = useState(false);
+  const [saving,  setSaving]  = useState(false);
+  const [editData, setEditData] = useState<EditData>({
+    name: '', phone: '', whatsapp: false,
+    address: { city: '', region: '', quartier: '', street: '' },
+  });
 
-  useEffect(() => {
-    checkAuth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const fetchProfile = useCallback(async () => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) { router.push('/auth/login?redirect=/compte'); return; }
 
-  const checkAuth = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
-      
-      if (!token) {
-        router.push('/auth/login?redirect=/compte');
-        return;
-      }
-
-      const response = await fetch('/api/auth/me', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
+      const res = await fetch('/api/auth/me', {
+        headers:     { Authorization: `Bearer ${token}` },
+        credentials: 'include',
+      });
+      if (res.status === 401) { router.push('/auth/login?redirect=/compte'); return; }
+      const data = await res.json();
+      setUser(data.user);
+      setEditData({
+        name:    data.user.name,
+        phone:   data.user.phone || '',
+        whatsapp: data.user.whatsapp || false,
+        address: {
+          city:    data.user.address?.city     || '',
+          region:  data.user.address?.region   || '',
+          quartier: data.user.address?.quartier || '',
+          street:  data.user.address?.street   || '',
         },
       });
-
-      if (!response.ok) {
-        throw new Error('Non autorisé');
-      }
-
-      const data = await response.json();
-      setUser(data.user);
-    } catch (error) {
-      console.error('Erreur authentification:', error);
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      router.push('/auth/login?redirect=/compte');
+    } catch {
+      toast.error('Erreur lors du chargement du profil');
     } finally {
       setLoading(false);
     }
+  }, [router]);
+
+  useEffect(() => { fetchProfile(); }, [fetchProfile]);
+
+  const handleSave = async () => {
+    const token = localStorage.getItem('accessToken');
+    setSaving(true);
+    try {
+      const res  = await fetch('/api/auth/me', {
+        method:      'PATCH',
+        headers:     { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        body:        JSON.stringify(editData),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setUser(data.user);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        setEditing(false);
+        toast.success('Profil mis à jour !');
+      } else {
+        toast.error(data.error || 'Erreur lors de la sauvegarde');
+      }
+    } catch {
+      toast.error('Erreur de connexion');
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    } catch {}
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
-    toast.success('Déconnexion réussie');
+    toast.success('Déconnecté');
     router.push('/');
   };
 
+  const copyCode = () => {
+    if (user?.uniqueCode) {
+      navigator.clipboard.writeText(user.uniqueCode);
+      toast.success('Code copié !');
+    }
+  };
+
+  // ── Loading ────────────────────────────────────────────────────────────────
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-primary-600 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-3">Chargement...</p>
+        </div>
       </div>
     );
   }
 
-  if (!user) {
-    return null;
-  }
+  if (!user) return null;
 
-  const getRoleBadge = (role: string) => {
-    const badges: { [key: string]: { label: string; color: string } } = {
-      admin: { label: 'Administrateur', color: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300' },
-      manager: { label: 'Manager', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300' },
-      redacteur: { label: 'Rédacteur', color: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300' },
-      assistant_ia: { label: 'Assistant IA', color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' },
-      client: { label: 'Client', color: 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300' },
-    };
-
-    return badges[role] || badges.client;
-  };
-
-  const roleBadge = getRoleBadge(user.role);
+  const statusCfg = STATUS_CONFIG[user.accountStatus] ?? STATUS_CONFIG.approved;
+  const StatusIcon = statusCfg.icon;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* En-tête */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Mon Compte</h1>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
-            Gérez vos informations personnelles et vos préférences
-          </p>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8 px-4">
+      <div className="max-w-4xl mx-auto space-y-6">
+
+        {/* ── Header ──────────────────────────────────────────────────────── */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-black text-gray-900 dark:text-white">Mon compte</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Gérez votre profil et vos informations</p>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition"
+          >
+            <LogOut className="w-4 h-4" /> Déconnexion
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Carte utilisateur */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6"
-            >
-              <div className="flex flex-col items-center text-center">
-                <div className="w-24 h-24 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center mb-4">
-                  <span className="text-4xl font-bold text-primary-700 dark:text-primary-300">
-                    {user.name.charAt(0).toUpperCase()}
-                  </span>
-                </div>
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
-                  {user.name}
-                </h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                  {user.email}
+        {/* ── Alerte statut (si non actif) ────────────────────────────────── */}
+        {user.accountStatus !== 'approved' && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`rounded-2xl border p-4 flex items-start gap-3 ${statusCfg.color}`}
+          >
+            <StatusIcon className="w-5 h-5 shrink-0 mt-0.5" />
+            <div>
+              <p className="font-semibold text-sm">{statusCfg.label}</p>
+              {user.accountStatus === 'pending_email' && (
+                <p className="text-xs mt-0.5 opacity-80">
+                  Vérifiez votre boîte mail pour activer votre compte.{' '}
+                  <Link href={`/auth/verify-email?email=${user.email}&pending=true`} className="underline font-medium">Renvoyer l'email →</Link>
                 </p>
-                <span className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full ${roleBadge.color}`}>
-                  {roleBadge.label}
-                </span>
-              </div>
+              )}
+              {user.accountStatus === 'pending_admin' && (
+                <p className="text-xs mt-0.5 opacity-80">Notre équipe examine votre inscription. Vous recevrez un email de confirmation.</p>
+              )}
+              {user.accountStatus === 'suspended' && (
+                <p className="text-xs mt-0.5 opacity-80">
+                  Votre compte a été temporairement suspendu. Contactez-nous :{' '}
+                  <a href="mailto:contact@agripointservice.com" className="underline">contact@agripointservice.com</a>
+                </p>
+              )}
+            </div>
+          </motion.div>
+        )}
 
-              <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                <div className="space-y-3 text-sm">
-                  {user.phone && (
-                    <div className="flex items-center text-gray-600 dark:text-gray-400">
-                      <Phone className="w-4 h-4 mr-2" />
-                      {user.phone}
-                    </div>
-                  )}
-                  <div className="flex items-center text-gray-600 dark:text-gray-400">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    Membre depuis {new Date(user.createdAt).toLocaleDateString('fr-FR')}
-                  </div>
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* ── Carte profil ──────────────────────────────────────────────── */}
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-sm p-6 flex flex-col items-center text-center">
+            <div className="relative mb-4">
+              <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center text-white text-3xl font-black shadow-lg">
+                {user.name.charAt(0).toUpperCase()}
               </div>
-            </motion.div>
+              {user.emailVerified && (
+                <div className="absolute -bottom-2 -right-2 w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-white dark:border-gray-900">
+                  <CheckCircle className="w-4 h-4 text-white" />
+                </div>
+              )}
+            </div>
+            <h2 className="text-lg font-black text-gray-900 dark:text-white">{user.name}</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{user.email}</p>
 
-            {/* Actions rapides */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6"
-            >
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-4">
-                Actions rapides
-              </h3>
-              <div className="space-y-2">
-                {['admin', 'manager', 'redacteur'].includes(user.role) && (
-                  <Link
-                    href="/admin"
-                    className="flex items-center w-full px-4 py-3 text-left rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
-                  >
-                    <Shield className="w-5 h-5 mr-3 text-primary-600" />
-                    <span>Accéder au panel admin</span>
-                  </Link>
-                )}
-                <Link
-                  href="/compte/security"
-                  className="flex items-center w-full px-4 py-3 text-left rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
-                >
-                  <Shield className="w-5 h-5 mr-3 text-blue-600" />
-                  <span>Sécurité & Code Unique</span>
-                </Link>
-                <Link
-                  href="/compte/commandes"
-                  className="flex items-center w-full px-4 py-3 text-left rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
-                >
-                  <ShoppingBag className="w-5 h-5 mr-3 text-primary-600" />
-                  <span>Mes commandes</span>
-                </Link>
-                <button className="flex items-center w-full px-4 py-3 text-left rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300">
-                  <Settings className="w-5 h-5 mr-3 text-primary-600" />
-                  <span>Paramètres</span>
-                </button>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center w-full px-4 py-3 text-left rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-red-600 dark:text-red-400"
-                >
-                  <LogOut className="w-5 h-5 mr-3" />
-                  <span>Déconnexion</span>
-                </button>
-              </div>
-            </motion.div>
-          </div>
+            <div className="flex items-center gap-2 mt-2">
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/40">
+                {ROLE_LABELS[user.role] ?? user.role}
+              </span>
+              <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border flex items-center gap-1 ${statusCfg.color}`}>
+                <StatusIcon className="w-3 h-3" /> {statusCfg.label}
+              </span>
+            </div>
 
-          {/* Contenu principal */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Informations personnelles */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6"
-            >
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
-                Informations personnelles
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Nom complet
-                  </label>
-                  <input
-                    type="text"
-                    value={user.name}
-                    readOnly
-                    aria-label="Nom complet"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    value={user.email}
-                    readOnly
-                    aria-label="Adresse email"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Téléphone
-                  </label>
-                  <input
-                    type="tel"
-                    value={user.phone || 'Non renseigné'}
-                    readOnly
-                    aria-label="Numéro de téléphone"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Rôle
-                  </label>
-                  <div className="flex items-center h-10">
-                    <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${roleBadge.color}`}>
-                      {roleBadge.label}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Permissions */}
-            {user.permissions && user.permissions.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6"
+            {user.uniqueCode && (
+              <button
+                onClick={copyCode}
+                className="mt-4 flex items-center gap-2 px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-white/[0.08] text-xs font-mono text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition w-full justify-center"
               >
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                  Permissions
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {user.permissions.map((permission: string) => (
-                    <span
-                      key={permission}
-                      className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm rounded-full"
-                    >
-                      {permission}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
+                <Fingerprint className="w-3.5 h-3.5 text-emerald-500" />
+                {user.uniqueCode}
+                <Copy className="w-3 h-3 opacity-50" />
+              </button>
             )}
 
-            {/* Statistiques */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6"
-            >
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
-                Mon activité
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-primary-600 mb-1">0</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Commandes</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-primary-600 mb-1">0</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Produits favoris</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-primary-600 mb-1">0 FCFA</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Total dépensé</div>
-                </div>
+            <div className="mt-4 pt-4 border-t border-gray-100 dark:border-white/[0.06] w-full space-y-2 text-left">
+              <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                <Calendar className="w-3.5 h-3.5" />
+                Inscrit le {fmtShortDate(user.createdAt)}
               </div>
-            </motion.div>
+              {user.lastLoginAt && (
+                <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                  <Wifi className="w-3.5 h-3.5" />
+                  Dernière connexion {fmtDate(user.lastLoginAt)}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* ── Informations & édition ──────────────────────────────────── */}
+          <div className="lg:col-span-2 space-y-4">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-sm overflow-hidden">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-white/[0.06]">
+                <h3 className="font-bold text-gray-900 dark:text-white text-sm">Informations personnelles</h3>
+                {!editing ? (
+                  <button
+                    onClick={() => setEditing(true)}
+                    className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition"
+                  >
+                    <Edit3 className="w-4 h-4" /> Modifier
+                  </button>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <button onClick={() => setEditing(false)} className="flex items-center gap-1 text-xs font-semibold text-gray-500 hover:text-gray-700 dark:hover:text-gray-200 transition">
+                      <X className="w-4 h-4" /> Annuler
+                    </button>
+                    <button
+                      onClick={handleSave}
+                      disabled={saving}
+                      className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition disabled:opacity-60"
+                    >
+                      {saving ? <div className="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin" /> : <Save className="w-3.5 h-3.5" />}
+                      Enregistrer
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div className="p-6 space-y-4">
+                <AnimatePresence mode="wait">
+                  {!editing ? (
+                    <motion.div key="view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {[
+                        { icon: User,    label: 'Nom complet',  value: user.name },
+                        { icon: Mail,    label: 'Email',         value: user.email },
+                        { icon: Phone,   label: 'Téléphone',    value: user.phone ? `+237 ${user.phone}` : '—' },
+                        { icon: Phone,   label: 'WhatsApp',     value: user.whatsapp ? (user.phone ? `+237 ${user.phone}` : 'Oui') : 'Non' },
+                        { icon: MapPin,  label: 'Région',       value: user.address?.region  || '—' },
+                        { icon: MapPin,  label: 'Ville',        value: user.address?.city    || '—' },
+                        { icon: MapPin,  label: 'Quartier',     value: user.address?.quartier || '—' },
+                        { icon: MapPin,  label: 'Adresse',      value: user.address?.street  || '—' },
+                      ].map(({ icon: Icon, label, value }) => (
+                        <div key={label}>
+                          <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-1 flex items-center gap-1.5">
+                            <Icon className="w-3.5 h-3.5" /> {label}
+                          </p>
+                          <p className="text-sm text-gray-800 dark:text-gray-200 font-medium">{value}</p>
+                        </div>
+                      ))}
+                    </motion.div>
+                  ) : (
+                    <motion.div key="edit" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {[
+                        { field: 'name',             label: 'Nom complet',  type: 'text',  placeholder: 'Votre nom' },
+                        { field: 'phone',            label: 'Téléphone',    type: 'tel',   placeholder: '6XXXXXXXX' },
+                      ].map(({ field, label, type, placeholder }) => (
+                        <div key={field}>
+                          <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">{label}</label>
+                          <input
+                            type={type}
+                            value={editData[field as 'name' | 'phone']}
+                            onChange={e => setEditData({ ...editData, [field]: e.target.value })}
+                            placeholder={placeholder}
+                            className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-200 dark:border-white/[0.08] bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+                          />
+                        </div>
+                      ))}
+                      {[
+                        { field: 'region',   label: 'Région',   placeholder: 'Ex: Centre' },
+                        { field: 'city',     label: 'Ville',    placeholder: 'Ex: Yaoundé' },
+                        { field: 'quartier', label: 'Quartier', placeholder: 'Ex: Bastos' },
+                        { field: 'street',   label: 'Adresse',  placeholder: 'Ex: Rue Ahmadou Ahidjo' },
+                      ].map(({ field, label, placeholder }) => (
+                        <div key={field}>
+                          <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">{label}</label>
+                          <input
+                            type="text"
+                            value={editData.address[field as keyof typeof editData.address]}
+                            onChange={e => setEditData({ ...editData, address: { ...editData.address, [field]: e.target.value } })}
+                            placeholder={placeholder}
+                            className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-200 dark:border-white/[0.08] bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+                          />
+                        </div>
+                      ))}
+                      <div className="sm:col-span-2">
+                        <label className="flex items-center gap-3 cursor-pointer select-none">
+                          <input
+                            type="checkbox"
+                            checked={editData.whatsapp}
+                            onChange={e => setEditData({ ...editData, whatsapp: e.target.checked })}
+                            className="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                          />
+                          <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">Mon numéro est aussi sur WhatsApp</span>
+                        </label>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
+
+            {/* ── Sécurité ──────────────────────────────────────────────── */}
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-sm p-6">
+              <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-4">Sécurité</h3>
+              <div className="space-y-3">
+                {[
+                  {
+                    icon: Mail, label: 'Email vérifié',
+                    value: user.emailVerified ? 'Vérifié' : 'Non vérifié',
+                    color: user.emailVerified ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400',
+                    action: !user.emailVerified ? (
+                      <Link href={`/auth/verify-email?email=${user.email}&pending=true`} className="text-xs text-blue-600 hover:underline font-medium">Vérifier →</Link>
+                    ) : null,
+                  },
+                  {
+                    icon: ShieldCheck, label: 'Mot de passe',
+                    value: 'Changer',
+                    action: <Link href="/auth/forgot-password" className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-medium">Modifier →</Link>,
+                  },
+                ].map(({ icon: Icon, label, value, color, action }) => (
+                  <div key={label} className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-white/[0.04] last:border-0">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                        <Icon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                      </div>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{label}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className={`text-sm font-semibold ${color || 'text-gray-600 dark:text-gray-400'}`}>{value}</span>
+                      {action}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Raccourcis ────────────────────────────────────────────── */}
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-sm p-6">
+              <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-4">Mes activités</h3>
+              <div className="space-y-2">
+                {[
+                  { href: '/commande',  icon: Package,     label: 'Mes commandes',        desc: 'Historique de vos achats' },
+                  { href: '/produits',  icon: ChevronRight, label: 'Catalogue produits',   desc: 'Biofertilisants & accessoires' },
+                ].map(({ href, icon: Icon, label, desc }) => (
+                  <Link key={href} href={href} className="flex items-center gap-4 p-3.5 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition group">
+                    <div className="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center">
+                      <Icon className="w-4.5 h-4.5 text-emerald-600 dark:text-emerald-400" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">{label}</p>
+                      <p className="text-xs text-gray-400 dark:text-gray-500">{desc}</p>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-emerald-500 transition" />
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
