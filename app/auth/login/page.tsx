@@ -182,15 +182,7 @@ function LoginForm() {
             </div>
           </div>
 
-          {/* Demo credentials */}
-          <div className="mt-5 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/50 rounded-xl p-4">
-            <p className="text-xs font-bold text-blue-800 dark:text-blue-300 mb-2">ðŸ”‘ Comptes de démonstration</p>
-            <div className="text-xs text-blue-700 dark:text-blue-400 space-y-1">
-              <p><strong>Admin :</strong> admin@agri-ps.com / admin123</p>
-              <p><strong>Manager :</strong> manager@agri-ps.com / manager123</p>
-              <p><strong>Client :</strong> client@agri-ps.com / client123</p>
-            </div>
-          </div>
+
         </motion.div>
       </div>
     </div>
