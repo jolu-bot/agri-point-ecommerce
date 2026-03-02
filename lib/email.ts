@@ -89,6 +89,7 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
   return sendViaSMTP(options);
 }
 
+/**
  * Envoyer un email de confirmation de commande
  */
 export async function sendOrderConfirmation(
