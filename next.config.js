@@ -34,9 +34,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true, // Vercel: compilation réussie, skip type check post-build
   },
-  eslint: {
-    ignoreDuringBuilds: true, // Vercel: ne pas bloquer le build sur les warnings ESLint
-  },
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
