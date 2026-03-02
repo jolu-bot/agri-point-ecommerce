@@ -409,7 +409,7 @@ export default function ContactPage() {
                     <div>
                       <p className="font-semibold">Téléphone</p>
                       <p className="text-gray-600 dark:text-gray-300">{pageContent.contactInfo.headquarters.phone}</p>
-                      <a href="https://wa.me/237657393939" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-300 hover:text-green-600 transition-colors">(+237) 657 39 39 39</a>
+                      <p className="text-gray-600 dark:text-gray-300">(+237) 651 92 09 20</p>
                       <a href="https://wa.me/237657393939" target="_blank" rel="noopener noreferrer" className="text-sm text-green-600 hover:underline flex items-center gap-1 mt-1">💬 WhatsApp: 657 39 39 39</a>
                     </div>
                   </div>
