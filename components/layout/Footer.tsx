@@ -187,14 +187,14 @@ export default function Footer() {
                 </div>
               </li>
               <li>
-                <a href="https://wa.me/237651920920" target="_blank" rel="noopener noreferrer"
+                <a href="https://wa.me/237657393939" target="_blank" rel="noopener noreferrer"
                   className="group flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] hover:bg-[#25D36620] border border-white/5 hover:border-[#25D366]/30 transition-all duration-200">
                   <div className="w-8 h-8 rounded-lg bg-[#25D366]/10 border border-[#25D366]/20 group-hover:bg-[#25D366]/20 flex items-center justify-center flex-shrink-0 transition-all">
                     <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
                   </div>
                   <div>
                     <p className="text-[12px] font-semibold text-gray-300 group-hover:text-[#25D366] transition-colors">WhatsApp Direct</p>
-                    <p className="text-[11px] text-gray-500">651 92 09 20</p>
+                    <p className="text-[11px] text-gray-500">657 39 39 39</p>
                   </div>
                 </a>
               </li>
