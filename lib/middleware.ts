@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAccessToken, hasPermission } from '@/lib/auth';
+import { applySecurityHeaders, logSecurityEvent } from '@/lib/security';
 
 export interface AuthenticatedRequest extends NextRequest {
   user?: {
@@ -9,51 +10,66 @@ export interface AuthenticatedRequest extends NextRequest {
   };
 }
 
+const ADMIN_ROLES = ['admin', 'superadmin', 'moderator'] as const;
+
 export function withAuth(
   handler: (req: AuthenticatedRequest) => Promise<NextResponse>,
-  options?: { permissions?: string[] }
+  options?: { permissions?: string[]; roles?: string[] }
 ) {
   return async (req: NextRequest) => {
     try {
-      // Récupérer le token
+      // Support Bearer header ET cookie HttpOnly
       const authHeader = req.headers.get('authorization');
-      const token = authHeader?.replace('Bearer ', '');
+      const cookieToken = req.cookies.get('accessToken')?.value;
+      const token = authHeader?.replace('Bearer ', '') ?? cookieToken;
 
       if (!token) {
-        return NextResponse.json(
-          { error: 'Non autorisé - Token manquant' },
-          { status: 401 }
-        );
+        return applySecurityHeaders(NextResponse.json(
+          { error: 'Non autorisé - Token manquant' }, { status: 401 }
+        ));
       }
 
-      // Vérifier le token
       const decoded = verifyAccessToken(token);
       if (!decoded) {
-        return NextResponse.json(
-          { error: 'Non autorisé - Token invalide' },
-          { status: 401 }
-        );
+        logSecurityEvent({ type: 'invalid_token', ip: req.headers.get('x-forwarded-for') ?? 'unknown', detail: 'withAuth: token invalide' });
+        return applySecurityHeaders(NextResponse.json(
+          { error: 'Non autorisé - Token invalide' }, { status: 401 }
+        ));
       }
 
-      // Vérifier les permissions si nécessaire
-      if (options?.permissions) {
-        const hasRequiredPermission = options.permissions.some(permission =>
-          hasPermission(decoded.role, permission)
-        );
+      // Vérification des rôles explicites
+      if (options?.roles && !options.roles.includes(decoded.role)) {
+        return applySecurityHeaders(NextResponse.json(
+          { error: 'Accès interdit - Rôle insuffisant' }, { status: 403 }
+        ));
+      }
 
-        if (!hasRequiredPermission) {
-          return NextResponse.json(
-            { error: 'Accès interdit - Permissions insuffisantes' },
-            { status: 403 }
-          );
+      // Vérification des permissions
+      if (options?.permissions) {
+        const hasRequired = options.permissions.some(p => hasPermission(decoded.role, p));
+        if (!hasRequired) {
+          return applySecurityHeaders(NextResponse.json(
+            { error: 'Accès interdit - Permissions insuffisantes' }, { status: 403 }
+          ));
         }
       }
 
-      // Ajouter l'utilisateur à la requête
-      const authenticatedReq = req as AuthenticatedRequest;
-      authenticatedReq.user = decoded;
+      const authenticatedReq  = req as AuthenticatedRequest;
+      authenticatedReq.user   = decoded;
 
-      return handler(authenticatedReq);
+      const response = await handler(authenticatedReq);
+      return applySecurityHeaders(response);
+    } catch (error) {
+      console.error('Erreur middleware auth:', error);
+      return applySecurityHeaders(NextResponse.json({ error: 'Erreur serveur' }, { status: 500 }));
+    }
+  };
+}
+
+/** Helper pour restreindre une route aux admins uniquement */
+export function withAdminAuth(handler: (req: AuthenticatedRequest) => Promise<NextResponse>) {
+  return withAuth(handler, { roles: [...ADMIN_ROLES] });
+}
     } catch (error) {
       console.error('Erreur middleware auth:', error);
       return NextResponse.json(

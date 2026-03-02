@@ -4,18 +4,21 @@ import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import { generateAccessToken, generateRefreshToken, getRolePermissions } from '@/lib/auth';
 import { sendEmail } from '@/lib/email';
+import { applySecurityHeaders, logSecurityEvent, getClientIp } from '@/lib/security';
 
 /**
  * GET /api/auth/verify-email?token=xxx
  * Valide le token de vérification d'email
  */
 export async function GET(req: NextRequest) {
+  const ip = getClientIp(req);
   try {
     const { searchParams } = new URL(req.url);
     const rawToken = searchParams.get('token');
 
-    if (!rawToken) {
-      return NextResponse.json({ error: 'Token manquant' }, { status: 400 });
+    if (!rawToken || rawToken.length < 32 || rawToken.length > 256 || /[^a-zA-Z0-9_-]/.test(rawToken)) {
+      logSecurityEvent({ type: 'invalid_token', ip, detail: 'verify-email: format token invalide' });
+      return applySecurityHeaders(NextResponse.json({ error: 'Token invalide' }, { status: 400 }));
     }
 
     await dbConnect();
@@ -119,9 +122,9 @@ export async function GET(req: NextRequest) {
       path:     '/',
     });
 
-    return response;
+    return applySecurityHeaders(response);
   } catch (error: any) {
     console.error('Erreur verify-email:', error);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return applySecurityHeaders(NextResponse.json({ error: 'Erreur serveur' }, { status: 500 }));
   }
 }

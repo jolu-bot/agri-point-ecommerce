@@ -131,24 +131,71 @@ const nextConfig = {
     } : false,
   },
   
-  // Headers pour optimisation du cache et sécurité
+  // ── Headers de sécurité & performance ───────────────────────────────────────
   async headers() {
+    /** CSP générale : pages HTML */
+    const csp = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' data: https://fonts.gstatic.com",
+      "img-src 'self' data: blob: https://res.cloudinary.com https://*.amazonaws.com https://*.googleusercontent.com https://lh3.googleusercontent.com https://agri-ps.com https://www.agri-ps.com",
+      "connect-src 'self' https://www.google-analytics.com https://agri-ps.com https://www.agri-ps.com",
+      "media-src 'self'",
+      "frame-src 'none'",
+      "frame-ancestors 'none'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "manifest-src 'self'",
+      "worker-src 'self' blob:",
+      "upgrade-insecure-requests",
+    ].join('; ');
+
+    /** CSP stricte pour les routes API (pas de JavaScript côté client) */
+    const apiCsp = "default-src 'none'; frame-ancestors 'none'";
+
     return [
+      // ── Sécurité globale ───────────────────────────────────────────────
       {
         source: '/:path*',
         headers: [
-          { key: 'X-DNS-Prefetch-Control', value: 'on' },
-          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
-          { key: 'X-Content-Type-Options', value: 'nosniff' },
-          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-          // HSTS : forcer HTTPS pendant 1 an
-          { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
-          // Désactiver les API navigateur non utilisées
-          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=()' },
-          // Empêcher le MIME sniffing + clickjacking via CSP frame-ancestors
-          { key: 'Content-Security-Policy', value: "frame-ancestors 'self'" },
+          // Anti-clickjacking (renforcé)
+          { key: 'X-Frame-Options',              value: 'DENY' },
+          // MIME sniffing
+          { key: 'X-Content-Type-Options',       value: 'nosniff' },
+          // XSS legacy filter
+          { key: 'X-XSS-Protection',             value: '1; mode=block' },
+          // HSTS 2 ans + preload
+          { key: 'Strict-Transport-Security',    value: 'max-age=63072000; includeSubDomains; preload' },
+          // Referrer leak prevention
+          { key: 'Referrer-Policy',              value: 'strict-origin-when-cross-origin' },
+          // Cross-Origin isolation (empêche les attaques Spectre)
+          { key: 'Cross-Origin-Opener-Policy',   value: 'same-origin' },
+          { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
+          // DNS prefetch off (empêche l'exfiltration via DNS)
+          { key: 'X-DNS-Prefetch-Control',       value: 'off' },
+          // Désactiver les API navigateur non-utilisées
+          { key: 'Permissions-Policy',           value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), accelerometer=(), gyroscope=(), magnetometer=(), midi=()' },
+          // CSP complète
+          { key: 'Content-Security-Policy',      value: csp },
+          // Empêcher la mise en cache des pages sensibles par défaut
+          { key: 'Vary',                         value: 'Accept-Encoding, Accept' },
         ],
       },
+      // ── Sécurité renforcée sur les routes API ──────────────────────────
+      {
+        source: '/api/:path*',
+        headers: [
+          { key: 'Cache-Control',                value: 'no-store, no-cache, must-revalidate, private' },
+          { key: 'Pragma',                       value: 'no-cache' },
+          { key: 'Expires',                      value: '0' },
+          { key: 'Content-Security-Policy',      value: apiCsp },
+          { key: 'X-Content-Type-Options',       value: 'nosniff' },
+          { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
+        ],
+      },
+      // ── Cache agressif : assets statiques ─────────────────────────────
       {
         source: '/images/:path*',
         headers: [
