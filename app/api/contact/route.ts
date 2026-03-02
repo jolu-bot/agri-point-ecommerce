@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendEmail } from '@/lib/email';
+import connectDB from '@/lib/db';
+import Message from '@/models/Message';
 
 // ─────────────────────────────────────────────────
 // 📬 Interface Contact Form Data
@@ -49,6 +51,26 @@ export async function POST(request: NextRequest) {
       );
     }
     
+    // ─────────────────────────────────────────────────
+    // 0️⃣ Sauvegarde en base de données (toujours)
+    // ─────────────────────────────────────────────────
+    try {
+      await connectDB();
+      await Message.create({
+        type: 'contact',
+        name: body.name,
+        email: body.email,
+        phone: body.phone || '',
+        subject: body.subject || '',
+        message: body.message,
+        status: 'new',
+        priority: 'medium',
+      });
+    } catch (dbError) {
+      console.warn('⚠️ Sauvegarde MongoDB échouée:', dbError);
+      // On continue quand même — l'email peut encore passer
+    }
+
     // ─────────────────────────────────────────────────
     // 1️⃣ Email à l'équipe AGRI PS (contact@agri-ps.com)
     // ─────────────────────────────────────────────────
@@ -199,7 +221,7 @@ export async function POST(request: NextRequest) {
     });
     
     if (!emailToTeam) {
-      throw new Error('Échec d\'envoi de l\'email à l\'équipe');
+      console.warn('⚠️ Email équipe non envoyé — message sauvegardé en base');
     }
     
     // ─────────────────────────────────────────────────
