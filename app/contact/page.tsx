@@ -38,7 +38,7 @@ const pageContent = {
       address: "Quartier Fouda",
       city: "B.P. 5111 Yaoundé, Cameroun",
       phone: "(+237) 657 39 39 39",
-      whatsapp: "+237651920920",
+      whatsapp: "+237657393939",
       email: "infos@agri-ps.com",
       hours: "Lun-Ven: 8h00 - 17h00\nSamedi: 8h00 - 13h00"
     },
@@ -53,7 +53,7 @@ const pageContent = {
       {
         city: "Support WhatsApp",
         address: "Disponible 7j/7",
-        phone: "(+237) 651 92 09 20",
+        phone: "(+237) 657 39 39 39",
         email: "infos@agri-ps.com"
       },
       {
@@ -65,7 +65,7 @@ const pageContent = {
       {
         city: "Site Web",
         address: "www.agri-ps.com",
-        phone: "(+237) 651 92 09 20",
+        phone: "(+237) 657 39 39 39",
         email: "infos@agri-ps.com"
       }
     ]
@@ -86,7 +86,7 @@ const pageContent = {
       title: "Conseil Agricole",
       description: "Accompagnement technique et formations",
       email: "infos@agri-ps.com", // ✅ Informations générales
-      phone: "(+237) 651 92 09 20",
+      phone: "(+237) 657 39 39 39",
       hours: "Lun-Ven: 8h-17h",
       color: "green"
     },
@@ -104,7 +104,7 @@ const pageContent = {
       title: "WhatsApp Direct",
       description: "Réponse rapide via WhatsApp",
       email: "infos@agri-ps.com",
-      phone: "(+237) 651 92 09 20",
+      phone: "(+237) 657 39 39 39",
       hours: "Lun-Sam: 8h-20h",
       color: "amber"
     }
@@ -409,8 +409,8 @@ export default function ContactPage() {
                     <div>
                       <p className="font-semibold">Téléphone</p>
                       <p className="text-gray-600 dark:text-gray-300">{pageContent.contactInfo.headquarters.phone}</p>
-                      <p className="text-gray-600 dark:text-gray-300">(+237) 651 92 09 20</p>
-                      <a href={`https://wa.me/${pageContent.contactInfo.headquarters.whatsapp}`} className="text-sm text-green-600 hover:underline flex items-center gap-1 mt-1">💬 WhatsApp: 651 92 09 20</a>
+                      <a href="https://wa.me/237657393939" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-300 hover:text-green-600 transition-colors">(+237) 657 39 39 39</a>
+                      <a href="https://wa.me/237657393939" target="_blank" rel="noopener noreferrer" className="text-sm text-green-600 hover:underline flex items-center gap-1 mt-1">💬 WhatsApp: 657 39 39 39</a>
                     </div>
                   </div>
 
