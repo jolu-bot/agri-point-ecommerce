@@ -32,7 +32,7 @@ const pageContent = {
   hero: {
     badge: "❤️ Votre Bien-être, Notre Priorité",
     title: "MIEUX VIVRE",
-    subtitle: "Transformez votre qualité de vie",
+    subtitle: "Les Caisses Mutuelles Agricoles Africaines (CMA)",
     description: "Accès aux services essentiels : santé, éducation, logement, épargne et technologies. Bâtissez un avenir prospère pour vous et votre famille.",
     cta: {
       primary: "Découvrir les services",
@@ -49,43 +49,30 @@ const pageContent = {
 
   services: [
     {
-      title: "Santé & Protection",
-      description: "Micro-assurance santé accessible. Couverture décès et invalidité. Accès aux soins de qualité à prix réduits.",
+      title: "Assurances",
+      description: "Assurances agricoles (exploitation agricole et élevage), assurances scolaires, assurances maladies, assurances décès et bien d'autres couvertures.",
       icon: Health,
-      color: "red",
+      color: "green",
       benefits: [
-        "Assurance santé familiale dès 5 000 FCFA/mois",
-        "Couverture hospitalisation et chirurgie",
-        "Assurance décès jusqu'à 2 millions FCFA",
-        "Partenariat avec cliniques de qualité"
+        "Assurances agricoles exploitation et élevage",
+        "Assurances scolaires pour enfants",
+        "Assurances maladies et couverture hospitalière",
+        "Assurances décès jusqu'à 2 millions FCFA"
       ],
       image: "/products/icon-anti-stress.png"
     },
     {
       title: "Épargne & Micro-crédit",
-      description: "Solutions d'épargne ssécurisées. Crédits agricoles accessibles. Warrantage pour sécuriser vos récoltes.",
+      description: "Solutions d'épargne sécurisées. Crédits agricoles accessibles. Warrantage pour sécuriser vos récoltes.",
       icon: PiggyBank,
       color: "blue",
       benefits: [
         "Épargne avec intérêts de 6% par an",
+        "Sécurisation de l'épargne à partir de 500 milles FCFA",
         "Micro-crédit jusqu'à 5 millions FCFA",
-        "Warrantage des stocks après récolte",
-        "Accompagnement dans vos projets"
+        "Warrantage des stocks après récolte"
       ],
       image: "/products/icon-croissance-fruits.png"
-    },
-    {
-      title: "éducation",
-      description: "Formation continue pour vous et vos enfants. Bourses d'études. Alphabétisation numérique.",
-      icon: GraduationCap,
-      color: "green",
-      benefits: [
-        "Formations agricoles gratuites mensuelles",
-        "Bourses d'études pour enfants d'adhérents",
-        "Cours d'alphabétisation et calcul",
-        "Formation aux technologies modernes"
-      ],
-      image: "/products/icon-feuillage.png"
     },
     {
       title: "Logement",
@@ -93,7 +80,7 @@ const pageContent = {
       icon: Home,
       color: "purple",
       benefits: [
-        "Crédit habitat jusqu'à 10 millions FCFA",
+        "Crédit habitat à partir de 3 millions FCFA",
         "Plans de maisons rurales optimisées",
         "Kits solaires avec paiement échelonné",
         "Matériaux de construction à prix réduits"
@@ -115,14 +102,14 @@ const pageContent = {
     },
     {
       title: "Protection Sociale",
-      description: "Mutuelle communautaire. Aide d'urgence. Soutien aux personnes âgées.",
+      description: "Mutuelle communautaire. Aide d'urgence. Soutien aux personnes âgées. Fonds de solidarité et caution mutuelle des producteurs.",
       icon: Shield,
       color: "amber",
       benefits: [
-        "Fonds d'urgence pour imprévus",
+        "Fonds de solidarité pour imprévus",
+        "Caution mutuelle des producteurs",
         "Soutien financier funérailles",
-        "Aide alimentaire en cas de crise",
-        "Accompagnement des aînés"
+        "Aide alimentaire en cas de crise et accompagnement des aînés"
       ],
       image: "/products/product-uree-46.png"
     }
@@ -201,7 +188,7 @@ const pageContent = {
 
   faq: [
     {
-      question: "Comment adhérer aux services AGRI POINT ?",
+      question: "Comment adhérer aux services Caisses Mutuelles Agricoles Africaines ?",
       answer: "L'adhésion est simple et gratuite. Remplissez le formulaire en ligne ou visitez notre agence la plus proche avec une pièce d'identité et une photo."
     },
     {
@@ -245,7 +232,7 @@ export default function MieuxVivrePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-red-50 via-pink-50 to-purple-50 dark:from-gray-900 dark:via-red-900/20 dark:to-gray-900 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-green-50 via-emerald-50 to-green-50 dark:from-gray-900 dark:via-green-900/20 dark:to-gray-900 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2VmNDQ0NCIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')]"></div>
         </div>
@@ -257,13 +244,13 @@ export default function MieuxVivrePage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <div className="inline-block px-4 py-2 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-full text-sm font-semibold mb-6">
+              <div className="inline-block px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-semibold mb-6">
                 {pageContent.hero.badge}
               </div>
               
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
                 {pageContent.hero.title}
-                <span className="block text-red-600 dark:text-red-400 mt-2">
+                <span className="block text-green-600 dark:text-green-400 mt-2">
                   {pageContent.hero.subtitle}
                 </span>
               </h1>
@@ -275,14 +262,14 @@ export default function MieuxVivrePage() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <a 
                   href="#services" 
-                  className="px-8 py-4 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition-all transform hover:scale-105"
+                  className="px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition-all transform hover:scale-105"
                 >
                   <Heart className="w-5 h-5" />
                   {pageContent.hero.cta.primary}
                 </a>
                 <a 
                   href="#epargne" 
-                  className="px-8 py-4 border-2 border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all"
+                  className="px-8 py-4 border-2 border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all"
                 >
                   {pageContent.hero.cta.secondary}
                   <ArrowRight className="w-5 h-5" />
@@ -317,8 +304,8 @@ export default function MieuxVivrePage() {
                 transition={{ delay: 0.1 * index }}
                 className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center"
               >
-                <stat.icon className="w-8 h-8 text-red-600 mx-auto mb-3" />
-                <div className="text-3xl font-bold text-red-600 mb-1">{stat.value}</div>
+                <stat.icon className="w-8 h-8 text-green-600 mx-auto mb-3" />
+                <div className="text-3xl font-bold text-green-600 mb-1">{stat.value}</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
               </motion.div>
             ))}
@@ -335,7 +322,7 @@ export default function MieuxVivrePage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {pageContent.services.map((service, index) => (
+            {pageContent.services.filter(service => service.title !== "éducation").map((service, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -412,8 +399,8 @@ export default function MieuxVivrePage() {
                   href="/contact"
                   className={`block text-center px-6 py-3 rounded-lg font-semibold transition-all ${
                     plan.popular
-                      ? 'bg-red-600 hover:bg-red-700 text-white'
-                      : 'border-2 border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20'
+                      ? 'bg-green-600 hover:bg-green-700 text-white'
+                      : 'border-2 border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20'
                   }`}
                 >
                   Ouvrir une épargne
@@ -440,7 +427,7 @@ export default function MieuxVivrePage() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-red-50 dark:bg-gray-800 rounded-xl p-6"
+                className="bg-green-50 dark:bg-gray-800 rounded-xl p-6"
               >
                 <div className="flex gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
