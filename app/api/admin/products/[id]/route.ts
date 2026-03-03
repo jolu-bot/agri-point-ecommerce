@@ -3,6 +3,7 @@ import { verifyAccessToken } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import User from '@/models/User';
+import { invalidateCacheByPattern } from '@/lib/api-route-cache';
 
 // GET - Récupérer un produit par ID
 export async function GET(
@@ -74,6 +75,10 @@ export async function PUT(
       return NextResponse.json({ error: 'Produit non trouvé' }, { status: 404 });
     }
 
+    invalidateCacheByPattern('^api:admin:products:list');
+    invalidateCacheByPattern('^api:products:list');
+    invalidateCacheByPattern('^api:admin:analytics');
+
     return NextResponse.json({ success: true, product });
   } catch (error: any) {
     console.error('Erreur modification produit:', error);
@@ -113,6 +118,10 @@ export async function DELETE(
     if (!product) {
       return NextResponse.json({ error: 'Produit non trouvé' }, { status: 404 });
     }
+
+    invalidateCacheByPattern('^api:admin:products:list');
+    invalidateCacheByPattern('^api:products:list');
+    invalidateCacheByPattern('^api:admin:analytics');
 
     return NextResponse.json({ success: true, message: 'Produit supprimé' });
   } catch (error) {

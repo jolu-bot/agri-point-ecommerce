@@ -5,6 +5,12 @@ import Order from '@/models/Order';
 import Product from '@/models/Product';
 import User from '@/models/User';
 import Message from '@/models/Message';
+import {
+  buildCacheKey,
+  getCachedPayload,
+  setCachedPayload,
+  privateCacheHeaders,
+} from '@/lib/api-route-cache';
 
 function authError(msg: string, status: number) {
   return NextResponse.json({ error: msg }, { status });
@@ -23,6 +29,14 @@ export async function GET(req: NextRequest) {
 
     const user = await User.findById(decoded.userId);
     if (!user || !['admin', 'manager'].includes(user.role)) return authError('Accès non autorisé', 403);
+
+    const cacheKey = buildCacheKey('api:admin:analytics', req);
+    const cached = getCachedPayload<any>(cacheKey);
+    if (cached) {
+      return NextResponse.json(cached, {
+        headers: privateCacheHeaders(30, 90),
+      });
+    }
 
     const { searchParams } = new URL(req.url);
     const period = searchParams.get('period') || '30days';
@@ -158,7 +172,7 @@ export async function GET(req: NextRequest) {
       value: Math.round((c.totalSold / totalSold) * 100),
     }));
 
-    return NextResponse.json({
+    const payload = {
       period,
       kpis: {
         orders: {
@@ -187,6 +201,12 @@ export async function GET(req: NextRequest) {
       categorySales,
       dailyOrders: dailyOrdersAgg,
       statusDistribution,
+    };
+
+    setCachedPayload(cacheKey, payload, 30_000);
+
+    return NextResponse.json(payload, {
+      headers: privateCacheHeaders(30, 90),
     });
   } catch (error) {
     console.error('Analytics API error:', error);

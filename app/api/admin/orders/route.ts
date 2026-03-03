@@ -3,6 +3,12 @@ import { verifyAccessToken } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import Order from '@/models/Order';
+import {
+  buildCacheKey,
+  getCachedPayload,
+  setCachedPayload,
+  privateCacheHeaders,
+} from '@/lib/api-route-cache';
 
 export async function GET(request: NextRequest) {
   try {
@@ -27,12 +33,25 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Accès non autorisé' }, { status: 403 });
     }
 
+    const cacheKey = buildCacheKey('api:admin:orders:list', request);
+    const cached = getCachedPayload<any>(cacheKey);
+    if (cached) {
+      return NextResponse.json(cached, {
+        headers: privateCacheHeaders(20, 60),
+      });
+    }
+
     const orders = await Order.find()
       .populate('user', 'name email')
       .sort({ createdAt: -1 })
       .lean();
 
-    return NextResponse.json({ orders });
+    const payload = { orders };
+    setCachedPayload(cacheKey, payload, 20_000);
+
+    return NextResponse.json(payload, {
+      headers: privateCacheHeaders(20, 60),
+    });
   } catch (error) {
     console.error('Erreur récupération commandes:', error);
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });

@@ -1,10 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Location from '@/models/Location';
+import {
+  buildCacheKey,
+  getCachedPayload,
+  setCachedPayload,
+  publicCacheHeaders,
+} from '@/lib/api-route-cache';
 
 // GET - Liste publique des locations
 export async function GET(request: NextRequest) {
   try {
+    const cacheKey = buildCacheKey('api:public:locations', request);
+    const cached = getCachedPayload<any>(cacheKey);
+    if (cached) {
+      return NextResponse.json(cached, {
+        headers: publicCacheHeaders(300, 600),
+      });
+    }
+
     await connectDB();
 
     const { searchParams } = new URL(request.url);
@@ -57,7 +71,12 @@ export async function GET(request: NextRequest) {
         .sort((a: any, b: any) => a.distance - b.distance);
     }
 
-    return NextResponse.json({ locations });
+    const payload = { locations };
+    setCachedPayload(cacheKey, payload, 300_000);
+
+    return NextResponse.json(payload, {
+      headers: publicCacheHeaders(300, 600),
+    });
   } catch (error: any) {
     console.error('Erreur GET public locations:', error);
     return NextResponse.json(

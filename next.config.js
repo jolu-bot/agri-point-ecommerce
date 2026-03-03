@@ -207,5 +207,31 @@ const nextConfig = {
 
 // TODO: Fix 40+ pre-existing route handler signature errors (Next.js 15→16 migration)
 // before setting ignoreBuildErrors back to false
-module.exports = nextConfig;
+
+// ── Sentry integration (error tracking + source maps) ─────────────────────────
+const withSentryConfig = require('@sentry/nextjs').withSentryConfig;
+
+module.exports = withSentryConfig(nextConfig, {
+  // For all available options, see:
+  // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+
+  // Uploads a file during build process for source map debugging purposes
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+
+  // Only print logs for uploading source maps in production
+  silent: true,
+
+  // Suppress success message when uploading source maps
+  environment: process.env.NODE_ENV,
+
+  // Routes to skip error tracking
+  denyURLs: [
+    // Browser extensions
+    /extensions\//i,
+    /^chrome:\/\//i,
+    // Skip /api/health to avoid noise
+    /^\/api\/health/i,
+  ],
+});
 

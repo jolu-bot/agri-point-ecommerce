@@ -17,12 +17,6 @@ export const PieChart = dynamic(() => import('react-chartjs-2').then(mod => mod.
   ssr: false,
 });
 
-// PDF Export - Chargé uniquement au clic
-export const PDFGenerator = dynamic(() => import('@/lib/pdf-generator'), {
-  loading: () => <span>Génération...</span>,
-  ssr: false,
-});
-
 // Editor - Chargé uniquement sur pages d'édition
 export const RichTextEditor = dynamic(() => import('@/components/RichTextEditor'), {
   loading: () => <div className="h-48 bg-gray-100 animate-pulse rounded-lg" />,

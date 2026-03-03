@@ -28,6 +28,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com'),
   title: "AGRI POINT SERVICE - Produire plus, Gagner plus, Mieux vivre",
   description: "Distributeur de biofertilisants de qualité au Cameroun. Solutions complètes pour l'agriculture moderne et urbaine.",
   keywords: ["biofertilisant", "agriculture", "Cameroun", "engrais", "agriculture urbaine", "AGRI POINT"],
@@ -46,15 +47,23 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "fr_FR",
+    url: '/',
     title: "AGRI POINT SERVICE",
     description: "Produire plus, Gagner plus, Mieux vivre",
     siteName: "AGRI POINT SERVICE",
-    images: ['/images/logo.png'],
+    images: [{
+      url: '/images/logo.png',
+      width: 1200,
+      height: 630,
+      alt: 'AGRI POINT SERVICE Logo',
+    }],
   },
   twitter: {
     card: 'summary_large_image',
+    site: '@agripoint_cm',
     title: 'AGRI POINT SERVICE',
     description: 'Produire plus, Gagner plus, Mieux vivre',
+    images: ['/images/logo.png'],
   },
   manifest: '/manifest.json',
   robots: {

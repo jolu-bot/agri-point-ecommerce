@@ -1,25 +1,36 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import mongoose from 'mongoose';
+import { logger, logRequest, logError, createRequestContext } from '@/lib/logger';
 
 /**
- * API de diagnostic santé complète
+ * PREMIUM Health Check Endpoint
  * URL: /api/health
- * Teste toutes les connexions et affiche l'état du système
+ * Tests all connections + logs with Pino
+ * Used by Vercel health probes, K8s liveness checks, load balancers
  */
-export async function GET() {
-  const health: any = {
-    timestamp: new Date().toISOString(),
-    status: 'checking',
-    checks: {
-      mongodb: { status: 'pending', details: null },
-      environment: { status: 'pending', details: {} },
-      collections: { status: 'pending', details: [] }
-    }
-  };
+
+const START_TIME = Date.now();
+
+export async function GET(req: NextRequest) {
+  const startTime = Date.now();
+  const context = createRequestContext(req);
 
   try {
-    // 1. Vérifier les variables d'environnement critiques
+    const health: any = {
+      timestamp: new Date().toISOString(),
+      status: 'checking',
+      uptime: Date.now() - START_TIME,
+      appVersion: process.env.APP_VERSION || '1.0.0',
+      checks: {
+        mongodb: { status: 'pending', details: null },
+        environment: { status: 'pending', details: {} },
+        collections: { status: 'pending', details: [] },
+        memory: { status: 'ok', usage: {} }
+      }
+    };
+
+    // 1. Environment variables check
     const envVars = {
       MONGODB_URI: !!process.env.MONGODB_URI,
       JWT_SECRET: !!process.env.JWT_SECRET,
@@ -38,20 +49,23 @@ export async function GET() {
       missing: missingVars.length > 0 ? missingVars : undefined
     };
 
-    // 2. Tester la connexion MongoDB
+    // 2. MongoDB connectivity
     try {
+      const dbStartTime = Date.now();
       await dbConnect();
+      const dbLatency = Date.now() - dbStartTime;
       
       health.checks.mongodb = {
         status: 'healthy',
+        latency: dbLatency,
         details: {
-          readyState: mongoose.connection.readyState,
+          readyState: mongoose.connection.readyState, // 1 = connected
           host: mongoose.connection.host,
           name: mongoose.connection.name
         }
       };
 
-      // 3. Compter les documents dans chaque collection
+      // 3. Collection stats
       const db = mongoose.connection.db;
       if (db) {
         const collections = await db.listCollections().toArray();
@@ -76,19 +90,58 @@ export async function GET() {
         status: 'unhealthy',
         error: dbError.message
       };
+
+      logError(dbError, {
+        requestId: context.requestId,
+        endpoint: '/api/health',
+        severity: 'high'
+      });
     }
 
-    // Déterminer le statut global
+    // 4. Memory usage
+    const mem = process.memoryUsage();
+    health.checks.memory = {
+      status: 'ok',
+      usage: {
+        heapUsed: Math.round(mem.heapUsed / 1024 / 1024) + 'MB',
+        heapTotal: Math.round(mem.heapTotal / 1024 / 1024) + 'MB',
+        rss: Math.round(mem.rss / 1024 / 1024) + 'MB'
+      }
+    };
+
+    // Determine overall status
     const allHealthy = Object.values(health.checks).every(
-      (check: any) => check.status === 'healthy'
+      (check: any) => check.status === 'healthy' || check.status === 'ok'
     );
     health.status = allHealthy ? 'healthy' : 'degraded';
 
     const statusCode = allHealthy ? 200 : 503;
+    const duration = Date.now() - startTime;
+
+    logRequest({
+      ...context,
+      statusCode,
+      duration
+    });
     
     return NextResponse.json(health, { status: statusCode });
 
   } catch (error: any) {
+    const duration = Date.now() - startTime;
+
+    logError(error, {
+      requestId: context.requestId,
+      endpoint: '/api/health',
+      severity: 'critical'
+    });
+
+    logRequest({
+      ...context,
+      statusCode: 500,
+      duration,
+      error: error?.message || String(error)
+    });
+
     return NextResponse.json({
       timestamp: new Date().toISOString(),
       status: 'unhealthy',

@@ -170,7 +170,8 @@ export async function proxy(req: NextRequest) {
 
   // ── 2. Suspicious path detection ────────────────────────────────────────
   if (SUSPICIOUS_PATHS.some(r => r.test(pathname))) {
-    console.warn('[SECURITY] Suspicious path blocked:', { ip, pathname, ua });
+    const event = new Error('Suspicious path blocked');
+    console.error('[SECURITY] Suspicious path blocked:', { ip, pathname, ua: ua.slice(0, 80) });
     return blocked('Forbidden', 403);
   }
 
@@ -186,7 +187,7 @@ export async function proxy(req: NextRequest) {
 
     // Block known scrapers on API routes
     if (isScraper(ua)) {
-      console.warn('[SECURITY] Scraper blocked on API:', { ip, ua: ua.slice(0, 80), pathname });
+      console.error('[SECURITY] Scraper blocked on API:', { ip, ua: ua.slice(0, 80), pathname });
       return blocked('Access denied', 403);
     }
 
@@ -196,7 +197,7 @@ export async function proxy(req: NextRequest) {
       if (pathname === '/api/auth/login' && method === 'POST') {
         const r = rateLimit(`login:${ip}`, 10, 5 * 60 * 1000, 30 * 60 * 1000);
         if (!r.ok) {
-          console.warn('[SECURITY] Login rate limit:', { ip });
+          console.error('[SECURITY] Login rate limit:', { ip, ua: ua.slice(0, 80) });
           return blocked('Trop de tentatives de connexion. Attendez 30 minutes.', 429, r.retryAfter);
         }
       }
@@ -205,7 +206,7 @@ export async function proxy(req: NextRequest) {
       if (pathname === '/api/auth/register' && method === 'POST') {
         const r = rateLimit(`register:${ip}`, 5, 15 * 60 * 1000, 60 * 60 * 1000);
         if (!r.ok) {
-          console.warn('[SECURITY] Register rate limit:', { ip });
+          console.error('[SECURITY] Register rate limit:', { ip, ua: ua.slice(0, 80) });
           return blocked('Trop d\'inscriptions depuis cette adresse IP.', 429, r.retryAfter);
         }
       }
@@ -265,7 +266,7 @@ export async function proxy(req: NextRequest) {
 
     const payload = await verifyAdminJwt(token);
     if (!payload || !['admin', 'superadmin'].includes(payload.role)) {
-      console.warn('[SECURITY] Unauthorized admin access attempt:', { ip, ua: ua.slice(0, 80), pathname });
+      console.error('[SECURITY] Unauthorized admin access attempt:', { ip, ua: ua.slice(0, 80), pathname });
       // Don't reveal why (security by obscurity on redirects)
       const loginUrl = new URL('/auth/login', req.url);
       loginUrl.searchParams.set('redirect', pathname);
