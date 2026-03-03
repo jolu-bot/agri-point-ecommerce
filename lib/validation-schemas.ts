@@ -79,7 +79,7 @@ export const CreateProductSchema = z.object({
   description: z.string().max(2000).optional(),
   price: z.number().positive('Price must be positive'),
   costPrice: z.number().positive().optional(),
-  stock: z.number().int().non_negative(),
+  stock: z.number().int().min(0),
   sku: z.string().max(100),
   category: z.string().min(1),
   images: z.array(z.string().url()).min(1),
