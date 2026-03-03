@@ -7,34 +7,34 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import AnimatedCounter from '@/components/shared/AnimatedCounter';
 
-// Produits images pour le slideshow
-const PRODUCT_IMAGES = [
-  '/products/sarah-npk-20-10-10.webp',
-  '/products/aminol-20.webp',
-  '/products/sarah-npk-10-30-10.webp',
-  '/products/fosnutren-20.webp',
-  '/products/sarah-npk-12-14-10.webp',
-  '/products/humiforte-20.webp',
-  '/products/sarah-uree-46.webp',
-  '/products/kadostim-20.webp',
-  '/products/kit-naturcare-terra.webp',
-  '/products/kit-urbain-debutant.webp',
+// Images des 3 programmes phares pour le slideshow
+const HERO_IMAGES = [
+  '/images/produire-plus/produire-plus-1.webp',
+  '/images/gagner-plus/gagner-plus-1.webp',
+  '/images/mieux-vivre/mieux-vivre-1.webp',
+  '/images/produire-plus/produire-plus-2.webp',
+  '/images/gagner-plus/gagner-plus-2.webp',
+  '/images/mieux-vivre/mieux-vivre-2.webp',
+  '/images/produire-plus/produire-plus-3.webp',
+  '/images/gagner-plus/gagner-plus-3.webp',
+  '/images/produire-plus/produire-plus-4.webp',
+  '/images/gagner-plus/gagner-plus-4.webp',
+  '/images/produire-plus/produire-plus-5.webp',
+  '/images/gagner-plus/gagner-plus-5.webp',
+  '/images/produire-plus/produire-plus-6.webp',
+  '/images/produire-plus/produire-plus-7.webp',
 ];
 
 // Fonction pour obtenir un ordre aléatoire
-function getShuffledIndex(currentIndex: number, total: number): number {
-  return (currentIndex + 1) % total;
-}
-
 export default function HeroNew() {
   const [imageIndex, setImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Changer d'image tous les 3 secondes
+  // Changer d'image toutes les 4 secondes
   useEffect(() => {
     const timer = setInterval(() => {
-      setImageIndex(prev => getShuffledIndex(prev, PRODUCT_IMAGES.length));
-    }, 3000);
+      setImageIndex(prev => (prev + 1) % HERO_IMAGES.length);
+    }, 4000);
 
     return () => clearInterval(timer);
   }, []);
@@ -76,8 +76,8 @@ export default function HeroNew() {
           className="absolute inset-0 w-full h-full"
         >
           <Image
-            src={PRODUCT_IMAGES[imageIndex]}
-            alt={`Produit Agri Point ${imageIndex}`}
+            src={HERO_IMAGES[imageIndex]}
+            alt={`Agri Point Services - Produire plus, Gagner plus, Mieux vivre`}
             fill
             className="object-cover object-center"
             priority={imageIndex === 0}
@@ -196,7 +196,7 @@ export default function HeroNew() {
 
       {/* Image counter indicator */}
       <div className="absolute bottom-8 right-6 sm:right-8 z-20 text-white/60 text-sm font-medium backdrop-blur-sm bg-black/40 px-3 py-2 rounded-lg">
-        {imageIndex + 1} / {PRODUCT_IMAGES.length}
+        {imageIndex + 1} / {HERO_IMAGES.length}
       </div>
     </section>
   );
