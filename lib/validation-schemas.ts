@@ -155,9 +155,12 @@ export type CreatePageInput = z.infer<typeof CreatePageSchema>;
 /**
  * Validate input against schema and throw formatted errors
  */
-export async function validateInput<T>(schema: z.ZodSchema, data: unknown): Promise<T> {
+export async function validateInput<T extends z.ZodTypeAny>(
+  schema: T,
+  data: unknown
+): Promise<z.infer<T>> {
   try {
-    return schema.parseAsync(data) as Promise<T>;
+    return await schema.parseAsync(data);
   } catch (error) {
     if (error instanceof z.ZodError) {
       const formatted = error.issues.map(issue => ({

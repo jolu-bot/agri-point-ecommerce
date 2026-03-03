@@ -22,7 +22,7 @@ export function TurnstileCaptcha({ onToken, onError }: TurnstileProps) {
     <div className="w-full my-4">
       <Turnstile
         siteKey={siteKey}
-        onSuccess={(token) => {
+        onSuccess={(token: string) => {
           setIsLoading(false);
           onToken(token);
         }}

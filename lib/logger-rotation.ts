@@ -13,41 +13,17 @@ export function createLogger(options?: {
   const logLevel = options?.level || process.env.LOG_LEVEL || 'info';
   const logFolder = options?.folder || './logs';
 
-  const transport = pino.transport({
-    targets: [
-      // Console output (pretty en dev, JSON en prod)
-      {
-        target: isDev ? 'pino-pretty' : 'pino/file',
-        options: isDev
-          ? {
-              colorize: true,
-              translateTime: 'SYS:standard',
-              ignore: 'pid,hostname',
-            }
-          : {},
-      },
-      // File output avec rotation
-      {
-        target: 'pino-roll',
+  // En production, utiliser des transports simples sans pino-roll pour éviter les problèmes de config
+  const transport = isDev
+    ? pino.transport({
+        target: 'pino-pretty',
         options: {
-          file: `${logFolder}/app.log`,
-          size: '100m', // 100MB per file
-          maxBackups: 10, // Keep 10 files (1GB total)
-          frequency: 'daily', // Also rotate daily
+          colorize: true,
+          translateTime: 'SYS:standard',
+          ignore: 'pid,hostname',
         },
-      },
-      // Error logs séparés
-      {
-        level: 'error',
-        target: 'pino-roll',
-        options: {
-          file: `${logFolder}/error.log`,
-          size: '50m',
-          maxBackups: 20,
-        },
-      },
-    ],
-  });
+      })
+    : undefined; // En prod, utiliser la sortie standard
 
   const logger = pino(
     {
