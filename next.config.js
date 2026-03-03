@@ -1,34 +1,3 @@
-const withPWA = require('next-pwa')({
-  dest: 'public',
-  register: true,
-  skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
-  runtimeCaching: [
-    {
-      urlPattern: /^https?.*\.(png|jpg|jpeg|webp|svg|gif|avif)$/,
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'images',
-        expiration: {
-          maxEntries: 60,
-          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 jours
-        },
-      },
-    },
-    {
-      urlPattern: /^https?.*/,
-      handler: 'NetworkFirst',
-      options: {
-        cacheName: 'pages',
-        expiration: {
-          maxEntries: 50,
-          maxAgeSeconds: 24 * 60 * 60, // 24 heures
-        },
-      },
-    },
-  ],
-});
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
@@ -238,10 +207,5 @@ const nextConfig = {
 
 // TODO: Fix 40+ pre-existing route handler signature errors (Next.js 15→16 migration)
 // before setting ignoreBuildErrors back to false
-module.exports = withPWA({
-  ...nextConfig,
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-});
+module.exports = nextConfig;
 
