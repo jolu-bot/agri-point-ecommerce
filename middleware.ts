@@ -280,8 +280,17 @@ export async function middleware(req: NextRequest) {
     if (token) {
       const payload = await verifyAdminJwt(token);
       if (payload) {
-        // Already logged in → redirect to appropriate home
-        const dest = ['admin', 'superadmin'].includes(payload.role) ? '/admin' : '/compte';
+        // Already logged in → honor ?redirect param (internal paths only) or fall back to role-based home
+        const raw = req.nextUrl.searchParams.get('redirect') ?? '';
+        // Decode and validate: resolve against current origin to catch all bypass variants
+        let safeRedirect: string | null = null;
+        try {
+          const resolved = new URL(decodeURIComponent(raw), req.url);
+          if (resolved.origin === req.nextUrl.origin) {
+            safeRedirect = resolved.pathname + resolved.search + resolved.hash;
+          }
+        } catch { /* ignore invalid URLs */ }
+        const dest = safeRedirect || (['admin', 'superadmin'].includes(payload.role) ? '/admin' : '/compte');
         return NextResponse.redirect(new URL(dest, req.url));
       }
     }
