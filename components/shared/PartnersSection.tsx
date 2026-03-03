@@ -87,7 +87,7 @@ const partners = [
     id: 'planopac',
     name: 'PLANOPAC',
     subtitle: 'Semences de Qualité',
-    logo: '/images/partners/planopac.png',
+    logo: '/images/partners/planopac.svg',
     url: 'https://www.facebook.com/p/Planopac-Online-100064810566427',
     color: 'from-amber-50 to-orange-50',
     colorDark: 'from-amber-900/20 to-orange-900/10',
