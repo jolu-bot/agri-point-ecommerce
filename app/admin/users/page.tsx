@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, Fragment } from 'react';
 import {
   Search, Filter, RefreshCw, ChevronDown, CheckCircle, Clock, Mail,
   AlertTriangle, XCircle, Shield, User, Phone, MapPin, Calendar,
-  MoreVertical, UserCheck, UserX, Ban, Trash2, Eye, X, Fingerprint,
+  MoreVertical, UserCheck, UserX, Ban, Trash2, Eye, X, Lock,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -102,7 +102,7 @@ function UserDetailModal({ user, onClose, onAction }: { user: AdminUser; onClose
 
           {user.uniqueCode && (
             <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 flex items-center gap-2">
-              <Fingerprint className="w-4 h-4 text-emerald-500 shrink-0" />
+              <Lock className="w-4 h-4 text-emerald-500 shrink-0" />
               <span className="text-xs font-mono text-gray-600 dark:text-gray-300">{user.uniqueCode}</span>
             </div>
           )}
@@ -316,7 +316,7 @@ export default function AdminUsersPage() {
                             <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{user.email}</p>
                             {user.uniqueCode && (
                               <p className="text-xs font-mono text-emerald-600 dark:text-emerald-400 mt-0.5 flex items-center gap-1">
-                                <Fingerprint className="w-2.5 h-2.5" />{user.uniqueCode}
+                                <Lock className="w-2.5 h-2.5" />{user.uniqueCode}
                               </p>
                             )}
                           </div>

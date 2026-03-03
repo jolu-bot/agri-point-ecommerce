@@ -6,7 +6,7 @@ import Link from 'next/link';
 import {
   User, Mail, Phone, MapPin, ShieldCheck, LogOut, Edit3, Save, X,
   CheckCircle, Clock, AlertTriangle, XCircle, Package, ChevronRight,
-  Fingerprint, Calendar, Wifi, Copy, Camera,
+  Lock, Calendar, Wifi, Copy, Camera,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -245,7 +245,7 @@ export default function ComptePage() {
                 onClick={copyCode}
                 className="mt-4 flex items-center gap-2 px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-white/[0.08] text-xs font-mono text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition w-full justify-center"
               >
-                <Fingerprint className="w-3.5 h-3.5 text-emerald-500" />
+                <Lock className="w-3.5 h-3.5 text-emerald-500" />
                 {user.uniqueCode}
                 <Copy className="w-3 h-3 opacity-50" />
               </button>
