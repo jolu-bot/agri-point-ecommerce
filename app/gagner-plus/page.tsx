@@ -30,10 +30,10 @@ const GAGNER_PLUS_IMAGES = [
 
 const pageContent = {
   hero: {
-    badge: "💰 Rentabilité Maximale Garantie",
-    title: "GAGNER PLUS",
+    badge: "Rentabilité Maximale Garantie",
+    title: "Gagner Plus",
     subtitle: "Doublez vos bénéfices agricoles",
-    description: "Transformez votre activité agricole en entreprise rentable. Réduisez vos coûts de 60%, augmentez vos revenus de 200% et accédez à des marchés premium.",
+    description: "Transformez votre activité en entreprise rentable. Réduisez vos coûts, augmentez vos revenus et accédez à des marchés premium.",
     cta: {
       primary: "Calculer mon potentiel",
       secondary: "Voir les solutions"

@@ -30,10 +30,10 @@ const MIEUX_VIVRE_IMAGES = [
 
 const pageContent = {
   hero: {
-    badge: "❤️ Votre Bien-être, Notre Priorité",
-    title: "MIEUX VIVRE",
-    subtitle: "Les Caisses Mutuelles Agricoles Africaines (CMA)",
-    description: "Accès aux services essentiels : santé, éducation, logement, épargne et technologies. Bâtissez un avenir prospère pour vous et votre famille.",
+    badge: "Votre Bien-être, Notre Priorité",
+    title: "Mieux Vivre",
+    subtitle: "Les Caisses Mutuelles Agricoles Africaines",
+    description: "Accédez aux services essentiels : santé, logement, épargne et technologies pour un avenir prospère.",
     cta: {
       primary: "Découvrir les services",
       secondary: "Calculer mon épargne"

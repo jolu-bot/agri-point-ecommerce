@@ -36,10 +36,10 @@ const PRODUIRE_PLUS_IMAGES = [
 
 const pageContent = {
   hero: {
-    badge: "🌾 Services AP Agripoint - Excellence Agricole",
-    title: "PRODUIRE PLUS",
+    badge: "Services AP Agripoint",
+    title: "Produire Plus",
     subtitle: "Augmentez vos rendements de 40% à 150%",
-    description: "AP Agripoint met à votre service une expertise complète : diagnostic de filières prioritaires, fourniture d'intrants de qualité (fertilisants, semences PLANOPAC), renforcement des capacités. Nous transformons votre production. Des résultats prouvés sur plus de 20 000 hectares au Cameroun.",
+    description: "Expertise complète : diagnostic de filières, intrants de qualité (fertilisants, semences PLANOPAC), formation. Résultats prouvés sur 20 000+ hectares.",
     cta: {
       primary: "Voir nos produits",
       secondary: "Demander un devis"
