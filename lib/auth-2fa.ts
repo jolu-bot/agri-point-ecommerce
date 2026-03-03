@@ -1,4 +1,4 @@
-import { generateSecret, totp } from 'otplib';
+import { generateSecret, TOTP } from 'otplib';
 import qrcode from 'qrcode';
 
 export interface TwoFactorSetup {
@@ -43,8 +43,8 @@ export async function generateTwoFactorSecret(email: string): Promise<TwoFactorS
  */
 export function verifyTOTPToken(secret: string, token: string): boolean {
   try {
-    totp.options = { window: 1 }; // Accepter les tokens de ±1 pas
-    return totp.check(token, secret);
+    const totp = new TOTP({ secret, window: 1 });
+    return totp.check(token);
   } catch (error) {
     console.error('TOTP verification failed:', error);
     return false;
@@ -64,7 +64,8 @@ export function verifyBackupCode(backupCode: string, hashedCodes: string[]): boo
  * Génère un nouveau token TOTP (pour test/debug)
  */
 export function generateTOTPToken(secret: string): string {
-  return totp.generate(secret);
+  const totp = new TOTP({ secret });
+  return totp.generate();
 }
 
 /**
