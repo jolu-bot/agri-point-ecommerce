@@ -44,7 +44,7 @@ async function seedCampaignProducts() {
       {
         name: 'Engrais Minéral NPK 15,000 FCFA',
         slug: 'engrais-mineral-15000',
-        description: 'Sac d\'engrais minéral 50kg - NPK équilibré. Idéal pour toutes les cultures. Subvention gouvernementale disponible.',
+        description: 'Sac d\'engrais minéral 50kg - NPK équilibré.',
         category: 'engrais_mineral',
         price: 15000,
         stock: 1000,
@@ -70,9 +70,9 @@ async function seedCampaignProducts() {
         updatedAt: new Date(),
       },
       {
-        name: 'Biofertilisant Organique 10,000 FCFA',
+        name: 'Biofertilisant 10,000 FCFA',
         slug: 'biofertilisant-10000',
-        description: 'Biofertilisant organique 5L - 100% naturel. Enrichit le sol et améliore la structure. Paiement échelonné 70/30.',
+        description: 'Biofertilisant 5L - 100% naturel. Enrichit le sol et améliore la structure. Paiement échelonné 70/30.',
         category: 'biofertilisant',
         price: 10000,
         stock: 800,
