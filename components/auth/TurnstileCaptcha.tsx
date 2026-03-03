@@ -1,4 +1,5 @@
 'use client';
+/// <reference types="../../types/modules" />
 
 import { Turnstile } from '@marsidev/react-turnstile';
 import { useState } from 'react';
