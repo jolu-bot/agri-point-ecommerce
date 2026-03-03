@@ -22,6 +22,11 @@ const PWAInstallPrompt = dynamic(() => import('@/components/PWAInstallPrompt'), 
   loading: () => null,
 });
 
+const CookieConsentBanner = dynamic(() => import('@/components/cookies/CookieConsentBanner'), {
+  ssr: false,
+  loading: () => null,
+});
+
 export function ClientComponents() {
   return (
     <>
@@ -29,6 +34,7 @@ export function ClientComponents() {
       <AgriBotWrapper />
       <PWAInstallPrompt />
       <SyncStatusPanel />
+      <CookieConsentBanner />
     </>
   );
 }
