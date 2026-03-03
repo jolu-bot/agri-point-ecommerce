@@ -1,13 +1,13 @@
-// ═══════════════════════════════════════════════════════════════════
-// CALENDRIER CULTURAL CAMEROUN — Données par culture et région
-// ═══════════════════════════════════════════════════════════════════
+﻿// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// CALENDRIER CULTURAL CAMEROUN â€” DonnÃ©es par culture et rÃ©gion
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 export interface CulturalMonth {
   month: number;       // 1-12
-  label: string;       // "Jan", "Fév"...
-  activities: string[];// ["Semis", "Fertilisation", "Récolte"...]
-  intensity: 'none' | 'low' | 'medium' | 'high'; // niveau activité
-  alert?: string;      // Alerte spécifique si besoin
+  label: string;       // "Jan", "FÃ©v"...
+  activities: string[];// ["Semis", "Fertilisation", "RÃ©colte"...]
+  intensity: 'none' | 'low' | 'medium' | 'high'; // niveau activitÃ©
+  alert?: string;      // Alerte spÃ©cifique si besoin
 }
 
 export interface CropCalendar {
@@ -19,75 +19,75 @@ export interface CropCalendar {
   products: Array<{ name: string; slug: string; usecase: string }>;
 }
 
-const MONTHS_FR = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+const MONTHS_FR = ['Jan','FÃ©v','Mar','Avr','Mai','Jun','Jul','AoÃ»','Sep','Oct','Nov','DÃ©c'];
 
 function mkMonth(month: number, activities: string[], intensity: CulturalMonth['intensity'], alert?: string): CulturalMonth {
   return { month, label: MONTHS_FR[month - 1], activities, intensity, alert };
 }
 
-// ─── TOMATE ───────────────────────────────────────────────────────
+// â”€â”€â”€ TOMATE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const tomateCalendar: CropCalendar = {
   crop: 'Tomate',
-  emoji: '🍅',
+  emoji: 'ðŸ…',
   products: [
-    { name: 'HUMIFORTE', slug: 'humiforte', usecase: 'Stimulant racinaire — au repiquage' },
-    { name: 'FOSNUTREN', slug: 'fosnutren', usecase: 'Fructification — à la floraison' },
-    { name: 'KADOSTIM', slug: 'kadostim', usecase: 'Anti-stress — en saison sèche' },
-    { name: 'NATUR CARE', slug: 'natur-care', usecase: 'Protection foliaire — préventif' },
+    { name: 'HUMIFORTE', slug: 'humiforte', usecase: 'Stimulant racinaire â€” au repiquage' },
+    { name: 'FOSNUTREN', slug: 'fosnutren-20', usecase: 'Fructification â€” Ã  la floraison' },
+    { name: 'KADOSTIM', slug: 'kadostim-20', usecase: 'Anti-stress â€” en saison sÃ¨che' },
+    { name: 'NATUR CARE', slug: 'natur-care', usecase: 'Protection foliaire â€” prÃ©ventif' },
   ],
   regions: {
     Centre: [
-      mkMonth(1, ['Pépinière S1', 'Arrosage régulier'], 'medium'),
-      mkMonth(2, ['Pépinière S2', 'Enrichissement sol'], 'medium'),
+      mkMonth(1, ['PÃ©piniÃ¨re S1', 'Arrosage rÃ©gulier'], 'medium'),
+      mkMonth(2, ['PÃ©piniÃ¨re S2', 'Enrichissement sol'], 'medium'),
       mkMonth(3, ['Repiquage', 'HUMIFORTE J0', 'Tuteurage'], 'high'),
-      mkMonth(4, ['Fertilisation FOSNUTREN', 'Traitement préventif', 'Irrigation'], 'high'),
-      mkMonth(5, ['Floraison — FOSNUTREN x2', 'Surveillance maladies'], 'high', '🌧️ Pluies fortes → mildiou'),
-      mkMonth(6, ['Récolte S1', 'Compostage post-récolte'], 'high'),
-      mkMonth(7, ['Repos ou prépa S2'], 'low'),
-      mkMonth(8, ['Préparation sol S2'], 'low'),
-      mkMonth(9, ['Pépinière S2', 'Paillage'], 'medium'),
+      mkMonth(4, ['Fertilisation FOSNUTREN', 'Traitement prÃ©ventif', 'Irrigation'], 'high'),
+      mkMonth(5, ['Floraison â€” FOSNUTREN x2', 'Surveillance maladies'], 'high', 'ðŸŒ§ï¸ Pluies fortes â†’ mildiou'),
+      mkMonth(6, ['RÃ©colte S1', 'Compostage post-rÃ©colte'], 'high'),
+      mkMonth(7, ['Repos ou prÃ©pa S2'], 'low'),
+      mkMonth(8, ['PrÃ©paration sol S2'], 'low'),
+      mkMonth(9, ['PÃ©piniÃ¨re S2', 'Paillage'], 'medium'),
       mkMonth(10, ['Repiquage S2', 'HUMIFORTE', 'Fertilisation'], 'high'),
-      mkMonth(11, ['Floraison — FOSNUTREN', 'Traitement fongique'], 'high', '🌧️ Fin pluies → pourriture'),
-      mkMonth(12, ['Récolte S2', 'Bilan + planification'], 'high'),
+      mkMonth(11, ['Floraison â€” FOSNUTREN', 'Traitement fongique'], 'high', 'ðŸŒ§ï¸ Fin pluies â†’ pourriture'),
+      mkMonth(12, ['RÃ©colte S2', 'Bilan + planification'], 'high'),
     ],
     Littoral: [
-      mkMonth(1, ['Saison sèche — Arrosage intensif', 'Pépinière'], 'medium'),
+      mkMonth(1, ['Saison sÃ¨che â€” Arrosage intensif', 'PÃ©piniÃ¨re'], 'medium'),
       mkMonth(2, ['Repiquage', 'HUMIFORTE', 'Mulching indispensable'], 'high'),
       mkMonth(3, ['Fertilisation intensive', 'Floraison'], 'high'),
-      mkMonth(4, ['Récolte', 'Prévention mildiou'], 'high', '☔ Début pluies → drainage'),
-      mkMonth(5, ['Pluies fortes — Drainage', 'Anti-fongique'], 'medium', '⚠️ Risque mildiou élevé'),
+      mkMonth(4, ['RÃ©colte', 'PrÃ©vention mildiou'], 'high', 'â˜” DÃ©but pluies â†’ drainage'),
+      mkMonth(5, ['Pluies fortes â€” Drainage', 'Anti-fongique'], 'medium', 'âš ï¸ Risque mildiou Ã©levÃ©'),
       mkMonth(6, ['Repos'], 'none'),
-      mkMonth(7, ['Pépinière S2'], 'medium'),
+      mkMonth(7, ['PÃ©piniÃ¨re S2'], 'medium'),
       mkMonth(8, ['Repiquage S2', 'HUMIFORTE'], 'high'),
       mkMonth(9, ['Fertilisation', 'Floraison FOSNUTREN'], 'high'),
-      mkMonth(10, ['Récolte S2'], 'high'),
-      mkMonth(11, ['Post-récolte'], 'low'),
-      mkMonth(12, ['Préparation S1'], 'low'),
+      mkMonth(10, ['RÃ©colte S2'], 'high'),
+      mkMonth(11, ['Post-rÃ©colte'], 'low'),
+      mkMonth(12, ['PrÃ©paration S1'], 'low'),
     ],
     Ouest: [
       mkMonth(1, [], 'none'),
       mkMonth(2, [], 'none'),
-      mkMonth(3, ['Début saison — Pépinière', 'Préparation sol'], 'medium'),
-      mkMonth(4, ['Repiquage', 'HUMIFORTE', 'Irrigation complémentaire'], 'high'),
+      mkMonth(3, ['DÃ©but saison â€” PÃ©piniÃ¨re', 'PrÃ©paration sol'], 'medium'),
+      mkMonth(4, ['Repiquage', 'HUMIFORTE', 'Irrigation complÃ©mentaire'], 'high'),
       mkMonth(5, ['Fertilisation', 'FOSNUTREN floraison'], 'high'),
-      mkMonth(6, ['Récolte S1'], 'high'),
-      mkMonth(7, ['Post-récolte', 'Engrais vert'], 'low'),
-      mkMonth(8, ['Préparation sol S2'], 'medium'),
-      mkMonth(9, ['Pépinière S2', 'Compostage'], 'medium'),
+      mkMonth(6, ['RÃ©colte S1'], 'high'),
+      mkMonth(7, ['Post-rÃ©colte', 'Engrais vert'], 'low'),
+      mkMonth(8, ['PrÃ©paration sol S2'], 'medium'),
+      mkMonth(9, ['PÃ©piniÃ¨re S2', 'Compostage'], 'medium'),
       mkMonth(10, ['Repiquage S2', 'HUMIFORTE'], 'high'),
       mkMonth(11, ['Floraison FOSNUTREN', 'Buttage'], 'high'),
-      mkMonth(12, ['Récolte S2', 'Bilan'], 'high'),
+      mkMonth(12, ['RÃ©colte S2', 'Bilan'], 'high'),
     ],
     Nord: [
       mkMonth(1, ['Irrigation obligatoire', 'Mulching'], 'medium'),
-      mkMonth(2, ['Pépinière sous ombrage', 'Arrosage matin'], 'medium'),
-      mkMonth(3, ['Repiquage matinal', 'HUMIFORTE + KADOSTIM'], 'high', '🌡️ Chaleur max → KADOSTIM anti-stress'),
+      mkMonth(2, ['PÃ©piniÃ¨re sous ombrage', 'Arrosage matin'], 'medium'),
+      mkMonth(3, ['Repiquage matinal', 'HUMIFORTE + KADOSTIM'], 'high', 'ðŸŒ¡ï¸ Chaleur max â†’ KADOSTIM anti-stress'),
       mkMonth(4, ['Fertilisation intensive', 'Ombrage partiel'], 'high'),
-      mkMonth(5, ['Récolte S1', 'Compostage'], 'high'),
-      mkMonth(6, ['Début pluies — Pépinière S2'], 'medium'),
+      mkMonth(5, ['RÃ©colte S1', 'Compostage'], 'high'),
+      mkMonth(6, ['DÃ©but pluies â€” PÃ©piniÃ¨re S2'], 'medium'),
       mkMonth(7, ['Repiquage pluvial', 'Sans irrigation'], 'high'),
       mkMonth(8, ['Fertilisation', 'Floraison FOSNUTREN'], 'high'),
-      mkMonth(9, ['Récolte S2', 'Stockage'], 'high'),
+      mkMonth(9, ['RÃ©colte S2', 'Stockage'], 'high'),
       mkMonth(10, ['Repos'], 'none'),
       mkMonth(11, [], 'none'),
       mkMonth(12, [], 'none'),
@@ -95,70 +95,70 @@ const tomateCalendar: CropCalendar = {
   },
 };
 
-// ─── CACAO ───────────────────────────────────────────────────────
+// â”€â”€â”€ CACAO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const cacaoCalendar: CropCalendar = {
   crop: 'Cacao',
-  emoji: '🍫',
+  emoji: 'ðŸ«',
   products: [
-    { name: 'HUMIFORTE', slug: 'humiforte', usecase: 'Racinaire — début saison des pluies' },
-    { name: 'FOSNUTREN', slug: 'fosnutren', usecase: 'Floraison — stimule cabosses' },
-    { name: 'AMINOL FORTE', slug: 'aminol-forte', usecase: 'Vigueur foliaire — toute l\'année' },
-    { name: 'NATUR CARE', slug: 'natur-care', usecase: 'Protection — anti-pourriture brune' },
+    { name: 'HUMIFORTE', slug: 'humiforte', usecase: 'Racinaire â€” dÃ©but saison des pluies' },
+    { name: 'FOSNUTREN', slug: 'fosnutren-20', usecase: 'Floraison â€” stimule cabosses' },
+    { name: 'AMINOL FORTE', slug: 'aminol-20', usecase: 'Vigueur foliaire â€” toute l\'annÃ©e' },
+    { name: 'NATUR CARE', slug: 'natur-care', usecase: 'Protection â€” anti-pourriture brune' },
   ],
   regions: {
     Centre: [
-      mkMonth(1, ['Taille légère', 'Désherbage'], 'low'),
-      mkMonth(2, ['Fertilisation HUMIFORTE', 'Eveil végétatif'], 'medium'),
+      mkMonth(1, ['Taille lÃ©gÃ¨re', 'DÃ©sherbage'], 'low'),
+      mkMonth(2, ['Fertilisation HUMIFORTE', 'Eveil vÃ©gÃ©tatif'], 'medium'),
       mkMonth(3, ['Grande floraison', 'FOSNUTREN', 'Surveillance mirides'], 'high'),
-      mkMonth(4, ['Formation cabosses', 'Traitement préventif NATUR CARE'], 'high', '🌑 Risque pourriture brune'),
-      mkMonth(5, ['Petite saison sèche — Irrigation si besoin'], 'medium'),
-      mkMonth(6, ['Petite récolte', 'Fermentation, séchage'], 'high'),
-      mkMonth(7, ['Post-récolte — Taille sanitaire'], 'low'),
+      mkMonth(4, ['Formation cabosses', 'Traitement prÃ©ventif NATUR CARE'], 'high', 'ðŸŒ‘ Risque pourriture brune'),
+      mkMonth(5, ['Petite saison sÃ¨che â€” Irrigation si besoin'], 'medium'),
+      mkMonth(6, ['Petite rÃ©colte', 'Fermentation, sÃ©chage'], 'high'),
+      mkMonth(7, ['Post-rÃ©colte â€” Taille sanitaire'], 'low'),
       mkMonth(8, ['2e floraison', 'FOSNUTREN', 'AMINOL foliaire'], 'high'),
       mkMonth(9, ['Formation cabosses S2'], 'high'),
-      mkMonth(10, ['Début grande récolte'], 'high'),
-      mkMonth(11, ['Grande récolte', 'Fermentation'], 'high'),
-      mkMonth(12, ['Fin récolte', 'Bilan + taille'], 'medium'),
+      mkMonth(10, ['DÃ©but grande rÃ©colte'], 'high'),
+      mkMonth(11, ['Grande rÃ©colte', 'Fermentation'], 'high'),
+      mkMonth(12, ['Fin rÃ©colte', 'Bilan + taille'], 'medium'),
     ],
     Ouest: [
       mkMonth(1, [], 'none'),
-      mkMonth(2, ['Taille', 'Préparation sol'], 'low'),
+      mkMonth(2, ['Taille', 'PrÃ©paration sol'], 'low'),
       mkMonth(3, ['Floraison', 'FOSNUTREN', 'HUMIFORTE'], 'high'),
       mkMonth(4, ['Formation cabosses', 'Traitement fongique'], 'high'),
-      mkMonth(5, ['Surveillance cabosses', 'Désherbage'], 'medium'),
-      mkMonth(6, ['Petite récolte'], 'high'),
-      mkMonth(7, ['Repos végétatif'], 'low'),
+      mkMonth(5, ['Surveillance cabosses', 'DÃ©sherbage'], 'medium'),
+      mkMonth(6, ['Petite rÃ©colte'], 'high'),
+      mkMonth(7, ['Repos vÃ©gÃ©tatif'], 'low'),
       mkMonth(8, ['2e floraison', 'AMINOL + FOSNUTREN'], 'high'),
       mkMonth(9, ['Suivi cabosses S2'], 'high'),
-      mkMonth(10, ['Grande récolte S2'], 'high'),
-      mkMonth(11, ['Récolte + fermentation'], 'high'),
-      mkMonth(12, ['Fin récolte', 'Taille et nettoyage'], 'medium'),
+      mkMonth(10, ['Grande rÃ©colte S2'], 'high'),
+      mkMonth(11, ['RÃ©colte + fermentation'], 'high'),
+      mkMonth(12, ['Fin rÃ©colte', 'Taille et nettoyage'], 'medium'),
     ],
   },
 };
 
-// ─── MAÏS ─────────────────────────────────────────────────────────
+// â”€â”€â”€ MAÃS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const maisCalendar: CropCalendar = {
-  crop: 'Maïs',
-  emoji: '🌽',
+  crop: 'MaÃ¯s',
+  emoji: 'ðŸŒ½',
   products: [
-    { name: 'HUMIFORTE', slug: 'humiforte', usecase: 'Au semis — stimulation racinaire' },
-    { name: 'FOSNUTREN', slug: 'fosnutren', usecase: 'Épiaison — début épi' },
-    { name: 'AMINOL FORTE', slug: 'aminol-forte', usecase: 'Croissance foliaire J30' },
+    { name: 'HUMIFORTE', slug: 'humiforte', usecase: 'Au semis â€” stimulation racinaire' },
+    { name: 'FOSNUTREN', slug: 'fosnutren-20', usecase: 'Ã‰piaison â€” dÃ©but Ã©pi' },
+    { name: 'AMINOL FORTE', slug: 'aminol-20', usecase: 'Croissance foliaire J30' },
   ],
   regions: {
     Centre: [
-      mkMonth(1, ['Préparation sol S1', 'Labour'], 'medium'),
+      mkMonth(1, ['PrÃ©paration sol S1', 'Labour'], 'medium'),
       mkMonth(2, ['Semis S1', 'HUMIFORTE semis', 'Fertilisation fond'], 'high'),
       mkMonth(3, ['Desherbage J20', 'AMINOL foliaire J30'], 'high'),
-      mkMonth(4, ['Épiaison FOSNUTREN', 'Buttage'], 'high'),
-      mkMonth(5, ['Récolte S1', 'Séchage'], 'high'),
-      mkMonth(6, ['Post-récolte', 'Compostage résidus'], 'low'),
-      mkMonth(7, ['Préparation S2'], 'low'),
+      mkMonth(4, ['Ã‰piaison FOSNUTREN', 'Buttage'], 'high'),
+      mkMonth(5, ['RÃ©colte S1', 'SÃ©chage'], 'high'),
+      mkMonth(6, ['Post-rÃ©colte', 'Compostage rÃ©sidus'], 'low'),
+      mkMonth(7, ['PrÃ©paration S2'], 'low'),
       mkMonth(8, ['Semis S2', 'HUMIFORTE'], 'high'),
-      mkMonth(9, ['Fertilisation S2', 'Désherbage'], 'high'),
-      mkMonth(10, ['Épiaison FOSNUTREN S2', 'Buttage'], 'high'),
-      mkMonth(11, ['Récolte S2'], 'high'),
+      mkMonth(9, ['Fertilisation S2', 'DÃ©sherbage'], 'high'),
+      mkMonth(10, ['Ã‰piaison FOSNUTREN S2', 'Buttage'], 'high'),
+      mkMonth(11, ['RÃ©colte S2'], 'high'),
       mkMonth(12, ['Stockage', 'Bilan'], 'medium'),
     ],
     Nord: [
@@ -166,10 +166,10 @@ const maisCalendar: CropCalendar = {
       mkMonth(2, [], 'none'),
       mkMonth(3, [], 'none'),
       mkMonth(4, [], 'none'),
-      mkMonth(5, ['Début pluies — Semis unique', 'HUMIFORTE'], 'high'),
-      mkMonth(6, ['Désherbage', 'Fertilisation', 'AMINOL foliaire'], 'high'),
-      mkMonth(7, ['Épiaison FOSNUTREN', 'Buttage'], 'high'),
-      mkMonth(8, ['Récolte', 'Séchage'], 'high'),
+      mkMonth(5, ['DÃ©but pluies â€” Semis unique', 'HUMIFORTE'], 'high'),
+      mkMonth(6, ['DÃ©sherbage', 'Fertilisation', 'AMINOL foliaire'], 'high'),
+      mkMonth(7, ['Ã‰piaison FOSNUTREN', 'Buttage'], 'high'),
+      mkMonth(8, ['RÃ©colte', 'SÃ©chage'], 'high'),
       mkMonth(9, ['Stockage', 'Compostage'], 'medium'),
       mkMonth(10, [], 'none'),
       mkMonth(11, [], 'none'),
@@ -178,75 +178,75 @@ const maisCalendar: CropCalendar = {
   },
 };
 
-// ─── CAFÉ ─────────────────────────────────────────────────────────
+// â”€â”€â”€ CAFÃ‰ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const cafeCalendar: CropCalendar = {
-  crop: 'Café',
-  emoji: '☕',
+  crop: 'CafÃ©',
+  emoji: 'â˜•',
   products: [
-    { name: 'HUMIFORTE', slug: 'humiforte', usecase: 'Enracinement — après taille' },
-    { name: 'FOSNUTREN', slug: 'fosnutren', usecase: 'Floraison — octobre' },
-    { name: 'AMINOL FORTE', slug: 'aminol-forte', usecase: 'Vigueur annuelle' },
+    { name: 'HUMIFORTE', slug: 'humiforte', usecase: 'Enracinement â€” aprÃ¨s taille' },
+    { name: 'FOSNUTREN', slug: 'fosnutren-20', usecase: 'Floraison â€” octobre' },
+    { name: 'AMINOL FORTE', slug: 'aminol-20', usecase: 'Vigueur annuelle' },
   ],
   regions: {
     Ouest: [
       mkMonth(1, ['Taille principale', 'Nettoyage parcelle'], 'medium'),
       mkMonth(2, ['HUMIFORTE post-taille', 'Paillage'], 'medium'),
-      mkMonth(3, ['Désherbage', 'Début végétation'], 'medium'),
+      mkMonth(3, ['DÃ©sherbage', 'DÃ©but vÃ©gÃ©tation'], 'medium'),
       mkMonth(4, ['Fertilisation foliaire AMINOL'], 'high'),
-      mkMonth(5, ['Suivi végétatif', 'Désherbage'], 'medium'),
-      mkMonth(6, ['Préparation floraison'], 'medium'),
-      mkMonth(7, ['Début floraison'], 'high'),
-      mkMonth(8, ['Floraison max — FOSNUTREN x2'], 'high'),
-      mkMonth(9, ['Formation fruit — surveillance'], 'high'),
-      mkMonth(10, ['Début récolte Arabica'], 'high'),
-      mkMonth(11, ['Grande récolte', 'Dépulpage, lavage, séchage'], 'high'),
-      mkMonth(12, ['Fin récolte', 'Stockage', 'Certification'], 'high'),
+      mkMonth(5, ['Suivi vÃ©gÃ©tatif', 'DÃ©sherbage'], 'medium'),
+      mkMonth(6, ['PrÃ©paration floraison'], 'medium'),
+      mkMonth(7, ['DÃ©but floraison'], 'high'),
+      mkMonth(8, ['Floraison max â€” FOSNUTREN x2'], 'high'),
+      mkMonth(9, ['Formation fruit â€” surveillance'], 'high'),
+      mkMonth(10, ['DÃ©but rÃ©colte Arabica'], 'high'),
+      mkMonth(11, ['Grande rÃ©colte', 'DÃ©pulpage, lavage, sÃ©chage'], 'high'),
+      mkMonth(12, ['Fin rÃ©colte', 'Stockage', 'Certification'], 'high'),
     ],
     Centre: [
-      mkMonth(1, ['Taille légère', 'Fertilisation légère'], 'low'),
-      mkMonth(2, ['HUMIFORTE avril-mai', 'Début végétation'], 'medium'),
+      mkMonth(1, ['Taille lÃ©gÃ¨re', 'Fertilisation lÃ©gÃ¨re'], 'low'),
+      mkMonth(2, ['HUMIFORTE avril-mai', 'DÃ©but vÃ©gÃ©tation'], 'medium'),
       mkMonth(3, ['Fertilisation AMINOL'], 'medium'),
-      mkMonth(4, ['Floraison principale — FOSNUTREN'], 'high'),
+      mkMonth(4, ['Floraison principale â€” FOSNUTREN'], 'high'),
       mkMonth(5, ['Suivi fruits', 'Traitement fongique'], 'high'),
-      mkMonth(6, ['Récolte Robusta S1', 'Dépulpage'], 'high'),
-      mkMonth(7, ['Post-récolte', 'Taille'], 'low'),
+      mkMonth(6, ['RÃ©colte Robusta S1', 'DÃ©pulpage'], 'high'),
+      mkMonth(7, ['Post-rÃ©colte', 'Taille'], 'low'),
       mkMonth(8, ['2e floraison', 'FOSNUTREN'], 'high'),
       mkMonth(9, ['Suivi fruits S2'], 'medium'),
-      mkMonth(10, ['Récolte S2'], 'high'),
-      mkMonth(11, ['Fin récolte', 'Stockage'], 'high'),
+      mkMonth(10, ['RÃ©colte S2'], 'high'),
+      mkMonth(11, ['Fin rÃ©colte', 'Stockage'], 'high'),
       mkMonth(12, ['Bilan', 'Taille'], 'medium'),
     ],
   },
 };
 
-// ─── Banane / Plantain ──────────────────────────────────────────
+// â”€â”€â”€ Banane / Plantain â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const bananeCalendar: CropCalendar = {
   crop: 'Banane/Plantain',
-  emoji: '🍌',
+  emoji: 'ðŸŒ',
   products: [
     { name: 'HUMIFORTE', slug: 'humiforte', usecase: 'Plantation nouvelle' },
-    { name: 'AMINOL FORTE', slug: 'aminol-forte', usecase: 'Croissance accélérée' },
-    { name: 'FOSNUTREN', slug: 'fosnutren', usecase: 'Régime — avant émergence' },
+    { name: 'AMINOL FORTE', slug: 'aminol-20', usecase: 'Croissance accÃ©lÃ©rÃ©e' },
+    { name: 'FOSNUTREN', slug: 'fosnutren-20', usecase: 'RÃ©gime â€” avant Ã©mergence' },
   ],
   regions: {
     Littoral: [
       mkMonth(1, ['Plantation rejets', 'HUMIFORTE'], 'high'),
-      mkMonth(2, ['Entretien', 'Désherbage, écimage rejets'], 'medium'),
+      mkMonth(2, ['Entretien', 'DÃ©sherbage, Ã©cimage rejets'], 'medium'),
       mkMonth(3, ['Fertilisation AMINOL foliaire'], 'high'),
-      mkMonth(4, ['Émergence régimes — FOSNUTREN'], 'high'),
-      mkMonth(5, ['Régimes visible — ensachage'], 'high'),
-      mkMonth(6, ['Récolte régimes J1', 'Écimage'], 'high'),
+      mkMonth(4, ['Ã‰mergence rÃ©gimes â€” FOSNUTREN'], 'high'),
+      mkMonth(5, ['RÃ©gimes visible â€” ensachage'], 'high'),
+      mkMonth(6, ['RÃ©colte rÃ©gimes J1', 'Ã‰cimage'], 'high'),
       mkMonth(7, ['Plantation S2 ou rejets'], 'medium'),
       mkMonth(8, ['Fertilisation AMINOL'], 'high'),
-      mkMonth(9, ['Suivi régimes S2'], 'high'),
-      mkMonth(10, ['Récolte S2'], 'high'),
-      mkMonth(11, ['Désherbage', 'Entretien drainage'], 'medium'),
-      mkMonth(12, ['Prépa S3', 'Bilan'], 'medium'),
+      mkMonth(9, ['Suivi rÃ©gimes S2'], 'high'),
+      mkMonth(10, ['RÃ©colte S2'], 'high'),
+      mkMonth(11, ['DÃ©sherbage', 'Entretien drainage'], 'medium'),
+      mkMonth(12, ['PrÃ©pa S3', 'Bilan'], 'medium'),
     ],
   },
 };
 
-// ─── INDEX GLOBAL DES CULTURES ───────────────────────────────────
+// â”€â”€â”€ INDEX GLOBAL DES CULTURES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const CROP_CALENDARS: CropCalendar[] = [
   tomateCalendar,
   cacaoCalendar,
@@ -255,10 +255,10 @@ export const CROP_CALENDARS: CropCalendar[] = [
   bananeCalendar,
 ];
 
-// ─── Obtenir le calendrier d'une culture pour une région ─────────
+// â”€â”€â”€ Obtenir le calendrier d'une culture pour une rÃ©gion â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export function getCropCalendar(cropName: string, region?: string): CropCalendar | null {
   const normalized = cropName.toLowerCase()
-    .replace('maïs', 'maïs').replace('mais', 'maïs')
+    .replace('maÃ¯s', 'maÃ¯s').replace('mais', 'maÃ¯s')
     .replace('banane', 'banane').replace('plantain', 'banane');
 
   const cal = CROP_CALENDARS.find(c =>
@@ -268,7 +268,7 @@ export function getCropCalendar(cropName: string, region?: string): CropCalendar
   return cal || null;
 }
 
-// ─── Obtenir les activités du mois courant ───────────────────────
+// â”€â”€â”€ Obtenir les activitÃ©s du mois courant â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export function getCurrentMonthActivities(
   cropName: string,
   region?: string
@@ -277,7 +277,7 @@ export function getCurrentMonthActivities(
   if (!cal) return null;
 
   const month = new Date().getMonth() + 1;
-  // Cherche la région demandée, sinon prend la première disponible
+  // Cherche la rÃ©gion demandÃ©e, sinon prend la premiÃ¨re disponible
   const regionKey = region
     ? Object.keys(cal.regions).find(r => r.toLowerCase().includes(region.toLowerCase()) || region.toLowerCase().includes(r.toLowerCase()))
     : Object.keys(cal.regions)[0];
@@ -294,14 +294,14 @@ export function getCurrentMonthActivities(
   };
 }
 
-// ─── Génère une salutation saisonnière ───────────────────────────
+// â”€â”€â”€ GÃ©nÃ¨re une salutation saisonniÃ¨re â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export function getSeasonalGreeting(region?: string, crops?: string[]): string | null {
   if (!region && !crops?.length) return null;
 
   const month = new Date().getMonth() + 1;
   const monthName = MONTHS_FR[month - 1];
 
-  // Activités urgentes ce mois pour les cultures connues
+  // ActivitÃ©s urgentes ce mois pour les cultures connues
   const urgentItems: string[] = [];
   const cropAlerts: string[] = [];
 
@@ -315,28 +315,32 @@ export function getSeasonalGreeting(region?: string, crops?: string[]): string |
 
   if (urgentItems.length === 0 && !region) return null;
 
-  const lines = [`🗓️ **Agenda ${monthName}${region ? ` — ${region}` : ''}**`];
-  urgentItems.forEach(item => lines.push(`• ${item}`));
+  const lines = [`ðŸ—“ï¸ **Agenda ${monthName}${region ? ` â€” ${region}` : ''}**`];
+  urgentItems.forEach(item => lines.push(`â€¢ ${item}`));
   if (cropAlerts.length > 0) lines.push(cropAlerts[0]);
 
   return lines.join('\n');
 }
 
-// ─── PRODUITS DÉTECTABLES dans le texte (pour bouton Acheter) ────
+// â”€â”€â”€ PRODUITS DÃ‰TECTABLES dans le texte (pour bouton Acheter) â”€â”€â”€â”€
 export const PRODUCT_BUY_PATTERNS: Array<{
   pattern: RegExp;
   name: string;
   slug: string;
   category: string;
 }> = [
-  { pattern: /HUMIFORTE/i,      name: 'HUMIFORTE',      slug: 'humiforte',      category: 'Biostimulanut' },
-  { pattern: /FOSNUTREN/i,      name: 'FOSNUTREN',       slug: 'fosnutren',      category: 'Biostimulant' },
-  { pattern: /KADOSTIM/i,       name: 'KADOSTIM',        slug: 'kadostim',       category: 'Anti-stress' },
-  { pattern: /AMINOL\s*FORTE/i, name: 'AMINOL FORTE',    slug: 'aminol-forte',   category: 'Nutrition' },
-  { pattern: /NATUR\s*CARE/i,   name: 'NATUR CARE',      slug: 'natur-care',     category: 'Protection' },
-  { pattern: /RHIZOFIX/i,       name: 'RHIZOFIX',        slug: 'rhizofix',       category: 'Racinaire' },
-  { pattern: /TRIANUM/i,        name: 'TRIANUM',         slug: 'trianum',        category: 'Biocontrôle' },
-  { pattern: /CALCIFORTE/i,     name: 'CALCIFORTE',      slug: 'calciforte',     category: 'Nutrition' },
+  { pattern: /HUMIFORTE/i,      name: 'HUMIFORTE',      slug: 'humiforte',          category: 'Biostimulant' },
+  { pattern: /FOSNUTREN/i,      name: 'FOSNUTREN',       slug: 'fosnutren-20',       category: 'Biostimulant' },
+  { pattern: /KADOSTIM/i,       name: 'KADOSTIM',        slug: 'kadostim-20',        category: 'Anti-stress' },
+  { pattern: /AMINOL\s*(?:FORTE|20)?/i, name: 'AMINOL 20', slug: 'aminol-20',        category: 'Nutrition' },
+  { pattern: /NATUR\s*CARE/i,   name: 'NATUR CARE',      slug: 'natur-care',         category: 'Protection' },
+  { pattern: /SARAH\s*NPK/i,    name: 'SARAH NPK 20-10-10', slug: 'sarah-npk-20-10-10', category: 'Engrais minÃ©ral' },
+  { pattern: /UR[Ã‰E]E\s*46/i,   name: 'URÃ‰E 46%',       slug: 'uree-46',            category: 'Engrais minÃ©ral' },
+  { pattern: /SULPHATE/i,       name: 'SULPHATE',        slug: 'sulphate',           category: 'Engrais minÃ©ral' },
+  { pattern: /LADABA/i,         name: 'HERBICIDE LADABA', slug: 'herbicide-ladaba',  category: 'Herbicide' },
+  { pattern: /RHIZOFIX/i,       name: 'RHIZOFIX',        slug: 'rhizofix',           category: 'Racinaire' },
+  { pattern: /TRIANUM/i,        name: 'TRIANUM',         slug: 'trianum',            category: 'BiocontrÃ´le' },
+  { pattern: /CALCIFORTE/i,     name: 'CALCIFORTE',      slug: 'calciforte',         category: 'Nutrition' },
 ];
 
 export function extractProductsFromText(text: string): Array<{ name: string; slug: string; category: string }> {
