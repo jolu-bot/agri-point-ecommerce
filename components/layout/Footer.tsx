@@ -7,6 +7,7 @@ import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, MessageCir
 const footerLinks = {
   solutions: [
     { label: 'Produire Plus', href: '/produire-plus' },
+    { label: 'Fourniture Intrants', href: '/fourniture-intrants' },
     { label: 'Gagner Plus', href: '/gagner-plus' },
     { label: 'Mieux Vivre', href: '/mieux-vivre' },
     { label: 'Agriculture Urbaine', href: '/agriculture-urbaine' },

@@ -66,6 +66,7 @@ export default function Header() {
       href: '#',
       submenu: [
         { name: 'Produire Plus', href: '/produire-plus' },
+        { name: 'Fourniture Intrants', href: '/fourniture-intrants' },
         { name: 'Gagner Plus', href: '/gagner-plus' },
         { name: 'Mieux Vivre', href: '/mieux-vivre' },
       ]
