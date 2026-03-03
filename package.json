@@ -88,6 +88,7 @@
     "qrcode": "^1.5.4",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.3.1",
+    "react-cookie-consent": "^10.0.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.68.0",
     "react-hot-toast": "^2.4.1",
