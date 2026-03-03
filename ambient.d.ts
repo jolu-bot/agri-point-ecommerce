@@ -1,5 +1,5 @@
-// Type declarations for modules without official TypeScript types
-// These declarations extend the global module scope
+// Ambient type declarations for modules without official TypeScript types
+// This file is automatically loaded by TypeScript due to its naming convention
 
 declare module 'otplib' {
   export interface GenerateSecretOptions {
@@ -101,4 +101,3 @@ declare module 'pino-roll' {
   const pinoRoll: TransportTargetOptions;
   export default pinoRoll;
 }
-

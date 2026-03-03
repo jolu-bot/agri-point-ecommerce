@@ -1,4 +1,3 @@
-/// <reference types="../types/modules" />
 import { Redis } from '@upstash/redis';
 
 /**

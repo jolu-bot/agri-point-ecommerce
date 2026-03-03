@@ -1,4 +1,3 @@
-/// <reference types="../types/modules" />
 import { Turnstile } from '@marsidev/react-turnstile';
 import { NextRequest, NextResponse } from 'next/server';
 
