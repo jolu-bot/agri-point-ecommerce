@@ -162,10 +162,10 @@ export default function HeroNew() {
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
           >
             <Link
-              href="/produits"
+              href="/produire-plus"
               className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-bold text-base sm:text-lg rounded-xl transition-all duration-300 transform hover:scale-105 group shadow-2xl hover:shadow-emerald-500/50"
             >
-              Découvrir nos produits
+              Découvrir nos services
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
