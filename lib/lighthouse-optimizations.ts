@@ -82,7 +82,7 @@ export const addStructuredData = () => {
 export const optimizeImages = () => {
   if (typeof document === 'undefined') return;
 
-  const images = document.querySelectorAll('img:not([loading="lazy"])');
+  const images = document.querySelectorAll<HTMLImageElement>('img:not([loading="lazy"])');
   images.forEach((img) => {
     // Skip critical images (above the fold)
     if (!img.closest('[data-critical]')) {
@@ -109,20 +109,21 @@ export const optimizeImages = () => {
     });
   });
 
-  document.querySelectorAll('img[data-src]').forEach((img) => observer.observe(img));
+  document.querySelectorAll<HTMLImageElement>('img[data-src]').forEach((img) => observer.observe(img));
 };
 
 // ── Web Vitals Monitoring ──────────────────────────────────────────────────
 
 // 4. Monitor Core Web Vitals
 export const monitorWebVitals = () => {
-  if (typeof window === 'undefined' || !('web-vital' in window)) return;
+  if (typeof window === 'undefined') return;
 
   // LCP - Largest Contentful Paint
   if ('PerformanceObserver' in window) {
     try {
       new PerformanceObserver((entryList) => {
-        const lastEntry = entryList.getEntries().pop();
+        const entries = entryList.getEntries() as any[];
+        const lastEntry = entries.pop();
         if (lastEntry) {
           console.debug('LCP:', lastEntry.renderTime || lastEntry.loadTime);
         }
@@ -136,12 +137,13 @@ export const monitorWebVitals = () => {
   if ('PerformanceEventTiming' in window) {
     try {
       new PerformanceObserver((entryList) => {
-        for (const entry of entryList.getEntries()) {
-          if (entry.processingDuration > 0) {
-            console.debug('FID:', entry.processingDuration);
+        const entries = entryList.getEntries() as any[];
+        for (const evt of entries) {
+          if (evt.processingDuration > 0) {
+            console.debug('FID:', evt.processingDuration);
           }
         }
-      }).observe({ entryTypes: ['first-input'], durationThreshold: 100 });
+      }).observe({ entryTypes: ['first-input'], durationThreshold: 0 } as any);
     } catch (e) {
       // Not supported
     }
@@ -151,13 +153,14 @@ export const monitorWebVitals = () => {
   try {
     new PerformanceObserver((entryList) => {
       let clsValue = 0;
-      for (const entry of entryList.getEntries()) {
-        if (!(entry as any).hadRecentInput) {
-          clsValue += (entry as any).value;
+      const entries = entryList.getEntries() as any[];
+      for (const evt of entries) {
+        if (!evt.hadRecentInput) {
+          clsValue += evt.value;
         }
       }
       console.debug('CLS:', clsValue);
-    }).observe({ entryTypes: ['layout-shift'], durationThreshold: 0 });
+    }).observe({ entryTypes: ['layout-shift'], durationThreshold: 0 } as any);
   } catch (e) {
     // Not supported
   }
