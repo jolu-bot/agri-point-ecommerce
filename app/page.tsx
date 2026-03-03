@@ -1,4 +1,4 @@
-import Hero from '@/components/home/Hero';
+import HeroNew from '@/components/home/HeroNew';
 import Stats from '@/components/home/Stats';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 import Sections from '@/components/home/Sections';
@@ -18,7 +18,7 @@ const Newsletter = dynamic(() => import('@/components/home/Newsletter'), {
 export default function Home() {
   return (
     <>
-      <Hero />
+      <HeroNew />
       <Stats />
       <FeaturedProducts />
       <Sections />
