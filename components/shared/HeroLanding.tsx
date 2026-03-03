@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, LucideIcon } from 'lucide-react';
-import HeroSlideshow from './HeroSlideshow';
+import HeroSlideshow from '@/components/home/HeroSlideshow';
 
 interface HeroLandingProps {
   badge: string;
@@ -83,8 +83,7 @@ export default function HeroLanding({
             className="text-center lg:text-left"
           >
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border backdrop-blur-sm mb-4 sm:mb-6 text-xs sm:text-sm font-medium shadow-sm"
-                 className={colors.badge}>
+            <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border backdrop-blur-sm mb-4 sm:mb-6 text-xs sm:text-sm font-medium shadow-sm ${colors.badge}`}>
               {BadgeIcon && <BadgeIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
               <span>{badge}</span>
             </div>
