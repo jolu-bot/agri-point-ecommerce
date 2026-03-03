@@ -3,6 +3,7 @@ import Stats from '@/components/home/Stats';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 import Sections from '@/components/home/Sections';
 import UrbanAgriculture from '@/components/home/UrbanAgriculture';
+import IntrantsHomeCarousel from '@/components/home/IntrantsHomeCarousel';
 import dynamic from 'next/dynamic';
 
 // Lazy load UNIQUEMENT les composants non-critiques (sous le fold)
@@ -23,6 +24,7 @@ export default function Home() {
       <Sections />
       <UrbanAgriculture />
       <Testimonials />
+      <IntrantsHomeCarousel />
       <Newsletter />
     </>
   );

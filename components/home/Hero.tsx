@@ -30,12 +30,12 @@ function HeroContent() {
       </h1>
 
       <p className="text-gray-700 dark:text-gray-300 leading-relaxed max-w-lg hero-description">
-        Gamme complète de <strong className="text-gray-900 dark:text-white font-semibold">biofertilisants de grande qualité</strong> pour augmenter la production de toutes les cultures au Cameroun.
+        <strong className="text-gray-900 dark:text-white font-semibold">Nos objectifs :</strong> Un Agripoint services s'installe partout où il y a un potentiel de <strong className="text-gray-900 dark:text-white font-semibold">20 000 ha et 10 000 producteurs</strong>.
       </p>
 
       <div className="flex flex-col sm:flex-row gap-3 hero-buttons">
         <Link href="/produits" className="btn-primary btn-glow inline-flex items-center justify-center gap-2 group">
-          Découvrir nos produits
+          Découvrir nos services
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-200" />
         </Link>
         <Link href="/campagne-engrais" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-red-800/30 dark:border-red-700/25 bg-red-950/5 dark:bg-red-900/10 text-red-700 dark:text-red-400 hover:bg-red-950/10 font-semibold text-sm transition-all duration-200">
