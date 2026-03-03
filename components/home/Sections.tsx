@@ -16,6 +16,7 @@ export default function Sections() {
         'Formation optimisée',
         'Acquisition matériels compétitifs',
         'Location d\'équipements facilitant le travail',
+        'Fourniture d\'intrants',
       ],
       color: 'primary',
       link: '/produire-plus',
