@@ -159,10 +159,73 @@ const KNOWLEDGE_BASE = `
 
 ---
 
+### PARTENAIRES OFFICIELS
+- **CAMPOST** : Réseau de paiement et logistique postale — versements en bureau de poste
+- **MINADER** : Ministère de l'Agriculture et du Développement Rural — homologation produits
+- **Bange Bank** : Partenaire financier — solutions de financement agricole pour les producteurs
+- **EMOH** : Partenaire logistique et distribution
+- **CIVIA** : Partenaire institutionnel
+- **PLANOPAC** : Plateforme Nationale des Organisations Paysannes du Cameroun — réseau de coopératives agricoles (https://www.facebook.com/PLANOPAC)
+
+---
+
+### LES 3 PROGRAMMES PHARES AGRI POINT SERVICE
+
+#### PRODUIRE PLUS (https://agri-ps.com/produire-plus)
+- **Objectif** : Augmenter les rendements agricoles de +40% à +150%
+- **Services AP Agripoint** :
+  1. **Identification des filières** — Analyse des filières agricoles porteuses dans votre région
+  2. **Fourniture d'intrants de qualité** — Accès aux biofertilisants et engrais certifiés à prix compétitifs
+  3. **Renforcement des capacités** — Formations techniques et accompagnement terrain pour les agriculteurs
+  4. **Résultats prouvés** — Plus de 50 000 agriculteurs accompagnés avec des résultats mesurables
+- **Partenaire clé** : PLANOPAC (réseau national de coopératives)
+
+#### GAGNER PLUS (https://agri-ps.com/gagner-plus)
+- **Objectif** : Doublez vos bénéfices agricoles
+- **Avantages** :
+  - Réduction des coûts de production jusqu'à 40%
+  - Accès aux marchés premium
+  - Formation en gestion financière agricole
+  - Plan de financement avec Bange Bank
+- **Plan de paiement CMA** : 70% comptant à la commande, 30% après la récolte (réservé aux membres des Caisses Mutuelles Agricoles)
+- **Partenaire financier** : Bange Bank
+
+#### MIEUX VIVRE (https://agri-ps.com/mieux-vivre)
+- **Objectif** : Améliorer la qualité de vie des agriculteurs et leurs familles
+- **Opérateur** : Les Caisses Mutuelles Agricoles Africaines (CMA)
+- **Services disponibles** :
+  1. **Épargne agricole** — À partir de 500 000 FCFA, solutions d'épargne adaptées au cycle agricole
+  2. **Logement** — Accompagnement habitat à partir de 3 000 000 FCFA
+  3. **Assurances** — Protection des récoltes et couverture agricole complète
+  4. **Transport** — Solutions logistiques pour l'acheminement des récoltes
+- **Note** : Les services Mieux Vivre sont gérés par les CMA (Caisses Mutuelles Agricoles Africaines), partenaires d'AGRI POINT SERVICE
+
+---
+
 ### CATALOGUE PRODUITS COMPLET
+
+#### GRILLE TARIFAIRE OFFICIELLE (FCFA — Mise à jour 2025)
+
+| Produit | Prix unitaire |
+|---------|--------------|
+| NPK 20-10-10 (SARAH) | 19 500 F CFA |
+| NPK 05-05-45 | 23 000 F CFA |
+| NPK 00-00-36 | 20 500 F CFA |
+| NPK 06-08-28 | 22 000 F CFA |
+| NPK 12-14-19 | 23 000 F CFA |
+| URÉE 46% (50kg) | 22 000 F CFA |
+| URÉE 46% (25kg) | 11 000 F CFA |
+| SULPHATE D'AMMONIAQUE | 17 500 F CFA |
+| Biofertilisants (Humiforte, Fosnutren, Kadostim, Aminolforte) | 13 500 F CFA chacun |
+| NATUR CARE | 65 000 F CFA |
+| Herbicide Ladaba 1L | 2 500 F CFA |
+| Herbicide Ladaba 5L | 12 000 F CFA |
+
+---
 
 #### 1. HUMIFORTE (NPK 6-4-0.2)
 - **Type** : Biofertilisant foliaire à base d'acides humiques
+- **Prix** : **13 500 F CFA**
 - **NPK** : Azote 6% | Phosphore 4% | Potassium 0.2% + acides humiques + fulviques
 - **Action** : Stimule croissance végétative, densifie feuillage, renforce racines
 - **Cultures** : Agrumes, fruits tropicaux, horticulture, maraîchage, céréales, palmier
@@ -174,6 +237,7 @@ const KNOWLEDGE_BASE = `
 
 #### 2. FOSNUTREN 20 (NPK 4.2-6.5)
 - **Type** : Biofertilisant floral phospho-potassique
+- **Prix** : **13 500 F CFA**
 - **NPK** : Phosphore 6.5% | Potassium 4.2% + bore + zinc
 - **Action** : Garantit floraison abondante, améliore nouaison des fruits
 - **Cultures** : Tomates, poivrons, concombres, haricots, légumineuses, bananier
@@ -184,6 +248,7 @@ const KNOWLEDGE_BASE = `
 
 #### 3. KADOSTIM 20
 - **Type** : Biostimulant fruticole — post-floraison
+- **Prix** : **13 500 F CFA**
 - **Composition** : Acides aminés + oligo-éléments + hormones naturelles de croissance
 - **Action** : Calibre et qualité supérieure des fruits, coloration, conservation
 - **Cultures** : Cacao, café, manguier, avocatier, agrumes, ananas, papaye
@@ -194,6 +259,7 @@ const KNOWLEDGE_BASE = `
 
 #### 4. AMINOL 20
 - **Type** : Biostimulant anti-stress à base d'acides aminés hydrolysés
+- **Prix** : **13 500 F CFA**
 - **Composition** : 20 acides aminés libres + vitamines B + microéléments
 - **Action** : Protection contre sécheresse, chaleur, salinité, pathogènes
 - **Cultures** : Cacao, café, poivre, palmier, cultures sous stress climatique
@@ -204,6 +270,7 @@ const KNOWLEDGE_BASE = `
 
 #### 5. NATUR CARE
 - **Type** : Engrais organique liquide NPK complet
+- **Prix** : **65 000 F CFA**
 - **Origine** : 100% organique, dérivé de déchets végétaux fermentés
 - **Action** : Restaure fertilité sol, stimule microbiote, améliore structure sol
 - **Cultures** : Toutes cultures, sols appauvris, agriculture biologique
@@ -211,6 +278,36 @@ const KNOWLEDGE_BASE = `
 - **Effet sol** : Résultats sur structure du sol visibles après 2-3 applications
 - **Certification** : Homologué agriculture biologique — label MINADER Cameroun
 - **Formats** : 1L, 5L, 20L, 200L (bidon professionnel)
+
+#### 6. SARAH NPK 20-10-10
+- **Type** : Engrais minéral NPK haute qualité
+- **Prix** : **19 500 F CFA** (sac 50kg)
+- **NPK** : 20-10-10 — Haute concentration d'azote pour croissance rapide
+- **Cultures** : Toutes cultures
+- **Action** : Fertilisation de fond, apport NPK équilibré
+
+#### 7. URÉE 46%
+- **Type** : Engrais azoté haute concentration
+- **Prix** : **22 000 F CFA** (sac 50kg) | **11 000 F CFA** (sac 25kg)
+- **NPK** : 46-0-0
+- **Cultures** : Céréales, maraîchage
+- **Action** : Boost de croissance végétative
+
+#### 8. SULPHATE D'AMMONIAQUE
+- **Type** : Engrais azoté soufré
+- **Prix** : **17 500 F CFA**
+- **Action** : Apport azote + soufre pour cultures exigeantes
+
+#### 9. Herbicide LADABA
+- **Type** : Herbicide de pré/post-levée
+- **Prix** : **2 500 F CFA** (1L) | **12 000 F CFA** (5L)
+- **Action** : Désherbage efficace des parcelles
+
+#### 10. Gamme NPK Spécialisée
+- **NPK 05-05-45** : 23 000 F CFA — Riche en potassium, cultures fruitières
+- **NPK 00-00-36** : 20 500 F CFA — Potassium pur, maturation fruits
+- **NPK 06-08-28** : 22 000 F CFA — Équilibre P-K, tubercules et racines
+- **NPK 12-14-19** : 23 000 F CFA — Formule polyvalente
 
 ---
 
@@ -356,9 +453,9 @@ R : Actuellement MTN/Orange Cameroun, Campost, virement national. PayPal en cour
 |------|-------------|-------------|------------------|
 | Accueil | https://agri-ps.com/ | Page principale, hero, statistiques, produits vedettes | Découvrir nos solutions |
 | Catalogue Produits | https://agri-ps.com/produits | Tous nos biofertilisants avec filtres et comparateur | Ajouter au panier |
-| Produire Plus | https://agri-ps.com/produire-plus | Solutions pour +40% à +150% de rendement | Voir le programme |
-| Gagner Plus | https://agri-ps.com/gagner-plus | Optimisation des revenus agricoles | Calculer mes gains |
-| Mieux Vivre | https://agri-ps.com/mieux-vivre | Qualité de vie des agriculteurs et familles | En savoir plus |
+| Produire Plus | https://agri-ps.com/produire-plus | Services AP Agripoint : identification filières, intrants, renforcement capacités | Voir le programme |
+| Gagner Plus | https://agri-ps.com/gagner-plus | Doublez vos bénéfices : -40% coûts, financement Bange Bank, plan CMA 70/30 | Calculer mes gains |
+| Mieux Vivre | https://agri-ps.com/mieux-vivre | Services CMA : épargne, logement, assurances, transport pour agriculteurs | En savoir plus |
 | Agriculture Urbaine | https://agri-ps.com/agriculture-urbaine | Jardinage en ville : balcon, terrasse, potager | Guide urbain |
 | Campagne Mars 2026 | https://agri-ps.com/campagne-engrais | OFFRE SPÉCIALE — Engrais à prix réduit, inscription en ligne | S'inscrire maintenant |
 | Événements | https://agri-ps.com/evenements | Formations, foires, webinaires | Voir le calendrier |
