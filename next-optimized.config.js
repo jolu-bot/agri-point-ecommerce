@@ -32,6 +32,8 @@ const nextConfig = {
       'chart.js'
     ],
     optimizeCss: true,
+    parallelServerBuildTraces: true,
+    parallelServerCompiles: true,
   },
 
   // ── Compiler optimizations ─────────────────────────────────────────────────
@@ -40,6 +42,7 @@ const nextConfig = {
       exclude: ['error'],
     },
     styledComponents: true,
+    swcTracingEnabled: false,
   },
 
   // ── Build optimizations ────────────────────────────────────────────────────
