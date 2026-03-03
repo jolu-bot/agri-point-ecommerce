@@ -83,6 +83,22 @@ const partners = [
     badge: 'bg-teal-50 text-teal-700 border-teal-100',
     badgeDark: 'bg-teal-900/30 text-teal-400 border-teal-500/20',
   },
+  {
+    id: 'planopac',
+    name: 'PLANOPAC',
+    subtitle: 'Semences de Qualité',
+    logo: '/images/partners/planopac.png',
+    url: 'https://www.facebook.com/p/Planopac-Online-100064810566427',
+    color: 'from-amber-50 to-orange-50',
+    colorDark: 'from-amber-900/20 to-orange-900/10',
+    border: 'border-amber-100',
+    borderDark: 'border-amber-500/20',
+    accent: 'text-amber-700',
+    accentDark: 'text-amber-400',
+    badge: 'bg-amber-50 text-amber-700 border-amber-100',
+    badgeDark: 'bg-amber-900/30 text-amber-400 border-amber-500/20',
+    description: 'Partenaire semencier d\'AP Agripoint, PLANOPAC fournit des semences de qualité certifiée pour toutes les cultures. Un engagement pour des semences performantes et adaptées aux conditions agricoles du Cameroun.',
+  },
 ];
 
 // Triple the list for seamless mobile marquee

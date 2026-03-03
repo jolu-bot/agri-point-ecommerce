@@ -36,10 +36,10 @@ const PRODUIRE_PLUS_IMAGES = [
 
 const pageContent = {
   hero: {
-    badge: "🌾 Solution N°1 pour l'Agriculture Performante",
+    badge: "🌾 Services AP Agripoint - Excellence Agricole",
     title: "PRODUIRE PLUS",
     subtitle: "Augmentez vos rendements de 40% à 150%",
-    description: "Découvrez nos solutions biofertilisantes révolutionnaires qui transforment radicalement la productivité de vos cultures. Des résultats prouvés sur plus de 20 000 hectares au Cameroun.",
+    description: "AP Agripoint met à votre service une expertise complète : diagnostic de filières prioritaires, fourniture d'intrants de qualité (fertilisants, semences PLANOPAC), renforcement des capacités. Nous transformons votre production. Des résultats prouvés sur plus de 20 000 hectares au Cameroun.",
     cta: {
       primary: "Voir nos produits",
       secondary: "Demander un devis"
@@ -55,30 +55,30 @@ const pageContent = {
 
   benefits: [
     {
-      title: "Boostez vos rendements",
-      description: "Augmentation de 40% à 150% de la production sur toutes cultures : maïs, tomate, cacao, café, cultures maraîchères.",
-      icon: TrendingUp,
+      title: "Identification des filières",
+      description: "Identification des filières de croissances prioritaires avec forte valeur ajoutée en phase avec politique agricole Nationale. Diagnostic expert pour orienter votre production vers les cultures les plus rentables.",
+      icon: Target,
       color: "green",
       image: "/products/icon-croissance-fruits.png"
     },
     {
-      title: "Qualité supérieure",
-      description: "Produits 100% bio, certifiés, sans produits chimiques. Améliorez la qualité nutritive et marchande de vos récoltes.",
-      icon: Leaf,
+      title: "Fourniture d'intrants",
+      description: "Engrais minéraux et biofertilisants AP Agri Point, semences de qualité certifiée PLANOPAC, produits phytosanitaires éprouvés. Tous les intrants pour une production optimale.",
+      icon: ShoppingCart,
       color: "emerald",
       image: "/products/icon-floraison.png"
     },
     {
-      title: "Sol régénéré",
-      description: "Régénération complète de la fertilité du sol en 6 mois. Réduction de 60% des besoins en irrigation.",
-      icon: Sprout,
+      title: "Renforcement des capacités",
+      description: "Formation continue des producteurs : techniques culturales modernes, gestion des cultures, utilisation optimale des intrants. Accompagnement technique régulier pour maîtriser chaque étape.",
+      icon: Award,
       color: "lime",
       image: "/products/icon-feuillage.png"
     },
     {
-      title: "Résultats rapides",
-      description: "Premiers résultats visibles dès 3 mois. Croissance vigoureuse, feuillage dense, fruits plus gros et nombreux.",
-      icon: Zap,
+      title: "Résultats prouvés",
+      description: "Augmentation de 40% à 150% de rendements. Qualité supérieure, coûts optimisés. Premiers résultats visibles dès 3 mois, croissance vigoureuse et fruits de meilleure qualité.",
+      icon: BarChart3,
       color: "amber",
       image: "/products/icon-anti-stress.png"
     }
