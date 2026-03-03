@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
+import AnimatedCounter from '@/components/shared/AnimatedCounter';
 
 const testimonials = [
   {
@@ -115,12 +116,27 @@ export default function Testimonials() {
           </div>
           <div className="hidden sm:block w-px h-8 bg-gray-200 dark:bg-gray-700" />
           <div>
-            <p className="text-2xl font-black text-gradient-primary">10 000+</p>
+            <p className="text-2xl font-black text-gradient-primary">
+              <AnimatedCounter 
+                to={10000} 
+                duration={2.5} 
+                prefix="" 
+                suffix="+" 
+                format={(v) => (Math.round(v) / 1000).toString() + ' 000'}
+              />
+            </p>
             <p className="text-xs text-gray-500 dark:text-gray-400">Clients satisfaits</p>
           </div>
           <div className="hidden sm:block w-px h-8 bg-gray-200 dark:bg-gray-700" />
           <div>
-            <p className="text-2xl font-black text-gradient-primary">24 avis</p>
+            <p className="text-2xl font-black text-gradient-primary">
+              <AnimatedCounter 
+                to={24} 
+                duration={2} 
+                suffix=" avis" 
+                format={(v) => Math.round(v).toString()}
+              />
+            </p>
             <p className="text-xs text-gray-500 dark:text-gray-400">Vérifiés</p>
           </div>
         </motion.div>

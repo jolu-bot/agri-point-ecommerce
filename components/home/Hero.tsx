@@ -6,6 +6,7 @@ import { ArrowRight, Leaf } from 'lucide-react';
 import { Suspense, lazy } from 'react';
 import HeroShowcase from './HeroShowcase';
 import { HeroImageSkeleton } from './HeroImageSkeleton';
+import AnimatedCounter from '@/components/shared/AnimatedCounter';
 
 // Lazy load Framer Motion animations to reduce initial JS
 const AnimatedContent = lazy(() => import('./HeroAnimated'));
@@ -47,12 +48,18 @@ function HeroContent() {
       {/* Stats — glass pill cards */}
       <div className="grid grid-cols-3 gap-3">
         {[
-          { value: '20K+', label: 'Hectares', type: 'primary' },
-          { value: '10K+', label: 'Agriculteurs', type: 'primary' },
-          { value: '100%', label: 'Bio Certifié', type: 'secondary' },
-        ].map(({ value, label, type }) => (
+          { to: 20000, label: 'Hectares', type: 'primary', suffix: 'K+' },
+          { to: 10000, label: 'Agriculteurs', type: 'primary', suffix: 'K+' },
+          { to: 100, label: 'Bio Certifié', type: 'secondary', suffix: '%' },
+        ].map(({ to, label, type, suffix }) => (
           <div key={label} className="stat-pill-hero">
-            <div className={`font-display font-black stat-value ${type === 'secondary' ? 'hero-stat-secondary' : 'hero-stat-primary'}`}>{value}</div>
+            <div className={`font-display font-black stat-value ${type === 'secondary' ? 'hero-stat-secondary' : 'hero-stat-primary'}`}>
+              {to === 100 ? (
+                <AnimatedCounter to={to} duration={2} suffix={suffix} format={(v) => Math.round(v).toString()} />
+              ) : (
+                <AnimatedCounter to={to} duration={2.5} prefix="" suffix={suffix} format={(v) => (Math.round(v) / 1000).toString()} />
+              )}
+            </div>
             <div className="stat-label text-gray-600 dark:text-gray-400">{label}</div>
           </div>
         ))}

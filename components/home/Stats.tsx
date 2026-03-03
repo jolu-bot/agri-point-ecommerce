@@ -1,12 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import AnimatedCounter from '@/components/shared/AnimatedCounter';
 
 const stats = [
-  { icon: '🌱', value: '20 000', label: 'Hectares cultivés', suffix: '+', color: 'from-emerald-500 to-green-600' },
-  { icon: '👥', value: '10 000', label: 'Agriculteurs satisfaits', suffix: '+', color: 'from-teal-500 to-emerald-600' },
-  { icon: '🎯', value: '100', label: 'Produits biologiques', suffix: '%', color: 'from-green-500 to-teal-600' },
-  { icon: '⭐', value: '4.9', label: 'Note moyenne', suffix: '/5', color: 'from-amber-500 to-orange-500' },
+  { icon: '🌱', value: 20000, label: 'Hectares cultivés', suffix: '+', color: 'from-emerald-500 to-green-600', format: (v) => (Math.round(v) / 1000).toString() + ' ' },
+  { icon: '👥', value: 10000, label: 'Agriculteurs satisfaits', suffix: '+', color: 'from-teal-500 to-emerald-600', format: (v) => (Math.round(v) / 1000).toString() + ' ' },
+  { icon: '🎯', value: 100, label: 'Produits biologiques', suffix: '%', color: 'from-green-500 to-teal-600', format: (v) => Math.round(v).toString() },
+  { icon: '⭐', value: 4.9, label: 'Note moyenne', suffix: '/5', color: 'from-amber-500 to-orange-500', format: (v) => v.toFixed(1) },
 ];
 
 export default function Stats() {
@@ -44,7 +45,13 @@ export default function Stats() {
 
               <div className="text-4xl mb-3 filter drop-shadow-sm">{stat.icon}</div>
               <div className="text-3xl lg:text-4xl font-black text-gradient-primary leading-none mb-1">
-                {stat.value}<span className="text-xl">{stat.suffix}</span>
+                <AnimatedCounter 
+                  to={stat.value} 
+                  duration={2.5} 
+                  suffix={stat.suffix} 
+                  format={stat.format}
+                  decimals={stat.value < 10 ? 1 : 0}
+                />
               </div>
               <p className="text-sm text-gray-500 dark:text-gray-400 font-medium leading-tight">{stat.label}</p>
             </motion.div>

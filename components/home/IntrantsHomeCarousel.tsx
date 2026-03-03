@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import AnimatedCounter from '@/components/shared/AnimatedCounter';
 
 interface Product {
   id: string;
@@ -162,7 +163,15 @@ export default function IntrantsHomeCarousel() {
 
           <div className="mt-6 flex items-center justify-center gap-2">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-emerald-300 to-transparent dark:via-emerald-700" />
-            <span className="text-emerald-600 dark:text-emerald-400 text-sm font-semibold">+30% rendement moyen</span>
+            <span className="text-emerald-600 dark:text-emerald-400 text-sm font-semibold">
+              <AnimatedCounter 
+                to={30} 
+                duration={2.5} 
+                prefix="+" 
+                suffix="% rendement moyen" 
+                format={(v) => Math.round(v).toString()}
+              />
+            </span>
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-emerald-300 to-transparent dark:via-emerald-700" />
           </div>
         </motion.div>
