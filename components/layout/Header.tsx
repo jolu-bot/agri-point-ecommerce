@@ -62,7 +62,7 @@ export default function Header() {
     { name: 'Accueil', href: '/' },
     { name: 'Boutique', href: '/produits' },
     { 
-      name: 'Nos Solutions', 
+      name: 'Nos Services', 
       href: '#',
       submenu: [
         { name: 'Produire Plus', href: '/produire-plus' },

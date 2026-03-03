@@ -126,10 +126,10 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Solutions col (2/12) */}
+          {/* Services col (2/12) */}
           <div className="lg:col-span-2">
             <h4 className="text-[11px] uppercase tracking-[0.2em] text-emerald-500 font-bold mb-5 flex items-center gap-2">
-              <span className="w-4 h-px bg-emerald-600 inline-block" />Solutions
+              <span className="w-4 h-px bg-emerald-600 inline-block" />Services
             </h4>
             <ul className="space-y-2.5">
               {footerLinks.solutions.map(({ label, href }) => (
