@@ -1,0 +1,42 @@
+<svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fond blanc -->
+  <rect width="200" height="240" fill="white"/>
+  
+  <!-- Stack de 3 couches représentant les sols et récoltes -->
+  <!-- Couche 1 (Haut) - Jaune/Beige (culture ensoleillée) -->
+  <g>
+    <ellipse cx="100" cy="45" rx="50" ry="35" fill="#F5D461"/>
+    <rect x="50" y="45" width="100" height="35" fill="#F5D461"/>
+    <!-- Décoration herbe/feuilles -->
+    <path d="M 60 45 Q 65 25 70 45 M 85 45 Q 90 25 95 45 M 110 45 Q 115 25 120 45 M 135 45 Q 140 25 145 45" stroke="#D4A82F" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Couche 2 (Milieu) - Rouge (terre fertile) -->
+  <g>
+    <ellipse cx="100" cy="105" rx="50" ry="35" fill="#E74C3C"/>
+    <rect x="50" y="70" width="100" height="70" fill="#E74C3C"/>
+    <!-- Texture terre -->
+    <circle cx="70" cy="90" r="4" fill="#C0392B" opacity="0.6"/>
+    <circle cx="130" cy="110" r="4" fill="#C0392B" opacity="0.6"/>
+    <circle cx="85" cy="115" r="3" fill="#C0392B" opacity="0.6"/>
+  </g>
+  
+  <!-- Couche 3 (Bas) - Cyan/Bleu (eau/humidité) -->
+  <g>
+    <ellipse cx="100" cy="165" rx="50" ry="35" fill="#3498DB"/>
+    <rect x="50" y="130" width="100" height="70" fill="#3498DB"/>
+    <!-- Ondulations eau -->
+    <path d="M 60 155 Q 70 150 80 155 T 100 155 T 140 155 T 160 155" stroke="rgba(255,255,255,0.4)" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M 60 170 Q 70 165 80 170 T 100 170 T 140 170 T 160 170" stroke="rgba(255,255,255,0.4)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Text PLANOPAC -->
+  <text x="100" y="220" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#333">
+    PLANOPAC
+  </text>
+  
+  <!-- Sous-texte -->
+  <text x="100" y="237" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#666">
+    Semences de Qualité
+  </text>
+</svg>
