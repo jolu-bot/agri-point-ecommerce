@@ -125,8 +125,8 @@ export default function HeroNew() {
             variants={itemVariants}
             className="text-base sm:text-lg md:text-xl text-white/95 max-w-3xl mx-auto mb-8 sm:mb-10 leading-relaxed drop-shadow-lg"
           >
-            <strong className="text-white font-bold block mb-2">Gamme complète de biofertilisants de grande qualité</strong>
-            pour augmenter la production de toutes les cultures au Cameroun.
+            <strong className="text-white font-bold block mb-2">Nos objectifs :</strong>
+            Un Agripoint Services s&apos;installe partout où il y a un potentiel de 20 000 ha et 10 000 producteurs.
           </motion.p>
 
           {/* Stats - Animated Counters */}
