@@ -1,7 +1,9 @@
-import { connectDB } from '@/lib/db';
-import Page from '@/models/Page';
-import Product from '@/models/Product';
-import { getLogger } from '@/lib/logger-rotation';
+// Note: Ce script doit être exécuté avec ts-node et tsconfig-paths
+// ou utiliser des imports relatifs en production
+import dbConnect from '../lib/db';
+import Page from '../models/Page';
+import Product from '../models/Product';
+import { getLogger } from '../lib/logger-rotation';
 
 const logger = getLogger();
 
@@ -14,7 +16,7 @@ async function publishScheduledContent() {
     logger.info({}, 'Starting scheduled publishing cron job');
 
     // Connexion BD
-    await connectDB();
+    await dbConnect();
 
     const now = new Date();
 
