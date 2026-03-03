@@ -35,6 +35,8 @@
   },
   "include": [
     "next-env.d.ts",
+    "ambient.d.ts",
+    "global.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",

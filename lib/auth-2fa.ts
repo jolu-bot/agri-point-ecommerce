@@ -1,4 +1,3 @@
-/// <reference types="../types/modules" />
 import { generateSecret, TOTP } from 'otplib';
 import qrcode from 'qrcode';
 
