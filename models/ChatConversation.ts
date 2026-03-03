@@ -58,7 +58,7 @@ const ChatConversationSchema = new Schema<IChatConversation>({
   timestamps: true,
 });
 
-ChatConversationSchema.index({ sessionId: 1 });
+// Note: sessionId index auto-created by index: true in schema
 ChatConversationSchema.index({ userId: 1, createdAt: -1 });
 ChatConversationSchema.index({ 'metadata.feedbackScore': 1 });
 ChatConversationSchema.index({ tags: 1, createdAt: -1 });

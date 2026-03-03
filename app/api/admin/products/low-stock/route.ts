@@ -3,6 +3,12 @@ import { verifyAccessToken } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import Product from '@/models/Product';
+import {
+  buildCacheKey,
+  getCachedPayload,
+  setCachedPayload,
+  privateCacheHeaders,
+} from '@/lib/api-route-cache';
 
 /**
  * GET /api/admin/products/low-stock
@@ -30,6 +36,14 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Accès non autorisé' }, { status: 403 });
     }
 
+    const cacheKey = buildCacheKey('api:admin:products:low-stock', request);
+    const cached = getCachedPayload<any>(cacheKey);
+    if (cached) {
+      return NextResponse.json(cached, {
+        headers: privateCacheHeaders(30, 90),
+      });
+    }
+
     const { searchParams } = new URL(request.url);
     const threshold = parseInt(searchParams.get('threshold') || '10');
     const limit = parseInt(searchParams.get('limit') || '20');
@@ -55,10 +69,16 @@ export async function GET(request: NextRequest) {
       level: p.stock === 0 ? 'out' : p.stock <= 3 ? 'critical' : 'low',
     }));
 
-    return NextResponse.json({
+    const payload = {
       items,
       total: items.length,
       threshold,
+    };
+
+    setCachedPayload(cacheKey, payload, 30_000);
+
+    return NextResponse.json(payload, {
+      headers: privateCacheHeaders(30, 90),
     });
   } catch (error) {
     console.error('Erreur low-stock:', error);

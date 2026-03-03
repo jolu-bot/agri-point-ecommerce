@@ -3,6 +3,7 @@ import { verifyAccessToken } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import Product from '@/models/Product';
+import { invalidateCacheByPattern } from '@/lib/api-route-cache';
 
 /**
  * PATCH /api/admin/products/[id]/stock
@@ -60,6 +61,11 @@ export async function PATCH(
     }
 
     await product.save();
+
+    invalidateCacheByPattern('^api:admin:products:list');
+    invalidateCacheByPattern('^api:admin:products:low-stock');
+    invalidateCacheByPattern('^api:products:list');
+    invalidateCacheByPattern('^api:admin:analytics');
 
     return NextResponse.json({
       success: true,

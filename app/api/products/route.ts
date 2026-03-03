@@ -1,9 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
+import {
+  buildCacheKey,
+  getCachedPayload,
+  setCachedPayload,
+  publicCacheHeaders,
+} from '@/lib/api-route-cache';
 
 export async function GET(req: NextRequest) {
   try {
+    const cacheKey = buildCacheKey('api:products:list', req);
+    const cached = getCachedPayload<any>(cacheKey);
+    if (cached) {
+      return NextResponse.json(cached, {
+        headers: publicCacheHeaders(120, 300),
+      });
+    }
+
     await dbConnect();
 
     const { searchParams } = new URL(req.url);
@@ -38,7 +52,7 @@ export async function GET(req: NextRequest) {
       .limit(limit)
       .lean();
 
-    return NextResponse.json({
+    const payload = {
       products,
       pagination: {
         page,
@@ -46,6 +60,12 @@ export async function GET(req: NextRequest) {
         total,
         pages: Math.ceil(total / limit),
       },
+    };
+
+    setCachedPayload(cacheKey, payload, 120_000);
+
+    return NextResponse.json(payload, {
+      headers: publicCacheHeaders(120, 300),
     });
 
   } catch (error: any) {

@@ -81,7 +81,7 @@ const PromoCodeSchema = new Schema<IPromoCode>(
 );
 
 // Indexes
-PromoCodeSchema.index({ code: 1 });
+// Note: code index auto-created by unique: true
 PromoCodeSchema.index({ isActive: 1, expiryDate: 1 });
 PromoCodeSchema.index({ createdAt: -1 });
 

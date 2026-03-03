@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { 
   LayoutGrid, 
   ShoppingBag, 
@@ -20,8 +21,20 @@ import {
   Building2,
   MapPin
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
+
+// ── PERFORMANCE OPTIMIZATION: Lazy Load Animations ───────────────────────────
+// Framer Motion is heavy (64KB) - load only when sidebar animation triggers
+const AnimatePresence = dynamic(
+  () => import('framer-motion').then(mod => mod.AnimatePresence),
+  { ssr: false }
+);
+const motion = {
+  aside: dynamic(
+    () => import('framer-motion').then(mod => ({ default: mod.motion.aside })),
+    { ssr: false }
+  ),
+};
 
 const menuItems = [
   { icon: LayoutGrid, label: 'Dashboard', href: '/admin' },
@@ -113,16 +126,11 @@ export default function AdminLayout({
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-      {/* Sidebar */}
-      <AnimatePresence>
-        {sidebarOpen && (
-          <motion.aside
-            initial={{ x: -300 }}
-            animate={{ x: 0 }}
-            exit={{ x: -300 }}
-            transition={{ duration: 0.3 }}
-            className="fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 shadow-lg z-40"
-          >
+      {/* Sidebar - Optimized with lazy-loaded animations */}
+      <Suspense fallback={null}>
+        <AnimatePresence>
+          {sidebarOpen && (
+            <aside className="fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 shadow-lg z-40 transition-transform duration-300 translate-x-0">
             {/* Logo */}
             <div className="h-16 flex items-center justify-between px-6 border-b border-gray-200 dark:border-gray-700">
               <div className="flex items-center space-x-3">
@@ -199,9 +207,10 @@ export default function AdminLayout({
                 <span className="font-medium">Déconnexion</span>
               </button>
             </div>
-          </motion.aside>
+          </aside>
         )}
       </AnimatePresence>
+      </Suspense>
 
       {/* Main Content */}
       <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'ml-0'}`}>
@@ -227,9 +236,18 @@ export default function AdminLayout({
           </div>
         </header>
 
-        {/* Page Content */}
+        {/* Page Content - Wrapped in Suspense for streaming SSR */}
         <main className="p-6">
-          {children}
+          <Suspense fallback={
+            <div className="flex items-center justify-center py-12">
+              <div className="text-center">
+                <div className="w-12 h-12 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                <p className="text-gray-600 dark:text-gray-400">Chargement...</p>
+              </div>
+            </div>
+          }>
+            {children}
+          </Suspense>
         </main>
       </div>
     </div>

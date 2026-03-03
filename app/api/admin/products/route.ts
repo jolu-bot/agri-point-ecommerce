@@ -2,10 +2,25 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import { verifyAccessToken } from '@/lib/auth';
+import {
+  buildCacheKey,
+  getCachedPayload,
+  setCachedPayload,
+  invalidateCacheByPattern,
+  privateCacheHeaders,
+} from '@/lib/api-route-cache';
 
 // GET - Liste des produits (avec filtres et pagination)
 export async function GET(req: NextRequest) {
   try {
+    const cacheKey = buildCacheKey('api:admin:products:list', req);
+    const cached = getCachedPayload<any>(cacheKey);
+    if (cached) {
+      return NextResponse.json(cached, {
+        headers: privateCacheHeaders(45, 120),
+      });
+    }
+
     await dbConnect();
 
     const { searchParams } = new URL(req.url);
@@ -38,7 +53,7 @@ export async function GET(req: NextRequest) {
       .skip((page - 1) * limit)
       .limit(limit);
 
-    return NextResponse.json({
+    const payload = {
       products,
       pagination: {
         total,
@@ -46,6 +61,12 @@ export async function GET(req: NextRequest) {
         pages: Math.ceil(total / limit),
         limit,
       },
+    };
+
+    setCachedPayload(cacheKey, payload, 45_000);
+
+    return NextResponse.json(payload, {
+      headers: privateCacheHeaders(45, 120),
     });
   } catch (error) {
     console.error('Erreur GET /api/admin/products:', error);
@@ -86,6 +107,9 @@ export async function POST(req: NextRequest) {
       ...body,
       slug,
     });
+
+    invalidateCacheByPattern('^api:admin:products:list');
+    invalidateCacheByPattern('^api:products:list');
 
     return NextResponse.json(product, { status: 201 });
   } catch (error: any) {
