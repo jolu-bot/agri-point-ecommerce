@@ -32,7 +32,7 @@ const pageContent = {
   hero: {
     badge: "💰 Rentabilité Maximale Garantie",
     title: "GAGNER PLUS",
-    subtitle: "Triplez vos bénéfices agricoles",
+    subtitle: "Doublez vos bénéfices agricoles",
     description: "Transformez votre activité agricole en entreprise rentable. Réduisez vos coûts de 60%, augmentez vos revenus de 200% et accédez à des marchés premium.",
     cta: {
       primary: "Calculer mon potentiel",
@@ -49,8 +49,8 @@ const pageContent = {
 
   benefits: [
     {
-      title: "Réduction drastique des coûts",
-      description: "Économisez 60% sur les engrais chimiques. Réduisez vos besoins en eau de 50%. Moins de traitements phytosanitaires nécessaires.",
+      title: "Réduction des charges opérationnelles de production",
+      description: "Coût de production allégé de 40% au lancement de votre activité avec la possibilité de payer des intrants en phases: 70% comptant et 30% après récolte (réservé aux membres des CMA). Économisez sur les engrais chimiques et réduisez vos besoins en eau de 50%.",
       icon: PiggyBank,
       color: "blue",
       savings: "-60%",
