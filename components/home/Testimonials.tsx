@@ -50,14 +50,16 @@ export default function Testimonials() {
           viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <p className="text-xs uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-500 font-bold mb-2">Témoignages</p>
-          <h2 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white mb-3">
-            Ce que disent nos clients
+          <span className="section-tag">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            Témoignages clients
+          </span>
+          <h2 className="section-title">
+            Ce que disent nos <span className="text-accent-green">clients</span>
           </h2>
-          <p className="text-gray-500 dark:text-gray-400 max-w-lg mx-auto">
+          <p className="section-subtitle">
             Des milliers d&apos;agriculteurs nous font confiance au Cameroun
           </p>
-          <div className="mt-4 mx-auto w-16 h-0.5 bg-gradient-to-r from-transparent via-emerald-500 to-transparent" />
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-6">
@@ -87,12 +89,12 @@ export default function Testimonials() {
               </p>
 
               <div className="flex items-center gap-3 pt-4 border-t border-black/[0.06] dark:border-white/[0.06]">
-                <div className="w-11 h-11 bg-white dark:bg-gray-800 rounded-xl shadow-sm flex items-center justify-center text-2xl flex-shrink-0 border border-gray-100 dark:border-white/10">
-                  {t.avatar}
+                <div className="w-11 h-11 bg-gradient-to-br from-emerald-500 to-green-700 dark:from-emerald-600 dark:to-green-800 rounded-xl shadow-sm flex items-center justify-center text-white font-black text-base flex-shrink-0 select-none">
+                  {t.name.charAt(0)}
                 </div>
                 <div>
                   <p className="font-bold text-gray-900 dark:text-white text-sm">{t.name}</p>
-                  <p className="text-xs text-emerald-700 dark:text-emerald-400 font-medium">{t.role} é {t.location}</p>
+                  <p className="text-xs text-emerald-700 dark:text-emerald-400 font-medium">{t.role} · {t.location}</p>
                 </div>
               </div>
             </motion.div>

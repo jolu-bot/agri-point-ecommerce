@@ -161,11 +161,6 @@ export default function FeaturedProducts() {
           ))}
         </div>
       </div>
-
-      {/* Indicateur du slide actuel */}
-      <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
-        {currentIndex + 1} / {slides.length}
-      </div>
     </section>
   );
 }

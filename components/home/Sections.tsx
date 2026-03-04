@@ -2,116 +2,179 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { TrendingUp, DollarSign, Heart } from 'lucide-react';
+import { Sprout, Banknote, HeartHandshake, CheckCircle, ArrowRight } from 'lucide-react';
+
+const sections = [
+  {
+    Icon: Sprout,
+    title: 'PRODUIRE PLUS',
+    subtitle: 'Better Production',
+    description:
+      "Information pour produire ce qui peut être vendu d'avance. Formation pour produire plus et à moindre coût.",
+    features: [
+      'Aménagement des espaces agricoles',
+      'Formation optimisée',
+      'Acquisition matériels compétitifs',
+      "Location d'équipements facilitant le travail",
+      "Fourniture d'intrants",
+    ],
+    link: '/produire-plus',
+    accentTop: 'from-emerald-500 to-green-600',
+    iconBg: 'bg-emerald-100 dark:bg-emerald-900/40',
+    iconColor: 'text-emerald-700 dark:text-emerald-300',
+    iconGlow: 'rgba(16,185,129,0.12)',
+    tagClass:
+      'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-700/40',
+    checkColor: 'text-emerald-600 dark:text-emerald-400',
+    btnClass:
+      'bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 shadow-emerald-600/25',
+  },
+  {
+    Icon: Banknote,
+    title: 'GAGNER PLUS',
+    subtitle: 'Gain More',
+    description:
+      "Les débouchés, les prix bien négociés et l'appui à la commercialisation des produits.",
+    features: [
+      'Warrantage des stocks après récolte',
+      'Appui à la transformation',
+      'Assistance montage projets',
+      'Recherche de financements',
+    ],
+    link: '/gagner-plus',
+    accentTop: 'from-amber-500 to-orange-500',
+    iconBg: 'bg-amber-100 dark:bg-amber-900/40',
+    iconColor: 'text-amber-700 dark:text-amber-300',
+    iconGlow: 'rgba(245,158,11,0.12)',
+    tagClass:
+      'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-700/40',
+    checkColor: 'text-amber-600 dark:text-amber-400',
+    btnClass:
+      'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 shadow-amber-600/25',
+  },
+  {
+    Icon: HeartHandshake,
+    title: 'MIEUX VIVRE',
+    subtitle: 'Better Living',
+    description:
+      "Accès aux services financiers de base, sécurisation de l'épargne et micro assurance.",
+    features: [
+      'Services financiers de base',
+      'Micro crédit et épargne',
+      'Assurance santé et décès',
+      'Accès technologies et transport',
+    ],
+    link: '/mieux-vivre',
+    accentTop: 'from-teal-500 to-cyan-500',
+    iconBg: 'bg-teal-100 dark:bg-teal-900/40',
+    iconColor: 'text-teal-700 dark:text-teal-300',
+    iconGlow: 'rgba(20,184,166,0.12)',
+    tagClass:
+      'bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-700/40',
+    checkColor: 'text-teal-600 dark:text-teal-400',
+    btnClass:
+      'bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 shadow-teal-600/25',
+  },
+];
 
 export default function Sections() {
-  const sections = [
-    {
-      icon: <TrendingUp className="w-8 h-8" />,
-      title: 'PRODUIRE PLUS',
-      subtitle: 'Better Production',
-      description: 'Information pour produire ce qui peut être vendu d\'avance. Formation pour produire plus et à moindre coût.',
-      features: [
-        'Aménagement des espaces agricoles',
-        'Formation optimisée',
-        'Acquisition matériels compétitifs',
-        'Location d\'équipements facilitant le travail',
-        'Fourniture d\'intrants',
-      ],
-      color: 'primary',
-      link: '/produire-plus',
-    },
-    {
-      icon: <DollarSign className="w-8 h-8" />,
-      title: 'GAGNER PLUS',
-      subtitle: 'Gain More',
-      description: 'Les débouchés, les prix bien négociés et l\'appui à la commercialisation des produits.',
-      features: [
-        'Warrantage des stocks après récolte',
-        'Appui à la transformation',
-        'Assistance montage projets',
-        'Recherche de financements',
-      ],
-      color: 'secondary',
-      link: '/gagner-plus',
-    },
-    {
-      icon: <Heart className="w-8 h-8" />,
-      title: 'MIEUX VIVRE',
-      subtitle: 'Better Living',
-      description: 'Accès aux services financiers de base, sécurisation de l\'épargne et micro assurance.',
-      features: [
-        'Services financiers de base',
-        'Micro crédit et épargne',
-        'Assurance santé et décès',
-        'Accès technologies et transport',
-      ],
-      color: 'green',
-      link: '/mieux-vivre',
-    },
-  ];
-
   return (
-    <section className="section-premium bg-white dark:bg-gray-900">
+    <section className="section-premium bg-gradient-to-b from-gray-50/60 to-white dark:from-gray-900 dark:to-gray-950">
       <div className="container-fluid">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           className="text-center mb-16"
         >
+          <span className="section-tag">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            Nos 3 programmes phares
+          </span>
           <h2 className="section-title">Nos Objectifs</h2>
           <p className="section-subtitle">
-            1 AGRI SERVICE POINT POUR : 20 000 HECTARES / 10 000 PERSONNES
+            1 AGRI POINT SERVICES pour&nbsp;:{' '}
+            <strong className="text-gray-800 dark:text-gray-200">20 000 hectares</strong> &amp;{' '}
+            <strong className="text-gray-800 dark:text-gray-200">10 000 producteurs</strong>
           </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {sections.map((section, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ delay: index * 0.15, type: 'spring', stiffness: 240, damping: 24 }}
-              className="group"
-            >
-              <div className="card product-card-premium h-full flex flex-col">
-                <div className={`w-14 h-14 bg-${section.color}-100 dark:bg-${section.color}-900/30 rounded-xl flex items-center justify-center text-${section.color}-600 dark:text-${section.color}-400 mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  {section.icon}
+        {/* Cards grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-7 lg:gap-8">
+          {sections.map((section, index) => {
+            const Icon = section.Icon;
+            return (
+              <motion.article
+                key={index}
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ delay: index * 0.14, type: 'spring', stiffness: 240, damping: 24 }}
+                className="group relative bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/[0.07] rounded-3xl overflow-hidden flex flex-col hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+              >
+                {/* Gradient accent top bar */}
+                <div className={`absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r ${section.accentTop}`} />
+
+                <div className="p-7 flex flex-col flex-1">
+                  {/* Icon + tag row */}
+                  <div className="flex items-start justify-between mb-6">
+                    {/* Icon circle */}
+                    <div
+                      className={`w-14 h-14 rounded-2xl flex items-center justify-center ${section.iconBg} transition-transform duration-300 group-hover:scale-110 group-hover:rotate-2`}
+                      style={{ boxShadow: `0 0 0 8px ${section.iconGlow}` }}
+                    >
+                      <Icon className={`w-6 h-6 ${section.iconColor}`} strokeWidth={2} />
+                    </div>
+
+                    {/* Tag pill */}
+                    <span
+                      className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border ${section.tagClass}`}
+                    >
+                      Programme
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-xl font-black text-gray-900 dark:text-white mb-0.5 tracking-tight">
+                    {section.title}
+                  </h3>
+                  <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
+                    {section.subtitle}
+                  </p>
+
+                  {/* Description */}
+                  <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-6">
+                    {section.description}
+                  </p>
+
+                  {/* Feature list */}
+                  <ul className="space-y-2.5 mb-8 flex-1">
+                    {section.features.map((feature, i) => (
+                      <li key={i} className="flex items-start gap-2.5">
+                        <CheckCircle
+                          className={`w-4 h-4 flex-shrink-0 mt-0.5 ${section.checkColor}`}
+                          strokeWidth={2.5}
+                        />
+                        <span className="text-sm text-gray-600 dark:text-gray-400 leading-snug">
+                          {feature}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* CTA button */}
+                  <Link
+                    href={section.link}
+                    className={`group/btn mt-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-bold text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] ${section.btnClass}`}
+                  >
+                    En savoir plus
+                    <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-200" />
+                  </Link>
                 </div>
-
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                  {section.title}
-                </h3>
-                <p className="text-sm text-primary-600 dark:text-primary-400 mb-4 font-semibold">
-                  {section.subtitle}
-                </p>
-
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  {section.description}
-                </p>
-
-                <ul className="space-y-3 mb-6">
-                  {section.features.map((feature, i) => (
-                    <li key={i} className="flex items-start space-x-2">
-                      <span className="text-primary-600 dark:text-primary-400 mt-1">✓</span>
-                      <span className="text-sm text-gray-600 dark:text-gray-300">
-                        {feature}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-
-                <Link
-                  href={section.link}
-                  className="inline-flex items-center text-primary-600 dark:text-primary-400 font-semibold hover:underline"
-                >
-                  En savoir plus →
-                </Link>
-              </div>
-            </motion.div>
-          ))}
+              </motion.article>
+            );
+          })}
         </div>
       </div>
     </section>

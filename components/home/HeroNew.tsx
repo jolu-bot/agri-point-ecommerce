@@ -194,9 +194,20 @@ export default function HeroNew() {
         </div>
       </motion.div>
 
-      {/* Image counter indicator */}
-      <div className="absolute bottom-8 right-6 sm:right-8 z-20 text-white/60 text-sm font-medium backdrop-blur-sm bg-black/40 px-3 py-2 rounded-lg">
-        {imageIndex + 1} / {HERO_IMAGES.length}
+      {/* Progress dots indicator — bottom right */}
+      <div className="absolute bottom-7 right-6 sm:right-8 z-20 flex items-center gap-1.5 backdrop-blur-sm bg-black/30 px-3 py-2 rounded-full border border-white/10">
+        {HERO_IMAGES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setImageIndex(i)}
+            aria-label={`Image ${i + 1}`}
+            className={`rounded-full transition-all duration-300 ${
+              i === imageIndex
+                ? 'w-5 h-1.5 bg-emerald-400'
+                : 'w-1.5 h-1.5 bg-white/35 hover:bg-white/60'
+            }`}
+          />
+        ))}
       </div>
     </section>
   );

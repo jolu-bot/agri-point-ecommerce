@@ -134,19 +134,13 @@ export default function PartnersSection({
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border mb-4 ${
-              isDark
-                ? 'border-green-500/30 bg-green-500/5'
-                : 'border-green-200 bg-green-50'
+            <span className={`section-tag ${
+              isDark ? 'border-green-500/30 bg-green-500/5 text-green-400' : ''
             }`}>
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className={`text-xs font-semibold tracking-widest uppercase ${
-                isDark ? 'text-green-400' : 'text-green-700'
-              }`}>
-                Partenaires de Confiance
-              </span>
-            </div>
-            <h2 className={`text-2xl md:text-3xl font-extrabold tracking-tight ${
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+              Partenaires de Confiance
+            </span>
+            <h2 className={`section-title ${
               isDark ? 'text-white' : 'text-gray-900'
             }`}>
               Nos Partenaires{' '}
@@ -155,7 +149,7 @@ export default function PartnersSection({
               </span>{' '}
               &amp; Sponsors
             </h2>
-            <p className={`mt-2 text-sm max-w-xl mx-auto ${
+            <p className={`section-subtitle ${
               isDark ? 'text-white/45' : 'text-gray-500'
             }`}>
               AGRI POINT bénéficie du soutien d&apos;acteurs clés du développement agricole camerounais.
