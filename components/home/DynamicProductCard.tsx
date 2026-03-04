@@ -2,24 +2,26 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import type { ComponentType } from 'react';
+import { Sprout, Leaf, Flower2, FlaskConical, Scale, Globe, Zap, Sparkles, Wheat, Building2 } from 'lucide-react';
 
 interface ProductInfo {
   name: string;
   benefit: string;
-  icon: string;
+  Icon: ComponentType<{ className?: string }>;
 }
 
 const PRODUCT_CATALOG: ProductInfo[] = [
-  { name: 'SARAH NPK 20-10-10', benefit: 'Production de fruits', icon: '🥔' },
-  { name: 'AMINOL-20', benefit: 'Développement racinaire', icon: '🌿' },
-  { name: 'SARAH NPK 10-30-10', benefit: 'Floraison optimale', icon: '🌸' },
-  { name: 'FOSNUTREN-20', benefit: 'Croissance végétale', icon: '🌱' },
-  { name: 'SARAH NPK 12-14-10', benefit: 'Rendement équilibré', icon: '⚖️' },
-  { name: 'HUMIFORTE-20', benefit: 'Fertilité du sol', icon: '🌍' },
-  { name: 'SARAH URÉE-46', benefit: 'Azote concentré', icon: '💪' },
-  { name: 'KADOSTIM-20', benefit: 'Stimulation racinaire', icon: '✨' },
-  { name: 'KIT NATURCARE TERRA', benefit: 'Agriculture biologique', icon: '🌾' },
-  { name: 'KIT URBAIN DÉBUTANT', benefit: 'Culture citadine', icon: '🏙️' },
+  { name: 'SARAH NPK 20-10-10', benefit: 'Production de fruits', Icon: Sprout },
+  { name: 'AMINOL-20', benefit: 'Développement racinaire', Icon: Leaf },
+  { name: 'SARAH NPK 10-30-10', benefit: 'Floraison optimale', Icon: Flower2 },
+  { name: 'FOSNUTREN-20', benefit: 'Croissance végétale', Icon: FlaskConical },
+  { name: 'SARAH NPK 12-14-10', benefit: 'Rendement équilibré', Icon: Scale },
+  { name: 'HUMIFORTE-20', benefit: 'Fertilité du sol', Icon: Globe },
+  { name: 'SARAH URÉE-46', benefit: 'Azote concentré', Icon: Zap },
+  { name: 'KADOSTIM-20', benefit: 'Stimulation racinaire', Icon: Sparkles },
+  { name: 'KIT NATURCARE TERRA', benefit: 'Agriculture biologique', Icon: Wheat },
+  { name: 'KIT URBAIN DÉBUTANT', benefit: 'Culture citadine', Icon: Building2 },
 ];
 
 interface DynamicProductCardProps {
@@ -54,7 +56,9 @@ export default function DynamicProductCard({
       <div className="bg-gray-900/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/10 p-4 lg:p-5 max-w-[240px] lg:max-w-[280px] hover-lift group">
         {/* Icon + Name */}
         <div className="flex items-start gap-3 mb-2">
-          <div className="text-2xl lg:text-3xl flex-shrink-0">{product.icon}</div>
+          <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+            <product.Icon className="w-5 h-5 text-emerald-400" />
+          </div>
           <div className="flex-1 min-w-0">
             <h3 className="text-sm lg:text-base font-bold text-white group-hover:text-emerald-300 transition-colors line-clamp-2">
               {product.name}

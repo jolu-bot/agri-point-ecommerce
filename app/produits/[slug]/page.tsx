@@ -172,7 +172,9 @@ export default function ProductDetailPage() {
                   priority
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-9xl">🌱</div>
+                <div className="w-full h-full flex items-center justify-center">
+                  <Sprout className="w-20 h-20 text-emerald-300 dark:text-emerald-700" />
+                </div>
               )}
 
               {/* Badges */}
@@ -550,7 +552,9 @@ export default function ProductDetailPage() {
                       {rel.images[0] ? (
                         <Image src={rel.images[0]} alt={rel.name} fill className="object-contain p-4 group-hover:scale-105 transition-transform duration-300" />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-5xl">🌱</div>
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Sprout className="w-12 h-12 text-emerald-300 dark:text-emerald-700" />
+                        </div>
                       )}
                     </div>
                     <div className="p-4">

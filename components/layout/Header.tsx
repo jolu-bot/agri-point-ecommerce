@@ -71,13 +71,13 @@ export default function Header() {
         { name: 'Mieux Vivre', href: '/mieux-vivre' },
       ]
     },
-    { name: '🌱 Campagne Engrais', href: '/campagne-engrais', highlight: true },
+    { name: 'Campagne Engrais', href: '/campagne-engrais', highlight: true },
     { 
-      name: '🌿 Nos Agricultures', 
+      name: 'Nos Agricultures', 
       href: '#',
       submenu: [
-        { name: '🏙️ Agriculture Urbaine', href: '/agriculture-urbaine' },
-        { name: '🌾 Agriculture Périurbaine', href: '/agriculture-periurbaine' },
+        { name: 'Agriculture Urbaine', href: '/agriculture-urbaine' },
+        { name: 'Agriculture Périurbaine', href: '/agriculture-periurbaine' },
       ]
     },
     { name: 'À propos', href: '/a-propos' },

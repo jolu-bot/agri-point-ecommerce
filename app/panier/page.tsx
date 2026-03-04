@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { ShoppingCart, Minus, Plus, X, ArrowRight, Package, ChevronLeft, Tag, Truck, CheckCircle } from 'lucide-react';
+import { ShoppingCart, Minus, Plus, X, ArrowRight, Package, ChevronLeft, Tag, Truck, CheckCircle, Sprout } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/store/cartStore';
 import toast from 'react-hot-toast';
@@ -147,7 +147,9 @@ export default function CartPage() {
                         {item.image ? (
                           <Image src={item.image} alt={item.name} fill className="object-contain p-2" />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-3xl">🌱</div>
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Sprout className="w-8 h-8 text-emerald-300 dark:text-emerald-700" />
+                          </div>
                         )}
                       </Link>
 

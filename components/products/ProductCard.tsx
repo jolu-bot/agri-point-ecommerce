@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ShoppingCart, Heart, Eye, Star, ArrowRight } from 'lucide-react';
+import { ShoppingCart, Heart, Eye, Star, ArrowRight, Sprout, Flame } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { IProduct } from '@/models/Product';
 import { useCartStore } from '@/store/cartStore';
@@ -66,7 +66,9 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                     }}
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-6xl">🌱</div>
+                  <div className="w-full h-full flex items-center justify-center">
+                    <Sprout className="w-16 h-16 text-emerald-300 dark:text-emerald-700" />
+                  </div>
                 )}
 
                 {/* Badges */}
@@ -104,8 +106,8 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                     {product.category.replace('_', ' ')}
                   </span>
                   {product.stock <= 5 && product.stock > 0 && (
-                    <span className="text-[10px] text-orange-500 font-semibold bg-orange-50 dark:bg-orange-950/30 px-2 py-1 rounded-lg">
-                      🔥 {product.stock} restant{product.stock > 1 ? 's' : ''}
+                    <span className="text-[10px] text-orange-500 font-semibold bg-orange-50 dark:bg-orange-950/30 px-2 py-1 rounded-lg flex items-center gap-1">
+                      <Flame className="w-3 h-3" /> {product.stock} restant{product.stock > 1 ? 's' : ''}
                     </span>
                   )}
                 </div>
@@ -197,7 +199,9 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                 }}
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-6xl">🌱</div>
+              <div className="w-full h-full flex items-center justify-center">
+                <Sprout className="w-16 h-16 text-emerald-300 dark:text-emerald-700" />
+              </div>
             )}
 
             {/* Gradient overlay bottom (for hover CTA) */}
@@ -254,8 +258,8 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
             {/* Stock */}
             {product.stock <= 5 && product.stock > 0 && (
               <div className="absolute bottom-2.5 left-2.5 z-10">
-                <span className="px-2 py-0.5 bg-orange-500 text-white text-[10px] font-bold rounded-full shadow">
-                  🔥 {product.stock} restant{product.stock > 1 ? 's' : ''}
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-orange-500 text-white text-[10px] font-bold rounded-full shadow">
+                  <Flame className="w-3 h-3" /> {product.stock} restant{product.stock > 1 ? 's' : ''}
                 </span>
               </div>
             )}

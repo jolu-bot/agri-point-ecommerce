@@ -6,8 +6,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
   Mail, Lock, Eye, EyeOff, User, Phone, MapPin,
-  ArrowRight, ArrowLeft, CheckCircle, Leaf, Shield, Sprout,
+  ArrowRight, ArrowLeft, CheckCircle, Leaf, Shield, Sprout, Package, Handshake,
 } from 'lucide-react';
+import type { ComponentType } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 
@@ -270,11 +271,11 @@ export default function RegisterPage() {
 
           {/* Avantages */}
           <div className="space-y-4 text-left">
-            {[
-              { icon: '🌱', title: 'Biofertilisants premium', desc: 'Produits certifiés biologiques' },
-              { icon: '📦', title: 'Livraison partout', desc: 'Dans toutes les 10 régions' },
-              { icon: '🤝', title: 'Accompagnement expert', desc: 'Conseillers agricoles dédiés' },
-            ].map((item, i) => (
+            {([
+              { Icon: Sprout, title: 'Biofertilisants premium', desc: 'Produits certifiés biologiques' },
+              { Icon: Package, title: 'Livraison partout', desc: 'Dans toutes les 10 régions' },
+              { Icon: Handshake, title: 'Accompagnement expert', desc: 'Conseillers agricoles dédiés' },
+            ] as { Icon: ComponentType<{ className?: string }>; title: string; desc: string }[]).map((item, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, x: -20 }}
@@ -282,7 +283,9 @@ export default function RegisterPage() {
                 transition={{ delay: 0.2 + i * 0.15 }}
                 className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10"
               >
-                <span className="text-2xl">{item.icon}</span>
+                <div className="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center flex-shrink-0">
+                  <item.Icon className="w-5 h-5 text-emerald-300" />
+                </div>
                 <div>
                   <p className="font-semibold text-sm text-white">{item.title}</p>
                   <p className="text-xs text-emerald-200/80">{item.desc}</p>

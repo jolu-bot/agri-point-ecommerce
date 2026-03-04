@@ -85,7 +85,7 @@ export default function Newsletter() {
                 </motion.div>
               ) : (
                 <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 md:p-8">
-                  <p className="text-white font-semibold mb-4">Votre email, c&apos;est parti 🚀</p>
+                  <p className="text-white font-semibold mb-4">Votre email, c&apos;est parti !</p>
                   <form onSubmit={handleSubmit} className="space-y-3">
                     <label htmlFor="newsletter-email" className="sr-only">Adresse email</label>
                     <div className="relative">
