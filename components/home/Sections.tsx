@@ -22,7 +22,7 @@ const sections = [
     accentTop: 'from-emerald-500 to-green-600',
     iconBg: 'bg-emerald-100 dark:bg-emerald-900/40',
     iconColor: 'text-emerald-700 dark:text-emerald-300',
-    iconGlow: 'rgba(16,185,129,0.12)',
+    glowClass: 'icon-glow-emerald-lg',
     tagClass:
       'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-700/40',
     checkColor: 'text-emerald-600 dark:text-emerald-400',
@@ -45,7 +45,7 @@ const sections = [
     accentTop: 'from-amber-500 to-orange-500',
     iconBg: 'bg-amber-100 dark:bg-amber-900/40',
     iconColor: 'text-amber-700 dark:text-amber-300',
-    iconGlow: 'rgba(245,158,11,0.12)',
+    glowClass: 'icon-glow-amber-lg',
     tagClass:
       'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-700/40',
     checkColor: 'text-amber-600 dark:text-amber-400',
@@ -68,7 +68,7 @@ const sections = [
     accentTop: 'from-teal-500 to-cyan-500',
     iconBg: 'bg-teal-100 dark:bg-teal-900/40',
     iconColor: 'text-teal-700 dark:text-teal-300',
-    iconGlow: 'rgba(20,184,166,0.12)',
+    glowClass: 'icon-glow-teal-lg',
     tagClass:
       'bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-700/40',
     checkColor: 'text-teal-600 dark:text-teal-400',
@@ -121,8 +121,7 @@ export default function Sections() {
                   <div className="flex items-start justify-between mb-6">
                     {/* Icon circle */}
                     <div
-                      className={`w-14 h-14 rounded-2xl flex items-center justify-center ${section.iconBg} transition-transform duration-300 group-hover:scale-110 group-hover:rotate-2`}
-                      style={{ boxShadow: `0 0 0 8px ${section.iconGlow}` }}
+                      className={`w-14 h-14 rounded-2xl flex items-center justify-center ${section.iconBg} ${section.glowClass} transition-transform duration-300 group-hover:scale-110 group-hover:rotate-2`}
                     >
                       <Icon className={`w-6 h-6 ${section.iconColor}`} strokeWidth={2} />
                     </div>
