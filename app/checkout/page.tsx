@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ArrowLeft, Check, CreditCard, Truck, User } from 'lucide-react';
+import { ArrowLeft, Check, CreditCard, Truck, User, Sprout } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useCartStore } from '@/store/cartStore';
 import toast from 'react-hot-toast';
@@ -586,8 +586,8 @@ export default function CheckoutPage() {
                             className="object-cover"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-2xl">
-                            🌱
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Sprout className="w-7 h-7 text-emerald-300 dark:text-emerald-700" />
                           </div>
                         )}
                       </div>

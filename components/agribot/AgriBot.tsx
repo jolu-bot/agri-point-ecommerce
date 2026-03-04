@@ -284,15 +284,15 @@ function EligibilityWidget({ onComplete }: { onComplete: (msg: string) => void }
 // SUGGESTIONS PAR DÉFAUT
 // ═══════════════════════════════════════════════════════════════════
 const DEFAULT_SUGGESTIONS: { label: string; text: string; intent: Intent }[] = [
-  { label: '🍅 Tomates',     text: 'Quel programme complet pour mes tomates ?',         intent: 'culture'    },
-  { label: '☕ Cacao/Café',  text: 'Conseils pour booster mon cacao et café ?',          intent: 'culture'    },
-  { label: '🏙️ Balcon',     text: 'Comment jardiner sur mon balcon en ville ?',          intent: 'conseil'    },
-  { label: '🛒 Commander',   text: 'Comment passer une commande sur le site ?',          intent: 'commande'   },
-  { label: '🚚 Livraison',   text: 'Délais et frais de livraison ?',                     intent: 'commande'   },
-  { label: '💰 ROI',         text: 'Combien puis-je gagner avec vos produits sur 1 Ha ?', intent: 'roi'       },
-  { label: '📋 Mon compte',  text: 'Comment créer mon compte client ?',                 intent: 'compte'     },
-  { label: '🌿 Saison',      text: 'Quels produits utiliser en ce moment ?',             intent: 'conseil'    },
-  { label: '📅 Événements',  text: 'Quels sont les prochains événements AGRI POINT ?',  intent: 'navigation' },
+  { label: 'Tomates',       text: 'Quel programme complet pour mes tomates ?',         intent: 'culture'    },
+  { label: 'Cacao/Café',    text: 'Conseils pour booster mon cacao et café ?',          intent: 'culture'    },
+  { label: 'Jardinage urbain', text: 'Comment jardiner sur mon balcon en ville ?',      intent: 'conseil'    },
+  { label: 'Commander',     text: 'Comment passer une commande sur le site ?',          intent: 'commande'   },
+  { label: 'Livraison',     text: 'Délais et frais de livraison ?',                     intent: 'commande'   },
+  { label: 'ROI',           text: 'Combien puis-je gagner avec vos produits sur 1 Ha ?', intent: 'roi'       },
+  { label: 'Mon compte',    text: 'Comment créer mon compte client ?',                 intent: 'compte'     },
+  { label: 'Saison',        text: 'Quels produits utiliser en ce moment ?',             intent: 'conseil'    },
+  { label: 'Événements',   text: 'Quels sont les prochains événements AGRI POINT ?',  intent: 'navigation' },
 ];
 
 // ═══════════════════════════════════════════════════════════════════
@@ -840,10 +840,10 @@ export default function AgriBot() {
       return (lastAiMsg!.suggestions!).map((s: string) => ({ label: s, text: s, intent: 'conseil' as Intent }));
     if (isCampaignPage)
       return [
-        { label: '🌾 Vérifier éligibilité', text: '3_ELIGIBILITY_FLOW',                                                              intent: 'campagne' as Intent },
-        { label: '📝 Guide formulaire',    text: 'Comment remplir le formulaire d\'inscription à la campagne Mars 2026 ?',          intent: 'campagne' as Intent },
-        { label: '💳 Paiement 70/30',     text: 'Expliquez-moi le paiement acompte 70% + 30% livraison de la campagne.',           intent: 'campagne' as Intent },
-        { label: '❓ Conditions',          text: 'Quelles sont exactement les conditions pour participer à la campagne engrais ?', intent: 'campagne' as Intent },
+        { label: 'Vérifier éligibilité', text: '3_ELIGIBILITY_FLOW',                                                              intent: 'campagne' as Intent },
+        { label: 'Guide formulaire',    text: 'Comment remplir le formulaire d\'inscription à la campagne Mars 2026 ?',          intent: 'campagne' as Intent },
+        { label: 'Paiement 70/30',     text: 'Expliquez-moi le paiement acompte 70% + 30% livraison de la campagne.',           intent: 'campagne' as Intent },
+        { label: 'Conditions',          text: 'Quelles sont exactement les conditions pour participer à la campagne engrais ?', intent: 'campagne' as Intent },
       ];
     if (messages.length <= 1)
       return DEFAULT_SUGGESTIONS.slice(0, 5);
@@ -905,7 +905,7 @@ export default function AgriBot() {
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.08)_0%,transparent_60%)]" />
               <div className="flex items-center gap-3">
                 <div className="relative w-11 h-11 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shrink-0 ring-2 ring-white/30 shadow-lg">
-                  <span className="text-xl">🌿</span>
+                  <Leaf className="w-5 h-5 text-white" />
                   <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-green-800 animate-pulse" />
                 </div>
                 <div className="flex-1 min-w-0 relative">
@@ -920,7 +920,7 @@ export default function AgriBot() {
                     )}
                     {userMemory.mainCrops?.length ? (
                       <span className="flex items-center gap-0.5 bg-white/10 rounded-full px-1.5 py-0.5 text-[10px]">
-                        🌱 {userMemory.mainCrops.slice(0, 2).join(', ')}
+                        <Leaf className="w-2 h-2" /> {userMemory.mainCrops.slice(0, 2).join(', ')}
                       </span>
                     ) : null}
                   </div>

@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cookie, CheckCircle2, XCircle, Settings } from 'lucide-react';
+import { Cookie, CheckCircle2, XCircle, Settings, Lock, BarChart2, Target } from 'lucide-react';
+import type { ComponentType } from 'react';
 import Link from 'next/link';
 
 interface CookiePreferences {
@@ -164,7 +165,7 @@ export default function CookieConsentBanner() {
               {/* Content */}
               <div className="flex-1">
                 <h3 className="text-lg font-bold text-white mb-2">
-                  🍪 Nous respections votre vie privée
+                  Nous respections votre vie privée
                 </h3>
                 <p className="text-sm text-gray-300 mb-4">
                   AGRI POINT SERVICE utilise des cookies pour améliorer votre expérience.
@@ -255,34 +256,34 @@ function CookieSettingsPanel({
   onSave: () => void;
   onCancel: () => void;
 }) {
-  const categories = [
+  const categories: { id: string; name: string; description: string; required: boolean; Icon: ComponentType<{ className?: string }> }[] = [
     {
       id: 'necessary',
       name: 'Cookies Nécessaires',
       description: 'Essentiels pour le fonctionnement (authentification, panier, sécurité)',
       required: true,
-      icon: '🔒',
+      Icon: Lock,
     },
     {
       id: 'analytics',
       name: 'Cookies Analytiques',
       description: 'Nous aident à comprendre comment vous utilisez notre site (Google Analytics)',
       required: false,
-      icon: '📊',
+      Icon: BarChart2,
     },
     {
       id: 'marketing',
       name: 'Cookies Marketing',
       description: 'Personnalisent votre expérience et les publicités (Facebook Pixel)',
       required: false,
-      icon: '🎯',
+      Icon: Target,
     },
     {
       id: 'preferences',
       name: 'Cookies de Préférences',
       description: 'Mémorisent vos choix (langue, thème, région)',
       required: false,
-      icon: '⚙️',
+      Icon: Settings,
     },
   ];
 
@@ -300,7 +301,7 @@ function CookieSettingsPanel({
         {/* Header */}
         <div className="sticky top-0 bg-gradient-to-r from-emerald-50 to-emerald-100 dark:from-gray-800 dark:to-gray-700 px-8 py-6 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            🍪 Gérer vos Préférences de Cookies
+            Gérer vos Préférences de Cookies
           </h2>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
             Contrôlez précisément quels cookies vous souhaitez autoriser
@@ -317,7 +318,9 @@ function CookieSettingsPanel({
               <div className="flex items-start justify-between mb-3">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="text-2xl">{category.icon}</span>
+                    <div className="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
+                      <category.Icon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                    </div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                       {category.name}
                     </h3>

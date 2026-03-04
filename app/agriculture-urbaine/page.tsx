@@ -30,7 +30,14 @@ import {
   Wrench,
   Shield,
   Package,
-  ThumbsUp
+  ThumbsUp,
+  Clock,
+  Waves,
+  Droplet,
+  Flower2,
+  Sprout as SproutIcon,
+  Bug,
+  Recycle,
 } from 'lucide-react';
 import ProductCard from '@/components/products/ProductCard';
 import { IProduct } from '@/models/Product';
@@ -38,7 +45,7 @@ import { IProduct } from '@/models/Product';
 // Contenu modifiable facilement
 const pageContent = {
   hero: {
-    badge: "🌱 L'Agriculture du Futur",
+    badge: "L'Agriculture du Futur",
     title: "AGRICULTURE URBAINE",
     subtitle: "Cultivez la ville, nourrissez l'avenir",
     description: "Transformez votre balcon, terrasse ou toit en jardin productif. Technologies modernes, espaces réduits, résultats exceptionnels.",
@@ -303,8 +310,9 @@ export default function AgricultureUrbainePage() {
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-block px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-full text-sm font-bold mb-8 shadow-lg"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-full text-sm font-bold mb-8 shadow-lg"
             >
+              <Sprout className="w-4 h-4" />
               {pageContent.hero.badge}
             </motion.div>
 
@@ -671,7 +679,7 @@ export default function AgricultureUrbainePage() {
             >
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl bg-green-500/20 border border-green-500/30 flex items-center justify-center">
-                  <span className="text-lg">🏙️</span>
+                  <Building2 className="w-5 h-5 text-green-400" />
                 </div>
                 <div>
                   <h3 className="text-xl font-black text-white">Yaoundé</h3>
@@ -717,7 +725,7 @@ export default function AgricultureUrbainePage() {
             >
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
-                  <span className="text-lg">🌊</span>
+                  <Waves className="w-5 h-5 text-blue-400" />
                 </div>
                 <div>
                   <h3 className="text-xl font-black text-white">Douala</h3>
@@ -761,7 +769,8 @@ export default function AgricultureUrbainePage() {
             className="text-center"
           >
             <p className="text-sm text-gray-500 italic">
-              🗺️ Vous ne trouvez pas votre quartier ?{' '}
+              <MapPin className="w-3.5 h-3.5 inline-block mr-1 text-emerald-500" />
+              Vous ne trouvez pas votre quartier ?{' '}
               <Link href="/contact" className="text-emerald-400 hover:text-emerald-300 underline underline-offset-2">
                 Contactez-nous pour une analyse gratuite de votre espace.
               </Link>
@@ -799,7 +808,8 @@ export default function AgricultureUrbainePage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
-                emoji: "🪣",
+                emoji: "ARROSAGE",
+                emojiIcon: Droplets,
                 local: "Bassine / arrosoir local",
                 localPrice: "500 – 1 500 FCFA",
                 modern: "Kit arrosage goutte-à-goutte AGRI POINT",
@@ -807,7 +817,8 @@ export default function AgricultureUrbainePage() {
                 upgrade: true
               },
               {
-                emoji: "🪴",
+                emoji: "CONTENANT",
+                emojiIcon: Flower2,
                 local: "Sac plastique recyclé",
                 localPrice: "0 – 200 FCFA",
                 modern: "Jardinière suspendue ou grow bag 10 L",
@@ -815,7 +826,8 @@ export default function AgricultureUrbainePage() {
                 upgrade: true
               },
               {
-                emoji: "🌱",
+                emoji: "SUBSTRAT",
+                emojiIcon: Sprout,
                 local: "Terre de jardin classique",
                 localPrice: "Gratuit",
                 modern: "Substrat coco + lombricompost AGRI POINT",
@@ -823,7 +835,8 @@ export default function AgricultureUrbainePage() {
                 upgrade: true
               },
               {
-                emoji: "🕸️",
+                emoji: "PROTECTION",
+                emojiIcon: Shield,
                 local: "Tissu vieux / moustiquaire",
                 localPrice: "0 – 300 FCFA",
                 modern: "Filet insect-proof 50 mesh AGRI POINT",
@@ -831,7 +844,8 @@ export default function AgricultureUrbainePage() {
                 upgrade: true
               },
               {
-                emoji: "🪵",
+                emoji: "TUTEUR",
+                emojiIcon: Wrench,
                 local: "Bambou / bâton local",
                 localPrice: "Gratuit",
                 modern: "Tuteur spirale galvanisé + clips",
@@ -839,7 +853,8 @@ export default function AgricultureUrbainePage() {
                 upgrade: false
               },
               {
-                emoji: "♻️",
+                emoji: "COMPOST",
+                emojiIcon: Recycle,
                 local: "Compostage simple (fosse)",
                 localPrice: "Gratuit",
                 modern: "Lombricomposteur compact AGRI POINT",
@@ -857,7 +872,9 @@ export default function AgricultureUrbainePage() {
               >
                 {/* Header */}
                 <div className="p-5 border-b border-gray-200 dark:border-gray-700/30 flex items-center gap-3">
-                  <span className="text-3xl">{tool.emoji}</span>
+                  <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
+                    <tool.emojiIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                  </div>
                   <div>
                     <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold">Solution locale</p>
                     <p className="text-sm font-bold text-gray-900 dark:text-white">{tool.local}</p>
@@ -948,8 +965,8 @@ export default function AgricultureUrbainePage() {
                   </div>
                   <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{step.title}</h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-4">{step.description}</p>
-                  <div className="inline-block px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs font-bold">
-                    ⏱️ {step.duration}
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs font-bold">
+                    <Clock className="w-3 h-3" /> {step.duration}
                   </div>
                 </div>
                 {index < pageContent.steps.steps.length - 1 && (
@@ -1047,8 +1064,8 @@ export default function AgricultureUrbainePage() {
                   ))}
                 </div>
                 <div className="mb-4">
-                  <span className="inline-block px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-full text-sm font-bold">
-                    🌱 {testimonial.harvest}
+                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-full text-sm font-bold">
+                    <Leaf className="w-3.5 h-3.5" /> {testimonial.harvest}
                   </span>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300 mb-6 italic text-lg leading-relaxed">

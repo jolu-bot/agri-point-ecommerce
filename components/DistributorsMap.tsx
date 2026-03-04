@@ -6,7 +6,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { MapPin, Phone, Mail, Globe } from 'lucide-react';
+import type React from 'react';
+import { MapPin, Phone, Mail, Globe, Building2, Store, Handshake } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export interface Distributor {
@@ -169,10 +170,10 @@ export default function DistributorsMap({
     });
   }, [filteredDistributors, map, distributors]);
 
-  const categoryLabels = {
-    wholesaler: '🏢 Grossistes',
-    retailer: '🏪 Détaillants',
-    partner: '🤝 Partenaires',
+  const categoryLabels: Record<string, { label: string; Icon: React.ComponentType<{ className?: string }> }> = {
+    wholesaler: { label: 'Grossistes', Icon: Building2 },
+    retailer: { label: 'Détaillants', Icon: Store },
+    partner: { label: 'Partenaires', Icon: Handshake },
   };
 
   return (
@@ -189,16 +190,17 @@ export default function DistributorsMap({
         >
           Tous
         </button>
-        {Object.entries(categoryLabels).map(([key, label]) => (
+        {Object.entries(categoryLabels).map(([key, { label, Icon }]) => (
           <button
             key={key}
             onClick={() => setSelectedCategory(key as any)}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition ${
               selectedCategory === key
                 ? 'bg-primary-600 text-white'
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300'
             }`}
           >
+            <Icon className="w-3.5 h-3.5" />
             {label}
           </button>
         ))}

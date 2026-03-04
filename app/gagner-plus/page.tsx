@@ -14,7 +14,8 @@ import {
   ArrowRight,
   Percent,
   Clock,
-  Users
+  Users,
+  CheckCircle
 } from 'lucide-react';
 import ProductCard from '@/components/products/ProductCard';
 import { IProduct } from '@/models/Product';
@@ -505,7 +506,7 @@ export default function GagnerPlusPage() {
                 <ul className="space-y-3">
                   {strategy.features.map((feature, i) => (
                     <li key={i} className="flex items-start gap-2">
-                      <DollarSign className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                      <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                       <span className="text-sm">{feature}</span>
                     </li>
                   ))}

@@ -369,8 +369,8 @@ export default function MieuxVivrePage() {
                 className={`relative bg-white dark:bg-gray-700 rounded-2xl p-8 ${plan.popular ? 'ring-4 ring-red-500 shadow-2xl scale-105' : 'shadow-lg'}`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-4 py-1 rounded-full text-sm font-bold">
-                    ⭐ Populaire
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-4 py-1 rounded-full text-sm font-bold flex items-center gap-1.5">
+                    <Star className="w-3.5 h-3.5 fill-white" /> Populaire
                   </div>
                 )}
                 <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>

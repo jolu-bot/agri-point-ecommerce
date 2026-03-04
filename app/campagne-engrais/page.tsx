@@ -407,7 +407,7 @@ export default function CampagnePremiumPage() {
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
               className="relative bg-white dark:bg-gray-950 rounded-3xl border-2 border-emerald-500 shadow-2xl shadow-emerald-500/10 overflow-hidden">
               <div className="absolute top-0 left-0 right-0 text-center py-2 bg-gradient-to-r from-emerald-500 to-teal-500">
-                <span className="text-white text-xs font-black uppercase tracking-widest">⭐ Le Plus Demandé</span>
+                <span className="inline-flex items-center gap-1 text-white text-xs font-black uppercase tracking-widest"><Star className="w-3.5 h-3.5 fill-white" /> Le Plus Demandé</span>
               </div>
               <div className="pt-12 pb-8 px-8">
                 <div className="flex items-start justify-between mb-6">

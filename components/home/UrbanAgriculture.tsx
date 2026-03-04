@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, Building2 } from 'lucide-react';
+import { ArrowRight, CheckCircle, Building2, Leaf, Salad, Apple, Sprout } from 'lucide-react';
 
 export default function UrbanAgriculture() {
   return (
@@ -61,24 +61,32 @@ export default function UrbanAgriculture() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-4">
                 <div className="bg-white/10 backdrop-blur rounded-xl p-6 hover:bg-white/20 transition-colors">
-                  <div className="text-4xl mb-3">🌿</div>
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-3">
+                    <Leaf className="w-6 h-6 text-white" />
+                  </div>
                   <div className="font-semibold mb-1">Potager Urbain</div>
                   <div className="text-sm text-primary-100">Cultivez vos légumes</div>
                 </div>
                 <div className="bg-white/10 backdrop-blur rounded-xl p-6 hover:bg-white/20 transition-colors">
-                  <div className="text-4xl mb-3">🥬</div>
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-3">
+                    <Salad className="w-6 h-6 text-white" />
+                  </div>
                   <div className="font-semibold mb-1">Herbes Aromatiques</div>
                   <div className="text-sm text-primary-100">Fraîches toute l&apos;année</div>
                 </div>
               </div>
               <div className="space-y-4 pt-8">
                 <div className="bg-white/10 backdrop-blur rounded-xl p-6 hover:bg-white/20 transition-colors">
-                  <div className="text-4xl mb-3">🍅</div>
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-3">
+                    <Apple className="w-6 h-6 text-white" />
+                  </div>
                   <div className="font-semibold mb-1">Fruits & Légumes</div>
                   <div className="text-sm text-primary-100">Production locale</div>
                 </div>
                 <div className="bg-white/10 backdrop-blur rounded-xl p-6 hover:bg-white/20 transition-colors">
-                  <div className="text-4xl mb-3">🌱</div>
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-3">
+                    <Sprout className="w-6 h-6 text-white" />
+                  </div>
                   <div className="font-semibold mb-1">Micro-Pousses</div>
                   <div className="text-sm text-primary-100">Récolte rapide</div>
                 </div>

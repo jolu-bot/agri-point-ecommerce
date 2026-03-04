@@ -1,19 +1,20 @@
 ﻿'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Search, SlidersHorizontal, Grid3x3, List, X, Leaf, ChevronDown, Sprout, ShoppingBag } from 'lucide-react';
+import { Search, SlidersHorizontal, Grid3x3, List, X, Leaf, ChevronDown, Sprout, ShoppingBag, FlaskConical, Building2, Handshake, Package, LayoutGrid } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProductCard from '@/components/products/ProductCard';
 import { IProduct } from '@/models/Product';
 import toast from 'react-hot-toast';
+import type { ComponentType } from 'react';
 
-const categories = [
-  { value: 'all', label: 'Tout voir', icon: '🌿' },
-  { value: 'biofertilisant', label: 'Biofertilisants', icon: '🧪' },
-  { value: 'engrais_mineral', label: 'Engrais Minéraux', icon: '⚗️' },
-  { value: 'kit_urbain', label: 'Kits Urbains', icon: '🏙️' },
-  { value: 'service', label: 'Services', icon: '🤝' },
-  { value: 'autre', label: 'Autres', icon: '📦' },
+const categories: { value: string; label: string; Icon: ComponentType<{ className?: string }> }[] = [
+  { value: 'all', label: 'Tout voir', Icon: LayoutGrid },
+  { value: 'biofertilisant', label: 'Biofertilisants', Icon: Sprout },
+  { value: 'engrais_mineral', label: 'Engrais Minéraux', Icon: FlaskConical },
+  { value: 'kit_urbain', label: 'Kits Urbains', Icon: Building2 },
+  { value: 'service', label: 'Services', Icon: Handshake },
+  { value: 'autre', label: 'Autres', Icon: Package },
 ];
 
 const sortOptions = [
@@ -283,7 +284,7 @@ export default function ProductsClient({
                       >
                         {categories.map((c) => (
                           <option key={c.value} value={c.value}>
-                            {c.icon} {c.label}
+                            {c.label}
                           </option>
                         ))}
                       </select>
@@ -344,7 +345,7 @@ export default function ProductsClient({
                   : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-400'
               }`}
             >
-              <span>{cat.icon}</span>
+              <cat.Icon className="w-3.5 h-3.5" />
               <span>{cat.label}</span>
             </button>
           ))}
@@ -435,8 +436,8 @@ export default function ProductsClient({
               animate={{ opacity: 1, scale: 1 }}
               className="flex flex-col items-center justify-center py-20 text-center"
             >
-              <div className="w-20 h-20 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-4xl mb-5">
-                🌱
+              <div className="w-20 h-20 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/50 flex items-center justify-center mb-5">
+                <Sprout className="w-9 h-9 text-emerald-400" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                 Aucun produit trouvé

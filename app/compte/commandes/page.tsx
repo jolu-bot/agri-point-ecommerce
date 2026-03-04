@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Package, Truck, CheckCircle, XCircle, Clock, Eye, ChevronRight, AlertTriangle, CreditCard } from 'lucide-react';
+import { Package, Truck, CheckCircle, XCircle, Clock, Eye, ChevronRight, AlertTriangle, CreditCard, Sprout } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface OrderItem {
@@ -241,8 +241,8 @@ export default function OrdersPage() {
                                 className="object-cover"
                               />
                             ) : (
-                              <div className="w-full h-full flex items-center justify-center text-2xl">
-                                🌱
+                              <div className="w-full h-full flex items-center justify-center">
+                                <Sprout className="w-7 h-7 text-emerald-300 dark:text-emerald-700" />
                               </div>
                             )}
                           </div>
