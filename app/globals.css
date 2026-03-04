@@ -445,8 +445,8 @@
   /* Card glass — glassmorphism léger */
   .card-glass {
     background: rgba(255, 255, 255, 0.70);
-    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: var(--radius-2xl);
     box-shadow: var(--shadow-md);
@@ -455,6 +455,17 @@
     background: rgba(17, 24, 39, 0.75);
     border-color: rgba(255, 255, 255, 0.07);
   }
+
+  /* Glow rings pour les icônes (remplace les inline styles) */
+  .icon-glow-emerald { box-shadow: 0 0 0 6px rgba(16,185,129,0.13); }
+  .icon-glow-teal    { box-shadow: 0 0 0 6px rgba(20,184,166,0.13); }
+  .icon-glow-green   { box-shadow: 0 0 0 6px rgba(22,163,74,0.13);  }
+  .icon-glow-amber   { box-shadow: 0 0 0 6px rgba(245,158,11,0.13); }
+
+  /* Variantes large (8px) pour les cards de section */
+  .icon-glow-emerald-lg { box-shadow: 0 0 0 8px rgba(16,185,129,0.12); }
+  .icon-glow-amber-lg   { box-shadow: 0 0 0 8px rgba(245,158,11,0.12); }
+  .icon-glow-teal-lg    { box-shadow: 0 0 0 8px rgba(20,184,166,0.12); }
   
   /* Container responsive avec padding fluide */
   .container-fluid {

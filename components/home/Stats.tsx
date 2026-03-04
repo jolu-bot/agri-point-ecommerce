@@ -9,7 +9,7 @@ const stats = [
     Icon: Leaf,
     iconClass: 'text-emerald-600 dark:text-emerald-300',
     iconBg: 'bg-emerald-100 dark:bg-emerald-900/40',
-    iconGlow: 'rgba(16,185,129,0.13)',
+    glowClass: 'icon-glow-emerald',
     color: 'from-emerald-500 to-green-600',
     value: 20000,
     label: 'Hectares cultivés',
@@ -21,7 +21,7 @@ const stats = [
     Icon: Users2,
     iconClass: 'text-teal-600 dark:text-teal-300',
     iconBg: 'bg-teal-100 dark:bg-teal-900/40',
-    iconGlow: 'rgba(20,184,166,0.13)',
+    glowClass: 'icon-glow-teal',
     color: 'from-teal-500 to-emerald-600',
     value: 10000,
     label: 'Agriculteurs',
@@ -33,7 +33,7 @@ const stats = [
     Icon: BadgeCheck,
     iconClass: 'text-green-700 dark:text-green-300',
     iconBg: 'bg-green-100 dark:bg-green-900/40',
-    iconGlow: 'rgba(22,163,74,0.13)',
+    glowClass: 'icon-glow-green',
     color: 'from-green-500 to-teal-600',
     value: 100,
     label: 'Produits biologiques',
@@ -45,7 +45,7 @@ const stats = [
     Icon: Star,
     iconClass: 'text-amber-600 dark:text-amber-300',
     iconBg: 'bg-amber-100 dark:bg-amber-900/40',
-    iconGlow: 'rgba(245,158,11,0.13)',
+    glowClass: 'icon-glow-amber',
     color: 'from-amber-500 to-orange-500',
     value: 4.9,
     label: 'Note clients',
@@ -95,8 +95,7 @@ export default function Stats() {
 
                 {/* Icon circle */}
                 <div
-                  className={`mx-auto mb-4 mt-2 w-12 h-12 rounded-2xl flex items-center justify-center ${stat.iconBg} transition-transform duration-300 group-hover:scale-110`}
-                  style={{ boxShadow: `0 0 0 6px ${stat.iconGlow}` }}
+                  className={`mx-auto mb-4 mt-2 w-12 h-12 rounded-2xl flex items-center justify-center ${stat.iconBg} ${stat.glowClass} transition-transform duration-300 group-hover:scale-110`}
                 >
                   <Icon className={`w-5 h-5 ${stat.iconClass}`} strokeWidth={2.2} />
                 </div>
