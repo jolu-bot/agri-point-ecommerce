@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, CheckCircle, Building2 } from 'lucide-react';
 
 export default function UrbanAgriculture() {
   return (
@@ -15,8 +15,9 @@ export default function UrbanAgriculture() {
             viewport={{ once: true, margin: '-60px' }}
             transition={{ type: 'spring', stiffness: 220, damping: 28 }}
           >
-            <div className="inline-block px-4 py-2 bg-white/20 backdrop-blur rounded-full text-sm font-semibold mb-6">
-              🏙️ Agriculture Urbaine
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/25 bg-white/15 backdrop-blur-md text-sm font-semibold mb-6">
+              <Building2 className="w-4 h-4" />
+              Agriculture Urbaine
             </div>
 
             <h2 className="text-4xl font-bold mb-6">
@@ -27,17 +28,15 @@ export default function UrbanAgriculture() {
               Découvrez nos solutions pour l&apos;agriculture urbaine : kits de démarrage, conseils personnalisés, et accompagnement complet pour cultiver vos propres aliments en ville.
             </p>
 
-            <ul className="space-y-4 mb-8">
+            <ul className="space-y-3.5 mb-8">
               {[
                 'Kits complets pour balcons et terrasses',
                 'Conseils IA personnalisés par AgriBot',
                 'Formations vidéo et guides pratiques',
-                'Communauté d\'agriculteurs urbains',
+                "Communauté d'agriculteurs urbains",
               ].map((item, index) => (
-                <li key={index} className="flex items-center space-x-3">
-                  <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
-                    <span className="text-sm">✓</span>
-                  </div>
+                <li key={index} className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-emerald-300 flex-shrink-0" strokeWidth={2.5} />
                   <span>{item}</span>
                 </li>
               ))}
@@ -45,10 +44,10 @@ export default function UrbanAgriculture() {
 
             <Link
               href="/agriculture-urbaine"
-              className="inline-flex items-center bg-white text-primary-600 hover:bg-primary-50 font-semibold py-3 px-8 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl group"
+              className="inline-flex items-center gap-2.5 bg-white text-emerald-800 hover:bg-emerald-50 font-bold py-3.5 px-8 rounded-xl transition-all duration-200 shadow-xl hover:shadow-2xl hover:-translate-y-0.5 group"
             >
               Commencer maintenant
-              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
 

@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
-import { Mail, ArrowRight, Leaf, CheckCircle } from 'lucide-react';
+import { Mail, ArrowRight, Leaf, CheckCircle, Gift, Megaphone } from 'lucide-react';
 
 const perks = [
-  { icon: '🌱', text: 'Conseils agricoles exclusifs' },
-  { icon: '🎁', text: 'Offres membres en avant-première' },
-  { icon: '📢', text: 'Nouveaux produits en primeur' },
+  { icon: Leaf,       text: 'Conseils agricoles exclusifs' },
+  { icon: Gift,       text: 'Offres membres en avant-première' },
+  { icon: Megaphone,  text: 'Nouveaux produits en primeur' },
 ];
 
 export default function Newsletter() {
@@ -56,13 +56,18 @@ export default function Newsletter() {
               <p className="text-emerald-100/80 mb-6 leading-relaxed">
                 Rejoignez plus de 5 000 agriculteurs qui reçoivent nos conseils chaque semaine.
               </p>
-              <ul className="space-y-2">
-                {perks.map((p, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm text-emerald-100/90">
-                    <span>{p.icon}</span>
-                    <span>{p.text}</span>
-                  </li>
-                ))}
+              <ul className="space-y-2.5">
+                {perks.map((p, i) => {
+                  const Icon = p.icon;
+                  return (
+                    <li key={i} className="flex items-center gap-2.5 text-sm text-emerald-100/90">
+                      <div className="w-6 h-6 rounded-lg bg-white/15 flex items-center justify-center flex-shrink-0">
+                        <Icon className="w-3.5 h-3.5 text-emerald-300" strokeWidth={2.2} />
+                      </div>
+                      <span>{p.text}</span>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
 

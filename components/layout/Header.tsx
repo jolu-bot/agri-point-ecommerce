@@ -155,10 +155,10 @@ export default function Header() {
                   href={item.href}
                   className={`inline-flex items-center text-fluid-sm font-medium transition-all duration-200 relative group whitespace-nowrap py-1 px-0.5 ${
                     (item as any).highlight 
-                      ? `text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 font-bold px-3 py-1 rounded-lg border shadow-sm ${
+                      ? `relative text-red-700 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 font-bold px-3 py-1.5 rounded-lg border shadow-sm transition-all duration-200 overflow-hidden ${
                           isNavActive(item)
-                            ? 'bg-emerald-100 dark:bg-emerald-900/50 border-emerald-400 dark:border-emerald-600'
-                            : 'bg-emerald-50/50 dark:bg-emerald-900/25 border-emerald-200/70 dark:border-emerald-700/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/40'
+                            ? 'bg-red-100 dark:bg-red-900/40 border-red-400 dark:border-red-600'
+                            : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700/40 hover:bg-red-100 dark:hover:bg-red-900/30 hover:border-red-300'
                         }`
                       : isNavActive(item)
                         ? 'text-emerald-700 dark:text-emerald-400 font-semibold'
@@ -294,7 +294,7 @@ export default function Header() {
                     onClick={() => setIsMenuOpen(false)}
                     className={`text-fluid-base font-medium transition-colors px-3 py-2 rounded-lg flex items-center justify-between ${
                       (item as any).highlight 
-                        ? 'text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 font-bold bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800' 
+                        ? 'text-red-700 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 font-bold bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800' 
                         : isNavActive(item)
                           ? 'text-emerald-700 dark:text-emerald-400 font-semibold bg-emerald-50/70 dark:bg-emerald-900/20'
                           : 'text-gray-700 dark:text-gray-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-800'
