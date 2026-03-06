@@ -9,6 +9,7 @@ import Footer from "@/components/layout/Footer";
 import PartnersSection from "@/components/shared/PartnersSection";
 import BackToTop from '@/components/layout/BackToTop';
 import { ClientComponents } from "./ClientComponents";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com'),
@@ -73,6 +74,7 @@ export default function RootLayout({
             </ThemeProvider>
           </PreviewModeProvider>
         </SiteConfigProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
