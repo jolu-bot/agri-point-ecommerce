@@ -136,7 +136,7 @@ export default function PartnersSection({
       className={`relative overflow-hidden py-14 ${
         isDark
           ? 'bg-[#050a06] border-t border-white/5'
-          : 'bg-white border-t border-gray-100'
+          : 'bg-white dark:bg-[#050a06] border-t border-gray-100 dark:border-white/5'
       }`}
     >
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -151,22 +151,22 @@ export default function PartnersSection({
             className="text-center mb-12"
           >
             <span className={`section-tag ${
-              isDark ? 'border-green-500/30 bg-green-500/5 text-green-400' : ''
+              isDark ? 'border-green-500/30 bg-green-500/5 text-green-400' : 'dark:border-green-500/30 dark:bg-green-500/5 dark:text-green-400'
             }`}>
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
               Partenaires de Confiance
             </span>
             <h2 className={`section-title ${
-              isDark ? 'text-white' : 'text-gray-900'
+              isDark ? 'text-white' : 'text-gray-900 dark:text-white'
             }`}>
               <span className="text-red-500">Nos</span> Partenaires{' '}
-              <span className={isDark ? 'text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-400' : 'text-red-500'}>
+              <span className={isDark ? 'text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-400' : 'text-red-500 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-green-500 dark:to-emerald-400'}>
                 Institutionnels
               </span>{' '}
               <span className={isDark ? '' : 'text-red-500'}>&amp; Sponsors</span>
             </h2>
             <p className={`section-subtitle ${
-              isDark ? 'text-white/45' : 'text-gray-500'
+              isDark ? 'text-white/45' : 'text-gray-500 dark:text-white/45'
             }`}>
               AGRIPOINT SERVICES bénéficie du soutien d&apos;acteurs clés du développement agricole camerounais.
               Cliquez sur un logo pour visiter leur site officiel.
@@ -190,7 +190,7 @@ export default function PartnersSection({
                 hover:scale-[1.03] hover:shadow-2xl focus-visible:ring-2 focus-visible:ring-green-500 outline-none
                 ${isDark
                   ? `bg-gradient-to-br ${p.colorDark} ${p.borderDark}`
-                  : `bg-gradient-to-br ${p.color} ${p.border}`
+                  : `bg-gradient-to-br ${p.color} ${p.border} dark:bg-none dark:bg-gray-800/40 dark:border-gray-700/40`
                 }`}
               aria-label={`Visiter le site officiel de ${p.name}`}
             >
@@ -213,14 +213,14 @@ export default function PartnersSection({
 
                 {/* Subtitle */}
                 <p className={`text-[11px] font-semibold tracking-wider uppercase leading-tight text-center ${
-                  isDark ? 'text-white/40' : 'text-gray-500'
+                  isDark ? 'text-white/40' : 'text-gray-500 dark:text-white/40'
                 }`}>{p.subtitle}</p>
 
                 {/* CTA â€” apparaÃ®t au hover */}
                 <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold
                   border transition-all duration-300
                   opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0
-                  ${isDark ? p.badgeDark : p.badge}`}
+                  ${isDark ? p.badgeDark : `${p.badge} dark:bg-gray-700/30 dark:text-green-400 dark:border-green-500/20`}`}
                 >
                   <ExternalLink className="w-3 h-3" />
                   Visiter le site
@@ -247,7 +247,7 @@ export default function PartnersSection({
                 className={`flex-shrink-0 w-36 rounded-xl border overflow-hidden p-3 flex flex-col items-center gap-2 active:scale-95 transition-transform ${
                   isDark
                     ? `bg-gradient-to-br ${p.colorDark} ${p.borderDark}`
-                    : `bg-gradient-to-br ${p.color} ${p.border} shadow-sm`
+                    : `bg-gradient-to-br ${p.color} ${p.border} shadow-sm dark:bg-none dark:bg-gray-800/40 dark:border-gray-700/40`
                 }`}
               >
                 <div className="relative w-full h-12">
@@ -260,7 +260,7 @@ export default function PartnersSection({
                   />
                 </div>
                 <span className={`text-[10px] font-bold tracking-widest uppercase text-center leading-tight ${
-                  isDark ? 'text-white/50' : 'text-gray-500'
+                  isDark ? 'text-white/50' : 'text-gray-500 dark:text-white/50'
                 }`}>{p.name}</span>
                 <div className={`flex items-center gap-1 text-[10px] font-semibold ${
                   isDark ? p.accentDark : p.accent
@@ -281,11 +281,11 @@ export default function PartnersSection({
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-10 flex items-center gap-4"
         >
-          <div className={`flex-1 h-px ${isDark ? 'bg-white/8' : 'bg-gray-200'}`} />
-          <span className={`text-[11px] whitespace-nowrap ${isDark ? 'text-white/20' : 'text-gray-400'}`}>
+          <div className={`flex-1 h-px ${isDark ? 'bg-white/8' : 'bg-gray-200 dark:bg-white/10'}`} />
+          <span className={`text-[11px] whitespace-nowrap ${isDark ? 'text-white/20' : 'text-gray-400 dark:text-white/20'}`}>
             Ensemble pour une agriculture durable au Cameroun
           </span>
-          <div className={`flex-1 h-px ${isDark ? 'bg-white/8' : 'bg-gray-200'}`} />
+          <div className={`flex-1 h-px ${isDark ? 'bg-white/8' : 'bg-gray-200 dark:bg-white/10'}`} />
         </motion.div>
       </div>
     </section>
