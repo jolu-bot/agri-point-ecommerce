@@ -31,27 +31,60 @@ const GAGNER_PLUS_IMAGES = [
 
 const pageContent = {
   hero: {
-    badge: "Rentabilité Maximale Garantie",
+    badge: "Programme Gagner Plus",
     title: "Gagner Plus",
-    subtitle: "Doublez vos bénéfices agricoles",
-    description: "Transformez votre activité en entreprise rentable. Réduisez vos coûts, augmentez vos revenus et accédez à des marchés premium.",
+    subtitle: "Maximisez vos revenus agricoles",
+    description: "Les débouchés, les prix bien négociés et l'appui à la commercialisation de vos produits. Un accompagnement complet pour transformer votre activité.",
     cta: {
       primary: "Calculer mon potentiel",
-      secondary: "Voir les solutions"
+      secondary: "Découvrir les services"
     }
   },
   
   stats: [
-    { value: "+200%", label: "Revenus moyens", icon: TrendingUp },
-    { value: "-60%", label: "Coûts de production", icon: Percent },
+    { value: "6", label: "Services d'appui", icon: TrendingUp },
+    { value: "-60%", label: "Coûts optimisés", icon: Percent },
     { value: "6 mois", label: "ROI moyen", icon: Clock },
-    { value: "15K+", label: "Agriculteurs enrichis", icon: Users }
+    { value: "10K+", label: "Producteurs visés", icon: Users }
+  ],
+
+  services: [
+    {
+      title: "Recherche de partenaires commerciaux",
+      description: "Mise en relation avec des acheteurs fiables, négociants et marchés locaux, régionaux et internationaux pour écouler votre production.",
+      icon: Users,
+    },
+    {
+      title: "Négociation des prix",
+      description: "Accompagnement à la négociation pour obtenir les meilleurs prix de vente. Veille des marchés et stratégie de commercialisation.",
+      icon: DollarSign,
+    },
+    {
+      title: "Warrantage",
+      description: "Stockage sécurisé des récoltes après production pour vendre au meilleur moment. Accès au crédit garanti par les stocks.",
+      icon: PiggyBank,
+    },
+    {
+      title: "Formation en gestion financière",
+      description: "Maîtrisez la gestion de vos revenus, l'épargne et la planification financière de votre exploitation.",
+      icon: Calculator,
+    },
+    {
+      title: "Montage de plans d'affaires",
+      description: "Accompagnement au montage de business plans solides pour structurer et développer votre activité.",
+      icon: Target,
+    },
+    {
+      title: "Appui à la recherche de financement",
+      description: "Identification des sources de financement, aide à la constitution des dossiers et mise en relation avec les institutions financières.",
+      icon: TrendingUp,
+    },
   ],
 
   benefits: [
     {
-      title: "Réduction des charges opérationnelles de production",
-      description: "Coût de production allégé de 40% au lancement de votre activité avec la possibilité de payer des intrants en phases: 70% comptant et 30% après récolte (réservé aux membres des CMA). Économisez sur les engrais chimiques et réduisez vos besoins en eau de 50%.",
+      title: "Réduction des charges opérationnelles",
+      description: "Coût de production allégé au lancement de votre activité avec la possibilité de payer des intrants en phases : 70% comptant et 30% après récolte (réservé aux membres des CMA).",
       icon: PiggyBank,
       color: "blue",
       savings: "-60%",
@@ -59,15 +92,15 @@ const pageContent = {
     },
     {
       title: "Revenus multipliés",
-      description: "Prix de vente supérieurs grâce au label BIO. Rendements doublés ou triplés. Deux à trois récoltes par an au lieu d'une.",
+      description: "Prix de vente supérieurs grâce à la négociation collective. Rendements améliorés et meilleure commercialisation.",
       icon: DollarSign,
       color: "green",
       savings: "+200%",
       image: "/products/icon-croissance-fruits.png"
     },
     {
-      title: "Accès aux marchés premium",
-      description: "Certification bio facilitée. Contrats avec acheteurs internationaux. Exportation vers l'Europe et l'Amérique du Nord.",
+      title: "Accès aux marchés",
+      description: "Mise en relation avec des acheteurs fiables. Contrats sécurisés et accès à de nouveaux débouchés commerciaux.",
       icon: Target,
       color: "purple",
       savings: "x3",
@@ -110,7 +143,7 @@ const pageContent = {
       after: "1 800 000 FCFA/an",
       increase: "+260%",
       image: "/images/success-1.jpg",
-      quote: "J'ai   mes revenus en une seule saison. Mes oignons sont vendus 50% plus cher grâce à leur qualité."
+      quote: "Grâce à l'accompagnement à la commercialisation et la négociation des prix, mes revenus ont triplé en une saison."
     },
     {
       name: "Célestine Mballa",
@@ -120,7 +153,7 @@ const pageContent = {
       after: "950 000 FCFA/mois",
       increase: "+217%",
       image: "/images/success-2.jpg",
-      quote: "Je fournis maintenant les grands restaurants et hhôtels. Ma production bio se vend comme des petits pains."
+      quote: "Le warrantage m'a permis de vendre au bon moment. Je fournis maintenant les grands restaurants."
     },
     {
       name: "Joseph Talla",
@@ -130,41 +163,41 @@ const pageContent = {
       after: "6 500 000 FCFA/an",
       increase: "+225%",
       image: "/images/success-3.jpg",
-      quote: "Mon café est exporté en Europe. Le label bio m'a ouvert les portes du marché international."
+      quote: "L'appui au montage de mon plan d'affaires m'a ouvert l'accès au financement. Mon activité s'est transformée."
     }
   ],
 
   pricingStrategies: {
-    title: "Stratégies de Monétisation",
+    title: "Stratégies d'Accompagnement",
     strategies: [
       {
-        title: "Production BIO Premium",
-        description: "Vendez 40-60% plus cher avec la certification biologique",
+        title: "Commercialisation Groupée",
+        description: "Vendez mieux en vous regroupant pour négocier des volumes",
         features: [
-          "Accompagnement certification",
-          "Accès marchés premium",
-          "Formation commerciale",
+          "Négociation collective des prix",
+          "Accès marchés de gros",
+          "Logistique organisée",
           "Mise en relation acheteurs"
         ]
       },
       {
-        title: "Vente Directe",
-        description: "Supprimez les intermédiaires et gardez 100% de la marge",
+        title: "Warrantage & Stockage",
+        description: "Stockez et vendez au meilleur moment pour optimiser vos marges",
         features: [
-          "Plateforme en ligne",
-          "Réseau de clients directs",
-          "Livraison organisée",
-          "Paiement ssécurisé"
+          "Stockage sécurisé",
+          "Crédit garanti sur stock",
+          "Veille des prix marchés",
+          "Conseil en timing de vente"
         ]
       },
       {
-        title: "Cultures à Haute Valeur",
-        description: "Orientez-vous vers les cultures les plus rentables",
+        title: "Financement & Business Plan",
+        description: "Structurez votre activité pour accéder aux financements",
         features: [
-          "Analyse de marché",
-          "Conseil en diversification",
-          "Accès semences premium",
-          "Techniques spécialisées"
+          "Montage plans d'affaires",
+          "Recherche de financement",
+          "Gestion financière",
+          "Accompagnement bancaire"
         ]
       }
     ]
@@ -302,12 +335,41 @@ export default function GagnerPlusPage() {
         </div>
       </section>
 
-      {/* Benefits */}
+      {/* 6 Services d'appui */}
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Comment Gagner Plus ?</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">4 leviers pour multiplier vos revenus</p>
+            <h2 className="text-4xl font-bold mb-4">Nos 6 Services d&apos;Appui</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">Un accompagnement complet pour maximiser vos gains</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {pageContent.services.map((service, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.08 }}
+                className="bg-gradient-to-br from-blue-50 to-green-50 dark:from-gray-800 dark:to-gray-700 rounded-xl p-6 hover:shadow-xl transition-all"
+              >
+                <div className="w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center mb-4">
+                  <service.icon className="w-7 h-7 text-blue-600 dark:text-blue-400" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{service.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{service.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits */}
+      <section className="py-20 bg-gray-50 dark:bg-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Les Résultats Concrets</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">4 leviers concrets pour multiplier vos revenus</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -433,7 +495,7 @@ export default function GagnerPlusPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Histoires de Réussite</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Ils ont transformé leurs revenus avec AGRI POINT</p>
+            <p className="text-xl text-gray-600 dark:text-gray-400">Ils ont transformé leurs revenus avec AGRIPOINT SERVICES</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -521,9 +583,9 @@ export default function GagnerPlusPage() {
       <section id="produits" className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Solutions Pour Gagner Plus</h2>
+            <h2 className="text-4xl font-bold mb-4">Nos Offres</h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
-              Produits rentables sélectionnés pour optimiser vos bénéfices
+              Solutions sélectionnées pour optimiser vos revenus
             </p>
           </div>
 
@@ -546,7 +608,7 @@ export default function GagnerPlusPage() {
               href="/produits"
               className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all"
             >
-              Voir tous les produits
+              Voir toutes nos offres
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -558,20 +620,20 @@ export default function GagnerPlusPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-6">Commencez à Gagner Plus Dès Aujourd&apos;hui</h2>
           <p className="text-xl mb-8 opacity-90">
-            Plus de 15 000 agriculteurs ont déjà multiplié leurs revenus. Rejoignez-les !
+            Rejoignez les producteurs qui ont transformé leur activité avec AGRIPOINT SERVICES
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"
               className="px-8 py-4 bg-white text-blue-600 hover:bg-gray-100 rounded-lg font-semibold transition-all"
             >
-              Consultation gratuite
+              Nous contacter
             </Link>
             <Link
               href="/produits"
               className="px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-blue-600 rounded-lg font-semibold transition-all"
             >
-              Explorer la boutique
+              Voir nos offres
             </Link>
           </div>
         </div>

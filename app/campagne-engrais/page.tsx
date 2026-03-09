@@ -76,7 +76,7 @@ function QRCodeSection() {
     if (!qrDataUrl) return;
     const link = document.createElement('a');
     link.href = qrDataUrl;
-    link.download = 'campagne-engrais-2026-qr.png';
+    link.download = 'campagne-agricole-2026-qr.png';
     link.click();
   };
 
@@ -94,7 +94,7 @@ function QRCodeSection() {
             <div className="w-[180px] h-[180px] bg-white rounded-2xl border-4 border-emerald-600/20 flex items-center justify-center overflow-hidden shadow-md">
               {qrDataUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={qrDataUrl} alt="QR Code Campagne Engrais 2026" className="w-full h-full" />
+                <img src={qrDataUrl} alt="QR Code Campagne Agricole 2026" className="w-full h-full" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gray-100 animate-pulse rounded-xl">
                   <QrCode className="w-16 h-16 text-gray-300" />
@@ -146,7 +146,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Comment fonctionne le paiement échelonné 70/30 ?",
-    a: "Vous versez 70% du montant directement au bureau Campost le plus proche, sur le compte AGRI POINT SERVICES SAS. Notre équipe vous confirme la commande sous 24h après réception du reçu. Les 30% restants sont réglés à partir du 15 avril 2026, date limite le 30 avril 2026.",
+    a: "Vous versez 70% du montant directement au bureau Campost le plus proche, sur le compte AGRIPOINT SERVICES SAS. Notre équipe vous confirme la commande sous 24h après réception du reçu. Les 30% restants sont réglés à partir du 15 avril 2026, date limite le 30 avril 2026.",
   },
   {
     q: "Quels sont les délais de livraison ?",
@@ -162,7 +162,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "La livraison est-elle vraiment gratuite ?",
-    a: "Oui, pour toute commande d'au moins 6 sacs ou litres dans le cadre de cette campagne, la livraison est entièrement prise en charge par AGRI POINT.",
+    a: "Oui, pour toute commande d'au moins 6 sacs ou litres dans le cadre de cette campagne, la livraison est entièrement prise en charge par AGRIPOINT SERVICES.",
   },
 ];
 
@@ -278,7 +278,7 @@ export default function CampagnePremiumPage() {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
             className="text-5xl sm:text-6xl md:text-7xl font-black text-white leading-[1.05] mb-6"
           >
-            Campagne Engrais
+            Campagne Agricole
             <span className="block bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-400 bg-clip-text text-transparent mt-2">
               Subventionnés 2026
             </span>
@@ -347,7 +347,7 @@ export default function CampagnePremiumPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { icon: Users, value: 2400, suffix: '+', label: 'Agriculteurs bénéficiaires', color: 'text-amber-400' },
+              { icon: Users, value: 2400, suffix: '+', label: 'Producteurs bénéficiaires', color: 'text-amber-400' },
               { icon: Package, value: 15000, suffix: ' FCFA', label: 'Prix/sac engrais minéral', color: 'text-emerald-400' },
               { icon: Truck, value: 10, suffix: ' régions', label: 'Couverture nationale', color: 'text-teal-400' },
               { icon: TrendingUp, value: 40, suffix: '%', label: 'Économies réalisées', color: 'text-yellow-400' },
@@ -371,7 +371,7 @@ export default function CampagnePremiumPage() {
             <p className="text-xs uppercase tracking-[0.2em] text-emerald-600 font-bold mb-3">Pourquoi maintenant</p>
             <h2 className="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white mb-4">La campagne qui change tout</h2>
             <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-lg">
-              AGRI POINT s&apos;engage aux côtés des agriculteurs camerounais pour rendre les intrants agricoles accessibles à tous.
+              AGRIPOINT SERVICES s&apos;engage aux côtés des producteurs camerounais pour rendre les intrants agricoles accessibles à tous.
             </p>
           </motion.div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -789,7 +789,7 @@ export default function CampagnePremiumPage() {
                       </div>
                       <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/30 rounded-2xl p-4 mb-4">
                         <p className="text-sm text-blue-700 dark:text-blue-300">
-                          <strong>Note :</strong> Notre équipe vous contactera sous 24h via WhatsApp (+237 676 026 601) pour confirmer votre commande et vous communiquer le numéro de compte Campost (AGRI POINT SERVICES SAS) pour le versement des 70%.
+                          <strong>Note :</strong> Notre équipe vous contactera sous 24h via WhatsApp (+237 676 026 601) pour confirmer votre commande et vous communiquer le numéro de compte Campost (AGRIPOINT SERVICES SAS) pour le versement des 70%.
                         </p>
                       </div>
                       <CampostPaymentInfo

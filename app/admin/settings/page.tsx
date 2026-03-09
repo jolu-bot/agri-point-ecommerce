@@ -417,7 +417,7 @@ export default function SettingsPage() {
                   </label>
                   <input
                     type="text"
-                    placeholder="Agri Point Services SARL"
+                    placeholder="Agripoint Services SAS"
                     value={settings.payment.campost.accountName}
                     onChange={(e) => setSettings({
                       ...settings,

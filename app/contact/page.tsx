@@ -34,7 +34,7 @@ const pageContent = {
 
   contactInfo: {
     headquarters: {
-      title: "AGRI POINT SERVICES SARL",
+      title: "AGRIPOINT SERVICES SAS",
       address: "Quartier Fouda",
       city: "B.P. 5111 Yaoundé, Cameroun",
       phone: "(+237) 657 39 39 39",
@@ -120,20 +120,20 @@ const pageContent = {
 
   faq: [
     {
-      question: "Livrez-vous partout au Cameroun ?",
-      answer: "Oui, nous livrons dans toutes les régions du Cameroun. Délai: 2-5 jours selon votre localisation."
+      question: "Quels services propose AGRIPOINT SERVICES ?",
+      answer: "Nous sommes un facilitateur agropastoral. Nos 3 programmes phares — Produire Plus, Gagner Plus, Mieux Vivre — accompagnent les producteurs de la pré-production à la commercialisation."
     },
     {
-      question: "Puis-je payer à la livraison ?",
-      answer: "Oui, le paiement à la livraison est disponible pour toute commande."
+      question: "Comment devenir membre d'une CMA ?",
+      answer: "Remplissez le formulaire d'adhésion en ligne ou visitez l'une de nos agences. L'adhésion aux Caisses Mutuelles Agricoles est ouverte à tous les producteurs."
     },
     {
       question: "Proposez-vous des formations ?",
-      answer: "Oui, formations gratuites mensuelles pour nos adhérents + formations payantes ouvertes à tous."
+      answer: "Oui, formations gratuites mensuelles pour nos adhérents + formations payantes ouvertes à tous sur les techniques culturales, la gestion financière et le montage de projets."
     },
     {
-      question: "Comment devenir adhérent ?",
-      answer: "Remplissez le formulaire d'adhésion en ligne ou visitez l'une de nos agences. Adhésion gratuite !"
+      question: "Comment participer à la Campagne Agricole 2026 ?",
+      answer: "Contactez-nous via ce formulaire ou par téléphone. Nous vous guiderons dans les démarches d'inscription et de versement."
     }
   ]
 };
@@ -335,11 +335,11 @@ export default function ContactPage() {
                       className="w-full px-4 py-3 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     >
                       <option value="">Sélectionnez un sujet</option>
-                      <option value="commande">Question sur une commande</option>
-                      <option value="produit">Information produit</option>
+                      <option value="services">Nos services de facilitation</option>
                       <option value="technique">Conseil technique</option>
-                      <option value="adhesion">Adhésion / Services</option>
-                      <option value="partenariat">Partenariat</option>
+                      <option value="adhesion">Adhésion CMA / Partenariat</option>
+                      <option value="campagne">Campagne Agricole 2026</option>
+                      <option value="information">Demande d&apos;information</option>
                       <option value="autre">Autre</option>
                     </select>
                   </div>
@@ -392,7 +392,7 @@ export default function ContactPage() {
               <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
                 <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
                   <Building2 className="w-6 h-6 text-green-600" />
-                  <span className="leading-tight">{pageContent.contactInfo.headquarters.title}<br /><span className="text-sm font-normal text-gray-500 dark:text-gray-400">Distributeur officiel pour le Cameroun</span></span>
+                  <span className="leading-tight">{pageContent.contactInfo.headquarters.title}<br /><span className="text-sm font-normal text-gray-500 dark:text-gray-400">Partenaire sûr du secteur agropastoral</span></span>
                 </h3>
                 
                 <div className="space-y-4">

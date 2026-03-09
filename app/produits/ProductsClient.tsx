@@ -164,7 +164,7 @@ export default function ProductsClient({
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/25 border border-emerald-200 dark:border-emerald-700/40 rounded-full text-emerald-700 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider mb-4">
                 <Leaf className="w-3 h-3" />
-                Boutique Agri Point
+                Offres Agripoint Services
               </div>
               <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white leading-tight mb-3">
                 Nos{' '}

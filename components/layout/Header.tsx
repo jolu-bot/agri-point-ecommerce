@@ -60,9 +60,8 @@ export default function Header() {
 
   const navigation = [
     { name: 'Accueil', href: '/' },
-    { name: 'Boutique', href: '/produits' },
     { 
-      name: 'Nos Services', 
+      name: 'Nos Services et Partenaires', 
       href: '#',
       submenu: [
         { name: 'Produire Plus', href: '/produire-plus' },
@@ -71,9 +70,10 @@ export default function Header() {
         { name: 'Mieux Vivre', href: '/mieux-vivre' },
       ]
     },
-    { name: 'Campagne Engrais', href: '/campagne-engrais', highlight: true },
+    { name: 'Campagne Agricole 2026', href: '/campagne-engrais' },
+    { name: 'Offres Disponibles', href: '/produits' },
     { 
-      name: 'Nos Agricultures', 
+      name: 'AGRI SMART', 
       href: '#',
       submenu: [
         { name: 'Agriculture Urbaine', href: '/agriculture-urbaine' },
@@ -81,7 +81,7 @@ export default function Header() {
       ]
     },
     { name: 'À propos', href: '/a-propos' },
-    { name: 'Contact', href: '/contact' },
+    { name: 'Contacts', href: '/contact' },
   ];
 
   return (

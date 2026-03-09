@@ -30,9 +30,10 @@ const MIEUX_VIVRE_IMAGES = [
 
 const pageContent = {
   hero: {
-    badge: "Votre Bien-être, Notre Priorité",
+    badge: "Programme Mieux Vivre",
     title: "Mieux Vivre",
     subtitle: "Les Caisses Mutuelles Agricoles Africaines",
+    slogan: "La force de l'union avec vous et pour vous",
     description: "Accédez aux services essentiels : santé, logement, épargne et technologies pour un avenir prospère.",
     cta: {
       primary: "Découvrir les services",
@@ -254,6 +255,11 @@ export default function MieuxVivrePage() {
                   {pageContent.hero.subtitle}
                 </span>
               </h1>
+
+              {/* Slogan CMA en rouge */}
+              <p className="text-2xl font-bold text-red-600 mb-6 italic">
+                {pageContent.hero.slogan}
+              </p>
 
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
                 {pageContent.hero.description}
@@ -490,7 +496,7 @@ export default function MieuxVivrePage() {
       <section id="produits" className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Produits & Services</h2>
+            <h2 className="text-4xl font-bold mb-4">Nos Offres</h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
               Solutions pratiques pour améliorer votre quotidien
             </p>
@@ -519,7 +525,7 @@ export default function MieuxVivrePage() {
               href="/produits?category=service"
               className="inline-flex items-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-all"
             >
-              Voir tous les services
+              Voir toutes nos offres
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
