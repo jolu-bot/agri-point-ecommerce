@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Order from '@/models/Order';
 import User from '@/models/User';
@@ -116,7 +116,7 @@ export async function POST(req: NextRequest) {
                 <p style="color: #6b7280; font-size: 14px;">
                   Merci de votre confiance !<br>
                   📞 +237 657 39 39 39 | 💬 WhatsApp<br>
-                  L'équipe AGRI POINT SERVICE
+                  L'équipe AGRIPOINT SERVICES
                 </p>
               </div>
             </div>
@@ -189,7 +189,7 @@ export async function POST(req: NextRequest) {
               
               <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
                 <p style="color: #6b7280; font-size: 14px;">
-                  L'équipe AGRI POINT SERVICE
+                  L'équipe AGRIPOINT SERVICES
                 </p>
               </div>
             </div>

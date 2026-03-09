@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { Settings, Save, RefreshCw } from 'lucide-react';
@@ -46,7 +46,7 @@ interface Settings {
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState<Settings>({
-    siteName: 'AGRI POINT SERVICE',
+    siteName: 'AGRIPOINT SERVICES',
     siteDescription: 'Votre partenaire pour une agriculture performante',
     contactEmail: 'infos@agri-ps.com',
     contactPhone: '+237 657 39 39 39',
@@ -64,14 +64,14 @@ export default function SettingsPage() {
     email: {
       enabled: false,
       provider: 'smtp',
-      fromName: 'AGRI POINT SERVICE',
+      fromName: 'AGRIPOINT SERVICES',
       fromEmail: 'noreply@agri-ps.com',
     },
     payment: {
       campost: {
         enabled: true,
         accountNumber: '',
-        accountName: 'Agri Point Services',
+        accountName: 'AGRIPOINT SERVICES',
       },
       cashOnDelivery: {
         enabled: true,

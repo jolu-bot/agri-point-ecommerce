@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -101,10 +101,10 @@ function LoginForm() {
         <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-teal-400/10 rounded-full blur-3xl" />
         <div className="relative text-white text-center max-w-sm z-10">
           <Link href="/">
-            <Image src="/images/logo.png" alt="AGRI POINT SERVICE" width={100} height={79} className="mx-auto mb-6 drop-shadow-xl" />
+            <Image src="/images/logo.png" alt="AGRIPOINT SERVICES" width={100} height={79} className="mx-auto mb-6 drop-shadow-xl" />
           </Link>
           <h1 className="text-4xl font-black mb-4 leading-tight">
-            AGRI POINT<br /><span className="text-emerald-300">SERVICE</span>
+            AGRIPOINT SERVICES<br /><span className="text-emerald-300">SERVICE</span>
           </h1>
           <p className="text-emerald-100/80 leading-relaxed mb-8">
             La plateforme de référence pour les agriculteurs camerounais. Biofertilisants, conseils, livraison.
@@ -132,13 +132,13 @@ function LoginForm() {
         >
           <div className="lg:hidden text-center mb-8">
             <Link href="/">
-              <Image src="/images/logo.png" alt="AGRI POINT SERVICE" width={80} height={63} className="mx-auto" />
+              <Image src="/images/logo.png" alt="AGRIPOINT SERVICES" width={80} height={63} className="mx-auto" />
             </Link>
           </div>
 
           <div className="mb-8">
             <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-1">Connexion</h2>
-            <p className="text-gray-500 dark:text-gray-400">Accédez à votre espace AGRI POINT</p>
+            <p className="text-gray-500 dark:text-gray-400">Accédez à votre espace AGRIPOINT SERVICES</p>
           </div>
 
           {/* Alertes métier */}

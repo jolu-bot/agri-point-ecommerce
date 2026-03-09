@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
@@ -26,7 +26,7 @@ export function SiteConfigProvider({ children }: { children: ReactNode }) {
         console.error('Détails erreur:', errorText);
         // Utiliser config par défaut en cas d'erreur
         setConfig({
-          branding: { siteName: 'AGRI POINT SERVICE', tagline: 'Produire plus, Gagner plus, Mieux vivre' },
+          branding: { siteName: 'AGRIPOINT SERVICES', tagline: 'Produire plus, Gagner plus, Mieux vivre' },
           colors: { primary: '#1B5E20', secondary: '#B71C1C' },
           typography: { fontFamily: { heading: 'Montserrat', body: 'Inter' } },
         });
@@ -44,7 +44,7 @@ export function SiteConfigProvider({ children }: { children: ReactNode }) {
       console.error('Erreur chargement configuration:', error);
       // Config par défaut en cas d'erreur
       setConfig({
-        branding: { siteName: 'AGRI POINT SERVICE', tagline: 'Produire plus, Gagner plus, Mieux vivre' },
+        branding: { siteName: 'AGRIPOINT SERVICES', tagline: 'Produire plus, Gagner plus, Mieux vivre' },
         colors: { primary: '#1B5E20', secondary: '#B71C1C' },
         typography: { fontFamily: { heading: 'Montserrat', body: 'Inter' } },
       });

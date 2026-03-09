@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Email Service — Nodemailer wrapper
  * Supports: Order confirmations, Follow-up emails, Admin notifications
  */
@@ -129,7 +129,7 @@ const orderConfirmationTemplate = (order: IOrder) => `
     <p><a href="${process.env.NEXT_PUBLIC_APP_URL}/commande/${order._id}" class="button">Voir ma commande</a></p>
     
     <div class="footer">
-      <p>Merci d'avoir choisi Agri Point Services!</p>
+      <p>Merci d'avoir choisi AGRIPOINT SERVICES!</p>
       <p>Pour toute question: <strong>support@agri-ps.com</strong> | 📞 +237 657 39 39 39</p>
     </div>
   </div>
@@ -169,7 +169,7 @@ const followUpTemplate = (order: IOrder, conversationSummary?: string) => `
     <p>N'hésitez pas à nous contacter ou consultez votre compte pour plus de détails.</p>
     
     <p style="margin-top: 30px; color: #666; font-size: 12px;border-top: 1px solid #ddd; padding-top: 20px;">
-      Agri Point Services | support@agri-ps.com | +237 657 39 39 39
+      AGRIPOINT SERVICES | support@agri-ps.com | +237 657 39 39 39
     </p>
   </div>
 </body>
@@ -214,7 +214,7 @@ export const sendOrderConfirmation = async (order: IOrder) => {
     }
 
     await transporter.sendMail({
-      from: `"Agri Point Services" <${process.env.EMAIL_USER}>`,
+      from: `"AGRIPOINT SERVICES" <${process.env.EMAIL_USER}>`,
       to: recipientEmail,
       subject: `✅ Commande confirmée - ${order.orderNumber}`,
       html: orderConfirmationTemplate(order),
@@ -239,7 +239,7 @@ export const sendPaymentConfirmation = async (order: IOrder) => {
     if (!recipientEmail) return false;
 
     await transporter.sendMail({
-      from: `"Agri Point Services" <${process.env.EMAIL_USER}>`,
+      from: `"AGRIPOINT SERVICES" <${process.env.EMAIL_USER}>`,
       to: recipientEmail,
       subject: `💰 Paiement confirmé - ${order.orderNumber}`,
       html: `<html><body>Paiement de ${order.total.toLocaleString('fr-FR')} FCFA confirmé pour la commande ${order.orderNumber}.</body></html>`,
@@ -261,7 +261,7 @@ export const sendFollowUpEmail = async (order: IOrder, conversationSummary?: str
     if (!recipientEmail) return false;
 
     await transporter.sendMail({
-      from: `"Agri Point Services" <${process.env.EMAIL_USER}>`,
+      from: `"AGRIPOINT SERVICES" <${process.env.EMAIL_USER}>`,
       to: recipientEmail,
       subject: `🌾 Suivi de votre demande - ${order.orderNumber}`,
       html: followUpTemplate(order, conversationSummary),
@@ -286,7 +286,7 @@ export const sendAdminNotification = async (order: IOrder, type: 'new_order' | '
     }
 
     await transporter.sendMail({
-      from: `"Agri Point Services" <${process.env.EMAIL_USER}>`,
+      from: `"AGRIPOINT SERVICES" <${process.env.EMAIL_USER}>`,
       to: adminEmail,
       subject: `[ADMIN] ${type === 'new_order' ? '🛒' : type === 'payment_received' ? '💰' : '📦'} ${order.orderNumber}`,
       html: adminNotificationTemplate(order, type),
@@ -307,7 +307,7 @@ export const sendShippingNotification = async (order: IOrder) => {
     if (!recipientEmail) return false;
 
     await transporter.sendMail({
-      from: `"Agri Point Services" <${process.env.EMAIL_USER}>`,
+      from: `"AGRIPOINT SERVICES" <${process.env.EMAIL_USER}>`,
       to: recipientEmail,
       subject: `🚚 Votre commande a été expédiée - ${order.orderNumber}`,
       html: `<html><body><h2>Votre commande a été expédiée!</h2><p>Commande: ${order.orderNumber}</p><p>Tracking: En cours</p></body></html>`,

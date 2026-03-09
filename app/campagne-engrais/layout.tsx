@@ -1,7 +1,7 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Campagne Engrais Subventionnés 2026 | AGRI POINT SERVICE — -22% sur vos intrants',
+  title: 'Campagne Engrais Subventionnés 2026 | AGRIPOINT SERVICES — -22% sur vos intrants',
   description:
     'Programme exceptionnel de campagne engrais 2026 : engrais minéraux à 18 500 FCFA (-16%) et biofertilisants à 12 000 FCFA (-20%). Paiement 70/30, livraison gratuite. Valable jusqu\'au 31 mars 2026.',
   keywords: [
@@ -10,10 +10,10 @@ export const metadata: Metadata = {
     'campagne agricole Cameroun', 'coopérative agricole',
   ],
   openGraph: {
-    title: 'Campagne Engrais Subventionnés 2026 — AGRI POINT SERVICE',
+    title: 'Campagne Engrais Subventionnés 2026 — AGRIPOINT SERVICES',
     description: 'Profitez de prix réduits jusqu\'à -22% sur nos engrais. Paiement échelonné 70/30. Livraison gratuite. Jusqu\'au 31 mars 2026.',
     url: 'https://agri-point.cm/campagne-engrais',
-    siteName: 'AGRI POINT SERVICE',
+    siteName: 'AGRIPOINT SERVICES',
     locale: 'fr_FR',
     type: 'website',
   },

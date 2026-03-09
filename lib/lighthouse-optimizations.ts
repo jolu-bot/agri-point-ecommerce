@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Accessibility & SEO Enhancements
  * Script to fix common Lighthouse issues
  */
@@ -55,7 +55,7 @@ export const addStructuredData = () => {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'AGRI POINT SERVICE',
+    name: 'AGRIPOINT SERVICES',
     url: 'https://agri-ps.com',
     logo: 'https://agri-ps.com/images/logo.png',
     description: 'Distributeur de biofertilisants au Cameroun',

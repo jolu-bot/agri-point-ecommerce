@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
@@ -221,7 +221,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
               <p className="text-[11px] text-gray-600 whitespace-nowrap">
-                © {currentYear} <span className="text-gray-500 font-medium">AGRI POINT SERVICES SAS</span> — Tous droits réservés.
+                © {currentYear} <span className="text-gray-500 font-medium">AGRIPOINT SERVICES SAS</span> — Tous droits réservés.
               </p>
               <span className="hidden sm:block w-px h-3 bg-gray-700" />
               <a href="https://www.joyeds.com" target="_blank" rel="noopener noreferrer"

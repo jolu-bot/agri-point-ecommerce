@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -38,7 +38,7 @@ export default function CookiesPage() {
             Politique de Cookies 🍪
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">
-            AGRI POINT SERVICE utilise des cookies pour améliorer votre expérience, analyser le trafic
+            AGRIPOINT SERVICES utilise des cookies pour améliorer votre expérience, analyser le trafic
             et personnaliser le contenu. Vous contrôlez entièrement vos préférences.
           </p>
           <div className="bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 p-4 rounded">

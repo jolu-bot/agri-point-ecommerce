@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
@@ -177,7 +177,7 @@ function CopyButton({ text }: { text: string }) {
 // ═══════════════════════════════════════════════════════════════════
 function EscalationCard({ context }: { context: string }) {
   const summary = encodeURIComponent(
-    `Bonjour, j'ai besoin d'aide après ma conversation avec l'Assistant d'Agri Point Services.\n\nSujet : ${context.replace(/<[^>]+>/g, '').slice(0, 200)}`
+    `Bonjour, j'ai besoin d'aide après ma conversation avec l'Assistant d'AGRIPOINT SERVICES.\n\nSujet : ${context.replace(/<[^>]+>/g, '').slice(0, 200)}`
   );
   const waUrl = `https://wa.me/237657393939?text=${summary}`;
 
@@ -192,7 +192,7 @@ function EscalationCard({ context }: { context: string }) {
         Besoin d&apos;un conseiller humain ?
       </p>
       <p className="text-[11px] text-orange-700 dark:text-orange-400 mb-2.5 leading-relaxed">
-        Pour les cas complexes ou urgences terrain, un agronome AGRI POINT est disponible maintenant.
+        Pour les cas complexes ou urgences terrain, un agronome AGRIPOINT SERVICES est disponible maintenant.
       </p>
       <div className="flex flex-col gap-1.5">
         <a
@@ -292,7 +292,7 @@ const DEFAULT_SUGGESTIONS: { label: string; text: string; intent: Intent }[] = [
   { label: 'ROI',           text: 'Combien puis-je gagner avec vos produits sur 1 Ha ?', intent: 'roi'       },
   { label: 'Mon compte',    text: 'Comment créer mon compte client ?',                 intent: 'compte'     },
   { label: 'Saison',        text: 'Quels produits utiliser en ce moment ?',             intent: 'conseil'    },
-  { label: 'Événements',   text: 'Quels sont les prochains événements AGRI POINT ?',  intent: 'navigation' },
+  { label: 'Événements',   text: 'Quels sont les prochains événements AGRIPOINT SERVICES ?',  intent: 'navigation' },
 ];
 
 // ═══════════════════════════════════════════════════════════════════
@@ -300,18 +300,18 @@ const DEFAULT_SUGGESTIONS: { label: string; text: string; intent: Intent }[] = [
 // ═══════════════════════════════════════════════════════════════════
 function getWelcomeMessage(path: string | null): string {
   if (path?.includes('campagne')) {
-    return 'Bienvenue sur la **Campagne Engrais Mars 2026** 🌾\n\nJe suis **l\'Assistant d\'Agri Point Services** — votre conseiller expert 24h/24. Je vois que vous consultez notre offre spéciale.\n\nJe peux :\n- ✅ **Vérifier votre éligibilité** en 3 questions\n- 📝 **Guider le formulaire** champ par champ\n- 💳 Expliquer le **paiement 70/30**\n\nUn Conseiller Expert Agri Point peut aussi intervenir si besoin.\n\nComment puis-je vous aider ?';
+    return 'Bienvenue sur la **Campagne Engrais Mars 2026** 🌾\n\nJe suis **l\'Assistant d\'AGRIPOINT SERVICES** — votre conseiller expert 24h/24. Je vois que vous consultez notre offre spéciale.\n\nJe peux :\n- ✅ **Vérifier votre éligibilité** en 3 questions\n- 📝 **Guider le formulaire** champ par champ\n- 💳 Expliquer le **paiement 70/30**\n\nUn Conseiller Expert AGRIPOINT SERVICES peut aussi intervenir si besoin.\n\nComment puis-je vous aider ?';
   }
   if (path?.includes('produits')) {
-    return 'Bonjour ! Je suis **l\'Assistant d\'Agri Point Services** 🌿\n\nVous explorez notre catalogue de biofertilisants.\n\nDites-moi votre **type de culture** et je vous recommande les produits les plus adaptés avec les doses exactes !\n\n🌱 Tomate, cacao, café, maïs, agrumes… Quelle est votre culture ?';
+    return 'Bonjour ! Je suis **l\'Assistant d\'AGRIPOINT SERVICES** 🌿\n\nVous explorez notre catalogue de biofertilisants.\n\nDites-moi votre **type de culture** et je vous recommande les produits les plus adaptés avec les doses exactes !\n\n🌱 Tomate, cacao, café, maïs, agrumes… Quelle est votre culture ?';
   }
   if (path?.includes('checkout') || path?.includes('panier')) {
-    return 'Bonjour ! Je suis **l\'Assistant d\'Agri Point Services** 🛒\n\nVous êtes en cours de commande. Besoin d\'aide avec les **modes de paiement**, les **délais de livraison** ou une question sur votre commande ?';
+    return 'Bonjour ! Je suis **l\'Assistant d\'AGRIPOINT SERVICES** 🛒\n\nVous êtes en cours de commande. Besoin d\'aide avec les **modes de paiement**, les **délais de livraison** ou une question sur votre commande ?';
   }
   if (path?.includes('contact')) {
-    return 'Bonjour ! Je suis **l\'Assistant d\'Agri Point Services** 📞\n\nVous êtes sur la page Contact. Je peux vous orienter vers le bon département :\n- 🤝 **Service Client** — commandes et livraisons\n- 🌾 **Conseil Agricole** — recommandations techniques\n- 🤝 **Partenariats** — devenir distributeur\n\nQuelle est votre demande ?';
+    return 'Bonjour ! Je suis **l\'Assistant d\'AGRIPOINT SERVICES** 📞\n\nVous êtes sur la page Contact. Je peux vous orienter vers le bon département :\n- 🤝 **Service Client** — commandes et livraisons\n- 🌾 **Conseil Agricole** — recommandations techniques\n- 🤝 **Partenariats** — devenir distributeur\n\nQuelle est votre demande ?';
   }
-  return 'Bonjour ! Je suis **l\'Assistant d\'Agri Point Services** 🌿 — votre conseiller agricole expert 24h/24.\n\nJe peux vous aider à :\n- 🌱 **Conseils cultures** : tomate, cacao, café, maïs, agrumes…\n- 💰 Calculer votre **ROI** avec nos produits\n- 🌾 La **Campagne Mars 2026** — prix spéciaux\n- 🛒 **Commander** et suivre vos livraisons\n\n💡 *Un Conseiller Expert Agri Point peut également intervenir à tout moment.*\n\nComment puis-je vous aider aujourd\'hui ?';
+  return 'Bonjour ! Je suis **l\'Assistant d\'AGRIPOINT SERVICES** 🌿 — votre conseiller agricole expert 24h/24.\n\nJe peux vous aider à :\n- 🌱 **Conseils cultures** : tomate, cacao, café, maïs, agrumes…\n- 💰 Calculer votre **ROI** avec nos produits\n- 🌾 La **Campagne Mars 2026** — prix spéciaux\n- 🛒 **Commander** et suivre vos livraisons\n\n💡 *Un Conseiller Expert AGRIPOINT SERVICES peut également intervenir à tout moment.*\n\nComment puis-je vous aider aujourd\'hui ?';
 }
 
 
@@ -523,7 +523,7 @@ export default function AgriBot() {
         setDistributors([
           {
             id: 'dist-yao',
-            name: 'Agri Point Yaoundé',
+            name: 'AGRIPOINT SERVICES Yaoundé',
             category: 'wholesaler',
             address: 'Rue Camerounaise, Centre Ville',
             city: 'Yaoundé',
@@ -535,7 +535,7 @@ export default function AgriBot() {
           },
           {
             id: 'dist-dou',
-            name: 'Agri Point Douala',
+            name: 'AGRIPOINT SERVICES Douala',
             category: 'retailer',
             address: 'Boulevard de la Liberté',
             city: 'Douala',
@@ -547,7 +547,7 @@ export default function AgriBot() {
           },
           {
             id: 'dist-bam',
-            name: 'Agri Point Bamenda',
+            name: 'AGRIPOINT SERVICES Bamenda',
             category: 'partner',
             address: 'Avenue Prince Charles',
             city: 'Bamenda',
@@ -559,7 +559,7 @@ export default function AgriBot() {
           },
           {
             id: 'dist-bue',
-            name: 'Agri Point Buea',
+            name: 'AGRIPOINT SERVICES Buea',
             category: 'retailer',
             address: 'Commercial Avenue',
             city: 'Buea',
@@ -613,7 +613,7 @@ export default function AgriBot() {
   const copyAllMessages = useCallback(async () => {
     const text = messages
       .filter(m => m.content?.trim())
-      .map(m => `[${m.role === 'user' ? 'Vous' : 'Assistant Agri Point'}]\n${m.content.replace(/<[^>]+>/g, '').trim()}`)
+      .map(m => `[${m.role === 'user' ? 'Vous' : 'Assistant AGRIPOINT SERVICES'}]\n${m.content.replace(/<[^>]+>/g, '').trim()}`)
       .join('\n\n---\n\n');
     await navigator.clipboard.writeText(text);
     showToast('✅ Conversation copiée !');
@@ -629,8 +629,8 @@ export default function AgriBot() {
       setMessages(prev => prev.map((m, i) => i !== 0 ? m : {
         ...m,
         content: isCampaignPage
-          ? `👋 Bonjour ! Je suis **l'Assistant d'Agri Point Services** 🌾\n\nJe vois que vous consultez la **Campagne Engrais Mars 2026**.\n\nVoulez-vous que je **vérifie votre éligibilité** maintenant en 3 questions ? Ou besoin d'aide pour remplir le formulaire ?`
-          : `👋 Bonjour ! Je suis **l'Assistant d'Agri Point Services** 🌿\n\nVous parcourez notre catalogue de biofertilisants.\n\nDites-moi votre **culture** et je vous recommande les produits les plus adaptés avec les doses exactes !`,
+          ? `👋 Bonjour ! Je suis **l'Assistant d'AGRIPOINT SERVICES** 🌾\n\nJe vois que vous consultez la **Campagne Engrais Mars 2026**.\n\nVoulez-vous que je **vérifie votre éligibilité** maintenant en 3 questions ? Ou besoin d'aide pour remplir le formulaire ?`
+          : `👋 Bonjour ! Je suis **l'Assistant d'AGRIPOINT SERVICES** 🌿\n\nVous parcourez notre catalogue de biofertilisants.\n\nDites-moi votre **culture** et je vous recommande les produits les plus adaptés avec les doses exactes !`,
       }));
     }, 8000);
     return () => clearTimeout(timer);
@@ -641,10 +641,10 @@ export default function AgriBot() {
   const sendEmailSummary = useCallback(() => {
     const lines = messages
       .filter(m => m.content.length > 5)
-      .map(m => `[${m.role === 'user' ? 'Vous' : 'Assistant Agri Point'}]\n${m.content.replace(/<[^>]+>/g, '').replace(/<!--.*?-->/gs, '').slice(0, 600)}`)
+      .map(m => `[${m.role === 'user' ? 'Vous' : 'Assistant AGRIPOINT SERVICES'}]\n${m.content.replace(/<[^>]+>/g, '').replace(/<!--.*?-->/gs, '').slice(0, 600)}`)
       .join('\n\n--------------------\n\n');
-    const subject = encodeURIComponent('Mon résumé — Assistant Agri Point Services');
-    const body    = encodeURIComponent(`Résumé de ma conversation avec l'Assistant Agri Point Services :\n\n${lines}\n\n--------------------\nAGRI POINT SERVICES | https://agri-ps.com | +237 657 39 39 39`);
+    const subject = encodeURIComponent('Mon résumé — Assistant AGRIPOINT SERVICES');
+    const body    = encodeURIComponent(`Résumé de ma conversation avec l'Assistant AGRIPOINT SERVICES :\n\n${lines}\n\n--------------------\nAGRIPOINT SERVICES | https://agri-ps.com | +237 657 39 39 39`);
     window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
   }, [messages]);
 
@@ -864,7 +864,7 @@ export default function AgriBot() {
         transition={{ delay: 1.2, type: 'spring', stiffness: 280, damping: 22 }}
         onClick={() => setIsOpen(o => !o)}
         className={`fixed bottom-6 right-4 sm:right-6 z-50 w-[58px] h-[58px] bg-gradient-to-br from-green-600 via-green-700 to-emerald-800 text-white rounded-full shadow-2xl shadow-green-900/30 hover:scale-105 active:scale-95 transition-transform flex items-center justify-center${isPulsingPage && !isOpen ? ' ring-4 ring-green-400/60 ring-offset-2' : ''}`}
-        aria-label="Ouvrir l'Assistant Agri Point Services"
+        aria-label="Ouvrir l'Assistant AGRIPOINT SERVICES"
       >
         {!isOpen && <span className="absolute inset-0 rounded-full bg-green-500 opacity-20 animate-ping" />}
         {isPulsingPage && !isOpen && (
@@ -909,7 +909,7 @@ export default function AgriBot() {
                   <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-green-800 animate-pulse" />
                 </div>
                 <div className="flex-1 min-w-0 relative">
-                  <div className="font-bold text-[13px] leading-tight tracking-wide">Assistant Agri Point Services</div>
+                  <div className="font-bold text-[13px] leading-tight tracking-wide">Assistant AGRIPOINT SERVICES</div>
                   <div className="text-[10px] text-green-100/90 flex items-center gap-1.5 flex-wrap">
                     <span className="w-1.5 h-1.5 bg-emerald-300 rounded-full inline-block animate-pulse" />
                     Expert Agricole IA · Cameroun
@@ -973,7 +973,7 @@ export default function AgriBot() {
               {/* Bannière "Conseiller expert peut intervenir" */}
               <div className="mt-2 flex items-center gap-1.5 text-[10px] text-green-100/80 bg-white/5 rounded-lg px-2.5 py-1.5">
                 <UserCircle2 className="w-3 h-3 shrink-0 text-emerald-200" />
-                <span>Un Conseiller Expert Agri Point peut intervenir à tout moment</span>
+                <span>Un Conseiller Expert AGRIPOINT SERVICES peut intervenir à tout moment</span>
                 <a href="https://wa.me/237657393939" target="_blank" rel="noopener noreferrer"
                   className="ml-auto shrink-0 text-emerald-200 underline">WhatsApp</a>
               </div>
@@ -1321,7 +1321,7 @@ export default function AgriBot() {
               </div>
               <p className="text-[10px] text-gray-400 dark:text-gray-600 mt-1.5 text-center select-none flex items-center justify-center gap-1">
                 <Cpu className="w-2.5 h-2.5 text-green-400" />
-                Assistant IA · AGRI POINT SERVICES · +237 657 39 39 39
+                Assistant IA · AGRIPOINT SERVICES · +237 657 39 39 39
                 <span className="w-1 h-1 rounded-full bg-green-400 inline-block" />
               </p>
             </div>

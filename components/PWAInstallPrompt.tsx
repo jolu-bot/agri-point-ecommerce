@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useState } from 'react';
 import { X, Download } from 'lucide-react';
@@ -97,7 +97,7 @@ export default function PWAInstallPrompt() {
 
               <div className="flex-1">
                 <h3 className="font-bold text-gray-900 mb-1">
-                  Installer AGRI POINT
+                  Installer AGRIPOINT SERVICES
                 </h3>
                 <p className="text-sm text-gray-600 mb-3">
                   Accédez rapidement à nos produits et commandez hors ligne !

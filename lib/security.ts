@@ -1,5 +1,5 @@
-/**
- * AGRI POINT SERVICE — Security Arsenal
+﻿/**
+ * AGRIPOINT SERVICES — Security Arsenal
  * ─────────────────────────────────────────────────────────────────────────────
  * Centralized security utilities:
  *   • Sliding-window in-memory rate limiter

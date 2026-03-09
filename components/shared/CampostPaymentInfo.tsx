@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { MapPin, Clock, CreditCard, AlertCircle, ExternalLink, CheckCircle2, FileText } from 'lucide-react';
@@ -111,7 +111,7 @@ export default function CampostPaymentInfo({
         <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/30 rounded-xl p-3.5 flex gap-2.5">
           <FileText className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
           <p className="text-xs text-blue-700 dark:text-blue-300 leading-relaxed">
-            <strong>Reporting hebdomadaire :</strong> Les délégués d&apos;agriculture de chaque arrondissement et points focaux transmettent un rapport des flux à AGRI POINT SERVICES chaque semaine.
+            <strong>Reporting hebdomadaire :</strong> Les délégués d&apos;agriculture de chaque arrondissement et points focaux transmettent un rapport des flux à AGRIPOINT SERVICES chaque semaine.
           </p>
         </div>
 

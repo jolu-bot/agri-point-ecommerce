@@ -1,4 +1,4 @@
-import mongoose, { Schema, models, Model } from 'mongoose';
+﻿import mongoose, { Schema, models, Model } from 'mongoose';
 
 export interface ISettings {
   _id: string;
@@ -101,7 +101,7 @@ export interface ISettings {
 const SettingsSchema = new Schema<ISettings>({
   siteName: {
     type: String,
-    default: 'AGRI POINT SERVICE',
+    default: 'AGRIPOINT SERVICES',
   },
   siteDescription: {
     type: String,
@@ -114,7 +114,7 @@ const SettingsSchema = new Schema<ISettings>({
   hero: {
     title: {
       type: String,
-      default: 'AGRI POINT SERVICE - Tout en Un',
+      default: 'AGRIPOINT SERVICES - Tout en Un',
     },
     subtitle: {
       type: String,
@@ -185,7 +185,7 @@ const SettingsSchema = new Schema<ISettings>({
     },
     systemPrompt: {
       type: String,
-      default: 'Tu es AgriBot, un assistant IA expert en agriculture pour AGRI POINT SERVICE au Cameroun. Tu donnes des conseils pratiques sur les cultures, les biofertilisants et l\'agriculture urbaine.',
+      default: 'Tu es AgriBot, un assistant IA expert en agriculture pour AGRIPOINT SERVICES au Cameroun. Tu donnes des conseils pratiques sur les cultures, les biofertilisants et l\'agriculture urbaine.',
     },
     suggestions: {
       type: [String],
@@ -200,7 +200,7 @@ const SettingsSchema = new Schema<ISettings>({
   seo: {
     metaTitle: {
       type: String,
-      default: 'AGRI POINT SERVICE - Biofertilisants & Agriculture Urbaine',
+      default: 'AGRIPOINT SERVICES - Biofertilisants & Agriculture Urbaine',
     },
     metaDescription: {
       type: String,

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -168,7 +168,7 @@ export default function CookieConsentBanner() {
                   Nous respections votre vie privée
                 </h3>
                 <p className="text-sm text-gray-300 mb-4">
-                  AGRI POINT SERVICE utilise des cookies pour améliorer votre expérience.
+                  AGRIPOINT SERVICES utilise des cookies pour améliorer votre expérience.
                   Vous avez le contrôle total sur vos préférences.{' '}
                   <Link href="/cookies" className="text-emerald-400 underline hover:text-emerald-300">
                     En savoir plus

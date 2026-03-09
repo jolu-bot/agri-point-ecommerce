@@ -1,4 +1,4 @@
-import { generateSecret, TOTP } from 'otplib';
+﻿import { generateSecret, TOTP } from 'otplib';
 import qrcode from 'qrcode';
 
 export interface TwoFactorSetup {
@@ -18,8 +18,8 @@ export interface TwoFactorVerify {
 export async function generateTwoFactorSecret(email: string): Promise<TwoFactorSetup> {
   // Générer le secret
   const secret = generateSecret({
-    name: `AGRI POINT SERVICE (${email})`,
-    issuer: 'AGRI POINT SERVICE',
+    name: `AGRIPOINT SERVICES (${email})`,
+    issuer: 'AGRIPOINT SERVICES',
     length: 32,
   });
 

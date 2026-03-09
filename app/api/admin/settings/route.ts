@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { verifyAccessToken } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
     // Si aucun paramètre n'existe, créer les paramètres par défaut
     if (!settings) {
       settings = await Settings.create({
-        siteName: 'AGRI POINT SERVICE',
+        siteName: 'AGRIPOINT SERVICES',
         siteDescription: 'Distributeur exclusif TIMAC AGRO au Cameroun',
         contactEmail: 'infos@agri-ps.com',
         contactPhone: '+237 657 39 39 39',
@@ -51,14 +51,14 @@ export async function GET(req: NextRequest) {
         email: {
           enabled: false,
           provider: 'smtp',
-          fromName: 'AGRI POINT',
+          fromName: 'AGRIPOINT SERVICES',
           fromEmail: 'noreply@agri-ps.com',
         },
         payment: {
           campost: { 
             enabled: true, 
             accountNumber: '', 
-            accountName: 'Agri Point Services' 
+            accountName: 'AGRIPOINT SERVICES' 
           },
           cashOnDelivery: { enabled: true },
         },

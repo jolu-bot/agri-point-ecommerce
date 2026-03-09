@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import { sendEmail } from '@/lib/email';
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
 
     await sendEmail({
       to:      user.email,
-      subject: '🔐 Réinitialisation de votre mot de passe — AGRI POINT SERVICE',
+      subject: '🔐 Réinitialisation de votre mot de passe — AGRIPOINT SERVICES',
       html: `
 <!DOCTYPE html>
 <html lang="fr">
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
     <tr><td align="center">
       <table width="580" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
         <tr><td style="background:linear-gradient(135deg,#059669,#065f46);padding:36px;text-align:center;">
-          <h1 style="color:#fff;margin:0;font-size:26px;">🌿 AGRI POINT SERVICE</h1>
+          <h1 style="color:#fff;margin:0;font-size:26px;">🌿 AGRIPOINT SERVICES</h1>
         </td></tr>
         <tr><td style="padding:40px;">
           <h2 style="color:#065f46;margin:0 0 16px;">Réinitialisation du mot de passe</h2>
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
           <p style="color:#9ca3af;font-size:12px;">Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :<br><a href="${resetUrl}" style="color:#059669;word-break:break-all;">${resetUrl}</a></p>
         </td></tr>
         <tr><td style="background:#f9fafb;padding:20px;text-align:center;">
-          <p style="color:#9ca3af;font-size:12px;margin:0;">© 2026 AGRI POINT SERVICE SAS · Cameroun</p>
+          <p style="color:#9ca3af;font-size:12px;margin:0;">© 2026 AGRIPOINT SERVICES SAS · Cameroun</p>
         </td></tr>
       </table>
     </td></tr>

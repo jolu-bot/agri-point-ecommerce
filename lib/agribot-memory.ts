@@ -1,4 +1,4 @@
-// ═══════════════════════════════════════════════════════════════════
+﻿// ═══════════════════════════════════════════════════════════════════
 // AGRIBOT MEMORY — Système de mémoire client persistant
 // Stockage : localStorage côté client, envoyé à chaque requête API
 // ═══════════════════════════════════════════════════════════════════
@@ -219,7 +219,7 @@ export function exportConversationTxt(
 ): void {
   const header = [
     '═══════════════════════════════════════════════',
-    '  AGRI POINT SERVICES — Conversation Assistante IA',
+    '  AGRIPOINT SERVICES — Conversation Assistante IA',
     `  Exportée le ${new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}`,
     memory?.location ? `  Localisation : ${memory.location}` : '',
     memory?.mainCrops?.length ? `  Cultures : ${memory.mainCrops.join(', ')}` : '',
@@ -230,7 +230,7 @@ export function exportConversationTxt(
   const body = messages
     .filter(m => m.content?.trim())
     .map(m => {
-      const who = m.role === 'user' ? '👤 VOUS' : '🌿 ASSISTANT AGRI POINT';
+      const who = m.role === 'user' ? '👤 VOUS' : '🌿 ASSISTANT AGRIPOINT SERVICES';
       const time = m.timestamp instanceof Date
         ? m.timestamp.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
         : '';
@@ -239,7 +239,7 @@ export function exportConversationTxt(
     })
     .join('\n──────────────────────────────────────────────\n\n');
 
-  const footer = '\n\n═══════════════════════════════════════════════\nAGRI POINT SERVICES · https://agri-ps.com\nTél : +237 657 39 39 39 · WhatsApp : 657 39 39 39\n═══════════════════════════════════════════════';
+  const footer = '\n\n═══════════════════════════════════════════════\nAGRIPOINT SERVICES · https://agri-ps.com\nTél : +237 657 39 39 39 · WhatsApp : 657 39 39 39\n═══════════════════════════════════════════════';
 
   const content = header + body + footer;
   const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
@@ -261,6 +261,6 @@ export function shareOnWhatsApp(
     .slice(-5)
     .join('\n');
 
-  const text = `*Résumé de ma conversation avec l'Assistant d'Agri Point Services :*\n\n${userMessages}\n\n_Obtenez vos conseils sur :_ https://agri-ps.com`;
+  const text = `*Résumé de ma conversation avec l'Assistant d'AGRIPOINT SERVICES :*\n\n${userMessages}\n\n_Obtenez vos conseils sur :_ https://agri-ps.com`;
   window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
 }

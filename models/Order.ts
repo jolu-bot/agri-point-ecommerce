@@ -1,4 +1,4 @@
-import mongoose, { Schema, models, Model } from 'mongoose';
+﻿import mongoose, { Schema, models, Model } from 'mongoose';
 
 export interface IOrder {
   _id: string;
@@ -73,7 +73,7 @@ export interface IOrder {
   
   // Paiement Campost
   campostPayment?: {
-    accountNumber: string; // Compte Agri Point Services
+    accountNumber: string; // Compte AGRIPOINT SERVICES
     accountName: string;
     receiptImage?: string; // URL de l'image du reçu uploadée
     receiptUploadedAt?: Date;
@@ -263,7 +263,7 @@ const OrderSchema = new Schema<IOrder>({
     },
     accountName: {
       type: String,
-      default: 'Agri Point Services',
+      default: 'AGRIPOINT SERVICES',
     },
     receiptImage: String,
     receiptUploadedAt: Date,

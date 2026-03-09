@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { Smartphone, Send, CheckCircle2, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -21,7 +21,7 @@ export default function WhatsAppPaymentInfo({
   const handleWhatsAppClick = () => {
     const message = orderNumber && amount
       ? `Bonjour, j'ai effectué un paiement Mobile Money de ${amount.toLocaleString('fr-FR')} F CFA pour la commande ${orderNumber}. Je vous envoie la capture d'écran de confirmation.`
-      : `Bonjour, je souhaite effectuer un paiement Mobile Money pour ma commande AGRI POINT SERVICE.`;
+      : `Bonjour, je souhaite effectuer un paiement Mobile Money pour ma commande AGRIPOINT SERVICES.`;
     
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');

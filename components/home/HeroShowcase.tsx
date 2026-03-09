@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import HeroSlideshow from './HeroSlideshow';
@@ -23,7 +23,7 @@ export default function HeroShowcase() {
       <div className="w-full bg-white border border-gray-200 overflow-hidden rounded-2xl relative transition-all duration-300 group-hover:border-emerald-300 group-hover:shadow-[0_8px_32px_rgba(22,163,74,0.12)] aspect-square sm:aspect-[4/3] lg:aspect-square xl:aspect-[5/4]">
         <HeroSlideshow
           images={PRODUCT_IMAGES}
-          alt="Produit Agri Point"
+          alt="Produit AGRIPOINT SERVICES"
           objectFit="contain"
           variant="light"
           interval={3000}

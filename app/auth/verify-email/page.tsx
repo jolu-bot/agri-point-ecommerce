@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -84,7 +84,7 @@ function VerifyEmailContent() {
         <div className="absolute -top-40 -left-40 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
         <div className="absolute -bottom-32 -right-20 w-80 h-80 bg-teal-400/10 rounded-full blur-3xl" />
         <div className="relative text-white text-center max-w-xs z-10">
-          <Link href="/"><Image src="/images/logo.png" alt="AGRI POINT" width={100} height={79} className="mx-auto mb-6 drop-shadow-xl" /></Link>
+          <Link href="/"><Image src="/images/logo.png" alt="AGRIPOINT SERVICES" width={100} height={79} className="mx-auto mb-6 drop-shadow-xl" /></Link>
           <h1 className="text-3xl font-black mb-3">Vérification<br /><span className="text-emerald-300">de votre email</span></h1>
           <p className="text-emerald-100/70 text-sm leading-relaxed">
             Cette étape garantit la sécurité de votre compte et assure la livraison de vos confirmations de commande.
@@ -96,7 +96,7 @@ function VerifyEmailContent() {
       <div className="flex-1 flex items-center justify-center px-6 py-12 bg-gray-50 dark:bg-gray-950">
         <div className="w-full max-w-md">
           <div className="lg:hidden text-center mb-8">
-            <Link href="/"><Image src="/images/logo.png" alt="AGRI POINT" width={80} height={63} className="mx-auto" /></Link>
+            <Link href="/"><Image src="/images/logo.png" alt="AGRIPOINT SERVICES" width={80} height={63} className="mx-auto" /></Link>
           </div>
 
           {/* ── En attente de vérification ─────────────────────────────────── */}
@@ -190,7 +190,7 @@ function VerifyEmailContent() {
                 🎉 Email vérifié !
               </h2>
               <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm leading-relaxed">
-                {message || 'Votre compte est maintenant actif. Bienvenue sur AGRI POINT SERVICE !'}
+                {message || 'Votre compte est maintenant actif. Bienvenue sur AGRIPOINT SERVICES !'}
               </p>
               <p className="text-xs text-gray-400 mb-4">Redirection automatique vers votre compte...</p>
               <Link

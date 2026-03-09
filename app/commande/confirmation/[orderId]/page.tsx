@@ -171,7 +171,7 @@ export default function OrderConfirmationPage() {
   const downloadOrderSummary = () => {
     // Générer PDF ou partager par WhatsApp
     const message = encodeURIComponent(
-      `🛒 COMMANDE AGRI POINT SERVICES\n\n` +
+      `🛒 COMMANDE AGRIPOINT SERVICES\n\n` +
       `N° Commande: ${order?.orderNumber}\n` +
       `Montant: ${order?.total.toLocaleString('fr-FR')} FCFA\n\n` +
       `📍 PAIEMENT CAMPOST\n` +

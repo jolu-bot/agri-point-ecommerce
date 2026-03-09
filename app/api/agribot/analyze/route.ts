@@ -1,4 +1,4 @@
-// ═══════════════════════════════════════════════════════════════════
+﻿// ═══════════════════════════════════════════════════════════════════
 // AGRIBOT VISION — Analyse photo de maladies de plantes (GPT-4o)
 // POST /api/agribot/analyze
 // Body: multipart/form-data — champ "image" (File) + "context" (string optionnel)
@@ -40,7 +40,7 @@ Structurer TOUJOURS en 4 sections :
 ## RÈGLES
 - Si l'image n'est PAS une plante → répondre poliment que tu ne peux analyser que des plantes
 - Toujours mentionner si la confiance est faible (< 60%) et recommander un technicien terrain
-- Adapter les conseils au contexte camerounais (cultures locales, disponibilité produits AGRI POINT)
+- Adapter les conseils au contexte camerounais (cultures locales, disponibilité produits AGRIPOINT SERVICES)
 - Terminer par : "📞 Besoin d'un technicien terrain ? +237 657 39 39 39"`;
 
 export async function POST(req: NextRequest) {

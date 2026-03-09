@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React from 'react';
 import { Download, FileSpreadsheet } from 'lucide-react';
@@ -44,7 +44,7 @@ export default function ExcelGenerator({
       const ExcelJS = (await import('exceljs')).default;
       
       const workbook = new ExcelJS.Workbook();
-      workbook.creator = 'AGRI POINT SERVICE';
+      workbook.creator = 'AGRIPOINT SERVICES';
       workbook.created = new Date();
       workbook.modified = new Date();
       workbook.lastPrinted = new Date();
@@ -108,7 +108,7 @@ export default function ExcelGenerator({
       headerRow.fill = {
         type: 'pattern',
         pattern: 'solid',
-        fgColor: { argb: 'FF1B5E20' }, // AGRI POINT green
+        fgColor: { argb: 'FF1B5E20' }, // AGRIPOINT SERVICES green
       };
       headerRow.alignment = { 
         vertical: 'middle', 

@@ -1,7 +1,7 @@
-import { defineConfig, devices } from '@playwright/test';
+﻿import { defineConfig, devices } from '@playwright/test';
 
 /**
- * AGRI POINT — Playwright E2E Testing Configuration
+ * AGRIPOINT SERVICES — Playwright E2E Testing Configuration
  * Test files: tests/e2e/**\/*.spec.ts
  */
 

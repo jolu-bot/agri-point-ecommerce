@@ -1,10 +1,10 @@
-import { Metadata } from 'next';
+﻿import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, FileText, ShoppingCart, Truck, CreditCard, RotateCcw, AlertTriangle, Shield } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Conditions Générales de Vente - AGRI POINT SERVICE',
-  description: 'Conditions générales de vente des produits et services AGRI POINT SERVICE',
+  title: 'Conditions Générales de Vente - AGRIPOINT SERVICES',
+  description: 'Conditions générales de vente des produits et services AGRIPOINT SERVICES',
 };
 
 export default function CGVPage() {
@@ -45,7 +45,7 @@ export default function CGVPage() {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Article 1 - Objet</h2>
             <div className="space-y-3 text-gray-600 dark:text-gray-300">
               <p>
-                Les présentes CGV ont pour objet de définir les droits et obligations des parties dans le cadre de la vente en ligne de produits agricoles (biofertilisants, engrais, semences, kits de culture) et de services proposés par AGRI POINT SERVICE SAS.
+                Les présentes CGV ont pour objet de définir les droits et obligations des parties dans le cadre de la vente en ligne de produits agricoles (biofertilisants, engrais, semences, kits de culture) et de services proposés par AGRIPOINT SERVICES SAS.
               </p>
               <p>
                 Ces CGV s&apos;appliquent à l&apos;exclusion de toutes autres conditions, notamment celles applicables pour les ventes en magasin ou au moyen d&apos;autres circuits de distribution et de commercialisation.
@@ -57,7 +57,7 @@ export default function CGVPage() {
           <section>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Article 2 - Identité du Vendeur</h2>
             <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 space-y-2 text-gray-600 dark:text-gray-300">
-              <p><strong className="text-gray-900 dark:text-white">Raison sociale :</strong> AGRI POINT SERVICE SAS</p>
+              <p><strong className="text-gray-900 dark:text-white">Raison sociale :</strong> AGRIPOINT SERVICES SAS</p>
               <p><strong className="text-gray-900 dark:text-white">Siège social :</strong> B.P. 5111 Yaoundé, Quartier Fouda, Cameroun</p>
               <p><strong className="text-gray-900 dark:text-white">Capital social :</strong> 10 000 000 FCFA</p>
               <p><strong className="text-gray-900 dark:text-white">RC :</strong> RC/YAO/2023/B/XXXX</p>
@@ -114,7 +114,7 @@ export default function CGVPage() {
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-2">4.1 - Prix</h3>
                 <p>
-                  Les prix sont indiqués en Francs CFA (FCFA), toutes taxes comprises (TTC). AGRI POINT SERVICE se réserve le droit de modifier ses prix à tout moment, mais les produits seront facturés sur la base des tarifs en vigueur au moment de la validation de la commande.
+                  Les prix sont indiqués en Francs CFA (FCFA), toutes taxes comprises (TTC). AGRIPOINT SERVICES se réserve le droit de modifier ses prix à tout moment, mais les produits seront facturés sur la base des tarifs en vigueur au moment de la validation de la commande.
                 </p>
               </div>
               <div>
@@ -124,7 +124,7 @@ export default function CGVPage() {
                   <li>Paiement à la livraison (espèces)</li>
                 </ul>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                  Le versement s&apos;effectue directement sur le compte <strong>AGRI POINT SERVICES SAS</strong> au bureau Campost le plus proche. Le numéro de commande doit être mentionné comme référence.
+                  Le versement s&apos;effectue directement sur le compte <strong>AGRIPOINT SERVICES SAS</strong> au bureau Campost le plus proche. Le numéro de commande doit être mentionné comme référence.
                 </p>
               </div>
               <div>
@@ -276,7 +276,7 @@ export default function CGVPage() {
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-2">8.1 - Limitation de responsabilité</h3>
                 <p>
-                  AGRI POINT SERVICE ne saurait être tenu responsable :
+                  AGRIPOINT SERVICES ne saurait être tenu responsable :
                 </p>
                 <ul className="list-disc list-inside space-y-1 ml-4 mt-2">
                   <li>De l&apos;inexécution du contrat en cas de force majeure</li>
@@ -338,7 +338,7 @@ export default function CGVPage() {
           <section>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Article 12 - Modifications des CGV</h2>
             <p className="text-gray-600 dark:text-gray-300">
-              AGRI POINT SERVICE se réserve le droit de modifier les présentes CGV à tout moment. Les CGV applicables sont celles en vigueur à la date de la commande.
+              AGRIPOINT SERVICES se réserve le droit de modifier les présentes CGV à tout moment. Les CGV applicables sont celles en vigueur à la date de la commande.
             </p>
           </section>
 

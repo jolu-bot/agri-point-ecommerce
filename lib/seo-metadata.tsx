@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Générateur de métadonnées SEO et Open Graph
  * Centralise la création cohérente des métadonnées pour toutes les pages
  */
@@ -33,10 +33,10 @@ export function generateSEOMetadata(params: SEOMetadataParams): Metadata {
     description,
     keywords = [],
     image = DEFAULT_IMAGE,
-    imageAlt = 'Agri Point Services',
+    imageAlt = 'AGRIPOINT SERVICES',
     url = process.env.NEXT_PUBLIC_SITE_URL,
     type = 'website',
-    author = 'Agri Point Services',
+    author = 'AGRIPOINT SERVICES',
     publishedDate,
     modifiedDate,
     canonicalUrl = url,
@@ -47,7 +47,7 @@ export function generateSEOMetadata(params: SEOMetadataParams): Metadata {
   const openGraphType: 'website' | 'article' = type === 'article' ? 'article' : 'website';
 
   return {
-    title: `${title} | Agri Point Services`,
+    title: `${title} | AGRIPOINT SERVICES`,
     description,
     keywords: [
       ...keywords,
@@ -67,11 +67,11 @@ export function generateSEOMetadata(params: SEOMetadataParams): Metadata {
     creator: author,
     publisher: author,
     openGraph: {
-      title: `${title} | Agri Point Services`,
+      title: `${title} | AGRIPOINT SERVICES`,
       description,
       url: canonicalUrl,
       type: openGraphType,
-      siteName: 'Agri Point Services',
+      siteName: 'AGRIPOINT SERVICES',
       locale,
       images: [
         {
@@ -97,7 +97,7 @@ export function generateSEOMetadata(params: SEOMetadataParams): Metadata {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${title} | Agri Point Services`,
+      title: `${title} | AGRIPOINT SERVICES`,
       description,
       images: [image],
       site: '@agripointcm',
@@ -106,7 +106,7 @@ export function generateSEOMetadata(params: SEOMetadataParams): Metadata {
     appleWebApp: {
       capable: true,
       statusBarStyle: 'black-translucent',
-      title: 'Agri Point Services',
+      title: 'AGRIPOINT SERVICES',
     },
     formatDetection: {
       telephone: true,
@@ -133,7 +133,7 @@ export function generateArticleMetadata(
     title,
     description,
     type: 'article',
-    author: options?.author || 'Agri Point Services',
+    author: options?.author || 'AGRIPOINT SERVICES',
     publishedDate: options?.publishedDate,
     modifiedDate: options?.modifiedDate,
   });
@@ -178,7 +178,7 @@ export function generateJsonLd(
   const baseOrganization = {
     '@context': 'https://schema.org',
     '@type': type,
-    name: 'Agri Point Services',
+    name: 'AGRIPOINT SERVICES',
     logo: `${process.env.NEXT_PUBLIC_SITE_URL}/logo.png`,
     description:
       'Plateforme de commerce électronique pour les produits et services agricoles au Cameroun',

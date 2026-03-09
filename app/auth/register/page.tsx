@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -255,7 +255,7 @@ export default function RegisterPage() {
           <Link href="/">
             <Image
               src="/images/logo.png"
-              alt="AGRI POINT SERVICE"
+              alt="AGRIPOINT SERVICES"
               width={120}
               height={95}
               className="mx-auto mb-6 drop-shadow-xl"
@@ -266,7 +266,7 @@ export default function RegisterPage() {
             <span className="text-emerald-300">révolution verte</span>
           </h1>
           <p className="text-emerald-100/80 leading-relaxed mb-8 text-sm">
-            Plus de 10 000 agriculteurs camerounais font confiance à AGRI POINT SERVICE pour booster leurs rendements.
+            Plus de 10 000 agriculteurs camerounais font confiance à AGRIPOINT SERVICES pour booster leurs rendements.
           </p>
 
           {/* Avantages */}
@@ -302,7 +302,7 @@ export default function RegisterPage() {
           {/* Logo mobile */}
           <div className="lg:hidden text-center mb-6">
             <Link href="/">
-              <Image src="/images/logo.png" alt="AGRI POINT SERVICE" width={90} height={71} className="mx-auto" />
+              <Image src="/images/logo.png" alt="AGRIPOINT SERVICES" width={90} height={71} className="mx-auto" />
             </Link>
           </div>
 
