@@ -360,7 +360,7 @@ export default function AProposPage() {
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Nos Valeurs</h2>
+            <h2 className="text-4xl font-bold mb-4"><span className="text-red-500">Nos</span> Valeurs</h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">Ce qui guide chaque décision que nous prenons</p>
           </div>
 

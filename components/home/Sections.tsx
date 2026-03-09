@@ -92,7 +92,7 @@ export default function Sections() {
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             Nos 3 programmes phares
           </span>
-          <h2 className="section-title">Nos Programmes</h2>
+          <h2 className="section-title"><span className="text-red-500">Nos</span> Programmes</h2>
           <p className="section-subtitle">
             Le concept s&apos;articule autour de <strong className="text-gray-800 dark:text-gray-200">3 programmes phares</strong> pour œuvrer à la professionnalisation des acteurs des filières agropastorales.
           </p>
