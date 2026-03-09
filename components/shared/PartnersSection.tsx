@@ -161,9 +161,8 @@ export default function PartnersSection({
             }`}>
               <span className="text-red-500">Nos</span> Partenaires{' '}
               <span className={isDark ? 'text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-400' : 'text-red-500 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-green-500 dark:to-emerald-400'}>
-                Institutionnels
-              </span>{' '}
-              <span className={isDark ? '' : 'text-red-500'}>&amp; Sponsors</span>
+                Institutionnels &amp; Stratégiques
+              </span>
             </h2>
             <p className={`section-subtitle ${
               isDark ? 'text-white/45' : 'text-gray-500 dark:text-white/45'
