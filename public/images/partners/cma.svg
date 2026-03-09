@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80">
+  <rect width="200" height="80" rx="8" fill="#f3e8ff"/>
+  <text x="100" y="36" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="28" fill="#7c3aed">CMA</text>
+  <text x="100" y="58" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" fill="#6b21a8">Caisses Mutuelles Agricoles</text>
+</svg>
