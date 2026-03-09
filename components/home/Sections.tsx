@@ -92,11 +92,9 @@ export default function Sections() {
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             Nos 3 programmes phares
           </span>
-          <h2 className="section-title">Nos Objectifs</h2>
+          <h2 className="section-title">Nos Programmes</h2>
           <p className="section-subtitle">
-            1 AGRI POINT SERVICES pour&nbsp;:{' '}
-            <strong className="text-gray-800 dark:text-gray-200">20 000 hectares</strong> &amp;{' '}
-            <strong className="text-gray-800 dark:text-gray-200">10 000 producteurs</strong>
+            Le concept s&apos;articule autour de <strong className="text-gray-800 dark:text-gray-200">3 programmes phares</strong> pour œuvrer à la professionnalisation des acteurs des filières agropastorales.
           </p>
         </motion.div>
 

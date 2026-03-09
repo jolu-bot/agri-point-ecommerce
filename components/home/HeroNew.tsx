@@ -77,7 +77,7 @@ export default function HeroNew() {
         >
           <Image
             src={HERO_IMAGES[imageIndex]}
-            alt={`Agri Point Services - Produire plus, Gagner plus, Mieux vivre`}
+            alt={`Agripoint Services - Facilitateur agropastoral au Cameroun`}
             fill
             className="object-cover object-center"
             priority={imageIndex === 0}
@@ -136,8 +136,8 @@ export default function HeroNew() {
           >
             {[
               { to: 20000, label: 'Hectares', suffix: 'K+' },
-              { to: 10000, label: 'Agriculteurs', suffix: 'K+' },
-              { to: 100, label: 'Bio Certifié', suffix: '%' },
+              { to: 10000, label: 'Producteurs', suffix: 'K+' },
+              { to: 5, label: 'Zones agroécologiques', suffix: '' },
             ].map(({ to, label, suffix }) => (
               <motion.div
                 key={label}
@@ -145,10 +145,10 @@ export default function HeroNew() {
                 className="backdrop-blur-xl bg-white/[0.08] border border-white/20 hover:border-emerald-400/40 rounded-2xl px-3 py-4 sm:px-5 sm:py-6 transition-all duration-300 shadow-xl"
               >
                 <div className="text-2xl sm:text-3xl md:text-4xl font-black text-emerald-300 mb-1 sm:mb-2">
-                  {to === 100 ? (
-                    <AnimatedCounter to={to} duration={2} suffix={suffix} format={(v) => Math.round(v).toString()} />
-                  ) : (
+                  {to >= 1000 ? (
                     <AnimatedCounter to={to} duration={2.5} prefix="" suffix={suffix} format={(v) => (Math.round(v) / 1000).toString()} />
+                  ) : (
+                    <AnimatedCounter to={to} duration={2} suffix={suffix} format={(v) => Math.round(v).toString()} />
                   )}
                 </div>
                 <div className="text-xs sm:text-sm text-white/70 font-semibold uppercase tracking-wider">{label}</div>
@@ -173,7 +173,7 @@ export default function HeroNew() {
               className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 border-2 border-white/40 hover:border-emerald-400/60 text-white font-bold text-base sm:text-lg rounded-xl backdrop-blur-md bg-white/[0.05] hover:bg-white/10 transition-all duration-300 shadow-xl"
             >
               <span className="inline-block w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
-              Campagne Engrais
+              Campagne Agricole 2026
             </Link>
           </motion.div>
         </motion.div>

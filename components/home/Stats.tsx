@@ -12,10 +12,10 @@ const stats = [
     glowClass: 'icon-glow-emerald',
     color: 'from-emerald-500 to-green-600',
     value: 20000,
-    label: 'Hectares cultivés',
+    label: 'Hectares cibles',
     suffix: '+',
     format: (v: number) => (Math.round(v) / 1000).toString() + '\u202f000',
-    note: 'potentiel cible',
+    note: 'par site',
   },
   {
     Icon: Users2,
@@ -24,7 +24,7 @@ const stats = [
     glowClass: 'icon-glow-teal',
     color: 'from-teal-500 to-emerald-600',
     value: 10000,
-    label: 'Agriculteurs',
+    label: 'Producteurs',
     suffix: '+',
     format: (v: number) => (Math.round(v) / 1000).toString() + '\u202f000',
     note: 'visés par site',
@@ -35,11 +35,11 @@ const stats = [
     iconBg: 'bg-green-100 dark:bg-green-900/40',
     glowClass: 'icon-glow-green',
     color: 'from-green-500 to-teal-600',
-    value: 100,
-    label: 'Produits biologiques',
-    suffix: '%',
+    value: 5,
+    label: 'Zones agroécologiques',
+    suffix: '',
     format: (v: number) => Math.round(v).toString(),
-    note: 'certifiés bio',
+    note: 'du Cameroun',
   },
   {
     Icon: Star,
@@ -47,11 +47,11 @@ const stats = [
     iconBg: 'bg-amber-100 dark:bg-amber-900/40',
     glowClass: 'icon-glow-amber',
     color: 'from-amber-500 to-orange-500',
-    value: 4.9,
-    label: 'Note clients',
-    suffix: '\u00a0/ 5',
-    format: (v: number) => v.toFixed(1),
-    note: 'satisfaction',
+    value: 3,
+    label: 'Programmes phares',
+    suffix: '',
+    format: (v: number) => Math.round(v).toString(),
+    note: 'de facilitation',
   },
 ];
 
@@ -75,7 +75,7 @@ export default function Stats() {
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             En chiffres
           </span>
-          <h2 className="section-title">Notre <span className="text-accent-green">impact</span></h2>
+          <h2 className="section-title">Notre <span className="text-accent-green">vision</span></h2>
         </motion.div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-fluid-sm">

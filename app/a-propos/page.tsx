@@ -27,40 +27,40 @@ import {
 const pageContent = {
   hero: {
     badge: "🌍 Depuis 2010",
-    title: "À PROPOS D'AGRI POINT",
-    subtitle: "Transformer l'agriculture africaine, une ferme à la fois",
-    description: "Leader camerounais de l'innovation agricole, nous accompagnons 50 000+ agriculteurs vers la prospérité avec des solutions technologiques accessibles et durables.",
+    title: "À PROPOS D'AGRIPOINT SERVICES",
+    subtitle: "Facilitateur du secteur agropastoral au Cameroun",
+    description: "AGRIPOINT SERVICES SAS accompagne les producteurs camerounais à travers des services de facilitation couvrant la production, la commercialisation et le bien-être social.",
     stats: [
-      { value: "50K+", label: "Agriculteurs accompagnés" },
+      { value: "10K+", label: "Producteurs accompagnés" },
       { value: "15 ans", label: "D'expertise terrain" },
-      { value: "10", label: "Régions couvertes" },
-      { value: "98%", label: "Satisfaction client" }
+      { value: "5", label: "Zones agroécologiques" },
+      { value: "3", label: "Programmes phares" }
     ]
   },
 
   mission: {
     title: "Notre Mission",
-    description: "Rendre l'agriculture moderne accessible à tous les agriculteurs africains, quelle que soit la taille de leur exploitation.",
+    description: "Faciliter l'accès aux intrants, aux marchés et aux services sociaux pour les producteurs agropastoraux du Cameroun.",
     points: [
       {
         icon: TrendingUp,
-        title: "Augmenter les rendements",
-        description: "Doubler la production grâce à des biofertilisants scientifiques et des techniques modernes"
+        title: "Produire Plus",
+        description: "Accompagner les producteurs de la pré-production à la post-récolte avec des intrants, la mécanisation et le conseil technique"
       },
       {
         icon: Heart,
-        title: "Améliorer les revenus",
-        description: "Maximiser les profits avec des solutions économiques et des conseils personnalisés"
+        title: "Gagner Plus",
+        description: "Faciliter la commercialisation, le warrantage, le financement et la recherche de partenaires commerciaux"
       },
       {
         icon: Shield,
-        title: "Protéger l'environnement",
-        description: "Promouvoir une agriculture 100% bio, sans pesticides chimiques, régénératrice des sols"
+        title: "Mieux Vivre",
+        description: "Offrir aux adhérents des CMA l'accès à l'assurance, au micro-crédit, à l'épargne et à la couverture santé"
       },
       {
         icon: Users,
         title: "Renforcer les communautés",
-        description: "Créer des réseaux d'entraide, services sociaux et accès à la santé et l'éducation"
+        description: "Structurer les producteurs en Coopératives Mutuelles Agropastorales (CMA) pour mutualiser les ressources"
       }
     ]
   },
@@ -68,12 +68,12 @@ const pageContent = {
   vision: {
     title: "Notre Vision",
     subtitle: "L'Afrique nourrit l'Afrique",
-    description: "D'ici 2030, nous voulons accompagner 1 million d'agriculteurs africains vers l'autosuffisance alimentaire et la prospérité économique grâce à une agriculture moderne, biologique et technologique.",
+    description: "D'ici 2030, accompagner les producteurs agropastoraux camerounais vers l'autosuffisance alimentaire et la prospérité économique grâce à la professionnalisation des filières.",
     goals: [
-      "1 million d'agriculteurs accompagnés",
-      "Expansion dans 20 pays africains",
-      "100% agriculture biologique certifiée",
-      "50 000 emplois créés dans l'agritech"
+      "Couvrir les 5 zones agroécologiques du Cameroun",
+      "Structurer 1 000 CMA opérationnelles",
+      "Faciliter l'accès au financement pour 50 000 producteurs",
+      "Créer des chaînes de valeur durables dans chaque filière"
     ]
   },
 
@@ -119,14 +119,14 @@ const pageContent = {
   history: [
     {
       year: "2010",
-      title: "Naissance d'AGRI POINT",
-      description: "Création à Yaoundé avec une vision: démocratiser l'agriculture moderne au Cameroun",
+      title: "Naissance d'AGRIPOINT SERVICES",
+      description: "Création à Yaoundé avec une vision : faciliter l'accès aux intrants et aux marchés pour les producteurs camerounais",
       icon: Building2
     },
     {
       year: "2012",
-      title: "Premiers Biofertilisants",
-      description: "Lancement de notre gamme de biofertilisants développés localement, testés sur 200 fermes",
+      title: "Premiers partenariats",
+      description: "Mise en place des premiers réseaux de distribution d'intrants et de conseil technique aux producteurs",
       icon: Leaf
     },
     {
@@ -149,8 +149,8 @@ const pageContent = {
     },
     {
       year: "2023",
-      title: "Leader Régional",
-      description: "50 000+ agriculteurs, présence dans 10 régions, expansion vers les pays voisins",
+      title: "Couverture nationale",
+      description: "Présence dans les 5 zones agroécologiques, 10 000+ producteurs accompagnés",
       icon: Award
     }
   ],
@@ -162,13 +162,13 @@ const pageContent = {
       {
         name: "Dr. Jean-Baptiste Kamga",
         role: "Fondateur & Directeur Général",
-        bio: "Agronome, PhD en Sciences du Sol. 20 ans d'expérience en agriculture biologique",
+        bio: "Agronome, PhD en Sciences du Sol. 20 ans d'expérience en développement agropastoral",
         image: "/images/team-kamga.jpg"
       },
       {
         name: "Marie-Claire Ngo Bata",
         role: "Directrice R&D",
-        bio: "Spécialiste biofertilisants, ancienne chercheuse à l'IRAD",
+        bio: "Spécialiste intrants agricoles, ancienne chercheuse à l'IRAD",
         image: "/images/team-ngo.jpg"
       },
       {
@@ -188,8 +188,8 @@ const pageContent = {
 
   certifications: [
     {
-      name: "Certification Bio ECOCERT",
-      description: "Tous nos produits sont certifiés agriculture biologique",
+      name: "Agrément MINADER",
+      description: "Agrément officiel pour la distribution d'intrants et l'accompagnement des producteurs",
       year: "2015"
     },
     {
@@ -210,10 +210,10 @@ const pageContent = {
   ],
 
   impact: [
-    { metric: "+150%", label: "Rendement moyen" },
-    { metric: "3,5M FCFA", label: "Revenu annuel moyen" },
-    { metric: "25K", label: "Familles assurées" },
-    { metric: "500K ha", label: "Terres régénérées" }
+    { metric: "10K+", label: "Producteurs accompagnés" },
+    { metric: "5", label: "Zones agroécologiques" },
+    { metric: "3", label: "Programmes phares" },
+    { metric: "8", label: "Secteurs couverts" }
   ],
 
   contact: {
@@ -539,7 +539,7 @@ export default function AProposPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Nous Trouver</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">AGRI POINT SERVICES SARL à Yaoundé</p>
+            <p className="text-xl text-gray-600 dark:text-gray-400">AGRIPOINT SERVICES SAS à Yaoundé</p>
           </div>
 
           <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-8 shadow-xl">

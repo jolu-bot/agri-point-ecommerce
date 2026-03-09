@@ -11,7 +11,7 @@ const footerLinks = {
     { label: 'Gagner Plus', href: '/gagner-plus' },
     { label: 'Mieux Vivre', href: '/mieux-vivre' },
     { label: 'Agriculture Urbaine', href: '/agriculture-urbaine' },
-    { label: 'Campagne Engrais', href: '/campagne-engrais' },
+    { label: 'Campagne Agricole 2026', href: '/campagne-engrais' },
   ],
   boutique: [
     { label: 'Biofertilisants', href: '/produits?category=biofertilisant' },
@@ -54,7 +54,7 @@ export default function Footer() {
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-emerald-500 font-semibold mb-1">Agriculture Connectée · Cameroun</p>
             <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">
-              Prêt à transformer votre <span className="whitespace-nowrap">exploitation ?</span>
+              Prêt à transformer votre <span className="whitespace-nowrap">activité ?</span>
             </h2>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
@@ -62,7 +62,7 @@ export default function Footer() {
               href="/produits"
               className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition-all duration-200 shadow-lg shadow-emerald-900/40 hover:-translate-y-0.5"
             >
-              Découvrir nos produits
+              Découvrir nos offres
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </Link>
             <Link
@@ -84,7 +84,7 @@ export default function Footer() {
             <Link href="/" className="inline-block group mb-5">
               <Image
                 src="/images/logo.png"
-                alt="AGRI POINT SERVICE SAS — Logo officiel"
+                alt="AGRIPOINT SERVICES SAS — Logo officiel"
                 width={1280}
                 height={1012}
                 className="h-[110px] w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-lg"
@@ -95,7 +95,7 @@ export default function Footer() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-700/30 mb-5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
               <span className="text-[11px] font-semibold text-emerald-300 tracking-wide whitespace-nowrap">
-                Distributeur Officiel pour le Cameroun
+                Partenaire sûr du secteur agropastoral
               </span>
             </div>
 
@@ -117,7 +117,7 @@ export default function Footer() {
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/5 border border-white/[0.08]">
                 <Leaf className="w-3 h-3 text-emerald-500 flex-shrink-0" />
-                <span className="text-[10px] text-gray-400 font-medium tracking-wide">100% Bio</span>
+                <span className="text-[10px] text-gray-400 font-medium tracking-wide">Agriculture durable</span>
               </div>
               <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/5 border border-white/[0.08]">
                 <Globe className="w-3 h-3 text-emerald-500 flex-shrink-0" />
@@ -146,7 +146,7 @@ export default function Footer() {
           {/* Boutique col (2/12) */}
           <div className="lg:col-span-2">
             <h4 className="text-[11px] uppercase tracking-[0.2em] text-emerald-500 font-bold mb-5 flex items-center gap-2">
-              <span className="w-4 h-px bg-emerald-600 inline-block" />Boutique
+              <span className="w-4 h-px bg-emerald-600 inline-block" />Nos offres
             </h4>
             <ul className="space-y-2.5">
               {footerLinks.boutique.map(({ label, href }) => (
@@ -221,7 +221,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
               <p className="text-[11px] text-gray-600 whitespace-nowrap">
-                © {currentYear} <span className="text-gray-500 font-medium">AGRI POINT SERVICES SARL</span> — Tous droits réservés.
+                © {currentYear} <span className="text-gray-500 font-medium">AGRI POINT SERVICES SAS</span> — Tous droits réservés.
               </p>
               <span className="hidden sm:block w-px h-3 bg-gray-700" />
               <a href="https://www.joyeds.com" target="_blank" rel="noopener noreferrer"

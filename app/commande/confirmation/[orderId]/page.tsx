@@ -79,12 +79,12 @@ export default function OrderConfirmationPage() {
   // Informations Campost (à configurer)
   const CAMPOST_INFO = {
     accountNumber: '1234-5678-9012-3456',
-    accountName: 'Agri Point Services SARL',
+    accountName: 'Agripoint Services SAS',
     agencyCode: 'CAMPOST CENTRAL YAOUNDE',
     instructions: [
       'Rendez-vous dans le bureau Campost le plus proche de chez vous',
       `Demandez un versement sur le compte : ${order?.campostPayment?.accountNumber || '1234-5678-9012-3456'}`,
-      `Bénéficiaire : ${order?.campostPayment?.accountName || 'Agri Point Services SARL'}`,
+      `Bénéficiaire : ${order?.campostPayment?.accountName || 'Agripoint Services SAS'}`,
       `Montant exact : ${order?.total.toLocaleString('fr-FR')} FCFA`,
       `Référence : ${order?.orderNumber}`,
       'Conservez précieusement votre reçu de paiement',

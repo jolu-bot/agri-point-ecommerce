@@ -36,48 +36,48 @@ const PRODUIRE_PLUS_IMAGES = [
 
 const pageContent = {
   hero: {
-    badge: "Services AP Agripoint",
+    badge: "Programme Produire Plus",
     title: "Produire Plus",
-    subtitle: "Augmentez vos rendements de 40% à 150%",
-    description: "Expertise complète : diagnostic de filières, intrants de qualité (fertilisants, semences PLANOPAC), formation. Résultats prouvés sur 20 000+ hectares.",
+    subtitle: "Accompagnement complet de la production",
+    description: "Information pour produire ce qui peut être vendu d'avance. Formation pour produire plus et à moindre coût. Mécanisation et fourniture d'intrants de qualité.",
     cta: {
-      primary: "Voir nos produits",
-      secondary: "Demander un devis"
+      primary: "Découvrir nos offres",
+      secondary: "Nous contacter"
     }
   },
   
   stats: [
-    { value: "+150%", label: "Rendement maximum", icon: TrendingUp },
-    { value: "3 mois", label: "Premiers résultats", icon: Zap },
-    { value: "20K+", label: "Hectares fertilisés", icon: Target },
-    { value: "98%", label: "Taux de satisfaction", icon: Award }
+    { value: "+150%", label: "Rendement potentiel", icon: TrendingUp },
+    { value: "3 étapes", label: "D'accompagnement", icon: Zap },
+    { value: "20K+", label: "Hectares cibles", icon: Target },
+    { value: "6", label: "Types d'offres", icon: Award }
   ],
 
   benefits: [
     {
       title: "Identification des filières",
-      description: "Identification des filières de croissances prioritaires avec forte valeur ajoutée en phase avec politique agricole Nationale. Diagnostic expert pour orienter votre production vers les cultures les plus rentables.",
+      description: "Identification des filières de croissance prioritaires avec forte valeur ajoutée, en phase avec la politique agricole nationale.",
       icon: Target,
       color: "green",
       image: "/products/icon-croissance-fruits.png"
     },
     {
       title: "Fourniture d'intrants",
-      description: "Engrais minéraux et biofertilisants AP Agri Point, semences de qualité certifiée PLANOPAC, produits phytosanitaires éprouvés. Tous les intrants pour une production optimale.",
+      description: "Engrais minéraux et biofertilisants, semences de qualité certifiée, produits phytosanitaires éprouvés. Tous les intrants pour une production optimale.",
       icon: ShoppingCart,
       color: "emerald",
       image: "/products/icon-floraison.png"
     },
     {
       title: "Renforcement des capacités",
-      description: "Formation continue des producteurs : techniques culturales modernes, gestion des cultures, utilisation optimale des intrants. Accompagnement technique régulier pour maîtriser chaque étape.",
+      description: "Formation continue des producteurs : techniques culturales modernes, gestion des cultures, utilisation optimale des intrants.",
       icon: Award,
       color: "lime",
       image: "/products/icon-feuillage.png"
     },
     {
-      title: "Résultats prouvés",
-      description: "Augmentation de 40% à 150% de rendements. Qualité supérieure, coûts optimisés. Premiers résultats visibles dès 3 mois, croissance vigoureuse et fruits de meilleure qualité.",
+      title: "Mécanisation agricole",
+      description: "Acquisition de matériels compétitifs et location d'équipements facilitant le travail pour améliorer la productivité.",
       icon: BarChart3,
       color: "amber",
       image: "/products/icon-anti-stress.png"
@@ -86,27 +86,22 @@ const pageContent = {
 
   howItWorks: {
     title: "Comment ça marche ?",
-    subtitle: "Notre approche scientifique en 4 étapes",
+    subtitle: "Notre accompagnement en 3 étapes clés",
     steps: [
       {
         number: "01",
-        title: "Diagnostic de votre sol",
-        description: "Analyse gratuite de votre terrain pour identifier les carences et besoins spécifiques."
+        title: "Pré-production",
+        description: "Identification des filières porteuses, diagnostic des sols, planification des cultures et approvisionnement en intrants de qualité."
       },
       {
         number: "02",
-        title: "Plan de fertilisation personnalisé",
-        description: "Notre équipe élabore une stratégie sur mesure adaptée à votre culture et budget."
+        title: "Production",
+        description: "Accompagnement technique sur le terrain, formation aux bonnes pratiques culturales, mécanisation et suivi des cultures."
       },
       {
         number: "03",
-        title: "Application des biofertilisants",
-        description: "Livraison et accompagnement pour l'application optimale de nos produits bio."
-      },
-      {
-        number: "04",
-        title: "Suivi et optimisation",
-        description: "Accompagnement continu avec ajustements pour maximiser vos résultats."
+        title: "Post-récolte",
+        description: "Gestion des récoltes, stockage, transformation et mise en relation avec les marchés pour une commercialisation optimale."
       }
     ]
   },
@@ -115,19 +110,19 @@ const pageContent = {
     {
       name: "Jean-Paul Ntamack",
       role: "Producteur de Cacao, Région du Sud",
-      text: "Mes rendements ont doublé en seulement 8 mois ! La qualité de mes cabosses s'est nettement améliorée. Je recommande vivement AGRI POINT.",
+      text: "L'accompagnement d'AGRIPOINT a transformé ma production. Le diagnostic de filière m'a orienté vers les bonnes cultures et les formations m'ont permis de doubler mes rendements.",
       rating: 5
     },
     {
       name: "Marie Fosso",
       role: "Maraîchère, Douala",
-      text: "Mes tomates sont plus grosses, plus savoureuses. Je produis 3 fois plus qu'avant. Merci pour ces produits exceptionnels !",
+      text: "Grâce au programme Produire Plus, j'ai accès à des intrants de qualité et un suivi technique régulier. Ma production a triplé en un an.",
       rating: 5
     },
     {
       name: "Amadou Bello",
-      role: "Riziculteur, Extrême-Nord",
-      text: "Le rendement de ma rizière a augmenté de 120%. Mon sol est redevenu fertile. C'est magique !",
+      role: "Éleveur & Agriculteur, Extrême-Nord",
+      text: "La mécanisation proposée et la formation aux nouvelles techniques ont révolutionné mon exploitation. Je recommande vivement.",
       rating: 5
     }
   ]
@@ -190,7 +185,7 @@ export default function ProduirePlusPage() {
                   href="#produits" 
                   className="px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition-all transform hover:scale-105"
                 >
-                  <ShoppingCart className="w-5 h-5" />
+                  <ArrowRight className="w-5 h-5" />
                   {pageContent.hero.cta.primary}
                 </a>
                 <Link 
@@ -343,9 +338,9 @@ export default function ProduirePlusPage() {
       <section id="produits" className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Nos Solutions Biofertilisantes</h2>
+            <h2 className="text-4xl font-bold mb-4">Nos Offres</h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
-              Produits spécialement sélectionnés pour augmenter vos rendements
+              Solutions sélectionnées pour accompagner votre production
             </p>
           </div>
 
@@ -365,10 +360,10 @@ export default function ProduirePlusPage() {
 
           <div className="text-center mt-12">
             <Link
-              href="/produits?category=biofertilisant"
+              href="/produits"
               className="inline-flex items-center gap-2 px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-all"
             >
-              Voir tous les produits
+              Voir toutes nos offres
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -378,22 +373,22 @@ export default function ProduirePlusPage() {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-green-600 to-emerald-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">Prêt à Doubler Vos Rendements ?</h2>
+          <h2 className="text-4xl font-bold mb-6">Prêt à Transformer Votre Production ?</h2>
           <p className="text-xl mb-8 opacity-90">
-            Rejoignez plus de 10 000 agriculteurs qui ont transformé leur production avec AGRI POINT
+            Rejoignez les producteurs qui ont transformé leur activité avec AGRIPOINT SERVICES
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"
               className="px-8 py-4 bg-white text-green-600 hover:bg-gray-100 rounded-lg font-semibold transition-all"
             >
-              Demander un diagnostic gratuit
+              Nous contacter
             </Link>
             <Link
               href="/produits"
               className="px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-green-600 rounded-lg font-semibold transition-all"
             >
-              Explorer la boutique
+              Voir nos offres
             </Link>
           </div>
         </div>

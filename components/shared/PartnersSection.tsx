@@ -24,7 +24,7 @@ const partners = [
   {
     id: 'minader',
     name: 'MINADER',
-    subtitle: "Ministère de l'Agriculture",
+    subtitle: "Ministère de l'Agriculture et du Développement Rural",
     logo: '/images/partners/minader-real.jpg',
     url: 'https://www.minader.cm',
     color: 'from-green-50 to-emerald-50',
@@ -50,7 +50,7 @@ const partners = [
     accentDark: 'text-green-400',
     badge: 'bg-green-50 text-green-700 border-green-100',
     badgeDark: 'bg-green-900/30 text-green-400 border-green-500/20',
-    description: 'Partenaire financier d\'AGRI POINT, BANGE BANK accompagne les agriculteurs camerounais avec des solutions de financement adaptées. La banque propose des crédits agricoles, un accompagnement personnalisé et des services bancaires accessibles pour soutenir le développement du secteur agricole au Cameroun.',
+    description: 'Partenaire financier d\'AGRIPOINT SERVICES, BANGE BANK accompagne les agriculteurs camerounais avec des solutions de financement adaptées. La banque propose des crédits agricoles, un accompagnement personnalisé et des services bancaires accessibles pour soutenir le développement du secteur agricole au Cameroun.',
   },
   {
     id: 'emoh',
@@ -86,7 +86,7 @@ const partners = [
   {
     id: 'planopac',
     name: 'PLANOPAC',
-    subtitle: 'Semences de Qualité',
+    subtitle: 'Plateforme Nationale des Organisations Professionnelles Agro-sylvo-pastorales du Cameroun',
     logo: '/images/partners/planopac.jpg',
     url: 'https://www.facebook.com/p/Planopac-Online-100064810566427',
     color: 'from-amber-50 to-orange-50',
@@ -97,7 +97,23 @@ const partners = [
     accentDark: 'text-amber-400',
     badge: 'bg-amber-50 text-amber-700 border-amber-100',
     badgeDark: 'bg-amber-900/30 text-amber-400 border-amber-500/20',
-    description: 'Partenaire semencier d\'AP Agripoint, PLANOPAC fournit des semences de qualité certifiée pour toutes les cultures. Un engagement pour des semences performantes et adaptées aux conditions agricoles du Cameroun.',
+    description: 'Partenaire semencier d\'AGRIPOINT SERVICES, PLANOPAC fournit des semences de qualité certifiée pour toutes les cultures. Un engagement pour des semences performantes et adaptées aux conditions agricoles du Cameroun.',
+  },
+  {
+    id: 'ap-sarl',
+    name: 'AP AGRI POINT SERVICES',
+    subtitle: 'SARL — Fournisseur d\'intrants agricoles',
+    logo: '/images/logo.png',
+    url: '#',
+    color: 'from-emerald-50 to-green-50',
+    colorDark: 'from-emerald-900/20 to-green-900/10',
+    border: 'border-emerald-100',
+    borderDark: 'border-emerald-500/20',
+    accent: 'text-emerald-700',
+    accentDark: 'text-emerald-400',
+    badge: 'bg-emerald-50 text-emerald-700 border-emerald-100',
+    badgeDark: 'bg-emerald-900/30 text-emerald-400 border-emerald-500/20',
+    description: 'Distributeur officiel de biofertilisants et engrais pour le Cameroun. AP AGRI POINT SERVICES SARL est le partenaire privilégié pour la fourniture d\'intrants de qualité.',
   },
 ];
 
@@ -152,7 +168,7 @@ export default function PartnersSection({
             <p className={`section-subtitle ${
               isDark ? 'text-white/45' : 'text-gray-500'
             }`}>
-              AGRI POINT bénéficie du soutien d&apos;acteurs clés du développement agricole camerounais.
+              AGRIPOINT SERVICES bénéficie du soutien d&apos;acteurs clés du développement agricole camerounais.
               Cliquez sur un logo pour visiter leur site officiel.
             </p>
           </motion.div>

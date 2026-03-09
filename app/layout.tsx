@@ -12,9 +12,9 @@ import { ClientComponents } from "./ClientComponents";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com'),
-  title: "AGRI POINT SERVICE - Produire plus, Gagner plus, Mieux vivre",
-  description: "Distributeur de biofertilisants de qualité au Cameroun. Solutions complètes agricoles.",
-  keywords: ["biofertilisant", "agriculture", "Cameroun"],
+  title: "AGRIPOINT SERVICES SAS - Produire plus, Gagner plus, Mieux vivre",
+  description: "Facilitateur agropastoral au Cameroun. Interface entre l'offre et la demande pour les acteurs agricoles, d'élevage, de pisciculture et de sylviculture.",
+  keywords: ["facilitation agricole", "agropastoral", "Cameroun", "agriculture", "élevage", "pisciculture"],
   authors: [{ name: "AGRI POINT SERVICE" }],
   icons: {
     icon: '/favicon.ico',
