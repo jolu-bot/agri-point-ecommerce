@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -472,7 +472,7 @@ export default function CheckoutPage() {
 
                   <div className="space-y-4">
                     {[
-                      { value: 'campost', label: '🏢 Campost (Recommandé)', description: 'Versement au bureau Campost le plus proche - Compte Agri Point Services', recommended: true },
+                      { value: 'campost', label: '🏢 Campost (Recommandé)', description: 'Versement au bureau Campost le plus proche - Compte AGRIPOINT SERVICES', recommended: true },
                       { value: 'whatsapp', label: '📱 Mobile Money + WhatsApp', description: 'Paiement Orange/MTN avec confirmation rapide (2h)', badge: 'Rapide' },
                       { value: 'cash', label: '💵 Paiement à la livraison', description: 'Payez en espèces à la réception' },
                     ].map((method) => (

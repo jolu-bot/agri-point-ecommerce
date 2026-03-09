@@ -1,11 +1,11 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { Metadata } from 'next';
 import { ArrowLeft, Package, Leaf, Droplets, Users, TrendingUp } from 'lucide-react';
 import IntrantsCarousel from '@/components/intrants/IntrantsCarousel';
 import ResultsSection from '@/components/intrants/ResultsSection';
 
 export const metadata: Metadata = {
-  title: 'Fourniture d\'Intrants Agricoles | Agri Point Services',
+  title: 'Fourniture d\'Intrants Agricoles | AGRIPOINT SERVICES',
   description: 'Découvrez notre gamme complète d\'engrais minéraux et bio-fertilisants de haute qualité pour augmenter votre production agricole.',
 };
 
@@ -95,7 +95,7 @@ export default function FournitureIntrantsPage() {
             <div>
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Pourquoi nos intrants agricoles ?</h2>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-                Chez Agri Point Services, nous comprenons les défis des agriculteurs camerounais. C'est pourquoi nous proposons une gamme d'intrants agricoles spécialement sélectionnés et adaptés aux réalités de notre contexte agro-climatique. Nos produits combinant efficacité, durabilité et affordabilité.
+                Chez AGRIPOINT SERVICES, nous comprenons les défis des agriculteurs camerounais. C'est pourquoi nous proposons une gamme d'intrants agricoles spécialement sélectionnés et adaptés aux réalités de notre contexte agro-climatique. Nos produits combinant efficacité, durabilité et affordabilité.
               </p>
             </div>
 
@@ -159,7 +159,7 @@ export default function FournitureIntrantsPage() {
             <div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Disponibilité et Livraison</h3>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-                Nos intrants sont disponibles dans tous nos points de service Agri Point à travers le Cameroun. Nous proposons également un service de livraison pour les commandes importantes directement à votre exploitation agricole. Pour connaître les disponibilités et obtenir un devis personnalisé, contactez nos experts dés maintenant.
+                Nos intrants sont disponibles dans tous nos points de service AGRIPOINT SERVICES à travers le Cameroun. Nous proposons également un service de livraison pour les commandes importantes directement à votre exploitation agricole. Pour connaître les disponibilités et obtenir un devis personnalisé, contactez nos experts dés maintenant.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link

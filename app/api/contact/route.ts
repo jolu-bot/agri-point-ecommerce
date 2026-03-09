@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { sendEmail } from '@/lib/email';
 import connectDB from '@/lib/db';
 import Message from '@/models/Message';
@@ -162,7 +162,7 @@ export async function POST(request: NextRequest) {
   <div class="container">
     <div class="header">
       <h1 style="margin: 0; font-size: 24px;">📩 Nouveau Message de Contact</h1>
-      <p style="margin: 10px 0 0 0; opacity: 0.9;">AGRI POINT SERVICE</p>
+      <p style="margin: 10px 0 0 0; opacity: 0.9;">AGRIPOINT SERVICES</p>
     </div>
     
     <div class="content">
@@ -229,7 +229,7 @@ export async function POST(request: NextRequest) {
     // ─────────────────────────────────────────────────
     const emailToClient = await sendEmail({
       to: body.email,
-      subject: '✅ Votre message a été reçu - AGRI POINT SERVICE',
+      subject: '✅ Votre message a été reçu - AGRIPOINT SERVICES',
       html: `
 <!DOCTYPE html>
 <html>
@@ -354,7 +354,7 @@ export async function POST(request: NextRequest) {
     </div>
     
     <div class="footer">
-      <p><strong>AGRI POINT SERVICE</strong></p>
+      <p><strong>AGRIPOINT SERVICES</strong></p>
       <p>Solutions agricoles professionnelles | agri-ps.com</p>
       <p style="margin-top: 15px; font-size: 11px;">
         Cet email a été envoyé automatiquement. Ne pas répondre à cette adresse (noreply).

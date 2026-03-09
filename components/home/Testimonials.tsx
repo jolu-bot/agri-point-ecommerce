@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
@@ -9,7 +9,7 @@ const testimonials = [
     name: 'Jean-Pierre M.',
     role: 'Agriculteur',
     location: 'Yaoundé',
-    content: 'Grâce aux biofertilisants AGRI POINT, ma production de tomates a doublé. Service excellent et conseils précieux !',
+    content: 'Grâce aux biofertilisants AGRIPOINT SERVICES, ma production de tomates a doublé. Service excellent et conseils précieux !',
     rating: 5,
     color: 'from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/20',
     border: 'border-emerald-100 dark:border-emerald-800/30',

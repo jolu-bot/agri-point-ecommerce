@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
@@ -369,7 +369,7 @@ export default function SiteConfigAdvancedPage() {
                   <div className="flex items-center gap-3">
                     <Type className="w-5 h-5 text-emerald-600" />
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                      Texte Principal (AGRI POINT)
+                      Texte Principal (AGRIPOINT SERVICES)
                     </h3>
                   </div>
                   {expandedSections.primaryText ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import ProductsClient from './ProductsClient';
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Offres Disponibles AGRIPOINT SERVICES — Intrants & Solutions',
     description: 'Des solutions biofertilisantes de qualité pour une agriculture performante. Livraison gratuite dès 6 sacs.',
     url: 'https://agri-point.cm/produits',
-    siteName: 'AGRI POINT SERVICE',
+    siteName: 'AGRIPOINT SERVICES',
     locale: 'fr_FR',
     type: 'website',
   },

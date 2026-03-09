@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
@@ -85,7 +85,7 @@ export default function PointsCampostPage() {
 
           {/* Compte cible */}
           <div className="bg-white/10 backdrop-blur rounded-2xl p-5 mb-6 border border-white/20">
-            <p className="text-emerald-200 text-xs font-semibold uppercase tracking-wider mb-3">Compte de versement AGRI POINT SERVICES SAS</p>
+            <p className="text-emerald-200 text-xs font-semibold uppercase tracking-wider mb-3">Compte de versement AGRIPOINT SERVICES SAS</p>
             <div className="grid sm:grid-cols-2 gap-3">
               <div>
                 <p className="text-xs text-emerald-300">Titulaire</p>

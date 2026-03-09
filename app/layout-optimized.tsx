@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+﻿import type { Metadata, Viewport } from "next";
 import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
@@ -30,10 +30,10 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com'),
-  title: "AGRI POINT SERVICE - Produire plus, Gagner plus, Mieux vivre",
+  title: "AGRIPOINT SERVICES - Produire plus, Gagner plus, Mieux vivre",
   description: "Distributeur de biofertilisants de qualité au Cameroun. Solutions complètes pour l'agriculture moderne et urbaine.",
   keywords: ["biofertilisant", "agriculture", "Cameroun", "engrais", "agriculture urbaine"],
-  authors: [{ name: "AGRI POINT SERVICE" }],
+  authors: [{ name: "AGRIPOINT SERVICES" }],
   alternates: {
     canonical: '/',
     languages: {
@@ -48,13 +48,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     url: '/',
-    title: "AGRI POINT SERVICE",
+    title: "AGRIPOINT SERVICES",
     description: "Produire plus, Gagner plus, Mieux vivre",
     images: [{ url: '/images/logo.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AGRI POINT SERVICE',
+    title: 'AGRIPOINT SERVICES',
     description: 'Produire plus, Gagner plus, Mieux vivre',
   },
   manifest: '/manifest.json',

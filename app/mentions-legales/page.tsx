@@ -1,10 +1,10 @@
-import { Metadata } from 'next';
+﻿import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Scale, Building2, Mail, Phone, MapPin } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Mentions Légales - AGRI POINT SERVICE',
-  description: 'Mentions légales et informations juridiques de AGRI POINT SERVICE SAS',
+  title: 'Mentions Légales - AGRIPOINT SERVICES',
+  description: 'Mentions légales et informations juridiques de AGRIPOINT SERVICES SAS',
 };
 
 export default function MentionsLegalesPage() {
@@ -43,7 +43,7 @@ export default function MentionsLegalesPage() {
             </div>
             <div className="space-y-3 text-gray-600 dark:text-gray-300">
               <p>
-                <strong className="text-gray-900 dark:text-white">Raison sociale :</strong> AGRI POINT SERVICE SAS
+                <strong className="text-gray-900 dark:text-white">Raison sociale :</strong> AGRIPOINT SERVICES SAS
               </p>
               <p>
                 <strong className="text-gray-900 dark:text-white">Forme juridique :</strong> Société par Actions Simplifiée (SAS)
@@ -61,7 +61,7 @@ export default function MentionsLegalesPage() {
                 <strong className="text-gray-900 dark:text-white">Numéro d&apos;identification fiscale :</strong> M042300XXXXXX
               </p>
               <p>
-                <strong className="text-gray-900 dark:text-white">Directeur de la publication :</strong> M. AGRI POINT
+                <strong className="text-gray-900 dark:text-white">Directeur de la publication :</strong> M. AGRIPOINT SERVICES
               </p>
             </div>
           </section>
@@ -109,10 +109,10 @@ export default function MentionsLegalesPage() {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Propriété Intellectuelle</h2>
             <div className="space-y-4 text-gray-600 dark:text-gray-300">
               <p>
-                L&apos;ensemble du contenu de ce site (structure, textes, logos, images, vidéos, éléments graphiques, etc.) est la propriété exclusive de AGRI POINT SERVICE SAS, sauf mention contraire.
+                L&apos;ensemble du contenu de ce site (structure, textes, logos, images, vidéos, éléments graphiques, etc.) est la propriété exclusive de AGRIPOINT SERVICES SAS, sauf mention contraire.
               </p>
               <p>
-                Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite, sauf autorisation écrite préalable de AGRI POINT SERVICE SAS.
+                Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite, sauf autorisation écrite préalable de AGRIPOINT SERVICES SAS.
               </p>
               <p>
                 Toute exploitation non autorisée du site ou de l&apos;un quelconque des éléments qu&apos;il contient sera considérée comme constitutive d&apos;une contrefaçon et poursuivie conformément aux dispositions des articles L.335-2 et suivants du Code de Propriété Intellectuelle.
@@ -128,10 +128,10 @@ export default function MentionsLegalesPage() {
                 Les informations contenues sur ce site sont aussi précises que possible et le site est périodiquement remis à jour, mais peut toutefois contenir des inexactitudes, des omissions ou des lacunes.
               </p>
               <p>
-                AGRI POINT SERVICE SAS ne pourra être tenu responsable des dommages directs et indirects causés au matériel de l&apos;utilisateur, lors de l&apos;accès au site, et résultant soit de l&apos;utilisation d&apos;un matériel ne répondant pas aux spécifications techniques requises, soit de l&apos;apparition d&apos;un bug ou d&apos;une incompatibilité.
+                AGRIPOINT SERVICES SAS ne pourra être tenu responsable des dommages directs et indirects causés au matériel de l&apos;utilisateur, lors de l&apos;accès au site, et résultant soit de l&apos;utilisation d&apos;un matériel ne répondant pas aux spécifications techniques requises, soit de l&apos;apparition d&apos;un bug ou d&apos;une incompatibilité.
               </p>
               <p>
-                AGRI POINT SERVICE SAS ne pourra également être tenu responsable des dommages indirects (tels par exemple qu&apos;une perte de marché ou perte d&apos;une chance) consécutifs à l&apos;utilisation du site.
+                AGRIPOINT SERVICES SAS ne pourra également être tenu responsable des dommages indirects (tels par exemple qu&apos;une perte de marché ou perte d&apos;une chance) consécutifs à l&apos;utilisation du site.
               </p>
             </div>
           </section>
@@ -141,10 +141,10 @@ export default function MentionsLegalesPage() {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Liens Hypertextes</h2>
             <div className="space-y-4 text-gray-600 dark:text-gray-300">
               <p>
-                Des liens hypertextes peuvent renvoyer vers d&apos;autres sites que le site www.agri-ps.com. AGRI POINT SERVICE SAS dégage toute responsabilité dans le cas où le contenu de ces sites contreviendrait aux législations en vigueur.
+                Des liens hypertextes peuvent renvoyer vers d&apos;autres sites que le site www.agri-ps.com. AGRIPOINT SERVICES SAS dégage toute responsabilité dans le cas où le contenu de ces sites contreviendrait aux législations en vigueur.
               </p>
               <p>
-                La mise en place d&apos;un lien hypertexte vers le site www.agri-ps.com est soumise à l&apos;accord préalable de AGRI POINT SERVICE SAS.
+                La mise en place d&apos;un lien hypertexte vers le site www.agri-ps.com est soumise à l&apos;accord préalable de AGRIPOINT SERVICES SAS.
               </p>
             </div>
           </section>

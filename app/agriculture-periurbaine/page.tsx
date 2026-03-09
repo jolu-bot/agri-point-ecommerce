@@ -53,7 +53,7 @@ const pageContent = {
     { value: '60%', label: 'des légumes frais en ville issus des péri-zones', icon: Leaf },
     { value: '2,5M', label: 'de personnes dépendent de ces exploitations', icon: Users },
     { value: '+45%', label: 'de rendement avec nos techniques modernes', icon: TrendingUp },
-    { value: '20 000', label: 'ha couverts par AGRI POINT au Cameroun', icon: MapPin },
+    { value: '20 000', label: 'ha couverts par AGRIPOINT SERVICES au Cameroun', icon: MapPin },
   ],
 
   definition: {
@@ -88,7 +88,7 @@ const pageContent = {
 
   zones: {
     title: 'Zones Périurbaines Clés au Cameroun',
-    subtitle: 'AGRI POINT vous accompagne sur tout le territoire national',
+    subtitle: 'AGRIPOINT SERVICES vous accompagne sur tout le territoire national',
     regions: [
       {
         city: 'Yaoundé',
@@ -144,7 +144,7 @@ const pageContent = {
   systems: {
     title: 'Systèmes de Production Périurbains',
     subtitle:
-      "Chaque exploitation est unique. AGRI POINT propose des solutions sur-mesure pour chaque système.",
+      "Chaque exploitation est unique. AGRIPOINT SERVICES propose des solutions sur-mesure pour chaque système.",
     items: [
       {
         icon: Sprout,
@@ -263,7 +263,7 @@ const pageContent = {
         advantages: [
           'eSoko / CAMERCAP-PARC : prix des marchés en temps réel',
           'AgriPrix Cameroun : cours hebdomadaires légumes',
-          'AgriBot AGRI POINT : conseils agronomiques IA 24h/24',
+          'AgriBot AGRIPOINT SERVICES : conseils agronomiques IA 24h/24',
           'Mobile Money : paiement et réception acheteurs',
         ],
         localSupply: 'Applications gratuites ou < 5 000 FCFA/mois',
@@ -274,7 +274,7 @@ const pageContent = {
         icon: FlaskConical,
         name: 'Biostimulants & Engrais Précis',
         description:
-          'Gamme TIMAC AGRO distribuée exclusivement par AGRI POINT. Formulations adaptées aux sols camerounais. Augmentation rendements de 30 à 50% vs pratiques traditionnelles.',
+          'Gamme TIMAC AGRO distribuée exclusivement par AGRIPOINT SERVICES. Formulations adaptées aux sols camerounais. Augmentation rendements de 30 à 50% vs pratiques traditionnelles.',
         advantages: [
           'HUMIFORTE : enracinement +40%, résistance sécheresse',
           'FOSNUTREN 20 : démarrage rapide, TSP + soufre',
@@ -374,7 +374,7 @@ const pageContent = {
   },
 
   challenges: {
-    title: 'Défis & Solutions AGRI POINT',
+    title: 'Défis & Solutions AGRIPOINT SERVICES',
     subtitle: 'Nous anticipons les obstacles pour que vous puissiez vous concentrer sur la production',
     items: [
       {
@@ -463,7 +463,7 @@ const pageContent = {
         description:
           'Analyse de votre sol, de l\'eau disponible, du microclimat, des marchés à proximité. Identification du système de production le plus rentable pour votre contexte.',
         duration: '1 semaine',
-        action: 'Gratuit pour clients AGRI POINT',
+        action: 'Gratuit pour clients AGRIPOINT SERVICES',
       },
       {
         number: '02',
@@ -481,14 +481,14 @@ const pageContent = {
         description:
           "Installation forage ou retenue d\u2019eau, pompe solaire, réseau goutte-à-goutte. Le principal investissement — il sécurise 100% de votre production.",
         duration: '2-4 semaines',
-        action: 'Devis gratuit AGRI POINT',
+        action: 'Devis gratuit AGRIPOINT SERVICES',
       },
       {
         number: '04',
         icon: Sprout,
         title: 'Mise en Production',
         description:
-          "Semences certifiées, pépinières soignées, fertilisation de fond avec HUMIFORTE et NATUR CARE. Suivi hebdomadaire par technicien AGRI POINT.",
+          "Semences certifiées, pépinières soignées, fertilisation de fond avec HUMIFORTE et NATUR CARE. Suivi hebdomadaire par technicien AGRIPOINT SERVICES.",
         duration: '1ère récolte J+45 à J+90',
         action: 'Formation pratique incluse',
       },
@@ -518,7 +518,7 @@ const pageContent = {
       name: 'Alphonse Nkouele',
       location: 'Soa, Périphérie Yaoundé',
       zone: '3,5 ha maraîchage',
-      text: "Avant AGRI POINT, mes rendements de tomates ne dépassaient pas 8 tonnes à l\'hectare. Avec FOSNUTREN 20 et l\u2019irrigation goutte-à-goutte, j\'atteins 25 t/ha. J\'ai pu agrandir ma parcelle et employer 6 personnes à temps plein.",
+      text: "Avant AGRIPOINT SERVICES, mes rendements de tomates ne dépassaient pas 8 tonnes à l\'hectare. Avec FOSNUTREN 20 et l\u2019irrigation goutte-à-goutte, j\'atteins 25 t/ha. J\'ai pu agrandir ma parcelle et employer 6 personnes à temps plein.",
       rating: 5,
       result: '+213% de rendement en tomates',
       image: '/images/testimonial-alphonse.jpg',
@@ -527,7 +527,7 @@ const pageContent = {
       name: 'Cécile Awona Bolo',
       location: 'Logbaba, Périphérie Douala',
       zone: '1,8 ha légumes feuilles + volaille',
-      text: "J\'ai intégré 500 poules pondeuses avec mon maraîchage grâce aux conseils d\u2019agRI POINT. Le compost de volaille remplace la moitié de mes engrais chimiques. Mes revenus ont doublé en 18 mois.",
+      text: "J\'ai intégré 500 poules pondeuses avec mon maraîchage grâce aux conseils d\u2019AGRIPOINT SERVICES. Le compost de volaille remplace la moitié de mes engrais chimiques. Mes revenus ont doublé en 18 mois.",
       rating: 5,
       result: 'Revenus x2 — Exploitation intégrée',
       image: '/images/testimonial-cecile.jpg',
@@ -536,7 +536,7 @@ const pageContent = {
       name: 'Ibrahim Oumarou',
       location: 'Ngong, Périphérie Garoua',
       zone: '5 ha oignon + tomate',
-      text: "La pompe solaire que m\'a recommandée AGRI POINT a changé ma vie. Plus de 80 000 FCFA de carburant économisés chaque mois. Je produis maintenant en saison sèche quand les prix sont les meilleurs.",
+      text: "La pompe solaire que m\'a recommandée AGRIPOINT SERVICES a changé ma vie. Plus de 80 000 FCFA de carburant économisés chaque mois. Je produis maintenant en saison sèche quand les prix sont les meilleurs.",
       rating: 5,
       result: '80 000 FCFA/mois économisés en carburant',
       image: '/images/testimonial-ibrahim.jpg',
@@ -854,7 +854,7 @@ export default function AgriculturePeriurbainePage() {
 
                 <div>
                   <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
-                    Produits AGRI POINT recommandés
+                    Produits AGRIPOINT SERVICES recommandés
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {system.products.map((p, i) => (
@@ -1119,7 +1119,7 @@ export default function AgriculturePeriurbainePage() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-4">Ils Ont Transformé Leur Exploitation</h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
-              Des producteurs périurbains qui ont réussi avec AGRI POINT
+              Des producteurs périurbains qui ont réussi avec AGRIPOINT SERVICES
             </p>
           </div>
 
@@ -1168,7 +1168,7 @@ export default function AgriculturePeriurbainePage() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-4">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-600 to-green-600">
-                Intrants Recommandés AGRI POINT
+                Intrants Recommandés AGRIPOINT SERVICES
               </span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">

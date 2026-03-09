@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Cron Job pour envoyer des emails de suivi 48h après une conversation AgriBot
  * Point d'accès: GET /api/cron/agribot-follow-up
  * 
@@ -171,7 +171,7 @@ async function sendGenericFollowUpEmail(email: string, summary: string) {
     
     <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
     <p style="color: #666; font-size: 12px;">
-      Agri Point Services | support@agri-ps.com | +237 657 39 39 39
+      AGRIPOINT SERVICES | support@agri-ps.com | +237 657 39 39 39
     </p>
   </div>
 </body>
@@ -179,9 +179,9 @@ async function sendGenericFollowUpEmail(email: string, summary: string) {
   `;
 
   await transporter.sendMail({
-    from: `"Agri Point Services" <${process.env.EMAIL_USER}>`,
+    from: `"AGRIPOINT SERVICES" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: '🌾 Continuons notre conversation - Agri Point Services',
+    subject: '🌾 Continuons notre conversation - AGRIPOINT SERVICES',
     html,
   });
 }

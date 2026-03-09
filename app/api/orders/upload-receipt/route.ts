@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Order from '@/models/Order';
 import { writeFile, mkdir } from 'fs/promises';
@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
       // Paiement Campost (par défaut)
       order.campostPayment = {
         accountNumber: order.campostPayment?.accountNumber || 'XXXX-XXXX-XXXX',
-        accountName: order.campostPayment?.accountName || 'Agri Point Services',
+        accountName: order.campostPayment?.accountName || 'AGRIPOINT SERVICES',
         ...order.campostPayment,
         receiptImage: publicUrl,
         receiptUploadedAt: new Date(),
@@ -168,7 +168,7 @@ export async function POST(req: NextRequest) {
             <div style="background-color: #f9fafb; padding: 20px; text-align: center; border-radius: 0 0 12px 12px; border: 1px solid #e5e7eb; border-top: none;">
               <p style="color: #6b7280; font-size: 14px; margin: 0;">
                 Cet email a été envoyé automatiquement.<br>
-                <strong>AGRI POINT SERVICE</strong> | Système de Gestion des Commandes
+                <strong>AGRIPOINT SERVICES</strong> | Système de Gestion des Commandes
               </p>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import { generateAccessToken, generateRefreshToken, getRolePermissions } from '@/lib/auth';
@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
 
     await sendEmail({
       to: user.email,
-      subject: '✅ Confirmez votre compte AGRI POINT SERVICE',
+      subject: '✅ Confirmez votre compte AGRIPOINT SERVICES',
       html: buildVerificationEmailHtml(user.name, verifyUrl, user.uniqueCode),
     });
 
@@ -202,14 +202,14 @@ function buildVerificationEmailHtml(name: string, verifyUrl: string, code: strin
       <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
         <!-- Header -->
         <tr><td style="background:linear-gradient(135deg,#059669,#065f46);padding:40px;text-align:center;">
-          <h1 style="color:#ffffff;margin:0;font-size:28px;font-weight:800;">🌿 AGRI POINT SERVICE</h1>
+          <h1 style="color:#ffffff;margin:0;font-size:28px;font-weight:800;">🌿 AGRIPOINT SERVICES</h1>
           <p style="color:#a7f3d0;margin:8px 0 0;font-size:14px;">La plateforme agricole de confiance au Cameroun</p>
         </td></tr>
         <!-- Body -->
         <tr><td style="padding:40px;">
           <h2 style="color:#065f46;font-size:22px;margin:0 0 16px;">Bienvenue, ${name} ! 🎉</h2>
           <p style="color:#374151;font-size:16px;line-height:1.6;margin:0 0 24px;">
-            Votre compte AGRI POINT SERVICE a été créé avec succès.<br>
+            Votre compte AGRIPOINT SERVICES a été créé avec succès.<br>
             Pour activer votre compte, cliquez sur le bouton ci-dessous :
           </p>
           <div style="text-align:center;margin:32px 0;">
@@ -227,7 +227,7 @@ function buildVerificationEmailHtml(name: string, verifyUrl: string, code: strin
         </td></tr>
         <!-- Footer -->
         <tr><td style="background:#f9fafb;padding:24px;text-align:center;border-top:1px solid #e5e7eb;">
-          <p style="color:#9ca3af;font-size:12px;margin:0;">© 2026 AGRI POINT SERVICE SAS · Cameroun</p>
+          <p style="color:#9ca3af;font-size:12px;margin:0;">© 2026 AGRIPOINT SERVICES SAS · Cameroun</p>
           <p style="color:#9ca3af;font-size:12px;margin:4px 0 0;">Si vous n'avez pas créé ce compte, ignorez cet email.</p>
         </td></tr>
       </table>

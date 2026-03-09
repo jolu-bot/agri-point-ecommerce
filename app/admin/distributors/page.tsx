@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { 
@@ -249,7 +249,7 @@ export default function DistributorsPage() {
           🗺️ Gestion des Distributeurs
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
-          Gérez les points de vente et distributeurs Agri Point
+          Gérez les points de vente et distributeurs AGRIPOINT SERVICES
         </p>
       </div>
 
@@ -518,7 +518,7 @@ export default function DistributorsPage() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                    placeholder="Agri Point Yaoundé"
+                    placeholder="AGRIPOINT SERVICES Yaoundé"
                   />
                 </div>
 

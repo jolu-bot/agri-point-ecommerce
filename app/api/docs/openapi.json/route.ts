@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 
 /**
  * OPENAPI/SWAGGER ENDPOINT
@@ -12,11 +12,11 @@ export async function GET(req: NextRequest) {
   const openApiSpec = {
     openapi: '3.0.0',
     info: {
-      title: 'AGRI POINT E-Commerce API',
+      title: 'AGRIPOINT SERVICES E-Commerce API',
       version: '1.0.0',
-      description: 'API documentation for AGRI POINT agricultural e-commerce platform',
+      description: 'API documentation for AGRIPOINT SERVICES agricultural e-commerce platform',
       contact: {
-        name: 'AGRI POINT Support',
+        name: 'AGRIPOINT SERVICES Support',
         email: 'infos@agri-ps.com',
         url: 'https://agri-ps.com',
       },

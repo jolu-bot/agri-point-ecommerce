@@ -1,4 +1,4 @@
-/**
+﻿/**
  * GET  /api/admin/campaigns/reminders
  *   → Retourne toutes les commandes campagne avec 2ème tranche en attente
  *
@@ -120,7 +120,7 @@ export async function POST(req: Request) {
 
     // Template de message par défaut
     const defaultMsg =
-      `Rappel AGRI POINT : votre 2ème tranche (30%) est due avant le 30 avril 2026. ` +
+      `Rappel AGRIPOINT SERVICES : votre 2ème tranche (30%) est due avant le 30 avril 2026. ` +
       `Rendez-vous au bureau Campost le plus proche. Infos : +237 651 92 09 20`;
 
     const finalMessage = message ?? defaultMsg;

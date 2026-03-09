@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -108,10 +108,10 @@ function ResetPasswordContent() {
         <div className="absolute -top-40 -left-40 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
         <div className="absolute -bottom-32 -right-20 w-80 h-80 bg-teal-400/10 rounded-full blur-3xl" />
         <div className="relative text-white text-center max-w-xs z-10">
-          <Link href="/"><Image src="/images/logo.png" alt="AGRI POINT" width={100} height={79} className="mx-auto mb-6 drop-shadow-xl" /></Link>
+          <Link href="/"><Image src="/images/logo.png" alt="AGRIPOINT SERVICES" width={100} height={79} className="mx-auto mb-6 drop-shadow-xl" /></Link>
           <h1 className="text-3xl font-black mb-3">Nouveau<br /><span className="text-emerald-300">mot de passe</span></h1>
           <p className="text-emerald-100/70 text-sm leading-relaxed">
-            Choisissez un mot de passe fort et unique pour protéger votre compte AGRI POINT SERVICE.
+            Choisissez un mot de passe fort et unique pour protéger votre compte AGRIPOINT SERVICES.
           </p>
           <div className="mt-8 bg-white/10 rounded-2xl p-4 text-left space-y-2">
             {['8 caractères minimum', 'Au moins 1 majuscule', 'Au moins 1 chiffre', 'Caractère spécial conseillé'].map(tip => (
@@ -127,7 +127,7 @@ function ResetPasswordContent() {
       <div className="flex-1 flex items-center justify-center px-6 py-12 bg-gray-50 dark:bg-gray-950">
         <div className="w-full max-w-md">
           <div className="lg:hidden text-center mb-8">
-            <Link href="/"><Image src="/images/logo.png" alt="AGRI POINT" width={80} height={63} className="mx-auto" /></Link>
+            <Link href="/"><Image src="/images/logo.png" alt="AGRIPOINT SERVICES" width={80} height={63} className="mx-auto" /></Link>
           </div>
 
           {/* ── Succès ─────────────────────────────────────────────────────── */}

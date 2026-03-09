@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+﻿import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SiteConfigProvider } from "@/contexts/SiteConfigContext";
@@ -12,10 +12,10 @@ import { ClientComponents } from "./ClientComponents";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com'),
-  title: "AGRI POINT SERVICE - Produire plus, Gagner plus, Mieux vivre",
+  title: "AGRIPOINT SERVICES - Produire plus, Gagner plus, Mieux vivre",
   description: "Distributeur de biofertilisants de qualité au Cameroun. Solutions complètes agricoles.",
   keywords: ["biofertilisant", "agriculture", "Cameroun"],
-  authors: [{ name: "AGRI POINT SERVICE" }],
+  authors: [{ name: "AGRIPOINT SERVICES" }],
   icons: {
     icon: '/favicon.ico',
     apple: '/favicon.png',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     url: '/',
-    title: "AGRI POINT SERVICE",
+    title: "AGRIPOINT SERVICES",
     description: "Solutions agricoles complètes",
     images: [{ url: '/images/logo.png', width: 1200, height: 630 }],
   },

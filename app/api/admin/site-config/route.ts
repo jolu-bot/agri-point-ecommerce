@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import SiteConfig from '@/models/SiteConfig';
 import { validateSiteConfig } from '@/lib/config-validator';
@@ -47,7 +47,7 @@ export async function GET() {
           ],
         },
         seo: {
-          keywords: ['biofertilisant', 'agriculture', 'Cameroun', 'engrais', 'agriculture urbaine', 'AGRI POINT'],
+          keywords: ['biofertilisant', 'agriculture', 'Cameroun', 'engrais', 'agriculture urbaine', 'AGRIPOINT SERVICES'],
         },
       });
     }

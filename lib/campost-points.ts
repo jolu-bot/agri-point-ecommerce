@@ -1,10 +1,10 @@
-/**
- * Réseau des points de dépôt AGRI POINT via CAMPOST
+﻿/**
+ * Réseau des points de dépôt AGRIPOINT SERVICES via CAMPOST
  * Source : Liste officielle des bureaux Campost – novembre 2025
  * 
  * INSTRUCTION DE PAIEMENT :
  * Les producteurs versent 70% du montant de la commande directement
- * au bureau Campost le plus proche, sur le compte AGRI POINT SERVICES SAS.
+ * au bureau Campost le plus proche, sur le compte AGRIPOINT SERVICES SAS.
  * N° de compte : À COMPLÉTER (en attente de la direction)
  */
 
@@ -21,7 +21,7 @@ export interface CampostPoint {
 }
 
 export const CAMPOST_ACCOUNT = {
-  accountName: 'AGRI POINT SERVICES SAS',
+  accountName: 'AGRIPOINT SERVICES SAS',
   accountNumber: 'À COMPLÉTER', // ← Sera mis à jour dès réception du numéro
   bank: 'Campost – La Poste du Cameroun',
   reference: 'Mentionner votre numéro de commande comme référence',

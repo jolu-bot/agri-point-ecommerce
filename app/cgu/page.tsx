@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+﻿import { Metadata } from 'next';
 import Link from 'next/link';
 import {
   ArrowLeft,
@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: "Conditions Générales d'Utilisation - AGRI POINT SERVICE",
+  title: "Conditions Générales d'Utilisation - AGRIPOINT SERVICES",
   description:
     "Conditions générales d'utilisation du site www.agri-ps.com — droits et obligations des utilisateurs, données personnelles, propriété intellectuelle, droit applicable camerounais.",
 };
@@ -52,7 +52,7 @@ export default function CGUPage() {
             <p className="text-gray-700 dark:text-gray-300">
               <strong className="text-gray-900 dark:text-white">Important :</strong> Les présentes
               Conditions Générales d&apos;Utilisation (CGU) régissent l&apos;accès et l&apos;utilisation du site
-              internet <strong>www.agri-ps.com</strong> exploité par AGRI POINT SERVICE SAS. Toute
+              internet <strong>www.agri-ps.com</strong> exploité par AGRIPOINT SERVICES SAS. Toute
               navigation sur ce site vaut acceptation sans réserve des présentes CGU.
             </p>
           </div>
@@ -74,7 +74,7 @@ export default function CGUPage() {
                 Les présentes CGU ont pour objet de définir les modalités d&apos;accès et les règles
                 d&apos;utilisation du site internet <strong>www.agri-ps.com</strong> (ci-après
                 &ldquo;le Site&rdquo;), de la boutique en ligne et de l&apos;ensemble des services numériques
-                mis à disposition des utilisateurs par AGRI POINT SERVICE SAS.
+                mis à disposition des utilisateurs par AGRIPOINT SERVICES SAS.
               </p>
               <p>
                 Ces CGU s&apos;appliquent à tout utilisateur, qu&apos;il soit visiteur anonyme, client
@@ -102,7 +102,7 @@ export default function CGUPage() {
             <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 space-y-3 text-gray-600 dark:text-gray-300">
               <p>
                 <strong className="text-gray-900 dark:text-white">« Éditeur » / « Société »</strong> :
-                AGRI POINT SERVICE SAS, société par actions simplifiée de droit camerounais, dont le
+                AGRIPOINT SERVICES SAS, société par actions simplifiée de droit camerounais, dont le
                 siège social est situé au B.P. 5111 Yaoundé, Quartier Fouda, Cameroun.
               </p>
               <p>
@@ -160,7 +160,7 @@ export default function CGUPage() {
               </p>
               <p>
                 <strong className="text-gray-900 dark:text-white">Directeur de publication :</strong>{' '}
-                Le Président Directeur Général d&apos;AGRI POINT SERVICE SAS
+                Le Président Directeur Général d&apos;AGRIPOINT SERVICES SAS
               </p>
               <p>
                 <strong className="text-gray-900 dark:text-white">Email :</strong>{' '}
@@ -212,7 +212,7 @@ export default function CGUPage() {
                   4.2 – Disponibilité
                 </h3>
                 <p>
-                  AGRI POINT SERVICE s&apos;efforce d&apos;assurer la disponibilité du Site 24h/24 et 7j/7.
+                  AGRIPOINT SERVICES s&apos;efforce d&apos;assurer la disponibilité du Site 24h/24 et 7j/7.
                   Toutefois, la Société se réserve le droit de suspendre, interrompre ou limiter
                   l&apos;accès sans préavis pour des raisons de maintenance, de mise à jour, de sécurité
                   ou de force majeure. Ces opérations ne peuvent donner lieu à aucune indemnisation.
@@ -224,7 +224,7 @@ export default function CGUPage() {
                 </h3>
                 <p>
                   L&apos;Utilisateur est responsable du matériel et du logiciel nécessaires à l&apos;accès au
-                  Site (terminal, navigateur à jour, connexion internet). AGRI POINT SERVICE ne
+                  Site (terminal, navigateur à jour, connexion internet). AGRIPOINT SERVICES ne
                   saurait être tenu responsable de tout dysfonctionnement lié à une configuration
                   incompatible ou obsolète.
                 </p>
@@ -381,7 +381,7 @@ export default function CGUPage() {
                 <p>
                   L&apos;ensemble du Contenu du Site (textes, graphismes, logos, icônes, photographies,
                   vidéos, fiches produits, code source, architecture) est la propriété exclusive
-                  d&apos;AGRI POINT SERVICE SAS ou de ses partenaires et fournisseurs de licences. Ce
+                  d&apos;AGRIPOINT SERVICES SAS ou de ses partenaires et fournisseurs de licences. Ce
                   Contenu est protégé par les lois camerounaises et les conventions internationales
                   relatives à la propriété intellectuelle, aux droits d&apos;auteur et aux marques.
                 </p>
@@ -394,7 +394,7 @@ export default function CGUPage() {
                   L&apos;Utilisateur bénéficie d&apos;un droit d&apos;accès personnel, non exclusif, non
                   transférable et révocable pour consulter le Contenu du Site à des fins privées et
                   non commerciales. Toute reproduction, distribution, modification, représentation
-                  totale ou partielle du Contenu, sans autorisation écrite préalable d&apos;AGRI POINT
+                  totale ou partielle du Contenu, sans autorisation écrite préalable d&apos;AGRIPOINT SERVICES
                   SERVICE, est strictement interdite.
                 </p>
               </div>
@@ -404,7 +404,7 @@ export default function CGUPage() {
                 </h3>
                 <p>
                   Les marques, logos et dénominations commerciales figurant sur le Site sont la
-                  propriété d&apos;AGRI POINT SERVICE SAS. Toute reproduction ou usage non autorisé
+                  propriété d&apos;AGRIPOINT SERVICES SAS. Toute reproduction ou usage non autorisé
                   engage la responsabilité civile et pénale de son auteur.
                 </p>
               </div>
@@ -425,7 +425,7 @@ export default function CGUPage() {
                   8.1 – Responsable de traitement
                 </h3>
                 <p>
-                  AGRI POINT SERVICE SAS est responsable du traitement des données à caractère
+                  AGRIPOINT SERVICES SAS est responsable du traitement des données à caractère
                   personnel collectées via le Site, conformément à la loi camerounaise n° 2010/012
                   du 21 décembre 2010 relative à la cybersécurité et à la cybercriminalité et aux
                   dispositions applicables en matière de protection des données personnelles.
@@ -620,7 +620,7 @@ export default function CGUPage() {
                   10.1 – Limitation de responsabilité de la Société
                 </h3>
                 <p>
-                  AGRI POINT SERVICE s&apos;efforce d&apos;assurer l&apos;exactitude et la mise à jour des
+                  AGRIPOINT SERVICES s&apos;efforce d&apos;assurer l&apos;exactitude et la mise à jour des
                   informations publiées sur le Site. Toutefois, la Société ne garantit pas
                   l&apos;exhaustivité, l&apos;exactitude ou l&apos;adéquation des informations à un besoin
                   particulier. Les informations (conseils agronomiques, descriptions produits…) sont
@@ -656,7 +656,7 @@ export default function CGUPage() {
                 </h3>
                 <p>
                   L&apos;Utilisateur est seul responsable de l&apos;utilisation qu&apos;il fait du Site, de son
-                  Compte et des données qu&apos;il communique. Il garantit AGRI POINT SERVICE contre toute
+                  Compte et des données qu&apos;il communique. Il garantit AGRIPOINT SERVICES contre toute
                   réclamation, perte ou préjudice résultant de son comportement fautif ou de la
                   violation des présentes CGU.
                 </p>
@@ -676,7 +676,7 @@ export default function CGUPage() {
               <p>
                 Le Site peut contenir des liens vers des sites web tiers (partenaires, fournisseurs,
                 ressources agronomiques). Ces liens sont fournis à titre informatif uniquement.
-                AGRI POINT SERVICE n&apos;exerce aucun contrôle sur ces sites et n&apos;en est pas
+                AGRIPOINT SERVICES n&apos;exerce aucun contrôle sur ces sites et n&apos;en est pas
                 responsable du contenu, de la politique de confidentialité ou des pratiques.
               </p>
               <p>
@@ -703,7 +703,7 @@ export default function CGUPage() {
             </div>
             <div className="space-y-3 text-gray-600 dark:text-gray-300">
               <p>
-                AGRI POINT SERVICE met en œuvre les mesures techniques et organisationnelles
+                AGRIPOINT SERVICES met en œuvre les mesures techniques et organisationnelles
                 appropriées pour protéger le Site et les données contre tout accès non autorisé,
                 altération, divulgation ou destruction. Ces mesures comprennent notamment :
               </p>
@@ -738,7 +738,7 @@ export default function CGUPage() {
             </div>
             <div className="space-y-3 text-gray-600 dark:text-gray-300">
               <p>
-                AGRI POINT SERVICE se réserve le droit de modifier les présentes CGU à tout moment,
+                AGRIPOINT SERVICES se réserve le droit de modifier les présentes CGU à tout moment,
                 notamment pour se conformer à l&apos;évolution législative, réglementaire ou technique.
               </p>
               <p>

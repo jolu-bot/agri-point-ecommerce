@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+﻿import nodemailer from 'nodemailer';
 import { Resend } from 'resend';
 
 interface EmailOptions {
@@ -20,7 +20,7 @@ async function sendViaResend(options: EmailOptions): Promise<boolean> {
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     const { error } = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'AGRI POINT SERVICE <noreply@agri-ps.com>',
+      from: process.env.EMAIL_FROM || 'AGRIPOINT SERVICES <noreply@agri-ps.com>',
       to: Array.isArray(options.to) ? options.to : [options.to],
       subject: options.subject,
       html: options.html || options.text || '',
@@ -123,7 +123,7 @@ export async function sendOrderConfirmation(
       </div>
       
       <div style="background: #f9fafb; padding: 20px; text-align: center; color: #666; font-size: 12px;">
-        <p>© 2026 Agri Point Service. Tous droits réservés.</p>
+        <p>© 2026 AGRIPOINT SERVICES. Tous droits réservés.</p>
       </div>
     </div>
   `;

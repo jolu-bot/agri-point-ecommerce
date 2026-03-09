@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import { sendEmail } from '@/lib/email';
@@ -44,11 +44,11 @@ export async function POST(req: NextRequest) {
 
     await sendEmail({
       to:      user.email,
-      subject: '🔗 Nouveau lien de vérification — AGRI POINT SERVICE',
+      subject: '🔗 Nouveau lien de vérification — AGRIPOINT SERVICES',
       html: `
         <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:580px;margin:0 auto;">
           <div style="background:linear-gradient(135deg,#059669,#065f46);padding:32px;text-align:center;border-radius:16px 16px 0 0;">
-            <h1 style="color:#fff;margin:0;">🌿 AGRI POINT SERVICE</h1>
+            <h1 style="color:#fff;margin:0;">🌿 AGRIPOINT SERVICES</h1>
           </div>
           <div style="background:#fff;padding:32px;border-radius:0 0 16px 16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
             <h2 style="color:#065f46;">Nouveau lien de vérification</h2>

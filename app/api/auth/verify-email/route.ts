@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
@@ -48,11 +48,11 @@ export async function GET(req: NextRequest) {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com';
     await sendEmail({
       to:      user.email,
-      subject: '🎉 Votre compte AGRI POINT est activé !',
+      subject: '🎉 Votre compte AGRIPOINT SERVICES est activé !',
       html: `
         <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
           <div style="background:linear-gradient(135deg,#059669,#065f46);padding:40px;text-align:center;">
-            <h1 style="color:#fff;margin:0;font-size:28px;">🌿 AGRI POINT SERVICE</h1>
+            <h1 style="color:#fff;margin:0;font-size:28px;">🌿 AGRIPOINT SERVICES</h1>
           </div>
           <div style="padding:40px;">
             <h2 style="color:#065f46;">Bienvenue ${user.name} ! Votre compte est actif 🎉</h2>
@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
             </div>
           </div>
           <div style="background:#f9fafb;padding:20px;text-align:center;">
-            <p style="color:#9ca3af;font-size:12px;margin:0;">© 2026 AGRI POINT SERVICE SAS · Cameroun</p>
+            <p style="color:#9ca3af;font-size:12px;margin:0;">© 2026 AGRIPOINT SERVICES SAS · Cameroun</p>
           </div>
         </div>`,
     });
@@ -89,7 +89,7 @@ export async function GET(req: NextRequest) {
 
     const response = NextResponse.json({
       success: true,
-      message: 'Email vérifié avec succès ! Bienvenue sur AGRI POINT SERVICE.',
+      message: 'Email vérifié avec succès ! Bienvenue sur AGRIPOINT SERVICES.',
       user: {
         id:            user._id,
         name:          user.name,

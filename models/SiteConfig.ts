@@ -1,9 +1,9 @@
-import mongoose from 'mongoose';
+﻿import mongoose from 'mongoose';
 
 const SiteConfigSchema = new mongoose.Schema({
   // Branding
   branding: {
-    siteName: { type: String, default: 'AGRI POINT SERVICE' },
+    siteName: { type: String, default: 'AGRIPOINT SERVICES' },
     tagline: { type: String, default: 'Le partenaire sûr de l\'entrepreneur agricole' },
     logoUrl: { type: String, default: '/images/logo.png' },
     faviconUrl: { type: String, default: '/favicon.ico' },
@@ -20,7 +20,7 @@ const SiteConfigSchema = new mongoose.Schema({
       },
     },
     primaryText: {
-      content: { type: String, default: 'AGRI POINT' },
+      content: { type: String, default: 'AGRIPOINT SERVICES' },
       sizes: {
         mobile: { type: String, default: 'text-sm' },
         tablet: { type: String, default: 'text-lg' },
@@ -120,7 +120,7 @@ const SiteConfigSchema = new mongoose.Schema({
   homePage: {
     hero: {
       badge: { type: String, default: '🌱 Le partenaire sûr de l\'entrepreneur agricole' },
-      title: { type: String, default: 'AGRI POINT SERVICE' },
+      title: { type: String, default: 'AGRIPOINT SERVICES' },
       subtitle: { type: String, default: 'Tout en Un' },
       description: { type: String, default: 'Gamme complète de biofertilisants de grande qualité pour augmenter la production de toutes les cultures.' },
       image: { type: String, default: '/products/product-sarah-npk-20-10-10.png' },
@@ -144,7 +144,7 @@ const SiteConfigSchema = new mongoose.Schema({
 
   // SEO
   seo: {
-    metaTitle: { type: String, default: 'AGRI POINT SERVICE - Produire plus, Gagner plus, Mieux vivre' },
+    metaTitle: { type: String, default: 'AGRIPOINT SERVICES - Produire plus, Gagner plus, Mieux vivre' },
     metaDescription: { type: String, default: 'Distributeur de biofertilisants de qualité au Cameroun. Solutions complètes pour l\'agriculture moderne et urbaine.' },
     keywords: [{ type: String }],
     ogImage: { type: String, default: '/images/logo.png' },
@@ -153,7 +153,7 @@ const SiteConfigSchema = new mongoose.Schema({
   // Footer
   footer: {
     about: { type: String, default: 'Le partenaire sûr de l\'entrepreneur agricole. Produire plus, Gagner plus, Mieux vivre.' },
-    copyrightText: { type: String, default: 'AGRI POINT SERVICE. Tous droits réservés.' },
+    copyrightText: { type: String, default: 'AGRIPOINT SERVICES. Tous droits réservés.' },
     poweredBy: {
       text: { type: String, default: 'Powered By JoYed\'S' },
       link: { type: String, default: 'https://www.joyeds.com' },

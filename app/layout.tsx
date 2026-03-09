@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+﻿import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SiteConfigProvider } from "@/contexts/SiteConfigContext";
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   title: "AGRIPOINT SERVICES SAS - Produire plus, Gagner plus, Mieux vivre",
   description: "Facilitateur agropastoral au Cameroun. Interface entre l'offre et la demande pour les acteurs agricoles, d'élevage, de pisciculture et de sylviculture.",
   keywords: ["facilitation agricole", "agropastoral", "Cameroun", "agriculture", "élevage", "pisciculture"],
-  authors: [{ name: "AGRI POINT SERVICE" }],
+  authors: [{ name: "AGRIPOINT SERVICES" }],
   icons: {
     icon: '/favicon.ico',
     apple: '/favicon.png',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     url: '/',
-    title: "AGRI POINT SERVICE",
+    title: "AGRIPOINT SERVICES",
     description: "Solutions agricoles complètes",
     images: [{ url: '/images/logo.png', width: 1200, height: 630 }],
   },

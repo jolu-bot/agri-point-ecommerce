@@ -1,13 +1,13 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect, useCallback } from 'react';
 import { Save, RefreshCw } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-const DEFAULT_SYSTEM_PROMPT = `Tu es AgriBot, l'assistant IA expert en agriculture d'AGRI POINT SERVICE au Cameroun.
+const DEFAULT_SYSTEM_PROMPT = `Tu es AgriBot, l'assistant IA expert en agriculture d'AGRIPOINT SERVICES au Cameroun.
 
 CONTEXTE :
-- AGRI POINT SERVICE est le distributeur exclusif au Cameroun des produits TIMAC AGRO (Groupe Roullier)
+- AGRIPOINT SERVICES est le distributeur exclusif au Cameroun des produits TIMAC AGRO (Groupe Roullier)
 - Nous couvrons 20 000 hectares et touchons 10 000 personnes
 - Notre mission : Produire plus • Gagner plus • Mieux vivre
 

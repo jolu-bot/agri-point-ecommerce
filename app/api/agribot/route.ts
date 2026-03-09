@@ -141,13 +141,13 @@ function detectMissingContext(
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// BASE DE CONNAISSANCES ULTRA-COMPLÈTE — AGRI POINT SERVICE
+// BASE DE CONNAISSANCES ULTRA-COMPLÈTE — AGRIPOINT SERVICES
 // ═══════════════════════════════════════════════════════════════════
 const KNOWLEDGE_BASE = `
-## AGRI POINT SERVICE — Base de Connaissances Exhaustive
+## AGRIPOINT SERVICES — Base de Connaissances Exhaustive
 
 ### IDENTITÉ & MISSION
-- **Nom complet** : AGRI POINT SERVICE (AGRI-PS)
+- **Nom complet** : AGRIPOINT SERVICES (AGRI-PS)
 - **Slogan** : "Produire plus, Gagner plus, Mieux vivre"
 - **Vision** : Révolutionner l'agriculture camerounaise par les biofertilisants
 - **Mission** : Rendre les intrants de qualité accessibles à tous les agriculteurs
@@ -169,7 +169,7 @@ const KNOWLEDGE_BASE = `
 
 ---
 
-### LES 3 PROGRAMMES PHARES AGRI POINT SERVICE
+### LES 3 PROGRAMMES PHARES AGRIPOINT SERVICES
 
 #### PRODUIRE PLUS (https://agri-ps.com/produire-plus)
 - **Objectif** : Augmenter les rendements agricoles de +40% à +150%
@@ -198,7 +198,7 @@ const KNOWLEDGE_BASE = `
   2. **Logement** — Accompagnement habitat à partir de 3 000 000 FCFA
   3. **Assurances** — Protection des récoltes et couverture agricole complète
   4. **Transport** — Solutions logistiques pour l'acheminement des récoltes
-- **Note** : Les services Mieux Vivre sont gérés par les CMA (Caisses Mutuelles Agricoles Africaines), partenaires d'AGRI POINT SERVICE
+- **Note** : Les services Mieux Vivre sont gérés par les CMA (Caisses Mutuelles Agricoles Africaines), partenaires d'AGRIPOINT SERVICES
 
 ---
 
@@ -346,7 +346,7 @@ const KNOWLEDGE_BASE = `
 
 **Étape 4 — Paiement via Campost**
 - Rendez-vous au bureau Campost le plus proche de chez vous
-- Demandez un versement sur le compte **AGRI POINT SERVICES SAS**
+- Demandez un versement sur le compte **AGRIPOINT SERVICES SAS**
 - Mentionnez votre numéro de commande comme référence
 - Photographiez le reçu et envoyez-le par WhatsApp au +237 676 026 601
 - Confirmation de commande sous 24h après réception du reçu
@@ -516,7 +516,7 @@ Rendre-vous sur https://agri-ps.com/campagne-engrais et remplir le formulaire :
 
 #### Questions fréquentes sur la campagne
 - **Jusqu'à quand ?** La campagne Mars 2026 est limitée dans le temps. Inscrivez-vous vite !
-- **Livraison ?** La livraison se fait via les points relais coopératives ou en agence AGRI POINT
+- **Livraison ?** La livraison se fait via les points relais coopératives ou en agence AGRIPOINT SERVICES
 - **Pas membre d'une coopérative ?** Contactez-nous au +237 657 39 39 39, nous pouvons vous orienter vers une coopérative partenaire près de chez vous
 - **Comment vérifier l'éligibilité ?** L'outil à gauche sur la page /campagne-engrais vérifie en temps réel avant inscription
 
@@ -554,7 +554,7 @@ Rendre-vous sur https://agri-ps.com/campagne-engrais et remplir le formulaire :
 
 ---
 
-### AGENCES & POINTS DE CONTACT AGRI POINT SERVICE
+### AGENCES & POINTS DE CONTACT AGRIPOINT SERVICES
 
 | Bureau/Agence | Adresse | Téléphone | Email |
 |--------------|---------|-----------|-------|
@@ -668,7 +668,7 @@ const tools: OpenAI.Chat.ChatCompletionTool[] = [
     type: 'function',
     function: {
       name: 'compare_products',
-      description: 'Compare deux ou plusieurs produits AGRI POINT côte à côte pour aider au choix.',
+      description: 'Compare deux ou plusieurs produits AGRIPOINT SERVICES côte à côte pour aider au choix.',
       parameters: {
         type: 'object',
         required: ['products'],
@@ -711,7 +711,7 @@ const tools: OpenAI.Chat.ChatCompletionTool[] = [
     type: 'function',
     function: {
       name: 'escalate_to_human',
-      description: 'Transférer la conversation vers un conseiller humain AGRI POINT SERVICE quand le problème est complexe, urgent ou hors de la compétence du bot (urgence terrain, pathologie grave, litige commercial, demande de devis sur-mesure).',
+      description: 'Transférer la conversation vers un conseiller humain AGRIPOINT SERVICES quand le problème est complexe, urgent ou hors de la compétence du bot (urgence terrain, pathologie grave, litige commercial, demande de devis sur-mesure).',
       parameters: {
         type: 'object',
         required: ['reason'],
@@ -739,7 +739,7 @@ const tools: OpenAI.Chat.ChatCompletionTool[] = [
     type: 'function',
     function: {
       name: 'calculate_roi',
-      description: 'Calcule le retour sur investissement (ROI) estimé en F CFA pour un agriculteur. À appeler quand quelqu\'un demande combien il peut gagner, quel est le bénéfice financier des produits AGRI POINT, ou veut estimer son gain supplémentaire.',
+      description: 'Calcule le retour sur investissement (ROI) estimé en F CFA pour un agriculteur. À appeler quand quelqu\'un demande combien il peut gagner, quel est le bénéfice financier des produits AGRIPOINT SERVICES, ou veut estimer son gain supplémentaire.',
       parameters: {
         type: 'object',
         required: ['culture', 'surface'],
@@ -950,7 +950,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
       });
 
       return [
-        `## Comparatif Produits AGRI POINT`,
+        `## Comparatif Produits AGRIPOINT SERVICES`,
         `| Produit | Rôle principal | NPK/Composition | Phase idéale | Urgence | Urbain |`,
         `|---------|---------------|-----------------|-------------|---------|--------|`,
         ...rows,
@@ -1039,7 +1039,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
 → Remplir ou sélectionner adresse de livraison
 
 **Étape 4** — Payer via Campost
-→ Versement au bureau Campost le plus proche sur le compte AGRI POINT SERVICES SAS
+→ Versement au bureau Campost le plus proche sur le compte AGRIPOINT SERVICES SAS
 
 **Étape 5** — Confirmation
 → Email + SMS avec numéro de commande AP-XXXX-XXXXX`,
@@ -1048,7 +1048,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
 
 🏢 **Campost – Versement en bureau de poste** (Mode principal recommandé)
 → Rendez-vous au bureau Campost le plus proche
-→ Versement sur le compte **AGRI POINT SERVICES SAS**
+→ Versement sur le compte **AGRIPOINT SERVICES SAS**
 → Mentionnez votre numéro de commande comme référence
 → Envoyez le reçu par WhatsApp : +237 676 026 601
 → Confirmation sous 24h — disponible dans les 10 régions du Cameroun
@@ -1058,7 +1058,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
 → Payez en espèces directement au livreur à la réception
 → Disponible selon la zone de livraison
 
-📌 Le numéro de compte AGRI POINT SERVICES SAS vous sera communiqué lors de la confirmation de commande.`,
+📌 Le numéro de compte AGRIPOINT SERVICES SAS vous sera communiqué lors de la confirmation de commande.`,
 
         suivi: `## Suivre ma Commande
 
@@ -1066,7 +1066,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
 → Se connecter → "Mon Compte" → "Mes Commandes"
 → Voir statut en temps réel
 
-**Option 2** — Via l'Assistant Agri Point (ici même !)
+**Option 2** — Via l'Assistant AGRIPOINT SERVICES (ici même !)
 → Donner votre numéro de commande AP-XXXX-XXXXX
 
 **Option 3** — Par téléphone
@@ -1106,7 +1106,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
 🎁 **Livraison GRATUITE** dès **50 000 F CFA** d'achat !
 📦 **Click & Collect gratuit** à Yaoundé Quartier Fouda`,
 
-        revendeur: `## Devenir Distributeur / Revendeur AGRI POINT
+        revendeur: `## Devenir Distributeur / Revendeur AGRIPOINT SERVICES
 
 Vous souhaitez revendre nos produits dans votre zone ?
 
@@ -1191,8 +1191,8 @@ Vous souhaitez revendre nos produits dans votre zone ?
       };
       const label  = reasonMap[args.reason] ?? reasonMap.autre;
       const ctx    = args.summary ? `\n\n📝 Contexte transmis au conseiller :\n_${args.summary}_` : '';
-      const waText = encodeURIComponent(`Bonjour, je suis mis en relation par l'Assistant Agri Point Services.\nMotif : ${label}${args.summary ? '\n' + args.summary : ''}`);
-      return `## 👨‍💼 Passage à un conseiller humain\n\n**Motif :** ${label}${ctx}\n\nUn agronome AGRI POINT SERVICE va prendre en charge votre demande :\n\n- 💬 [**WhatsApp maintenant**](https://wa.me/237657393939?text=${waText}) — réponse rapide\n- 📞 [**+237 657 39 39 39**](tel:+237657393939) — lun-sam 7h-19h\n- ✉️ infos@agri-ps.com\n\nPrésentez votre numéro de commande si vous en avez un. Notre équipe vous répondra dans les meilleurs délais 🌱`;
+      const waText = encodeURIComponent(`Bonjour, je suis mis en relation par l'Assistant AGRIPOINT SERVICES.\nMotif : ${label}${args.summary ? '\n' + args.summary : ''}`);
+      return `## 👨‍💼 Passage à un conseiller humain\n\n**Motif :** ${label}${ctx}\n\nUn agronome AGRIPOINT SERVICES va prendre en charge votre demande :\n\n- 💬 [**WhatsApp maintenant**](https://wa.me/237657393939?text=${waText}) — réponse rapide\n- 📞 [**+237 657 39 39 39**](tel:+237657393939) — lun-sam 7h-19h\n- ✉️ infos@agri-ps.com\n\nPrésentez votre numéro de commande si vous en avez un. Notre équipe vous répondra dans les meilleurs délais 🌱`;
     }
 
     // ── calculate_roi ──
@@ -1239,7 +1239,7 @@ Vous souhaitez revendre nos produits dans votre zone ?
         ``,
         `### 📈 Résultat financier`,
         `- Gain brut supplémentaire : **+${gainBrut.toLocaleString('fr-FR')} F CFA**`,
-        `- Investissement produits AGRI POINT : ~${coutProduits.toLocaleString('fr-FR')} F CFA`,
+        `- Investissement produits AGRIPOINT SERVICES : ~${coutProduits.toLocaleString('fr-FR')} F CFA`,
         `- 🎉 **Gain net estimé : +${gainNet.toLocaleString('fr-FR')} F CFA**`,
         `- **ROI : +${roiPct}%** sur l'investissement`,
         ``,
@@ -1262,7 +1262,7 @@ Vous souhaitez revendre nos produits dans votre zone ?
             const events = data.events || [];
             if (events.length > 0) {
               const lines = [
-                `## 📅 Événements AGRI POINT SERVICE`,
+                `## 📅 Événements AGRIPOINT SERVICES`,
                 '',
                 ...events.map(e => [
                   `### ${e.title}`,
@@ -1281,9 +1281,9 @@ Vous souhaitez revendre nos produits dans votre zone ?
       } catch { /* fallback statique */ }
 
       const fallbacks: Record<string, string> = {
-        evenements: `## 📅 Événements AGRI POINT SERVICE\n\n🔗 [Calendrier complet](https://agri-ps.com/evenements)\n\nProchains événements :\n- 🌾 **Foire Agricole Régionale** — Yaoundé (prochainement)\n- 📚 **Formation biofertilisants** — Douala (sur inscription)\n- 🌐 **Webinaire mensuel** — En ligne, 1er vendredi du mois\n\n📞 +237 657 39 39 39 pour s'inscrire`,
+        evenements: `## 📅 Événements AGRIPOINT SERVICES\n\n🔗 [Calendrier complet](https://agri-ps.com/evenements)\n\nProchains événements :\n- 🌾 **Foire Agricole Régionale** — Yaoundé (prochainement)\n- 📚 **Formation biofertilisants** — Douala (sur inscription)\n- 🌐 **Webinaire mensuel** — En ligne, 1er vendredi du mois\n\n📞 +237 657 39 39 39 pour s'inscrire`,
         carte: `## 🗺️ Carte des Distributeurs\n\n🔗 [Voir la carte interactive](https://agri-ps.com/carte)\n\nNos agences :\n- 📍 Yaoundé — Quartier Fouda (siège)\n- 📍 Douala — Bonapriso\n- 📍 Bafoussam — Centre-ville\n- 📍 Garoua — Quartier Dougoï\n- 📍 Maroua — Centre commercial`,
-        actualites: `## 📰 Actualités AGRI POINT\n\n- 🌾 Campagne Engrais Mars 2026 — Inscriptions ouvertes !\n- 📱 Cette saison : AMINOL 20 prioritaire (saison sèche)\n- 🏆 98% satisfaction client confirmée\n\n💬 WhatsApp 657 39 39 39`,
+        actualites: `## 📰 Actualités AGRIPOINT SERVICES\n\n- 🌾 Campagne Engrais Mars 2026 — Inscriptions ouvertes !\n- 📱 Cette saison : AMINOL 20 prioritaire (saison sèche)\n- 🏆 98% satisfaction client confirmée\n\n💬 WhatsApp 657 39 39 39`,
       };
       const key = Object.keys(fallbacks).find(k => page.includes(k)) || 'evenements';
       return fallbacks[key];
@@ -1334,13 +1334,13 @@ function extractMeta(message: string): { tags: string[]; intent: string } {
 // SYSTEM PROMPT
 // ═══════════════════════════════════════════════════════════════════
 // SYSTEM_PROMPT de base — la mémoire et le climat sont injectés dynamiquement via buildSystemPrompt()
-const SYSTEM_PROMPT_BASE = `Tu es **l'Assistant d'Agri Point Services** 🌿 — un conseiller agricole expert, empathique et disponible 24h/24.
-AGRI POINT SERVICES est la référence en biofertilisants et solutions agricoles au Cameroun depuis 2010.
+const SYSTEM_PROMPT_BASE = `Tu es **l'Assistant d'AGRIPOINT SERVICES** 🌿 — un conseiller agricole expert, empathique et disponible 24h/24.
+AGRIPOINT SERVICES est la référence en biofertilisants et solutions agricoles au Cameroun depuis 2010.
 
 ## IDENTITÉ & PRÉSENTATION
-- Tu te présentes TOUJOURS comme **«l'Assistant d'Agri Point Services»** — jamais comme "AgriBot" ou "une IA".
-- En début de conversation, tu te présentes naturellement : «Bonjour ! Je suis l'Assistant d'Agri Point Services 🌿 — votre conseiller agricole expert…»
-- **Important** : Un Conseiller Expert d'Agri Point Services peut également intervenir à tout moment pour vous accompagner avec une expertise terrain approfondie. Si le client a besoin d'un suivi humain → propose l'escalade vers un conseiller humain.
+- Tu te présentes TOUJOURS comme **«l'Assistant d'AGRIPOINT SERVICES»** — jamais comme "AgriBot" ou "une IA".
+- En début de conversation, tu te présentes naturellement : «Bonjour ! Je suis l'Assistant d'AGRIPOINT SERVICES 🌿 — votre conseiller agricole expert…»
+- **Important** : Un Conseiller Expert d'AGRIPOINT SERVICES peut également intervenir à tout moment pour vous accompagner avec une expertise terrain approfondie. Si le client a besoin d'un suivi humain → propose l'escalade vers un conseiller humain.
 - Tu incarnes l'expertise d'un agronome avec 15 ans d'expérience terrain au Cameroun.
 
 ## PERSONNALITÉ & TON — NIVEAU CHAMPION
@@ -2087,7 +2087,7 @@ Donner votre numéro de commande **AP-XXXX-XXXXX** dans ce chat
 
 ### Étape 4 — Payer via Campost
 → Se rendre au bureau **Campost** le plus proche
-→ Verser sur le compte **AGRI POINT SERVICES SAS**
+→ Verser sur le compte **AGRIPOINT SERVICES SAS**
 → Mentionner votre **numéro de commande** comme référence
 → 📸 Envoyer le reçu par WhatsApp : **+237 676 026 601**
 
@@ -2104,7 +2104,7 @@ Donner votre numéro de commande **AP-XXXX-XXXXX** dans ce chat
 
 ### 🏢 Campost — Mode principal recommandé
 - Se rendre au bureau **Campost** le plus proche (disponible dans les 10 régions)
-- Verser sur le compte **AGRI POINT SERVICES SAS**
+- Verser sur le compte **AGRIPOINT SERVICES SAS**
 - Mentionner votre **numéro de commande** comme référence
 - 📸 Envoyer le reçu par WhatsApp : **+237 676 026 601**
 - ✅ Confirmation sous **24h** après réception du reçu
@@ -2115,14 +2115,14 @@ Donner votre numéro de commande **AP-XXXX-XXXXX** dans ce chat
 
 ---
 
-> 📌 Le **numéro de compte exact** AGRI POINT SERVICES SAS vous sera communiqué dans l'email de confirmation de commande.
+> 📌 Le **numéro de compte exact** AGRIPOINT SERVICES SAS vous sera communiqué dans l'email de confirmation de commande.
 
 📞 Questions paiement : **+237 657 39 39 39** | 💬 **657 39 39 39**` };
   }
 
   // ── LIVRAISON ─────────────────────────────────────────────────────
   if (m.includes('livraison') || m.includes('délai') || m.includes('délais') || m.includes('expédition') || m.includes('frais de livraison') || m.includes('zone')) {
-    return { intent: 'commande', demo: `## 🚚 Livraison AGRI POINT SERVICE
+    return { intent: 'commande', demo: `## 🚚 Livraison AGRIPOINT SERVICES
 
 | Zone | Délai | Frais |
 |------|-------|-------|
@@ -2552,7 +2552,7 @@ Ne pas mélanger avec d'autres produits. Appliquer **séparément** au sol.
 
   // ── PRIX / COMBIEN ────────────────────────────────────────────────
   if (m.includes('prix') || m.includes('coût') || (m.includes('combien') && (m.includes('produit') || m.includes('litre') || m.includes('sac'))) || m.includes('tarif') || m.includes('budget')) {
-    return { intent: 'produit', demo: `## 💰 Tarifs & Formats AGRI POINT SERVICE
+    return { intent: 'produit', demo: `## 💰 Tarifs & Formats AGRIPOINT SERVICES
 
 Nos biofertilisants sont disponibles en plusieurs formats pour toutes les surfaces.
 
@@ -2593,7 +2593,7 @@ Retrouvez les **prix exacts et actualisés** sur :
 | 🌽 Maïs (1 Ha) | 1.5-2 t/Ha | **+40-50%** | +135 000 - 225 000 FCFA |
 
 ### 💵 Coût programme complet (1 Ha)
-Investissement produits AGRI POINT : **~18 000 FCFA/Ha**
+Investissement produits AGRIPOINT SERVICES : **~18 000 FCFA/Ha**
 
 ### 🏆 ROI typique
 Pour **1 Ha de tomates** :
@@ -2635,7 +2635,7 @@ Pour **1 Ha de tomates** :
 
   // ── COMPARAISON PRODUITS ──────────────────────────────────────────
   if (m.includes('comparaison') || m.includes('comparer') || m.includes('différence') || m.includes('meilleur produit') || m.includes('lequel choisir') || m.includes('quel produit')) {
-    return { intent: 'produit', demo: `## ⚖️ Comparatif Complet des Produits AGRI POINT
+    return { intent: 'produit', demo: `## ⚖️ Comparatif Complet des Produits AGRIPOINT SERVICES
 
 | Produit | Rôle principal | Phase idéale | Urgence | Urbain |
 |---------|---------------|-------------|---------|--------|
@@ -2687,7 +2687,7 @@ Ne jamais attendre les symptômes en saison sèche → agir **préventivement** 
 
   // ── FORMATIONS / ÉVÉNEMENTS ───────────────────────────────────────
   if (m.includes('formation') || m.includes('événement') || m.includes('evenement') || m.includes('webinaire') || m.includes('foire') || m.includes('séminaire') || m.includes('agenda')) {
-    return { intent: 'navigation', demo: `## 📅 Formations & Événements AGRI POINT SERVICE
+    return { intent: 'navigation', demo: `## 📅 Formations & Événements AGRIPOINT SERVICES
 
 ### 🗓️ Types d'événements disponibles
 - 🌾 **Formations terrain** — Par région, sur inscription
@@ -2712,7 +2712,7 @@ Ne jamais attendre les symptômes en saison sèche → agir **préventivement** 
 
   // ── DISTRIBUTEUR / REVENDEUR ──────────────────────────────────────
   if (m.includes('distributeur') || m.includes('revendeur') || m.includes('revendre') || m.includes('point de vente') || m.includes('partenaire') || m.includes('agence') || m.includes('représentant') || m.includes('devenir')) {
-    return { intent: 'navigation', demo: `## 🤝 Devenir Distributeur / Revendeur AGRI POINT
+    return { intent: 'navigation', demo: `## 🤝 Devenir Distributeur / Revendeur AGRIPOINT SERVICES
 
 ### ✅ Avantages partenaires
 - 💰 **Prix préférentiels** : remise 15-25% sur commandes
@@ -2739,15 +2739,15 @@ Ne jamais attendre les symptômes en saison sèche → agir **préventivement** 
   }
 
   // ── À PROPOS / HISTOIRE ───────────────────────────────────────────
-  if (m.includes('à propos') || m.includes('a propos') || m.includes('qui êtes') || m.includes('qui etes') || m.includes('histoire') || m.includes('entreprise') || m.includes('fondé') || m.includes('depuis quand') || m.includes('agri point')) {
-    return { intent: 'navigation', demo: `## 🌿 AGRI POINT SERVICE — Notre Histoire
+  if (m.includes('à propos') || m.includes('a propos') || m.includes('qui êtes') || m.includes('qui etes') || m.includes('histoire') || m.includes('entreprise') || m.includes('fondé') || m.includes('depuis quand') || m.includes('AGRIPOINT SERVICES')) {
+    return { intent: 'navigation', demo: `## 🌿 AGRIPOINT SERVICES — Notre Histoire
 
 ### ✨ Qui sommes-nous ?
-**AGRI POINT SERVICE** est une entreprise camerounaise fondée en **2010**, spécialisée dans les **biofertilisants** et solutions de fertilisation agricole.
+**AGRIPOINT SERVICES** est une entreprise camerounaise fondée en **2010**, spécialisée dans les **biofertilisants** et solutions de fertilisation agricole.
 
 **Slogan** : *"Produire plus, Gagner plus, Mieux vivre"*
 
-### 📊 AGRI POINT en chiffres
+### 📊 AGRIPOINT SERVICES en chiffres
 | Indicateur | Chiffre |
 |-----------|--------|
 | Années d'expérience | **15 ans** (depuis 2010) |
@@ -2794,7 +2794,7 @@ B.P. 5111, Quartier Fouda, Cameroun
 
   // ── CGV / CGU / MENTIONS LÉGALES ─────────────────────────────────
   if (m.includes('cgv') || m.includes('cgu') || (m.includes('condition') && (m.includes('vente') || m.includes('utilisation'))) || m.includes('mentions légales') || m.includes('confidentialité') || m.includes('données') || m.includes('rgpd')) {
-    return { intent: 'navigation', demo: `## 📋 Informations Légales — AGRI POINT SERVICE
+    return { intent: 'navigation', demo: `## 📋 Informations Légales — AGRIPOINT SERVICES
 
 ### 📄 Documents légaux disponibles
 | Document | Lien |
@@ -2811,13 +2811,13 @@ B.P. 5111, Quartier Fouda, Cameroun
 
 Demande : **privacy@agri-ps.com**
 
-**AGRI POINT SERVICE SAS** — B.P. 5111 Yaoundé, Cameroun
+**AGRIPOINT SERVICES SAS** — B.P. 5111 Yaoundé, Cameroun
 📞 **+237 657 39 39 39** | ✉️ infos@agri-ps.com` };
   }
 
   // ── CATALOGUE / BOUTIQUE ──────────────────────────────────────────
   if (m.includes('boutique') || m.includes('catalogue') || m.includes('tous les produits') || m.includes('voir les produits') || m.includes('shop')) {
-    return { intent: 'produit', demo: `## 🛒 Catalogue AGRI POINT SERVICE
+    return { intent: 'produit', demo: `## 🛒 Catalogue AGRIPOINT SERVICES
 
 ### Nos 5 Biofertilisants
 
@@ -2840,7 +2840,7 @@ Dites-moi votre **culture** et votre **problème** — je vous recommande le pro
 
   // ── PILIERS / PRODUIRE PLUS / GAGNER PLUS / MIEUX VIVRE ──────────
   if (m.includes('produire plus') || m.includes('augmenter rendement') || m.includes('gagner plus') || m.includes('revenu agricole') || m.includes('mieux vivre') || m.includes('qualité de vie')) {
-    return { intent: 'conseil', demo: `## 🚀 Les 3 Piliers AGRI POINT SERVICE
+    return { intent: 'conseil', demo: `## 🚀 Les 3 Piliers AGRIPOINT SERVICES
 
 ### 📈 [Produire Plus](https://agri-ps.com/produire-plus)
 Augmenter vos rendements de **+40% à +150%** grâce aux biofertilisants.
@@ -2865,9 +2865,9 @@ Dites-moi votre **situation** (surface, culture, objectif) et je vous guide vers
   }
 
   // ── RÉPONSE PAR DÉFAUT — Accueil + Guidance ───────────────────────
-  return { intent: 'conseil', demo: `## Bonjour ! Je suis **l'Assistant d'Agri Point Services** 🌿
+  return { intent: 'conseil', demo: `## Bonjour ! Je suis **l'Assistant d'AGRIPOINT SERVICES** 🌿
 
-Votre conseiller expert AGRI POINT — **15 ans d'expertise agricole** au Cameroun.
+Votre conseiller expert AGRIPOINT SERVICES — **15 ans d'expertise agricole** au Cameroun.
 
 ### 🎯 Je peux vous aider sur :
 

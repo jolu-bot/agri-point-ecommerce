@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss";
+﻿import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
@@ -57,7 +57,7 @@ const config: Config = {
         'container-3xl': '1920px',
       },
       colors: {
-        // Charte graphique AGRI POINT
+        // Charte graphique AGRIPOINT SERVICES
         primary: {
           50: '#e8f5e9',
           100: '#c8e6c9',

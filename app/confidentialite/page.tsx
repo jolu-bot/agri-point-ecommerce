@@ -1,10 +1,10 @@
-import { Metadata } from 'next';
+﻿import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Shield, Eye, Lock, Database, Cookie, Users, AlertCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Politique de Confidentialité - AGRI POINT SERVICE',
-  description: 'Politique de confidentialité et protection des données personnelles de AGRI POINT SERVICE',
+  title: 'Politique de Confidentialité - AGRIPOINT SERVICES',
+  description: 'Politique de confidentialité et protection des données personnelles de AGRIPOINT SERVICES',
 };
 
 export default function ConfidentialitePage() {
@@ -32,7 +32,7 @@ export default function ConfidentialitePage() {
             </div>
           </div>
           <p className="text-gray-600 dark:text-gray-300">
-            AGRI POINT SERVICE SAS s&apos;engage à protéger la vie privée de ses utilisateurs et à garantir la sécurité de leurs données personnelles. Cette politique décrit comment nous collectons, utilisons et protégeons vos informations.
+            AGRIPOINT SERVICES SAS s&apos;engage à protéger la vie privée de ses utilisateurs et à garantir la sécurité de leurs données personnelles. Cette politique décrit comment nous collectons, utilisons et protégeons vos informations.
           </p>
         </div>
 
@@ -49,7 +49,7 @@ export default function ConfidentialitePage() {
                 Le responsable du traitement des données personnelles est :
               </p>
               <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
-                <p><strong className="text-gray-900 dark:text-white">AGRI POINT SERVICE SAS</strong></p>
+                <p><strong className="text-gray-900 dark:text-white">AGRIPOINT SERVICES SAS</strong></p>
                 <p>B.P. 5111 Yaoundé, Quartier Fouda, Cameroun</p>
                 <p>Email : <a href="mailto:dpo@agri-ps.com" className="text-primary-600 hover:text-primary-700">dpo@agri-ps.com</a></p>
                 <p>Téléphone : <a href="tel:+237657393939" className="text-primary-600 hover:text-primary-700">+237 657 39 39 39</a></p>

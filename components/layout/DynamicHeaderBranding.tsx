@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
@@ -30,7 +30,7 @@ export default function DynamicHeaderBranding({ className = '' }: DynamicHeaderB
       },
     },
     primaryText: {
-      content: 'AGRI POINT',
+      content: 'AGRIPOINT SERVICES',
       sizes: {
         mobile: 'text-sm',
         tablet: 'text-lg',
