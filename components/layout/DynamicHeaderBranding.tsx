@@ -78,18 +78,9 @@ export default function DynamicHeaderBranding({ className = '' }: DynamicHeaderB
           alt="AGRIPOINT SERVICES SAS — Logo officiel"
           width={1280}
           height={1012}
-          className="h-10 sm:h-12 lg:h-14 w-auto object-contain"
+          className="h-12 sm:h-14 lg:h-16 w-auto object-contain"
           priority
         />
-      </div>
-      {/* Texte AGRIPOINT collé + Services SAS */}
-      <div className="flex flex-col ml-1.5 leading-none">
-        <span className="text-sm sm:text-base lg:text-lg font-extrabold tracking-tight">
-          <span className="text-red-500">AGRI</span><span className="text-emerald-600 dark:text-emerald-400">POINT</span>
-        </span>
-        <span className="text-[9px] sm:text-[10px] lg:text-xs font-semibold text-emerald-600 dark:text-emerald-400 tracking-wide">
-          Services <span className="text-gray-700 dark:text-gray-300 font-bold">SAS</span>
-        </span>
       </div>
     </Link>
   );
