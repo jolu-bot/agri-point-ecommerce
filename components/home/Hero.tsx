@@ -31,7 +31,7 @@ function HeroContent() {
       </h1>
 
       <p className="text-gray-700 dark:text-gray-300 leading-relaxed max-w-lg hero-description">
-        <strong className="text-gray-900 dark:text-white font-semibold">Nos objectifs :</strong> Un Agripoint services s'installe partout où il y a un potentiel de <strong className="text-gray-900 dark:text-white font-semibold">20 000 ha et 10 000 producteurs</strong>.
+        <strong className="text-gray-900 dark:text-white font-semibold">Nos objectifs :</strong> Œuvrer à la professionnalisation des acteurs des filières agropastorales.
       </p>
 
       <div className="flex flex-col sm:flex-row gap-3 hero-buttons">

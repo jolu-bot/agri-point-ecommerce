@@ -166,8 +166,8 @@ export default function ProductsClient({
                 <Leaf className="w-3 h-3" />
                 Offres Agripoint Services
               </div>
-              <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white leading-tight mb-3">
-                Nos{' '}
+              <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-3">
+                <span className="text-red-500">Nos</span>{' '}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-emerald-400 dark:to-teal-400">
                   Produits
                 </span>

@@ -113,10 +113,9 @@ export default function HeroNew() {
             className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tighter mb-4 sm:mb-6 text-white drop-shadow-2xl"
           >
             <span className="block">
-              <span className="text-red-500">AGRI</span>
-              <span className="text-emerald-300"> POINT</span>
+              <span className="text-red-500">AGRI</span><span className="text-emerald-300">POINT</span>
             </span>
-            <span className="block bg-gradient-to-r from-emerald-300 via-green-400 to-emerald-400 bg-clip-text text-transparent drop-shadow-xl">SERVICES</span>
+            <span className="block bg-gradient-to-r from-emerald-300 via-green-400 to-emerald-400 bg-clip-text text-transparent drop-shadow-xl">SERVICES <span className="text-white/80 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">SAS</span></span>
             <span className="block text-3xl sm:text-4xl md:text-5xl font-bold text-emerald-300 mt-2 sm:mt-4">Tout en Un</span>
           </motion.h1>
 
@@ -126,7 +125,7 @@ export default function HeroNew() {
             className="text-base sm:text-lg md:text-xl text-white/95 max-w-3xl mx-auto mb-8 sm:mb-10 leading-relaxed drop-shadow-lg"
           >
             <strong className="text-white font-bold block mb-2">Nos objectifs :</strong>
-            Un Agripoint Services s&apos;installe partout où il y a un potentiel de 20 000 ha et 10 000 producteurs.
+            Œuvrer à la professionnalisation des acteurs des filières agropastorales.
           </motion.p>
 
           {/* Stats - Animated Counters */}
