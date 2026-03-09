@@ -105,7 +105,7 @@ export default function Header() {
 
 
           {/* Navigation Desktop */}
-          <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6 2xl:space-x-8">
+          <nav className="hidden lg:flex items-center ml-8 xl:ml-12 space-x-2 xl:space-x-3 2xl:space-x-5">
             {navigation.map((item) => (
               item.submenu ? (
                 <div 
