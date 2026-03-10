@@ -99,8 +99,11 @@ export default function Footer() {
               </span>
             </div>
 
-            <p className="text-[13px] text-gray-500 leading-relaxed mb-6 max-w-xs">
+            <p className="text-[13px] text-gray-500 leading-relaxed mb-3 max-w-xs">
               Le partenaire sûr de l&apos;entrepreneur agricole.
+            </p>
+            <p className="text-[12px] font-semibold text-emerald-500 italic mb-6">
+              Soutenons l&apos;agriculture durable
             </p>
 
             <div className="h-px w-full bg-gradient-to-r from-emerald-700/40 via-gray-700/20 to-transparent mb-6" />
