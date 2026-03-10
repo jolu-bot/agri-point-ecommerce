@@ -11,7 +11,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 
-// ── Types ──────────────────────────────────────────────────────────────────────
+// -- Types ----------------------------------------------------------------------
 interface UserProfile {
   _id: string;
   name: string;
@@ -41,7 +41,7 @@ interface EditData {
   address: { city: string; region: string; quartier: string; street: string };
 }
 
-// ── Badges statut ──────────────────────────────────────────────────────────────
+// -- Badges statut --------------------------------------------------------------
 const STATUS_CONFIG = {
   approved:      { label: 'Compte actif',            icon: CheckCircle,   color: 'text-emerald-700 bg-emerald-50 border-emerald-200 dark:text-emerald-400 dark:bg-emerald-900/20 dark:border-emerald-800/40' },
   pending_email: { label: 'Email à vérifier',        icon: Mail,          color: 'text-blue-700 bg-blue-50 border-blue-200 dark:text-blue-400 dark:bg-blue-900/20 dark:border-blue-800/40' },
@@ -54,7 +54,7 @@ const ROLE_LABELS: Record<string, string> = {
   user: 'Client', admin: 'Admin', superadmin: 'Super Admin', moderator: 'Modérateur', distributor: 'Distributeur',
 };
 
-// ── Helpers ────────────────────────────────────────────────────────────────────
+// -- Helpers --------------------------------------------------------------------
 function fmtDate(iso?: string) {
   if (!iso) return '—';
   return new Intl.DateTimeFormat('fr-FR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(iso));
@@ -151,7 +151,7 @@ export default function ComptePage() {
     }
   };
 
-  // ── Loading ────────────────────────────────────────────────────────────────
+  // -- Loading ----------------------------------------------------------------
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">

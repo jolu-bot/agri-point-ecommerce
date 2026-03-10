@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import CampostPaymentInfo from '@/components/shared/CampostPaymentInfo';
 
-// ─── Countdown Hook ──────────────────────────────────────────────────────────
+// --- Countdown Hook ----------------------------------------------------------
 
 interface TimeLeft { days: number; hours: number; minutes: number; seconds: number; }
 
@@ -36,7 +36,7 @@ function useCountdown(targetDate: Date): TimeLeft {
   return timeLeft;
 }
 
-// ─── Animated Counter ────────────────────────────────────────────────────────
+// --- Animated Counter --------------------------------------------------------
 
 function AnimatedCounter({ value, duration = 2000 }: { value: number; duration?: number }) {
   const [current, setCurrent] = useState(0);
@@ -56,7 +56,7 @@ function AnimatedCounter({ value, duration = 2000 }: { value: number; duration?:
   return <span ref={ref}>{current.toLocaleString('fr-FR')}</span>;
 }
 
-// ─── QR Code Section ────────────────────────────────────────────────────────
+// --- QR Code Section --------------------------------------------------------
 
 function QRCodeSection() {
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
@@ -137,7 +137,7 @@ function QRCodeSection() {
   );
 }
 
-// ─── Data ────────────────────────────────────────────────────────────────────
+// --- Data --------------------------------------------------------------------
 
 const FAQ_ITEMS = [
   {
@@ -196,7 +196,7 @@ const TESTIMONIALS = [
   },
 ];
 
-// ─── Page ────────────────────────────────────────────────────────────────────
+// --- Page --------------------------------------------------------------------
 
 export default function CampagnePremiumPage() {
   const MINERAL_PRICE = 15000;

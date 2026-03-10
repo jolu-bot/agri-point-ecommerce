@@ -48,16 +48,16 @@ const pageContent = {
     badge: "L'Agriculture du Futur",
     title: "AGRICULTURE URBAINE",
     subtitle: "Cultivez la ville, nourrissez l'avenir",
-    description: "Transformez votre balcon, terrasse ou toit en jardin productif. Technologies modernes, espaces rÃ©duits, rÃ©sultats exceptionnels.",
+    description: "Transformez votre balcon, terrasse ou toit en jardin productif. Technologies modernes, espaces réduits, résultats exceptionnels.",
     cta: {
-      primary: "DÃ©marrer mon jardin",
+      primary: "Démarrer mon jardin",
       secondary: "Voir les kits"
     }
   },
 
   stats: [
-    { value: "80%", label: "d'Ã©conomies sur lÃ©gumes", icon: TrendingUp },
-    { value: "365j", label: "de rÃ©coltes annuelles", icon: Sun },
+    { value: "80%", label: "d'économies sur légumes", icon: TrendingUp },
+    { value: "365j", label: "de récoltes annuelles", icon: Sun },
     { value: "0 pesticides", label: "agriculture durable", icon: Leaf },
     { value: "5K+", label: "jardins urbains actifs", icon: Building2 }
   ],
@@ -65,16 +65,16 @@ const pageContent = {
   solutions: [
     {
       title: "Balcon Productif",
-      description: "Transformez 2mÂ² en potager ultra-productif. IdÃ©al pour appartements.",
+      description: "Transformez 2m² en potager ultra-productif. Idéal pour appartements.",
       icon: Home,
-      space: "2-5 mÂ²",
-      products: "15-20 lÃ©gumes/mois",
+      space: "2-5 m²",
+      products: "15-20 légumes/mois",
       investment: "50 000 FCFA",
       color: "blue",
       features: [
-        "JardiniÃ¨res verticales optimisÃ©es",
-        "SystÃ¨me d'irrigation goutte-Ã -goutte",
-        "Substrat enrichi longue durÃ©e",
+        "Jardinières verticales optimisées",
+        "Système d'irrigation goutte-à-goutte",
+        "Substrat enrichi longue durée",
         "Guide culture balcon inclus",
         "Semences hybrides performantes"
       ],
@@ -82,17 +82,17 @@ const pageContent = {
     },
     {
       title: "Terrasse Intelligente",
-      description: "Potager semi-automatisÃ© avec monitoring digital. Pour terrasses 10-30mÂ².",
+      description: "Potager semi-automatisé avec monitoring digital. Pour terrasses 10-30m².",
       icon: Smartphone,
-      space: "10-30 mÂ²",
+      space: "10-30 m²",
       products: "50-80 kg/mois",
       investment: "250 000 FCFA",
       color: "green",
       features: [
-        "Bacs de culture connectÃ©s",
+        "Bacs de culture connectés",
         "App mobile de suivi",
         "Irrigation automatique programmable",
-        "Capteurs humiditÃ© + tempÃ©rature",
+        "Capteurs humidité + température",
         "Formation technique incluse"
       ],
       image: "/images/urban-terrasse.jpg",
@@ -100,16 +100,16 @@ const pageContent = {
     },
     {
       title: "Toit Nourricier",
-      description: "Ferme urbaine sur toit. Production commerciale possible. 50mÂ² et plus.",
+      description: "Ferme urbaine sur toit. Production commerciale possible. 50m² et plus.",
       icon: Building2,
-      space: "50+ mÂ²",
+      space: "50+ m²",
       products: "200-500 kg/mois",
       investment: "1 500 000 FCFA",
       color: "purple",
       features: [
-        "SystÃ¨me hydroponique professionnel",
-        "Serre dÃ©montable modulaire",
-        "Ã‰clairage LED d'appoint",
+        "Système hydroponique professionnel",
+        "Serre démontable modulaire",
+        "Éclairage LED d'appoint",
         "Pack irrigation pro",
         "Accompagnement business 1 an"
       ],
@@ -125,40 +125,40 @@ const pageContent = {
         name: "Hydroponie",
         description: "Culture hors-sol dans l'eau enrichie. Croissance 30% plus rapide, 90% moins d'eau.",
         icon: Droplets,
-        advantages: ["Pas de terre nÃ©cessaire", "ContrÃ´le nutrition optimal", "Production continue", "ZÃ©ro maladies du sol"],
+        advantages: ["Pas de terre nécessaire", "Contrôle nutrition optimal", "Production continue", "Zéro maladies du sol"],
         color: "cyan"
       },
       {
-        name: "AÃ©roponie",
-        description: "Racines dans l'air avec brumisation nutritive. Technologie NASA, rÃ©sultats spectaculaires.",
+        name: "Aéroponie",
+        description: "Racines dans l'air avec brumisation nutritive. Technologie NASA, résultats spectaculaires.",
         icon: Wind,
-        advantages: ["Croissance ultra-rapide", "Ã‰conomie d'eau maximale", "OxygÃ©nation optimale", "Rendement x2"],
+        advantages: ["Croissance ultra-rapide", "Économie d'eau maximale", "Oxygénation optimale", "Rendement x2"],
         color: "sky"
       },
       {
         name: "LED Horticole",
-        description: "Ã‰clairage intelligent adaptÃ© Ã  chaque plante. Cultivez mÃªme sans fenÃªtre.",
+        description: "Éclairage intelligent adapté à chaque plante. Cultivez même sans fenêtre.",
         icon: Zap,
-        advantages: ["Culture intÃ©rieure possible", "Spectre optimisÃ© croissance", "Ã‰conomie Ã©nergÃ©tique 70%", "RÃ©coltes toute l'annÃ©e"],
+        advantages: ["Culture intérieure possible", "Spectre optimisé croissance", "Économie énergétique 70%", "Récoltes toute l'année"],
         color: "amber"
       },
       {
         name: "IoT Agricole",
-        description: "Capteurs connectÃ©s + App mobile. Votre jardin se gÃ¨re presque tout seul.",
+        description: "Capteurs connectés + App mobile. Votre jardin se gère presque tout seul.",
         icon: Smartphone,
-        advantages: ["Monitoring temps rÃ©el", "Alertes automatiques", "Automatisation irrigation", "Conseils personnalisÃ©s"],
+        advantages: ["Monitoring temps réel", "Alertes automatiques", "Automatisation irrigation", "Conseils personnalisés"],
         color: "indigo"
       },
       {
         name: "Aquaponie",
-        description: "Symbiose poissons-plantes. Un Ã©cosystÃ¨me productif et autonome.",
+        description: "Symbiose poissons-plantes. Un écosystème productif et autonome.",
         icon: Layers,
-        advantages: ["Double production", "Fertilisation naturelle", "SystÃ¨me auto-Ã©quilibrÃ©", "ZÃ©ro dÃ©chet"],
+        advantages: ["Double production", "Fertilisation naturelle", "Système auto-équilibré", "Zéro déchet"],
         color: "teal"
       },
       {
         name: "Compostage Bokashi",
-        description: "Compost ultra-rapide en 15 jours. Parfait pour appartements, zÃ©ro odeur.",
+        description: "Compost ultra-rapide en 15 jours. Parfait pour appartements, zéro odeur.",
         icon: Sparkles,
         advantages: ["Compost en 15 jours", "Accepte viandes/laitages", "Aucune odeur", "Engrais liquide bonus"],
         color: "green"
@@ -171,61 +171,61 @@ const pageContent = {
     items: [
       {
         icon: Heart,
-        title: "SantÃ© & Bien-Ãªtre",
-        description: "Aliments frais, bio et sans pesticides. ActivitÃ© physique douce. RÃ©duction du stress.",
+        title: "Santé & Bien-être",
+        description: "Aliments frais, bio et sans pesticides. Activité physique douce. Réduction du stress.",
         stat: "92% se sentent mieux"
       },
       {
         icon: TrendingUp,
-        title: "Ã‰conomies",
-        description: "RÃ©duisez vos dÃ©penses alimentaires de 60-80%. ROI en 6-12 mois.",
-        stat: "75 000 FCFA/an Ã©conomisÃ©s"
+        title: "Économies",
+        description: "Réduisez vos dépenses alimentaires de 60-80%. ROI en 6-12 mois.",
+        stat: "75 000 FCFA/an économisés"
       },
       {
         icon: Leaf,
         title: "Environnement",
-        description: "RÃ©duction empreinte carbone. Air purifiÃ©. BiodiversitÃ© urbaine.",
-        stat: "-500 kg COâ‚‚/an"
+        description: "Réduction empreinte carbone. Air purifié. Biodiversité urbaine.",
+        stat: "-500 kg CO₂/an"
       },
       {
         icon: Users,
         title: "Lien Social",
-        description: "Jardins communautaires. Partage de rÃ©coltes. Transmission aux enfants.",
-        stat: "85% partagent leurs rÃ©coltes"
+        description: "Jardins communautaires. Partage de récoltes. Transmission aux enfants.",
+        stat: "85% partagent leurs récoltes"
       }
     ]
   },
 
   steps: {
-    title: "DÃ©marrez Votre Jardin Urbain en 4 Ã‰tapes",
+    title: "Démarrez Votre Jardin Urbain en 4 Étapes",
     steps: [
       {
         number: "01",
-        title: "Ã‰valuation Espace",
-        description: "Diagnostic gratuit de votre balcon/terrasse/toit. On dÃ©termine le potentiel et la solution idÃ©ale.",
+        title: "Évaluation Espace",
+        description: "Diagnostic gratuit de votre balcon/terrasse/toit. On détermine le potentiel et la solution idéale.",
         icon: Target,
         duration: "30 min"
       },
       {
         number: "02",
-        title: "Kit PersonnalisÃ©",
-        description: "Nous composons votre kit sur mesure avec Ã©quipements, semences et substrats adaptÃ©s.",
+        title: "Kit Personnalisé",
+        description: "Nous composons votre kit sur mesure avec équipements, semences et substrats adaptés.",
         icon: ShoppingCart,
         duration: "2 jours"
       },
       {
         number: "03",
         title: "Installation & Formation",
-        description: "Nos experts installent tout et vous forment. Vous repartez avec les compÃ©tences nÃ©cessaires.",
+        description: "Nos experts installent tout et vous forment. Vous repartez avec les compétences nécessaires.",
         icon: Lightbulb,
-        duration: "1/2 journÃ©e"
+        duration: "1/2 journée"
       },
       {
         number: "04",
         title: "Accompagnement",
-        description: "Support continu via app, WhatsApp et visites. Garantie de rÃ©ussite de vos cultures.",
+        description: "Support continu via app, WhatsApp et visites. Garantie de réussite de vos cultures.",
         icon: Users,
-        duration: "IllimitÃ©"
+        duration: "Illimité"
       }
     ]
   },
@@ -233,27 +233,27 @@ const pageContent = {
   testimonials: [
     {
       name: "Sarah Mbida",
-      location: "YaoundÃ© - Bastos",
-      space: "Balcon 3mÂ²",
-      text: "Je ne pensais jamais pouvoir cultiver en appartement. Maintenant je rÃ©colte salades, tomates, herbes tous les jours. Mes enfants adorent !",
+      location: "Yaoundé - Bastos",
+      space: "Balcon 3m²",
+      text: "Je ne pensais jamais pouvoir cultiver en appartement. Maintenant je récolte salades, tomates, herbes tous les jours. Mes enfants adorent !",
       rating: 5,
-      harvest: "12 kg de lÃ©gumes/mois",
+      harvest: "12 kg de légumes/mois",
       image: "/images/testimonial-sarah.jpg"
     },
     {
       name: "Marc Ngollo",
       location: "Douala - Bonapriso",
-      space: "Terrasse 20mÂ²",
-      text: "Le systÃ¨me connectÃ© est gÃ©nial. L'app me dit quand arroser, fertiliser. Mes tomates cerises sont incroyables !",
+      space: "Terrasse 20m²",
+      text: "Le système connecté est génial. L'app me dit quand arroser, fertiliser. Mes tomates cerises sont incroyables !",
       rating: 5,
-      harvest: "45 kg de lÃ©gumes/mois",
+      harvest: "45 kg de légumes/mois",
       image: "/images/testimonial-marc.jpg"
     },
     {
       name: "Fatou Karim",
       location: "Garoua - Centre",
-      space: "Toit 80mÂ²",
-      text: "J'ai transformÃ© mon toit en mini-ferme. Je vends le surplus au marchÃ©. C'est devenu une vraie source de revenus !",
+      space: "Toit 80m²",
+      text: "J'ai transformé mon toit en mini-ferme. Je vends le surplus au marché. C'est devenu une vraie source de revenus !",
       rating: 5,
       harvest: "180 000 FCFA/mois de ventes",
       image: "/images/testimonial-fatou.jpg"
@@ -261,14 +261,14 @@ const pageContent = {
   ],
 
   crops: [
-    { name: "Tomates cerises", difficulty: "Facile", time: "60-80 jours", yield: "3-5 kg/plant", investment: "3 500 FCFA", roi: "Ã—4 en 3 cycles", space: "1 pot 10 L" },
-    { name: "Salade / Laitue", difficulty: "TrÃ¨s facile", time: "30-40 jours", yield: "Continue", investment: "1 500 FCFA", roi: "Ã—5 en 4 cycles", space: "0.1 mÂ²/plant" },
-    { name: "Herbes aromatiques", difficulty: "TrÃ¨s facile", time: "20-30 jours", yield: "Continue", investment: "1 000 FCFA", roi: "Ã—8 annuel", space: "Pot 5 L" },
-    { name: "Piments", difficulty: "Facile", time: "70-90 jours", yield: "2-4 kg/plant", investment: "2 500 FCFA", roi: "Ã—6 en 2 cycles", space: "Pot 8 L" },
-    { name: "Concombres", difficulty: "Moyen", time: "50-70 jours", yield: "4-8 kg/plant", investment: "4 000 FCFA", roi: "Ã—3.5 par cycle", space: "Tuteur 1 mÂ²" },
-    { name: "Aubergines", difficulty: "Moyen", time: "80-100 jours", yield: "4-6 kg/plant", investment: "3 000 FCFA", roi: "Ã—4 en 2 cycles", space: "Pot 15 L" },
-    { name: "Ã‰pinards", difficulty: "TrÃ¨s facile", time: "40-50 jours", yield: "Continue", investment: "1 200 FCFA", roi: "Ã—7 annuel", space: "0.05 mÂ²/plant" },
-    { name: "Ciboulette / Oignon", difficulty: "TrÃ¨s facile", time: "30-40 jours", yield: "Continue", investment: "800 FCFA", roi: "Ã—10 annuel", space: "Pot 5 L" }
+    { name: "Tomates cerises", difficulty: "Facile", time: "60-80 jours", yield: "3-5 kg/plant", investment: "3 500 FCFA", roi: "×4 en 3 cycles", space: "1 pot 10 L" },
+    { name: "Salade / Laitue", difficulty: "Très facile", time: "30-40 jours", yield: "Continue", investment: "1 500 FCFA", roi: "×5 en 4 cycles", space: "0.1 m²/plant" },
+    { name: "Herbes aromatiques", difficulty: "Très facile", time: "20-30 jours", yield: "Continue", investment: "1 000 FCFA", roi: "×8 annuel", space: "Pot 5 L" },
+    { name: "Piments", difficulty: "Facile", time: "70-90 jours", yield: "2-4 kg/plant", investment: "2 500 FCFA", roi: "×6 en 2 cycles", space: "Pot 8 L" },
+    { name: "Concombres", difficulty: "Moyen", time: "50-70 jours", yield: "4-8 kg/plant", investment: "4 000 FCFA", roi: "×3.5 par cycle", space: "Tuteur 1 m²" },
+    { name: "Aubergines", difficulty: "Moyen", time: "80-100 jours", yield: "4-6 kg/plant", investment: "3 000 FCFA", roi: "×4 en 2 cycles", space: "Pot 15 L" },
+    { name: "Épinards", difficulty: "Très facile", time: "40-50 jours", yield: "Continue", investment: "1 200 FCFA", roi: "×7 annuel", space: "0.05 m²/plant" },
+    { name: "Ciboulette / Oignon", difficulty: "Très facile", time: "30-40 jours", yield: "Continue", investment: "800 FCFA", roi: "×10 annuel", space: "Pot 5 L" }
   ]
 };
 
@@ -399,7 +399,7 @@ export default function AgricultureUrbainePage() {
                 Choisissez Votre Solution
               </span>
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">De l&apos;appartement Ã  la ferme urbaine</p>
+            <p className="text-xl text-gray-600 dark:text-gray-400">De l&apos;appartement à la ferme urbaine</p>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
@@ -459,7 +459,7 @@ export default function AgricultureUrbainePage() {
                         : 'border-2 border-green-600 text-green-600 dark:text-emerald-400 dark:border-emerald-500 hover:bg-green-50 dark:hover:bg-green-900/20'
                     }`}
                   >
-                    DÃ©marrer maintenant
+                    Démarrer maintenant
                   </Link>
                 </div>
               </motion.div>
@@ -512,9 +512,9 @@ export default function AgricultureUrbainePage() {
         </div>
       </section>
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          DÃ‰FIS URBAINS & SOLUTIONS AGRIPOINT SERVICES
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      {/* ═══════════════════════════════════════════════════════
+          DÉFIS URBAINS & SOLUTIONS AGRIPOINT SERVICES
+      ════════════════════════════════════════════════════════ */}
       <section className="py-24 bg-gray-900 dark:bg-gray-950 relative overflow-hidden">
         {/* Decorative background */}
         <div className="absolute inset-0 pointer-events-none">
@@ -530,16 +530,16 @@ export default function AgricultureUrbainePage() {
           >
             <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 mb-5">
               <AlertCircle className="w-4 h-4 text-orange-400" />
-              <span className="text-sm font-semibold text-orange-400 tracking-wider uppercase">DÃ©fis du quotidien</span>
+              <span className="text-sm font-semibold text-orange-400 tracking-wider uppercase">Défis du quotidien</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
-              DÃ©fis Urbains &amp;{' '}
+              Défis Urbains &amp;{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300">
                 Solutions AGRIPOINT SERVICES
               </span>
             </h2>
             <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-              Chaque obstacle de l&apos;agriculture en ville a une solution pensÃ©e pour le contexte camerounais.
+              Chaque obstacle de l&apos;agriculture en ville a une solution pensée pour le contexte camerounais.
             </p>
           </motion.div>
 
@@ -548,40 +548,40 @@ export default function AgricultureUrbainePage() {
               {
                 icon: Home,
                 challenge: "Espace restreint",
-                context: "Balcon de 4 mÂ² Ã  YaoundÃ©",
-                solution: "Jardinage vertical : structure PVC + sacs culture superposÃ©s. Jusqu'Ã  30 plantes sur 1 mÂ² de sol.",
+                context: "Balcon de 4 m² à Yaoundé",
+                solution: "Jardinage vertical : structure PVC + sacs culture superposés. Jusqu'à 30 plantes sur 1 m² de sol.",
                 color: "green",
-                badge: "AdaptÃ© balcons"
+                badge: "Adapté balcons"
               },
               {
                 icon: Droplets,
-                challenge: "AccÃ¨s eau limitÃ©",
-                context: "Coupures frÃ©quentes Ã  Douala",
-                solution: "Arrosage goutte-Ã -goutte + rÃ©servoir de collecte eau de pluie. 70% d'Ã©conomie d'eau vs arrosage classique.",
+                challenge: "Accès eau limité",
+                context: "Coupures fréquentes à Douala",
+                solution: "Arrosage goutte-à-goutte + réservoir de collecte eau de pluie. 70% d'économie d'eau vs arrosage classique.",
                 color: "blue",
-                badge: "Ã‰co-eau"
+                badge: "Éco-eau"
               },
               {
                 icon: Sun,
                 challenge: "Ensoleillement variable",
                 context: "Saison des pluies & harmattan",
-                solution: "Choix variÃ©taux adaptÃ©s Ã  chaque saison. EspÃ¨ces d'ombre (Ã©pinard, persil) pour saison pluvieuse.",
+                solution: "Choix variétaux adaptés à chaque saison. Espèces d'ombre (épinard, persil) pour saison pluvieuse.",
                 color: "yellow",
                 badge: "Toute saison"
               },
               {
                 icon: Shield,
-                challenge: "Sol absent / polluÃ©",
-                context: "Sites urbains dÃ©gradÃ©s",
-                solution: "Culture hors-sol (substrat coco, lombricompost). ZÃ©ro sol naturel requis â€” propre et sain.",
+                challenge: "Sol absent / pollué",
+                context: "Sites urbains dégradés",
+                solution: "Culture hors-sol (substrat coco, lombricompost). Zéro sol naturel requis — propre et sain.",
                 color: "purple",
                 badge: "Hors-sol"
               },
               {
                 icon: Target,
-                challenge: "Budget de dÃ©marrage",
+                challenge: "Budget de démarrage",
                 context: "Primo-jardiniers urbains",
-                solution: "Kit starter AGRIPOINT SERVICES dÃ¨s 8 000 FCFA. Retour sur investissement en 6-8 semaines pour les tomates cerises.",
+                solution: "Kit starter AGRIPOINT SERVICES dès 8 000 FCFA. Retour sur investissement en 6-8 semaines pour les tomates cerises.",
                 color: "emerald",
                 badge: "ROI rapide"
               },
@@ -589,7 +589,7 @@ export default function AgricultureUrbainePage() {
                 icon: Wrench,
                 challenge: "Ravageurs & maladies",
                 context: "Milieu dense et humide",
-                solution: "Filets insect-proof + biofertilisants AGRIPOINT SERVICES. Traitement prÃ©ventif 100% naturel, sans odeur.",
+                solution: "Filets insect-proof + biofertilisants AGRIPOINT SERVICES. Traitement préventif 100% naturel, sans odeur.",
                 color: "orange",
                 badge: "Bio & sain"
               },
@@ -608,7 +608,7 @@ export default function AgricultureUrbainePage() {
                     <item.icon className={`w-6 h-6 text-${item.color}-400`} />
                   </div>
                   <div>
-                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">DÃ©fi</div>
+                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Défi</div>
                     <h3 className="text-lg font-black text-white">{item.challenge}</h3>
                     <p className="text-xs text-gray-500 mt-0.5 italic">{item.context}</p>
                   </div>
@@ -634,9 +634,9 @@ export default function AgricultureUrbainePage() {
         </div>
       </section>
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+      {/* ═══════════════════════════════════════════════════════
           QUARTIERS VERTS CAMEROUN
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      ════════════════════════════════════════════════════════ */}
       <section className="py-24 bg-gradient-to-br from-emerald-950 to-gray-900 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none opacity-30">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500/50 to-transparent" />
@@ -659,12 +659,12 @@ export default function AgricultureUrbainePage() {
               </span>
             </h2>
             <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-              Ces quartiers offrent les meilleures conditions pour pratiquer l&apos;agriculture urbaine. Vous habitez lÃ  ? Vous avez une longueur d&apos;avance !
+              Ces quartiers offrent les meilleures conditions pour pratiquer l&apos;agriculture urbaine. Vous habitez là ? Vous avez une longueur d&apos;avance !
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            {/* YaoundÃ© */}
+            {/* Yaoundé */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -677,16 +677,16 @@ export default function AgricultureUrbainePage() {
                   <Building2 className="w-5 h-5 text-green-400" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-black text-white">YaoundÃ©</h3>
-                  <p className="text-sm text-green-400 font-medium">Capitale â€” Altitude favorable</p>
+                  <h3 className="text-xl font-black text-white">Yaoundé</h3>
+                  <p className="text-sm text-green-400 font-medium">Capitale — Altitude favorable</p>
                 </div>
               </div>
               <div className="space-y-4">
                 {[
                   { quartier: "Melen / Ngousso", score: 95, atout: "Jardins communs, sol riche, bonne pluie" },
-                  { quartier: "Biyem-Assi", score: 90, atout: "Quartier rÃ©sidentiel, toits plats, communautÃ© active" },
-                  { quartier: "Bastos", score: 88, atout: "Grandes cours, espace gÃ©nÃ©rable, eau constante" },
-                  { quartier: "Nkol-Essing", score: 82, atout: "PÃ©riphÃ©rie verte, espace pÃ©ri-urbain" },
+                  { quartier: "Biyem-Assi", score: 90, atout: "Quartier résidentiel, toits plats, communauté active" },
+                  { quartier: "Bastos", score: 88, atout: "Grandes cours, espace générable, eau constante" },
+                  { quartier: "Nkol-Essing", score: 82, atout: "Périphérie verte, espace péri-urbain" },
                 ].map((q, i) => (
                   <div key={i} className="flex items-center gap-4">
                     <div className="flex-1">
@@ -724,15 +724,15 @@ export default function AgricultureUrbainePage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-black text-white">Douala</h3>
-                  <p className="text-sm text-blue-400 font-medium">Capital Ã©conomique â€” Climat chaud & humide</p>
+                  <p className="text-sm text-blue-400 font-medium">Capital économique — Climat chaud & humide</p>
                 </div>
               </div>
               <div className="space-y-4">
                 {[
-                  { quartier: "Bonapriso", score: 92, atout: "RÃ©sidentiel huppÃ©, toits accessibles, espaces privatifs" },
-                  { quartier: "Akwa / Bonanjo", score: 85, atout: "Cours intÃ©rieures, balcons, bonne logistique" },
-                  { quartier: "Makepe", score: 83, atout: "Grands espaces, communautÃ© agri, sol adaptÃ©" },
-                  { quartier: "Logpom", score: 78, atout: "Quartier en dÃ©veloppement, prix foncier bas" },
+                  { quartier: "Bonapriso", score: 92, atout: "Résidentiel huppé, toits accessibles, espaces privatifs" },
+                  { quartier: "Akwa / Bonanjo", score: 85, atout: "Cours intérieures, balcons, bonne logistique" },
+                  { quartier: "Makepe", score: 83, atout: "Grands espaces, communauté agri, sol adapté" },
+                  { quartier: "Logpom", score: 78, atout: "Quartier en développement, prix foncier bas" },
                 ].map((q, i) => (
                   <div key={i} className="flex items-center gap-4">
                     <div className="flex-1">
@@ -774,9 +774,9 @@ export default function AgricultureUrbainePage() {
         </div>
       </section>
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          BOÃŽTE Ã€ OUTILS DU JARDINIER URBAIN
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      {/* ═══════════════════════════════════════════════════════
+          BOÎTE À OUTILS DU JARDINIER URBAIN
+      ════════════════════════════════════════════════════════ */}
       <section className="py-24 bg-white dark:bg-gray-900 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -787,16 +787,16 @@ export default function AgricultureUrbainePage() {
           >
             <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-green-500/30 bg-green-500/5 mb-5">
               <Wrench className="w-4 h-4 text-green-600 dark:text-green-400" />
-              <span className="text-sm font-semibold text-green-600 dark:text-green-400 tracking-wider uppercase">MatÃ©riel essentiel</span>
+              <span className="text-sm font-semibold text-green-600 dark:text-green-400 tracking-wider uppercase">Matériel essentiel</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4">
-              BoÃ®te Ã  Outils du{' '}
+              Boîte à Outils du{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">
                 Jardinier Urbain
               </span>
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Du matÃ©riel local accessible +  les Ã©quipements modernes AGRIPOINT SERVICES pour optimiser vos rendements.
+              Du matériel local accessible +  les équipements modernes AGRIPOINT SERVICES pour optimiser vos rendements.
             </p>
           </motion.div>
 
@@ -806,18 +806,18 @@ export default function AgricultureUrbainePage() {
                 emoji: "ARROSAGE",
                 emojiIcon: Droplets,
                 local: "Bassine / arrosoir local",
-                localPrice: "500 â€“ 1 500 FCFA",
-                modern: "Kit arrosage goutte-Ã -goutte AGRIPOINT SERVICES",
-                modernBenefit: "Ã‰conomise 70% d'eau, arrosage automatique programmable",
+                localPrice: "500 – 1 500 FCFA",
+                modern: "Kit arrosage goutte-à-goutte AGRIPOINT SERVICES",
+                modernBenefit: "Économise 70% d'eau, arrosage automatique programmable",
                 upgrade: true
               },
               {
                 emoji: "CONTENANT",
                 emojiIcon: Flower2,
-                local: "Sac plastique recyclÃ©",
-                localPrice: "0 â€“ 200 FCFA",
-                modern: "JardiniÃ¨re suspendue ou grow bag 10 L",
-                modernBenefit: "Drainage optimisÃ©, rÃ©utilisable 3+ ans, anti-racines",
+                local: "Sac plastique recyclé",
+                localPrice: "0 – 200 FCFA",
+                modern: "Jardinière suspendue ou grow bag 10 L",
+                modernBenefit: "Drainage optimisé, réutilisable 3+ ans, anti-racines",
                 upgrade: true
               },
               {
@@ -826,25 +826,25 @@ export default function AgricultureUrbainePage() {
                 local: "Terre de jardin classique",
                 localPrice: "Gratuit",
                 modern: "Substrat coco + lombricompost AGRIPOINT SERVICES",
-                modernBenefit: "LÃ©ger, stÃ©rile, pH neutre, parfait pour balcons",
+                modernBenefit: "Léger, stérile, pH neutre, parfait pour balcons",
                 upgrade: true
               },
               {
                 emoji: "PROTECTION",
                 emojiIcon: Shield,
                 local: "Tissu vieux / moustiquaire",
-                localPrice: "0 â€“ 300 FCFA",
+                localPrice: "0 – 300 FCFA",
                 modern: "Filet insect-proof 50 mesh AGRIPOINT SERVICES",
-                modernBenefit: "Bloque 100% ravageurs, laisse passer lumiÃ¨re & air",
+                modernBenefit: "Bloque 100% ravageurs, laisse passer lumière & air",
                 upgrade: true
               },
               {
                 emoji: "TUTEUR",
                 emojiIcon: Wrench,
-                local: "Bambou / bÃ¢ton local",
+                local: "Bambou / bâton local",
                 localPrice: "Gratuit",
-                modern: "Tuteur spirale galvanisÃ© + clips",
-                modernBenefit: "Supporte 20+ kg, anti-rouille, rÃ©utilisable",
+                modern: "Tuteur spirale galvanisé + clips",
+                modernBenefit: "Supporte 20+ kg, anti-rouille, réutilisable",
                 upgrade: false
               },
               {
@@ -853,7 +853,7 @@ export default function AgricultureUrbainePage() {
                 local: "Compostage simple (fosse)",
                 localPrice: "Gratuit",
                 modern: "Lombricomposteur compact AGRIPOINT SERVICES",
-                modernBenefit: "Compost en 3 semaines, zÃ©ro odeur, pour appartement",
+                modernBenefit: "Compost en 3 semaines, zéro odeur, pour appartement",
                 upgrade: true
               },
             ].map((tool, i) => (
@@ -979,8 +979,8 @@ export default function AgricultureUrbainePage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-black mb-4">Cultures RecommandÃ©es</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Les lÃ©gumes stars pour jardin urbain</p>
+            <h2 className="text-5xl font-black mb-4">Cultures Recommandées</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">Les légumes stars pour jardin urbain</p>
           </div>
 
           <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-700 rounded-3xl p-8 shadow-2xl overflow-x-auto">
@@ -988,7 +988,7 @@ export default function AgricultureUrbainePage() {
               <thead>
                 <tr className="border-b-2 border-green-600">
                   <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Culture</th>
-                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">DifficultÃ©</th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Difficulté</th>
                   <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Temps</th>
                   <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Rendement</th>
                   <th className="text-left py-4 px-4 font-bold text-green-700 dark:text-green-300">ROI</th>
@@ -1008,7 +1008,7 @@ export default function AgricultureUrbainePage() {
                     <td className="py-4 px-4 font-semibold text-gray-900 dark:text-gray-100">{crop.name}</td>
                     <td className="py-4 px-4">
                       <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
-                        crop.difficulty === 'TrÃ¨s facile' 
+                        crop.difficulty === 'Très facile' 
                           ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' 
                           : crop.difficulty === 'Facile'
                           ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
@@ -1086,11 +1086,11 @@ export default function AgricultureUrbainePage() {
           <div className="text-center mb-16">
             <h2 className="text-5xl font-black mb-4">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600">
-                Kits & Ã‰quipements
+                Kits & Équipements
               </span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
-              Tout le nÃ©cessaire pour dÃ©marrer votre jardin urbain
+              Tout le nécessaire pour démarrer votre jardin urbain
             </p>
           </div>
 
@@ -1135,7 +1135,7 @@ export default function AgricultureUrbainePage() {
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <h2 className="text-5xl md:text-6xl font-black mb-6">
-            PrÃªt Ã  Cultiver Votre Ville ?
+            Prêt à Cultiver Votre Ville ?
           </h2>
           <p className="text-xl md:text-2xl mb-12 opacity-90">
             Rejoignez 5 000+ jardiniers urbains et transformez votre espace en oasis productive
@@ -1146,7 +1146,7 @@ export default function AgricultureUrbainePage() {
               className="group px-10 py-5 bg-white text-green-600 hover:bg-gray-100 rounded-2xl font-bold text-lg transition-all shadow-2xl flex items-center justify-center gap-3"
             >
               <Sprout className="w-6 h-6 group-hover:rotate-12 transition-transform" />
-              DÃ©marrer maintenant
+              Démarrer maintenant
             </Link>
             <Link
               href="/produits"

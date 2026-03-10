@@ -9,7 +9,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 
-// ── Types ──────────────────────────────────────────────────────────────────────
+// -- Types ----------------------------------------------------------------------
 type AccountStatus = 'pending_email' | 'pending_admin' | 'approved' | 'rejected' | 'suspended';
 type Role = 'user' | 'admin' | 'superadmin' | 'moderator' | 'distributor';
 
@@ -29,7 +29,7 @@ interface AdminUser {
   loginAttempts?: number;
 }
 
-// ── Config ────────────────────────────────────────────────────────────────────
+// -- Config --------------------------------------------------------------------
 const STATUS_CFG: Record<AccountStatus, { label: string; color: string; dot: string }> = {
   approved:      { label: 'Actif',      color: 'text-emerald-700 bg-emerald-50 border-emerald-200 dark:text-emerald-400 dark:bg-emerald-900/20 dark:border-emerald-800/40',  dot: 'bg-emerald-500' },
   pending_admin: { label: 'En attente', color: 'text-amber-700 bg-amber-50 border-amber-200 dark:text-amber-400 dark:bg-amber-900/20 dark:border-amber-800/40',              dot: 'bg-amber-500' },
@@ -53,7 +53,7 @@ function fmtDate(iso?: string) {
   return new Intl.DateTimeFormat('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(iso));
 }
 
-// ── Modal détail utilisateur ───────────────────────────────────────────────────
+// -- Modal détail utilisateur ---------------------------------------------------
 function UserDetailModal({ user, onClose, onAction }: { user: AdminUser; onClose: () => void; onAction: (id: string, type: string, value: string) => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}>
@@ -143,7 +143,7 @@ function UserDetailModal({ user, onClose, onAction }: { user: AdminUser; onClose
   );
 }
 
-// ── Page principale ────────────────────────────────────────────────────────────
+// -- Page principale ------------------------------------------------------------
 export default function AdminUsersPage() {
   const [users,     setUsers]     = useState<AdminUser[]>([]);
   const [loading,   setLoading]   = useState(true);
@@ -173,7 +173,7 @@ export default function AdminUsersPage() {
 
   useEffect(() => { fetchUsers(); }, [fetchUsers]);
 
-  // ── Actions ────────────────────────────────────────────────────────────────
+  // -- Actions ----------------------------------------------------------------
   const handleAction = async (userId: string, type: 'status' | 'role', value: string) => {
     const endpoint = type === 'status'
       ? `/api/admin/users/${userId}/status`
@@ -200,7 +200,7 @@ export default function AdminUsersPage() {
     setOpenMenu(null);
   };
 
-  // ── Filtrage ───────────────────────────────────────────────────────────────
+  // -- Filtrage ---------------------------------------------------------------
   const filtered = users.filter(u => {
     const q = search.toLowerCase();
     const matchSearch = !q || u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q) || (u.phone || '').includes(q) || (u.uniqueCode || '').toLowerCase().includes(q);
@@ -209,7 +209,7 @@ export default function AdminUsersPage() {
     return matchSearch && matchStatus && matchRole;
   });
 
-  // ── Compteurs ──────────────────────────────────────────────────────────────
+  // -- Compteurs --------------------------------------------------------------
   const counts: Record<string, number> = { all: users.length };
   users.forEach(u => { counts[u.accountStatus] = (counts[u.accountStatus] || 0) + 1; });
 

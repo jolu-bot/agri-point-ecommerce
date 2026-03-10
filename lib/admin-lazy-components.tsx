@@ -5,7 +5,7 @@
 
 import dynamic from 'next/dynamic';
 
-// ── LOADING SKELETONS ────────────────────────────────────────────────────────
+// -- LOADING SKELETONS --------------------------------------------------------
 
 export const TableSkeleton = () => (
   <div className="space-y-4 animate-pulse">
@@ -45,7 +45,7 @@ export const CardSkeleton = () => (
   </div>
 );
 
-// ── DATA VISUALIZATION ───────────────────────────────────────────────────────
+// -- DATA VISUALIZATION -------------------------------------------------------
 
 /**
  * Advanced DataTable with sorting, filtering, pagination
@@ -97,7 +97,7 @@ export const ExcelExporter = dynamic(
   }
 );
 
-// ── FORM COMPONENTS ──────────────────────────────────────────────────────────
+// -- FORM COMPONENTS ----------------------------------------------------------
 
 /**
  * Rich Text Editor for content creation
@@ -133,7 +133,7 @@ export const RichEditor = dynamic(
 //   { loading: () => <div className="h-96 bg-gray-100 rounded animate-pulse" />, ssr: false }
 // );
 
-// ── ANALYTICS & REPORTING ────────────────────────────────────────────────────
+// -- ANALYTICS & REPORTING ----------------------------------------------------
 
 /**
  * Full Analytics Dashboard with real-time metrics
@@ -158,7 +158,7 @@ export const AnalyticsDashboard = dynamic(
 //   { loading: CardSkeleton, ssr: false }
 // );
 
-// ── USER MANAGEMENT ──────────────────────────────────────────────────────────
+// -- USER MANAGEMENT ----------------------------------------------------------
 
 /**
  * User Management Table with bulk actions
@@ -182,7 +182,7 @@ export const AnalyticsDashboard = dynamic(
 //   { loading: FormSkeleton, ssr: false }
 // );
 
-// ── E-COMMERCE ───────────────────────────────────────────────────────────────
+// -- E-COMMERCE ---------------------------------------------------------------
 
 /**
  * Product Editor with variants & media
@@ -206,7 +206,7 @@ export const AnalyticsDashboard = dynamic(
 //   { loading: TableSkeleton, ssr: false }
 // );
 
-// ── PREVIEW & INTERACTIVE ────────────────────────────────────────────────────
+// -- PREVIEW & INTERACTIVE ----------------------------------------------------
 
 /**
  * Live Page Preview with iframe
@@ -230,7 +230,7 @@ export const MapEditor = dynamic(
   }
 );
 
-// ── UTILITIES ────────────────────────────────────────────────────────────────
+// -- UTILITIES ----------------------------------------------------------------
 
 /**
  * Code Editor for advanced customization
@@ -253,7 +253,7 @@ export const MapEditor = dynamic(
 //   { loading: () => <div className="h-96 bg-gray-100 rounded animate-pulse" />, ssr: false }
 // );
 
-// ── ACTIVE EXPORTS ───────────────────────────────────────────────────────────
+// -- ACTIVE EXPORTS -----------------------------------------------------------
 // Only components that exist in the codebase
 
 export const ActiveLazyComponents = {

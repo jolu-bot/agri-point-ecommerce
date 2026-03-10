@@ -22,7 +22,7 @@ function VerifyEmailContent() {
   const [resendEmail, setResendEmail] = useState(email);
   const [resending,   setResending]   = useState(false);
 
-  // ── Vérification automatique du token ──────────────────────────────────────
+  // -- Vérification automatique du token --------------------------------------
   useEffect(() => {
     if (!token) return;
 
@@ -52,7 +52,7 @@ function VerifyEmailContent() {
     verify();
   }, [token, router]);
 
-  // ── Renvoyer l'email ────────────────────────────────────────────────────────
+  // -- Renvoyer l'email --------------------------------------------------------
   const handleResend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!resendEmail) { toast.error('Entrez votre adresse email'); return; }

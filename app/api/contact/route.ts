@@ -3,9 +3,9 @@ import { sendEmail } from '@/lib/email';
 import connectDB from '@/lib/db';
 import Message from '@/models/Message';
 
-// ─────────────────────────────────────────────────
+// -------------------------------------------------
 // 📬 Interface Contact Form Data
-// ─────────────────────────────────────────────────
+// -------------------------------------------------
 interface ContactFormData {
   name: string;
   email: string;
@@ -14,19 +14,19 @@ interface ContactFormData {
   message: string;
 }
 
-// ─────────────────────────────────────────────────
+// -------------------------------------------------
 // 📧 POST /api/contact
-// ─────────────────────────────────────────────────
+// -------------------------------------------------
 // Envoie un email à contact@agri-ps.com avec les détails
 // du formulaire de contact, puis envoie une confirmation au client
-// ─────────────────────────────────────────────────
+// -------------------------------------------------
 export async function POST(request: NextRequest) {
   try {
     const body: ContactFormData = await request.json();
     
-    // ─────────────────────────────────────────────────
+    // -------------------------------------------------
     // Validation des champs requis
-    // ─────────────────────────────────────────────────
+    // -------------------------------------------------
     if (!body.name || !body.email || !body.message) {
       return NextResponse.json(
         { 
@@ -51,9 +51,9 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // ─────────────────────────────────────────────────
+    // -------------------------------------------------
     // 0️⃣ Sauvegarde en base de données (toujours)
-    // ─────────────────────────────────────────────────
+    // -------------------------------------------------
     try {
       await connectDB();
       await Message.create({
@@ -71,9 +71,9 @@ export async function POST(request: NextRequest) {
       // On continue quand même — l'email peut encore passer
     }
 
-    // ─────────────────────────────────────────────────
+    // -------------------------------------------------
     // 1️⃣ Email à l'équipe AGRI PS (contact@agri-ps.com)
-    // ─────────────────────────────────────────────────
+    // -------------------------------------------------
     const emailToTeam = await sendEmail({
       to: process.env.EMAIL_CONTACT || 'contact@agri-ps.com',
       subject: `📩 Nouveau contact: ${body.subject || 'Sans sujet'}`,
@@ -224,9 +224,9 @@ export async function POST(request: NextRequest) {
       console.warn('⚠️ Email équipe non envoyé — message sauvegardé en base');
     }
     
-    // ─────────────────────────────────────────────────
+    // -------------------------------------------------
     // 2️⃣ Email de confirmation au client
-    // ─────────────────────────────────────────────────
+    // -------------------------------------------------
     const emailToClient = await sendEmail({
       to: body.email,
       subject: '✅ Votre message a été reçu - AGRIPOINT SERVICES',
@@ -371,9 +371,9 @@ export async function POST(request: NextRequest) {
       console.warn('⚠️ Email de confirmation au client n\'a pas pu être envoyé');
     }
     
-    // ─────────────────────────────────────────────────
+    // -------------------------------------------------
     // ✅ Succès
-    // ─────────────────────────────────────────────────
+    // -------------------------------------------------
     return NextResponse.json({
       success: true,
       message: 'Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais.',

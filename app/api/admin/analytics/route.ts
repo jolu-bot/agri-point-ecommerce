@@ -63,7 +63,7 @@ export async function GET(req: NextRequest) {
         prevStartDate = new Date(now.getTime() - 60 * 86400 * 1000);
     }
 
-    // ── Commandes période courante ──────────────────────────────────────────
+    // -- Commandes période courante ------------------------------------------
     const [
       ordersThisPeriod,
       ordersPrevPeriod,
@@ -108,16 +108,16 @@ export async function GET(req: NextRequest) {
     const ordersCount = revenueAgg[0]?.count || 0;
     const avgOrderValue = ordersCount > 0 ? Math.round(revenue / ordersCount) : 0;
 
-    // ── Calculs de croissance ──────────────────────────────────────────────
+    // -- Calculs de croissance ----------------------------------------------
     const growth = (curr: number, prev: number) =>
       prev === 0 ? (curr > 0 ? 100 : 0) : Math.round(((curr - prev) / prev) * 100);
 
-    // ── Taux de conversion approximatif (commandes / nouveaux utilisateurs) ─
+    // -- Taux de conversion approximatif (commandes / nouveaux utilisateurs) -
     const conversionRate = newUsersThisPeriod > 0
       ? parseFloat(((ordersThisPeriod / Math.max(newUsersThisPeriod, 1)) * 100).toFixed(1))
       : ordersThisPeriod > 0 ? 2.5 : 0; // fallback réaliste si pas d'inscrits cette période
 
-    // ── Évolution commandes par jour (7 derniers jours) ────────────────────
+    // -- Évolution commandes par jour (7 derniers jours) --------------------
     const dailyOrdersAgg = await Order.aggregate([
       {
         $match: {
@@ -136,7 +136,7 @@ export async function GET(req: NextRequest) {
       { $sort: { _id: 1 } },
     ]);
 
-    // ── Répartition par statut ─────────────────────────────────────────────
+    // -- Répartition par statut ---------------------------------------------
     const statusDistAgg = await Order.aggregate([
       {
         $group: {
@@ -150,7 +150,7 @@ export async function GET(req: NextRequest) {
       {} as Record<string, number>
     );
 
-    // ── Top produits formatés ──────────────────────────────────────────────
+    // -- Top produits formatés ----------------------------------------------
     const topProducts = topProductsAgg.map((p, i) => ({
       rank: i + 1,
       name: p.name,
@@ -160,7 +160,7 @@ export async function GET(req: NextRequest) {
       image: p.images?.[0] || null,
     }));
 
-    // ── Répartition catégorie (pour "sources" de ventes) ──────────────────
+    // -- Répartition catégorie (pour "sources" de ventes) ------------------
     const categoryAgg = await Product.aggregate([
       { $match: { sales: { $gt: 0 } } },
       { $group: { _id: '$category', totalSold: { $sum: '$sales' } } },

@@ -2,9 +2,9 @@ import mongoose, { Schema, models, Model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 
-// ─────────────────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------------------
 // Interface TypeScript
-// ─────────────────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------------------
 export interface IUser {
   _id: string;
   name: string;
@@ -66,9 +66,9 @@ export interface IUser {
   generatePasswordResetToken(): string;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------------------
 // Schéma Mongoose
-// ─────────────────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------------------
 const UserSchema = new Schema<IUser>(
   {
     name: {
@@ -98,7 +98,7 @@ const UserSchema = new Schema<IUser>(
     },
     permissions: [{ type: String }],
 
-    // ── Contact ─────────────────────────────────────────────────────────────
+    // -- Contact -------------------------------------------------------------
     phone: {
       type: String,
       required: [true, 'Le numéro de téléphone est requis'],
@@ -106,7 +106,7 @@ const UserSchema = new Schema<IUser>(
     },
     whatsapp: { type: String, trim: true },
 
-    // ── Localisation ─────────────────────────────────────────────────────────
+    // -- Localisation ---------------------------------------------------------
     address: {
       street:   { type: String, trim: true },
       quartier: { type: String, trim: true },
@@ -120,10 +120,10 @@ const UserSchema = new Schema<IUser>(
     avatar:   { type: String },
     isActive: { type: Boolean, default: true },
 
-    // ── Code unique ───────────────────────────────────────────────────────────
+    // -- Code unique -----------------------------------------------------------
     uniqueCode: { type: String, unique: true, uppercase: true, sparse: true },
 
-    // ── Statut compte ─────────────────────────────────────────────────────────
+    // -- Statut compte ---------------------------------------------------------
     accountStatus: {
       type: String,
       enum: ['pending_email', 'pending_admin', 'approved', 'rejected', 'suspended'],
@@ -133,29 +133,29 @@ const UserSchema = new Schema<IUser>(
     approvedAt:      Date,
     rejectionReason: String,
 
-    // ── Email vérification ────────────────────────────────────────────────────
+    // -- Email vérification ----------------------------------------------------
     emailVerified:            { type: Boolean, default: false },
     emailVerificationToken:   { type: String, select: false },
     emailVerificationExpires: Date,
 
-    // ── Reset mot de passe ────────────────────────────────────────────────────
+    // -- Reset mot de passe ----------------------------------------------------
     passwordResetToken:   { type: String, select: false },
     passwordResetExpires: Date,
 
-    // ── Sécurité ──────────────────────────────────────────────────────────────
+    // -- Sécurité --------------------------------------------------------------
     loginAttempts: { type: Number, default: 0 },
     lockUntil:     Date,
 
-    // ── Métadonnées session ───────────────────────────────────────────────────
+    // -- Métadonnées session ---------------------------------------------------
     lastLoginAt: Date,
     lastLoginIp: String,
   },
   { timestamps: true }
 );
 
-// ─────────────────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------------------
 // Hooks pre-save
-// ─────────────────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------------------
 
 // Hash du mot de passe (bcrypt 12 rounds)
 UserSchema.pre('save', async function (next) {
@@ -178,9 +178,9 @@ UserSchema.pre('save', function (next) {
   next();
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------------------
 // Méthodes d'instance
-// ─────────────────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------------------
 
 /** Compare un mot de passe candidat avec le hash stocké */
 UserSchema.methods.comparePassword = async function (
@@ -210,8 +210,8 @@ UserSchema.methods.generatePasswordResetToken = function (): string {
   return raw;
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------------------
 // Export
-// ─────────────────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------------------
 const User: Model<IUser> = models.User || mongoose.model<IUser>('User', UserSchema);
 export default User;

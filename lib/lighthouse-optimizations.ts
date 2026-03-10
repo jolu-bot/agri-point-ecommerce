@@ -3,7 +3,7 @@
  * Script to fix common Lighthouse issues
  */
 
-// ── ACCESSIBILITY FIXES ────────────────────────────────────────────────────
+// -- ACCESSIBILITY FIXES ----------------------------------------------------
 
 // 1. Add label to buttons missing descriptions
 export const addAriaLabels = () => {
@@ -43,7 +43,7 @@ export const addAriaLabels = () => {
   });
 };
 
-// ── SEO ENHANCEMENTS ───────────────────────────────────────────────────────
+// -- SEO ENHANCEMENTS -------------------------------------------------------
 
 // 2. Add structured data for better SEO
 export const addStructuredData = () => {
@@ -76,7 +76,7 @@ export const addStructuredData = () => {
   document.head.appendChild(script);
 };
 
-// ── IMAGE OPTIMIZATION ─────────────────────────────────────────────────────
+// -- IMAGE OPTIMIZATION -----------------------------------------------------
 
 // 3. Lazy load images properly
 export const optimizeImages = () => {
@@ -112,7 +112,7 @@ export const optimizeImages = () => {
   document.querySelectorAll<HTMLImageElement>('img[data-src]').forEach((img) => observer.observe(img));
 };
 
-// ── Web Vitals Monitoring ──────────────────────────────────────────────────
+// -- Web Vitals Monitoring --------------------------------------------------
 
 // 4. Monitor Core Web Vitals
 export const monitorWebVitals = () => {
@@ -166,7 +166,7 @@ export const monitorWebVitals = () => {
   }
 };
 
-// ── Initialize all optimizations ───────────────────────────────────────────
+// -- Initialize all optimizations -------------------------------------------
 
 export const initializeOptimizations = () => {
   if (typeof window === 'undefined') return;

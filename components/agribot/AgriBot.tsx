@@ -361,7 +361,7 @@ export default function AgriBot() {
     typeof crypto !== 'undefined' ? crypto.randomUUID() : Math.random().toString(36).slice(2)
   );
 
-  // ─── Mémoire & localisation ───
+  // --- Mémoire & localisation ---
   const [userMemory, setUserMemory]              = useState<UserMemory>(() => loadMemory('tmp'));
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [showDistributorsModal, setShowDistributorsModal] = useState(false);
@@ -372,7 +372,7 @@ export default function AgriBot() {
   const [savedConversations, setSavedConversations] = useState<SavedConversation[]>([]);
   const [toastMsg, setToastMsg]                  = useState<string | null>(null);
 
-  // ─── Messages ───
+  // --- Messages ---
   const [messages, setMessages] = useState<Message[]>(() => [{
     id: '0',
     role: 'assistant',
@@ -392,24 +392,24 @@ export default function AgriBot() {
   const inputRef        = useRef<HTMLInputElement>(null);
   const abortRef        = useRef<AbortController | null>(null);
 
-  // ─── Voice ───
+  // --- Voice ---
   const { listening, toggle: toggleVoice, supported: voiceSupported } = useVoiceInput(
     useCallback((text: string) => setInput(prev => prev + text), [])
   );
 
-  // ─── TTS — Synthèse vocale ───
+  // --- TTS — Synthèse vocale ---
   const [ttsEnabled, setTtsEnabled]               = useState(false);
 
-  // ─── Photo — Diagnostic maladie ───
+  // --- Photo — Diagnostic maladie ---
   const [imageFile, setImageFile]                 = useState<File | null>(null);
   const [imagePreview, setImagePreview]           = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing]             = useState(false);
   const imageInputRef                             = useRef<HTMLInputElement>(null);
 
-  // ─── Suggestion saisonnière ───
+  // --- Suggestion saisonnière ---
   const [seasonalBanner, setSeasonalBanner]       = useState<string | null>(null);
 
-  // ─── Scroll ───
+  // --- Scroll ---
   const scrollToBottom = useCallback((force = false) => {
     if (force) { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); return; }
     const el = messagesListRef.current;
@@ -432,14 +432,14 @@ export default function AgriBot() {
     return () => document.removeEventListener('keydown', fn);
   }, [isOpen]);
 
-  // ─── Chargement mémoire depuis localStorage (sessionId stable) ───
+  // --- Chargement mémoire depuis localStorage (sessionId stable) ---
   useEffect(() => {
     const mem = loadMemory(sessionId);
     setUserMemory({ ...mem, sessionId });
     setSavedConversations(loadSavedConversations());
   }, [sessionId]);
 
-  // ─── Apprentissage : extraction de faits après chaque échange ───
+  // --- Apprentissage : extraction de faits après chaque échange ---
   useEffect(() => {
     if (messages.length < 2) return;
     const lastTwo = messages.slice(-2);
@@ -452,13 +452,13 @@ export default function AgriBot() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages]);
 
-  // ─── Toast helper ───
+  // --- Toast helper ---
   const showToast = useCallback((msg: string) => {
     setToastMsg(msg);
     setTimeout(() => setToastMsg(null), 3000);
   }, []);
 
-  // ─── TTS — Lire un message à voix haute ───
+  // --- TTS — Lire un message à voix haute ---
   const speakText = useCallback((text: string) => {
     if (typeof window === 'undefined' || !window.speechSynthesis) return;
     window.speechSynthesis.cancel();
@@ -471,7 +471,7 @@ export default function AgriBot() {
     window.speechSynthesis.speak(utterance);
   }, []);
 
-  // ─── MongoDB Memory Sync (debounced 3s) ───
+  // --- MongoDB Memory Sync (debounced 3s) ---
   useEffect(() => {
     if (!userMemory.location && !userMemory.mainCrops?.length) return;
     const timer = setTimeout(() => {
@@ -492,7 +492,7 @@ export default function AgriBot() {
     return () => clearTimeout(timer);
   }, [userMemory.location, userMemory.region, userMemory.mainCrops, sessionId, userMemory.surface, userMemory.farmType, userMemory.keyFacts]);
 
-  // ─── Bannière saisonnière — affiché à l'ouverture si localisation connue ───
+  // --- Bannière saisonnière — affiché à l'ouverture si localisation connue ---
   useEffect(() => {
     if (!isOpen) return;
     if (!userMemory.location && !userMemory.mainCrops?.length) return;
@@ -501,7 +501,7 @@ export default function AgriBot() {
     else setSeasonalBanner(null);
   }, [isOpen, userMemory.location, userMemory.region, userMemory.mainCrops]);
 
-  // ─── Chargement des distributeurs depuis l'API ───
+  // --- Chargement des distributeurs depuis l'API ---
   useEffect(() => {
     if (!showDistributorsModal) return;
     
@@ -578,7 +578,7 @@ export default function AgriBot() {
     fetchDistributors();
   }, [showDistributorsModal]);
 
-  // ─── Sauvegarder la conversation courante ───
+  // --- Sauvegarder la conversation courante ---
   const saveCurrentConversation = useCallback(() => {
     if (messages.length < 2) { showToast('Aucun message à sauvegarder.'); return; }
     saveConversation(messages as Parameters<typeof saveConversation>[0], userMemory);
@@ -586,7 +586,7 @@ export default function AgriBot() {
     showToast('✅ Conversation sauvegardée !');
   }, [messages, userMemory, showToast]);
 
-  // ─── Charger une conversation sauvegardée ───
+  // --- Charger une conversation sauvegardée ---
   const loadConversation = useCallback((conv: SavedConversation) => {
     setMessages(conv.messages.map(m => ({
       ...m,
@@ -602,14 +602,14 @@ export default function AgriBot() {
     showToast('📂 Conversation chargée');
   }, [userMemory, showToast]);
 
-  // ─── Supprimer une conversation sauvegardée ───
+  // --- Supprimer une conversation sauvegardée ---
   const deleteConversation = useCallback((id: string) => {
     deleteSavedConversation(id);
     setSavedConversations(loadSavedConversations());
     showToast('🗑️ Supprimée');
   }, [showToast]);
 
-  // ─── Copier toute la conversation ───
+  // --- Copier toute la conversation ---
   const copyAllMessages = useCallback(async () => {
     const text = messages
       .filter(m => m.content?.trim())
@@ -619,7 +619,7 @@ export default function AgriBot() {
     showToast('✅ Conversation copiée !');
   }, [messages, showToast]);
 
-  // ─── Ouverture proactive sur pages clés (après 8 secondes) ───
+  // --- Ouverture proactive sur pages clés (après 8 secondes) ---
   useEffect(() => {
     if (hasAutoOpened || isOpen) return;
     if (!isCampaignPage && !isProductsPage) return;
@@ -637,7 +637,7 @@ export default function AgriBot() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  // ─── Résumé par email ───
+  // --- Résumé par email ---
   const sendEmailSummary = useCallback(() => {
     const lines = messages
       .filter(m => m.content.length > 5)
@@ -649,7 +649,7 @@ export default function AgriBot() {
   }, [messages]);
 
 
-  // ─── Reset ───
+  // --- Reset ---
   const resetChat = useCallback(() => {
     abortRef.current?.abort();
     setIsStreaming(false);
@@ -663,7 +663,7 @@ export default function AgriBot() {
     }]);
   }, [pathname]);
 
-  // ─── Feedback ───
+  // --- Feedback ---
   const sendFeedback = useCallback(async (messageId: string, feedback: 'positive' | 'negative') => {
     const idx = messages.findIndex(m => m.id === messageId);
     if (idx === -1) return;
@@ -677,7 +677,7 @@ export default function AgriBot() {
     } catch { /* fire-and-forget */ }
   }, [messages, sessionId]);
 
-  // ─── Diagnostic photo de maladie (GPT-4o Vision) ───
+  // --- Diagnostic photo de maladie (GPT-4o Vision) ---
   const handleAnalyzeImage = useCallback(async () => {
     if (!imageFile || isAnalyzing) return;
     setIsAnalyzing(true);
@@ -727,7 +727,7 @@ export default function AgriBot() {
     }
   }, [imageFile, isAnalyzing, userMemory.location, userMemory.mainCrops, ttsEnabled, speakText]);
 
-  // ─── Envoi + streaming SSE ───
+  // --- Envoi + streaming SSE ---
   const handleSend = useCallback(async (text?: string) => {
     const messageText = (text || input).trim();
     if (!messageText || isStreaming) return;
@@ -833,7 +833,7 @@ export default function AgriBot() {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
   };
 
-  // ─── Suggestions actives ───
+  // --- Suggestions actives ---
   const lastAiMsg  = [...messages].reverse().find(m => m.role === 'assistant' && !m.isStreaming);
   const activeSugs: { label: string; text: string; intent: Intent }[] = useMemo(() => {
     if ((lastAiMsg?.suggestions?.length ?? 0) > 0)

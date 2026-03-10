@@ -28,9 +28,9 @@ export const CAMPOST_ACCOUNT = {
 };
 
 export const CAMPOST_POINTS: CampostPoint[] = [
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   // RÉGION CENTRE
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   {
     id: 'yde-central',
     nom: 'Bureau Principal de Yaoundé',
@@ -108,9 +108,9 @@ export const CAMPOST_POINTS: CampostPoint[] = [
     type: 'bureau_secondaire',
   },
 
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   // RÉGION LITTORAL
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   {
     id: 'dla-bonanjo',
     nom: 'Bureau Principal de Douala – Bonanjo',
@@ -177,9 +177,9 @@ export const CAMPOST_POINTS: CampostPoint[] = [
     type: 'bureau_secondaire',
   },
 
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   // RÉGION OUEST
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   {
     id: 'bafoussam-central',
     nom: 'Bureau Principal de Bafoussam',
@@ -228,9 +228,9 @@ export const CAMPOST_POINTS: CampostPoint[] = [
     type: 'bureau_secondaire',
   },
 
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   // RÉGION NORD
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   {
     id: 'garoua-central',
     nom: 'Bureau Principal de Garoua',
@@ -270,9 +270,9 @@ export const CAMPOST_POINTS: CampostPoint[] = [
     type: 'bureau_secondaire',
   },
 
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   // RÉGION EXTRÊME-NORD
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   {
     id: 'maroua-central',
     nom: 'Bureau Principal de Maroua',
@@ -321,9 +321,9 @@ export const CAMPOST_POINTS: CampostPoint[] = [
     type: 'bureau_secondaire',
   },
 
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   // RÉGION ADAMAOUA
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   {
     id: 'ngaoundere-central',
     nom: 'Bureau Principal de Ngaoundéré',
@@ -354,9 +354,9 @@ export const CAMPOST_POINTS: CampostPoint[] = [
     type: 'bureau_secondaire',
   },
 
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   // RÉGION EST
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   {
     id: 'bertoua-central',
     nom: 'Bureau Principal de Bertoua',
@@ -396,9 +396,9 @@ export const CAMPOST_POINTS: CampostPoint[] = [
     type: 'bureau_secondaire',
   },
 
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   // RÉGION SUD
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   {
     id: 'ebolowa-central',
     nom: 'Bureau Principal d\'Ebolowa',
@@ -438,9 +438,9 @@ export const CAMPOST_POINTS: CampostPoint[] = [
     type: 'bureau_secondaire',
   },
 
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   // RÉGION NORD-OUEST
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   {
     id: 'bamenda-central',
     nom: 'Bureau Principal de Bamenda',
@@ -480,9 +480,9 @@ export const CAMPOST_POINTS: CampostPoint[] = [
     type: 'bureau_secondaire',
   },
 
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   // RÉGION SUD-OUEST
-  // ─────────────────────────────────────────
+  // -----------------------------------------
   {
     id: 'buea-central',
     nom: 'Bureau Principal de Buea',

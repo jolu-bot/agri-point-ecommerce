@@ -8,7 +8,7 @@ import { type NextRequest } from 'next/server';
 
 const isDev = process.env.NODE_ENV === 'development';
 
-// ── LOGGER CONFIG ────────────────────────────────────────────────────────────
+// -- LOGGER CONFIG ------------------------------------------------------------
 
 const pinoConfig = {
   level: process.env.LOG_LEVEL || (isDev ? 'debug' : 'info'),
@@ -29,7 +29,7 @@ const pinoConfig = {
 
 export const logger = pino(pinoConfig);
 
-// ── REQUEST LOGGER ───────────────────────────────────────────────────────────
+// -- REQUEST LOGGER -----------------------------------------------------------
 
 export interface RequestLogContext {
   requestId: string;
@@ -86,7 +86,7 @@ export function logRequest(context: RequestLogContext) {
   );
 }
 
-// ── ERROR LOGGING ────────────────────────────────────────────────────────────
+// -- ERROR LOGGING ------------------------------------------------------------
 
 /**
  * Logger une erreur avec stack trace
@@ -115,7 +115,7 @@ export function logError(
   );
 }
 
-// ── PERFORMANCE LOGGING ──────────────────────────────────────────────────────
+// -- PERFORMANCE LOGGING ------------------------------------------------------
 
 /**
  * Logger les métriques de performance
@@ -146,7 +146,7 @@ export function logPerformance(
   );
 }
 
-// ── BUSINESS EVENT LOGGING ───────────────────────────────────────────────────
+// -- BUSINESS EVENT LOGGING ---------------------------------------------------
 
 /**
  * Logger les événements métier critiques
@@ -165,7 +165,7 @@ export function logBusinessEvent(
   );
 }
 
-// ── DATABASE LOGGING ─────────────────────────────────────────────────────────
+// -- DATABASE LOGGING ---------------------------------------------------------
 
 /**
  * Logger les opérations DB (optimisé pour production)
@@ -195,7 +195,7 @@ export function logDatabaseOperation(
   }
 }
 
-// ── CACHE LOGGING ────────────────────────────────────────────────────────────
+// -- CACHE LOGGING ------------------------------------------------------------
 
 /**
  * Logger cache hits/misses

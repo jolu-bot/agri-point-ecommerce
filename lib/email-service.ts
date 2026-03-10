@@ -7,9 +7,9 @@ import nodemailer from 'nodemailer';
 import { IOrder } from '@/models/Order';
 import { IUser } from '@/models/User';
 
-// ─────────────────────────────────────────────────
+// -------------------------------------------------
 // Configuration Nodemailer
-// ─────────────────────────────────────────────────
+// -------------------------------------------------
 
 const getTransporter = () => {
   // Support pour 3 providers: Gmail, Outlook, Custom SMTP
@@ -49,9 +49,9 @@ const getTransporter = () => {
   });
 };
 
-// ─────────────────────────────────────────────────
+// -------------------------------------------------
 // Email Templates
-// ─────────────────────────────────────────────────
+// -------------------------------------------------
 
 const orderConfirmationTemplate = (order: IOrder) => `
 <!DOCTYPE html>
@@ -199,9 +199,9 @@ const adminNotificationTemplate = (order: IOrder, type: 'new_order' | 'payment_r
   `;
 };
 
-// ─────────────────────────────────────────────────
+// -------------------------------------------------
 // Public Email Functions
-// ─────────────────────────────────────────────────
+// -------------------------------------------------
 
 export const sendOrderConfirmation = async (order: IOrder) => {
   try {

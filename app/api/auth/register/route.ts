@@ -26,14 +26,14 @@ export async function POST(req: NextRequest) {
     try { rawBody = await req.json(); }
     catch { return NextResponse.json({ error: 'Corps de requête invalide' }, { status: 400 }); }
 
-    // ── Scan anti-injection/ XSS avant tout traitement ───────────────────────
+    // -- Scan anti-injection/ XSS avant tout traitement -----------------------
     const threat = scanForThreats(rawBody);
     if (!threat.safe) {
       logSecurityEvent({ type: 'threat_detected', ip, userAgent: ua, detail: `${threat.threat} in ${threat.matchedField}` });
       return applySecurityHeaders(NextResponse.json({ error: 'Données invalides' }, { status: 400 }));
     }
 
-    // ── Sanitisation complète ────────────────────────────────────────────────
+    // -- Sanitisation complète ------------------------------------------------
     const body = sanitizeObject(rawBody);
     const {
       name, email, password, confirmPassword,
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       city, region, quartier, street,
     } = body as Record<string, string>;
 
-    // ── Validation ────────────────────────────────────────────────────────────
+    // -- Validation ------------------------------------------------------------
     const errors: string[] = [];
 
     if (!name?.trim() || name.trim().length < 2)
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: errors[0], errors }, { status: 400 });
     }
 
-    // ── Email unique ──────────────────────────────────────────────────────────
+    // -- Email unique ----------------------------------------------------------
     const existing = await User.findOne({ email: email.toLowerCase() });
     if (existing) {
       return NextResponse.json(
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Création du compte ────────────────────────────────────────────────────
+    // -- Création du compte ----------------------------------------------------
     const user = new User({
       name: name.trim(),
       email: email.toLowerCase().trim(),
@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
     const verificationToken = user.generateVerificationToken();
     await user.save();
 
-    // ── Email de bienvenue + vérification ─────────────────────────────────────
+    // -- Email de bienvenue + vérification -------------------------------------
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com';
     const verifyUrl = `${siteUrl}/auth/verify-email?token=${verificationToken}`;
 
@@ -122,7 +122,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // ── Tokens (pour connexion directe côté client si besoin) ─────────────────
+    // -- Tokens (pour connexion directe côté client si besoin) -----------------
     const accessToken = generateAccessToken({
       userId: user._id.toString(),
       email:  user.email,
@@ -188,9 +188,9 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------------------
 // Template email de vérification
-// ─────────────────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------------------
 function buildVerificationEmailHtml(name: string, verifyUrl: string, code: string): string {
   return `
 <!DOCTYPE html>
