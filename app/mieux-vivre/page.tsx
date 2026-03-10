@@ -32,7 +32,7 @@ const pageContent = {
   hero: {
     badge: "Programme Mieux Vivre",
     title: "Mieux Vivre",
-    subtitle: "Les Caisses Mutuelles Agricoles Africaines",
+    subtitle: "Caisses Mutuelles Agricoles Africaines",
     slogan: "La force de l'union avec vous et pour vous",
     description: "Accédez aux services essentiels : santé, logement, épargne et technologies pour un avenir prospère.",
     cta: {
@@ -95,7 +95,7 @@ const pageContent = {
       color: "indigo",
       benefits: [
         "Smartphones pour agriculteurs à crédit",
-        "Applications mobiles gratuites (météo, prix)",
+        "Applications mobiles (météo, prix)",
         "Formation numérique et internet",
         "Drones et tech agricoles en location"
       ],
@@ -129,7 +129,7 @@ const pageContent = {
           "Aucun montant minimum",
           "Retrait à tout moment",
           "Intérêts mensuels",
-          "Carte d'épargne gratuite"
+          "Carte d'épargne"
         ]
       },
       {
@@ -189,8 +189,8 @@ const pageContent = {
 
   faq: [
     {
-      question: "Comment adhérer aux services Caisses Mutuelles Agricoles Africaines ?",
-      answer: "L'adhésion est simple et gratuite. Remplissez le formulaire en ligne ou visitez notre agence la plus proche avec une pièce d'identité et une photo."
+      question: "Comment adhérer aux Caisses Mutuelles Agricoles Africaines ?",
+      answer: "L'adhésion est simple. Remplissez le formulaire en ligne ou visitez notre agence la plus proche avec une pièce d'identité et une photo."
     },
     {
       question: "Quel est le montant minimum pour ouvrir une épargne ?",
@@ -250,12 +250,19 @@ export default function MieuxVivrePage() {
                 {pageContent.hero.badge}
               </div>
               
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 leading-tight">
-                {pageContent.hero.title}
-              </h1>
-              <p className="text-xl md:text-2xl font-semibold text-green-600 dark:text-green-400 mb-5 leading-snug">
-                {pageContent.hero.subtitle}
-              </p>
+              <div className="flex items-center gap-4 mb-3">
+                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
+                  {pageContent.hero.title}
+                </h1>
+                <Image
+                  src="/images/partners/cma.jpg"
+                  alt="Logo CMA"
+                  width={80}
+                  height={80}
+                  className="rounded-lg object-contain flex-shrink-0"
+                />
+              </div>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{pageContent.hero.subtitle}</p>
 
               {/* Slogan CMA en rouge */}
               <p className="text-2xl font-bold text-red-600 mb-6 italic">

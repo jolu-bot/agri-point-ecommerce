@@ -15,10 +15,10 @@ import {
   Percent,
   Clock,
   Users,
-  CheckCircle
+  CheckCircle,
+  Archive,
+  Zap
 } from 'lucide-react';
-import ProductCard from '@/components/products/ProductCard';
-import { IProduct } from '@/models/Product';
 
 // Contenu modifiable facilement
 const GAGNER_PLUS_IMAGES = [
@@ -113,6 +113,22 @@ const pageContent = {
       color: "amber",
       savings: "6 mois",
       image: "/products/icon-feuillage.png"
+    },
+    {
+      title: "Réduction des pertes post-récolte",
+      description: "Conseils en stockage, conservation et conditionnement pour limiter les pertes après récolte et valoriser au maximum votre production.",
+      icon: Archive,
+      color: "orange",
+      savings: "-40%",
+      image: "/products/icon-anti-stress.png"
+    },
+    {
+      title: "Transformation primaire",
+      description: "Appui à la transformation de vos produits agricoles (séchage, décorticage, broyage) pour augmenter leur valeur ajoutée avant la commercialisation.",
+      icon: Zap,
+      color: "teal",
+      savings: "+80%",
+      image: "/products/icon-croissance-fruits.png"
     }
   ],
 
@@ -205,8 +221,6 @@ const pageContent = {
 };
 
 export default function GagnerPlusPage() {
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [loading, setLoading] = useState(true);
   const [calcValues, setCalcValues] = useState(pageContent.calculator.defaultValues);
   const [calcResults, setCalcResults] = useState({ current: 0, potential: 0, gain: 0 });
 
@@ -226,26 +240,8 @@ export default function GagnerPlusPage() {
   }, [calcValues]);
 
   useEffect(() => {
-    loadProducts();
-  }, []);
-
-  useEffect(() => {
     calculatePotential();
   }, [calculatePotential]);
-
-  const loadProducts = async () => {
-    try {
-      const response = await fetch('/api/products');
-      if (response.ok) {
-        const data = await response.json();
-        setProducts(data.products?.slice(0, 6) || []);
-      }
-    } catch (error) {
-      console.error('Erreur chargement produits:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('fr-FR').format(Math.round(amount)) + ' FCFA';
@@ -290,13 +286,13 @@ export default function GagnerPlusPage() {
                   <Calculator className="w-5 h-5" />
                   {pageContent.hero.cta.primary}
                 </a>
-                <a 
-                  href="#produits" 
+                <Link
+                  href="/contact"
                   className="px-8 py-4 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all"
                 >
-                  {pageContent.hero.cta.secondary}
+                  Plus d&apos;informations
                   <ArrowRight className="w-5 h-5" />
-                </a>
+                </Link>
               </div>
             </motion.div>
 
@@ -370,10 +366,10 @@ export default function GagnerPlusPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Les Résultats Concrets</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">4 leviers concrets pour multiplier vos revenus</p>
+            <p className="text-xl text-gray-600 dark:text-gray-400">6 leviers pour multiplier vos revenus</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {pageContent.benefits.map((benefit, index) => (
               <motion.div
                 key={index}
@@ -576,42 +572,6 @@ export default function GagnerPlusPage() {
                 </ul>
               </motion.div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Products Section */}
-      <section id="produits" className="py-20 bg-gray-50 dark:bg-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4"><span className="text-red-500">Nos</span> Offres</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">
-              Solutions sélectionnées pour optimiser vos revenus
-            </p>
-          </div>
-
-          {loading ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="h-96 bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse"></div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {products.map((product) => (
-                <ProductCard key={product._id} product={product} />
-              ))}
-            </div>
-          )}
-
-          <div className="text-center mt-12">
-            <Link
-              href="/produits"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all"
-            >
-              Voir toutes nos offres
-              <ArrowRight className="w-5 h-5" />
-            </Link>
           </div>
         </div>
       </section>
