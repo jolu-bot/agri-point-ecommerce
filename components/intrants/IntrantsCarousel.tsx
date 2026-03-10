@@ -80,10 +80,10 @@ const products: IntrantProduct[] = [
   },
   {
     id: 'kit-urbain-debutant',
-    name: 'KIT URBAIN DÉBUTANT',
+    name: 'KIT PRODUCTEUR DÉBUTANT',
     image: '/products/kit-urbain-debutant.webp',
-    description: 'Kit idéal pour débuter l\'agriculture urbaine et périurbaine',
-    category: 'Kit Urbain',
+    description: 'Kit idéal pour débuter une activité agricole productive',
+    category: 'Kit Producteur',
   },
 ];
 

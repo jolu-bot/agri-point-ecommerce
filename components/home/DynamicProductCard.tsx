@@ -21,7 +21,7 @@ const PRODUCT_CATALOG: ProductInfo[] = [
   { name: 'SARAH URÉE-46', benefit: 'Azote concentré', Icon: Zap },
   { name: 'KADOSTIM-20', benefit: 'Stimulation racinaire', Icon: Sparkles },
   { name: 'KIT NATURCARE TERRA', benefit: 'Agriculture biologique', Icon: Wheat },
-  { name: 'KIT URBAIN DÉBUTANT', benefit: 'Culture citadine', Icon: Building2 },
+  { name: 'KIT PRODUCTEUR DÉBUTANT', benefit: 'Agriculture productive', Icon: Building2 },
 ];
 
 interface DynamicProductCardProps {
