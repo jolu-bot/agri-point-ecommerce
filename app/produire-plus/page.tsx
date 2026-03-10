@@ -164,17 +164,18 @@ export default function ProduirePlusPage() {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
+              className="lg:h-[500px] flex flex-col justify-center"
             >
-              <div className="inline-block px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-semibold mb-6">
+              <div className="inline-block px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-semibold mb-5">
                 {pageContent.hero.badge}
               </div>
               
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 leading-tight">
                 {pageContent.hero.title}
-                <span className="block text-green-600 dark:text-green-400 mt-2">
-                  {pageContent.hero.subtitle}
-                </span>
               </h1>
+              <p className="text-xl md:text-2xl font-semibold text-green-600 dark:text-green-400 mb-5 leading-snug">
+                {pageContent.hero.subtitle}
+              </p>
 
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
                 {pageContent.hero.description}
