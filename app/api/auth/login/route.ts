@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     try { body = await req.json(); }
     catch { return NextResponse.json({ error: 'Corps de requête invalide' }, { status: 400 }); }
 
-    // ── Scan anti-injection avant toute manipulation ──────────────────────────
+    // -- Scan anti-injection avant toute manipulation --------------------------
     const threat = scanForThreats(body);
     if (!threat.safe) {
       logSecurityEvent({ type: 'threat_detected', ip, userAgent: ua, detail: `${threat.threat} in ${threat.matchedField}` });
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Compte suspendu / rejeté ──────────────────────────────────────────────
+    // -- Compte suspendu / rejeté ----------------------------------------------
     if (user.accountStatus === 'suspended') {
       return NextResponse.json(
         { error: 'Votre compte a été suspendu. Contactez le support.' },
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Compte verrouillé (brute-force) ───────────────────────────────────────
+    // -- Compte verrouillé (brute-force) ---------------------------------------
     if (user.isLocked()) {
       const remaining = Math.ceil(
         ((user.lockUntil?.getTime() || 0) - Date.now()) / 60000
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Vérification du mot de passe ──────────────────────────────────────────
+    // -- Vérification du mot de passe ------------------------------------------
     const isValid = await user.comparePassword(password);
 
     if (!isValid) {
@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
       ));
     }
 
-    // ── Email non vérifié ─────────────────────────────────────────────────────
+    // -- Email non vérifié -----------------------------------------------------
     if (!user.emailVerified || user.accountStatus === 'pending_email') {
       return NextResponse.json(
         {
@@ -117,7 +117,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Réinitialiser les tentatives échouées ─────────────────────────────────
+    // -- Réinitialiser les tentatives échouées ---------------------------------
     user.loginAttempts = 0;
     user.lockUntil     = undefined;
     user.lastLoginAt   = new Date();
@@ -125,7 +125,7 @@ export async function POST(req: NextRequest) {
     logSecurityEvent({ type: 'login_success', ip, userAgent: ua, userId: user._id.toString(), email: user.email });
     await user.save();
 
-    // ── Générer les tokens ────────────────────────────────────────────────────
+    // -- Générer les tokens ----------------------------------------------------
     const payload = {
       userId: user._id.toString(),
       email:  user.email,
@@ -156,7 +156,7 @@ export async function POST(req: NextRequest) {
       refreshToken,
     });
 
-    // ── HttpOnly Cookies (sécurisé, résistant XSS) ─────────────────────────
+    // -- HttpOnly Cookies (sécurisé, résistant XSS) -------------------------
     response.cookies.set('accessToken', accessToken, {
       httpOnly: true,
       secure:   process.env.NODE_ENV === 'production',

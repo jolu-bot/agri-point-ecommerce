@@ -11,7 +11,7 @@ import PartnersSection from "@/components/shared/PartnersSection";
 import BackToTop from '@/components/layout/BackToTop';
 import { ClientComponents } from "./ClientComponents";
 
-// ── Optimized fonts with minimal weights ────────────────────────────────────
+// -- Optimized fonts with minimal weights ------------------------------------
 const inter = Inter({
   subsets: ["latin"],
   weight: ['400', '600'],

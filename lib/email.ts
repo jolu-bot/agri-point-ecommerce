@@ -15,7 +15,7 @@ interface EmailOptions {
  * Priorité 2: EMAIL_USER + EMAIL_PASS → Nodemailer SMTP (Hostinger)
  */
 
-// ─── Resend (HTTP API, recommandé pour Vercel) ───────────────────────────────
+// --- Resend (HTTP API, recommandé pour Vercel) -------------------------------
 async function sendViaResend(options: EmailOptions): Promise<boolean> {
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {
@@ -37,7 +37,7 @@ async function sendViaResend(options: EmailOptions): Promise<boolean> {
   }
 }
 
-// ─── SMTP Nodemailer (Hostinger) ─────────────────────────────────────────────
+// --- SMTP Nodemailer (Hostinger) ---------------------------------------------
 async function sendViaSMTP(options: EmailOptions): Promise<boolean> {
   const emailUser = process.env.EMAIL_USER;
   const emailPassword = process.env.EMAIL_PASS;

@@ -5,7 +5,7 @@ import Product from '@/models/Product';
 import Order from '@/models/Order';
 import ChatConversation from '@/models/ChatConversation';
 
-// ─── Interfaces ───────────────────────────────────────────────────
+// --- Interfaces ---------------------------------------------------
 interface UserMemory {
   sessionId?: string;
   location?: string;
@@ -775,7 +775,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
   try {
     await connectDB();
 
-    // ── get_products ──
+    // -- get_products --
     if (name === 'get_products') {
       const query: Record<string, unknown> = { isActive: true };
       if (args.category) query.category = args.category;
@@ -807,7 +807,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
       }).join('\n\n');
     }
 
-    // ── check_order_status ──
+    // -- check_order_status --
     if (name === 'check_order_status') {
       const order = await Order.findOne({ orderNumber: args.orderNumber })
         .select('orderNumber status paymentStatus total createdAt items')
@@ -837,7 +837,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
       ].filter(Boolean).join('\n');
     }
 
-    // ── get_recommendation ──
+    // -- get_recommendation --
     if (name === 'get_recommendation') {
       const programmes: Record<string, Record<string, string>> = {
         tomate: {
@@ -897,7 +897,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
       return lines.join('\n');
     }
 
-    // ── calculate_dose ──
+    // -- calculate_dose --
     if (name === 'calculate_dose') {
       const dosesParHa: Record<string, number> = {
         humiforte: 1.5, fosnutren: 1.5, 'fosnutren 20': 1.5,
@@ -931,7 +931,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
       ].join('\n');
     }
 
-    // ── compare_products ──
+    // -- compare_products --
     if (name === 'compare_products') {
       const infos: Record<string, Record<string, string>> = {
         humiforte: { role: 'Croissance végétative', npk: '6-4-0.2', phase: 'Végétatif', urgence: 'Faible', urbain: '✅ Idéal' },
@@ -960,7 +960,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
       ].filter(Boolean).join('\n');
     }
 
-    // ── get_seasonal_advice ──
+    // -- get_seasonal_advice --
     if (name === 'get_seasonal_advice') {
       const month = new Date().getMonth() + 1;
       const seasons: Record<string, { saison: string; conseil: string; produits: string }> = {
@@ -993,7 +993,7 @@ async function executeTool(name: string, args: Record<string, string>): Promise<
       ].filter(Boolean).join('\n');
     }
 
-    // ── get_procedure ──
+    // -- get_procedure --
     if (name === 'get_procedure') {
       const procedures: Record<string, string> = {
         inscription: `## Comment créer votre compte sur agri-ps.com
@@ -1129,7 +1129,7 @@ Vous souhaitez revendre nos produits dans votre zone ?
       return `Je peux vous expliquer les procédures suivantes :\n- Inscription / Connexion\n- Achat et paiement\n- Suivi de commande\n- Retour produit\n- Livraison\n- Devenir revendeur\n\nQuelle procédure souhaitez-vous ?`;
     }
 
-    // ── get_campaign_info ──
+    // -- get_campaign_info --
     if (name === 'get_campaign_info') {
       try {
         const baseUrl = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_BASE_URL || 'https://agri-ps.com';
@@ -1180,7 +1180,7 @@ Vous souhaitez revendre nos produits dans votre zone ?
       return sections[key];
     }
 
-    // ── escalate_to_human ──
+    // -- escalate_to_human --
     if (name === 'escalate_to_human') {
       const reasonMap: Record<string, string> = {
         urgence_terrain:  '🚨 Urgence terrain',
@@ -1195,7 +1195,7 @@ Vous souhaitez revendre nos produits dans votre zone ?
       return `## 👨‍💼 Passage à un conseiller humain\n\n**Motif :** ${label}${ctx}\n\nUn agronome AGRIPOINT SERVICES va prendre en charge votre demande :\n\n- 💬 [**WhatsApp maintenant**](https://wa.me/237657393939?text=${waText}) — réponse rapide\n- 📞 [**+237 657 39 39 39**](tel:+237657393939) — lun-sam 7h-19h\n- ✉️ infos@agri-ps.com\n\nPrésentez votre numéro de commande si vous en avez un. Notre équipe vous répondra dans les meilleurs délais 🌱`;
     }
 
-    // ── calculate_roi ──
+    // -- calculate_roi --
     if (name === 'calculate_roi') {
       const surfaceStr   = args.surface || '1Ha';
       const numMatch     = surfaceStr.match(/[\d.,]+/);
@@ -1249,7 +1249,7 @@ Vous souhaitez revendre nos produits dans votre zone ?
       ].join('\n');
     }
 
-    // ── get_page_content ──
+    // -- get_page_content --
     if (name === 'get_page_content') {
       const page = args.page?.toLowerCase() || 'evenements';
       try {
@@ -1430,7 +1430,7 @@ Les suggestions doivent être pertinentes avec le contexte de la conversation.
 📞 +237 657 39 39 39 | 💬 WhatsApp 657 39 39 39 | ✉️ infos@agri-ps.com | 🌐 https://agri-ps.com
 Horaires : Lun-Sam 7h30-18h30 | Dimanche : WhatsApp uniquement`;
 
-// ─── Constructeur dynamique — injecte mémoire + climat ────────────
+// --- Constructeur dynamique — injecte mémoire + climat ------------
 function buildSystemPrompt(memory?: UserMemory): string {
   let extra = '';
 
@@ -1458,7 +1458,7 @@ export async function POST(req: NextRequest) {
   const { message, history = [], sessionId, metadata = {}, userMemory = {} } = await req.json();
   const memory = userMemory as UserMemory;
 
-  // ── Rate limiting ──
+  // -- Rate limiting --
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
   if (!checkRateLimit(ip)) {
     return new Response(
@@ -1471,7 +1471,7 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'Message requis' }), { status: 400 });
   }
 
-  // ── Détection de contexte manquant ── (conseils agronomiuqes sans localisation)
+  // -- Détection de contexte manquant -- (conseils agronomiuqes sans localisation)
   const missingCtxQ = detectMissingContext(message, history, memory);
   if (missingCtxQ) {
     const { intent } = extractMeta(message);
@@ -1495,7 +1495,7 @@ export async function POST(req: NextRequest) {
     return new Response(stream, { headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' } });
   }
 
-  // ── Vérification cache de réponses (questions factuelles non personnelles) ──
+  // -- Vérification cache de réponses (questions factuelles non personnelles) --
   const isCacheable = !/commande|compte|paiement|livraison|ap-\d|mon panier|ma commande/i.test(message);
   const cacheKey = isCacheable ? getCacheKey(message, memory.location, memory.mainCrops) : null;
   if (cacheKey) {
@@ -1522,7 +1522,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // ── Construit le prompt système enrichi avec la mémoire et le climat ──
+  // -- Construit le prompt système enrichi avec la mémoire et le climat --
   const dynamicSystemPrompt = buildSystemPrompt(memory);
 
   // Mode démo si aucune IA disponible
@@ -1548,7 +1548,7 @@ export async function POST(req: NextRequest) {
     return new Response(stream, { headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' } });
   }
 
-  // ── Anthropic direct si OpenAI absent mais Anthropic configuré ──
+  // -- Anthropic direct si OpenAI absent mais Anthropic configuré --
   if (!isOpenAIReady() && isAnthropicReady()) {
     const { tags, intent } = extractMeta(message);
     const anthropicMessages = [
@@ -1613,7 +1613,7 @@ export async function POST(req: NextRequest) {
     return new Response(stream, { headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' } });
   }
 
-  // ── Gemini direct si OpenAI et Anthropic absents mais Gemini configuré ──
+  // -- Gemini direct si OpenAI et Anthropic absents mais Gemini configuré --
   if (!isOpenAIReady() && !isAnthropicReady() && isGeminiReady()) {
     const { tags, intent } = extractMeta(message);
     const encoder = new TextEncoder();
@@ -1754,7 +1754,7 @@ export async function POST(req: NextRequest) {
 
         send({ type: 'done', tags, intent, suggestions, escalate });
 
-        // ── Mise en cache de la réponse (si cacheable) ──
+        // -- Mise en cache de la réponse (si cacheable) --
         if (cacheKey && fullContent.length > 50) {
           setCache(cacheKey, fullContent, intent);
         }
@@ -1794,7 +1794,7 @@ export async function POST(req: NextRequest) {
       } catch (err: unknown) {
         console.error('AgriBot error:', err instanceof Error ? err.message : err);
 
-        // ── Tentative Anthropic Claude si disponible ──
+        // -- Tentative Anthropic Claude si disponible --
         if (isAnthropicReady()) {
           try {
             send({ type: 'token', token: '' }); // signal de démarrage
@@ -1859,7 +1859,7 @@ export async function POST(req: NextRequest) {
           }
         }
 
-        // ── Tentative Google Gemini si disponible ──
+        // -- Tentative Google Gemini si disponible --
         if (isGeminiReady()) {
           try {
             const geminiRes = await fetch(
@@ -1900,7 +1900,7 @@ export async function POST(req: NextRequest) {
           }
         }
 
-        // ── Fallback final — JAMAIS d'erreur visible : basculer en mode offline ──
+        // -- Fallback final — JAMAIS d'erreur visible : basculer en mode offline --
         try {
           const { demo, intent } = getDemoResponse(message);
           const parts = demo.split(/(\s+)/);
@@ -1957,7 +1957,7 @@ export async function PATCH(req: NextRequest) {
 function getDemoResponse(message: string): { demo: string; intent: string } {
   const m = message.toLowerCase();
 
-  // ── CAMPAGNE ENGRAIS ──────────────────────────────────────────────
+  // -- CAMPAGNE ENGRAIS ----------------------------------------------
   if (m.includes('campagne') || m.includes('engrais mars') || m.includes('prix spécial') || m.includes('subventionné') || m.includes('coopérative') || m.includes('mutuelle') || m.includes('cican') || m.includes('camao') || m.includes('mars 2026') || m.includes('acompte') || m.includes('70%') || m.includes('30%')) {
     return { intent: 'campagne', demo: `## 🌾 Campagne Engrais Mars 2026 — Guide Complet
 
@@ -1987,7 +1987,7 @@ Accédez à des engrais de qualité **à des prix préférentiels** négociés p
 📞 Questions : **+237 657 39 39 39** | 💬 WhatsApp **657 39 39 39**` };
   }
 
-  // ── INSCRIPTION / CRÉATION DE COMPTE ──────────────────────────────
+  // -- INSCRIPTION / CRÉATION DE COMPTE ------------------------------
   if ((m.includes('inscrire') || m.includes('créer un compte') || m.includes('creer') || m.includes('inscription') || m.includes("s'inscrire") || m.includes('nouveau compte') || m.includes('enregistrer')) && !m.includes('campagne')) {
     return { intent: 'compte', demo: `## 👤 Créer votre compte sur agri-ps.com
 
@@ -2010,7 +2010,7 @@ Accédez à des engrais de qualité **à des prix préférentiels** négociés p
 📞 Problème d'inscription ? **+237 657 39 39 39** | 💬 WhatsApp **657 39 39 39**` };
   }
 
-  // ── CONNEXION / MOT DE PASSE ───────────────────────────────────────
+  // -- CONNEXION / MOT DE PASSE ---------------------------------------
   if (m.includes('connect') || m.includes('login') || m.includes('mot de passe') || (m.includes('compte') && (m.includes('oublié') || m.includes('réinit')))) {
     return { intent: 'compte', demo: `## 🔐 Se connecter à votre espace client
 
@@ -2036,7 +2036,7 @@ Accédez à des engrais de qualité **à des prix préférentiels** négociés p
 📞 **+237 657 39 39 39** | 💬 WhatsApp **657 39 39 39**` };
   }
 
-  // ── SUIVI DE COMMANDE ──────────────────────────────────────────────
+  // -- SUIVI DE COMMANDE ----------------------------------------------
   if (m.includes('suivi') || m.includes('où est ma commande') || m.includes('statut') || (m.includes('commande') && (m.includes('ap-') || /\bap\s*[\-–]\s*\d/.test(m)))) {
     return { intent: 'commande', demo: `## 📦 Suivre ma commande
 
@@ -2067,7 +2067,7 @@ Donner votre numéro de commande **AP-XXXX-XXXXX** dans ce chat
 > 📸 Pour accélérer la confirmation : envoyez le **reçu Campost** par WhatsApp au **657 39 39 39**` };
   }
 
-  // ── COMMENT COMMANDER / PASSER UNE COMMANDE ───────────────────────
+  // -- COMMENT COMMANDER / PASSER UNE COMMANDE -----------------------
   if (m.includes('comment') && (m.includes('acheter') || m.includes('commander') || m.includes('passer une commande')) || (m.includes('acheter') || m.includes('commande') && !m.includes('suivi'))) {
     return { intent: 'commande', demo: `## 🛒 Comment commander sur agri-ps.com
 
@@ -2098,7 +2098,7 @@ Donner votre numéro de commande **AP-XXXX-XXXXX** dans ce chat
 🚚 **Livraison gratuite** dès **50 000 F CFA** d'achat !` };
   }
 
-  // ── PAIEMENT ──────────────────────────────────────────────────────
+  // -- PAIEMENT ------------------------------------------------------
   if (m.includes('paiement') || m.includes('payer') || m.includes('campost') || m.includes('espèce') || m.includes('virement')) {
     return { intent: 'commande', demo: `## 💳 Modes de Paiement Acceptés
 
@@ -2120,7 +2120,7 @@ Donner votre numéro de commande **AP-XXXX-XXXXX** dans ce chat
 📞 Questions paiement : **+237 657 39 39 39** | 💬 **657 39 39 39**` };
   }
 
-  // ── LIVRAISON ─────────────────────────────────────────────────────
+  // -- LIVRAISON -----------------------------------------------------
   if (m.includes('livraison') || m.includes('délai') || m.includes('délais') || m.includes('expédition') || m.includes('frais de livraison') || m.includes('zone')) {
     return { intent: 'commande', demo: `## 🚚 Livraison AGRIPOINT SERVICES
 
@@ -2145,7 +2145,7 @@ Retrait direct à notre siège : **Yaoundé, Quartier Fouda**
 > ⏰ Les délais peuvent varier selon les conditions météo et les routes en zone rurale.` };
   }
 
-  // ── RETOUR / REMBOURSEMENT ────────────────────────────────────────
+  // -- RETOUR / REMBOURSEMENT ----------------------------------------
   if (m.includes('retour') || m.includes('rembours') || m.includes('annul') || m.includes('échange') || m.includes('défectueux') || m.includes('problème commande')) {
     return { intent: 'commande', demo: `## 🔄 Retour & Remboursement
 
@@ -2171,7 +2171,7 @@ Retrait direct à notre siège : **Yaoundé, Quartier Fouda**
 ✉️ support@agri-ps.com` };
   }
 
-  // ── TOMATE ────────────────────────────────────────────────────────
+  // -- TOMATE --------------------------------------------------------
   if (m.includes('tomate')) {
     return { intent: 'culture', demo: `## 🍅 Programme Complet Tomates
 
@@ -2196,7 +2196,7 @@ Matin avant 9h ou soir après 17h (éviter chaleur du midi)
 🛒 [Commander](https://agri-ps.com/produits) | 📞 **+237 657 39 39 39**` };
   }
 
-  // ── CACAO / CAFÉ ──────────────────────────────────────────────────
+  // -- CACAO / CAFÉ --------------------------------------------------
   if (m.includes('cacao') || m.includes('café') || m.includes('cafe ')) {
     return { intent: 'culture', demo: `## ☕🍫 Programme Cacao & Café
 
@@ -2220,7 +2220,7 @@ Matin avant 9h ou soir après 17h (éviter chaleur du midi)
 📞 +237 657 39 39 39 | conseil@agri-ps.com` };
   }
 
-  // ── MAÏS ─────────────────────────────────────────────────────────
+  // -- MAÏS ---------------------------------------------------------
   if (m.includes('maïs') || m.includes('mais') || m.includes('maize') || m.includes('corn')) {
     return { intent: 'culture', demo: `## 🌽 Programme Complet Maïs
 
@@ -2242,7 +2242,7 @@ Commencer le HUMIFORTE dès la **levée complète** (J10-J15). Ne pas attendre l
 🛒 [Boutique](https://agri-ps.com/produits) | 📞 +237 657 39 39 39` };
   }
 
-  // ── AGRUMES / MANGUE / ANANAS / PAPAYE / AVOCAT ───────────────────
+  // -- AGRUMES / MANGUE / ANANAS / PAPAYE / AVOCAT -------------------
   if (m.includes('agrume') || m.includes('manguier') || m.includes('mangue') || m.includes('ananas') || m.includes('papaye') || m.includes('avocat') || m.includes('citron') || m.includes('pamplemousse')) {
     return { intent: 'culture', demo: `## 🍊 Programme Cultures Fruitières
 
@@ -2266,7 +2266,7 @@ Commencer le HUMIFORTE dès la **levée complète** (J10-J15). Ne pas attendre l
 📞 **+237 657 39 39 39** pour programme personnalisé` };
   }
 
-  // ── POIVRON / LÉGUMES MARAÎCHAGE ──────────────────────────────────
+  // -- POIVRON / LÉGUMES MARAÎCHAGE ----------------------------------
   if (m.includes('poivron') || m.includes('concombre') || m.includes('haricot') || m.includes('légume') || m.includes('legume') || m.includes('laitue') || m.includes('chou') || m.includes('carotte') || m.includes('oignon') || m.includes('ail')) {
     return { intent: 'culture', demo: `## 🥬 Programme Maraîchage & Légumes
 
@@ -2286,7 +2286,7 @@ Commencer le HUMIFORTE dès la **levée complète** (J10-J15). Ne pas attendre l
 🛒 [Voir les produits](https://agri-ps.com/produits) | 📞 +237 657 39 39 39` };
   }
 
-  // ── PALMIER / BANANIER / POIVRE / MANIOC ──────────────────────────
+  // -- PALMIER / BANANIER / POIVRE / MANIOC --------------------------
   if (m.includes('palmier') || m.includes('bananier') || m.includes('banane') || m.includes('poivre') || m.includes('plantain') || m.includes('manioc') || m.includes('igname')) {
     return { intent: 'culture', demo: `## 🌴 Cultures Tropicales — Palmier, Bananier, Poivre
 
@@ -2309,7 +2309,7 @@ Commencer le HUMIFORTE dès la **levée complète** (J10-J15). Ne pas attendre l
 📞 Conseil personnalisé : **+237 657 39 39 39**` };
   }
 
-  // ── HUMIFORTE (spécifique) ─────────────────────────────────────────
+  // -- HUMIFORTE (spécifique) -----------------------------------------
   if (m.includes('humiforte')) {
     return { intent: 'produit', demo: `## 🌿 HUMIFORTE — Biofertilisant de Croissance
 
@@ -2340,7 +2340,7 @@ Tomate, cacao, café, maïs, agrumes, palmier, maraîchage, agriculture urbaine
 🛒 [Acheter HUMIFORTE](https://agri-ps.com/produits) | 📞 +237 657 39 39 39` };
   }
 
-  // ── FOSNUTREN ─────────────────────────────────────────────────────
+  // -- FOSNUTREN -----------------------------------------------------
   if (m.includes('fosnutren')) {
     return { intent: 'produit', demo: `## 🌸 FOSNUTREN 20 — Biofertilisant Floral
 
@@ -2370,7 +2370,7 @@ HUMIFORTE (en transition végétatif → floraison) ✅
 🛒 [Acheter FOSNUTREN 20](https://agri-ps.com/produits) | 📞 +237 657 39 39 39` };
   }
 
-  // ── KADOSTIM ──────────────────────────────────────────────────────
+  // -- KADOSTIM ------------------------------------------------------
   if (m.includes('kadostim')) {
     return { intent: 'produit', demo: `## 🍅 KADOSTIM 20 — Biostimulant Fruticole
 
@@ -2401,7 +2401,7 @@ Cacao, café, manguier, avocatier, agrumes, ananas, tomate, papaye
 🛒 [Acheter KADOSTIM 20](https://agri-ps.com/produits) | 📞 +237 657 39 39 39` };
   }
 
-  // ── AMINOL 20 ─────────────────────────────────────────────────────
+  // -- AMINOL 20 -----------------------------------------------------
   if (m.includes('aminol')) {
     return { intent: 'produit', demo: `## 💪 AMINOL 20 — Biostimulant Anti-Stress
 
@@ -2433,7 +2433,7 @@ Appliquer dès les **premiers signes de flétrissement** → résultat visible e
 🛒 [Acheter AMINOL 20](https://agri-ps.com/produits) | 📞 +237 657 39 39 39` };
   }
 
-  // ── NATUR CARE ────────────────────────────────────────────────────
+  // -- NATUR CARE ----------------------------------------------------
   if (m.includes('natur care') || m.includes('naturcare') || m.includes('natur-care')) {
     return { intent: 'produit', demo: `## 🌍 NATUR CARE — Engrais Organique Liquide
 
@@ -2464,7 +2464,7 @@ Ne pas mélanger avec d'autres produits. Appliquer **séparément** au sol.
 🛒 [Acheter NATUR CARE](https://agri-ps.com/produits) | 📞 +237 657 39 39 39` };
   }
 
-  // ── AGRICULTURE URBAINE / BALCON / POTAGER ────────────────────────
+  // -- AGRICULTURE URBAINE / BALCON / POTAGER ------------------------
   if (m.includes('balcon') || m.includes('terrasse') || m.includes('pot') || m.includes('jardin') || m.includes('urbain') || m.includes('appartement') || m.includes('micro') || m.includes('ville')) {
     return { intent: 'conseil', demo: `## 🏙️ Agriculture Urbaine — Guide Complet
 
@@ -2493,7 +2493,7 @@ Ne pas mélanger avec d'autres produits. Appliquer **séparément** au sol.
 📞 **+237 657 39 39 39**` };
   }
 
-  // ── MALADIES / DIAGNOSTIC / URGENCE ───────────────────────────────
+  // -- MALADIES / DIAGNOSTIC / URGENCE -------------------------------
   if (m.includes('malade') || m.includes('maladie') || m.includes('jaun') || m.includes('stress') || m.includes('fané') || m.includes('flétri') || m.includes('mort') || m.includes('tach') || m.includes('pourri') || m.includes('champignon') || m.includes('virus') || m.includes('insecte') || m.includes('ravageur') || m.includes('mildiou') || m.includes('oïdium') || m.includes('carence') || m.includes('urgence') || m.includes('sos') || m.includes('aide vite')) {
     return { intent: 'urgence', demo: `## 🚨 Diagnostic Rapide — Guide d'Urgence
 
@@ -2520,7 +2520,7 @@ Ne pas mélanger avec d'autres produits. Appliquer **séparément** au sol.
 💬 Envoyer des **photos** de vos plantes par WhatsApp : **657 39 39 39**` };
   }
 
-  // ── CALCUL DE DOSE / COMMENT UTILISER ────────────────────────────
+  // -- CALCUL DE DOSE / COMMENT UTILISER ----------------------------
   if (m.includes('dose') || m.includes('dosage') || m.includes('combien mettre') || m.includes('quantité') || m.includes('comment utiliser') || m.includes('comment appliquer') || m.includes('volume') || m.includes('mélanger')) {
     return { intent: 'conseil', demo: `## 🧮 Guide de Calcul des Doses
 
@@ -2550,7 +2550,7 @@ Ne pas mélanger avec d'autres produits. Appliquer **séparément** au sol.
 📞 Besoin d'un calcul précis ? **+237 657 39 39 39**` };
   }
 
-  // ── PRIX / COMBIEN ────────────────────────────────────────────────
+  // -- PRIX / COMBIEN ------------------------------------------------
   if (m.includes('prix') || m.includes('coût') || (m.includes('combien') && (m.includes('produit') || m.includes('litre') || m.includes('sac'))) || m.includes('tarif') || m.includes('budget')) {
     return { intent: 'produit', demo: `## 💰 Tarifs & Formats AGRIPOINT SERVICES
 
@@ -2579,7 +2579,7 @@ Retrouvez les **prix exacts et actualisés** sur :
 💬 WhatsApp : **657 39 39 39**` };
   }
 
-  // ── ROI / BÉNÉFICE / GAIN ─────────────────────────────────────────
+  // -- ROI / BÉNÉFICE / GAIN -----------------------------------------
   if (m.includes('roi') || m.includes('gain') || m.includes('bénéfice') || m.includes('rentable') || m.includes('retour sur invest') || m.includes('revenu') || m.includes('profit') || (m.includes('combien') && (m.includes('gagner') || m.includes('rapport')))) {
     return { intent: 'roi', demo: `## 💰 Calculateur ROI — Retour sur Investissement
 
@@ -2607,7 +2607,7 @@ Pour **1 Ha de tomates** :
 💬 WhatsApp : **657 39 39 39**` };
   }
 
-  // ── BIO / AGRICULTURE BIOLOGIQUE ─────────────────────────────────
+  // -- BIO / AGRICULTURE BIOLOGIQUE ---------------------------------
   if (m.includes('biologique') || m.includes('bio ') || m.includes('certifi') || m.includes('organique') || m.includes('naturel') || m.includes('sans chimique') || m.includes('pas dangereux') || m.includes('sûr')) {
     return { intent: 'conseil', demo: `## 🌿 Nos Produits sont-ils Biologiques & Sûrs ?
 
@@ -2633,7 +2633,7 @@ Pour **1 Ha de tomates** :
 📞 **+237 657 39 39 39** | Certification disponible sur demande` };
   }
 
-  // ── COMPARAISON PRODUITS ──────────────────────────────────────────
+  // -- COMPARAISON PRODUITS ------------------------------------------
   if (m.includes('comparaison') || m.includes('comparer') || m.includes('différence') || m.includes('meilleur produit') || m.includes('lequel choisir') || m.includes('quel produit')) {
     return { intent: 'produit', demo: `## ⚖️ Comparatif Complet des Produits AGRIPOINT SERVICES
 
@@ -2659,7 +2659,7 @@ Pour débuter : **HUMIFORTE + FOSNUTREN + AMINOL 20** (les 3 essentiels)
 🛒 [Comparer & Commander](https://agri-ps.com/produits)` };
   }
 
-  // ── SAISON / CALENDRIER ───────────────────────────────────────────
+  // -- SAISON / CALENDRIER -------------------------------------------
   if (m.includes('saison') || m.includes('calendrier') || m.includes('quand') || m.includes('maintenant') || m.includes('actuellement') || m.includes('ce mois')) {
     return { intent: 'conseil', demo: `## 🌤️ Conseils Saisonniers & Calendrier Cultural 2026
 
@@ -2685,7 +2685,7 @@ Ne jamais attendre les symptômes en saison sèche → agir **préventivement** 
 📞 **+237 657 39 39 39** pour un calendrier personnalisé à votre région` };
   }
 
-  // ── FORMATIONS / ÉVÉNEMENTS ───────────────────────────────────────
+  // -- FORMATIONS / ÉVÉNEMENTS ---------------------------------------
   if (m.includes('formation') || m.includes('événement') || m.includes('evenement') || m.includes('webinaire') || m.includes('foire') || m.includes('séminaire') || m.includes('agenda')) {
     return { intent: 'navigation', demo: `## 📅 Formations & Événements AGRIPOINT SERVICES
 
@@ -2710,7 +2710,7 @@ Ne jamais attendre les symptômes en saison sèche → agir **préventivement** 
 💬 WhatsApp : **657 39 39 39**` };
   }
 
-  // ── DISTRIBUTEUR / REVENDEUR ──────────────────────────────────────
+  // -- DISTRIBUTEUR / REVENDEUR --------------------------------------
   if (m.includes('distributeur') || m.includes('revendeur') || m.includes('revendre') || m.includes('point de vente') || m.includes('partenaire') || m.includes('agence') || m.includes('représentant') || m.includes('devenir')) {
     return { intent: 'navigation', demo: `## 🤝 Devenir Distributeur / Revendeur AGRIPOINT SERVICES
 
@@ -2738,7 +2738,7 @@ Ne jamais attendre les symptômes en saison sèche → agir **préventivement** 
 📞 **+237 657 39 39 39** — Demander le Service Commercial` };
   }
 
-  // ── À PROPOS / HISTOIRE ───────────────────────────────────────────
+  // -- À PROPOS / HISTOIRE -------------------------------------------
   if (m.includes('à propos') || m.includes('a propos') || m.includes('qui êtes') || m.includes('qui etes') || m.includes('histoire') || m.includes('entreprise') || m.includes('fondé') || m.includes('depuis quand') || m.includes('AGRIPOINT SERVICES')) {
     return { intent: 'navigation', demo: `## 🌿 AGRIPOINT SERVICES — Notre Histoire
 
@@ -2766,7 +2766,7 @@ B.P. 5111 Yaoundé, Quartier Fouda, Cameroun
 👉 [En savoir plus](https://agri-ps.com/a-propos)` };
   }
 
-  // ── CONTACT / TÉLÉPHONE ───────────────────────────────────────────
+  // -- CONTACT / TÉLÉPHONE -------------------------------------------
   if (m.includes('contact') || m.includes('téléphone') || m.includes('appeler') || m.includes('email') || m.includes('whatsapp') || m.includes('joindre') || m.includes('service client') || m.includes('adresse') || m.includes('horaire')) {
     return { intent: 'navigation', demo: `## 📞 Nous Contacter — Tous les Canaux
 
@@ -2792,7 +2792,7 @@ B.P. 5111, Quartier Fouda, Cameroun
 👉 [https://agri-ps.com/contact](https://agri-ps.com/contact)` };
   }
 
-  // ── CGV / CGU / MENTIONS LÉGALES ─────────────────────────────────
+  // -- CGV / CGU / MENTIONS LÉGALES ---------------------------------
   if (m.includes('cgv') || m.includes('cgu') || (m.includes('condition') && (m.includes('vente') || m.includes('utilisation'))) || m.includes('mentions légales') || m.includes('confidentialité') || m.includes('données') || m.includes('rgpd')) {
     return { intent: 'navigation', demo: `## 📋 Informations Légales — AGRIPOINT SERVICES
 
@@ -2815,7 +2815,7 @@ Demande : **privacy@agri-ps.com**
 📞 **+237 657 39 39 39** | ✉️ infos@agri-ps.com` };
   }
 
-  // ── CATALOGUE / BOUTIQUE ──────────────────────────────────────────
+  // -- CATALOGUE / BOUTIQUE ------------------------------------------
   if (m.includes('boutique') || m.includes('catalogue') || m.includes('tous les produits') || m.includes('voir les produits') || m.includes('shop')) {
     return { intent: 'produit', demo: `## 🛒 Catalogue AGRIPOINT SERVICES
 
@@ -2838,7 +2838,7 @@ Dites-moi votre **culture** et votre **problème** — je vous recommande le pro
 📞 **+237 657 39 39 39** | 💬 WhatsApp **657 39 39 39**` };
   }
 
-  // ── PILIERS / PRODUIRE PLUS / GAGNER PLUS / MIEUX VIVRE ──────────
+  // -- PILIERS / PRODUIRE PLUS / GAGNER PLUS / MIEUX VIVRE ----------
   if (m.includes('produire plus') || m.includes('augmenter rendement') || m.includes('gagner plus') || m.includes('revenu agricole') || m.includes('mieux vivre') || m.includes('qualité de vie')) {
     return { intent: 'conseil', demo: `## 🚀 Les 3 Piliers AGRIPOINT SERVICES
 
@@ -2864,7 +2864,7 @@ Dites-moi votre **situation** (surface, culture, objectif) et je vous guide vers
 📞 **+237 657 39 39 39**` };
   }
 
-  // ── RÉPONSE PAR DÉFAUT — Accueil + Guidance ───────────────────────
+  // -- RÉPONSE PAR DÉFAUT — Accueil + Guidance -----------------------
   return { intent: 'conseil', demo: `## Bonjour ! Je suis **l'Assistant d'AGRIPOINT SERVICES** 🌿
 
 Votre conseiller expert AGRIPOINT SERVICES — **15 ans d'expertise agricole** au Cameroun.

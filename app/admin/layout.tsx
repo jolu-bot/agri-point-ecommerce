@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-// ── PERFORMANCE OPTIMIZATION: Lazy Load Animations ───────────────────────────
+// -- PERFORMANCE OPTIMIZATION: Lazy Load Animations ---------------------------
 // Framer Motion is heavy (64KB) - load only when sidebar animation triggers
 const AnimatePresence = dynamic(
   () => import('framer-motion').then(mod => mod.AnimatePresence),

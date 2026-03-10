@@ -147,7 +147,7 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-8 pb-12">
 
-      {/* â”€â”€ En-tÃªte dashboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── En-tête dashboard ─────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-black text-gray-900 dark:text-white">
@@ -176,7 +176,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* â”€â”€ KPI Cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── KPI Cards ─────────────────────────────────────────── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {statCards.map((stat, i) => {
           const Icon = stat.icon;
@@ -205,7 +205,7 @@ export default function AdminDashboard() {
       </div>
       {/* Widget Validation Paiement */}
       <PaymentValidationWidget />
-      {/* â”€â”€ Barre de progression campagne â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Barre de progression campagne ─────────────────────── */}
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
         className="bg-gradient-to-r from-emerald-900 to-teal-900 rounded-2xl p-5 sm:p-6 text-white shadow-lg">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -265,10 +265,10 @@ export default function AdminDashboard() {
         </div>
       </motion.div>
 
-      {/* â”€â”€ Grille principale â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Grille principale ──────────────────────────────────── */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
-        {/* Commandes récentes â€” 2/3 largeur */}
+        {/* Commandes récentes — 2/3 largeur */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
           className="xl:col-span-2 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-white/[0.05] overflow-hidden">
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-white/[0.05]">
@@ -313,7 +313,7 @@ export default function AdminDashboard() {
           </div>
         </motion.div>
 
-        {/* Alertes stock â€” 1/3 largeur */}
+        {/* Alertes stock — 1/3 largeur */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.42 }}
           className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-white/[0.05] overflow-hidden">
           <div className="flex items-center gap-2 px-6 py-4 border-b border-gray-100 dark:border-white/[0.05]">
@@ -359,7 +359,7 @@ export default function AdminDashboard() {
         </motion.div>
       </div>
 
-      {/* â”€â”€ Actions rapides â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Actions rapides ────────────────────────────────────── */}
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
         <h2 className="text-lg font-black text-gray-900 dark:text-white mb-4">Accès rapides</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">

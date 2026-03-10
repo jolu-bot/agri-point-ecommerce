@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // ── PERFORMANCE OPTIMIZATIONS ──────────────────────────────────────────────
+  // -- PERFORMANCE OPTIMIZATIONS ----------------------------------------------
   typescript: { ignoreBuildErrors: true },
   
-  // ── Image optimization (critical for performance) ────────────────────────
+  // -- Image optimization (critical for performance) ------------------------
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -20,7 +20,7 @@ const nextConfig = {
     ],
   },
 
-  // ── Advanced bundle optimization ───────────────────────────────────────────
+  // -- Advanced bundle optimization -------------------------------------------
   experimental: {
     optimizePackageImports: [
       'react-icons',
@@ -34,7 +34,7 @@ const nextConfig = {
     optimizeCss: true,
   },
 
-  // ── Compiler optimizations ─────────────────────────────────────────────────
+  // -- Compiler optimizations -------------------------------------------------
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' && {
       exclude: ['error'],
@@ -42,19 +42,19 @@ const nextConfig = {
     styledComponents: true,
   },
 
-  // ── Build optimizations ────────────────────────────────────────────────────
+  // -- Build optimizations ----------------------------------------------------
   productionBrowserSourceMaps: false,
   reactStrictMode: true,
   compress: true,
   poweredByHeader: false,
   generateEtags: true,
 
-  // ── Turbopack configuration ────────────────────────────────────────────────
+  // -- Turbopack configuration ------------------------------------------------
   turbopack: {
     resolveAlias: { '@': '.' },
   },
 
-  // ── Webpack fallback configuration ─────────────────────────────────────────
+  // -- Webpack fallback configuration -----------------------------------------
   webpack: (config, { isServer }) => {
     if (process.env.NODE_ENV !== 'production') return config;
 
@@ -105,7 +105,7 @@ const nextConfig = {
     return config;
   },
 
-  // ── Module import optimization ─────────────────────────────────────────────
+  // -- Module import optimization ---------------------------------------------
   modularizeImports: {
     'react-icons': {
       transform: 'react-icons/{{member}}',
@@ -124,7 +124,7 @@ const nextConfig = {
     },
   },
 
-  // ── Security & performance headers ─────────────────────────────────────────
+  // -- Security & performance headers -----------------------------------------
   async headers() {
     const csp = [
       "default-src 'self'",

@@ -36,7 +36,7 @@ const CAT_COLORS = [
   'bg-emerald-500', 'bg-blue-500', 'bg-violet-500', 'bg-amber-500', 'bg-rose-500',
 ];
 
-// ─── Interface stats AgriBot ─────────────────────────────────────
+// --- Interface stats AgriBot -------------------------------------
 interface BotStatsData {
   period: string;
   kpis: {
@@ -385,7 +385,7 @@ export default function AnalyticsPage() {
           </div>
         </>
       ) : activeTab === 'agribot' ? (
-        // ─── TAB ASSISTANT IA ────────────────────────────────────
+        // --- TAB ASSISTANT IA ------------------------------------
         botLoading ? (
           <div className="flex items-center justify-center min-h-[40vh]">
             <div className="text-center">

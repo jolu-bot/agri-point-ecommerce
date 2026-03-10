@@ -24,7 +24,7 @@ export interface SavedConversation {
   userMemory?: Partial<UserMemory>;
 }
 
-// ─── Motifs de détection de localisation ──────────────────────────
+// --- Motifs de détection de localisation --------------------------
 const LOCATION_PATTERNS: Array<{ pattern: RegExp; location: string; region: string }> = [
   { pattern: /yaound[eé]/i,          location: 'Yaoundé',         region: 'Centre' },
   { pattern: /douala/i,              location: 'Douala',          region: 'Littoral' },
@@ -55,7 +55,7 @@ const LOCATION_PATTERNS: Array<{ pattern: RegExp; location: string; region: stri
   { pattern: /\bsud\b.*cameroun|cameroun.*\bsud\b/i, location: 'Sud Cameroun', region: 'Sud' },
 ];
 
-// ─── Motifs de détection de cultures ──────────────────────────────
+// --- Motifs de détection de cultures ------------------------------
 const CROP_PATTERNS = [
   'tomate', 'cacao', 'café', 'maïs', 'mais', 'banane', 'plantain',
   'igname', 'manioc', 'patate', 'arachide', 'haricot', 'poivron',
@@ -65,7 +65,7 @@ const CROP_PATTERNS = [
   'poivre blanc', 'gingembre', 'curcuma', 'soja', 'sorgho',
 ];
 
-// ─── Motifs de surface ──────────────────────────────────────────────
+// --- Motifs de surface ----------------------------------------------
 const SURFACE_PATTERNS = [
   { pattern: /(\d+[\s.,]?\d*)\s*ha\b/i,       unit: 'Ha' },
   { pattern: /(\d+)\s*(hectare|hectares)/i,     unit: 'Ha' },
@@ -77,7 +77,7 @@ const SURFACE_PATTERNS = [
   { pattern: /(\d+)\s*po[ct]s/i,                unit: 'pots' },
 ];
 
-// ─── CRUD localStorage ────────────────────────────────────────────
+// --- CRUD localStorage --------------------------------------------
 const MEMORY_KEY_PREFIX = 'agribot_memory_';
 const CONVERSATIONS_KEY = 'agribot_conversations';
 
@@ -99,7 +99,7 @@ export function saveMemory(memory: UserMemory): void {
   } catch { /* ignore */ }
 }
 
-// ─── Extraction de faits depuis la conversation ───────────────────
+// --- Extraction de faits depuis la conversation -------------------
 export function extractFactsFromMessages(
   messages: Array<{ role: string; content: string }>,
   current: UserMemory
@@ -150,7 +150,7 @@ export function extractFactsFromMessages(
   return updates;
 }
 
-// ─── Construit le contexte mémoire à injecter dans le system prompt ──
+// --- Construit le contexte mémoire à injecter dans le system prompt --
 export function buildMemoryContext(memory: UserMemory): string {
   const parts: string[] = [];
   if (memory.location)             parts.push(`📍 Localisation : ${memory.location} (${memory.region || 'Cameroun'})`);
@@ -162,7 +162,7 @@ export function buildMemoryContext(memory: UserMemory): string {
   return `\n\n[CONTEXTE DE L'UTILISATEUR]\n${parts.join('\n')}\nTiens compte de ce contexte pour personnaliser ta réponse.`;
 }
 
-// ─── Gestion des conversations sauvegardées ───────────────────────
+// --- Gestion des conversations sauvegardées -----------------------
 export function loadSavedConversations(): SavedConversation[] {
   if (typeof window === 'undefined') return [];
   try {
@@ -212,7 +212,7 @@ export function deleteSavedConversation(id: string): void {
   } catch { /* ignore */ }
 }
 
-// ─── Export TXT d'une conversation ────────────────────────────────
+// --- Export TXT d'une conversation --------------------------------
 export function exportConversationTxt(
   messages: Array<{ role: 'user' | 'assistant'; content: string; timestamp: Date }>,
   memory?: UserMemory
@@ -251,7 +251,7 @@ export function exportConversationTxt(
   URL.revokeObjectURL(url);
 }
 
-// ─── Partage WhatsApp d'un résumé ─────────────────────────────────
+// --- Partage WhatsApp d'un résumé ---------------------------------
 export function shareOnWhatsApp(
   messages: Array<{ role: 'user' | 'assistant'; content: string }>
 ): void {

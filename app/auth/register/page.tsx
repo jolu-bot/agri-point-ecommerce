@@ -12,7 +12,7 @@ import type { ComponentType } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 
-// ─── Données Cameroun ─────────────────────────────────────────────────────────
+// --- Données Cameroun ---------------------------------------------------------
 const REGIONS = [
   'Adamaoua','Centre','Est','Extrême-Nord','Littoral',
   'Nord','Nord-Ouest','Ouest','Sud','Sud-Ouest',
@@ -31,7 +31,7 @@ const CITIES_BY_REGION: Record<string, string[]> = {
   'Extrême-Nord': ['Maroua','Kousseri','Mokolo','Kaélé','Meri','Mindif'],
 };
 
-// ─── Indicateur de force du mot de passe ─────────────────────────────────────
+// --- Indicateur de force du mot de passe -------------------------------------
 function PasswordStrengthBar({ password }: { password: string }) {
   const checks = [
     { label: '8+ caractères', ok: password.length >= 8 },
@@ -77,7 +77,7 @@ function PasswordStrengthBar({ password }: { password: string }) {
   );
 }
 
-// ─── Indicateur d'étapes ──────────────────────────────────────────────────────
+// --- Indicateur d'étapes ------------------------------------------------------
 function StepIndicator({ current, total }: { current: number; total: number }) {
   const steps = [
     { label: 'Identité',    icon: User    },
@@ -119,7 +119,7 @@ function StepIndicator({ current, total }: { current: number; total: number }) {
   );
 }
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// --- Types --------------------------------------------------------------------
 interface FormData {
   name:            string;
   email:           string;
@@ -133,7 +133,7 @@ interface FormData {
   confirmPassword: string;
 }
 
-// ─── Composant principal ──────────────────────────────────────────────────────
+// --- Composant principal ------------------------------------------------------
 export default function RegisterPage() {
   const router  = useRouter();
   const [step,    setStep]    = useState(0);
@@ -153,7 +153,7 @@ export default function RegisterPage() {
   // Villes disponibles selon la région choisie
   const cities = form.region ? (CITIES_BY_REGION[form.region] || []) : [];
 
-  // ── Validation par étape ──────────────────────────────────────────────────
+  // -- Validation par étape --------------------------------------------------
   const validateStep = (): boolean => {
     if (step === 0) {
       if (!form.name.trim() || form.name.trim().length < 2) {
@@ -188,7 +188,7 @@ export default function RegisterPage() {
   const next = () => { if (validateStep()) setStep(s => s + 1); };
   const prev = () => setStep(s => s - 1);
 
-  // ── Soumission ────────────────────────────────────────────────────────────
+  // -- Soumission ------------------------------------------------------------
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateStep()) return;
@@ -232,7 +232,7 @@ export default function RegisterPage() {
     }
   };
 
-  // ── Variants d'animation ──────────────────────────────────────────────────
+  // -- Variants d'animation --------------------------------------------------
   const slideVariants = {
     enter:  (dir: number) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
     center: { x: 0, opacity: 1 },

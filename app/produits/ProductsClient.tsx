@@ -154,7 +154,7 @@ export default function ProductsClient({
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
 
-      {/* â”€â”€â”€ Hero boutique â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ─── Hero boutique ─────────────────────────────────────────── */}
       <div className="relative bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-white/[0.05] overflow-hidden">
         <div className="pointer-events-none absolute -top-24 -right-24 w-96 h-96 rounded-full bg-emerald-400/10 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-16 -left-16 w-64 h-64 rounded-full bg-emerald-600/8 blur-2xl" />
@@ -196,7 +196,7 @@ export default function ProductsClient({
         </div>
       </div>
 
-      {/* â”€â”€â”€ Barre de recherche sticky â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ─── Barre de recherche sticky ─────────────────────────────── */}
       <div className="sticky top-14 sm:top-16 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-b border-gray-100 dark:border-white/[0.05] shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex gap-3 items-center">
@@ -333,7 +333,7 @@ export default function ProductsClient({
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        {/* â”€â”€â”€ Pills catÃ©gories â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ─── Pills catégories ──────────────────────────────────────── */}
         <div className="flex gap-2 overflow-x-auto pb-3 mb-6 -mx-1 px-1">
           {categories.map((cat) => (
             <button
@@ -351,7 +351,7 @@ export default function ProductsClient({
           ))}
         </div>
 
-        {/* â”€â”€â”€ Barre rÃ©sultats + tri â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ─── Barre résultats + tri ─────────────────────────────────── */}
         <div className="flex items-center justify-between mb-6">
           <p className="text-sm text-gray-500 dark:text-gray-400">
             <span className="font-bold text-gray-900 dark:text-white text-base">
@@ -404,7 +404,7 @@ export default function ProductsClient({
           </div>
         </div>
 
-        {/* â”€â”€â”€ Grille produits â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ─── Grille produits ──────────────────────────────────────── */}
         <AnimatePresence mode="wait">
           {filteredProducts.length > 0 ? (
             <motion.div

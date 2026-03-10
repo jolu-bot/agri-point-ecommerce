@@ -18,7 +18,7 @@ interface UserMemoryBody {
   conversationCount?: number;
 }
 
-// ── GET — Récupérer le profil depuis MongoDB ──────────────────────
+// -- GET — Récupérer le profil depuis MongoDB ----------------------
 export async function GET(req: NextRequest) {
   const sessionId = req.nextUrl.searchParams.get('sessionId');
   if (!sessionId) return Response.json({ error: 'sessionId requis' }, { status: 400 });
@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// ── POST — Sauvegarder/Fusionner le profil dans MongoDB ───────────
+// -- POST — Sauvegarder/Fusionner le profil dans MongoDB -----------
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json() as UserMemoryBody;

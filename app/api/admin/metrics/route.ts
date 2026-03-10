@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
   const context = createRequestContext(req);
 
   try {
-    // ── Authentication ──
+    // -- Authentication --
     const token = req.headers.get('authorization')?.replace('Bearer ', '') ||
                   req.cookies.get('accessToken')?.value;
 
@@ -79,10 +79,10 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // ── Connect to DB ──
+    // -- Connect to DB --
     await dbConnect();
 
-    // ── Calculate metrics ──
+    // -- Calculate metrics --
     const metricsStart = Date.now();
     const metrics = await calculateMetrics();
     logPerformance('calculateMetrics', Date.now() - metricsStart, {

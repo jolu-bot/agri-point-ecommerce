@@ -16,7 +16,7 @@
 import crypto from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 
-// ── 1. IP EXTRACTION ──────────────────────────────────────────────────────────
+// -- 1. IP EXTRACTION ----------------------------------------------------------
 
 /**
  * Extracts the real client IP respecting Vercel / Cloudflare / Nginx headers.
@@ -53,7 +53,7 @@ function isValidIp(ip: string): boolean {
   return ipv4.test(ip) || ipv6.test(ip);
 }
 
-// ── 2. SLIDING-WINDOW RATE LIMITER ────────────────────────────────────────────
+// -- 2. SLIDING-WINDOW RATE LIMITER --------------------------------------------
 // Pure in-memory — for single-instance. For multi-instance use Upstash Redis.
 
 interface RateLimitBucket {
@@ -166,7 +166,7 @@ export function rateLimitResponse(result: RateLimitResult): NextResponse {
   );
 }
 
-// ── 3. INPUT SANITIZATION ─────────────────────────────────────────────────────
+// -- 3. INPUT SANITIZATION -----------------------------------------------------
 
 /** Strips HTML tags and encodes dangerous characters to prevent XSS. */
 export function sanitizeString(input: unknown): string {
@@ -215,7 +215,7 @@ export function sanitizeObject<T extends Record<string, unknown>>(
   return result as T;
 }
 
-// ── 4. THREAT DETECTION ───────────────────────────────────────────────────────
+// -- 4. THREAT DETECTION -------------------------------------------------------
 
 const SQL_INJECTION_PATTERNS = [
   /(\bOR\b|\bAND\b)\s+\d+\s*=\s*\d+/i,
@@ -304,7 +304,7 @@ export function scanForThreats(
   return { safe: true, threat: 'none' };
 }
 
-// ── 5. MONGODB OBJECTID VALIDATION ───────────────────────────────────────────
+// -- 5. MONGODB OBJECTID VALIDATION -------------------------------------------
 
 const MONGO_ID_REGEX = /^[a-f\d]{24}$/i;
 
@@ -319,7 +319,7 @@ export function assertValidMongoId(id: unknown, field = 'id'): string {
   return id;
 }
 
-// ── 6. SECURE TOKEN GENERATION ────────────────────────────────────────────────
+// -- 6. SECURE TOKEN GENERATION ------------------------------------------------
 
 /** Generates a cryptographically secure URL-safe token. */
 export function generateSecureToken(bytes = 32): string {
@@ -331,7 +331,7 @@ export function hashToken(token: string): string {
   return crypto.createHash('sha256').update(token).digest('hex');
 }
 
-// ── 7. CSRF PROTECTION ────────────────────────────────────────────────────────
+// -- 7. CSRF PROTECTION --------------------------------------------------------
 
 const CSRF_SECRET = process.env.CSRF_SECRET || crypto.randomBytes(32).toString('hex');
 
@@ -385,7 +385,7 @@ export function validateCsrfToken(
   }
 }
 
-// ── 8. SECURITY ERROR ─────────────────────────────────────────────────────────
+// -- 8. SECURITY ERROR ---------------------------------------------------------
 
 export class SecurityError extends Error {
   public readonly statusCode: number;
@@ -400,7 +400,7 @@ export function securityErrorResponse(err: SecurityError): NextResponse {
   return NextResponse.json({ error: err.message }, { status: err.statusCode });
 }
 
-// ── 9. BOT / SCRAPER DETECTION ────────────────────────────────────────────────
+// -- 9. BOT / SCRAPER DETECTION ------------------------------------------------
 
 const KNOWN_SCRAPERS = [
   'scrapy', 'wget', 'curl', 'python-requests', 'python-urllib',
@@ -431,7 +431,7 @@ export function classifyUserAgent(ua: string | null): 'human' | 'allowed_bot' | 
   return 'human';
 }
 
-// ── 10. EMAIL VALIDATION ──────────────────────────────────────────────────────
+// -- 10. EMAIL VALIDATION ------------------------------------------------------
 
 /** RFC 5322 simplified — rejects obvious garbage. */
 export function isValidEmail(email: string): boolean {
@@ -450,7 +450,7 @@ export function isValidCameroonPhone(phone: string): boolean {
   return /^(237)?[6-9]\d{8}$/.test(cleaned);
 }
 
-// ── 11. PASSWORD STRENGTH ─────────────────────────────────────────────────────
+// -- 11. PASSWORD STRENGTH -----------------------------------------------------
 
 export interface PasswordStrengthResult {
   strong: boolean;
@@ -482,7 +482,7 @@ export function checkPasswordStrength(password: string): PasswordStrengthResult 
   return { strong: score >= 3 && issues.length === 0, score, issues };
 }
 
-// ── 12. RESPONSE SECURITY HEADERS ────────────────────────────────────────────
+// -- 12. RESPONSE SECURITY HEADERS --------------------------------------------
 
 /**
  * Applies a hardened set of security headers to any NextResponse.
@@ -513,7 +513,7 @@ export function applySecurityHeaders(response: NextResponse): NextResponse {
   return response;
 }
 
-// ── 13. AUDIT LOG HELPER ─────────────────────────────────────────────────────
+// -- 13. AUDIT LOG HELPER -----------------------------------------------------
 
 export interface SecurityEvent {
   type:

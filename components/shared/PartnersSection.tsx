@@ -141,7 +141,7 @@ export default function PartnersSection({
     >
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* â”€â”€ Header â”€â”€ */}
+        {/* ── Header ── */}
         {showTitle && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -173,7 +173,7 @@ export default function PartnersSection({
           </motion.div>
         )}
 
-        {/* â”€â”€ Desktop grid (md+) â”€â”€ */}
+        {/* ── Desktop grid (md+) ── */}
         <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-5">
           {partners.map((p, i) => (
             <motion.a
@@ -215,7 +215,7 @@ export default function PartnersSection({
                   isDark ? 'text-white/40' : 'text-gray-500 dark:text-white/40'
                 }`}>{p.subtitle}</p>
 
-                {/* CTA â€” apparaÃ®t au hover */}
+                {/* CTA — apparaît au hover */}
                 <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold
                   border transition-all duration-300
                   opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0
@@ -229,7 +229,7 @@ export default function PartnersSection({
           ))}
         </div>
 
-        {/* â”€â”€ Mobile marquee (< md) â”€â”€ */}
+        {/* ── Mobile marquee (< md) ── */}
         <div className="md:hidden overflow-hidden -mx-4 px-4">
           <motion.div
             className="flex gap-3 w-max"
