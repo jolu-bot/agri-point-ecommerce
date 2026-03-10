@@ -38,7 +38,7 @@ const pageContent = {
   hero: {
     badge: "Programme Produire Plus",
     title: "Produire Plus",
-    subtitle: "Accompagnement complet de la production",
+    subtitle: "Conseil et accompagnement agricole — Fourniture d'intrants",
     description: "Information pour produire ce qui peut être vendu d'avance. Formation pour produire plus et à moindre coût. Mécanisation et fourniture d'intrants de qualité.",
     cta: {
       primary: "Découvrir nos offres",
@@ -63,7 +63,7 @@ const pageContent = {
     },
     {
       title: "Fourniture d'intrants",
-      description: "Engrais minéraux et biofertilisants, semences de qualité certifiée, produits phytosanitaires éprouvés. Tous les intrants pour une production optimale.",
+      description: "Semences de qualités ; engrais minéraux ; biofertilisants ; produits phytosanitaires homologués ; pour une production optimale.",
       icon: ShoppingCart,
       color: "emerald",
       image: "/products/icon-floraison.png"
@@ -76,8 +76,8 @@ const pageContent = {
       image: "/products/icon-feuillage.png"
     },
     {
-      title: "Mécanisation agricole",
-      description: "Acquisition de matériels compétitifs et location d'équipements facilitant le travail pour améliorer la productivité.",
+      title: "Mécanisation agricole des activités",
+      description: "Modernisation et intensification des systèmes de production agricole ; réduction de la pénibilité.",
       icon: BarChart3,
       color: "amber",
       image: "/products/icon-anti-stress.png"
@@ -86,22 +86,22 @@ const pageContent = {
 
   howItWorks: {
     title: "Comment ça marche ?",
-    subtitle: "Notre accompagnement en 3 étapes clés",
+    subtitle: "Notre approche scientifique en 3 étapes",
     steps: [
       {
         number: "01",
         title: "Pré-production",
-        description: "Identification des filières porteuses, diagnostic des sols, planification des cultures et approvisionnement en intrants de qualité."
+        description: "Choix de la culture ; montage du business plan ; recherche des partenaires commerciaux ; mobilisation des ressources ; choix du site ; choix des intrants."
       },
       {
         number: "02",
         title: "Production",
-        description: "Accompagnement technique sur le terrain, formation aux bonnes pratiques culturales, mécanisation et suivi des cultures."
+        description: "Préparation du terrain ; plantation ; suivi et entretien des cultures."
       },
       {
         number: "03",
         title: "Post-récolte",
-        description: "Gestion des récoltes, stockage, transformation et mise en relation avec les marchés pour une commercialisation optimale."
+        description: "Stockage et conservation ; conditionnement ; transport."
       }
     ]
   },
@@ -238,7 +238,7 @@ export default function ProduirePlusPage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Pourquoi Produire Plus ?</h2>
+            <h2 className="text-4xl font-bold mb-4">Comment Produire Plus ?</h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">Les avantages concrets de nos solutions</p>
           </div>
 
@@ -276,7 +276,7 @@ export default function ProduirePlusPage() {
             <p className="text-xl text-gray-600 dark:text-gray-400">{pageContent.howItWorks.subtitle}</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             {pageContent.howItWorks.steps.map((step, index) => (
               <motion.div
                 key={index}
@@ -286,8 +286,8 @@ export default function ProduirePlusPage() {
                 transition={{ delay: index * 0.1 }}
                 className="relative"
               >
-                <div className="bg-white dark:bg-gray-700 rounded-xl p-6 h-full">
-                  <div className="text-6xl font-bold text-green-100 dark:text-green-900/30 mb-4">{step.number}</div>
+                <div className="bg-white dark:bg-gray-700 rounded-xl p-6 h-full border border-green-100 dark:border-green-800/40 shadow-md">
+                  <div className="text-7xl font-black text-green-500/50 dark:text-green-400/60 mb-4 leading-none">{step.number}</div>
                   <h3 className="text-xl font-bold mb-3">{step.title}</h3>
                   <p className="text-gray-600 dark:text-gray-300">{step.description}</p>
                 </div>
