@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import HeroSlideshow from '@/components/home/HeroSlideshow';
@@ -9,19 +8,19 @@ import {
   TrendingUp, 
   Sprout, 
   Leaf, 
-  Droplets,
-  Sun,
   ShoppingCart,
-  CheckCircle,
   ArrowRight,
   Zap,
   Target,
   Award,
-  BarChart3
+  BarChart3,
+  Banknote,
+  Cog,
+  Package,
+  Smartphone,
+  Store,
+  ChevronRight
 } from 'lucide-react';
-import ProductCard from '@/components/products/ProductCard';
-import { IProduct } from '@/models/Product';
-import toast from 'react-hot-toast';
 
 // Contenu modifiable facilement
 const PRODUIRE_PLUS_IMAGES = [
@@ -128,27 +127,70 @@ const pageContent = {
   ]
 };
 
+const OFFRES_PRODUIRE = [
+  {
+    number: '01',
+    icon: Banknote,
+    color: 'text-emerald-600 dark:text-emerald-400',
+    bg: 'bg-emerald-50 dark:bg-emerald-900/20',
+    border: 'border-emerald-200 dark:border-emerald-700',
+    title: 'Micro-crédit agricole',
+    description: 'Accès à des financements adaptés à votre projet agricole, en partenariat avec les institutions financières et mutuelles (CMA). Durée et taux adaptés aux cycles culturaux.',
+    link: '/mieux-vivre',
+  },
+  {
+    number: '02',
+    icon: Cog,
+    color: 'text-amber-600 dark:text-amber-400',
+    bg: 'bg-amber-50 dark:bg-amber-900/20',
+    border: 'border-amber-200 dark:border-amber-700',
+    title: 'Mécanisation agricole',
+    description: 'Location et vente de matériels agricoles : tracteurs, motopompes, égreneurs. Réduction de la pénibilité et augmentation de la productivité sur votre exploitation.',
+    link: '/contact',
+  },
+  {
+    number: '03',
+    icon: Package,
+    color: 'text-blue-600 dark:text-blue-400',
+    bg: 'bg-blue-50 dark:bg-blue-900/20',
+    border: 'border-blue-200 dark:border-blue-700',
+    title: 'Engrais minéraux',
+    description: 'Gamme complète d\'engrais NPK (SARAH NPK, URÉE 46%) adaptés aux sols camerounais. Dosages recommandés par nos agronomes pour chaque culture.',
+    link: '/fourniture-intrants',
+  },
+  {
+    number: '04',
+    icon: Leaf,
+    color: 'text-green-600 dark:text-green-400',
+    bg: 'bg-green-50 dark:bg-green-900/20',
+    border: 'border-green-200 dark:border-green-700',
+    title: 'Biofertilisants',
+    description: 'Stimulants racinaires, biostimulants foliaires et protecteurs naturels certifiés : HUMIFORTE, FOSNUTREN, KADOSTIM, AMINOL FORTE, NATUR CARE.',
+    link: '/fourniture-intrants',
+  },
+  {
+    number: '05',
+    icon: Smartphone,
+    color: 'text-purple-600 dark:text-purple-400',
+    bg: 'bg-purple-50 dark:bg-purple-900/20',
+    border: 'border-purple-200 dark:border-purple-700',
+    title: "Digitalisation de l'activité",
+    description: "Accompagnement à la gestion numérique : suivi cultures, calendrier cultural, accès à AGRI SMART et conseils en temps réel via AgriBot.",
+    link: '/gagner-plus',
+  },
+  {
+    number: '06',
+    icon: Store,
+    color: 'text-rose-600 dark:text-rose-400',
+    bg: 'bg-rose-50 dark:bg-rose-900/20',
+    border: 'border-rose-200 dark:border-rose-700',
+    title: 'Commercialisation',
+    description: 'Identification des marchés, mise en relation avec les acheteurs, appui au warrantage (stockage différé) et recherche de débouchés nationaux et régionaux.',
+    link: '/contact',
+  },
+];
+
 export default function ProduirePlusPage() {
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    loadProducts();
-  }, []);
-
-  const loadProducts = async () => {
-    try {
-      const response = await fetch('/api/products?category=biofertilisant');
-      if (response.ok) {
-        const data = await response.json();
-        setProducts(data.products?.slice(0, 6) || []);
-      }
-    } catch (error) {
-      console.error('Erreur chargement produits:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="min-h-screen">
@@ -335,36 +377,53 @@ export default function ProduirePlusPage() {
         </div>
       </section>
 
-      {/* Products Section */}
+      {/* Offers Section */}
       <section id="produits" className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4"><span className="text-red-500">Nos</span> Offres</h2>
+            <h2 className="text-4xl font-bold mb-4"><span className="text-green-600">Nos</span> Offres</h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
-              Solutions sélectionnées pour accompagner votre production
+              6 domaines d&apos;intervention pour accompagner votre production
             </p>
           </div>
 
-          {loading ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="h-96 bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse"></div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {products.map((product) => (
-                <ProductCard key={product._id} product={product} />
-              ))}
-            </div>
-          )}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {OFFRES_PRODUIRE.map((offre, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.08 }}
+              >
+                <Link
+                  href={offre.link}
+                  className={`block h-full rounded-2xl border ${offre.border} bg-white dark:bg-gray-700 p-6 hover:shadow-lg transition-all group`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className={`flex-shrink-0 w-12 h-12 rounded-xl ${offre.bg} flex items-center justify-center`}>
+                      <offre.icon className={`w-6 h-6 ${offre.color}`} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className={`text-xs font-bold ${offre.color} uppercase tracking-wider`}>{offre.number}</span>
+                        <ChevronRight className="w-4 h-4 text-gray-400 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{offre.title}</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{offre.description}</p>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
 
           <div className="text-center mt-12">
             <Link
-              href="/produits"
+              href="/contact"
               className="inline-flex items-center gap-2 px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-all"
             >
-              Voir toutes nos offres
+              Prendre contact avec un expert
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>

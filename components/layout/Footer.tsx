@@ -16,7 +16,7 @@ const footerLinks = {
   boutique: [
     { label: 'Biofertilisants', href: '/produits?category=biofertilisant' },
     { label: 'Engrais Minéraux', href: '/produits?category=engrais' },
-    { label: 'Kits Urbains', href: '/produits?category=kit' },
+    { label: 'Kits Producteur', href: '/produits?category=kit' },
     { label: 'Services', href: '/produits?category=service' },
     { label: 'Semences', href: '/produits?category=semence' },
     { label: 'Points Campost', href: '/points-campost' },

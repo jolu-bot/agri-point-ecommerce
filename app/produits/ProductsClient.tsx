@@ -12,7 +12,7 @@ const categories: { value: string; label: string; Icon: ComponentType<{ classNam
   { value: 'all', label: 'Tout voir', Icon: LayoutGrid },
   { value: 'biofertilisant', label: 'Biofertilisants', Icon: Sprout },
   { value: 'engrais_mineral', label: 'Engrais Minéraux', Icon: FlaskConical },
-  { value: 'kit_urbain', label: 'Kits Urbains', Icon: Building2 },
+  { value: 'kit_urbain', label: 'Kits Producteur', Icon: Building2 },
   { value: 'service', label: 'Services', Icon: Handshake },
   { value: 'autre', label: 'Autres', Icon: Package },
 ];
