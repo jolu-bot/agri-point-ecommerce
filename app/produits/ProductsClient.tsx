@@ -167,18 +167,17 @@ export default function ProductsClient({
                 Offres Agripoint Services
               </div>
               <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-3">
-                <span className="text-red-500">Nos</span>{' '}
+                <span className="text-red-500">Gamme de</span>{' '}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-emerald-400 dark:to-teal-400">
-                  Produits
+                  produits et services agricoles
                 </span>
               </h1>
               <p className="text-gray-500 dark:text-gray-400 text-lg max-w-xl">
-                Solutions biofertilisantes de qualité pour une agriculture performante et durable.
+                Intrants certifiés, matériel agricole, micro-financement et accompagnement technique pour chaque étape de votre activité.
               </p>
             </div>
 
-            {/* Stats chips */}
-            <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-100 dark:border-emerald-800/40">
                 <ShoppingBag className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span className="text-sm font-bold text-emerald-700 dark:text-emerald-300">{activeCount} produits</span>
@@ -191,6 +190,19 @@ export default function ProductsClient({
                 <Leaf className="w-4 h-4 text-teal-600 dark:text-teal-400" />
                 <span className="text-sm font-bold text-teal-700 dark:text-teal-300">100% Bio</span>
               </div>
+            </div>
+            <div className="flex flex-wrap gap-2 mt-3">
+              {[
+                { label: 'Achat d’intrants', color: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200/70 dark:border-blue-800/40 text-blue-700 dark:text-blue-300' },
+                { label: 'Location de matériel', color: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200/70 dark:border-amber-800/40 text-amber-700 dark:text-amber-300' },
+                { label: 'Micro-financement', color: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200/70 dark:border-purple-800/40 text-purple-700 dark:text-purple-300' },
+                { label: 'Accompagnement technique', color: 'bg-rose-50 dark:bg-rose-900/20 border-rose-200/70 dark:border-rose-800/40 text-rose-700 dark:text-rose-300' },
+              ].map(({ label, color }) => (
+                <span key={label} className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold ${color}`}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-current opacity-60" />
+                  {label}
+                </span>
+              ))}
             </div>
           </div>
         </div>
