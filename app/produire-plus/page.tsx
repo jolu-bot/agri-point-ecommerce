@@ -108,21 +108,21 @@ const pageContent = {
 
   testimonials: [
     {
-      name: "Jean-Paul Ntamack",
-      role: "Producteur de Cacao, Région du Sud",
-      text: "L'accompagnement d'AGRIPOINT a transformé ma production. Le diagnostic de filière m'a orienté vers les bonnes cultures et les formations m'ont permis de doubler mes rendements.",
+      name: "Pierre Ondoua",
+      role: "Maraîcher, Région du Centre",
+      text: "Avec l'accompagnement d'AGRIPOINT SERVICES SAS j'ai pu acquérir une motopompe pour accroître mes revenus. En l'utilisant je suis capable désormais de cultiver ma tomate en contre-saison.",
       rating: 5
     },
     {
-      name: "Marie Fosso",
-      role: "Maraîchère, Douala",
-      text: "Grâce au programme Produire Plus, j'ai accès à des intrants de qualité et un suivi technique régulier. Ma production a triplé en un an.",
+      name: "Coopérative Agricole de l'Ouest",
+      role: "Membres via CMA, Région de l'Ouest",
+      text: "Grâce à la mutuelle assurance agricole CMA, les membres de notre coopérative peuvent désormais labourer leurs exploitations sans difficulté à l'aide d'un tracteur.",
       rating: 5
     },
     {
-      name: "Amadou Bello",
-      role: "Éleveur & Agriculteur, Extrême-Nord",
-      text: "La mécanisation proposée et la formation aux nouvelles techniques ont révolutionné mon exploitation. Je recommande vivement.",
+      name: "Famille Mbarga",
+      role: "Producteurs de Maïs, via AP Agri Point Services",
+      text: "Suite à l'usage de vos semences de qualité fournies par AP AGRI POINT SERVICES nous arrivons à produire 5 tonnes de maïs à l'hectare.",
       rating: 5
     }
   ]
