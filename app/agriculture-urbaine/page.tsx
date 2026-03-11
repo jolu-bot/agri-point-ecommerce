@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion'
+import { useLanguage } from '@/contexts/LanguageContext';
 import { 
   Building2,
   Home,
@@ -273,6 +274,8 @@ const pageContent = {
 };
 
 export default function AgricultureUrbainePage() {
+  const { T } = useLanguage();
+  const statLabels = [T.agriUrbaine.stat1, T.agriUrbaine.stat2, T.agriUrbaine.stat3, T.agriUrbaine.stat4];
   const [products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -307,45 +310,45 @@ export default function AgricultureUrbainePage() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
           <div className="text-center">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-full text-sm font-bold mb-8 shadow-lg"
             >
               <Sprout className="w-4 h-4" />
-              {pageContent.hero.badge}
-            </motion.div>
+              {T.agriUrbaine.heroBadge}
+            </m.div>
 
-            <motion.h1
+            <m.h1
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.1 }}
               className="text-5xl md:text-7xl lg:text-8xl font-black text-gray-900 dark:text-white mb-6 leading-tight"
             >
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 via-emerald-500 to-teal-600">
-                {pageContent.hero.title}
+                {T.agriUrbaine.heroTitle}
               </span>
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
               className="text-2xl md:text-3xl font-bold text-gray-700 dark:text-gray-300 mb-4"
             >
-              {pageContent.hero.subtitle}
-            </motion.p>
+              {T.agriUrbaine.heroSubtitle}
+            </m.p>
 
-            <motion.p
+            <m.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
               className="text-xl text-gray-600 dark:text-gray-400 mb-12 max-w-3xl mx-auto"
             >
-              {pageContent.hero.description}
-            </motion.p>
+              {T.agriUrbaine.heroDesc}
+            </m.p>
 
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
@@ -356,21 +359,21 @@ export default function AgricultureUrbainePage() {
                 className="group px-10 py-5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all transform hover:scale-105 shadow-2xl"
               >
                 <Sprout className="w-6 h-6 group-hover:rotate-12 transition-transform" />
-                {pageContent.hero.cta.primary}
+                {T.agriUrbaine.heroCta1}
               </a>
               <a 
                 href="#produits" 
                 className="px-10 py-5 border-3 border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all"
               >
-                {pageContent.hero.cta.secondary}
+                {T.agriUrbaine.heroCta2}
                 <ArrowRight className="w-6 h-6" />
               </a>
-            </motion.div>
+            </m.div>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20">
               {pageContent.stats.map((stat, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -381,9 +384,9 @@ export default function AgricultureUrbainePage() {
                   <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl">
                     <stat.icon className="w-10 h-10 text-green-600 mx-auto mb-3" />
                     <div className="text-4xl font-black text-green-600 mb-1">{stat.value}</div>
-                    <div className="text-sm font-semibold text-gray-600 dark:text-gray-400">{stat.label}</div>
+                    <div className="text-sm font-semibold text-gray-600 dark:text-gray-400">{statLabels[index]}</div>
                   </div>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </div>
@@ -396,15 +399,15 @@ export default function AgricultureUrbainePage() {
           <div className="text-center mb-16">
             <h2 className="text-5xl font-black mb-4">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600">
-                Choisissez Votre Solution
+                {T.agriUrbaine.solutionsTitle}
               </span>
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">De l&apos;appartement à la ferme urbaine</p>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{T.agriUrbaine.solutionsSubtitle}</p>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
             {pageContent.solutions.map((solution, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -416,7 +419,7 @@ export default function AgricultureUrbainePage() {
                   <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-10">
                     <div className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg flex items-center gap-2">
                       <Star className="w-4 h-4" />
-                      Le Plus Populaire
+                      {T.agriUrbaine.popularBadge}
                     </div>
                   </div>
                 )}
@@ -459,10 +462,10 @@ export default function AgricultureUrbainePage() {
                         : 'border-2 border-green-600 text-green-600 dark:text-emerald-400 dark:border-emerald-500 hover:bg-green-50 dark:hover:bg-green-900/20'
                     }`}
                   >
-                    Démarrer maintenant
+                    {T.agriUrbaine.startNow}
                   </Link>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -482,7 +485,7 @@ export default function AgricultureUrbainePage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {pageContent.innovations.techs.map((tech, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -506,7 +509,7 @@ export default function AgricultureUrbainePage() {
                     ))}
                   </ul>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -522,7 +525,7 @@ export default function AgricultureUrbainePage() {
           <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-emerald-600/5 blur-3xl" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -530,18 +533,18 @@ export default function AgricultureUrbainePage() {
           >
             <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 mb-5">
               <AlertCircle className="w-4 h-4 text-orange-400" />
-              <span className="text-sm font-semibold text-orange-400 tracking-wider uppercase">Défis du quotidien</span>
+              <span className="text-sm font-semibold text-orange-400 tracking-wider uppercase">{T.agriUrbaine.defiTag}</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
-              Défis Urbains &amp;{' '}
+              {T.agriUrbaine.defiTitle}{' &'}{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300">
-                Solutions AGRIPOINT SERVICES
+                {T.agriUrbaine.defiTitleEm}
               </span>
             </h2>
             <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-              Chaque obstacle de l&apos;agriculture en ville a une solution pensée pour le contexte camerounais.
+              {T.agriUrbaine.defiSubtitle}
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
@@ -594,7 +597,7 @@ export default function AgricultureUrbainePage() {
                 badge: "Bio & sain"
               },
             ].map((item, i) => (
-              <motion.div
+              <m.div
                 key={i}
                 initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -628,7 +631,7 @@ export default function AgricultureUrbainePage() {
                   <ThumbsUp className="w-3 h-3" />
                   {item.badge}
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -642,7 +645,7 @@ export default function AgricultureUrbainePage() {
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500/50 to-transparent" />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -650,22 +653,22 @@ export default function AgricultureUrbainePage() {
           >
             <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 mb-5">
               <MapPin className="w-4 h-4 text-emerald-400" />
-              <span className="text-sm font-semibold text-emerald-400 tracking-wider uppercase">Meilleures zones</span>
+              <span className="text-sm font-semibold text-emerald-400 tracking-wider uppercase">{T.agriUrbaine.quartiersTag}</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
-              Quartiers{' '}
+              {T.agriUrbaine.quartiersTitle}{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-300">
-                Verts du Cameroun
+                {T.agriUrbaine.quartiersTitleEm}
               </span>
             </h2>
             <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-              Ces quartiers offrent les meilleures conditions pour pratiquer l&apos;agriculture urbaine. Vous habitez là ? Vous avez une longueur d&apos;avance !
+              {T.agriUrbaine.quartiersSubtitle}
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             {/* Yaoundé */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -695,7 +698,7 @@ export default function AgricultureUrbainePage() {
                         <span className="text-sm font-black text-emerald-400">{q.score}/100</span>
                       </div>
                       <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
-                        <motion.div
+                        <m.div
                           initial={{ width: 0 }}
                           whileInView={{ width: `${q.score}%` }}
                           viewport={{ once: true }}
@@ -708,10 +711,10 @@ export default function AgricultureUrbainePage() {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Douala */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -741,7 +744,7 @@ export default function AgricultureUrbainePage() {
                         <span className="text-sm font-black text-blue-400">{q.score}/100</span>
                       </div>
                       <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
-                        <motion.div
+                        <m.div
                           initial={{ width: 0 }}
                           whileInView={{ width: `${q.score}%` }}
                           viewport={{ once: true }}
@@ -754,10 +757,10 @@ export default function AgricultureUrbainePage() {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </m.div>
           </div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -770,7 +773,7 @@ export default function AgricultureUrbainePage() {
                 Contactez-nous pour une analyse gratuite de votre espace.
               </Link>
             </p>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -779,7 +782,7 @@ export default function AgricultureUrbainePage() {
       ════════════════════════════════════════════════════════ */}
       <section className="py-24 bg-white dark:bg-gray-900 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -798,7 +801,7 @@ export default function AgricultureUrbainePage() {
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               Du matériel local accessible +  les équipements modernes AGRIPOINT SERVICES pour optimiser vos rendements.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
@@ -857,7 +860,7 @@ export default function AgricultureUrbainePage() {
                 upgrade: true
               },
             ].map((tool, i) => (
-              <motion.div
+              <m.div
                 key={i}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -897,7 +900,7 @@ export default function AgricultureUrbainePage() {
                     </div>
                   )}
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -912,7 +915,7 @@ export default function AgricultureUrbainePage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {pageContent.benefits.items.map((benefit, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -928,7 +931,7 @@ export default function AgricultureUrbainePage() {
                 <div className="inline-block px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-bold">
                   {benefit.stat}
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -943,7 +946,7 @@ export default function AgricultureUrbainePage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {pageContent.steps.steps.map((step, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -969,7 +972,7 @@ export default function AgricultureUrbainePage() {
                     <ArrowRight className="w-8 h-8 text-green-400" />
                   </div>
                 )}
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -997,7 +1000,7 @@ export default function AgricultureUrbainePage() {
               </thead>
               <tbody>
                 {pageContent.crops.map((crop, index) => (
-                  <motion.tr
+                  <m.tr
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -1025,7 +1028,7 @@ export default function AgricultureUrbainePage() {
                       </span>
                     </td>
                     <td className="py-4 px-4 text-gray-500 dark:text-gray-400 text-sm">{crop.space}</td>
-                  </motion.tr>
+                  </m.tr>
                 ))}
               </tbody>
             </table>
@@ -1043,7 +1046,7 @@ export default function AgricultureUrbainePage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {pageContent.testimonials.map((testimonial, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1074,7 +1077,7 @@ export default function AgricultureUrbainePage() {
                     <p className="text-xs text-green-600 font-semibold">{testimonial.space}</p>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
