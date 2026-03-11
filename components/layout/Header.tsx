@@ -62,7 +62,6 @@ export default function Header() {
   const cartItemsCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   const navigation = [
-    { name: T.nav.home, href: '/' },
     {
       name: T.nav.services,
       href: '#',
@@ -108,7 +107,7 @@ export default function Header() {
 
 
           {/* Navigation Desktop */}
-          <nav className="hidden lg:flex items-center ml-8 xl:ml-12 space-x-2 xl:space-x-3 2xl:space-x-5">
+          <nav className="hidden lg:flex flex-1 items-center justify-center space-x-1 xl:space-x-2 2xl:space-x-4">
             {navigation.map((item) => (
               item.submenu ? (
                 <div 
