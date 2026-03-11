@@ -120,14 +120,14 @@ export default function Header() {
                   <button
                     className={`text-[13px] xl:text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-1 px-0.5 ${
                       isNavActive(item)
-                        ? 'text-emerald-700 dark:text-emerald-400 font-semibold'
-                        : 'text-gray-600 dark:text-gray-300 hover:text-emerald-700 dark:hover:text-emerald-400'
+                        ? 'text-red-600 font-semibold'
+                        : 'text-red-500 hover:text-red-700'
                     }`}
                   >
                     {item.name}
-                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${openSubmenu === item.name ? 'rotate-180 text-emerald-600' : ''}`} />
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${openSubmenu === item.name ? 'rotate-180 text-red-600' : ''}`} />
                     {/* Indicateur actif / hover */}
-                    <span className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-emerald-500 transition-all duration-200 ${
+                    <span className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-red-500 transition-all duration-200 ${
                       isNavActive(item) ? 'w-4/5 opacity-100' : 'w-0 opacity-0 group-hover:w-4/5 group-hover:opacity-100'
                     }`} />
                   </button>
@@ -164,13 +164,13 @@ export default function Header() {
                             : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700/40 hover:bg-red-100 dark:hover:bg-red-900/30 hover:border-red-300'
                         }`
                       : isNavActive(item)
-                        ? 'text-emerald-700 dark:text-emerald-400 font-semibold'
-                        : 'text-gray-600 dark:text-gray-300 hover:text-emerald-700 dark:hover:text-emerald-400'
+                        ? 'text-red-600 font-semibold'
+                        : 'text-red-500 hover:text-red-700'
                   }`}
                 >
                   {item.name}
                   {!(item as any).highlight && (
-                    <span className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-emerald-500 transition-all duration-200 ${
+                    <span className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-red-500 transition-all duration-200 ${
                       isNavActive(item) ? 'w-4/5 opacity-100' : 'w-0 opacity-0 group-hover:w-4/5 group-hover:opacity-100'
                     }`} />
                   )}

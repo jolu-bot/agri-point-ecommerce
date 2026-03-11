@@ -26,8 +26,8 @@ export default function SectorsGrid() {
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse" />
             {T.sectors.tag}
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-4">
-            {T.sectors.title} <span className="text-emerald-300">{T.sectors.titleHighlight}</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-4 text-red-400">
+            {T.sectors.title} <span className="text-red-400">{T.sectors.titleHighlight}</span>
           </h2>
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
             {T.sectors.subtitle}
@@ -49,7 +49,7 @@ export default function SectorsGrid() {
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center bg-white/20 mb-4 group-hover:scale-110 transition-transform duration-300`}>
                   <Icon className="w-6 h-6 text-white" strokeWidth={2} />
                 </div>
-                <h3 className="font-bold text-base mb-1.5">{sector.title}</h3>
+                <h3 className="font-bold text-base mb-1.5 text-red-400">{sector.title}</h3>
                 <p className="text-sm text-white/70 leading-relaxed">{sector.description}</p>
               </m.div>
             );
