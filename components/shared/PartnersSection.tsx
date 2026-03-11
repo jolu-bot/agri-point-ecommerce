@@ -103,7 +103,7 @@ const partners = [
     id: 'ap-sarl',
     name: 'AP AGRI POINT SERVICES SARL',
     subtitle: 'Vente et distribution d\'intrants agricoles',
-    logo: '/images/logo.png',
+    logo: '/images/partners/ap-agripoint-sarl.png',
     url: '#',
     color: 'from-emerald-50 to-green-50',
     colorDark: 'from-emerald-900/20 to-green-900/10',
