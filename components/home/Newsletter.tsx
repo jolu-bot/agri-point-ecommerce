@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { Mail, ArrowRight, Leaf, CheckCircle, Gift, Megaphone } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -25,7 +25,7 @@ export default function Newsletter() {
   return (
     <section className="py-20 bg-gray-50 dark:bg-gray-900/50 relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -71,7 +71,7 @@ export default function Newsletter() {
             {/* Right */}
             <div>
               {done ? (
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 text-center"
@@ -79,7 +79,7 @@ export default function Newsletter() {
                   <CheckCircle className="w-14 h-14 text-emerald-300 mx-auto mb-3" />
                   <h3 className="text-white text-xl font-bold mb-1">{T.newsletter.welcomeTitle}</h3>
                   <p className="text-emerald-100/80 text-sm">{T.newsletter.welcomeMsg}</p>
-                </motion.div>
+                </m.div>
               ) : (
                 <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 md:p-8">
                   <p className="text-white font-semibold mb-4">{T.newsletter.emailLabel}</p>
@@ -119,7 +119,7 @@ export default function Newsletter() {
               )}
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );
