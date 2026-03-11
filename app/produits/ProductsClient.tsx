@@ -7,6 +7,7 @@ import ProductCard from '@/components/products/ProductCard';
 import { IProduct } from '@/models/Product';
 import toast from 'react-hot-toast';
 import type { ComponentType } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const categories: { value: string; label: string; Icon: ComponentType<{ className?: string }> }[] = [
   { value: 'all', label: 'Tout voir', Icon: LayoutGrid },
@@ -32,6 +33,7 @@ export default function ProductsClient({
   initialProducts?: IProduct[];
   initialSearch?: string;
 }) {
+  const { locale, T } = useLanguage();
   const [products, setProducts] = useState<IProduct[]>(initialProducts);
   const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(false);
@@ -140,12 +142,29 @@ export default function ProductsClient({
   const activeCount = products.filter((p) => p.isActive && p.stock > 0).length;
   const featuredCount = products.filter((p) => p.isFeatured).length;
 
+  const translatedCategories = [
+    { value: 'all', Icon: categories[0].Icon, label: T.products.catAll },
+    { value: 'biofertilisant', Icon: categories[1].Icon, label: T.products.catBio },
+    { value: 'engrais_mineral', Icon: categories[2].Icon, label: T.products.catMineral },
+    { value: 'kit_urbain', Icon: categories[3].Icon, label: T.products.catKits },
+    { value: 'service', Icon: categories[4].Icon, label: T.products.catServices },
+    { value: 'autre', Icon: categories[5].Icon, label: T.products.catOther },
+  ];
+
+  const translatedSortOptions = [
+    { value: 'featured', label: T.products.sortFeatured },
+    { value: 'newest', label: T.products.sortNewest },
+    { value: 'price-asc', label: T.products.sortPriceAsc },
+    { value: 'price-desc', label: T.products.sortPriceDesc },
+    { value: 'name', label: T.products.sortName },
+  ];
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-500 dark:text-gray-400 text-sm">Chargement des produits…</p>
+          <p className="text-gray-500 dark:text-gray-400 text-sm">{T.products.loading}</p>
         </div>
       </div>
     );
@@ -164,39 +183,39 @@ export default function ProductsClient({
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/25 border border-emerald-200 dark:border-emerald-700/40 rounded-full text-emerald-700 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider mb-4">
                 <Leaf className="w-3 h-3" />
-                Offres Agripoint Services
+                {T.products.heroTag}
               </div>
               <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-3">
-                <span className="text-red-500">Gamme de</span>{' '}
+                <span className="text-red-500">{T.products.title1}</span>{' '}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-emerald-400 dark:to-teal-400">
-                  produits et services agricoles
+                  {T.products.title2}
                 </span>
               </h1>
               <p className="text-gray-500 dark:text-gray-400 text-lg max-w-xl">
-                Intrants certifiés, matériel agricole, micro-financement et accompagnement technique pour chaque étape de votre activité.
+                {T.products.description}
               </p>
             </div>
 
               <div className="flex flex-wrap gap-3">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-100 dark:border-emerald-800/40">
                 <ShoppingBag className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span className="text-sm font-bold text-emerald-700 dark:text-emerald-300">{activeCount} produits</span>
+                <span className="text-sm font-bold text-emerald-700 dark:text-emerald-300">{activeCount} {locale === 'en' ? 'products' : 'produits'}</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2.5 bg-red-50 dark:bg-red-950/20 rounded-xl border border-red-200/70 dark:border-red-800/40">
                 <Sprout className="w-4 h-4 text-red-700 dark:text-red-400" />
-                <span className="text-sm font-bold text-red-800 dark:text-red-300">{featuredCount} vedettes</span>
+                <span className="text-sm font-bold text-red-800 dark:text-red-300">{featuredCount} {locale === 'en' ? 'featured' : 'vedettes'}</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2.5 bg-teal-50 dark:bg-teal-900/20 rounded-xl border border-teal-100 dark:border-teal-800/40">
                 <Leaf className="w-4 h-4 text-teal-600 dark:text-teal-400" />
-                <span className="text-sm font-bold text-teal-700 dark:text-teal-300">100% Bio</span>
+                <span className="text-sm font-bold text-teal-700 dark:text-teal-300">{T.products.bio}</span>
               </div>
             </div>
             <div className="flex flex-wrap gap-2 mt-3">
               {[
-                { label: 'Achat d’intrants', color: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200/70 dark:border-blue-800/40 text-blue-700 dark:text-blue-300' },
-                { label: 'Location de matériel', color: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200/70 dark:border-amber-800/40 text-amber-700 dark:text-amber-300' },
-                { label: 'Micro-financement', color: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200/70 dark:border-purple-800/40 text-purple-700 dark:text-purple-300' },
-                { label: 'Accompagnement technique', color: 'bg-rose-50 dark:bg-rose-900/20 border-rose-200/70 dark:border-rose-800/40 text-rose-700 dark:text-rose-300' },
+                { label: T.products.svc1, color: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200/70 dark:border-blue-800/40 text-blue-700 dark:text-blue-300' },
+                { label: T.products.svc2, color: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200/70 dark:border-amber-800/40 text-amber-700 dark:text-amber-300' },
+                { label: T.products.svc3, color: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200/70 dark:border-purple-800/40 text-purple-700 dark:text-purple-300' },
+                { label: T.products.svc4, color: 'bg-rose-50 dark:bg-rose-900/20 border-rose-200/70 dark:border-rose-800/40 text-rose-700 dark:text-rose-300' },
               ].map(({ label, color }) => (
                 <span key={label} className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold ${color}`}>
                   <span className="w-1.5 h-1.5 rounded-full bg-current opacity-60" />
@@ -216,7 +235,7 @@ export default function ProductsClient({
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
               <input
                 type="text"
-                placeholder="Rechercher un produit…"
+                placeholder={T.products.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-9 py-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all"
@@ -241,7 +260,7 @@ export default function ProductsClient({
               }`}
             >
               <SlidersHorizontal className="w-4 h-4" />
-              <span className="hidden sm:inline">Filtres</span>
+              <span className="hidden sm:inline">{locale === 'en' ? 'Filters' : 'Filtres'}</span>
               {hasActiveFilters && (
                 <span className="w-5 h-5 bg-white text-emerald-700 rounded-full text-xs font-bold flex items-center justify-center">!</span>
               )}
@@ -286,7 +305,7 @@ export default function ProductsClient({
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
                       <label htmlFor="filter-category" className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">
-                        Catégorie
+                        {locale === 'en' ? 'Category' : 'Catégorie'}
                       </label>
                       <select
                         id="filter-category"
@@ -294,7 +313,7 @@ export default function ProductsClient({
                         onChange={(e) => setSelectedCategory(e.target.value)}
                         className="w-full px-3 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/40"
                       >
-                        {categories.map((c) => (
+                        {translatedCategories.map((c) => (
                           <option key={c.value} value={c.value}>
                             {c.label}
                           </option>
@@ -333,7 +352,7 @@ export default function ProductsClient({
                       onClick={resetFilters}
                       className="mt-2 text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-medium"
                     >
-                      ✕ Réinitialiser tous les filtres
+                      ✕ {locale === 'en' ? 'Reset all filters' : 'Réinitialiser tous les filtres'}
                     </button>
                   )}
                 </div>
@@ -347,7 +366,7 @@ export default function ProductsClient({
 
         {/* ─── Pills catégories ──────────────────────────────────────── */}
         <div className="flex gap-2 overflow-x-auto pb-3 mb-6 -mx-1 px-1">
-          {categories.map((cat) => (
+          {translatedCategories.map((cat) => (
             <button
               key={cat.value}
               onClick={() => setSelectedCategory(cat.value)}
@@ -369,10 +388,10 @@ export default function ProductsClient({
             <span className="font-bold text-gray-900 dark:text-white text-base">
               {filteredProducts.length}
             </span>{' '}
-            produit{filteredProducts.length > 1 ? 's' : ''}
+            {locale === 'en' ? `product${filteredProducts.length > 1 ? 's' : ''}` : `produit${filteredProducts.length > 1 ? 's' : ''}`}
             {hasActiveFilters && (
               <span className="ml-2 text-emerald-600 dark:text-emerald-400 font-medium">
-                · filtré{filteredProducts.length > 1 ? 's' : ''}
+                · {locale === 'en' ? 'filtered' : `filtré${filteredProducts.length > 1 ? 's' : ''}`}
               </span>
             )}
           </p>
@@ -382,8 +401,8 @@ export default function ProductsClient({
               onClick={() => setShowSortMenu(!showSortMenu)}
               className="flex items-center gap-2 px-3.5 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-700 dark:text-gray-300 font-medium hover:border-emerald-400 transition-colors"
             >
-              <span className="hidden xs:inline text-gray-400 text-xs">Tri :</span>
-              {sortOptions.find((s) => s.value === sortBy)?.label}
+              <span className="hidden xs:inline text-gray-400 text-xs">{locale === 'en' ? 'Sort:' : 'Tri :'}</span>
+              {translatedSortOptions.find((s) => s.value === sortBy)?.label}
               <ChevronDown
                 className={`w-4 h-4 transition-transform ${showSortMenu ? 'rotate-180' : ''}`}
               />
@@ -397,7 +416,7 @@ export default function ProductsClient({
                   transition={{ duration: 0.15 }}
                   className="absolute right-0 top-full mt-2 w-44 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl shadow-xl overflow-hidden z-50"
                 >
-                  {sortOptions.map((option) => (
+                  {translatedSortOptions.map((option) => (
                     <button
                       key={option.value}
                       onClick={() => { setSortBy(option.value); setShowSortMenu(false); }}

@@ -19,6 +19,7 @@ import {
   Star,
   Award
 } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import ProductCard from '@/components/products/ProductCard';
 import { IProduct } from '@/models/Product';
 
@@ -230,6 +231,43 @@ export default function MieuxVivrePage() {
     }
   };
 
+  const { locale, T } = useLanguage();
+
+  const statLabels = locale === 'en'
+    ? ['Families supported', 'FCFA saved/family', 'Customer satisfaction', 'Of expertise']
+    : ['Familles accompagn\u00e9es', 'FCFA \u00e9pargn\u00e9s/famille', 'Satisfaction clients', "D'expertise"];
+
+  const serviceTitles = locale === 'en'
+    ? ['Insurance', 'Savings & Micro-credit', 'Housing', 'Technologies', 'Social Protection']
+    : ['Assurances', '\u00c9pargne & Micro-cr\u00e9dit', 'Logement', 'Technologies', 'Protection Sociale'];
+
+  const serviceDescs = locale === 'en'
+    ? [
+        'Agricultural insurance (farming and livestock), school insurance, health insurance, death insurance, and many other coverages.',
+        'Secure savings solutions. Accessible agricultural loans. Warehousing to secure your harvests.',
+        'Assistance building improved homes. Housing credit. Solar electrification.',
+        'Access to modern agricultural technologies. Smartphones. Internet for all.',
+        'Community mutual. Emergency assistance. Support for the elderly. Solidarity fund and mutual guarantee for producers.',
+      ]
+    : pageContent.services.map(s => s.description);
+
+  const savingsPlanNames = locale === 'en'
+    ? ['Free Savings', 'Scheduled Savings', 'Project Savings']
+    : ['\u00c9pargne Libre', '\u00c9pargne Programm\u00e9e', '\u00c9pargne Projet'];
+
+  const savingsPlanDescs = locale === 'en'
+    ? ['Deposit when you want', 'Regular contributions', 'To achieve your dreams']
+    : ['Versez quand vous voulez', 'Cotisations r\u00e9guli\u00e8res', 'Pour r\u00e9aliser vos r\u00eaves'];
+
+  const faqBilingual = locale === 'en'
+    ? [
+        { question: 'How to join the African Agricultural Mutual Funds?', answer: 'Joining is simple. Fill out the online form or visit our nearest branch with an ID and a photo.' },
+        { question: 'What is the minimum amount to open a savings account?', answer: 'You can start saving with as little as 5,000 FCFA. No opening or account management fees.' },
+        { question: 'How does health insurance work?', answer: 'Monthly contribution of 5,000 FCFA per person or 15,000 FCFA for a family (up to 5 people). Immediate coverage after the first payment.' },
+        { question: 'Can I get an agricultural loan?', answer: 'Yes, after 6 months of regular savings, you can access a loan of 2 to 5 times your savings at a preferential rate of 1.5% per month.' },
+      ]
+    : pageContent.faq;
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -247,12 +285,12 @@ export default function MieuxVivrePage() {
               className="lg:h-[500px] flex flex-col justify-center"
             >
               <div className="inline-block px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-semibold mb-5">
-                {pageContent.hero.badge}
+                {T.mieuxVivre.heroBadge}
               </div>
               
               <div className="flex items-center gap-4 mb-3">
                 <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
-                  {pageContent.hero.title}
+                  {T.mieuxVivre.heroTitle}
                 </h1>
                 <Image
                   src="/images/partners/cma.jpg"
@@ -262,15 +300,15 @@ export default function MieuxVivrePage() {
                   className="rounded-lg object-contain flex-shrink-0"
                 />
               </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{pageContent.hero.subtitle}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{T.mieuxVivre.heroSubtitle}</p>
 
               {/* Slogan CMA en rouge */}
               <p className="text-2xl font-bold text-red-600 mb-6 italic">
-                {pageContent.hero.slogan}
+                {T.mieuxVivre.heroSlogan}
               </p>
 
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                {pageContent.hero.description}
+                {T.mieuxVivre.heroDesc}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -279,13 +317,13 @@ export default function MieuxVivrePage() {
                   className="px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition-all transform hover:scale-105"
                 >
                   <Heart className="w-5 h-5" />
-                  {pageContent.hero.cta.primary}
+                  {T.mieuxVivre.heroCta1}
                 </a>
                 <a 
                   href="#epargne" 
                   className="px-8 py-4 border-2 border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all"
                 >
-                  {pageContent.hero.cta.secondary}
+                  {T.mieuxVivre.heroCta2}
                   <ArrowRight className="w-5 h-5" />
                 </a>
               </div>
@@ -320,7 +358,7 @@ export default function MieuxVivrePage() {
               >
                 <stat.icon className="w-8 h-8 text-green-600 mx-auto mb-3" />
                 <div className="text-3xl font-bold text-green-600 mb-1">{stat.value}</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">{statLabels[index]}</div>
               </motion.div>
             ))}
           </div>
@@ -331,8 +369,8 @@ export default function MieuxVivrePage() {
       <section id="services" className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4"><span className="text-red-500">Nos</span> Services Pour Mieux Vivre</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Un accompagnement complet pour votre épanouissement</p>
+            <h2 className="text-4xl font-bold mb-4"><span className="text-red-500">{T.mieuxVivre.servicesTitle}</span> {T.mieuxVivre.servicesTitleHL}</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{T.mieuxVivre.servicesSubtitle}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -348,8 +386,8 @@ export default function MieuxVivrePage() {
                 <div className={`w-14 h-14 rounded-lg bg-${service.color}-100 dark:bg-${service.color}-900/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                   <service.icon className={`w-7 h-7 text-${service.color}-600`} />
                 </div>
-                <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">{service.description}</p>
+                <h3 className="text-xl font-bold mb-3">{serviceTitles[index]}</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">{serviceDescs[index]}</p>
                 <ul className="space-y-2">
                   {service.benefits.map((benefit, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm">
@@ -368,8 +406,8 @@ export default function MieuxVivrePage() {
       <section id="epargne" className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">{pageContent.savingsPlans.title}</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">{pageContent.savingsPlans.subtitle}</p>
+            <h2 className="text-4xl font-bold mb-4">{T.mieuxVivre.savingsTitle}</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{T.mieuxVivre.savingsSubtitle}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -384,19 +422,19 @@ export default function MieuxVivrePage() {
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-4 py-1 rounded-full text-sm font-bold flex items-center gap-1.5">
-                    <Star className="w-3.5 h-3.5 fill-white" /> Populaire
+                    <Star className="w-3.5 h-3.5 fill-white" /> {locale === 'en' ? 'Popular' : 'Populaire'}
                   </div>
                 )}
-                <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">{plan.description}</p>
+                <h3 className="text-2xl font-bold mb-2">{savingsPlanNames[index]}</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">{savingsPlanDescs[index]}</p>
                 
                 <div className="mb-6">
-                  <p className="text-sm text-gray-500 mb-1">À partir de</p>
+                  <p className="text-sm text-gray-500 mb-1">{locale === 'en' ? 'From' : 'À partir de'}</p>
                   <p className="text-3xl font-bold text-red-600">{plan.minAmount}</p>
                 </div>
 
                 <div className="mb-6">
-                  <p className="text-sm text-gray-500 mb-1">Taux d&apos;intérêt</p>
+                  <p className="text-sm text-gray-500 mb-1">{locale === 'en' ? 'Interest rate' : "Taux d'intérêt"}</p>
                   <p className="text-2xl font-bold text-green-600">{plan.interest}</p>
                 </div>
 
@@ -417,7 +455,7 @@ export default function MieuxVivrePage() {
                       : 'border-2 border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20'
                   }`}
                 >
-                  Ouvrir une épargne
+                  {locale === 'en' ? 'Open a savings account' : 'Ouvrir une épargne'}
                 </Link>
               </motion.div>
             ))}
@@ -429,8 +467,8 @@ export default function MieuxVivrePage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Ils Vivent Mieux Aujourd&apos;hui</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Témoignages qui changent des vies</p>
+            <h2 className="text-4xl font-bold mb-4">{T.mieuxVivre.testTitle}</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{T.mieuxVivre.testSubtitle}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -468,12 +506,12 @@ export default function MieuxVivrePage() {
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Questions Fréquentes</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Tout ce que vous devez savoir</p>
+            <h2 className="text-4xl font-bold mb-4">{T.mieuxVivre.faqTitle}</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{T.mieuxVivre.faqSubtitle}</p>
           </div>
 
           <div className="space-y-4">
-            {pageContent.faq.map((item, index) => (
+            {faqBilingual.map((item, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 10 }}
@@ -504,9 +542,9 @@ export default function MieuxVivrePage() {
       <section id="produits" className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4"><span className="text-red-500">Nos</span> Offres</h2>
+            <h2 className="text-4xl font-bold mb-4"><span className="text-red-500">{locale === 'en' ? 'Our' : 'Nos'}</span> {locale === 'en' ? 'Offers' : 'Offres'}</h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
-              Solutions pratiques pour améliorer votre quotidien
+              {locale === 'en' ? 'Practical solutions to improve your daily life' : 'Solutions pratiques pour am\u00e9liorer votre quotidien'}
             </p>
           </div>
 
@@ -524,7 +562,7 @@ export default function MieuxVivrePage() {
             </div>
           ) : (
             <div className="text-center text-gray-500 py-12">
-              <p>Produits et services disponibles prochainement</p>
+              <p>{locale === 'en' ? 'Products and services available soon' : 'Produits et services disponibles prochainement'}</p>
             </div>
           )}
 
@@ -533,7 +571,7 @@ export default function MieuxVivrePage() {
               href="/produits?category=service"
               className="inline-flex items-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-all"
             >
-              Voir toutes nos offres
+              {locale === 'en' ? 'See all our offers' : 'Voir toutes nos offres'}
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -543,22 +581,22 @@ export default function MieuxVivrePage() {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-red-600 to-pink-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">Commencez à Mieux Vivre Dès Maintenant</h2>
+          <h2 className="text-4xl font-bold mb-6">{T.mieuxVivre.ctaTitle}</h2>
           <p className="text-xl mb-8 opacity-90">
-            Rejoignez 25 000+ familles qui ont transformé leur qualité de vie avec nos services
+            {T.mieuxVivre.ctaSubtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"
               className="px-8 py-4 bg-white text-red-600 hover:bg-gray-100 rounded-lg font-semibold transition-all"
             >
-              Adhérer maintenant
+              {T.mieuxVivre.ctaContact}
             </Link>
             <Link
               href="/a-propos"
               className="px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-red-600 rounded-lg font-semibold transition-all"
             >
-              En savoir plus
+              {T.mieuxVivre.ctaOffers}
             </Link>
           </div>
         </div>

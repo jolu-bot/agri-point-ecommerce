@@ -6,6 +6,7 @@ import { ArrowRight, Leaf } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import AnimatedCounter from '@/components/shared/AnimatedCounter';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Images des 3 programmes phares pour le slideshow
 const HERO_IMAGES = [
@@ -27,6 +28,7 @@ const HERO_IMAGES = [
 
 // Fonction pour obtenir un ordre aléatoire
 export default function HeroNew() {
+  const { T } = useLanguage();
   const [imageIndex, setImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -103,7 +105,7 @@ export default function HeroNew() {
             className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full border border-emerald-400/50 bg-emerald-500/15 text-emerald-200 text-sm font-bold tracking-wide shadow-lg backdrop-blur-md mb-6 sm:mb-8"
           >
             <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-            Le partenaire sûr de l&apos;entrepreneur agricole
+            {T.hero.badge}
             <Leaf className="w-4 h-4 opacity-80" />
           </motion.div>
 
@@ -116,7 +118,7 @@ export default function HeroNew() {
               <span className="text-red-500">AGRI</span><span className="text-emerald-300">POINT</span>
             </span>
             <span className="block bg-gradient-to-r from-emerald-300 via-green-400 to-emerald-400 bg-clip-text text-transparent drop-shadow-xl">SERVICES <span className="text-white/80 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">SAS</span></span>
-            <span className="block text-3xl sm:text-4xl md:text-5xl font-bold text-emerald-300 mt-2 sm:mt-4">Tout en Un</span>
+            <span className="block text-3xl sm:text-4xl md:text-5xl font-bold text-emerald-300 mt-2 sm:mt-4">{T.hero.tagline}</span>
           </motion.h1>
 
           {/* Description */}
@@ -124,8 +126,8 @@ export default function HeroNew() {
             variants={itemVariants}
             className="text-base sm:text-lg md:text-xl text-white/95 max-w-3xl mx-auto mb-8 sm:mb-10 leading-relaxed drop-shadow-lg"
           >
-            <strong className="text-white font-bold block mb-2">Nos objectifs :</strong>
-            Œuvrer à la professionnalisation des acteurs des filières agropastorales.
+            <strong className="text-white font-bold block mb-2">{T.hero.objectivesLabel}</strong>
+            {T.hero.objectives}
           </motion.p>
 
           {/* Stats - Animated Counters */}
@@ -134,9 +136,9 @@ export default function HeroNew() {
             className="grid grid-cols-3 gap-3 sm:gap-6 max-w-2xl mx-auto mb-8 sm:mb-10"
           >
             {[
-              { to: 20000, label: 'Hectares', suffix: 'K+' },
-              { to: 10000, label: 'Producteurs', suffix: 'K+' },
-              { to: 5, label: 'Zones agroécologiques', suffix: '' },
+              { to: 20000, label: T.hero.hectares, suffix: 'K+' },
+              { to: 10000, label: T.hero.producers, suffix: 'K+' },
+              { to: 5, label: T.hero.zones, suffix: '' },
             ].map(({ to, label, suffix }) => (
               <motion.div
                 key={label}
@@ -164,7 +166,7 @@ export default function HeroNew() {
               href="/produire-plus"
               className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-bold text-base sm:text-lg rounded-xl transition-all duration-300 transform hover:scale-105 group shadow-2xl hover:shadow-emerald-500/50"
             >
-              Découvrir nos services
+              {T.hero.discoverBtn}
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
@@ -172,7 +174,7 @@ export default function HeroNew() {
               className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 border-2 border-white/40 hover:border-emerald-400/60 text-white font-bold text-base sm:text-lg rounded-xl backdrop-blur-md bg-white/[0.05] hover:bg-white/10 transition-all duration-300 shadow-xl"
             >
               <span className="inline-block w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
-              Campagne Agricole 2026
+              {T.hero.campaignBtn}
             </Link>
           </motion.div>
         </motion.div>

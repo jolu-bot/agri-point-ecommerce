@@ -3,25 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, MessageCircle, ArrowUpRight, Leaf, Globe } from 'lucide-react';
-
-const footerLinks = {
-  solutions: [
-    { label: 'Produire Plus', href: '/produire-plus' },
-    { label: 'Fourniture Intrants', href: '/fourniture-intrants' },
-    { label: 'Gagner Plus', href: '/gagner-plus' },
-    { label: 'Mieux Vivre', href: '/mieux-vivre' },
-    { label: 'Agriculture Urbaine', href: '/agriculture-urbaine' },
-    { label: 'Campagne Agricole 2026', href: '/campagne-engrais' },
-  ],
-  boutique: [
-    { label: 'Biofertilisants', href: '/produits?category=biofertilisant' },
-    { label: 'Engrais Minéraux', href: '/produits?category=engrais' },
-    { label: 'Kits Producteur', href: '/produits?category=kit' },
-    { label: 'Services', href: '/produits?category=service' },
-    { label: 'Semences', href: '/produits?category=semence' },
-    { label: 'Points Campost', href: '/points-campost' },
-  ],
-};
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const socials = [
   { icon: Facebook, label: 'Facebook', href: '#', color: 'hover:bg-blue-600' },
@@ -32,6 +14,32 @@ const socials = [
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const { T } = useLanguage();
+
+  const footerLinks = {
+    solutions: [
+      { label: T.footer.linksProduirePlus, href: '/produire-plus' },
+      { label: T.footer.linksIntrants, href: '/fourniture-intrants' },
+      { label: T.footer.linksGagnerPlus, href: '/gagner-plus' },
+      { label: T.footer.linksMieuxVivre, href: '/mieux-vivre' },
+      { label: T.footer.linksAgriSmart, href: '/agriculture-urbaine' },
+      { label: T.footer.linksCampagne, href: '/campagne-engrais' },
+    ],
+    boutique: [
+      { label: T.footer.linksBio, href: '/produits?category=biofertilisant' },
+      { label: T.footer.linksEngrais, href: '/produits?category=engrais' },
+      { label: T.footer.linksKits, href: '/produits?category=kit' },
+      { label: T.footer.linksServices, href: '/produits?category=service' },
+      { label: T.footer.linksCampagne, href: '/campagne-engrais' },
+    ],
+  };
+
+  const legalLinks = [
+    { label: T.footer.legal1, href: '/mentions-legales' },
+    { label: T.footer.legal2, href: '/confidentialite' },
+    { label: T.footer.legal3, href: '/cgu' },
+    { label: T.footer.legal4, href: '/cgv' },
+  ];
 
   return (
     <footer className="relative overflow-hidden bg-[#0a0f0d] text-gray-400">
@@ -52,9 +60,9 @@ export default function Footer() {
       <div className="relative z-10 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <p className="text-xs uppercase tracking-[0.25em] text-emerald-500 font-semibold mb-1">Agriculture Connectée · Cameroun</p>
+            <p className="text-xs uppercase tracking-[0.25em] text-emerald-500 font-semibold mb-1">{T.footer.impactTag}</p>
             <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">
-              Prêt à transformer votre <span className="whitespace-nowrap">activité ?</span>
+              {T.footer.impactTitle} <span className="whitespace-nowrap">{T.footer.impactTitleEnd}</span>
             </h2>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
@@ -62,14 +70,14 @@ export default function Footer() {
               href="/produits"
               className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition-all duration-200 shadow-lg shadow-emerald-900/40 hover:-translate-y-0.5"
             >
-              Découvrir nos offres
+              {T.footer.discoverOffers}
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </Link>
             <Link
               href="/contact"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-white/10 hover:border-emerald-600/50 text-gray-300 hover:text-white font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5 bg-white/5 hover:bg-white/10"
             >
-              Nous contacter
+              {T.footer.contactUs}
             </Link>
           </div>
         </div>
@@ -95,15 +103,15 @@ export default function Footer() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-700/30 mb-5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
               <span className="text-[11px] font-semibold text-emerald-300 tracking-wide whitespace-nowrap">
-                Partenaire sûr du secteur agropastoral
+                {T.footer.badge}
               </span>
             </div>
 
             <p className="text-[13px] text-gray-500 leading-relaxed mb-3 max-w-xs">
-              Le partenaire sûr de l&apos;entrepreneur agricole.
+              {T.footer.partner}
             </p>
             <p className="text-[12px] font-semibold text-emerald-500 italic mb-6">
-              Soutenons l&apos;agriculture durable
+              {T.footer.tagline}
             </p>
 
             <div className="h-px w-full bg-gradient-to-r from-emerald-700/40 via-gray-700/20 to-transparent mb-6" />
@@ -120,7 +128,7 @@ export default function Footer() {
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/5 border border-white/[0.08]">
                 <Leaf className="w-3 h-3 text-emerald-500 flex-shrink-0" />
-                <span className="text-[10px] text-gray-400 font-medium tracking-wide">Agriculture durable</span>
+                <span className="text-[10px] text-gray-400 font-medium tracking-wide">{T.footer.agriDurable}</span>
               </div>
               <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/5 border border-white/[0.08]">
                 <Globe className="w-3 h-3 text-emerald-500 flex-shrink-0" />
@@ -132,7 +140,7 @@ export default function Footer() {
           {/* Services col (2/12) */}
           <div className="lg:col-span-2">
             <h4 className="text-[11px] uppercase tracking-[0.2em] text-emerald-500 font-bold mb-5 flex items-center gap-2">
-              <span className="w-4 h-px bg-emerald-600 inline-block" />Services
+              <span className="w-4 h-px bg-emerald-600 inline-block" />{T.footer.colServices}
             </h4>
             <ul className="space-y-2.5">
               {footerLinks.solutions.map(({ label, href }) => (
@@ -149,7 +157,7 @@ export default function Footer() {
           {/* Boutique col (2/12) */}
           <div className="lg:col-span-2">
             <h4 className="text-[11px] uppercase tracking-[0.2em] text-emerald-500 font-bold mb-5 flex items-center gap-2">
-              <span className="w-4 h-px bg-emerald-600 inline-block" />Nos offres
+              <span className="w-4 h-px bg-emerald-600 inline-block" />{T.footer.colOffers}
             </h4>
             <ul className="space-y-2.5">
               {footerLinks.boutique.map(({ label, href }) => (
@@ -166,7 +174,7 @@ export default function Footer() {
           {/* Contact col (4/12) */}
           <div className="lg:col-span-4">
             <h4 className="text-[11px] uppercase tracking-[0.2em] text-emerald-500 font-bold mb-5 flex items-center gap-2">
-              <span className="w-4 h-px bg-emerald-600 inline-block" />Nous Joindre
+              <span className="w-4 h-px bg-emerald-600 inline-block" />{T.footer.colContact}
             </h4>
             <ul className="space-y-3">
               <li>
@@ -224,7 +232,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
               <p className="text-[11px] text-gray-600 whitespace-nowrap">
-                © {currentYear} <span className="text-gray-500 font-medium">AGRIPOINT SERVICES SAS</span> — Tous droits réservés.
+                © {currentYear} <span className="text-gray-500 font-medium">AGRIPOINT SERVICES SAS</span> — {T.footer.copyright}
               </p>
               <span className="hidden sm:block w-px h-3 bg-gray-700" />
               <a href="https://www.joyeds.com" target="_blank" rel="noopener noreferrer"
@@ -234,12 +242,7 @@ export default function Footer() {
               </a>
             </div>
             <div className="flex items-center gap-5">
-              {[
-                { label: 'Mentions légales', href: '/mentions-legales' },
-                { label: 'Confidentialité', href: '/confidentialite' },
-                { label: 'CGU', href: '/cgu' },
-                { label: 'CGV', href: '/cgv' },
-              ].map(({ label, href }) => (
+              {legalLinks.map(({ label, href }) => (
                 <Link key={href} href={href} className="text-[11px] text-gray-600 hover:text-gray-300 transition-colors whitespace-nowrap">{label}</Link>
               ))}
             </div>

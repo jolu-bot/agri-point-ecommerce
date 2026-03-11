@@ -4,14 +4,10 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { Mail, ArrowRight, Leaf, CheckCircle, Gift, Megaphone } from 'lucide-react';
-
-const perks = [
-  { icon: Leaf,       text: 'Conseils agricoles exclusifs' },
-  { icon: Gift,       text: 'Offres membres en avant-première' },
-  { icon: Megaphone,  text: 'Nouveaux produits en primeur' },
-];
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Newsletter() {
+  const { T } = useLanguage();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
@@ -20,7 +16,7 @@ export default function Newsletter() {
     e.preventDefault();
     setLoading(true);
     await new Promise(r => setTimeout(r, 900));
-    toast.success('Merci ! Vous êtes inscrit à notre newsletter.');
+    toast.success(T.newsletter.toastSuccess);
     setEmail('');
     setLoading(false);
     setDone(true);
@@ -47,24 +43,25 @@ export default function Newsletter() {
                 <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center">
                   <Leaf className="w-5 h-5 text-emerald-300" />
                 </div>
-                <span className="text-emerald-300 text-sm font-semibold tracking-wider uppercase">Newsletter</span>
+                <span className="text-emerald-300 text-sm font-semibold tracking-wider uppercase">{T.newsletter.tag}</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-black mb-3 leading-tight">
-                Cultivez votre<br />
-                <span className="text-emerald-300">savoir agricole</span>
+                {T.newsletter.title}<br />
+                <span className="text-emerald-300">{T.newsletter.titleHighlight}</span>
               </h2>
               <p className="text-emerald-100/80 mb-6 leading-relaxed">
-                Rejoignez plus de 5 000 agriculteurs qui reçoivent nos conseils chaque semaine.
+                {T.newsletter.subtitle}
               </p>
               <ul className="space-y-2.5">
-                {perks.map((p, i) => {
-                  const Icon = p.icon;
+                {[T.newsletter.perk1, T.newsletter.perk2, T.newsletter.perk3].map((perkText, i) => {
+                  const PerkIcons = [Leaf, Gift, Megaphone];
+                  const PerkIcon = PerkIcons[i];
                   return (
                     <li key={i} className="flex items-center gap-2.5 text-sm text-emerald-100/90">
                       <div className="w-6 h-6 rounded-lg bg-white/15 flex items-center justify-center flex-shrink-0">
-                        <Icon className="w-3.5 h-3.5 text-emerald-300" strokeWidth={2.2} />
+                        <PerkIcon className="w-3.5 h-3.5 text-emerald-300" strokeWidth={2.2} />
                       </div>
-                      <span>{p.text}</span>
+                      <span>{perkText}</span>
                     </li>
                   );
                 })}
@@ -80,12 +77,12 @@ export default function Newsletter() {
                   className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 text-center"
                 >
                   <CheckCircle className="w-14 h-14 text-emerald-300 mx-auto mb-3" />
-                  <h3 className="text-white text-xl font-bold mb-1">Bienvenue !</h3>
-                  <p className="text-emerald-100/80 text-sm">Vous recevrez bientôt nos conseils.</p>
+                  <h3 className="text-white text-xl font-bold mb-1">{T.newsletter.welcomeTitle}</h3>
+                  <p className="text-emerald-100/80 text-sm">{T.newsletter.welcomeMsg}</p>
                 </motion.div>
               ) : (
                 <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 md:p-8">
-                  <p className="text-white font-semibold mb-4">Votre email, c&apos;est parti !</p>
+                  <p className="text-white font-semibold mb-4">{T.newsletter.emailLabel}</p>
                   <form onSubmit={handleSubmit} className="space-y-3">
                     <label htmlFor="newsletter-email" className="sr-only">Adresse email</label>
                     <div className="relative">
@@ -95,7 +92,7 @@ export default function Newsletter() {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="votre@email.com"
+                      placeholder={T.newsletter.placeholder}
                         required
                         className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 focus:bg-white/15 transition-all text-sm"
                       />
@@ -109,14 +106,14 @@ export default function Newsletter() {
                         <div className="w-5 h-5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" />
                       ) : (
                         <>
-                          <span>S&apos;inscrire gratuitement</span>
+                        <span>{T.newsletter.cta}</span>
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                         </>
                       )}
                     </button>
                   </form>
                   <p className="text-xs text-emerald-200/60 mt-3 text-center">
-                    🔒 Vos données restent confidentielles. Désinscription en 1 clic.
+                    {T.newsletter.privacy}
                   </p>
                 </div>
               )}

@@ -56,6 +56,12 @@ const stats = [
 ];
 
 export default function Stats() {
+  const { T } = useLanguage();
+  const stats = STATS_CONFIG.map(s => ({
+    ...s,
+    label: T.stats[s.labelKey],
+    note: T.stats[s.noteKey],
+  }));
   return (
     <section className="py-fluid-lg relative overflow-hidden bg-gradient-to-b from-white to-emerald-50/40 dark:from-gray-950 dark:to-gray-900">
       {/* Decorative bg blobs */}
@@ -73,9 +79,9 @@ export default function Stats() {
         >
           <span className="section-tag">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            En chiffres
+            {T.stats.tag}
           </span>
-          <h2 className="section-title">Notre <span className="text-accent-green">vision</span></h2>
+          <h2 className="section-title">{T.stats.title} <span className="text-accent-green">{T.stats.titleHighlight}</span></h2>
         </motion.div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-fluid-sm">

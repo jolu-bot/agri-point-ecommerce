@@ -7,6 +7,8 @@ import { useTheme } from 'next-themes';
 import { ShoppingCart, User, Menu, X, Sun, Moon, Search, ChevronDown } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import DynamicHeaderBranding from './DynamicHeaderBranding';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageToggle from '@/components/LanguageToggle';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -56,32 +58,33 @@ export default function Header() {
     return pathname === item.href || pathname.startsWith(item.href + '/');
   }, [pathname]);
 
+  const { T } = useLanguage();
   const cartItemsCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   const navigation = [
-    { name: 'Accueil', href: '/' },
-    { 
-      name: 'Nos Services et Partenaires', 
+    { name: T.nav.home, href: '/' },
+    {
+      name: T.nav.services,
       href: '#',
       submenu: [
-        { name: 'Produire Plus', href: '/produire-plus' },
-        { name: 'Fourniture Intrants', href: '/fourniture-intrants' },
-        { name: 'Gagner Plus', href: '/gagner-plus' },
-        { name: 'Mieux Vivre', href: '/mieux-vivre' },
+        { name: T.nav.producePlus, href: '/produire-plus' },
+        { name: T.nav.inputs, href: '/fourniture-intrants' },
+        { name: T.nav.earnMore, href: '/gagner-plus' },
+        { name: T.nav.betterLiving, href: '/mieux-vivre' },
       ]
     },
-    { name: 'Campagne Agricole 2026', href: '/campagne-engrais' },
-    { name: 'Offres Disponibles', href: '/produits' },
-    { 
-      name: 'AGRI SMART', 
+    { name: T.nav.campaign, href: '/campagne-engrais' },
+    { name: T.nav.offers, href: '/produits' },
+    {
+      name: T.nav.agriSmart,
       href: '#',
       submenu: [
-        { name: 'Agriculture Urbaine', href: '/agriculture-urbaine' },
-        { name: 'Agriculture Périurbaine', href: '/agriculture-periurbaine' },
+        { name: T.nav.urbanAg, href: '/agriculture-urbaine' },
+        { name: T.nav.periUrbanAg, href: '/agriculture-periurbaine' },
       ]
     },
-    { name: 'À propos', href: '/a-propos' },
-    { name: 'Contacts', href: '/contact' },
+    { name: T.nav.about, href: '/a-propos' },
+    { name: T.nav.contact, href: '/contact' },
   ];
 
   return (
@@ -188,13 +191,13 @@ export default function Header() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => { if (e.key === 'Escape') { setIsSearchOpen(false); setSearchQuery(''); } }}
-                    placeholder="Rechercher un produit…"
+                    placeholder={T.nav.search}
                     className="w-44 lg:w-56 px-3 py-1.5 text-sm rounded-lg border border-emerald-300 dark:border-emerald-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all duration-200"
                   />
-                  <button type="submit" className="p-2 rounded-lg text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/25 transition-all duration-150" aria-label="Lancer la recherche">
+                  <button type="submit" className="p-2 rounded-lg text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/25 transition-all duration-150" aria-label={T.nav.launch}>
                     <Search className="w-4 h-4" />
                   </button>
-                  <button type="button" onClick={() => { setIsSearchOpen(false); setSearchQuery(''); }} className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-150" aria-label="Fermer la recherche">
+                  <button type="button" onClick={() => { setIsSearchOpen(false); setSearchQuery(''); }} className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-150" aria-label={T.nav.close}>
                     <X className="w-4 h-4" />
                   </button>
                 </form>
@@ -202,7 +205,7 @@ export default function Header() {
                 <button
                   onClick={() => setIsSearchOpen(true)}
                   className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50/80 dark:hover:bg-emerald-900/25 transition-all duration-150"
-                  aria-label="Rechercher"
+                  aria-label={T.nav.search}
                 >
                   <Search className="w-5 h-5" />
                 </button>
@@ -223,6 +226,9 @@ export default function Header() {
                 )}
               </button>
             )}
+
+            {/* Language Toggle */}
+            <LanguageToggle />
 
             {/* Cart */}
             <Link
@@ -251,7 +257,7 @@ export default function Header() {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="lg:hidden p-2 text-gray-700 dark:text-gray-300"
-              aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+              aria-label={isMenuOpen ? T.nav.closeMenu : T.nav.openMenu}
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -313,7 +319,7 @@ export default function Header() {
                 className="text-fluid-base text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center md:hidden"
               >
                 <User className="w-5 h-5 mr-2" />
-                Mon Compte
+                {T.nav.account}
               </Link>
               {/* Search mobile fonctionnel */}
               <form
@@ -326,12 +332,12 @@ export default function Header() {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Rechercher un produit…"
+                    placeholder={T.nav.search}
                     className="flex-1 bg-transparent text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none"
                   />
                 </div>
                 <button type="submit" className="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition-colors">
-                  OK
+                  {T.common.ok}
                 </button>
               </form>
             </nav>

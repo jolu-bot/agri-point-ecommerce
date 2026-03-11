@@ -19,6 +19,7 @@ import {
   Archive,
   Zap
 } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Contenu modifiable facilement
 const GAGNER_PLUS_IMAGES = [
@@ -247,6 +248,69 @@ export default function GagnerPlusPage() {
     return new Intl.NumberFormat('fr-FR').format(Math.round(amount)) + ' FCFA';
   };
 
+  const { locale, T } = useLanguage();
+
+  const statLabels = locale === 'en'
+    ? ['Support services', 'Optimized costs', 'Average ROI', 'Target producers']
+    : ["Services d'appui", 'Co\u00fbts optimis\u00e9s', 'ROI moyen', 'Producteurs vis\u00e9s'];
+
+  const serviceTitles = locale === 'en'
+    ? ['Commercial partner search', 'Price negotiation', 'Warehousing (Warrantage)', 'Financial management training', 'Business plan development', 'Financing support']
+    : ['Recherche de partenaires commerciaux', 'N\u00e9gociation des prix', 'Warrantage', 'Formation en gestion financi\u00e8re', "Montage de plans d'affaires", 'Appui \u00e0 la recherche de financement'];
+
+  const serviceDescs = locale === 'en'
+    ? [
+        'Connecting with reliable buyers, traders, and local, regional, and international markets to sell your production.',
+        'Support for negotiation to obtain the best selling prices. Market monitoring and commercialization strategy.',
+        'Secure post-harvest crop storage to sell at the right time. Access to credit backed by stock.',
+        'Master the management of your income, savings, and financial planning for your farm.',
+        'Support for developing solid business plans to structure and grow your activity.',
+        'Identification of funding sources, assistance with applications and connections with financial institutions.',
+      ]
+    : [
+        "Mise en relation avec des acheteurs fiables, n\u00e9gociants et march\u00e9s locaux, r\u00e9gionaux et internationaux pour \u00e9couler votre production.",
+        "Accompagnement \u00e0 la n\u00e9gociation pour obtenir les meilleurs prix de vente. Veille des march\u00e9s et strat\u00e9gie de commercialisation.",
+        "Stockage s\u00e9curis\u00e9 des r\u00e9coltes apr\u00e8s production pour vendre au meilleur moment. Acc\u00e8s au cr\u00e9dit garanti par les stocks.",
+        "Ma\u00eetrisez la gestion de vos revenus, l'\u00e9pargne et la planification financi\u00e8re de votre exploitation.",
+        "Accompagnement au montage de business plans solides pour structurer et d\u00e9velopper votre activit\u00e9.",
+        "Identification des sources de financement, aide \u00e0 la constitution des dossiers et mise en relation avec les institutions financi\u00e8res.",
+      ];
+
+  const benefitTitles = locale === 'en'
+    ? ['Reduction of operational costs', 'Multiplied income', 'Market access', 'Fast ROI', 'Reduction of post-harvest losses', 'Primary transformation']
+    : ['R\u00e9duction des charges op\u00e9rationnelles', 'Revenus multipli\u00e9s', 'Acc\u00e8s aux march\u00e9s', 'ROI rapide', 'R\u00e9duction des pertes post-r\u00e9colte', 'Transformation primaire'];
+
+  const benefitDescs = locale === 'en'
+    ? [
+        'Reduced production costs at launch with the option to pay for inputs in phases: 70% upfront and 30% after harvest (reserved for CMA members).',
+        'Higher selling prices thanks to collective negotiation. Improved yields and better commercialization.',
+        'Connecting with reliable buyers. Secured contracts and access to new commercial markets.',
+        'Investment paid back within 6 months. Profits from the first harvest. Financial support available.',
+        'Advice on storage, conservation, and packaging to minimize post-harvest losses.',
+        'Support for the transformation of your agricultural products (drying, husking, grinding) to increase added value.',
+      ]
+    : pageContent.benefits.map(b => b.description);
+
+  const strategyTitles = locale === 'en'
+    ? ['Group Marketing', 'Warehousing & Storage', 'Financing & Business Plan']
+    : ['Commercialisation Group\u00e9e', 'Warrantage & Stockage', 'Financement & Business Plan'];
+
+  const strategyDescs = locale === 'en'
+    ? ['Sell better by grouping together to negotiate volumes', 'Store and sell at the right time to optimize your margins', 'Structure your activity to access financing']
+    : ['Vendez mieux en vous regroupant pour n\u00e9gocier des volumes', 'Stockez et vendez au meilleur moment pour optimiser vos marges', "Structurez votre activit\u00e9 pour acc\u00e9der aux financements"];
+
+  const strategyFeaturesList = locale === 'en'
+    ? [
+        ['Collective price negotiation', 'Access to wholesale markets', 'Organized logistics', 'Buyer connections'],
+        ['Secure storage', 'Credit backed by stock', 'Market price monitoring', 'Sale timing advice'],
+        ['Business plan development', 'Financing search', 'Financial management', 'Banking support'],
+      ]
+    : [
+        ['N\u00e9gociation collective des prix', 'Acc\u00e8s march\u00e9s de gros', 'Logistique organis\u00e9e', 'Mise en relation acheteurs'],
+        ['Stockage s\u00e9curis\u00e9', 'Cr\u00e9dit garanti sur stock', 'Veille des prix march\u00e9s', 'Conseil en timing de vente'],
+        ["Montage plans d'affaires", 'Recherche de financement', 'Gestion financi\u00e8re', 'Accompagnement bancaire'],
+      ];
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -264,18 +328,18 @@ export default function GagnerPlusPage() {
               className="lg:h-[500px] flex flex-col justify-center"
             >
               <div className="inline-block px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-semibold mb-5">
-                {pageContent.hero.badge}
+                {T.gagnerPlus.heroBadge}
               </div>
               
               <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 leading-tight">
-                {pageContent.hero.title}
+                {T.gagnerPlus.heroTitle}
               </h1>
               <p className="text-xl md:text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-5 leading-snug">
-                {pageContent.hero.subtitle}
+                {T.gagnerPlus.heroSubtitle}
               </p>
 
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                {pageContent.hero.description}
+                {T.gagnerPlus.heroDesc}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -284,13 +348,13 @@ export default function GagnerPlusPage() {
                   className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition-all transform hover:scale-105"
                 >
                   <Calculator className="w-5 h-5" />
-                  {pageContent.hero.cta.primary}
+                  {T.gagnerPlus.heroCta1}
                 </a>
                 <Link
                   href="/contact"
                   className="px-8 py-4 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all"
                 >
-                  Plus d&apos;informations
+                  {locale === 'en' ? 'More information' : "Plus d'informations"}
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
@@ -325,7 +389,7 @@ export default function GagnerPlusPage() {
               >
                 <stat.icon className="w-8 h-8 text-blue-600 mx-auto mb-3" />
                 <div className="text-3xl font-bold text-blue-600 mb-1">{stat.value}</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">{statLabels[index]}</div>
               </motion.div>
             ))}
           </div>
@@ -336,8 +400,8 @@ export default function GagnerPlusPage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4"><span className="text-red-500">Nos</span> 6 Services d&apos;Appui</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Un accompagnement complet pour maximiser vos gains</p>
+            <h2 className="text-4xl font-bold mb-4"><span className="text-red-500">{T.gagnerPlus.servicesTitle}</span> {T.gagnerPlus.servicesTitleHL}</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{T.gagnerPlus.servicesSubtitle}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -353,8 +417,8 @@ export default function GagnerPlusPage() {
                 <div className="w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center mb-4">
                   <service.icon className="w-7 h-7 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{service.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300">{service.description}</p>
+                <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{serviceTitles[index]}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{serviceDescs[index]}</p>
               </motion.div>
             ))}
           </div>
@@ -365,8 +429,8 @@ export default function GagnerPlusPage() {
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Les Résultats Concrets</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">6 leviers pour multiplier vos revenus</p>
+            <h2 className="text-4xl font-bold mb-4">{T.gagnerPlus.benefitsTitle}</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{T.gagnerPlus.benefitsSubtitle}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -388,8 +452,8 @@ export default function GagnerPlusPage() {
                     {benefit.savings}
                   </span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{benefit.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300">{benefit.description}</p>
+                <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{benefitTitles[index]}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{benefitDescs[index]}</p>
               </motion.div>
             ))}
           </div>
@@ -400,14 +464,14 @@ export default function GagnerPlusPage() {
       <section id="calculateur" className="py-20 bg-gradient-to-br from-blue-600 to-green-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">{pageContent.calculator.title}</h2>
-            <p className="text-xl opacity-90">{pageContent.calculator.subtitle}</p>
+            <h2 className="text-4xl font-bold mb-4">{T.gagnerPlus.calcTitle}</h2>
+            <p className="text-xl opacity-90">{T.gagnerPlus.calcSubtitle}</p>
           </div>
 
           <div className="bg-white text-gray-900 rounded-2xl p-8 shadow-2xl">
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               <div>
-                <label className="block text-sm font-semibold mb-2">Surface cultivée (hectares)</label>
+                <label className="block text-sm font-semibold mb-2">{T.gagnerPlus.calcSurface}</label>
                 <input
                   type="number"
                   value={calcValues.surface}
@@ -420,7 +484,7 @@ export default function GagnerPlusPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2">Type de culture</label>
+                <label className="block text-sm font-semibold mb-2">{T.gagnerPlus.calcCulture}</label>
                 <select
                   value={calcValues.culture}
                   onChange={(e) => setCalcValues({...calcValues, culture: e.target.value})}
@@ -434,7 +498,7 @@ export default function GagnerPlusPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2">Rendement actuel (tonnes/ha)</label>
+                <label className="block text-sm font-semibold mb-2">{T.gagnerPlus.calcYield}</label>
                 <input
                   type="number"
                   value={calcValues.rendementActuel}
@@ -447,7 +511,7 @@ export default function GagnerPlusPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2">Prix de vente (FCFA/kg)</label>
+                <label className="block text-sm font-semibold mb-2">{T.gagnerPlus.calcPrice}</label>
                 <input
                   type="number"
                   value={calcValues.prixVente}
@@ -461,15 +525,15 @@ export default function GagnerPlusPage() {
 
             <div className="grid md:grid-cols-3 gap-6 mt-8 pt-8 border-t">
               <div className="text-center">
-                <p className="text-sm text-gray-600 mb-2">Revenu Actuel</p>
+                <p className="text-sm text-gray-600 mb-2">{T.gagnerPlus.calcCurrent}</p>
                 <p className="text-2xl font-bold text-gray-800">{formatCurrency(calcResults.current)}</p>
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-600 mb-2">Revenu Potentiel</p>
+                <p className="text-sm text-gray-600 mb-2">{T.gagnerPlus.calcPotential}</p>
                 <p className="text-2xl font-bold text-green-600">{formatCurrency(calcResults.potential)}</p>
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-600 mb-2">Gain Annuel</p>
+                <p className="text-sm text-gray-600 mb-2">{T.gagnerPlus.calcGain}</p>
                 <p className="text-3xl font-bold text-blue-600">+{formatCurrency(calcResults.gain)}</p>
               </div>
             </div>
@@ -491,8 +555,8 @@ export default function GagnerPlusPage() {
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Histoires de Réussite</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Ils ont transformé leurs revenus avec AGRIPOINT SERVICES</p>
+            <h2 className="text-4xl font-bold mb-4">{T.gagnerPlus.storiesTitle}</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{T.gagnerPlus.storiesSubtitle}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -525,11 +589,11 @@ export default function GagnerPlusPage() {
                   
                   <div className="grid grid-cols-2 gap-4 mb-4 py-4 border-y">
                     <div>
-                      <p className="text-xs text-gray-500 mb-1">Avant</p>
+                    <p className="text-xs text-gray-500 mb-1">{locale === 'en' ? 'Before' : 'Avant'}</p>
                       <p className="font-semibold text-red-600">{story.before}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500 mb-1">Après</p>
+                      <p className="text-xs text-gray-500 mb-1">{locale === 'en' ? 'After' : 'Apr\u00e8s'}</p>
                       <p className="font-semibold text-green-600">{story.after}</p>
                     </div>
                   </div>
@@ -546,8 +610,8 @@ export default function GagnerPlusPage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">{pageContent.pricingStrategies.title}</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Maximisez vos marges avec nos accompagnements</p>
+            <h2 className="text-4xl font-bold mb-4">{T.gagnerPlus.strategiesTitle}</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{T.gagnerPlus.strategiesSubtitle}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -560,10 +624,10 @@ export default function GagnerPlusPage() {
                 transition={{ delay: index * 0.1 }}
                 className="bg-gradient-to-br from-blue-50 to-green-50 dark:from-gray-800 dark:to-gray-700 rounded-xl p-8"
               >
-                <h3 className="text-2xl font-bold mb-3">{strategy.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">{strategy.description}</p>
+                <h3 className="text-2xl font-bold mb-3">{strategyTitles[index]}</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">{strategyDescs[index]}</p>
                 <ul className="space-y-3">
-                  {strategy.features.map((feature, i) => (
+                  {strategyFeaturesList[index].map((feature, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                       <span className="text-sm">{feature}</span>
@@ -579,22 +643,22 @@ export default function GagnerPlusPage() {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-green-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">Commencez à Gagner Plus Dès Aujourd&apos;hui</h2>
+          <h2 className="text-4xl font-bold mb-6">{T.gagnerPlus.ctaTitle}</h2>
           <p className="text-xl mb-8 opacity-90">
-            Rejoignez les producteurs qui ont transformé leur activité avec AGRIPOINT SERVICES
+            {T.gagnerPlus.ctaSubtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"
               className="px-8 py-4 bg-white text-blue-600 hover:bg-gray-100 rounded-lg font-semibold transition-all"
             >
-              Nous contacter
+              {T.gagnerPlus.ctaContact}
             </Link>
             <Link
               href="/produits"
               className="px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-blue-600 rounded-lg font-semibold transition-all"
             >
-              Voir nos offres
+              {T.gagnerPlus.ctaOffers}
             </Link>
           </div>
         </div>
