@@ -118,16 +118,16 @@ export default function Header() {
                   onMouseLeave={() => setOpenSubmenu(null)}
                 >
                   <button
-                    className={`text-[13px] xl:text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-1 px-0.5 ${
+                    className={`text-[13px] xl:text-sm font-semibold tracking-wide transition-all duration-200 relative whitespace-nowrap flex items-center gap-1 py-1 px-0.5 ${
                       isNavActive(item)
-                        ? 'text-red-600 font-semibold'
-                        : 'text-red-500 hover:text-red-700'
+                        ? 'text-red-600 dark:text-white'
+                        : 'text-red-500 hover:text-red-700 dark:text-white/75 dark:hover:text-white'
                     }`}
                   >
                     {item.name}
-                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${openSubmenu === item.name ? 'rotate-180 text-red-600' : ''}`} />
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${openSubmenu === item.name ? 'rotate-180' : ''}`} />
                     {/* Indicateur actif / hover */}
-                    <span className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-red-500 transition-all duration-200 ${
+                    <span className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-[2px] rounded-full bg-red-500 dark:bg-white transition-all duration-300 ${
                       isNavActive(item) ? 'w-4/5 opacity-100' : 'w-0 opacity-0 group-hover:w-4/5 group-hover:opacity-100'
                     }`} />
                   </button>
@@ -136,17 +136,17 @@ export default function Header() {
                   <div className="absolute top-full left-0 right-0 h-3 z-10" />
 
                   {/* Dropdown Menu — fond solide pour lisibilité maximale */}
-                  <div className={`absolute top-full left-0 mt-3 w-56 bg-white dark:bg-gray-900 rounded-xl shadow-[0_16px_48px_-12px_rgba(0,0,0,0.22)] dark:shadow-[0_16px_48px_-12px_rgba(0,0,0,0.65)] border border-gray-200 dark:border-gray-700/70 border-l-[3px] border-l-emerald-500 overflow-hidden transition-all duration-200 ${
+                  <div className={`absolute top-full left-0 mt-3 w-56 bg-white dark:bg-gray-900 rounded-xl shadow-[0_20px_60px_-12px_rgba(220,38,38,0.15)] dark:shadow-[0_20px_60px_-12px_rgba(0,0,0,0.7)] border border-red-100 dark:border-white/10 border-l-[3px] border-l-red-500 dark:border-l-white/40 overflow-hidden transition-all duration-200 ${
                     openSubmenu === item.name ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
                   }`}>
                     {item.submenu.map((subitem) => (
                       <Link
                         key={subitem.name}
                         href={subitem.href}
-                        className="group flex items-center gap-2.5 pl-4 pr-4 py-3 text-[13px] text-gray-700 dark:text-gray-200 hover:text-emerald-700 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/25 transition-all duration-150 border-b border-gray-100 dark:border-gray-700/50 last:border-0 font-medium"
+                        className="group flex items-center gap-2.5 pl-4 pr-4 py-3 text-[13px] text-red-600 dark:text-white/85 hover:text-red-700 dark:hover:text-white hover:bg-red-50 dark:hover:bg-white/8 transition-all duration-150 border-b border-red-50 dark:border-white/5 last:border-0 font-semibold"
                         onClick={() => setOpenSubmenu(null)}
                       >
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/60 group-hover:bg-emerald-500 group-hover:scale-125 transition-all duration-150 flex-shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-400 dark:bg-white/50 group-hover:bg-red-600 dark:group-hover:bg-white group-hover:scale-125 transition-all duration-150 flex-shrink-0" />
                         {subitem.name}
                       </Link>
                     ))}
@@ -164,13 +164,13 @@ export default function Header() {
                             : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700/40 hover:bg-red-100 dark:hover:bg-red-900/30 hover:border-red-300'
                         }`
                       : isNavActive(item)
-                        ? 'text-red-600 font-semibold'
-                        : 'text-red-500 hover:text-red-700'
+                        ? 'text-red-600 dark:text-white font-semibold'
+                        : 'text-red-500 hover:text-red-700 dark:text-white/75 dark:hover:text-white'
                   }`}
                 >
                   {item.name}
                   {!(item as any).highlight && (
-                    <span className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-red-500 transition-all duration-200 ${
+                    <span className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-[2px] rounded-full bg-red-500 dark:bg-white transition-all duration-300 ${
                       isNavActive(item) ? 'w-4/5 opacity-100' : 'w-0 opacity-0 group-hover:w-4/5 group-hover:opacity-100'
                     }`} />
                   )}
@@ -273,7 +273,7 @@ export default function Header() {
                   <div key={item.name} className="space-y-1">
                     <button
                       onClick={() => setOpenSubmenu(openSubmenu === item.name ? null : item.name)}
-                      className="w-full text-left text-fluid-base text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-between"
+                      className="w-full text-left text-fluid-base text-red-600 dark:text-white font-semibold transition-all duration-150 px-3 py-2.5 rounded-lg hover:bg-red-50 dark:hover:bg-white/10 flex items-center justify-between"
                     >
                       {item.name}
                       <ChevronDown className={`w-4 h-4 transition-transform ${openSubmenu === item.name ? 'rotate-180' : ''}`} />
@@ -285,7 +285,7 @@ export default function Header() {
                             key={subitem.name}
                             href={subitem.href}
                             onClick={() => setIsMenuOpen(false)}
-                            className="block text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                            className="block text-sm text-red-500 dark:text-white/75 hover:text-red-700 dark:hover:text-white font-medium transition-all duration-150 px-3 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-white/10"
                           >
                             {subitem.name}
                           </Link>
@@ -298,17 +298,15 @@ export default function Header() {
                     key={item.name}
                     href={item.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`text-fluid-base font-medium transition-colors px-3 py-2 rounded-lg flex items-center justify-between ${
-                      (item as any).highlight 
-                        ? 'text-red-700 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 font-bold bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800' 
-                        : isNavActive(item)
-                          ? 'text-emerald-700 dark:text-emerald-400 font-semibold bg-emerald-50/70 dark:bg-emerald-900/20'
-                          : 'text-gray-700 dark:text-gray-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    className={`text-fluid-base font-semibold transition-all duration-150 px-3 py-2.5 rounded-lg flex items-center justify-between ${
+                      isNavActive(item)
+                        ? 'text-red-600 dark:text-white bg-red-50 dark:bg-white/10'
+                        : 'text-red-500 dark:text-white/75 hover:text-red-700 dark:hover:text-white hover:bg-red-50 dark:hover:bg-white/10'
                     }`}
                   >
                     {item.name}
-                    {isNavActive(item) && !(item as any).highlight && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
+                    {isNavActive(item) && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 dark:bg-white flex-shrink-0" />
                     )}
                   </Link>
                 )
@@ -316,7 +314,7 @@ export default function Header() {
               <Link
                 href="/compte"
                 onClick={() => setIsMenuOpen(false)}
-                className="text-fluid-base text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center md:hidden"
+                className="text-fluid-base text-red-500 dark:text-white/75 hover:text-red-700 dark:hover:text-white font-semibold transition-all duration-150 px-3 py-2.5 rounded-lg hover:bg-red-50 dark:hover:bg-white/10 flex items-center md:hidden"
               >
                 <User className="w-5 h-5 mr-2" />
                 {T.nav.account}
