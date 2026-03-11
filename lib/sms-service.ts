@@ -160,3 +160,33 @@ Réserver: https://agri-ps.com/campagne-engrais`,
 30% de votre commande engrais.
 Détails: https://agri-ps.com/compte`,
 };
+
+// ORDER STATUS SMS TEMPLATES
+export const ORDER_STATUS_SMS: Record<
+  string,
+  (orderNumber: string, trackingUrl: string, extra?: string) => string
+> = {
+  confirmed: (orderNumber, trackingUrl) =>
+    `✅ Commande ${orderNumber} confirmée !
+AGRIPOINT SERVICES a bien reçu votre commande.
+Suivi en temps réel : ${trackingUrl}`,
+
+  processing: (orderNumber, trackingUrl) =>
+    `📦 Commande ${orderNumber} en préparation.
+Votre colis est en cours de conditionnement.
+Suivi : ${trackingUrl}`,
+
+  shipped: (orderNumber, trackingUrl, trackingNumber?: string) =>
+    `🚚 Commande ${orderNumber} expédiée !${trackingNumber ? `\nN° suivi transporteur : ${trackingNumber}` : ''}
+Livraison estimée sous 24-48h.
+Suivre : ${trackingUrl}`,
+
+  delivered: (orderNumber, trackingUrl) =>
+    `🎉 Commande ${orderNumber} livrée !
+Merci pour votre confiance. Bonne utilisation !
+Votre satisfaction : ${trackingUrl}`,
+
+  cancelled: (orderNumber, _trackingUrl) =>
+    `❌ Commande ${orderNumber} annulée.
+Contactez-nous : contact@agri-ps.com ou WhatsApp +237 000 000 000`,
+};

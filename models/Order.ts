@@ -103,7 +103,15 @@ export interface IOrder {
     shippedAt?: Date;
     deliveredAt?: Date;
   };
-  
+
+  statusHistory?: Array<{
+    status: IOrder['status'];
+    note?: string;
+    timestamp: Date;
+    smsSent?: boolean;
+    emailSent?: boolean;
+  }>;
+
   notes?: string;
   adminNotes?: string;
   
@@ -306,7 +314,19 @@ const OrderSchema = new Schema<IOrder>({
     shippedAt: Date,
     deliveredAt: Date,
   },
-  
+
+  statusHistory: [{
+    status: {
+      type: String,
+      enum: ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled', 'awaiting_payment'],
+      required: true,
+    },
+    note: String,
+    timestamp: { type: Date, default: Date.now },
+    smsSent: { type: Boolean, default: false },
+    emailSent: { type: Boolean, default: false },
+  }],
+
   notes: String,
   adminNotes: String,
 }, {
