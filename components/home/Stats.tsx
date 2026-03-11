@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Leaf, Users2, BadgeCheck, Star } from 'lucide-react';
 import AnimatedCounter from '@/components/shared/AnimatedCounter';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -72,7 +72,7 @@ export default function Stats() {
       </div>
 
       <div className="container-fluid relative">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
@@ -83,13 +83,13 @@ export default function Stats() {
             {T.stats.tag}
           </span>
           <h2 className="section-title">{T.stats.title} <span className="text-accent-green">{T.stats.titleHighlight}</span></h2>
-        </motion.div>
+        </m.div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-fluid-sm">
           {stats.map((stat, index) => {
             const Icon = stat.Icon;
             return (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -123,7 +123,7 @@ export default function Stats() {
 
                 {/* Note subtile */}
                 <p className="text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-600 font-medium mt-1">{stat.note}</p>
-              </motion.div>
+              </m.div>
             );
           })}
         </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Wheat, Fish, TreePine, ArrowLeftRight, Landmark, ShieldCheck, Megaphone, ShoppingCart } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -16,7 +16,7 @@ export default function SectorsGrid() {
   return (
     <section className="section-premium bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] text-white">
       <div className="container-fluid">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
@@ -32,13 +32,13 @@ export default function SectorsGrid() {
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
             {T.sectors.subtitle}
           </p>
-        </motion.div>
+          </m.div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
           {sectors.map((sector, index) => {
             const Icon = sector.Icon;
             return (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -51,7 +51,7 @@ export default function SectorsGrid() {
                 </div>
                 <h3 className="font-bold text-base mb-1.5">{sector.title}</h3>
                 <p className="text-sm text-white/70 leading-relaxed">{sector.description}</p>
-              </motion.div>
+              </m.div>
             );
           })}
         </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Sprout, Banknote, HeartHandshake, CheckCircle, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -71,7 +71,7 @@ export default function Sections() {
     <section className="section-premium bg-gradient-to-b from-gray-50/60 to-white dark:from-gray-900 dark:to-gray-950">
       <div className="container-fluid">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
@@ -83,14 +83,14 @@ export default function Sections() {
           </span>
           <h2 className="section-title"><span className="text-red-500">{T.sections.title}</span> {T.sections.titleHighlight}</h2>
           <p className="section-subtitle" dangerouslySetInnerHTML={{ __html: T.sections.subtitle }} />
-        </motion.div>
+        </m.div>
 
         {/* Cards grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-7 lg:gap-8">
           {sections.map((section, index) => {
             const Icon = section.Icon;
             return (
-              <motion.article
+              <m.article
                 key={index}
                 initial={{ opacity: 0, y: 32 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -156,7 +156,7 @@ export default function Sections() {
                     <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-200" />
                   </Link>
                 </div>
-              </motion.article>
+              </m.article>
             );
           })}
         </div>

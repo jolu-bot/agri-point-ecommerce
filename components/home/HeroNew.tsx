@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowRight, Leaf } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import AnimatedCounter from '@/components/shared/AnimatedCounter';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -30,7 +30,6 @@ const HERO_IMAGES = [
 export default function HeroNew() {
   const { T } = useLanguage();
   const [imageIndex, setImageIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
 
   // Changer d'image toutes les 4 secondes
   useEffect(() => {
@@ -41,17 +40,13 @@ export default function HeroNew() {
     return () => clearInterval(timer);
   }, []);
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
+        staggerChildren: 0.07,
+        delayChildren: 0,
       },
     },
   };
@@ -69,7 +64,7 @@ export default function HeroNew() {
     <section className="relative w-full min-h-screen overflow-hidden bg-black">
       {/* Full-width slideshow background */}
       <AnimatePresence mode="wait">
-        <motion.div
+        <m.div
           key={imageIndex}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -81,11 +76,12 @@ export default function HeroNew() {
             src={HERO_IMAGES[imageIndex]}
             alt={`Agripoint Services - Facilitateur agropastoral au Cameroun`}
             fill
+            sizes="100vw"
             className="object-cover object-center"
             priority={imageIndex === 0}
             quality={85}
           />
-        </motion.div>
+        </m.div>
       </AnimatePresence>
 
       {/* Dark gradient overlay - meilleure lisibilité du texte */}
@@ -93,24 +89,24 @@ export default function HeroNew() {
 
       {/* Content overlay */}
       <div className="relative z-10 h-full flex items-center justify-center">
-        <motion.div
+        <m.div
           className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center"
           variants={containerVariants}
           initial="hidden"
-          animate={!isLoading ? 'visible' : 'hidden'}
+          animate="visible"
         >
           {/* Badge premium */}
-          <motion.div
+          <m.div
             variants={itemVariants}
             className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full border border-emerald-400/50 bg-emerald-500/15 text-emerald-200 text-sm font-bold tracking-wide shadow-lg backdrop-blur-md mb-6 sm:mb-8"
           >
             <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
             {T.hero.badge}
             <Leaf className="w-4 h-4 opacity-80" />
-          </motion.div>
+          </m.div>
 
           {/* Title principal */}
-          <motion.h1
+          <m.h1
             variants={itemVariants}
             className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tighter mb-4 sm:mb-6 text-white drop-shadow-2xl"
           >
@@ -119,19 +115,19 @@ export default function HeroNew() {
             </span>
             <span className="block bg-gradient-to-r from-emerald-300 via-green-400 to-emerald-400 bg-clip-text text-transparent drop-shadow-xl">SERVICES <span className="text-white/80 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">SAS</span></span>
             <span className="block text-3xl sm:text-4xl md:text-5xl font-bold text-emerald-300 mt-2 sm:mt-4">{T.hero.tagline}</span>
-          </motion.h1>
+          </m.h1>
 
           {/* Description */}
-          <motion.p
+          <m.p
             variants={itemVariants}
             className="text-base sm:text-lg md:text-xl text-white/95 max-w-3xl mx-auto mb-8 sm:mb-10 leading-relaxed drop-shadow-lg"
           >
             <strong className="text-white font-bold block mb-2">{T.hero.objectivesLabel}</strong>
             {T.hero.objectives}
-          </motion.p>
+          </m.p>
 
           {/* Stats - Animated Counters */}
-          <motion.div
+          <m.div
             variants={itemVariants}
             className="grid grid-cols-3 gap-3 sm:gap-6 max-w-2xl mx-auto mb-8 sm:mb-10"
           >
@@ -140,7 +136,7 @@ export default function HeroNew() {
               { to: 10000, label: T.hero.producers, suffix: 'K+' },
               { to: 5, label: T.hero.zones, suffix: '' },
             ].map(({ to, label, suffix }) => (
-              <motion.div
+              <m.div
                 key={label}
                 whileHover={{ scale: 1.05 }}
                 className="backdrop-blur-xl bg-white/[0.08] border border-white/20 hover:border-emerald-400/40 rounded-2xl px-3 py-4 sm:px-5 sm:py-6 transition-all duration-300 shadow-xl"
@@ -153,12 +149,12 @@ export default function HeroNew() {
                   )}
                 </div>
                 <div className="text-xs sm:text-sm text-white/70 font-semibold uppercase tracking-wider">{label}</div>
-              </motion.div>
+              </m.div>
             ))}
-          </motion.div>
+          </m.div>
 
           {/* CTA Buttons */}
-          <motion.div
+          <m.div
             variants={itemVariants}
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
           >
@@ -176,24 +172,24 @@ export default function HeroNew() {
               <span className="inline-block w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
               {T.hero.campaignBtn}
             </Link>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </div>
 
       {/* Scroll indicator avec animation */}
-      <motion.div
+      <m.div
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2.5, repeat: Infinity }}
         className="absolute bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-20"
       >
         <div className="w-6 h-10 border-2 border-white/40 rounded-full flex items-start justify-center p-2 backdrop-blur-sm">
-          <motion.div
+          <m.div
             animate={{ y: [0, 5, 0] }}
             transition={{ duration: 2.5, repeat: Infinity }}
             className="w-1 h-2 bg-emerald-400 rounded-full"
           />
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Progress dots indicator — bottom right */}
       <div className="absolute bottom-7 right-6 sm:right-8 z-20 flex items-center gap-1.5 backdrop-blur-sm bg-black/30 px-3 py-2 rounded-full border border-white/10">

@@ -45,12 +45,16 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <head>
+        {/* Preconnect pour ressources externes critiques */}
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         {/* Use system fonts - NO GOOGLE FONTS */}
         <style>{`
           :root {
             --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
           }
-          html { scroll-behavior: smooth; line-height: 1.5; }
+          html { line-height: 1.5; }
+          @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
           body { margin: 0; padding: 0; font-family: var(--font-sans); background: #fff; color: #111827; -webkit-font-smoothing: antialiased; }
           * { box-sizing: border-box; }
           .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; }
