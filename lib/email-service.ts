@@ -333,3 +333,86 @@ export const testEmailConfig = async () => {
     return false;
   }
 };
+
+// Notification de changement de statut avec lien de suivi
+export const sendOrderStatusUpdate = async (
+  order: IOrder,
+  recipientEmail: string,
+  recipientName: string,
+  newStatus: string,
+  note?: string,
+) => {
+  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com';
+  const trackingUrl = `${BASE_URL}/commande/${order._id}`;
+
+  const STATUS_LABELS: Record<string, { emoji: string; label: string; color: string }> = {
+    confirmed:  { emoji: '✅', label: 'Confirmée',        color: '#2563eb' },
+    processing: { emoji: '📦', label: 'En préparation',   color: '#7c3aed' },
+    shipped:    { emoji: '🚚', label: 'Expédiée',         color: '#0891b2' },
+    delivered:  { emoji: '🎉', label: 'Livrée',           color: '#16a34a' },
+    cancelled:  { emoji: '❌', label: 'Annulée',          color: '#dc2626' },
+  };
+
+  const info = STATUS_LABELS[newStatus] ?? { emoji: '📋', label: newStatus, color: '#6b7280' };
+
+  const trackingHtml = newStatus !== 'cancelled' ? `
+    <div style="text-align:center;margin:24px 0;">
+      <a href="${trackingUrl}" style="background-color:#22863a;color:white;padding:12px 28px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;">
+        Suivre ma commande en temps réel →
+      </a>
+    </div>` : '';
+
+  const noteHtml = note ? `
+    <div style="background:#f9fafb;border-left:4px solid ${info.color};padding:12px 16px;border-radius:0 6px 6px 0;margin:16px 0;">
+      <p style="margin:0;color:#374151;font-size:14px;">${note}</p>
+    </div>` : '';
+
+  const trackingNumberHtml = (newStatus === 'shipped' && order.tracking?.trackingNumber) ? `
+    <p style="color:#374151;font-size:14px;">
+      <strong>N° de suivi transporteur :</strong>
+      <code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;">${order.tracking.trackingNumber}</code>
+      ${order.tracking.carrier ? `(${order.tracking.carrier})` : ''}
+    </p>` : '';
+
+  const html = `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family:Arial,sans-serif;background:#f5f5f5;margin:0;padding:0;">
+  <div style="max-width:600px;margin:0 auto;background:white;padding:32px;border-radius:8px;margin-top:20px;">
+    <div style="color:#22863a;font-size:22px;font-weight:bold;margin-bottom:20px;">
+      AGRIPOINT SERVICES
+    </div>
+    <div style="background:${info.color}15;border:1px solid ${info.color}40;border-radius:8px;padding:20px;margin-bottom:20px;text-align:center;">
+      <div style="font-size:36px;margin-bottom:8px;">${info.emoji}</div>
+      <div style="font-size:20px;font-weight:bold;color:${info.color};">Commande ${info.label}</div>
+    </div>
+    <p style="color:#374151;">Bonjour <strong>${recipientName}</strong>,</p>
+    <p style="color:#374151;">Le statut de votre commande <strong>${order.orderNumber}</strong> vient de changer.</p>
+    ${noteHtml}
+    ${trackingNumberHtml}
+    ${trackingHtml}
+    <div style="background:#f9fafb;border-radius:6px;padding:16px;margin:16px 0;font-size:14px;color:#6b7280;">
+      Besoin d'aide ? Répondez à cet email ou contactez-nous sur WhatsApp.
+    </div>
+    <div style="color:#9ca3af;font-size:12px;text-align:center;border-top:1px solid #e5e7eb;padding-top:16px;margin-top:24px;">
+      AGRIPOINT SERVICES SAS — Yaoundé, Cameroun<br>
+      © ${new Date().getFullYear()} Tous droits réservés
+    </div>
+  </div>
+</body>
+</html>`;
+
+  try {
+    const transporter = getTransporter();
+    await transporter.sendMail({
+      from: `"AGRIPOINT SERVICES" <${process.env.EMAIL_USER}>`,
+      to: recipientEmail,
+      subject: `${info.emoji} Commande ${order.orderNumber} — ${info.label}`,
+      html,
+    });
+    return true;
+  } catch (error) {
+    console.error('❌ Erreur envoi email statut commande:', error);
+    return false;
+  }
+};
