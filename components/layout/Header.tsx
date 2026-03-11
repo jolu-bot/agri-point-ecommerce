@@ -108,7 +108,7 @@ export default function Header() {
 
 
           {/* Navigation Desktop */}
-          <nav className="hidden lg:flex flex-1 items-center justify-center gap-1 xl:gap-2 px-2 xl:px-4">
+          <nav className="hidden lg:flex flex-1 items-center justify-between px-4 xl:px-8">
             {navigation.map((item) => (
               item.submenu ? (
                 <div 
@@ -118,7 +118,7 @@ export default function Header() {
                   onMouseLeave={() => setOpenSubmenu(null)}
                 >
                   <button
-                    className={`text-fluid-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-1 px-0.5 ${
+                    className={`text-[13px] xl:text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-1 px-0.5 ${
                       isNavActive(item)
                         ? 'text-emerald-700 dark:text-emerald-400 font-semibold'
                         : 'text-gray-600 dark:text-gray-300 hover:text-emerald-700 dark:hover:text-emerald-400'
@@ -156,7 +156,7 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`inline-flex items-center text-fluid-sm font-medium transition-all duration-200 relative group whitespace-nowrap py-1 px-0.5 ${
+                  className={`inline-flex items-center text-[13px] xl:text-sm font-medium transition-all duration-200 relative group whitespace-nowrap py-1 px-0.5 ${
                     (item as any).highlight 
                       ? `relative text-red-700 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 font-bold px-3 py-1.5 rounded-lg border shadow-sm transition-all duration-200 overflow-hidden ${
                           isNavActive(item)
@@ -180,7 +180,7 @@ export default function Header() {
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4">
+          <div className="flex items-center space-x-1 sm:space-x-1.5 md:space-x-2">
             {/* Search expandable — caché sur très petits écrans */}
             <div className="hidden sm:flex items-center">
               {isSearchOpen ? (
