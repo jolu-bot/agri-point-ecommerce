@@ -6,7 +6,7 @@ export type Locale = 'fr' | 'en';
 const fr = {
   nav: {
     home: 'Accueil',
-    services: 'Nos Services et Partenaires',
+    services: 'Nos Services',
     producePlus: 'Produire Plus',
     inputs: 'Fourniture Intrants',
     earnMore: 'Gagner Plus',
@@ -416,7 +416,7 @@ const fr = {
 const en: typeof fr = {
   nav: {
     home: 'Home',
-    services: 'Our Services & Partners',
+    services: 'Our Services',
     producePlus: 'Produce More',
     inputs: 'Supply of Inputs',
     earnMore: 'Earn More',
