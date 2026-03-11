@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SiteConfigProvider } from "@/contexts/SiteConfigContext";
 import { PreviewModeProvider } from "@/contexts/PreviewModeContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -56,6 +57,7 @@ export default function RootLayout({
         `}</style>
       </head>
       <body>
+        <LanguageProvider>
         <SiteConfigProvider>
           <PreviewModeProvider>
             <ThemeProvider>
@@ -73,6 +75,7 @@ export default function RootLayout({
             </ThemeProvider>
           </PreviewModeProvider>
         </SiteConfigProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

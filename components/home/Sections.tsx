@@ -3,81 +3,70 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Sprout, Banknote, HeartHandshake, CheckCircle, ArrowRight } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
-const sections = [
+const SECTIONS_STYLE = [
   {
     Icon: Sprout,
-    title: 'PRODUIRE PLUS',
-    subtitle: 'Better Production',
-    description:
-      "Information pour produire ce qui peut être vendu d'avance. Formation pour produire plus et à moindre coût.",
-    features: [
-      'Aménagement des espaces agricoles',
-      'Formation optimisée',
-      'Acquisition matériels compétitifs',
-      "Location d'équipements facilitant le travail",
-      "Fourniture d'intrants",
-    ],
     link: '/produire-plus',
     accentTop: 'from-emerald-500 to-green-600',
     iconBg: 'bg-emerald-100 dark:bg-emerald-900/40',
     iconColor: 'text-emerald-700 dark:text-emerald-300',
     glowClass: 'icon-glow-emerald-lg',
-    tagClass:
-      'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-700/40',
+    tagClass: 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-700/40',
     checkColor: 'text-emerald-600 dark:text-emerald-400',
-    btnClass:
-      'bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 shadow-emerald-600/25',
+    btnClass: 'bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 shadow-emerald-600/25',
   },
   {
     Icon: Banknote,
-    title: 'GAGNER PLUS',
-    subtitle: 'Gain More',
-    description:
-      "Les débouchés, les prix bien négociés et l'appui à la commercialisation des produits.",
-    features: [
-      'Warrantage des stocks après récolte',
-      'Appui à la transformation',
-      'Assistance montage projets',
-      'Recherche de financements',
-    ],
     link: '/gagner-plus',
     accentTop: 'from-amber-500 to-orange-500',
     iconBg: 'bg-amber-100 dark:bg-amber-900/40',
     iconColor: 'text-amber-700 dark:text-amber-300',
     glowClass: 'icon-glow-amber-lg',
-    tagClass:
-      'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-700/40',
+    tagClass: 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-700/40',
     checkColor: 'text-amber-600 dark:text-amber-400',
-    btnClass:
-      'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 shadow-amber-600/25',
+    btnClass: 'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 shadow-amber-600/25',
   },
   {
     Icon: HeartHandshake,
-    title: 'MIEUX VIVRE',
-    subtitle: 'Better Living',
-    description:
-      "Accès aux services financiers de base, sécurisation de l'épargne et micro assurance.",
-    features: [
-      'Services financiers de base',
-      'Micro crédit et épargne',
-      'Assurance santé et décès',
-      'Accès technologies et transport',
-    ],
     link: '/mieux-vivre',
     accentTop: 'from-teal-500 to-cyan-500',
     iconBg: 'bg-teal-100 dark:bg-teal-900/40',
     iconColor: 'text-teal-700 dark:text-teal-300',
     glowClass: 'icon-glow-teal-lg',
-    tagClass:
-      'bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-700/40',
+    tagClass: 'bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-700/40',
     checkColor: 'text-teal-600 dark:text-teal-400',
-    btnClass:
-      'bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 shadow-teal-600/25',
+    btnClass: 'bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 shadow-teal-600/25',
   },
 ];
 
 export default function Sections() {
+  const { T } = useLanguage();
+  const sections = [
+    {
+      ...SECTIONS_STYLE[0],
+      title: T.sections.p1Title,
+      subtitle: T.sections.p1Subtitle,
+      description: T.sections.p1Desc,
+      features: [T.sections.p1F1, T.sections.p1F2, T.sections.p1F3, T.sections.p1F4, T.sections.p1F5],
+    },
+    {
+      ...SECTIONS_STYLE[1],
+      title: T.sections.p2Title,
+      subtitle: T.sections.p2Subtitle,
+      description: T.sections.p2Desc,
+      features: [T.sections.p2F1, T.sections.p2F2, T.sections.p2F3, T.sections.p2F4],
+    },
+    {
+      ...SECTIONS_STYLE[2],
+      title: T.sections.p3Title,
+      subtitle: T.sections.p3Subtitle,
+      description: T.sections.p3Desc,
+      features: [T.sections.p3F1, T.sections.p3F2, T.sections.p3F3, T.sections.p3F4],
+    },
+  ];
+
   return (
     <section className="section-premium bg-gradient-to-b from-gray-50/60 to-white dark:from-gray-900 dark:to-gray-950">
       <div className="container-fluid">
@@ -90,12 +79,10 @@ export default function Sections() {
         >
           <span className="section-tag">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            Nos 3 programmes phares
+            {T.sections.tag}
           </span>
-          <h2 className="section-title"><span className="text-red-500">Nos</span> Programmes</h2>
-          <p className="section-subtitle">
-            Le concept s&apos;articule autour de <strong className="text-gray-800 dark:text-gray-200">3 programmes phares</strong> pour œuvrer à la professionnalisation des acteurs des filières agropastorales.
-          </p>
+          <h2 className="section-title"><span className="text-red-500">{T.sections.title}</span> {T.sections.titleHighlight}</h2>
+          <p className="section-subtitle" dangerouslySetInnerHTML={{ __html: T.sections.subtitle }} />
         </motion.div>
 
         {/* Cards grid */}
@@ -128,7 +115,7 @@ export default function Sections() {
                     <span
                       className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border ${section.tagClass}`}
                     >
-                      Programme
+                      {T.sections.program}
                     </span>
                   </div>
 
@@ -165,7 +152,7 @@ export default function Sections() {
                     href={section.link}
                     className={`group/btn mt-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-bold text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] ${section.btnClass}`}
                   >
-                    En savoir plus
+                    {T.sections.learnMore}
                     <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-200" />
                   </Link>
                 </div>

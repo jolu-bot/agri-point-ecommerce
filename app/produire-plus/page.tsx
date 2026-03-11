@@ -21,6 +21,7 @@ import {
   Store,
   ChevronRight
 } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Contenu modifiable facilement
 const PRODUIRE_PLUS_IMAGES = [
@@ -191,6 +192,38 @@ const OFFRES_PRODUIRE = [
 ];
 
 export default function ProduirePlusPage() {
+  const { locale, T } = useLanguage();
+
+  const OFFRES_TRANSLATED = OFFRES_PRODUIRE.map((offre, i) => ({
+    ...offre,
+    title: (T.producirePlus as Record<string, string>)[`o${i + 1}Title`],
+    description: (T.producirePlus as Record<string, string>)[`o${i + 1}Desc`],
+  }));
+
+  const benefitTitles = locale === 'en'
+    ? ['Sector identification', 'Supply of inputs', 'Capacity building', 'Agricultural mechanization']
+    : ['Identification des filières', "Fourniture d'intrants", 'Renforcement des capacités', 'Mécanisation agricole des activités'];
+
+  const howSteps = locale === 'en'
+    ? [
+        { number: '01', title: T.producirePlus.step1Title, description: T.producirePlus.step1Desc },
+        { number: '02', title: T.producirePlus.step2Title, description: T.producirePlus.step2Desc },
+        { number: '03', title: T.producirePlus.step3Title, description: T.producirePlus.step3Desc },
+      ]
+    : pageContent.howItWorks.steps;
+
+  const statLabels = locale === 'en'
+    ? ['Potential yield', 'Of support', 'Target hectares', 'Types of offers']
+    : ['Rendement potentiel', "D'accompagnement", 'Hectares cibles', "Types d'offres"];
+
+  const benefitDescs = locale === 'en'
+    ? [
+        'Identification of priority growth sectors with high added value, aligned with national agricultural policy.',
+        'Quality seeds; mineral fertilizers; biofertilizers; approved phytosanitary products; for optimal production.',
+        'Continuous training of producers: modern cultivation techniques, crop management, optimal use of inputs.',
+        'Modernization and intensification of agricultural production systems; reduction of physical strain.',
+      ]
+    : pageContent.benefits.map(b => b.description);
 
   return (
     <div className="min-h-screen">
@@ -209,18 +242,18 @@ export default function ProduirePlusPage() {
               className="lg:h-[500px] flex flex-col justify-center"
             >
               <div className="inline-block px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-semibold mb-5">
-                {pageContent.hero.badge}
+                {T.producirePlus.heroBadge}
               </div>
               
               <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 leading-tight">
-                {pageContent.hero.title}
+                {T.producirePlus.heroTitle}
               </h1>
               <p className="text-xl md:text-2xl font-semibold text-green-600 dark:text-green-400 mb-5 leading-snug">
-                {pageContent.hero.subtitle}
+                {T.producirePlus.heroSubtitle}
               </p>
 
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                {pageContent.hero.description}
+                {T.producirePlus.heroDesc}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -229,13 +262,13 @@ export default function ProduirePlusPage() {
                   className="px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition-all transform hover:scale-105"
                 >
                   <ArrowRight className="w-5 h-5" />
-                  {pageContent.hero.cta.primary}
+                  {T.producirePlus.heroCta1}
                 </a>
                 <Link 
                   href="/contact" 
                   className="px-8 py-4 border-2 border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all"
                 >
-                  {pageContent.hero.cta.secondary}
+                  {T.common.contactUs}
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
@@ -270,7 +303,7 @@ export default function ProduirePlusPage() {
               >
                 <stat.icon className="w-8 h-8 text-green-600 mx-auto mb-3" />
                 <div className="text-3xl font-bold text-green-600 mb-1">{stat.value}</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">{statLabels[index]}</div>
               </motion.div>
             ))}
           </div>
@@ -281,8 +314,8 @@ export default function ProduirePlusPage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Comment Produire Plus ?</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Les avantages concrets de nos solutions</p>
+            <h2 className="text-4xl font-bold mb-4">{locale === 'en' ? 'How to Produce More?' : 'Comment Produire Plus ?'}</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{locale === 'en' ? 'The concrete advantages of our solutions' : 'Les avantages concrets de nos solutions'}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -303,8 +336,8 @@ export default function ProduirePlusPage() {
                     className="object-contain"
                   />
                 </div>
-                <h3 className="text-xl font-bold mb-3">{benefit.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300">{benefit.description}</p>
+                <h3 className="text-xl font-bold mb-3">{benefitTitles[index]}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{benefitDescs[index]}</p>
               </motion.div>
             ))}
           </div>
@@ -315,12 +348,12 @@ export default function ProduirePlusPage() {
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">{pageContent.howItWorks.title}</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">{pageContent.howItWorks.subtitle}</p>
+            <h2 className="text-4xl font-bold mb-4">{T.producirePlus.howTitle} <span className="text-green-600">{T.producirePlus.howTitleHighlight}</span></h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{T.producirePlus.howSubtitle}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {pageContent.howItWorks.steps.map((step, index) => (
+            {howSteps.map((step, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -334,7 +367,7 @@ export default function ProduirePlusPage() {
                   <h3 className="text-xl font-bold mb-3">{step.title}</h3>
                   <p className="text-gray-600 dark:text-gray-300">{step.description}</p>
                 </div>
-                {index < pageContent.howItWorks.steps.length - 1 && (
+                {index < howSteps.length - 1 && (
                   <ArrowRight className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 text-green-400 w-8 h-8" />
                 )}
               </motion.div>
@@ -347,8 +380,8 @@ export default function ProduirePlusPage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Ils Ont Transformé Leur Production</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Témoignages de nos agriculteurs partenaires</p>
+            <h2 className="text-4xl font-bold mb-4">{locale === 'en' ? 'They Transformed Their Production' : 'Ils Ont Transformé Leur Production'}</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{locale === 'en' ? 'Testimonials from our partner farmers' : 'Témoignages de nos agriculteurs partenaires'}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -381,14 +414,14 @@ export default function ProduirePlusPage() {
       <section id="produits" className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4"><span className="text-green-600">Nos</span> Offres</h2>
+            <h2 className="text-4xl font-bold mb-4"><span className="text-green-600">{T.producirePlus.offersTitle}</span> {T.producirePlus.offersTitleHL}</h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
-              6 domaines d&apos;intervention pour accompagner votre production
+              {T.producirePlus.offersSubtitle}
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {OFFRES_PRODUIRE.map((offre, index) => (
+            {OFFRES_TRANSLATED.map((offre, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -423,7 +456,7 @@ export default function ProduirePlusPage() {
               href="/contact"
               className="inline-flex items-center gap-2 px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-all"
             >
-              Prendre contact avec un expert
+              {T.producirePlus.ctaBtn}
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
