@@ -142,6 +142,39 @@ export default function ProductDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      {/* JSON-LD Product schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: product.name,
+            description: product.description,
+            image: product.images.length > 0 ? product.images : undefined,
+            sku: product.sku,
+            url: `https://agri-ps.com/produits/${product.slug}`,
+            brand: {
+              '@type': 'Brand',
+              name: 'AGRIPOINT SERVICES',
+            },
+            offers: {
+              '@type': 'Offer',
+              url: `https://agri-ps.com/produits/${product.slug}`,
+              priceCurrency: 'XAF',
+              price: product.promoPrice ?? product.price,
+              availability:
+                product.stock > 0
+                  ? 'https://schema.org/InStock'
+                  : 'https://schema.org/OutOfStock',
+              seller: {
+                '@type': 'Organization',
+                name: 'AGRIPOINT SERVICES',
+              },
+            },
+          }),
+        }}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500 mb-6">
