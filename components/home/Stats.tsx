@@ -3,8 +3,9 @@
 import { motion } from 'framer-motion';
 import { Leaf, Users2, BadgeCheck, Star } from 'lucide-react';
 import AnimatedCounter from '@/components/shared/AnimatedCounter';
+import { useLanguage } from '@/contexts/LanguageContext';
 
-const stats = [
+const STATS_CONFIG = [
   {
     Icon: Leaf,
     iconClass: 'text-emerald-600 dark:text-emerald-300',
@@ -12,10 +13,10 @@ const stats = [
     glowClass: 'icon-glow-emerald',
     color: 'from-emerald-500 to-green-600',
     value: 20000,
-    label: 'Hectares cibles',
     suffix: '+',
     format: (v: number) => (Math.round(v) / 1000).toString() + '\u202f000',
-    note: 'par site',
+    labelKey: 'hectaresLabel' as const,
+    noteKey: 'hectaresNote' as const,
   },
   {
     Icon: Users2,
@@ -24,10 +25,10 @@ const stats = [
     glowClass: 'icon-glow-teal',
     color: 'from-teal-500 to-emerald-600',
     value: 10000,
-    label: 'Producteurs',
     suffix: '+',
     format: (v: number) => (Math.round(v) / 1000).toString() + '\u202f000',
-    note: 'visés par site',
+    labelKey: 'producersLabel' as const,
+    noteKey: 'producersNote' as const,
   },
   {
     Icon: BadgeCheck,
@@ -36,10 +37,10 @@ const stats = [
     glowClass: 'icon-glow-green',
     color: 'from-green-500 to-teal-600',
     value: 5,
-    label: 'Zones agroécologiques',
     suffix: '',
     format: (v: number) => Math.round(v).toString(),
-    note: 'du Cameroun',
+    labelKey: 'zonesLabel' as const,
+    noteKey: 'zonesNote' as const,
   },
   {
     Icon: Star,
@@ -48,10 +49,10 @@ const stats = [
     glowClass: 'icon-glow-amber',
     color: 'from-amber-500 to-orange-500',
     value: 3,
-    label: 'Programmes phares',
     suffix: '',
     format: (v: number) => Math.round(v).toString(),
-    note: 'de facilitation',
+    labelKey: 'programsLabel' as const,
+    noteKey: 'programsNote' as const,
   },
 ];
 
