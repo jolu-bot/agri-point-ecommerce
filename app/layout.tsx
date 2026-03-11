@@ -48,6 +48,58 @@ export default function RootLayout({
         {/* Preconnect pour ressources externes critiques */}
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        {/* JSON-LD — LocalBusiness */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'LocalBusiness',
+              '@id': 'https://agri-ps.com/#organization',
+              name: 'AGRIPOINT SERVICES SAS',
+              alternateName: 'AGRIPOINT SERVICES',
+              url: 'https://agri-ps.com',
+              logo: 'https://agri-ps.com/images/logo.png',
+              image: 'https://agri-ps.com/images/logo.png',
+              description:
+                "Facilitateur agropastoral au Cameroun. Interface entre l'offre et la demande pour les acteurs agricoles, d'élevage, de pisciculture et de sylviculture.",
+              telephone: '+237000000000',
+              email: 'contact@agri-ps.com',
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: 'Yaoundé',
+                addressLocality: 'Yaoundé',
+                addressRegion: 'Centre',
+                addressCountry: 'CM',
+              },
+              geo: {
+                '@type': 'GeoCoordinates',
+                latitude: 3.848,
+                longitude: 11.502,
+              },
+              areaServed: {
+                '@type': 'Country',
+                name: 'Cameroon',
+              },
+              sameAs: [],
+              priceRange: '$$',
+              openingHoursSpecification: [
+                {
+                  '@type': 'OpeningHoursSpecification',
+                  dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                  opens: '08:00',
+                  closes: '18:00',
+                },
+                {
+                  '@type': 'OpeningHoursSpecification',
+                  dayOfWeek: 'Saturday',
+                  opens: '08:00',
+                  closes: '13:00',
+                },
+              ],
+            }),
+          }}
+        />
         {/* Use system fonts - NO GOOGLE FONTS */}
         <style>{`
           :root {
