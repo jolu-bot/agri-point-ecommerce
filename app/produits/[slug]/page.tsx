@@ -12,6 +12,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/store/cartStore';
 import toast from 'react-hot-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Product {
   _id: string;
@@ -42,12 +43,6 @@ interface Product {
 
 type Tab = 'description' | 'composition' | 'avis';
 
-const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
-  { id: 'description', label: 'Description', icon: <Info className="w-4 h-4" /> },
-  { id: 'composition', label: 'Composition & Usage', icon: <FlaskConical className="w-4 h-4" /> },
-  { id: 'avis', label: 'Avis clients', icon: <Star className="w-4 h-4" /> },
-];
-
 const MOCK_REVIEWS = [
   { name: 'Jean-Pierre M.', rating: 5, date: 'Janvier 2026', text: 'Résultats visibles dès la 2e semaine. Ma production a nettement augmenté !' },
   { name: 'Marie K.', rating: 5, date: 'Décembre 2025', text: 'Produit de grande qualité et livraison rapide. Je recommande vivement.' },
@@ -57,6 +52,14 @@ const MOCK_REVIEWS = [
 export default function ProductDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const { locale } = useLanguage();
+  const en = locale === 'en';
+
+  const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
+    { id: 'description', label: 'Description', icon: <Info className="w-4 h-4" /> },
+    { id: 'composition', label: en ? 'Composition & Usage' : 'Composition & Usage', icon: <FlaskConical className="w-4 h-4" /> },
+    { id: 'avis', label: en ? 'Customer Reviews' : 'Avis clients', icon: <Star className="w-4 h-4" /> },
+  ];
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -78,12 +81,12 @@ export default function ProductDetailPage() {
         setProduct(data.product);
         loadRelated(data.product.category, data.product._id);
       } else {
-        toast.error('Produit non trouvé');
+        toast.error(en ? 'Product not found' : 'Produit non trouvé');
         router.push('/produits');
       }
     } catch (error) {
       console.error('Erreur chargement produit:', error);
-      toast.error('Erreur de chargement');
+      toast.error(en ? 'Loading error' : 'Erreur de chargement');
     } finally {
       setLoading(false);
     }
@@ -100,8 +103,8 @@ export default function ProductDetailPage() {
   };
 
   const handleAddToCart = () => {
-    if (!product || product.stock === 0) { toast.error('Rupture de stock'); return; }
-    if (quantity > product.stock) { toast.error(`Seulement ${product.stock} disponible(s)`); return; }
+    if (!product || product.stock === 0) { toast.error(en ? 'Out of stock' : 'Rupture de stock'); return; }
+    if (quantity > product.stock) { toast.error(en ? `Only ${product.stock} available` : `Seulement ${product.stock} disponible(s)`); return; }
     const store = useCartStore.getState();
     const existing = store.items.find(i => i.id === product._id);
     if (existing) {
@@ -110,7 +113,7 @@ export default function ProductDetailPage() {
       store.addItem({ id: product._id, name: product.name, slug: product.slug, price: product.price, promoPrice: product.promoPrice, image: product.images[0] || '/images/fallback-product.svg', maxStock: product.stock });
       if (quantity > 1) store.updateQuantity(product._id, quantity);
     }
-    toast.success(`${quantity} article(s) ajouté(s) au panier !`);
+    toast.success(en ? `${quantity} item(s) added to cart!` : `${quantity} article(s) ajouté(s) au panier !`);
   };
 
   const handleShare = async () => {
@@ -119,7 +122,7 @@ export default function ProductDetailPage() {
       catch { /* user dismissed */ }
     } else {
       navigator.clipboard.writeText(window.location.href);
-      toast.success('Lien copié !');
+      toast.success(en ? 'Link copied!' : 'Lien copié !');
     }
   };
 
@@ -128,7 +131,7 @@ export default function ProductDetailPage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
         <div className="text-center">
           <div className="w-14 h-14 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-500 dark:text-gray-400">Chargement...</p>
+          <p className="text-gray-500 dark:text-gray-400">{en ? 'Loading...' : 'Chargement...'}</p>
         </div>
       </div>
     );
@@ -178,16 +181,16 @@ export default function ProductDetailPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500 mb-6">
-          <Link href="/" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Accueil</Link>
+          <Link href="/" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">{en ? 'Home' : 'Accueil'}</Link>
           <span>/</span>
-          <Link href="/produits" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Produits</Link>
+          <Link href="/produits" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">{en ? 'Products' : 'Produits'}</Link>
           <span>/</span>
           <span className="text-gray-600 dark:text-gray-300 font-medium line-clamp-1">{product.name}</span>
         </nav>
 
         <button onClick={() => router.back()} className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 mb-6 transition-colors text-sm font-medium">
           <ChevronLeft className="w-4 h-4" />
-          Retour
+          {en ? 'Back' : 'Retour'}
         </button>
 
         {/* ── Main Grid ── */}
@@ -214,11 +217,11 @@ export default function ProductDetailPage() {
               <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
                 {product.isFeatured && (
                   <span className="flex items-center gap-1 px-2.5 py-1 bg-amber-400 text-amber-900 text-xs font-black rounded-full shadow-sm">
-                    <Star className="w-3 h-3 fill-amber-900" /> Vedette
+                    <Star className="w-3 h-3 fill-amber-900" /> {en ? 'Featured' : 'Vedette'}
                   </span>
                 )}
                 {product.isNew && (
-                  <span className="px-2.5 py-1 bg-emerald-600 text-white text-xs font-bold rounded-full shadow-sm">NOUVEAU</span>
+                  <span className="px-2.5 py-1 bg-emerald-600 text-white text-xs font-bold rounded-full shadow-sm">{en ? 'NEW' : 'NOUVEAU'}</span>
                 )}
                 {hasDiscount && (
                   <span className="px-2.5 py-1 bg-red-500 text-white text-xs font-bold rounded-full shadow-sm">-{discountPercent}%</span>
@@ -227,17 +230,17 @@ export default function ProductDetailPage() {
 
               {/* Share / heart */}
               <div className="absolute top-3 right-3 flex flex-col gap-1.5 z-10">
-                <button onClick={handleShare} aria-label="Partager" className="w-9 h-9 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow border border-gray-100 dark:border-white/10 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+                <button onClick={handleShare} aria-label={en ? 'Share' : 'Partager'} className="w-9 h-9 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow border border-gray-100 dark:border-white/10 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
                   <Share2 className="w-4 h-4" />
                 </button>
-                <button aria-label="Ajouter aux favoris" className="w-9 h-9 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow border border-gray-100 dark:border-white/10 hover:text-red-500 transition-colors">
+                <button aria-label={en ? 'Add to wishlist' : 'Ajouter aux favoris'} className="w-9 h-9 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow border border-gray-100 dark:border-white/10 hover:text-red-500 transition-colors">
                   <Heart className="w-4 h-4" />
                 </button>
               </div>
 
               {product.stock === 0 && (
                 <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px] flex items-center justify-center z-20">
-                  <span className="px-5 py-2.5 bg-red-600 text-white font-bold rounded-xl tracking-wider">RUPTURE DE STOCK</span>
+                  <span className="px-5 py-2.5 bg-red-600 text-white font-bold rounded-xl tracking-wider">{en ? 'OUT OF STOCK' : 'RUPTURE DE STOCK'}</span>
                 </div>
               )}
             </div>
@@ -279,7 +282,7 @@ export default function ProductDetailPage() {
               <div className="flex gap-0.5">
                 {[1,2,3,4,5].map(s => <Star key={s} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
               </div>
-              <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">4.9 ★ 24 avis</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">{en ? '4.9 ★ 24 reviews' : '4.9 ★ 24 avis'}</span>
             </div>
 
             {/* Price */}
@@ -297,15 +300,15 @@ export default function ProductDetailPage() {
             <div className="mb-5">
               {product.stock > 10 ? (
                 <span className="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 text-sm font-semibold">
-                  <Check className="w-4 h-4" /> En stock ({product.stock} disponibles)
+                  <Check className="w-4 h-4" /> {en ? `In stock (${product.stock} available)` : `En stock (${product.stock} disponibles)`}
                 </span>
               ) : product.stock > 0 ? (
                 <span className="inline-flex items-center gap-1.5 text-orange-500 text-sm font-semibold">
-                  <Package className="w-4 h-4" /> Plus que {product.stock} en stock !
+                  <Package className="w-4 h-4" /> {en ? `Only ${product.stock} left in stock!` : `Plus que ${product.stock} en stock !`}
                 </span>
               ) : (
                 <span className="inline-flex items-center gap-1.5 text-red-500 text-sm font-semibold">
-                  <AlertTriangle className="w-4 h-4" /> Rupture de stock
+                  <AlertTriangle className="w-4 h-4" /> {en ? 'Out of stock' : 'Rupture de stock'}
                 </span>
               )}
             </div>
@@ -315,7 +318,7 @@ export default function ProductDetailPage() {
               <div className="inline-flex items-center gap-2 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 rounded-xl px-4 py-2.5 mb-5 self-start">
                 <Leaf className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                 <div>
-                  <p className="text-emerald-700 dark:text-emerald-400 text-xs font-semibold">Formule NPK</p>
+                  <p className="text-emerald-700 dark:text-emerald-400 text-xs font-semibold">{en ? 'NPK Formula' : 'Formule NPK'}</p>
                   <p className="text-emerald-900 dark:text-emerald-200 text-xl font-black">{product.features.npk}</p>
                 </div>
               </div>
@@ -324,23 +327,23 @@ export default function ProductDetailPage() {
             {/* Quantity */}
             {product.stock > 0 && (
               <div className="mb-6">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Quantité</label>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">{en ? 'Quantity' : 'Quantité'}</label>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
-                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} aria-label="Diminuer" className="px-3.5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} aria-label={en ? 'Decrease' : 'Diminuer'} className="px-3.5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
                       <Minus className="w-4 h-4" />
                     </button>
                     <input
                       type="number" min="1" max={product.stock} value={quantity}
                       onChange={(e) => setQuantity(Math.min(product.stock, Math.max(1, parseInt(e.target.value) || 1)))}
-                      aria-label="Quantité"
+                      aria-label={en ? 'Quantity' : 'Quantité'}
                       className="w-14 text-center py-3 bg-transparent font-bold text-gray-900 dark:text-white focus:outline-none text-sm"
                     />
-                    <button onClick={() => setQuantity(Math.min(product.stock, quantity + 1))} aria-label="Augmenter" className="px-3.5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    <button onClick={() => setQuantity(Math.min(product.stock, quantity + 1))} aria-label={en ? 'Increase' : 'Augmenter'} className="px-3.5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
                       <Plus className="w-4 h-4" />
                     </button>
                   </div>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">{product.stock} dispo.</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">{product.stock} {en ? 'avail.' : 'dispo.'}</span>
                 </div>
               </div>
             )}
@@ -352,15 +355,15 @@ export default function ProductDetailPage() {
               className="flex items-center justify-center gap-2 w-full py-4 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold rounded-xl transition-all hover:shadow-emerald-600/30 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-base mb-8"
             >
               <ShoppingCart className="w-5 h-5" />
-              Ajouter au panier
+              {en ? 'Add to cart' : 'Ajouter au panier'}
             </button>
 
             {/* Benefits strip */}
             <div className="grid grid-cols-3 gap-3">
               {[
-                { icon: <Truck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />, title: 'Livraison', sub: 'Partout au Cameroun' },
-                { icon: <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />, title: 'Garanti', sub: 'Qualité certifiée' },
-                { icon: <Package className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />, title: 'Emballage', sub: 'Protection optimale' },
+                { icon: <Truck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />, title: en ? 'Delivery' : 'Livraison', sub: en ? 'Across Cameroon' : 'Partout au Cameroun' },
+                { icon: <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />, title: en ? 'Guaranteed' : 'Garanti', sub: en ? 'Certified quality' : 'Qualité certifiée' },
+                { icon: <Package className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />, title: en ? 'Packaging' : 'Emballage', sub: en ? 'Optimal protection' : 'Protection optimale' },
               ].map((b, i) => (
                 <div key={i} className="flex flex-col items-center text-center p-3 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-white/[0.06]">
                   <div className="mb-1">{b.icon}</div>
@@ -376,7 +379,7 @@ export default function ProductDetailPage() {
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-sm mb-12 overflow-hidden">
           {/* Tab bar */}
           <div className="flex border-b border-gray-100 dark:border-white/[0.06] overflow-x-auto">
-            {TABS.map((tab) => (
+            {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
@@ -411,7 +414,7 @@ export default function ProductDetailPage() {
                   {product.features?.cultures && product.features.cultures.length > 0 && (
                     <div>
                       <h3 className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-white mb-4">
-                        <Sprout className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> Cultures adaptées
+                        <Sprout className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> {en ? 'Suitable Crops' : 'Cultures adaptées'}
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {product.features.cultures.map((c, i) => (
@@ -426,7 +429,7 @@ export default function ProductDetailPage() {
                   {product.features?.benefits && product.features.benefits.length > 0 && (
                     <div>
                       <h3 className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-white mb-4">
-                        <Check className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> Bénéfices
+                        <Check className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> {en ? 'Benefits' : 'Bénéfices'}
                       </h3>
                       <ul className="space-y-2.5">
                         {product.features.benefits.map((b, i) => (
@@ -449,7 +452,7 @@ export default function ProductDetailPage() {
                     <div className="flex items-center gap-4 p-5 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl border border-emerald-100 dark:border-emerald-900/50">
                       <Leaf className="w-8 h-8 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                       <div>
-                        <p className="text-sm text-emerald-700 dark:text-emerald-400 font-semibold mb-0.5">Formule NPK</p>
+                        <p className="text-sm text-emerald-700 dark:text-emerald-400 font-semibold mb-0.5">{en ? 'NPK Formula' : 'Formule NPK'}</p>
                         <p className="text-3xl font-black text-emerald-900 dark:text-emerald-100">{product.features.npk}</p>
                       </div>
                     </div>
@@ -457,7 +460,7 @@ export default function ProductDetailPage() {
 
                   {product.features?.composition && (
                     <div>
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Composition</h3>
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{en ? 'Composition' : 'Composition'}</h3>
                       <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4">
                         {product.features.composition}
                       </p>
@@ -466,7 +469,7 @@ export default function ProductDetailPage() {
 
                   {product.features?.dosage && (
                     <div>
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Dosage recommandé</h3>
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{en ? 'Recommended Dosage' : 'Dosage recommandé'}</h3>
                       <div className="p-4 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/40 rounded-xl flex items-start gap-3">
                         <span className="text-amber-500 text-xl flex-shrink-0">⚗️</span>
                         <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{product.features.dosage}</p>
@@ -476,7 +479,7 @@ export default function ProductDetailPage() {
 
                   {product.features?.applications && product.features.applications.length > 0 && (
                     <div>
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Mode d&apos;application</h3>
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">{en ? 'Application Method' : "Mode d'application"}</h3>
                       <ol className="space-y-3">
                         {product.features.applications.map((a, i) => (
                           <li key={i} className="flex items-start gap-3">
@@ -491,7 +494,7 @@ export default function ProductDetailPage() {
                   {product.features?.precautions && product.features.precautions.length > 0 && (
                     <div>
                       <h3 className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-white mb-4">
-                        <AlertTriangle className="w-5 h-5 text-orange-500" /> Précautions d&apos;emploi
+                        <AlertTriangle className="w-5 h-5 text-orange-500" /> {en ? 'Precautions' : "Précautions d'emploi"}
                       </h3>
                       <ul className="space-y-2">
                         {product.features.precautions.map((p, i) => (
@@ -506,11 +509,11 @@ export default function ProductDetailPage() {
 
                   {/* Fiche technique */}
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Fiche technique</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">{en ? 'Technical Sheet' : 'Fiche technique'}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {[
-                        { label: 'Référence (SKU)', value: product.sku },
-                        product.weight ? { label: 'Poids', value: `${product.weight} kg` } : null,
+                        { label: en ? 'Reference (SKU)' : 'Référence (SKU)', value: product.sku },
+                        product.weight ? { label: en ? 'Weight' : 'Poids', value: `${product.weight} kg` } : null,
                       ].filter(Boolean).map((row, i) => (
                         <div key={i} className="flex justify-between items-center px-4 py-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
                           <span className="text-sm text-gray-500 dark:text-gray-400">{row!.label}</span>
@@ -531,7 +534,7 @@ export default function ProductDetailPage() {
                       <div className="flex justify-center gap-0.5 mt-1">
                         {[1,2,3,4,5].map(s => <Star key={s} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
                       </div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">24 avis</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{en ? '24 reviews' : '24 avis'}</p>
                     </div>
                     <div className="flex-1 space-y-1">
                       {([5,4,3,2,1] as const).map(s => (
@@ -572,9 +575,9 @@ export default function ProductDetailPage() {
         {related.length > 0 && (
           <div className="mb-12">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-black text-gray-900 dark:text-white">Vous aimerez aussi</h2>
+              <h2 className="text-2xl font-black text-gray-900 dark:text-white">{en ? 'You may also like' : 'Vous aimerez aussi'}</h2>
               <Link href={`/produits?category=${product.category}`} className="flex items-center gap-1 text-sm text-emerald-600 dark:text-emerald-400 hover:underline font-medium">
-                Voir plus <ArrowRight className="w-4 h-4" />
+                {en ? 'See more' : 'Voir plus'} <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -615,7 +618,7 @@ export default function ProductDetailPage() {
                 className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition-all text-sm shadow-sm hover:shadow-emerald-600/30"
               >
                 <ShoppingCart className="w-4 h-4" />
-                Ajouter au panier
+                {en ? 'Add to cart' : 'Ajouter au panier'}
               </button>
             </div>
           </div>
@@ -626,31 +629,3 @@ export default function ProductDetailPage() {
     </div>
   );
 }
-
-interface Product {
-  _id: string;
-  name: string;
-  slug: string;
-  description: string;
-  category: string;
-  price: number;
-  promoPrice?: number;
-  stock: number;
-  images: string[];
-  sku: string;
-  weight?: number;
-  isNew?: boolean;
-  isFeatured?: boolean;
-  features?: {
-    npk?: string;
-    composition?: string;
-    applications?: string[];
-    dosage?: string;
-    cultures?: string[];
-    benefits?: string[];
-    precautions?: string[];
-  };
-  metaTitle?: string;
-  metaDescription?: string;
-}
-

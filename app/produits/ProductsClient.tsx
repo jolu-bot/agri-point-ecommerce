@@ -34,6 +34,7 @@ export default function ProductsClient({
   initialSearch?: string;
 }) {
   const { locale, T } = useLanguage();
+  const en = locale === 'en';
   const [products, setProducts] = useState<IProduct[]>(initialProducts);
   const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(false);
@@ -243,7 +244,7 @@ export default function ProductsClient({
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  aria-label="Effacer la recherche"
+                  aria-label={en ? 'Clear search' : 'Effacer la recherche'}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
                 >
                   <X className="w-4 h-4" />
@@ -274,7 +275,7 @@ export default function ProductsClient({
                     ? 'bg-white dark:bg-gray-700 text-emerald-600 dark:text-emerald-400 shadow-sm'
                     : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
                 }`}
-                aria-label="Vue grille"
+                aria-label={en ? 'Grid view' : 'Vue grille'}
               >
                 <Grid3x3 className="w-4 h-4" />
               </button>
@@ -285,7 +286,7 @@ export default function ProductsClient({
                     ? 'bg-white dark:bg-gray-700 text-emerald-600 dark:text-emerald-400 shadow-sm'
                     : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
                 }`}
-                aria-label="Vue liste"
+                aria-label={en ? 'List view' : 'Vue liste'}
               >
                 <List className="w-4 h-4" />
               </button>
@@ -322,7 +323,7 @@ export default function ProductsClient({
                     </div>
                     <div>
                       <label htmlFor="price-min" className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">
-                        Prix min (FCFA)
+                        {en ? 'Min price (FCFA)' : 'Prix min (FCFA)'}
                       </label>
                       <input
                         id="price-min"
@@ -335,7 +336,7 @@ export default function ProductsClient({
                     </div>
                     <div>
                       <label htmlFor="price-max" className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">
-                        Prix max (FCFA)
+                        {en ? 'Max price (FCFA)' : 'Prix max (FCFA)'}
                       </label>
                       <input
                         id="price-max"
@@ -471,16 +472,16 @@ export default function ProductsClient({
                 <Sprout className="w-9 h-9 text-emerald-400" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                Aucun produit trouvé
+                {en ? 'No products found' : 'Aucun produit trouvé'}
               </h3>
               <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-sm">
-                Essayez de modifier vos filtres ou votre recherche
+                {en ? 'Try adjusting your filters or search' : 'Essayez de modifier vos filtres ou votre recherche'}
               </p>
               <button
                 onClick={resetFilters}
                 className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold text-sm transition-colors"
               >
-                Réinitialiser les filtres
+                {en ? 'Reset filters' : 'Réinitialiser les filtres'}
               </button>
             </motion.div>
           )}
