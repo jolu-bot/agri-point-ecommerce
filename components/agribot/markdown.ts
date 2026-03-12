@@ -4,8 +4,13 @@
  * bold/italic/strikethrough/code/links, horizontal rules, line breaks.
  */
 export function renderMarkdown(raw: string): string {
+  // 0. Sanitize: strip script tags and inline event handlers
+  let text = raw
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
+    .replace(/\son\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '');
+
   // 1. Strip hidden suggestion comments
-  let text = raw.replace(/<!--\s*SUGGESTIONS:[\s\S]*?-->/g, '').trim();
+  text = text.replace(/<!--\s*SUGGESTIONS:[\s\S]*?-->/g, '').trim();
 
   // 2. Markdown tables
   text = text.replace(/((?:^\|.+\|\s*$\n?)+)/gm, (block) => {

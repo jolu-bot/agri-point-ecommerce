@@ -16,6 +16,7 @@ const config: Config = {
     '^@/lib/(.*)$': '<rootDir>/lib/$1',
     '^@/models/(.*)$': '<rootDir>/models/$1',
   },
+  transformIgnorePatterns: ['/node_modules/(?!(lucide-react)/)'],
   testMatch: [
     '<rootDir>/**/*.test.ts',
     '<rootDir>/**/*.test.tsx',
