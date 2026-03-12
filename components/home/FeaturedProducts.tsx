@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface CarouselSlide {
   id: string;
@@ -38,6 +39,8 @@ const slides: CarouselSlide[] = [
 ];
 
 export default function FeaturedProducts() {
+  const { locale } = useLanguage();
+  const en = locale === 'en';
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -121,7 +124,7 @@ export default function FeaturedProducts() {
 
             {/* CTA texte */}
             <div className="inline-flex items-center gap-2 text-white group/cta">
-              <span className="text-lg font-semibold">Découvrir</span>
+              <span className="text-lg font-semibold">{en ? 'Discover' : 'Découvrir'}</span>
               <ChevronRight className="w-6 h-6 group-hover/cta:translate-x-2 transition-transform" />
             </div>
           </motion.div>
@@ -131,7 +134,7 @@ export default function FeaturedProducts() {
         <button
           onClick={prevSlide}
           className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/20 hover:bg-white/40 dark:bg-black/30 dark:hover:bg-black/60 backdrop-blur-md border border-white/30 dark:border-white/20 flex items-center justify-center text-white transition-all duration-200 hover:scale-110"
-          aria-label="Image précédente"
+          aria-label={en ? 'Previous image' : 'Image précédente'}
         >
           <ChevronLeft className="w-6 h-6 md:w-7 md:h-7" />
         </button>
@@ -140,7 +143,7 @@ export default function FeaturedProducts() {
         <button
           onClick={nextSlide}
           className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/20 hover:bg-white/40 dark:bg-black/30 dark:hover:bg-black/60 backdrop-blur-md border border-white/30 dark:border-white/20 flex items-center justify-center text-white transition-all duration-200 hover:scale-110"
-          aria-label="Image suivante"
+          aria-label={en ? 'Next image' : 'Image suivante'}
         >
           <ChevronRight className="w-6 h-6 md:w-7 md:h-7" />
         </button>
@@ -156,7 +159,7 @@ export default function FeaturedProducts() {
                   ? 'w-8 h-2 bg-white'
                   : 'w-2 h-2 bg-white/50 hover:bg-white/75'
               }`}
-              aria-label={`Aller à l'image ${index + 1}`}
+              aria-label={en ? `Go to image ${index + 1}` : `Aller à l'image ${index + 1}`}
             />
           ))}
         </div>
