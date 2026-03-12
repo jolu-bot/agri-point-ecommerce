@@ -218,26 +218,24 @@ export default function AgriBot() {
                 {showOptionsMenu && (
                   <motion.div
                     initial={{ opacity: 0, y: -6, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -6, scale: 0.96 }}
-                    className="absolute top-full left-0 right-0 z-50 bg-white dark:bg-gray-900 border-b border-green-200 dark:border-gray-700 shadow-xl overflow-hidden"
+                    className="absolute top-full left-0 right-0 z-50 border-b border-green-200 dark:border-gray-700 shadow-xl overflow-hidden grid grid-cols-2 gap-px bg-gray-100 dark:bg-gray-800 p-0.5"
                     role="menu"
                   >
-                    <div className="grid grid-cols-2 gap-px bg-gray-100 dark:bg-gray-800 p-0.5" role="none">
-                      {optionsItems.map(({ icon, label, action }) => (
-                        <button key={label} onClick={action} role="menuitem" className="flex items-center gap-2 px-3 py-2.5 text-[12px] font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 hover:bg-green-50 dark:hover:bg-green-900/30 hover:text-green-700 dark:hover:text-green-400 transition-colors">
-                          <span className="text-green-600 dark:text-green-400" aria-hidden>{icon}</span>{label}
-                        </button>
-                      ))}
-                      <button
-                        onClick={() => { toggleTts(); setShowOptionsMenu(false); }}
-                        role="menuitem"
-                        className="flex items-center gap-2 px-3 py-2.5 text-[12px] font-medium bg-white dark:bg-gray-900 hover:bg-green-50 dark:hover:bg-green-900/30 transition-colors col-span-2 border-t border-gray-100 dark:border-gray-800"
-                      >
-                        <span className="text-green-600 dark:text-green-400" aria-hidden>{ttsEnabled ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}</span>
-                        <span className={ttsEnabled ? 'text-green-700 dark:text-green-400 font-semibold' : 'text-gray-700 dark:text-gray-200'}>
-                          {ttsEnabled ? t.options.ttsOn : t.options.ttsOff}
-                        </span>
+                    {optionsItems.map(({ icon, label, action }) => (
+                      <button key={label} onClick={action} role="menuitem" className="flex items-center gap-2 px-3 py-2.5 text-[12px] font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 hover:bg-green-50 dark:hover:bg-green-900/30 hover:text-green-700 dark:hover:text-green-400 transition-colors">
+                        <span className="text-green-600 dark:text-green-400" aria-hidden>{icon}</span>{label}
                       </button>
-                    </div>
+                    ))}
+                    <button
+                      onClick={() => { toggleTts(); setShowOptionsMenu(false); }}
+                      role="menuitem"
+                      className="flex items-center gap-2 px-3 py-2.5 text-[12px] font-medium bg-white dark:bg-gray-900 hover:bg-green-50 dark:hover:bg-green-900/30 transition-colors col-span-2 border-t border-gray-100 dark:border-gray-800"
+                    >
+                      <span className="text-green-600 dark:text-green-400" aria-hidden>{ttsEnabled ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}</span>
+                      <span className={ttsEnabled ? 'text-green-700 dark:text-green-400 font-semibold' : 'text-gray-700 dark:text-gray-200'}>
+                        {ttsEnabled ? t.options.ttsOn : t.options.ttsOff}
+                      </span>
+                    </button>
                   </motion.div>
                 )}
               </AnimatePresence>
