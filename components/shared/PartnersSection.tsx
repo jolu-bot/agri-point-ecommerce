@@ -1,124 +1,10 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
-
-const partners = [
-  {
-    id: 'campost',
-    name: 'CAMPOST',
-    subtitle: 'Cameroon Postal Services',
-    logo: '/images/partners/campost-real.png',
-    url: 'https://www.campost.cm',
-    color: 'from-red-50 to-orange-50',
-    colorDark: 'from-red-900/20 to-yellow-900/10',
-    border: 'border-red-100',
-    borderDark: 'border-red-500/20',
-    accent: 'text-red-600',
-    accentDark: 'text-red-400',
-    badge: 'bg-red-50 text-red-600 border-red-100',
-    badgeDark: 'bg-red-900/30 text-red-400 border-red-500/20',
-  },
-  {
-    id: 'minader',
-    name: 'MINADER',
-    subtitle: "Ministère de l'Agriculture et du Développement Rural",
-    logo: '/images/partners/minader-real.jpg',
-    url: 'https://www.minader.cm',
-    color: 'from-green-50 to-emerald-50',
-    colorDark: 'from-green-900/20 to-emerald-900/10',
-    border: 'border-green-100',
-    borderDark: 'border-green-500/20',
-    accent: 'text-green-700',
-    accentDark: 'text-green-400',
-    badge: 'bg-green-50 text-green-700 border-green-100',
-    badgeDark: 'bg-green-900/30 text-green-400 border-green-500/20',
-  },
-  {
-    id: 'bange-bank',
-    name: 'BANGE BANK',
-    subtitle: 'La Banque de tous',
-    logo: '/images/partners/bange-bank.png',
-    url: 'https://www.bangecmr.com/',
-    color: 'from-green-50 to-teal-50',
-    colorDark: 'from-green-900/20 to-teal-900/10',
-    border: 'border-green-100',
-    borderDark: 'border-green-500/20',
-    accent: 'text-green-700',
-    accentDark: 'text-green-400',
-    badge: 'bg-green-50 text-green-700 border-green-100',
-    badgeDark: 'bg-green-900/30 text-green-400 border-green-500/20',
-    description: 'Partenaire financier d\'AGRIPOINT SERVICES, BANGE BANK accompagne les agriculteurs camerounais avec des solutions de financement adaptées. La banque propose des crédits agricoles, un accompagnement personnalisé et des services bancaires accessibles pour soutenir le développement du secteur agricole au Cameroun.',
-  },
-  {
-    id: 'emoh',
-    name: 'Société EMOH & CIE',
-    subtitle: 'Import / Export',
-    logo: '/images/partners/emoh-bleu.png',
-    logoHeight: 'h-[108px]',
-    url: 'https://www.emoh-compagnie.com',
-    color: 'from-blue-50 to-sky-50',
-    colorDark: 'from-blue-900/20 to-sky-900/10',
-    border: 'border-blue-100',
-    borderDark: 'border-blue-500/20',
-    accent: 'text-blue-700',
-    accentDark: 'text-blue-400',
-    badge: 'bg-blue-50 text-blue-700 border-blue-100',
-    badgeDark: 'bg-blue-900/30 text-blue-400 border-blue-500/20',
-  },
-  {
-    id: 'cma',
-    name: 'CMA',
-    subtitle: 'Caisses Mutuelles Agricoles Africaines',
-    logo: '/images/partners/cma.jpg',
-    url: '#',
-    color: 'from-purple-50 to-violet-50',
-    colorDark: 'from-purple-900/20 to-violet-900/10',
-    border: 'border-purple-100',
-    borderDark: 'border-purple-500/20',
-    accent: 'text-purple-700',
-    accentDark: 'text-purple-400',
-    badge: 'bg-purple-50 text-purple-700 border-purple-100',
-    badgeDark: 'bg-purple-900/30 text-purple-400 border-purple-500/20',
-  },
-  {
-    id: 'planopac',
-    name: 'PLANOPAC',
-    subtitle: 'Plateforme Nationale des Organisations Professionnelles Agro-sylvo-pastorales et Halieutiques du Cameroun',
-    logo: '/images/partners/planopac.jpg',
-    url: 'https://www.facebook.com/p/Planopac-Online-100064810566427',
-    color: 'from-amber-50 to-orange-50',
-    colorDark: 'from-amber-900/20 to-orange-900/10',
-    border: 'border-amber-100',
-    borderDark: 'border-amber-500/20',
-    accent: 'text-amber-700',
-    accentDark: 'text-amber-400',
-    badge: 'bg-amber-50 text-amber-700 border-amber-100',
-    badgeDark: 'bg-amber-900/30 text-amber-400 border-amber-500/20',
-    description: 'Partenaire semencier d\'AGRIPOINT SERVICES, PLANOPAC fournit des semences de qualité certifiée pour toutes les cultures. Un engagement pour des semences performantes et adaptées aux conditions agricoles du Cameroun.',
-  },
-  {
-    id: 'ap-sarl',
-    name: 'AP AGRI POINT SERVICES SARL',
-    subtitle: 'Vente et distribution d\'intrants agricoles',
-    logo: '/images/partners/ap-agripoint-sarl.png',
-    url: '#',
-    color: 'from-emerald-50 to-green-50',
-    colorDark: 'from-emerald-900/20 to-green-900/10',
-    border: 'border-emerald-100',
-    borderDark: 'border-emerald-500/20',
-    accent: 'text-emerald-700',
-    accentDark: 'text-emerald-400',
-    badge: 'bg-emerald-50 text-emerald-700 border-emerald-100',
-    badgeDark: 'bg-emerald-900/30 text-emerald-400 border-emerald-500/20',
-    description: 'Distributeur officiel de biofertilisants et engrais pour le Cameroun. AP AGRI POINT SERVICES SARL est le partenaire privilégié pour la fourniture d\'intrants de qualité.',
-  },
-];
-
-// Triple the list for seamless mobile marquee
-const loopPartners = [...partners, ...partners, ...partners];
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface PartnersSectionProps {
   variant?: 'dark' | 'light';
@@ -130,6 +16,137 @@ export default function PartnersSection({
   showTitle = true,
 }: PartnersSectionProps) {
   const isDark = variant === 'dark';
+  const { locale } = useLanguage();
+  const en = locale === 'en';
+
+  const partners = [
+    {
+      id: 'campost',
+      name: 'CAMPOST',
+      subtitle: 'Cameroon Postal Services',
+      logo: '/images/partners/campost-real.png',
+      url: 'https://www.campost.cm',
+      color: 'from-red-50 to-orange-50',
+      colorDark: 'from-red-900/20 to-yellow-900/10',
+      border: 'border-red-100',
+      borderDark: 'border-red-500/20',
+      accent: 'text-red-600',
+      accentDark: 'text-red-400',
+      badge: 'bg-red-50 text-red-600 border-red-100',
+      badgeDark: 'bg-red-900/30 text-red-400 border-red-500/20',
+    },
+    {
+      id: 'minader',
+      name: 'MINADER',
+      subtitle: en
+        ? 'Ministry of Agriculture and Rural Development'
+        : "Ministère de l'Agriculture et du Développement Rural",
+      logo: '/images/partners/minader-real.jpg',
+      url: 'https://www.minader.cm',
+      color: 'from-green-50 to-emerald-50',
+      colorDark: 'from-green-900/20 to-emerald-900/10',
+      border: 'border-green-100',
+      borderDark: 'border-green-500/20',
+      accent: 'text-green-700',
+      accentDark: 'text-green-400',
+      badge: 'bg-green-50 text-green-700 border-green-100',
+      badgeDark: 'bg-green-900/30 text-green-400 border-green-500/20',
+    },
+    {
+      id: 'bange-bank',
+      name: 'BANGE BANK',
+      subtitle: en ? 'The Bank for Everyone' : 'La Banque de tous',
+      logo: '/images/partners/bange-bank.png',
+      url: 'https://www.bangecmr.com/',
+      color: 'from-green-50 to-teal-50',
+      colorDark: 'from-green-900/20 to-teal-900/10',
+      border: 'border-green-100',
+      borderDark: 'border-green-500/20',
+      accent: 'text-green-700',
+      accentDark: 'text-green-400',
+      badge: 'bg-green-50 text-green-700 border-green-100',
+      badgeDark: 'bg-green-900/30 text-green-400 border-green-500/20',
+      description: en
+        ? 'Financial partner of AGRIPOINT SERVICES, BANGE BANK supports Cameroonian farmers with tailored financing solutions. The bank offers agricultural credit, personalised support and accessible banking services to promote the development of the agricultural sector in Cameroon.'
+        : "Partenaire financier d'AGRIPOINT SERVICES, BANGE BANK accompagne les agriculteurs camerounais avec des solutions de financement adaptées. La banque propose des crédits agricoles, un accompagnement personnalisé et des services bancaires accessibles pour soutenir le développement du secteur agricole au Cameroun.",
+    },
+    {
+      id: 'emoh',
+      name: 'Société EMOH & CIE',
+      subtitle: 'Import / Export',
+      logo: '/images/partners/emoh-bleu.png',
+      logoHeight: 'h-[108px]',
+      url: 'https://www.emoh-compagnie.com',
+      color: 'from-blue-50 to-sky-50',
+      colorDark: 'from-blue-900/20 to-sky-900/10',
+      border: 'border-blue-100',
+      borderDark: 'border-blue-500/20',
+      accent: 'text-blue-700',
+      accentDark: 'text-blue-400',
+      badge: 'bg-blue-50 text-blue-700 border-blue-100',
+      badgeDark: 'bg-blue-900/30 text-blue-400 border-blue-500/20',
+    },
+    {
+      id: 'cma',
+      name: 'CMA',
+      subtitle: en
+        ? 'African Agricultural Mutual Funds'
+        : 'Caisses Mutuelles Agricoles Africaines',
+      logo: '/images/partners/cma.jpg',
+      url: '#',
+      color: 'from-purple-50 to-violet-50',
+      colorDark: 'from-purple-900/20 to-violet-900/10',
+      border: 'border-purple-100',
+      borderDark: 'border-purple-500/20',
+      accent: 'text-purple-700',
+      accentDark: 'text-purple-400',
+      badge: 'bg-purple-50 text-purple-700 border-purple-100',
+      badgeDark: 'bg-purple-900/30 text-purple-400 border-purple-500/20',
+    },
+    {
+      id: 'planopac',
+      name: 'PLANOPAC',
+      subtitle: en
+        ? 'National Platform of Agro-sylvo-pastoral and Fisheries Professional Organizations of Cameroon'
+        : 'Plateforme Nationale des Organisations Professionnelles Agro-sylvo-pastorales et Halieutiques du Cameroun',
+      logo: '/images/partners/planopac.jpg',
+      url: 'https://www.facebook.com/p/Planopac-Online-100064810566427',
+      color: 'from-amber-50 to-orange-50',
+      colorDark: 'from-amber-900/20 to-orange-900/10',
+      border: 'border-amber-100',
+      borderDark: 'border-amber-500/20',
+      accent: 'text-amber-700',
+      accentDark: 'text-amber-400',
+      badge: 'bg-amber-50 text-amber-700 border-amber-100',
+      badgeDark: 'bg-amber-900/30 text-amber-400 border-amber-500/20',
+      description: en
+        ? "Seed partner of AGRIPOINT SERVICES, PLANOPAC supplies certified quality seeds for all crops. A commitment to high-performing seeds adapted to Cameroon's agricultural conditions."
+        : "Partenaire semencier d'AGRIPOINT SERVICES, PLANOPAC fournit des semences de qualité certifiée pour toutes les cultures. Un engagement pour des semences performantes et adaptées aux conditions agricoles du Cameroun.",
+    },
+    {
+      id: 'ap-sarl',
+      name: 'AP AGRI POINT SERVICES SARL',
+      subtitle: en
+        ? 'Sales and distribution of agricultural inputs'
+        : "Vente et distribution d'intrants agricoles",
+      logo: '/images/partners/ap-agripoint-sarl.png',
+      url: '#',
+      color: 'from-emerald-50 to-green-50',
+      colorDark: 'from-emerald-900/20 to-green-900/10',
+      border: 'border-emerald-100',
+      borderDark: 'border-emerald-500/20',
+      accent: 'text-emerald-700',
+      accentDark: 'text-emerald-400',
+      badge: 'bg-emerald-50 text-emerald-700 border-emerald-100',
+      badgeDark: 'bg-emerald-900/30 text-emerald-400 border-emerald-500/20',
+      description: en
+        ? 'Official distributor of bio-fertilizers and fertilizers for Cameroon. AP AGRI POINT SERVICES SARL is the preferred partner for supplying quality inputs.'
+        : "Distributeur officiel de biofertilisants et engrais pour le Cameroun. AP AGRI POINT SERVICES SARL est le partenaire privilégié pour la fourniture d'intrants de qualité.",
+    },
+  ];
+
+  // Triple the list for seamless mobile marquee
+  const loopPartners = [...partners, ...partners, ...partners];
 
   return (
     <section
@@ -154,21 +171,33 @@ export default function PartnersSection({
               isDark ? 'border-green-500/30 bg-green-500/5 text-green-400' : 'dark:border-green-500/30 dark:bg-green-500/5 dark:text-green-400'
             }`}>
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-              Partenaires de Confiance
+              {en ? 'Trusted Partners' : 'Partenaires de Confiance'}
             </span>
             <h2 className={`section-title ${
               isDark ? 'text-white' : 'text-gray-900 dark:text-white'
             }`}>
-              <span className="text-red-500">Nos</span> Partenaires{' '}
-              <span className={isDark ? 'text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-400' : 'text-red-500 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-green-500 dark:to-emerald-400'}>
-                Institutionnels &amp; Stratégiques
-              </span>
+              {en ? (
+                <>
+                  <span className="text-red-500">Our</span> Institutional &amp;{' '}
+                  <span className={isDark ? 'text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-400' : 'text-red-500 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-green-500 dark:to-emerald-400'}>
+                    Strategic Partners
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span className="text-red-500">Nos</span> Partenaires{' '}
+                  <span className={isDark ? 'text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-400' : 'text-red-500 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-green-500 dark:to-emerald-400'}>
+                    Institutionnels &amp; Stratégiques
+                  </span>
+                </>
+              )}
             </h2>
             <p className={`section-subtitle ${
               isDark ? 'text-white/45' : 'text-gray-500 dark:text-white/45'
             }`}>
-              AGRIPOINT SERVICES bénéficie du soutien d&apos;acteurs clés du développement agricole camerounais.
-              Cliquez sur un logo pour visiter leur site officiel.
+              {en
+                ? 'AGRIPOINT SERVICES benefits from the support of key actors in Cameroonian agricultural development. Click on a logo to visit their official site.'
+                : "AGRIPOINT SERVICES bénéficie du soutien d'acteurs clés du développement agricole camerounais. Cliquez sur un logo pour visiter leur site officiel."}
             </p>
           </motion.div>
         )}
@@ -222,7 +251,7 @@ export default function PartnersSection({
                   ${isDark ? p.badgeDark : `${p.badge} dark:bg-gray-700/30 dark:text-green-400 dark:border-green-500/20`}`}
                 >
                   <ExternalLink className="w-3 h-3" />
-                  Visiter le site
+                  {en ? 'Visit website' : 'Visiter le site'}
                 </div>
               </div>
             </motion.a>
@@ -265,7 +294,7 @@ export default function PartnersSection({
                   isDark ? p.accentDark : p.accent
                 }`}>
                   <ExternalLink className="w-2.5 h-2.5" />
-                  Site officiel
+                  {en ? 'Official site' : 'Site officiel'}
                 </div>
               </a>
             ))}
@@ -282,7 +311,7 @@ export default function PartnersSection({
         >
           <div className={`flex-1 h-px ${isDark ? 'bg-white/8' : 'bg-gray-200 dark:bg-white/10'}`} />
           <span className={`text-[11px] whitespace-nowrap ${isDark ? 'text-white/20' : 'text-gray-400 dark:text-white/20'}`}>
-            Ensemble pour une agriculture durable au Cameroun
+            {en ? 'Together for sustainable agriculture in Cameroon' : 'Ensemble pour une agriculture durable au Cameroun'}
           </span>
           <div className={`flex-1 h-px ${isDark ? 'bg-white/8' : 'bg-gray-200 dark:bg-white/10'}`} />
         </motion.div>

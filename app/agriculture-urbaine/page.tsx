@@ -51,35 +51,6 @@ const pageStats = [
   { value: "5K+", icon: Building2 },
 ];
 
-const pageTestimonials = [
-  {
-    name: "Sarah Mbida",
-    location: "Yaoundé - Bastos",
-    space: "Balcon 3m²",
-    text: "Je ne pensais jamais pouvoir cultiver en appartement. Maintenant je récolte salades, tomates, herbes tous les jours. Mes enfants adorent !",
-    rating: 5,
-    harvest: "12 kg de légumes/mois",
-    image: "/images/testimonial-sarah.jpg"
-  },
-  {
-    name: "Marc Ngollo",
-    location: "Douala - Bonapriso",
-    space: "Terrasse 20m²",
-    text: "Le système connecté est génial. L'app me dit quand arroser, fertiliser. Mes tomates cerises sont incroyables !",
-    rating: 5,
-    harvest: "45 kg de légumes/mois",
-    image: "/images/testimonial-marc.jpg"
-  },
-  {
-    name: "Fatou Karim",
-    location: "Garoua - Centre",
-    space: "Toit 80m²",
-    text: "J'ai transformé mon toit en mini-ferme. Je vends le surplus au marché. C'est devenu une vraie source de revenus !",
-    rating: 5,
-    harvest: "180 000 FCFA/mois de ventes",
-    image: "/images/testimonial-fatou.jpg"
-  }
-];
 
 const getPageContent = (locale: string) => ({
   solutions: [
@@ -404,6 +375,45 @@ const getPageContent = (locale: string) => ({
 
 export default function AgricultureUrbainePage() {
   const { T, locale } = useLanguage();
+  const en = locale === 'en';
+  const pageTestimonials = [
+    {
+      name: 'Marie K.',
+      role: en ? 'Urban Farmer — Apartment' : 'Agricultrice Urbaine — Appartement',
+      location: 'Yaoundé - Bastos',
+      space: en ? 'Balcony 3m²' : 'Balcon 3m²',
+      text: en
+        ? "I never thought I could grow vegetables in an apartment. Now I harvest salads, tomatoes, herbs every day. My kids love it!"
+        : "Je ne pensais jamais pouvoir cultiver en appartement. Maintenant je récolte salades, tomates, herbes tous les jours. Mes enfants adorent !",
+      rating: 5,
+      harvest: en ? '12 kg of vegetables/month' : '12 kg de légumes/mois',
+      image: '/images/testimonial-sarah.jpg',
+    },
+    {
+      name: 'Paul T.',
+      role: en ? 'Urban Farmer — Terrace' : 'Agriculteur Urbain — Terrasse',
+      location: 'Douala - Bonapriso',
+      space: en ? 'Terrace 20m²' : 'Terrasse 20m²',
+      text: en
+        ? "The connected system is brilliant. The app tells me when to water, fertilize. My cherry tomatoes are incredible!"
+        : "Le système connecté est génial. L'app me dit quand arroser, fertiliser. Mes tomates cerises sont incroyables !",
+      rating: 5,
+      harvest: en ? '45 kg of vegetables/month' : '45 kg de légumes/mois',
+      image: '/images/testimonial-marc.jpg',
+    },
+    {
+      name: 'Fatima A.',
+      role: en ? 'Urban Farmer — Rooftop' : 'Agricultrice Urbaine — Toit',
+      location: 'Garoua - Centre',
+      space: en ? 'Rooftop 80m²' : 'Toit 80m²',
+      text: en
+        ? "I transformed my rooftop into a mini-farm. I sell the surplus at the market. It's become a real source of income!"
+        : "J'ai transformé mon toit en mini-ferme. Je vends le surplus au marché. C'est devenu une vraie source de revenus !",
+      rating: 5,
+      harvest: en ? '180,000 FCFA/month in sales' : '180 000 FCFA/mois de ventes',
+      image: '/images/testimonial-fatou.jpg',
+    },
+  ];
   const content = getPageContent(locale);
   const statLabels = [T.agriUrbaine.stat1, T.agriUrbaine.stat2, T.agriUrbaine.stat3, T.agriUrbaine.stat4];
   const [products, setProducts] = useState<IProduct[]>([]);

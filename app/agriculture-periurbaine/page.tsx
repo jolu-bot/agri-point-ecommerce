@@ -45,35 +45,6 @@ const pageStats = [
   { value: '20 000', icon: MapPin },
 ];
 
-const pageTestimonials = [
-  {
-    name: 'Alphonse Nkouele',
-    location: 'Soa, Périphérie Yaoundé',
-    zone: '3,5 ha maraîchage',
-    text: "Avant AGRIPOINT SERVICES, mes rendements de tomates ne dépassaient pas 8 tonnes à l'hectare. Avec FOSNUTREN 20 et l'irrigation goutte-à-goutte, j'atteins 25 t/ha. J'ai pu agrandir ma parcelle et employer 6 personnes à temps plein.",
-    rating: 5,
-    result: '+213% de rendement en tomates',
-    image: '/images/testimonial-alphonse.jpg',
-  },
-  {
-    name: 'Cécile Awona Bolo',
-    location: 'Logbaba, Périphérie Douala',
-    zone: '1,8 ha légumes feuilles + volaille',
-    text: "J'ai intégré 500 poules pondeuses avec mon maraîchage grâce aux conseils d'AGRIPOINT SERVICES. Le compost de volaille remplace la moitié de mes engrais chimiques. Mes revenus ont doublé en 18 mois.",
-    rating: 5,
-    result: 'Revenus x2 — Exploitation intégrée',
-    image: '/images/testimonial-cecile.jpg',
-  },
-  {
-    name: 'Ibrahim Oumarou',
-    location: 'Ngong, Périphérie Garoua',
-    zone: '5 ha oignon + tomate',
-    text: "La pompe solaire que m'a recommandée AGRIPOINT SERVICES a changé ma vie. Plus de 80 000 FCFA de carburant économisés chaque mois. Je produis maintenant en saison sèche quand les prix sont les meilleurs.",
-    rating: 5,
-    result: '80 000 FCFA/mois économisés en carburant',
-    image: '/images/testimonial-ibrahim.jpg',
-  },
-];
 
 const getPageContent = (locale: string) => ({
   definition: {
@@ -726,6 +697,45 @@ const getPageContent = (locale: string) => ({
 
 export default function AgriculturePeriurbainePage() {
   const { T, locale } = useLanguage();
+  const en = locale === 'en';
+  const pageTestimonials = [
+    {
+      name: 'Jean-Baptiste M.',
+      role: en ? 'Periurban Market Gardener' : 'Maraîcher Périurbain',
+      location: en ? 'Soa, outskirts of Yaoundé' : 'Soa, Périphérie Yaoundé',
+      zone: en ? '3.5 ha market gardening' : '3,5 ha maraîchage',
+      text: en
+        ? "Before AGRIPOINT SERVICES, my tomato yields didn't exceed 8 tonnes per hectare. With FOSNUTREN 20 and drip irrigation, I reach 25 t/ha. I was able to expand my plot and employ 6 full-time workers."
+        : "Avant AGRIPOINT SERVICES, mes rendements de tomates ne dépassaient pas 8 tonnes à l'hectare. Avec FOSNUTREN 20 et l'irrigation goutte-à-goutte, j'atteins 25 t/ha. J'ai pu agrandir ma parcelle et employer 6 personnes à temps plein.",
+      rating: 5,
+      result: en ? '+213% tomato yield' : '+213% de rendement en tomates',
+      image: '/images/testimonial-alphonse.jpg',
+    },
+    {
+      name: 'Sylvie N.',
+      role: en ? 'Integrated Agriculture' : 'Agriculture Intégrée',
+      location: en ? 'Logbaba, outskirts of Douala' : 'Logbaba, Périphérie Douala',
+      zone: en ? '1.8 ha leafy vegetables + poultry' : '1,8 ha légumes feuilles + volaille',
+      text: en
+        ? "I integrated 500 laying hens with my market gardening thanks to AGRIPOINT SERVICES advice. Poultry compost replaces half of my chemical fertilizers. My income doubled in 18 months."
+        : "J'ai intégré 500 poules pondeuses avec mon maraîchage grâce aux conseils d'AGRIPOINT SERVICES. Le compost de volaille remplace la moitié de mes engrais chimiques. Mes revenus ont doublé en 18 mois.",
+      rating: 5,
+      result: en ? 'Revenue x2 — Integrated farm' : 'Revenus x2 — Exploitation intégrée',
+      image: '/images/testimonial-cecile.jpg',
+    },
+    {
+      name: 'Moussa H.',
+      role: en ? 'Irrigated Farmer' : 'Producteur Irrigué',
+      location: en ? 'Ngong, outskirts of Garoua' : 'Ngong, Périphérie Garoua',
+      zone: en ? '5 ha onion + tomato' : '5 ha oignon + tomate',
+      text: en
+        ? "The solar pump recommended by AGRIPOINT SERVICES changed my life. Over 80,000 FCFA in fuel saved every month. I now produce in the dry season when prices are best."
+        : "La pompe solaire que m'a recommandée AGRIPOINT SERVICES a changé ma vie. Plus de 80 000 FCFA de carburant économisés chaque mois. Je produis maintenant en saison sèche quand les prix sont les meilleurs.",
+      rating: 5,
+      result: en ? '80,000 FCFA/month saved on fuel' : '80 000 FCFA/mois économisés en carburant',
+      image: '/images/testimonial-ibrahim.jpg',
+    },
+  ];
   const content = getPageContent(locale);
   const statLabels = [T.agriPeriUrbaine.stat1, T.agriPeriUrbaine.stat2, T.agriPeriUrbaine.stat3, T.agriPeriUrbaine.stat4];
   const [products, setProducts] = useState<IProduct[]>([]);
