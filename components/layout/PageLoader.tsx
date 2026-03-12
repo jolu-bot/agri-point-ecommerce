@@ -180,9 +180,9 @@ export default function PageLoader() {
             {/* Glow halo behind logo */}
             <div className="absolute inset-0 -m-4 rounded-full bg-emerald-500/10 blur-2xl" />
 
-            {/* Logo — transparent SVG version for dark background */}
+            {/* Logo — full-colour SVG (red PP mark + green wordmark) */}
             <Image
-              src="/images/logo-transparent.svg"
+              src="/images/logo.svg"
               alt="AgriPoint Services"
               width={108}
               height={86}
