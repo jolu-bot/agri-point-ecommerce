@@ -47,10 +47,11 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
+        whileHover={{ y: -4 }}
+        transition={{ type: 'spring', stiffness: 280, damping: 24 }}
       >
         <Link href={`/produits/${product.slug}`} className="group block">
-          <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/[0.06] rounded-2xl hover:shadow-xl hover:border-emerald-200 dark:hover:border-emerald-800/50 transition-all duration-300 overflow-hidden">
+          <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/[0.06] rounded-2xl hover:shadow-xl hover:border-emerald-200 dark:hover:border-emerald-800/50 transition-[border-color,box-shadow] duration-300 overflow-hidden">
             <div className="flex flex-col sm:flex-row gap-0">
               {/* Image */}
               <div className="relative w-full sm:w-52 md:w-64 h-52 bg-gradient-to-br from-gray-50 to-emerald-50/30 dark:from-gray-800 dark:to-emerald-950/20 flex-shrink-0 overflow-hidden">
@@ -151,14 +152,16 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                     </div>
                   </div>
 
-                  <button
+                  <motion.button
                     onClick={handleAddToCart}
                     disabled={product.stock === 0}
-                    className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-semibold rounded-xl transition-all duration-200 disabled:bg-gray-300 dark:disabled:bg-gray-700 disabled:cursor-not-allowed shadow-sm hover:shadow-emerald-600/30 text-sm"
+                    whileTap={product.stock > 0 ? { scale: 0.94 } : undefined}
+                    transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                    className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-semibold rounded-xl transition-colors duration-200 disabled:bg-gray-300 dark:disabled:bg-gray-700 disabled:cursor-not-allowed shadow-sm hover:shadow-emerald-600/30 text-sm"
                   >
                     <ShoppingCart className="w-4 h-4" />
                     <span>Ajouter au panier</span>
-                  </button>
+                  </motion.button>
                 </div>
               </div>
             </div>
@@ -173,16 +176,16 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35 }}
+      whileHover={{ y: -8 }}
+      transition={{ type: 'spring', stiffness: 280, damping: 22 }}
       className="h-full"
     >
       <Link href={`/produits/${product.slug}`} className="group block h-full">
-        <div className={`relative h-full flex flex-col bg-white dark:bg-gray-900 rounded-2xl border transition-all duration-300 overflow-hidden
+        <div className={`relative h-full flex flex-col bg-white dark:bg-gray-900 rounded-2xl border transition-[border-color,box-shadow] duration-300 overflow-hidden
           ${product.isFeatured
             ? 'border-red-300/50 dark:border-red-800/40 shadow-[0_0_0_1px_rgba(185,28,28,0.12)]'
             : 'border-gray-100 dark:border-white/[0.06]'}
-          hover:shadow-[0_8px_40px_rgba(16,163,74,0.18)] hover:border-emerald-200 dark:hover:border-emerald-700/50
-          hover:-translate-y-1
+          hover:shadow-[0_12px_48px_rgba(16,163,74,0.22)] hover:border-emerald-200 dark:hover:border-emerald-700/50
         `}>
 
           {/* ── Image Container ── */}
@@ -240,18 +243,24 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
             {/* Quick Actions (hover) */}
             {!product.isFeatured && (
               <div className="absolute top-2.5 right-2.5 flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-200 z-10">
-                <button
+                <motion.button
                   aria-label="Ajouter aux favoris"
+                  whileHover={{ scale: 1.12 }}
+                  whileTap={{ scale: 0.88 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 18 }}
                   className="w-8 h-8 flex items-center justify-center bg-white/95 dark:bg-gray-900/95 rounded-xl shadow hover:bg-emerald-50 dark:hover:bg-emerald-900/40 hover:text-emerald-700 dark:hover:text-emerald-400 text-gray-500 dark:text-gray-400 transition-colors border border-gray-100 dark:border-white/10"
                 >
                   <Heart className="w-3.5 h-3.5" />
-                </button>
-                <button
+                </motion.button>
+                <motion.button
                   aria-label="Aperçu rapide"
+                  whileHover={{ scale: 1.12 }}
+                  whileTap={{ scale: 0.88 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 18 }}
                   className="w-8 h-8 flex items-center justify-center bg-white/95 dark:bg-gray-900/95 rounded-xl shadow hover:bg-emerald-50 dark:hover:bg-emerald-900/40 hover:text-emerald-700 dark:hover:text-emerald-400 text-gray-500 dark:text-gray-400 transition-colors border border-gray-100 dark:border-white/10"
                 >
                   <Eye className="w-3.5 h-3.5" />
-                </button>
+                </motion.button>
               </div>
             )}
 
@@ -325,19 +334,47 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
               </div>
 
               {/* Add to Cart — full width */}
-              <button
+              <motion.button
                 onClick={handleAddToCart}
                 disabled={product.stock === 0}
-                className="w-full flex items-center justify-center gap-2 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white text-sm font-semibold rounded-xl transition-all duration-200 disabled:bg-gray-200 dark:disabled:bg-gray-800 disabled:text-gray-400 dark:disabled:text-gray-600 disabled:cursor-not-allowed shadow-sm hover:shadow-emerald-600/30 group/btn"
+                whileTap={product.stock > 0 ? { scale: 0.94 } : undefined}
+                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                className="w-full flex items-center justify-center gap-2 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white text-sm font-semibold rounded-xl transition-colors duration-200 disabled:bg-gray-200 dark:disabled:bg-gray-800 disabled:text-gray-400 dark:disabled:text-gray-600 disabled:cursor-not-allowed shadow-sm hover:shadow-emerald-600/30 group/btn"
                 aria-label="Ajouter au panier"
               >
                 <ShoppingCart className="w-4 h-4 group-hover/btn:animate-bounce" />
                 <span>Ajouter au panier</span>
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
       </Link>
     </motion.div>
+  );
+}
+
+/* ── Skeleton placeholder shown while product data is loading ── */
+export function ProductCardSkeleton() {
+  return (
+    <div className="h-full flex flex-col bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] overflow-hidden animate-pulse">
+      {/* Image */}
+      <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700" />
+      {/* Content */}
+      <div className="flex flex-col flex-1 p-4 gap-3">
+        <div className="h-3 w-16 bg-gray-200 dark:bg-gray-700 rounded-full" />
+        <div className="space-y-2">
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-lg w-full" />
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-lg w-3/4" />
+        </div>
+        <div className="space-y-1.5 flex-1">
+          <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded-lg w-full" />
+          <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded-lg w-5/6" />
+        </div>
+        <div className="pt-3 border-t border-gray-100 dark:border-white/[0.06] mt-auto">
+          <div className="h-6 w-28 bg-gray-200 dark:bg-gray-700 rounded-lg mb-3" />
+          <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-xl w-full" />
+        </div>
+      </div>
+    </div>
   );
 }
