@@ -2,7 +2,10 @@
 const nextConfig = {
   // -- PERFORMANCE OPTIMIZATIONS ----------------------------------------------
   typescript: { ignoreBuildErrors: true },
-  
+
+  // -- Transpile ESM-only packages so Jest's SWC transformer can handle them --
+  transpilePackages: ['lucide-react'],
+
   // -- Image optimization (critical for performance) ------------------------
   images: {
     formats: ['image/avif', 'image/webp'],
