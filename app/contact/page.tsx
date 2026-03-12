@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { 
+import {
   MapPin,
   Phone,
   Mail,
@@ -22,121 +22,16 @@ import {
   Linkedin,
   Youtube
 } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
-// Contenu modifiable facilement
-const pageContent = {
-  hero: {
-    badge: "📞 Nous Sommes Là Pour Vous",
-    title: "CONTACTEZ-NOUS",
-    subtitle: "Une question ? Un projet ? Parlons-en !",
-    description: "Notre équipe d'experts est à votre écoute pour répondre à toutes vos questions et vous accompagner dans vos projets agricoles."
-  },
-
-  contactInfo: {
-    headquarters: {
-      title: "AGRIPOINT SERVICES SAS",
-      address: "Quartier Fouda",
-      city: "B.P. 5111 Yaoundé, Cameroun",
-      phone: "(+237) 657 39 39 39",
-      whatsapp: "+237657393939",
-      email: "infos@agri-ps.com",
-      hours: "Lun-Ven: 8h00 - 17h00\nSamedi: 8h00 - 13h00"
-    },
-    
-    branches: [
-      {
-        city: "Yaoundé",
-        address: "Quartier Fouda, B.P. 5111",
-        phone: "(+237) 657 39 39 39",
-        email: "infos@agri-ps.com"
-      },
-      {
-        city: "Support WhatsApp",
-        address: "Disponible 7j/7",
-        phone: "(+237) 657 39 39 39",
-        email: "infos@agri-ps.com"
-      },
-      {
-        city: "Livraison Nationale",
-        address: "Toutes les régions du Cameroun",
-        phone: "(+237) 657 39 39 39",
-        email: "infos@agri-ps.com"
-      },
-      {
-        city: "Site Web",
-        address: "www.agri-ps.com",
-        phone: "(+237) 657 39 39 39",
-        email: "infos@agri-ps.com"
-      }
-    ]
-  },
-
-  departments: [
-    {
-      icon: Headphones,
-      title: "Service Client",
-      description: "Questions sur vos commandes et produits",
-      email: "support@agri-ps.com", // ✅ Dédié support client
-      phone: "(+237) 657 39 39 39",
-      hours: "Lun-Sam: 8h-18h",
-      color: "blue"
-    },
-    {
-      icon: Users,
-      title: "Conseil Agricole",
-      description: "Accompagnement technique et formations",
-      email: "infos@agri-ps.com", // ✅ Informations générales
-      phone: "(+237) 657 39 39 39",
-      hours: "Lun-Ven: 8h-17h",
-      color: "green"
-    },
-    {
-      icon: Building2,
-      title: "Partenariats",
-      description: "Collaboration et opportunités business",
-      email: "contact@agri-ps.com", // ✅ Contact business
-      phone: "(+237) 657 39 39 39",
-      hours: "Lun-Ven: 9h-16h",
-      color: "purple"
-    },
-    {
-      icon: MessageSquare,
-      title: "WhatsApp Direct",
-      description: "Réponse rapide via WhatsApp",
-      email: "infos@agri-ps.com",
-      phone: "(+237) 657 39 39 39",
-      hours: "Lun-Sam: 8h-20h",
-      color: "amber"
-    }
-  ],
-
-  socialMedia: [
-    { name: "Facebook", icon: Facebook, url: "https://facebook.com/agripoint", color: "blue" },
-    { name: "Instagram", icon: Instagram, url: "https://instagram.com/agripoint", color: "pink" },
-    { name: "Twitter", icon: Twitter, url: "https://twitter.com/agripoint", color: "sky" },
-    { name: "LinkedIn", icon: Linkedin, url: "https://linkedin.com/company/agripoint", color: "blue" },
-    { name: "YouTube", icon: Youtube, url: "https://youtube.com/agripoint", color: "red" }
-  ],
-
-  faq: [
-    {
-      question: "Quels services propose AGRIPOINT SERVICES ?",
-      answer: "Nous sommes un facilitateur agropastoral. Nos 3 programmes phares — Produire Plus, Gagner Plus, Mieux Vivre — accompagnent les producteurs de la pré-production à la commercialisation."
-    },
-    {
-      question: "Comment devenir membre d'une CMA ?",
-      answer: "Remplissez le formulaire d'adhésion en ligne ou visitez l'une de nos agences. L'adhésion aux Caisses Mutuelles Agricoles est ouverte à tous les producteurs."
-    },
-    {
-      question: "Proposez-vous des formations ?",
-      answer: "Oui, formations gratuites mensuelles pour nos adhérents + formations payantes ouvertes à tous sur les techniques culturales, la gestion financière et le montage de projets."
-    },
-    {
-      question: "Comment participer à la Campagne Agricole 2026 ?",
-      answer: "Contactez-nous via ce formulaire ou par téléphone. Nous vous guiderons dans les démarches d'inscription et de versement."
-    }
-  ]
-};
+// Social media links — no translation needed
+const socialMediaLinks = [
+  { name: 'Facebook',  icon: Facebook,  url: 'https://facebook.com/agripoint' },
+  { name: 'Instagram', icon: Instagram, url: 'https://instagram.com/agripoint' },
+  { name: 'Twitter',   icon: Twitter,   url: 'https://twitter.com/agripoint' },
+  { name: 'LinkedIn',  icon: Linkedin,  url: 'https://linkedin.com/company/agripoint' },
+  { name: 'YouTube',   icon: Youtube,   url: 'https://youtube.com/agripoint' },
+];
 
 interface FormData {
   name: string;
@@ -147,22 +42,136 @@ interface FormData {
 }
 
 export default function ContactPage() {
+  const { locale, T } = useLanguage();
+  const en = locale === 'en';
+
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: ''
+    name: '', email: '', phone: '', subject: '', message: '',
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
+  // Bilingual page content — rebuilt on each render based on locale
+  const pageContent = {
+    hero: {
+      badge:       en ? '📞 We Are Here For You'  : '📞 Nous Sommes Là Pour Vous',
+      title:       en ? 'CONTACT US'               : 'CONTACTEZ-NOUS',
+      subtitle:    en ? "A question? A project? Let's talk!" : 'Une question ? Un projet ? Parlons-en !',
+      description: en
+        ? 'Our team of experts is here to listen to all your questions and support you in your agricultural projects.'
+        : "Notre équipe d'experts est à votre écoute pour répondre à toutes vos questions et vous accompagner dans vos projets agricoles.",
+    },
+
+    contactInfo: {
+      headquarters: {
+        title:    'AGRIPOINT SERVICES SAS',
+        address:  'Quartier Fouda',
+        city:     'B.P. 5111 Yaoundé, Cameroun',
+        phone:    '(+237) 657 39 39 39',
+        whatsapp: '+237657393939',
+        email:    'infos@agri-ps.com',
+        hours: en
+          ? 'Mon-Fri: 8:00 AM - 5:00 PM\nSaturday: 8:00 AM - 1:00 PM'
+          : 'Lun-Ven: 8h00 - 17h00\nSamedi: 8h00 - 13h00',
+      },
+      branches: [
+        {
+          city:    'Yaoundé',
+          address: 'Quartier Fouda, B.P. 5111',
+          phone:   '(+237) 657 39 39 39',
+          email:   'infos@agri-ps.com',
+        },
+        {
+          city:    en ? 'WhatsApp Support'      : 'Support WhatsApp',
+          address: en ? 'Available 7 days/7'    : 'Disponible 7j/7',
+          phone:   '(+237) 657 39 39 39',
+          email:   'infos@agri-ps.com',
+        },
+        {
+          city:    en ? 'National Delivery'         : 'Livraison Nationale',
+          address: en ? 'All regions of Cameroon'   : 'Toutes les régions du Cameroun',
+          phone:   '(+237) 657 39 39 39',
+          email:   'infos@agri-ps.com',
+        },
+        {
+          city:    en ? 'Website'  : 'Site Web',
+          address: 'www.agri-ps.com',
+          phone:   '(+237) 657 39 39 39',
+          email:   'infos@agri-ps.com',
+        },
+      ],
+    },
+
+    departments: [
+      {
+        icon:        Headphones,
+        title:       en ? 'Customer Service'                        : 'Service Client',
+        description: en ? 'Questions about your orders and products' : 'Questions sur vos commandes et produits',
+        email:       'support@agri-ps.com',
+        phone:       '(+237) 657 39 39 39',
+        hours:       en ? 'Mon-Sat: 8am-6pm' : 'Lun-Sam: 8h-18h',
+        color:       'blue',
+      },
+      {
+        icon:        Users,
+        title:       en ? 'Agricultural Advisory'          : 'Conseil Agricole',
+        description: en ? 'Technical support and training' : 'Accompagnement technique et formations',
+        email:       'infos@agri-ps.com',
+        phone:       '(+237) 657 39 39 39',
+        hours:       en ? 'Mon-Fri: 8am-5pm' : 'Lun-Ven: 8h-17h',
+        color:       'green',
+      },
+      {
+        icon:        Building2,
+        title:       en ? 'Partnerships'                           : 'Partenariats',
+        description: en ? 'Collaboration and business opportunities' : 'Collaboration et opportunités business',
+        email:       'contact@agri-ps.com',
+        phone:       '(+237) 657 39 39 39',
+        hours:       en ? 'Mon-Fri: 9am-4pm' : 'Lun-Ven: 9h-16h',
+        color:       'purple',
+      },
+      {
+        icon:        MessageSquare,
+        title:       'WhatsApp Direct',
+        description: en ? 'Quick response via WhatsApp' : 'Réponse rapide via WhatsApp',
+        email:       'infos@agri-ps.com',
+        phone:       '(+237) 657 39 39 39',
+        hours:       en ? 'Mon-Sat: 8am-8pm' : 'Lun-Sam: 8h-20h',
+        color:       'amber',
+      },
+    ],
+
+    faq: [
+      {
+        question: en ? 'What services does AGRIPOINT SERVICES offer?' : 'Quels services propose AGRIPOINT SERVICES ?',
+        answer: en
+          ? 'We are an agropastoral facilitator. Our 3 flagship programs — Produce More, Earn More, Better Living — support producers from pre-production to commercialization.'
+          : 'Nous sommes un facilitateur agropastoral. Nos 3 programmes phares — Produire Plus, Gagner Plus, Mieux Vivre — accompagnent les producteurs de la pré-production à la commercialisation.',
+      },
+      {
+        question: en ? 'How do I become a member of a CMA?' : "Comment devenir membre d'une CMA ?",
+        answer: en
+          ? 'Fill in the online membership form or visit one of our agencies. Membership in the Agricultural Mutual Funds (CMA) is open to all producers.'
+          : "Remplissez le formulaire d'adhésion en ligne ou visitez l'une de nos agences. L'adhésion aux Caisses Mutuelles Agricoles est ouverte à tous les producteurs.",
+      },
+      {
+        question: en ? 'Do you offer training?' : 'Proposez-vous des formations ?',
+        answer: en
+          ? 'Yes, free monthly training for our members + paid training open to all on cultivation techniques, financial management and project development.'
+          : 'Oui, formations gratuites mensuelles pour nos adhérents + formations payantes ouvertes à tous sur les techniques culturales, la gestion financière et le montage de projets.',
+      },
+      {
+        question: en ? 'How to participate in the Agricultural Campaign 2026?' : 'Comment participer à la Campagne Agricole 2026 ?',
+        answer: en
+          ? 'Contact us via this form or by phone. We will guide you through the registration and payment procedures.'
+          : "Contactez-nous via ce formulaire ou par téléphone. Nous vous guiderons dans les démarches d'inscription et de versement.",
+      },
+    ],
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -173,32 +182,32 @@ export default function ContactPage() {
     // Validation
     if (!formData.name || !formData.email || !formData.message) {
       setStatus('error');
-      setErrorMessage('Veuillez remplir tous les champs obligatoires');
+      setErrorMessage(en ? 'Please fill in all required fields' : 'Veuillez remplir tous les champs obligatoires');
       return;
     }
 
-    // ✅ Vrai appel API (plus de simulation)
+    // ✅ Vrai appel API
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        throw new Error(data.error || 'Erreur lors de l\'envoi');
+        throw new Error(data.error || (en ? 'Error sending message' : "Erreur lors de l'envoi"));
       }
 
       setStatus('success');
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-      
+
       // Reset success message after 5 seconds
       setTimeout(() => setStatus('idle'), 5000);
     } catch (error: any) {
       setStatus('error');
-      setErrorMessage(error.message || 'Une erreur est survenue. Veuillez réessayer.');
+      setErrorMessage(error.message || (en ? 'An error occurred. Please try again.' : 'Une erreur est survenue. Veuillez réessayer.'));
     }
   };
 
@@ -259,12 +268,12 @@ export default function ContactPage() {
               viewport={{ once: true }}
             >
               <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-8 shadow-xl">
-                <h2 className="text-3xl font-bold mb-6">Envoyez-nous un Message</h2>
+                <h2 className="text-3xl font-bold mb-6">{T.contact.formTitle}</h2>
 
                 {status === 'success' && (
                   <div className="mb-6 p-4 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-lg flex items-center gap-3">
                     <CheckCircle className="w-5 h-5 flex-shrink-0" />
-                    <p>Message envoyé avec succès ! Nous vous répondrons dans les 24h.</p>
+                    <p>{en ? "Message sent successfully! We'll reply within 24h." : 'Message envoyé avec succès ! Nous vous répondrons dans les 24h.'}</p>
                   </div>
                 )}
 
@@ -278,7 +287,7 @@ export default function ContactPage() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-semibold mb-2">
-                      Nom complet <span className="text-red-600">*</span>
+                      {T.contact.formName.replace(' *', '')} <span className="text-red-600">*</span>
                     </label>
                     <input
                       type="text"
@@ -288,13 +297,13 @@ export default function ContactPage() {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      placeholder="Ex: Jean Dupont"
+                      placeholder={T.contact.namePlaceholder}
                     />
                   </div>
 
                   <div>
                     <label htmlFor="email" className="block text-sm font-semibold mb-2">
-                      Email <span className="text-red-600">*</span>
+                      {T.contact.formEmail.replace(' *', '')} <span className="text-red-600">*</span>
                     </label>
                     <input
                       type="email"
@@ -304,13 +313,13 @@ export default function ContactPage() {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      placeholder="jean.dupont@email.com"
+                      placeholder={T.contact.emailPlaceholder}
                     />
                   </div>
 
                   <div>
                     <label htmlFor="phone" className="block text-sm font-semibold mb-2">
-                      Téléphone
+                      {T.contact.formPhone}
                     </label>
                     <input
                       type="tel"
@@ -319,13 +328,13 @@ export default function ContactPage() {
                       value={formData.phone}
                       onChange={handleChange}
                       className="w-full px-4 py-3 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      placeholder="+237 6 XX XX XX XX"
+                      placeholder={T.contact.phonePlaceholder}
                     />
                   </div>
 
                   <div>
                     <label htmlFor="subject" className="block text-sm font-semibold mb-2">
-                      Sujet
+                      {T.contact.formSubject.replace(' *', '')}
                     </label>
                     <select
                       id="subject"
@@ -334,19 +343,19 @@ export default function ContactPage() {
                       onChange={handleChange}
                       className="w-full px-4 py-3 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     >
-                      <option value="">Sélectionnez un sujet</option>
-                      <option value="services">Nos services de facilitation</option>
-                      <option value="technique">Conseil technique</option>
-                      <option value="adhesion">Adhésion CMA / Partenariat</option>
-                      <option value="campagne">Campagne Agricole 2026</option>
-                      <option value="information">Demande d&apos;information</option>
-                      <option value="autre">Autre</option>
+                      <option value="">{en ? 'Select a subject' : 'Sélectionnez un sujet'}</option>
+                      <option value="services">{en ? 'Our facilitation services'     : 'Nos services de facilitation'}</option>
+                      <option value="technique">{en ? 'Technical advice'             : 'Conseil technique'}</option>
+                      <option value="adhesion">{en ? 'CMA Membership / Partnership'  : 'Adhésion CMA / Partenariat'}</option>
+                      <option value="campagne">{en ? 'Agricultural Campaign 2026'    : 'Campagne Agricole 2026'}</option>
+                      <option value="information">{en ? 'Information request'         : "Demande d'information"}</option>
+                      <option value="autre">{en ? 'Other' : 'Autre'}</option>
                     </select>
                   </div>
 
                   <div>
                     <label htmlFor="message" className="block text-sm font-semibold mb-2">
-                      Message <span className="text-red-600">*</span>
+                      {T.contact.formMessage.replace(' *', '')} <span className="text-red-600">*</span>
                     </label>
                     <textarea
                       id="message"
@@ -356,7 +365,7 @@ export default function ContactPage() {
                       required
                       rows={6}
                       className="w-full px-4 py-3 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
-                      placeholder="Décrivez votre demande..."
+                      placeholder={T.contact.messagePlaceholder}
                     />
                   </div>
 
@@ -368,12 +377,12 @@ export default function ContactPage() {
                     {status === 'loading' ? (
                       <>
                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        Envoi en cours...
+                        {en ? 'Sending...' : 'Envoi en cours...'}
                       </>
                     ) : (
                       <>
                         <Send className="w-5 h-5" />
-                        Envoyer le message
+                        {T.contact.formSend}
                       </>
                     )}
                   </button>
@@ -392,9 +401,15 @@ export default function ContactPage() {
               <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
                 <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
                   <Building2 className="w-6 h-6 text-green-600" />
-                  <span className="leading-tight">{pageContent.contactInfo.headquarters.title}<br /><span className="text-sm font-normal text-gray-500 dark:text-gray-400">Partenaire sûr du secteur agropastoral</span></span>
+                  <span className="leading-tight">
+                    {pageContent.contactInfo.headquarters.title}
+                    <br />
+                    <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                      {en ? 'Trusted partner in the agropastoral sector' : 'Partenaire sûr du secteur agropastoral'}
+                    </span>
+                  </span>
                 </h3>
-                
+
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <MapPin className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
@@ -407,7 +422,7 @@ export default function ContactPage() {
                   <div className="flex items-start gap-3">
                     <Phone className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
                     <div>
-                      <p className="font-semibold">Téléphone</p>
+                      <p className="font-semibold">{en ? 'Phone' : 'Téléphone'}</p>
                       <p className="text-gray-600 dark:text-gray-300">{pageContent.contactInfo.headquarters.phone}</p>
                       <p className="text-gray-600 dark:text-gray-300">(+237) 651 92 09 20</p>
                       <a href="https://wa.me/237657393939" target="_blank" rel="noopener noreferrer" className="text-sm text-green-600 hover:underline flex items-center gap-1 mt-1">💬 WhatsApp: 657 39 39 39</a>
@@ -425,18 +440,18 @@ export default function ContactPage() {
                   <div className="flex items-start gap-3">
                     <Clock className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
                     <div>
-                      <p className="font-semibold">Horaires</p>
+                      <p className="font-semibold">{en ? 'Opening hours' : 'Horaires'}</p>
                       <p className="text-gray-600 dark:text-gray-300 whitespace-pre-line">{pageContent.contactInfo.headquarters.hours}</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Branches */}
+              {/* Branches / Contact Channels */}
               <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
                 <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
                   <Globe className="w-6 h-6 text-green-600" />
-                  Nos Canaux de Contact
+                  {en ? 'Our Contact Channels' : 'Nos Canaux de Contact'}
                 </h3>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -452,9 +467,9 @@ export default function ContactPage() {
 
               {/* Social Media */}
               <div className="bg-gradient-to-br from-green-600 to-emerald-600 rounded-2xl p-8 shadow-lg text-white">
-                <h3 className="text-2xl font-bold mb-6">Suivez-nous</h3>
+                <h3 className="text-2xl font-bold mb-6">{en ? 'Follow us' : 'Suivez-nous'}</h3>
                 <div className="flex flex-wrap gap-3">
-                  {pageContent.socialMedia.map((social, index) => (
+                  {socialMediaLinks.map((social, index) => (
                     <a
                       key={index}
                       href={social.url}
@@ -477,8 +492,8 @@ export default function ContactPage() {
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Contactez le Bon Service</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Pour une réponse rapide et adaptée</p>
+            <h2 className="text-4xl font-bold mb-4">{en ? 'Contact the Right Department' : 'Contactez le Bon Service'}</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{en ? 'For a quick and tailored response' : 'Pour une réponse rapide et adaptée'}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -520,8 +535,8 @@ export default function ContactPage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Questions Fréquentes</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Réponses rapides à vos questions</p>
+            <h2 className="text-4xl font-bold mb-4">{en ? 'Frequently Asked Questions' : 'Questions Fréquentes'}</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{en ? 'Quick answers to your questions' : 'Réponses rapides à vos questions'}</p>
           </div>
 
           <div className="space-y-4">
@@ -551,13 +566,13 @@ export default function ContactPage() {
           </div>
 
           <div className="text-center mt-12">
-            <p className="text-gray-600 dark:text-gray-400 mb-4">Vous ne trouvez pas la réponse ?</p>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">{en ? "Can't find the answer?" : 'Vous ne trouvez pas la réponse ?'}</p>
             <a
               href="#contact-form"
               className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-all"
             >
               <MessageSquare className="w-5 h-5" />
-              Posez votre question
+              {en ? 'Ask your question' : 'Posez votre question'}
             </a>
           </div>
         </div>
@@ -566,9 +581,11 @@ export default function ContactPage() {
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-green-600 to-emerald-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">Besoin d&apos;Aide Immédiate ?</h2>
+          <h2 className="text-4xl font-bold mb-6">{en ? 'Need Immediate Help?' : "Besoin d'Aide Immédiate ?"}</h2>
           <p className="text-xl mb-8 opacity-90">
-            Notre équipe est disponible par WhatsApp pour répondre à vos questions urgentes
+            {en
+              ? 'Our team is available on WhatsApp to answer your urgent questions'
+              : 'Notre équipe est disponible par WhatsApp pour répondre à vos questions urgentes'}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
@@ -578,13 +595,13 @@ export default function ContactPage() {
               className="px-8 py-4 bg-white text-green-600 hover:bg-gray-100 rounded-lg font-semibold transition-all flex items-center justify-center gap-2"
             >
               <MessageSquare className="w-5 h-5" />
-              Contacter sur WhatsApp
+              {en ? 'Contact on WhatsApp' : 'Contacter sur WhatsApp'}
             </a>
             <Link
               href="/a-propos"
               className="px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-green-600 rounded-lg font-semibold transition-all"
             >
-              En savoir plus sur nous
+              {en ? 'Learn more about us' : 'En savoir plus sur nous'}
             </Link>
           </div>
         </div>

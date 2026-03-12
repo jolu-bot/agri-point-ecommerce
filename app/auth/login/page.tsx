@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { Mail, Lock, Eye, EyeOff, LogIn, ArrowRight, AlertTriangle, Clock, MailCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 type AlertState = null | 'EMAIL_NOT_VERIFIED' | 'ACCOUNT_LOCKED' | 'ACCOUNT_SUSPENDED' | 'ACCOUNT_REJECTED' | 'PENDING_ADMIN';
 
@@ -14,6 +15,8 @@ function LoginForm() {
   const router       = useRouter();
   const searchParams = useSearchParams();
   const redirectTo   = searchParams.get('redirect') || '/compte';
+  const { locale, T } = useLanguage();
+  const en = locale === 'en';
 
   const [email,        setEmail]        = useState('');
   const [password,     setPassword]     = useState('');
@@ -42,7 +45,7 @@ function LoginForm() {
         if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken);
         if (data.user)         localStorage.setItem('user',         JSON.stringify(data.user));
 
-        toast.success(`Bienvenue ${data.user?.name ?? ''} ! 👋`);
+        toast.success(en ? `Welcome ${data.user?.name ?? ''}! 👋` : `Bienvenue ${data.user?.name ?? ''} ! 👋`);
 
         const role = data.user?.role;
         if (role === 'admin' || role === 'superadmin') {
@@ -59,19 +62,19 @@ function LoginForm() {
         setAlertMsg(data.error || '');
       } else if (res.status === 423) {
         setAlert('ACCOUNT_LOCKED');
-        setAlertMsg(data.error || 'Compte temporairement verrouillé.');
+        setAlertMsg(data.error || (en ? 'Account temporarily locked.' : 'Compte temporairement verrouillé.'));
       } else {
-        toast.error(data.error || 'Identifiants incorrects');
+        toast.error(data.error || (en ? 'Incorrect credentials' : 'Identifiants incorrects'));
       }
     } catch {
-      toast.error('Erreur de connexion. Vérifiez votre réseau.');
+      toast.error(en ? 'Connection error. Check your network.' : 'Erreur de connexion. Vérifiez votre réseau.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleResendVerification = async () => {
-    if (!email) { toast.error('Entrez votre email'); return; }
+    if (!email) { toast.error(en ? 'Enter your email' : 'Entrez votre email'); return; }
     setResending(true);
     try {
       const res  = await fetch('/api/auth/resend-verification', {
@@ -81,13 +84,13 @@ function LoginForm() {
       });
       const data = await res.json();
       if (res.ok) {
-        toast.success('Email envoyé !');
+        toast.success(en ? 'Email sent!' : 'Email envoyé !');
         router.push(`/auth/verify-email?email=${encodeURIComponent(email)}&pending=true`);
       } else {
-        toast.error(data.error || 'Erreur lors de l\'envoi');
+        toast.error(data.error || (en ? 'Error sending email' : "Erreur lors de l'envoi"));
       }
     } catch {
-      toast.error('Erreur de connexion');
+      toast.error(en ? 'Connection error' : 'Erreur de connexion');
     } finally {
       setResending(false);
     }
@@ -107,10 +110,15 @@ function LoginForm() {
             AGRIPOINT SERVICES<br /><span className="text-emerald-300">SERVICE</span>
           </h1>
           <p className="text-emerald-100/80 leading-relaxed mb-8">
-            La plateforme de référence pour les agriculteurs camerounais. Biofertilisants, conseils, livraison.
+            {en
+              ? 'The reference platform for Cameroonian farmers. Biofertilizers, advice, delivery.'
+              : 'La plateforme de référence pour les agriculteurs camerounais. Biofertilisants, conseils, livraison.'}
           </p>
           <div className="space-y-3 text-left">
-            {['20 000+ hectares cultivés', '10 000 agriculteurs satisfaits', '100% produits biologiques'].map((item) => (
+            {(en
+              ? ['20,000+ hectares cultivated', '10,000 satisfied farmers', '100% organic products']
+              : ['20 000+ hectares cultivés', '10 000 agriculteurs satisfaits', '100% produits biologiques']
+            ).map((item) => (
               <div key={item} className="flex items-center gap-2 text-sm text-emerald-100/90">
                 <div className="w-5 h-5 rounded-full bg-emerald-400/30 flex items-center justify-center shrink-0">
                   <ArrowRight className="w-3 h-3 text-emerald-300" />
@@ -137,8 +145,10 @@ function LoginForm() {
           </div>
 
           <div className="mb-8">
-            <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-1">Connexion</h2>
-            <p className="text-gray-500 dark:text-gray-400">Accédez à votre espace AGRIPOINT SERVICES</p>
+            <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-1">{T.auth.loginTitle}</h2>
+            <p className="text-gray-500 dark:text-gray-400">
+              {en ? 'Access your AGRIPOINT SERVICES member area' : 'Accédez à votre espace AGRIPOINT SERVICES'}
+            </p>
           </div>
 
           {/* Alertes métier */}
@@ -162,8 +172,12 @@ function LoginForm() {
                     <div className="flex items-start gap-3">
                       <MailCheck className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
                       <div className="flex-1">
-                        <p className="font-semibold text-blue-800 dark:text-blue-300 text-sm">Email non vérifié</p>
-                        <p className="text-blue-700 dark:text-blue-400 text-xs mt-0.5">{alertMsg || 'Vérifiez votre boîte mail et cliquez sur le lien de confirmation.'}</p>
+                        <p className="font-semibold text-blue-800 dark:text-blue-300 text-sm">
+                          {en ? 'Email not verified' : 'Email non vérifié'}
+                        </p>
+                        <p className="text-blue-700 dark:text-blue-400 text-xs mt-0.5">
+                          {alertMsg || (en ? 'Check your inbox and click the confirmation link.' : 'Vérifiez votre boîte mail et cliquez sur le lien de confirmation.')}
+                        </p>
                       </div>
                     </div>
                     <button
@@ -172,7 +186,9 @@ function LoginForm() {
                       className="mt-3 w-full flex items-center justify-center gap-2 py-2 text-sm font-semibold text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-800/30 hover:bg-blue-200 dark:hover:bg-blue-700/30 rounded-lg transition disabled:opacity-60"
                     >
                       {resending ? <div className="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" /> : <Mail className="w-4 h-4" />}
-                      {resending ? 'Envoi...' : 'Renvoyer le mail de vérification'}
+                      {resending
+                        ? (en ? 'Sending...' : 'Envoi...')
+                        : (en ? 'Resend verification email' : 'Renvoyer le mail de vérification')}
                     </button>
                   </>
                 )}
@@ -181,7 +197,9 @@ function LoginForm() {
                     <Clock className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                     <div>
                       <p className="font-semibold text-amber-800 dark:text-amber-300 text-sm">
-                        {alert === 'ACCOUNT_LOCKED' ? 'Compte verrouillé' : 'En attente de validation'}
+                        {alert === 'ACCOUNT_LOCKED'
+                          ? (en ? 'Account locked'     : 'Compte verrouillé')
+                          : (en ? 'Pending validation' : 'En attente de validation')}
                       </p>
                       <p className="text-amber-700 dark:text-amber-400 text-xs mt-0.5">{alertMsg}</p>
                     </div>
@@ -192,9 +210,13 @@ function LoginForm() {
                     <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                     <div>
                       <p className="font-semibold text-red-800 dark:text-red-300 text-sm">
-                        {alert === 'ACCOUNT_SUSPENDED' ? 'Compte suspendu' : 'Compte désactivé'}
+                        {alert === 'ACCOUNT_SUSPENDED'
+                          ? (en ? 'Account suspended'   : 'Compte suspendu')
+                          : (en ? 'Account deactivated' : 'Compte désactivé')}
                       </p>
-                      <p className="text-red-700 dark:text-red-400 text-xs mt-0.5">{alertMsg || 'Contactez-nous pour plus d\'informations.'}</p>
+                      <p className="text-red-700 dark:text-red-400 text-xs mt-0.5">
+                        {alertMsg || (en ? 'Contact us for more information.' : "Contactez-nous pour plus d'informations.")}
+                      </p>
                       <a href="mailto:contact@agripointservice.com" className="text-xs text-red-600 dark:text-red-400 hover:underline font-medium mt-1 inline-block">
                         contact@agripointservice.com →
                       </a>
@@ -209,7 +231,7 @@ function LoginForm() {
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label htmlFor="email" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                  Adresse email
+                  {en ? 'Email address' : 'Adresse email'}
                 </label>
                 <div className="relative">
                   <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
@@ -228,7 +250,7 @@ function LoginForm() {
 
               <div>
                 <label htmlFor="password" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                  Mot de passe
+                  {T.auth.password}
                 </label>
                 <div className="relative">
                   <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
@@ -255,10 +277,10 @@ function LoginForm() {
               <div className="flex items-center justify-between">
                 <label className="flex items-center gap-2 cursor-pointer select-none">
                   <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500" />
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Se souvenir de moi</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">{en ? 'Remember me' : 'Se souvenir de moi'}</span>
                 </label>
                 <Link href="/auth/forgot-password" className="text-sm text-emerald-600 dark:text-emerald-400 hover:underline font-medium">
-                  Mot de passe oublié ?
+                  {T.auth.forgotPassword}
                 </Link>
               </div>
 
@@ -269,15 +291,15 @@ function LoginForm() {
               >
                 {loading
                   ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  : <><LogIn className="w-4 h-4" /> Se connecter</>
+                  : <><LogIn className="w-4 h-4" /> {T.auth.loginBtn}</>
                 }
               </button>
             </form>
 
             <div className="mt-5 text-center text-sm text-gray-500 dark:text-gray-400">
-              Pas encore de compte ?{' '}
+              {T.auth.noAccount}{' '}
               <Link href="/auth/register" className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline">
-                Créer un compte
+                {T.auth.registerTitle}
               </Link>
             </div>
           </div>

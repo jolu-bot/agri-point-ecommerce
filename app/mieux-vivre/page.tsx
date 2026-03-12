@@ -268,6 +268,78 @@ export default function MieuxVivrePage() {
       ]
     : pageContent.faq;
 
+  const serviceBenefitsDisplay: string[][] = locale === 'en'
+    ? [
+        [
+          'Agricultural farm and livestock insurance',
+          'School insurance for children',
+          'Health insurance and hospital coverage',
+          'Death insurance up to 2 million FCFA',
+        ],
+        [
+          'Savings with 6% interest per year',
+          'Savings security from 500,000 FCFA',
+          'Micro-credit up to 5 million FCFA',
+          'Post-harvest stock warehousing',
+        ],
+        [
+          'Housing credit from 3 million FCFA',
+          'Optimized rural housing plans',
+          'Solar kits with installment payments',
+          'Construction materials at reduced prices',
+        ],
+        [
+          'Smartphones for farmers on credit',
+          'Mobile apps (weather, prices)',
+          'Digital training and internet',
+          'Agricultural drones and tech for hire',
+        ],
+        [
+          'Solidarity fund for emergencies',
+          'Mutual guarantee for producers',
+          'Funeral financial support',
+          'Food assistance in crisis situations and support for elders',
+        ],
+      ]
+    : pageContent.services.map(s => s.benefits);
+
+  const savingsPlanFeaturesDisplay: string[][] = locale === 'en'
+    ? [
+        ['No minimum amount', 'Withdrawal at any time', 'Monthly interest', 'Savings card'],
+        ['Automatic deduction', '12-month minimum commitment', 'Loyalty bonus', 'Personal advisor'],
+        ['Personalized goal', 'Project support', 'Additional credit possible', 'Savings insurance included'],
+      ]
+    : pageContent.savingsPlans.plans.map(p => p.features);
+
+  const testimonialsDisplay = locale === 'en'
+    ? [
+        {
+          name: 'Antoinette Njoya',
+          location: 'Bafoussam',
+          service: 'Health Insurance',
+          text: 'Thanks to health insurance, I was able to have my child operated on without going into debt. It is an immense relief!',
+          rating: 5,
+          savings: '850,000 FCFA saved',
+        },
+        {
+          name: 'Pierre Manga',
+          location: 'Yaoundé',
+          service: 'Savings & Credit',
+          text: 'I saved 3 million over 2 years. I got a loan to expand my farm. My life has changed!',
+          rating: 5,
+          savings: '3,000,000 FCFA saved',
+        },
+        {
+          name: 'Halimatou Bouba',
+          location: 'Maroua',
+          service: 'Housing',
+          text: 'I built my house with the housing credit. My children now have a safe roof over their heads.',
+          rating: 5,
+          savings: 'House worth 8 million',
+        },
+      ]
+    : pageContent.testimonials;
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -389,7 +461,7 @@ export default function MieuxVivrePage() {
                 <h3 className="text-xl font-bold mb-3">{serviceTitles[index]}</h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4">{serviceDescs[index]}</p>
                 <ul className="space-y-2">
-                  {service.benefits.map((benefit, i) => (
+                  {(serviceBenefitsDisplay[index] ?? service.benefits).map((benefit, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm">
                       <CheckCircle className={`w-4 h-4 text-${service.color}-600 flex-shrink-0 mt-0.5`} />
                       <span>{benefit}</span>
@@ -422,24 +494,24 @@ export default function MieuxVivrePage() {
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-4 py-1 rounded-full text-sm font-bold flex items-center gap-1.5">
-                    <Star className="w-3.5 h-3.5 fill-white" /> {locale === 'en' ? 'Popular' : 'Populaire'}
+                    <Star className="w-3.5 h-3.5 fill-white" /> {T.common.popular}
                   </div>
                 )}
                 <h3 className="text-2xl font-bold mb-2">{savingsPlanNames[index]}</h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">{savingsPlanDescs[index]}</p>
                 
                 <div className="mb-6">
-                  <p className="text-sm text-gray-500 mb-1">{locale === 'en' ? 'From' : 'À partir de'}</p>
+                  <p className="text-sm text-gray-500 mb-1">{T.common.from}</p>
                   <p className="text-3xl font-bold text-red-600">{plan.minAmount}</p>
                 </div>
 
                 <div className="mb-6">
-                  <p className="text-sm text-gray-500 mb-1">{locale === 'en' ? 'Interest rate' : "Taux d'intérêt"}</p>
+                  <p className="text-sm text-gray-500 mb-1">{T.common.interestRate}</p>
                   <p className="text-2xl font-bold text-green-600">{plan.interest}</p>
                 </div>
 
                 <ul className="space-y-3 mb-8">
-                  {plan.features.map((feature, i) => (
+                  {(savingsPlanFeaturesDisplay[index] ?? plan.features).map((feature, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                       <span className="text-sm">{feature}</span>
@@ -455,7 +527,7 @@ export default function MieuxVivrePage() {
                       : 'border-2 border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20'
                   }`}
                 >
-                  {locale === 'en' ? 'Open a savings account' : 'Ouvrir une épargne'}
+                  {T.common.openSavings}
                 </Link>
               </motion.div>
             ))}
@@ -472,7 +544,7 @@ export default function MieuxVivrePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {pageContent.testimonials.map((testimonial, index) => (
+            {testimonialsDisplay.map((testimonial, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}

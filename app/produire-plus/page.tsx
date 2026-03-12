@@ -225,6 +225,29 @@ export default function ProduirePlusPage() {
       ]
     : pageContent.benefits.map(b => b.description);
 
+  const testimonialsDisplay = locale === 'en'
+    ? [
+        {
+          name: 'Pierre Ondoua',
+          role: 'Market gardener, Centre Region',
+          text: 'With the support of AGRIPOINT SERVICES SAS, I was able to acquire a motor pump to increase my income. By using it, I am now able to grow my tomatoes out of season.',
+          rating: 5,
+        },
+        {
+          name: 'Coopérative Agricole de l\'Ouest',
+          role: 'Members via CMA, West Region',
+          text: 'Thanks to the CMA agricultural mutual fund, members of our cooperative can now plow their farms without difficulty using a tractor.',
+          rating: 5,
+        },
+        {
+          name: 'Famille Mbarga',
+          role: 'Maize Farmers, via AP Agri Point Services',
+          text: 'Following the use of your quality seeds supplied by AP AGRI POINT SERVICES, we manage to produce 5 tonnes of maize per hectare.',
+          rating: 5,
+        },
+      ]
+    : pageContent.testimonials;
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -314,8 +337,8 @@ export default function ProduirePlusPage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">{locale === 'en' ? 'How to Produce More?' : 'Comment Produire Plus ?'}</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">{locale === 'en' ? 'The concrete advantages of our solutions' : 'Les avantages concrets de nos solutions'}</p>
+            <h2 className="text-4xl font-bold mb-4">{T.producirePlus.howTitle} <span className="text-green-600">{T.producirePlus.howTitleHighlight}</span></h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{locale === 'en' ? 'The concrete benefits of our solutions' : 'Les avantages concrets de nos solutions'}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -385,7 +408,7 @@ export default function ProduirePlusPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {pageContent.testimonials.map((testimonial, index) => (
+            {testimonialsDisplay.map((testimonial, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -466,22 +489,22 @@ export default function ProduirePlusPage() {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-green-600 to-emerald-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">Prêt à Transformer Votre Production ?</h2>
+          <h2 className="text-4xl font-bold mb-6">{T.producirePlus.ctaTitle}</h2>
           <p className="text-xl mb-8 opacity-90">
-            Rejoignez les producteurs qui ont transformé leur activité avec AGRIPOINT SERVICES
+            {T.gagnerPlus.ctaSubtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"
               className="px-8 py-4 bg-white text-green-600 hover:bg-gray-100 rounded-lg font-semibold transition-all"
             >
-              Nous contacter
+              {T.common.contactUs}
             </Link>
             <Link
               href="/produits"
               className="px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-green-600 rounded-lg font-semibold transition-all"
             >
-              Voir nos offres
+              {T.gagnerPlus.ctaOffers}
             </Link>
           </div>
         </div>

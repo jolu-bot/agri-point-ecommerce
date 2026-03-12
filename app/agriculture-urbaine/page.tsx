@@ -1,10 +1,10 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { m } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext';
-import { 
+import {
   Building2,
   Home,
   Leaf,
@@ -43,238 +43,368 @@ import {
 import ProductCard from '@/components/products/ProductCard';
 import { IProduct } from '@/models/Product';
 
-// Contenu modifiable facilement
-const pageContent = {
-  hero: {
-    badge: "L'Agriculture du Futur",
-    title: "AGRICULTURE URBAINE",
-    subtitle: "Cultivez la ville, nourrissez l'avenir",
-    description: "Transformez votre balcon, terrasse ou toit en jardin productif. Technologies modernes, espaces réduits, résultats exceptionnels.",
-    cta: {
-      primary: "Démarrer mon jardin",
-      secondary: "Voir les kits"
-    }
+// Static data (icons + numeric values — no translation needed)
+const pageStats = [
+  { value: "80%", icon: TrendingUp },
+  { value: "365j", icon: Sun },
+  { value: "0 pesticides", icon: Leaf },
+  { value: "5K+", icon: Building2 },
+];
+
+const pageTestimonials = [
+  {
+    name: "Sarah Mbida",
+    location: "Yaoundé - Bastos",
+    space: "Balcon 3m²",
+    text: "Je ne pensais jamais pouvoir cultiver en appartement. Maintenant je récolte salades, tomates, herbes tous les jours. Mes enfants adorent !",
+    rating: 5,
+    harvest: "12 kg de légumes/mois",
+    image: "/images/testimonial-sarah.jpg"
   },
+  {
+    name: "Marc Ngollo",
+    location: "Douala - Bonapriso",
+    space: "Terrasse 20m²",
+    text: "Le système connecté est génial. L'app me dit quand arroser, fertiliser. Mes tomates cerises sont incroyables !",
+    rating: 5,
+    harvest: "45 kg de légumes/mois",
+    image: "/images/testimonial-marc.jpg"
+  },
+  {
+    name: "Fatou Karim",
+    location: "Garoua - Centre",
+    space: "Toit 80m²",
+    text: "J'ai transformé mon toit en mini-ferme. Je vends le surplus au marché. C'est devenu une vraie source de revenus !",
+    rating: 5,
+    harvest: "180 000 FCFA/mois de ventes",
+    image: "/images/testimonial-fatou.jpg"
+  }
+];
 
-  stats: [
-    { value: "80%", label: "d'économies sur légumes", icon: TrendingUp },
-    { value: "365j", label: "de récoltes annuelles", icon: Sun },
-    { value: "0 pesticides", label: "agriculture durable", icon: Leaf },
-    { value: "5K+", label: "jardins urbains actifs", icon: Building2 }
-  ],
-
+const getPageContent = (locale: string) => ({
   solutions: [
     {
-      title: "Balcon Productif",
-      description: "Transformez 2m² en potager ultra-productif. Idéal pour appartements.",
+      title: locale === 'en' ? 'Productive Balcony' : 'Balcon Productif',
+      description: locale === 'en'
+        ? 'Transform 2m² into an ultra-productive vegetable garden. Ideal for apartments.'
+        : 'Transformez 2m² en potager ultra-productif. Idéal pour appartements.',
       icon: Home,
       space: "2-5 m²",
-      products: "15-20 légumes/mois",
+      products: locale === 'en' ? '15–20 vegetables/month' : '15-20 légumes/mois',
       investment: "50 000 FCFA",
       color: "blue",
-      features: [
+      features: locale === 'en' ? [
+        "Optimised vertical planters",
+        "Drip irrigation system",
+        "Long-lasting enriched substrate",
+        "Balcony growing guide included",
+        "High-performance hybrid seeds",
+      ] : [
         "Jardinières verticales optimisées",
         "Système d'irrigation goutte-à-goutte",
         "Substrat enrichi longue durée",
         "Guide culture balcon inclus",
-        "Semences hybrides performantes"
+        "Semences hybrides performantes",
       ],
       image: "/images/urban-balcon.jpg"
     },
     {
-      title: "Terrasse Intelligente",
-      description: "Potager semi-automatisé avec monitoring digital. Pour terrasses 10-30m².",
+      title: locale === 'en' ? 'Smart Terrace' : 'Terrasse Intelligente',
+      description: locale === 'en'
+        ? 'Semi-automated vegetable garden with digital monitoring. For 10–30m² terraces.'
+        : 'Potager semi-automatisé avec monitoring digital. Pour terrasses 10-30m².',
       icon: Smartphone,
       space: "10-30 m²",
-      products: "50-80 kg/mois",
+      products: locale === 'en' ? '50–80 kg/month' : '50-80 kg/mois',
       investment: "250 000 FCFA",
       color: "green",
-      features: [
+      features: locale === 'en' ? [
+        "Connected growing trays",
+        "Mobile monitoring app",
+        "Programmable automatic irrigation",
+        "Humidity + temperature sensors",
+        "Technical training included",
+      ] : [
         "Bacs de culture connectés",
         "App mobile de suivi",
         "Irrigation automatique programmable",
         "Capteurs humidité + température",
-        "Formation technique incluse"
+        "Formation technique incluse",
       ],
       image: "/images/urban-terrasse.jpg",
       popular: true
     },
     {
-      title: "Toit Nourricier",
-      description: "Ferme urbaine sur toit. Production commerciale possible. 50m² et plus.",
+      title: locale === 'en' ? 'Rooftop Farm' : 'Toit Nourricier',
+      description: locale === 'en'
+        ? 'Urban farm on a rooftop. Commercial production possible. 50m² and over.'
+        : 'Ferme urbaine sur toit. Production commerciale possible. 50m² et plus.',
       icon: Building2,
       space: "50+ m²",
-      products: "200-500 kg/mois",
+      products: locale === 'en' ? '200–500 kg/month' : '200-500 kg/mois',
       investment: "1 500 000 FCFA",
       color: "purple",
-      features: [
+      features: locale === 'en' ? [
+        "Professional hydroponic system",
+        "Modular demountable greenhouse",
+        "Supplemental LED lighting",
+        "Pro irrigation pack",
+        "1-year business support",
+      ] : [
         "Système hydroponique professionnel",
         "Serre démontable modulaire",
         "Éclairage LED d'appoint",
         "Pack irrigation pro",
-        "Accompagnement business 1 an"
+        "Accompagnement business 1 an",
       ],
       image: "/images/urban-toit.jpg"
     }
   ],
 
   innovations: {
-    title: "Technologies Vertes",
-    subtitle: "L'innovation au service de votre jardin urbain",
+    title: locale === 'en' ? 'Green Technologies' : 'Technologies Vertes',
+    subtitle: locale === 'en'
+      ? 'Innovation at the service of your urban garden'
+      : "L'innovation au service de votre jardin urbain",
     techs: [
       {
-        name: "Hydroponie",
-        description: "Culture hors-sol dans l'eau enrichie. Croissance 30% plus rapide, 90% moins d'eau.",
+        name: locale === 'en' ? 'Hydroponics' : 'Hydroponie',
+        description: locale === 'en'
+          ? 'Soil-free cultivation in enriched water. Growth 30% faster, 90% less water.'
+          : "Culture hors-sol dans l'eau enrichie. Croissance 30% plus rapide, 90% moins d'eau.",
         icon: Droplets,
-        advantages: ["Pas de terre nécessaire", "Contrôle nutrition optimal", "Production continue", "Zéro maladies du sol"],
+        advantages: locale === 'en'
+          ? ["No soil needed", "Optimal nutrition control", "Continuous production", "Zero soil diseases"]
+          : ["Pas de terre nécessaire", "Contrôle nutrition optimal", "Production continue", "Zéro maladies du sol"],
         color: "cyan"
       },
       {
-        name: "Aéroponie",
-        description: "Racines dans l'air avec brumisation nutritive. Technologie NASA, résultats spectaculaires.",
+        name: locale === 'en' ? 'Aeroponics' : 'Aéroponie',
+        description: locale === 'en'
+          ? 'Roots in the air with nutritive misting. NASA technology, spectacular results.'
+          : "Racines dans l'air avec brumisation nutritive. Technologie NASA, résultats spectaculaires.",
         icon: Wind,
-        advantages: ["Croissance ultra-rapide", "Économie d'eau maximale", "Oxygénation optimale", "Rendement x2"],
+        advantages: locale === 'en'
+          ? ["Ultra-fast growth", "Maximum water savings", "Optimal oxygenation", "Yield ×2"]
+          : ["Croissance ultra-rapide", "Économie d'eau maximale", "Oxygénation optimale", "Rendement x2"],
         color: "sky"
       },
       {
-        name: "LED Horticole",
-        description: "Éclairage intelligent adapté à chaque plante. Cultivez même sans fenêtre.",
+        name: locale === 'en' ? 'Horticultural LED' : 'LED Horticole',
+        description: locale === 'en'
+          ? 'Smart lighting adapted to each plant. Grow even without a window.'
+          : "Éclairage intelligent adapté à chaque plante. Cultivez même sans fenêtre.",
         icon: Zap,
-        advantages: ["Culture intérieure possible", "Spectre optimisé croissance", "Économie énergétique 70%", "Récoltes toute l'année"],
+        advantages: locale === 'en'
+          ? ["Indoor cultivation possible", "Optimised growth spectrum", "70% energy savings", "Year-round harvests"]
+          : ["Culture intérieure possible", "Spectre optimisé croissance", "Économie énergétique 70%", "Récoltes toute l'année"],
         color: "amber"
       },
       {
-        name: "IoT Agricole",
-        description: "Capteurs connectés + App mobile. Votre jardin se gère presque tout seul.",
+        name: locale === 'en' ? 'Agricultural IoT' : 'IoT Agricole',
+        description: locale === 'en'
+          ? 'Connected sensors + mobile app. Your garden almost runs itself.'
+          : "Capteurs connectés + App mobile. Votre jardin se gère presque tout seul.",
         icon: Smartphone,
-        advantages: ["Monitoring temps réel", "Alertes automatiques", "Automatisation irrigation", "Conseils personnalisés"],
+        advantages: locale === 'en'
+          ? ["Real-time monitoring", "Automatic alerts", "Irrigation automation", "Personalised advice"]
+          : ["Monitoring temps réel", "Alertes automatiques", "Automatisation irrigation", "Conseils personnalisés"],
         color: "indigo"
       },
       {
-        name: "Aquaponie",
-        description: "Symbiose poissons-plantes. Un écosystème productif et autonome.",
+        name: locale === 'en' ? 'Aquaponics' : 'Aquaponie',
+        description: locale === 'en'
+          ? 'Fish-plant symbiosis. A productive and autonomous ecosystem.'
+          : "Symbiose poissons-plantes. Un écosystème productif et autonome.",
         icon: Layers,
-        advantages: ["Double production", "Fertilisation naturelle", "Système auto-équilibré", "Zéro déchet"],
+        advantages: locale === 'en'
+          ? ["Double production", "Natural fertilisation", "Self-balancing system", "Zero waste"]
+          : ["Double production", "Fertilisation naturelle", "Système auto-équilibré", "Zéro déchet"],
         color: "teal"
       },
       {
-        name: "Compostage Bokashi",
-        description: "Compost ultra-rapide en 15 jours. Parfait pour appartements, zéro odeur.",
+        name: locale === 'en' ? 'Bokashi Composting' : 'Compostage Bokashi',
+        description: locale === 'en'
+          ? 'Ultra-fast compost in 15 days. Perfect for apartments, zero odour.'
+          : "Compost ultra-rapide en 15 jours. Parfait pour appartements, zéro odeur.",
         icon: Sparkles,
-        advantages: ["Compost en 15 jours", "Accepte viandes/laitages", "Aucune odeur", "Engrais liquide bonus"],
+        advantages: locale === 'en'
+          ? ["Compost in 15 days", "Accepts meat/dairy", "Zero odour", "Bonus liquid fertiliser"]
+          : ["Compost en 15 jours", "Accepte viandes/laitages", "Aucune odeur", "Engrais liquide bonus"],
         color: "green"
       }
     ]
   },
 
   benefits: {
-    title: "Pourquoi Cultiver en Ville ?",
+    title: locale === 'en' ? 'Why Grow in the City?' : 'Pourquoi Cultiver en Ville ?',
     items: [
       {
         icon: Heart,
-        title: "Santé & Bien-être",
-        description: "Aliments frais, bio et sans pesticides. Activité physique douce. Réduction du stress.",
-        stat: "92% se sentent mieux"
+        title: locale === 'en' ? 'Health & Well-being' : 'Santé & Bien-être',
+        description: locale === 'en'
+          ? 'Fresh, organic, pesticide-free food. Gentle physical activity. Stress reduction.'
+          : 'Aliments frais, bio et sans pesticides. Activité physique douce. Réduction du stress.',
+        stat: locale === 'en' ? '92% feel better' : '92% se sentent mieux',
       },
       {
         icon: TrendingUp,
-        title: "Économies",
-        description: "Réduisez vos dépenses alimentaires de 60-80%. ROI en 6-12 mois.",
-        stat: "75 000 FCFA/an économisés"
+        title: locale === 'en' ? 'Savings' : 'Économies',
+        description: locale === 'en'
+          ? 'Reduce your food expenses by 60–80%. ROI in 6–12 months.'
+          : 'Réduisez vos dépenses alimentaires de 60-80%. ROI en 6-12 mois.',
+        stat: locale === 'en' ? '75,000 FCFA/year saved' : '75 000 FCFA/an économisés',
       },
       {
         icon: Leaf,
-        title: "Environnement",
-        description: "Réduction empreinte carbone. Air purifié. Biodiversité urbaine.",
-        stat: "-500 kg CO₂/an"
+        title: locale === 'en' ? 'Environment' : 'Environnement',
+        description: locale === 'en'
+          ? 'Reduced carbon footprint. Purified air. Urban biodiversity.'
+          : 'Réduction empreinte carbone. Air purifié. Biodiversité urbaine.',
+        stat: "-500 kg CO₂/an",
       },
       {
         icon: Users,
-        title: "Lien Social",
-        description: "Jardins communautaires. Partage de récoltes. Transmission aux enfants.",
-        stat: "85% partagent leurs récoltes"
+        title: locale === 'en' ? 'Social Bonds' : 'Lien Social',
+        description: locale === 'en'
+          ? 'Community gardens. Sharing harvests. Passing knowledge to children.'
+          : 'Jardins communautaires. Partage de récoltes. Transmission aux enfants.',
+        stat: locale === 'en' ? '85% share their harvests' : '85% partagent leurs récoltes',
       }
     ]
   },
 
   steps: {
-    title: "Démarrez Votre Jardin Urbain en 4 Étapes",
+    title: locale === 'en'
+      ? 'Start Your Urban Garden in 4 Steps'
+      : 'Démarrez Votre Jardin Urbain en 4 Étapes',
     steps: [
       {
         number: "01",
-        title: "Évaluation Espace",
-        description: "Diagnostic gratuit de votre balcon/terrasse/toit. On détermine le potentiel et la solution idéale.",
+        title: locale === 'en' ? 'Space Assessment' : 'Évaluation Espace',
+        description: locale === 'en'
+          ? 'Free diagnosis of your balcony/terrace/rooftop. We determine the potential and ideal solution.'
+          : 'Diagnostic gratuit de votre balcon/terrasse/toit. On détermine le potentiel et la solution idéale.',
         icon: Target,
         duration: "30 min"
       },
       {
         number: "02",
-        title: "Kit Personnalisé",
-        description: "Nous composons votre kit sur mesure avec équipements, semences et substrats adaptés.",
+        title: locale === 'en' ? 'Personalised Kit' : 'Kit Personnalisé',
+        description: locale === 'en'
+          ? 'We put together your tailor-made kit with the right equipment, seeds and substrates.'
+          : 'Nous composons votre kit sur mesure avec équipements, semences et substrats adaptés.',
         icon: ShoppingCart,
-        duration: "2 jours"
+        duration: locale === 'en' ? '2 days' : '2 jours',
       },
       {
         number: "03",
-        title: "Installation & Formation",
-        description: "Nos experts installent tout et vous forment. Vous repartez avec les compétences nécessaires.",
+        title: locale === 'en' ? 'Installation & Training' : 'Installation & Formation',
+        description: locale === 'en'
+          ? 'Our experts install everything and train you. You leave with all the skills you need.'
+          : 'Nos experts installent tout et vous forment. Vous repartez avec les compétences nécessaires.',
         icon: Lightbulb,
-        duration: "1/2 journée"
+        duration: locale === 'en' ? 'Half day' : '1/2 journée',
       },
       {
         number: "04",
-        title: "Accompagnement",
-        description: "Support continu via app, WhatsApp et visites. Garantie de réussite de vos cultures.",
+        title: locale === 'en' ? 'Ongoing Support' : 'Accompagnement',
+        description: locale === 'en'
+          ? 'Continuous support via app, WhatsApp and visits. Guaranteed success for your crops.'
+          : 'Support continu via app, WhatsApp et visites. Garantie de réussite de vos cultures.',
         icon: Users,
-        duration: "Illimité"
+        duration: locale === 'en' ? 'Unlimited' : 'Illimité',
       }
     ]
   },
 
-  testimonials: [
-    {
-      name: "Sarah Mbida",
-      location: "Yaoundé - Bastos",
-      space: "Balcon 3m²",
-      text: "Je ne pensais jamais pouvoir cultiver en appartement. Maintenant je récolte salades, tomates, herbes tous les jours. Mes enfants adorent !",
-      rating: 5,
-      harvest: "12 kg de légumes/mois",
-      image: "/images/testimonial-sarah.jpg"
-    },
-    {
-      name: "Marc Ngollo",
-      location: "Douala - Bonapriso",
-      space: "Terrasse 20m²",
-      text: "Le système connecté est génial. L'app me dit quand arroser, fertiliser. Mes tomates cerises sont incroyables !",
-      rating: 5,
-      harvest: "45 kg de légumes/mois",
-      image: "/images/testimonial-marc.jpg"
-    },
-    {
-      name: "Fatou Karim",
-      location: "Garoua - Centre",
-      space: "Toit 80m²",
-      text: "J'ai transformé mon toit en mini-ferme. Je vends le surplus au marché. C'est devenu une vraie source de revenus !",
-      rating: 5,
-      harvest: "180 000 FCFA/mois de ventes",
-      image: "/images/testimonial-fatou.jpg"
-    }
-  ],
-
   crops: [
-    { name: "Tomates cerises", difficulty: "Facile", time: "60-80 jours", yield: "3-5 kg/plant", investment: "3 500 FCFA", roi: "×4 en 3 cycles", space: "1 pot 10 L" },
-    { name: "Salade / Laitue", difficulty: "Très facile", time: "30-40 jours", yield: "Continue", investment: "1 500 FCFA", roi: "×5 en 4 cycles", space: "0.1 m²/plant" },
-    { name: "Herbes aromatiques", difficulty: "Très facile", time: "20-30 jours", yield: "Continue", investment: "1 000 FCFA", roi: "×8 annuel", space: "Pot 5 L" },
-    { name: "Piments", difficulty: "Facile", time: "70-90 jours", yield: "2-4 kg/plant", investment: "2 500 FCFA", roi: "×6 en 2 cycles", space: "Pot 8 L" },
-    { name: "Concombres", difficulty: "Moyen", time: "50-70 jours", yield: "4-8 kg/plant", investment: "4 000 FCFA", roi: "×3.5 par cycle", space: "Tuteur 1 m²" },
-    { name: "Aubergines", difficulty: "Moyen", time: "80-100 jours", yield: "4-6 kg/plant", investment: "3 000 FCFA", roi: "×4 en 2 cycles", space: "Pot 15 L" },
-    { name: "Épinards", difficulty: "Très facile", time: "40-50 jours", yield: "Continue", investment: "1 200 FCFA", roi: "×7 annuel", space: "0.05 m²/plant" },
-    { name: "Ciboulette / Oignon", difficulty: "Très facile", time: "30-40 jours", yield: "Continue", investment: "800 FCFA", roi: "×10 annuel", space: "Pot 5 L" }
+    {
+      name: locale === 'en' ? 'Cherry tomatoes' : 'Tomates cerises',
+      difficultyKey: 'easy',
+      difficulty: locale === 'en' ? 'Easy' : 'Facile',
+      time: "60-80 jours",
+      yield: "3-5 kg/plant",
+      investment: "3 500 FCFA",
+      roi: "×4 en 3 cycles",
+      space: "1 pot 10 L"
+    },
+    {
+      name: locale === 'en' ? 'Lettuce / Salad' : 'Salade / Laitue',
+      difficultyKey: 'very_easy',
+      difficulty: locale === 'en' ? 'Very easy' : 'Très facile',
+      time: "30-40 jours",
+      yield: locale === 'en' ? 'Continuous' : 'Continue',
+      investment: "1 500 FCFA",
+      roi: "×5 en 4 cycles",
+      space: "0.1 m²/plant"
+    },
+    {
+      name: locale === 'en' ? 'Aromatic herbs' : 'Herbes aromatiques',
+      difficultyKey: 'very_easy',
+      difficulty: locale === 'en' ? 'Very easy' : 'Très facile',
+      time: "20-30 jours",
+      yield: locale === 'en' ? 'Continuous' : 'Continue',
+      investment: "1 000 FCFA",
+      roi: "×8 annuel",
+      space: "Pot 5 L"
+    },
+    {
+      name: locale === 'en' ? 'Peppers / Chillies' : 'Piments',
+      difficultyKey: 'easy',
+      difficulty: locale === 'en' ? 'Easy' : 'Facile',
+      time: "70-90 jours",
+      yield: "2-4 kg/plant",
+      investment: "2 500 FCFA",
+      roi: "×6 en 2 cycles",
+      space: "Pot 8 L"
+    },
+    {
+      name: locale === 'en' ? 'Cucumbers' : 'Concombres',
+      difficultyKey: 'medium',
+      difficulty: locale === 'en' ? 'Medium' : 'Moyen',
+      time: "50-70 jours",
+      yield: "4-8 kg/plant",
+      investment: "4 000 FCFA",
+      roi: "×3.5 par cycle",
+      space: "Tuteur 1 m²"
+    },
+    {
+      name: locale === 'en' ? 'Aubergines' : 'Aubergines',
+      difficultyKey: 'medium',
+      difficulty: locale === 'en' ? 'Medium' : 'Moyen',
+      time: "80-100 jours",
+      yield: "4-6 kg/plant",
+      investment: "3 000 FCFA",
+      roi: "×4 en 2 cycles",
+      space: "Pot 15 L"
+    },
+    {
+      name: locale === 'en' ? 'Spinach' : 'Épinards',
+      difficultyKey: 'very_easy',
+      difficulty: locale === 'en' ? 'Very easy' : 'Très facile',
+      time: "40-50 jours",
+      yield: locale === 'en' ? 'Continuous' : 'Continue',
+      investment: "1 200 FCFA",
+      roi: "×7 annuel",
+      space: "0.05 m²/plant"
+    },
+    {
+      name: locale === 'en' ? 'Spring onion / Chives' : 'Ciboulette / Oignon',
+      difficultyKey: 'very_easy',
+      difficulty: locale === 'en' ? 'Very easy' : 'Très facile',
+      time: "30-40 jours",
+      yield: locale === 'en' ? 'Continuous' : 'Continue',
+      investment: "800 FCFA",
+      roi: "×10 annuel",
+      space: "Pot 5 L"
+    },
   ]
-};
+});
 
 export default function AgricultureUrbainePage() {
-  const { T } = useLanguage();
+  const { T, locale } = useLanguage();
+  const content = getPageContent(locale);
   const statLabels = [T.agriUrbaine.stat1, T.agriUrbaine.stat2, T.agriUrbaine.stat3, T.agriUrbaine.stat4];
   const [products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);
@@ -354,15 +484,15 @@ export default function AgricultureUrbainePage() {
               transition={{ delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <a 
-                href="#solutions" 
+              <a
+                href="#solutions"
                 className="group px-10 py-5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all transform hover:scale-105 shadow-2xl"
               >
                 <Sprout className="w-6 h-6 group-hover:rotate-12 transition-transform" />
                 {T.agriUrbaine.heroCta1}
               </a>
-              <a 
-                href="#produits" 
+              <a
+                href="#produits"
                 className="px-10 py-5 border-3 border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all"
               >
                 {T.agriUrbaine.heroCta2}
@@ -372,7 +502,7 @@ export default function AgricultureUrbainePage() {
 
             {/* Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20">
-              {pageContent.stats.map((stat, index) => (
+              {pageStats.map((stat, index) => (
                 <m.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
@@ -406,7 +536,7 @@ export default function AgricultureUrbainePage() {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {pageContent.solutions.map((solution, index) => (
+            {content.solutions.map((solution, index) => (
               <m.div
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
@@ -436,11 +566,15 @@ export default function AgricultureUrbainePage() {
 
                   <div className="grid grid-cols-2 gap-4 mb-6 p-4 bg-gray-100 dark:bg-gray-700/60 rounded-xl">
                     <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Espace</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                        {locale === 'en' ? 'Space' : 'Espace'}
+                      </p>
                       <p className="font-bold text-green-600 dark:text-emerald-400">{solution.space}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Production</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                        {locale === 'en' ? 'Production' : 'Production'}
+                      </p>
                       <p className="font-bold text-green-600 dark:text-emerald-400">{solution.products}</p>
                     </div>
                   </div>
@@ -477,14 +611,14 @@ export default function AgricultureUrbainePage() {
           <div className="text-center mb-16">
             <h2 className="text-5xl font-black mb-4">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600">
-                {pageContent.innovations.title}
+                {content.innovations.title}
               </span>
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">{pageContent.innovations.subtitle}</p>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{content.innovations.subtitle}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {pageContent.innovations.techs.map((tech, index) => (
+            {content.innovations.techs.map((tech, index) => (
               <m.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -550,51 +684,63 @@ export default function AgricultureUrbainePage() {
             {[
               {
                 icon: Home,
-                challenge: "Espace restreint",
-                context: "Balcon de 4 m² à Yaoundé",
-                solution: "Jardinage vertical : structure PVC + sacs culture superposés. Jusqu'à 30 plantes sur 1 m² de sol.",
+                challenge: locale === 'en' ? 'Limited space' : 'Espace restreint',
+                context: locale === 'en' ? '4 m² balcony in Yaoundé' : 'Balcon de 4 m² à Yaoundé',
+                solution: locale === 'en'
+                  ? "Vertical gardening: PVC structure + stacked grow bags. Up to 30 plants per 1 m² of floor space."
+                  : "Jardinage vertical : structure PVC + sacs culture superposés. Jusqu'à 30 plantes sur 1 m² de sol.",
                 color: "green",
-                badge: "Adapté balcons"
+                badge: locale === 'en' ? 'Balcony-ready' : 'Adapté balcons',
               },
               {
                 icon: Droplets,
-                challenge: "Accès eau limité",
-                context: "Coupures fréquentes à Douala",
-                solution: "Arrosage goutte-à-goutte + réservoir de collecte eau de pluie. 70% d'économie d'eau vs arrosage classique.",
+                challenge: locale === 'en' ? 'Limited water access' : 'Accès eau limité',
+                context: locale === 'en' ? 'Frequent outages in Douala' : 'Coupures fréquentes à Douala',
+                solution: locale === 'en'
+                  ? "Drip irrigation + rainwater collection tank. 70% water savings vs conventional watering."
+                  : "Arrosage goutte-à-goutte + réservoir de collecte eau de pluie. 70% d'économie d'eau vs arrosage classique.",
                 color: "blue",
-                badge: "Éco-eau"
+                badge: locale === 'en' ? 'Eco-water' : 'Éco-eau',
               },
               {
                 icon: Sun,
-                challenge: "Ensoleillement variable",
-                context: "Saison des pluies & harmattan",
-                solution: "Choix variétaux adaptés à chaque saison. Espèces d'ombre (épinard, persil) pour saison pluvieuse.",
+                challenge: locale === 'en' ? 'Variable sunlight' : 'Ensoleillement variable',
+                context: locale === 'en' ? 'Rainy season & harmattan' : 'Saison des pluies & harmattan',
+                solution: locale === 'en'
+                  ? "Variety selection adapted to each season. Shade species (spinach, parsley) for rainy season."
+                  : "Choix variétaux adaptés à chaque saison. Espèces d'ombre (épinard, persil) pour saison pluvieuse.",
                 color: "yellow",
-                badge: "Toute saison"
+                badge: locale === 'en' ? 'All season' : 'Toute saison',
               },
               {
                 icon: Shield,
-                challenge: "Sol absent / pollué",
-                context: "Sites urbains dégradés",
-                solution: "Culture hors-sol (substrat coco, lombricompost). Zéro sol naturel requis — propre et sain.",
+                challenge: locale === 'en' ? 'Absent / polluted soil' : 'Sol absent / pollué',
+                context: locale === 'en' ? 'Degraded urban sites' : 'Sites urbains dégradés',
+                solution: locale === 'en'
+                  ? "Soil-free growing (coco substrate, vermicompost). Zero natural soil needed — clean and healthy."
+                  : "Culture hors-sol (substrat coco, lombricompost). Zéro sol naturel requis — propre et sain.",
                 color: "purple",
-                badge: "Hors-sol"
+                badge: locale === 'en' ? 'Soil-free' : 'Hors-sol',
               },
               {
                 icon: Target,
-                challenge: "Budget de démarrage",
-                context: "Primo-jardiniers urbains",
-                solution: "Kit starter AGRIPOINT SERVICES dès 8 000 FCFA. Retour sur investissement en 6-8 semaines pour les tomates cerises.",
+                challenge: locale === 'en' ? 'Start-up budget' : 'Budget de démarrage',
+                context: locale === 'en' ? 'First-time urban gardeners' : 'Primo-jardiniers urbains',
+                solution: locale === 'en'
+                  ? "AGRIPOINT SERVICES starter kit from 8,000 FCFA. Return on investment in 6–8 weeks for cherry tomatoes."
+                  : "Kit starter AGRIPOINT SERVICES dès 8 000 FCFA. Retour sur investissement en 6-8 semaines pour les tomates cerises.",
                 color: "emerald",
-                badge: "ROI rapide"
+                badge: locale === 'en' ? 'Fast ROI' : 'ROI rapide',
               },
               {
                 icon: Wrench,
-                challenge: "Ravageurs & maladies",
-                context: "Milieu dense et humide",
-                solution: "Filets insect-proof + biofertilisants AGRIPOINT SERVICES. Traitement préventif 100% naturel, sans odeur.",
+                challenge: locale === 'en' ? 'Pests & diseases' : 'Ravageurs & maladies',
+                context: locale === 'en' ? 'Dense, humid environment' : 'Milieu dense et humide',
+                solution: locale === 'en'
+                  ? "Insect-proof nets + AGRIPOINT SERVICES biofertilisers. 100% natural preventive treatment, odour-free."
+                  : "Filets insect-proof + biofertilisants AGRIPOINT SERVICES. Traitement préventif 100% naturel, sans odeur.",
                 color: "orange",
-                badge: "Bio & sain"
+                badge: locale === 'en' ? 'Organic & healthy' : 'Bio & sain',
               },
             ].map((item, i) => (
               <m.div
@@ -611,7 +757,9 @@ export default function AgricultureUrbainePage() {
                     <item.icon className={`w-6 h-6 text-${item.color}-400`} />
                   </div>
                   <div>
-                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Défi</div>
+                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                      {locale === 'en' ? 'Challenge' : 'Défi'}
+                    </div>
                     <h3 className="text-lg font-black text-white">{item.challenge}</h3>
                     <p className="text-xs text-gray-500 mt-0.5 italic">{item.context}</p>
                   </div>
@@ -681,15 +829,41 @@ export default function AgricultureUrbainePage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-black text-white">Yaoundé</h3>
-                  <p className="text-sm text-green-400 font-medium">Capitale — Altitude favorable</p>
+                  <p className="text-sm text-green-400 font-medium">
+                    {locale === 'en' ? 'Capital — Favourable altitude' : 'Capitale — Altitude favorable'}
+                  </p>
                 </div>
               </div>
               <div className="space-y-4">
                 {[
-                  { quartier: "Melen / Ngousso", score: 95, atout: "Jardins communs, sol riche, bonne pluie" },
-                  { quartier: "Biyem-Assi", score: 90, atout: "Quartier résidentiel, toits plats, communauté active" },
-                  { quartier: "Bastos", score: 88, atout: "Grandes cours, espace générable, eau constante" },
-                  { quartier: "Nkol-Essing", score: 82, atout: "Périphérie verte, espace péri-urbain" },
+                  {
+                    quartier: "Melen / Ngousso",
+                    score: 95,
+                    atout: locale === 'en'
+                      ? "Shared gardens, rich soil, good rainfall"
+                      : "Jardins communs, sol riche, bonne pluie"
+                  },
+                  {
+                    quartier: "Biyem-Assi",
+                    score: 90,
+                    atout: locale === 'en'
+                      ? "Residential area, flat roofs, active community"
+                      : "Quartier résidentiel, toits plats, communauté active"
+                  },
+                  {
+                    quartier: "Bastos",
+                    score: 88,
+                    atout: locale === 'en'
+                      ? "Large courtyards, generous space, constant water"
+                      : "Grandes cours, espace générable, eau constante"
+                  },
+                  {
+                    quartier: "Nkol-Essing",
+                    score: 82,
+                    atout: locale === 'en'
+                      ? "Green outskirts, peri-urban space"
+                      : "Périphérie verte, espace péri-urbain"
+                  },
                 ].map((q, i) => (
                   <div key={i} className="flex items-center gap-4">
                     <div className="flex-1">
@@ -727,15 +901,41 @@ export default function AgricultureUrbainePage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-black text-white">Douala</h3>
-                  <p className="text-sm text-blue-400 font-medium">Capital économique — Climat chaud & humide</p>
+                  <p className="text-sm text-blue-400 font-medium">
+                    {locale === 'en' ? 'Economic capital — Hot & humid climate' : 'Capital économique — Climat chaud & humide'}
+                  </p>
                 </div>
               </div>
               <div className="space-y-4">
                 {[
-                  { quartier: "Bonapriso", score: 92, atout: "Résidentiel huppé, toits accessibles, espaces privatifs" },
-                  { quartier: "Akwa / Bonanjo", score: 85, atout: "Cours intérieures, balcons, bonne logistique" },
-                  { quartier: "Makepe", score: 83, atout: "Grands espaces, communauté agri, sol adapté" },
-                  { quartier: "Logpom", score: 78, atout: "Quartier en développement, prix foncier bas" },
+                  {
+                    quartier: "Bonapriso",
+                    score: 92,
+                    atout: locale === 'en'
+                      ? "Upscale residential, accessible rooftops, private spaces"
+                      : "Résidentiel huppé, toits accessibles, espaces privatifs"
+                  },
+                  {
+                    quartier: "Akwa / Bonanjo",
+                    score: 85,
+                    atout: locale === 'en'
+                      ? "Interior courtyards, balconies, good logistics"
+                      : "Cours intérieures, balcons, bonne logistique"
+                  },
+                  {
+                    quartier: "Makepe",
+                    score: 83,
+                    atout: locale === 'en'
+                      ? "Open spaces, farming community, suitable soil"
+                      : "Grands espaces, communauté agri, sol adapté"
+                  },
+                  {
+                    quartier: "Logpom",
+                    score: 78,
+                    atout: locale === 'en'
+                      ? "Developing area, low land prices"
+                      : "Quartier en développement, prix foncier bas"
+                  },
                 ].map((q, i) => (
                   <div key={i} className="flex items-center gap-4">
                     <div className="flex-1">
@@ -768,9 +968,13 @@ export default function AgricultureUrbainePage() {
           >
             <p className="text-sm text-gray-500 italic">
               <MapPin className="w-3.5 h-3.5 inline-block mr-1 text-emerald-500" />
-              Vous ne trouvez pas votre quartier ?{' '}
+              {locale === 'en'
+                ? "Can't find your neighbourhood? "
+                : 'Vous ne trouvez pas votre quartier ? '}
               <Link href="/contact" className="text-emerald-400 hover:text-emerald-300 underline underline-offset-2">
-                Contactez-nous pour une analyse gratuite de votre espace.
+                {locale === 'en'
+                  ? 'Contact us for a free analysis of your space.'
+                  : 'Contactez-nous pour une analyse gratuite de votre espace.'}
               </Link>
             </p>
           </m.div>
@@ -790,73 +994,101 @@ export default function AgricultureUrbainePage() {
           >
             <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-green-500/30 bg-green-500/5 mb-5">
               <Wrench className="w-4 h-4 text-green-600 dark:text-green-400" />
-              <span className="text-sm font-semibold text-green-600 dark:text-green-400 tracking-wider uppercase">Matériel essentiel</span>
+              <span className="text-sm font-semibold text-green-600 dark:text-green-400 tracking-wider uppercase">
+                {locale === 'en' ? 'Essential equipment' : 'Matériel essentiel'}
+              </span>
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4">
-              Boîte à Outils du{' '}
+              {locale === 'en' ? "Urban Gardener's" : 'Boîte à Outils du'}{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">
-                Jardinier Urbain
+                {locale === 'en' ? 'Toolkit' : 'Jardinier Urbain'}
               </span>
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Du matériel local accessible +  les équipements modernes AGRIPOINT SERVICES pour optimiser vos rendements.
+              {locale === 'en'
+                ? 'Accessible local equipment + modern AGRIPOINT SERVICES tools to optimise your yields.'
+                : 'Du matériel local accessible + les équipements modernes AGRIPOINT SERVICES pour optimiser vos rendements.'}
             </p>
           </m.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
-                emoji: "ARROSAGE",
+                emoji: locale === 'en' ? 'WATERING' : 'ARROSAGE',
                 emojiIcon: Droplets,
-                local: "Bassine / arrosoir local",
+                local: locale === 'en' ? 'Basin / local watering can' : 'Bassine / arrosoir local',
                 localPrice: "500 – 1 500 FCFA",
-                modern: "Kit arrosage goutte-à-goutte AGRIPOINT SERVICES",
-                modernBenefit: "Économise 70% d'eau, arrosage automatique programmable",
+                modern: locale === 'en'
+                  ? 'AGRIPOINT SERVICES drip irrigation kit'
+                  : 'Kit arrosage goutte-à-goutte AGRIPOINT SERVICES',
+                modernBenefit: locale === 'en'
+                  ? "Saves 70% water, programmable automatic watering"
+                  : "Économise 70% d'eau, arrosage automatique programmable",
                 upgrade: true
               },
               {
-                emoji: "CONTENANT",
+                emoji: locale === 'en' ? 'CONTAINER' : 'CONTENANT',
                 emojiIcon: Flower2,
-                local: "Sac plastique recyclé",
+                local: locale === 'en' ? 'Recycled plastic bag' : 'Sac plastique recyclé',
                 localPrice: "0 – 200 FCFA",
-                modern: "Jardinière suspendue ou grow bag 10 L",
-                modernBenefit: "Drainage optimisé, réutilisable 3+ ans, anti-racines",
+                modern: locale === 'en'
+                  ? 'Hanging planter or 10 L grow bag'
+                  : 'Jardinière suspendue ou grow bag 10 L',
+                modernBenefit: locale === 'en'
+                  ? "Optimised drainage, reusable 3+ years, anti-root"
+                  : "Drainage optimisé, réutilisable 3+ ans, anti-racines",
                 upgrade: true
               },
               {
-                emoji: "SUBSTRAT",
+                emoji: locale === 'en' ? 'SUBSTRATE' : 'SUBSTRAT',
                 emojiIcon: Sprout,
-                local: "Terre de jardin classique",
-                localPrice: "Gratuit",
-                modern: "Substrat coco + lombricompost AGRIPOINT SERVICES",
-                modernBenefit: "Léger, stérile, pH neutre, parfait pour balcons",
+                local: locale === 'en' ? 'Classic garden soil' : 'Terre de jardin classique',
+                localPrice: locale === 'en' ? 'Free' : 'Gratuit',
+                modern: locale === 'en'
+                  ? 'Coco substrate + AGRIPOINT SERVICES vermicompost'
+                  : 'Substrat coco + lombricompost AGRIPOINT SERVICES',
+                modernBenefit: locale === 'en'
+                  ? "Lightweight, sterile, neutral pH, perfect for balconies"
+                  : "Léger, stérile, pH neutre, parfait pour balcons",
                 upgrade: true
               },
               {
-                emoji: "PROTECTION",
+                emoji: locale === 'en' ? 'PROTECTION' : 'PROTECTION',
                 emojiIcon: Shield,
-                local: "Tissu vieux / moustiquaire",
+                local: locale === 'en' ? 'Old fabric / mosquito net' : 'Tissu vieux / moustiquaire',
                 localPrice: "0 – 300 FCFA",
-                modern: "Filet insect-proof 50 mesh AGRIPOINT SERVICES",
-                modernBenefit: "Bloque 100% ravageurs, laisse passer lumière & air",
+                modern: locale === 'en'
+                  ? 'AGRIPOINT SERVICES 50 mesh insect-proof net'
+                  : 'Filet insect-proof 50 mesh AGRIPOINT SERVICES',
+                modernBenefit: locale === 'en'
+                  ? "Blocks 100% pests, allows light & air through"
+                  : "Bloque 100% ravageurs, laisse passer lumière & air",
                 upgrade: true
               },
               {
-                emoji: "TUTEUR",
+                emoji: locale === 'en' ? 'STAKE' : 'TUTEUR',
                 emojiIcon: Wrench,
-                local: "Bambou / bâton local",
-                localPrice: "Gratuit",
-                modern: "Tuteur spirale galvanisé + clips",
-                modernBenefit: "Supporte 20+ kg, anti-rouille, réutilisable",
+                local: locale === 'en' ? 'Bamboo / local stick' : 'Bambou / bâton local',
+                localPrice: locale === 'en' ? 'Free' : 'Gratuit',
+                modern: locale === 'en'
+                  ? 'Galvanised spiral stake + clips'
+                  : 'Tuteur spirale galvanisé + clips',
+                modernBenefit: locale === 'en'
+                  ? "Supports 20+ kg, rust-free, reusable"
+                  : "Supporte 20+ kg, anti-rouille, réutilisable",
                 upgrade: false
               },
               {
-                emoji: "COMPOST",
+                emoji: locale === 'en' ? 'COMPOST' : 'COMPOST',
                 emojiIcon: Recycle,
-                local: "Compostage simple (fosse)",
-                localPrice: "Gratuit",
-                modern: "Lombricomposteur compact AGRIPOINT SERVICES",
-                modernBenefit: "Compost en 3 semaines, zéro odeur, pour appartement",
+                local: locale === 'en' ? 'Simple composting (pit)' : 'Compostage simple (fosse)',
+                localPrice: locale === 'en' ? 'Free' : 'Gratuit',
+                modern: locale === 'en'
+                  ? 'AGRIPOINT SERVICES compact vermicomposter'
+                  : 'Lombricomposteur compact AGRIPOINT SERVICES',
+                modernBenefit: locale === 'en'
+                  ? "Compost in 3 weeks, zero odour, for apartments"
+                  : "Compost en 3 semaines, zéro odeur, pour appartement",
                 upgrade: true
               },
             ].map((tool, i) => (
@@ -874,7 +1106,9 @@ export default function AgricultureUrbainePage() {
                     <tool.emojiIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold">Solution locale</p>
+                    <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold">
+                      {locale === 'en' ? 'Local solution' : 'Solution locale'}
+                    </p>
                     <p className="text-sm font-bold text-gray-900 dark:text-white">{tool.local}</p>
                     <span className="text-xs text-green-600 dark:text-emerald-400 font-semibold">{tool.localPrice}</span>
                   </div>
@@ -895,7 +1129,7 @@ export default function AgricultureUrbainePage() {
                         className="inline-flex items-center gap-1.5 text-xs font-bold text-green-600 dark:text-emerald-400 hover:underline"
                       >
                         <Package className="w-3.5 h-3.5" />
-                        Voir nos offres
+                        {locale === 'en' ? 'See our offers' : 'Voir nos offres'}
                       </Link>
                     </div>
                   )}
@@ -910,11 +1144,11 @@ export default function AgricultureUrbainePage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-black mb-4">{pageContent.benefits.title}</h2>
+            <h2 className="text-5xl font-black mb-4">{content.benefits.title}</h2>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {pageContent.benefits.items.map((benefit, index) => (
+            {content.benefits.items.map((benefit, index) => (
               <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -941,11 +1175,11 @@ export default function AgricultureUrbainePage() {
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-black mb-4">{pageContent.steps.title}</h2>
+            <h2 className="text-5xl font-black mb-4">{content.steps.title}</h2>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {pageContent.steps.steps.map((step, index) => (
+            {content.steps.steps.map((step, index) => (
               <m.div
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
@@ -967,7 +1201,7 @@ export default function AgricultureUrbainePage() {
                     <Clock className="w-3 h-3" /> {step.duration}
                   </div>
                 </div>
-                {index < pageContent.steps.steps.length - 1 && (
+                {index < content.steps.steps.length - 1 && (
                   <div className="hidden lg:block absolute top-1/2 -right-4 transform translate-x-1/2 -translate-y-1/2 z-10">
                     <ArrowRight className="w-8 h-8 text-green-400" />
                   </div>
@@ -982,24 +1216,38 @@ export default function AgricultureUrbainePage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-black mb-4">Cultures Recommandées</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Les légumes stars pour jardin urbain</p>
+            <h2 className="text-5xl font-black mb-4">
+              {locale === 'en' ? 'Recommended Crops' : 'Cultures Recommandées'}
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">
+              {locale === 'en' ? 'Star vegetables for urban gardening' : 'Les légumes stars pour jardin urbain'}
+            </p>
           </div>
 
           <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-700 rounded-3xl p-8 shadow-2xl overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b-2 border-green-600">
-                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Culture</th>
-                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Difficulté</th>
-                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Temps</th>
-                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Rendement</th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">
+                    {locale === 'en' ? 'Crop' : 'Culture'}
+                  </th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">
+                    {locale === 'en' ? 'Difficulty' : 'Difficulté'}
+                  </th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">
+                    {locale === 'en' ? 'Time' : 'Temps'}
+                  </th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">
+                    {locale === 'en' ? 'Yield' : 'Rendement'}
+                  </th>
                   <th className="text-left py-4 px-4 font-bold text-green-700 dark:text-green-300">ROI</th>
-                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Espace</th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">
+                    {locale === 'en' ? 'Space' : 'Espace'}
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {pageContent.crops.map((crop, index) => (
+                {content.crops.map((crop, index) => (
                   <m.tr
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
@@ -1011,9 +1259,9 @@ export default function AgricultureUrbainePage() {
                     <td className="py-4 px-4 font-semibold text-gray-900 dark:text-gray-100">{crop.name}</td>
                     <td className="py-4 px-4">
                       <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
-                        crop.difficulty === 'Très facile' 
-                          ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' 
-                          : crop.difficulty === 'Facile'
+                        crop.difficultyKey === 'very_easy'
+                          ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
+                          : crop.difficultyKey === 'easy'
                           ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
                           : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300'
                       }`}>
@@ -1040,12 +1288,16 @@ export default function AgricultureUrbainePage() {
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-black mb-4">Ils Cultivent en Ville</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Success stories de nos jardiniers urbains</p>
+            <h2 className="text-5xl font-black mb-4">
+              {locale === 'en' ? 'They Grow in the City' : 'Ils Cultivent en Ville'}
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">
+              {locale === 'en' ? 'Success stories from our urban gardeners' : 'Success stories de nos jardiniers urbains'}
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {pageContent.testimonials.map((testimonial, index) => (
+            {pageTestimonials.map((testimonial, index) => (
               <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -1089,11 +1341,13 @@ export default function AgricultureUrbainePage() {
           <div className="text-center mb-16">
             <h2 className="text-5xl font-black mb-4">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600">
-                Kits & Équipements
+                {locale === 'en' ? 'Kits & Equipment' : 'Kits & Équipements'}
               </span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
-              Tout le nécessaire pour démarrer votre jardin urbain
+              {locale === 'en'
+                ? 'Everything you need to start your urban garden'
+                : 'Tout le nécessaire pour démarrer votre jardin urbain'}
             </p>
           </div>
 
@@ -1112,7 +1366,7 @@ export default function AgricultureUrbainePage() {
           ) : (
             <div className="text-center text-gray-500 py-12">
               <TreePine className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p>Kits disponibles prochainement</p>
+              <p>{locale === 'en' ? 'Kits coming soon' : 'Kits disponibles prochainement'}</p>
             </div>
           )}
 
@@ -1121,7 +1375,7 @@ export default function AgricultureUrbainePage() {
               href="/produits?category=kit"
               className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-2xl font-bold text-lg transition-all shadow-2xl transform hover:scale-105"
             >
-              Voir tous les kits
+              {locale === 'en' ? 'View all kits' : 'Voir tous les kits'}
               <ArrowRight className="w-6 h-6" />
             </Link>
           </div>
@@ -1138,10 +1392,12 @@ export default function AgricultureUrbainePage() {
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <h2 className="text-5xl md:text-6xl font-black mb-6">
-            Prêt à Cultiver Votre Ville ?
+            {locale === 'en' ? 'Ready to Grow Your City?' : 'Prêt à Cultiver Votre Ville ?'}
           </h2>
           <p className="text-xl md:text-2xl mb-12 opacity-90">
-            Rejoignez 5 000+ jardiniers urbains et transformez votre espace en oasis productive
+            {locale === 'en'
+              ? 'Join 5,000+ urban gardeners and transform your space into a productive oasis'
+              : 'Rejoignez 5 000+ jardiniers urbains et transformez votre espace en oasis productive'}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -1149,13 +1405,13 @@ export default function AgricultureUrbainePage() {
               className="group px-10 py-5 bg-white text-green-600 hover:bg-gray-100 rounded-2xl font-bold text-lg transition-all shadow-2xl flex items-center justify-center gap-3"
             >
               <Sprout className="w-6 h-6 group-hover:rotate-12 transition-transform" />
-              Démarrer maintenant
+              {locale === 'en' ? 'Start now' : 'Démarrer maintenant'}
             </Link>
             <Link
               href="/produits"
               className="px-10 py-5 border-3 border-white text-white hover:bg-white hover:text-green-600 rounded-2xl font-bold text-lg transition-all flex items-center justify-center gap-3"
             >
-              Voir nos offres
+              {locale === 'en' ? 'See our offers' : 'Voir nos offres'}
               <ShoppingCart className="w-6 h-6" />
             </Link>
           </div>

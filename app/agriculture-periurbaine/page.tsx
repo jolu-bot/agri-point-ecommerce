@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -37,105 +37,143 @@ import {
 import ProductCard from '@/components/products/ProductCard';
 import { IProduct } from '@/models/Product';
 
-const pageContent = {
-  hero: {
-    badge: 'Maillon Vital Ville–Campagne',
-    title: 'AGRICULTURE PÉRI-URBAINE',
-    subtitle: 'Nourrir les villes depuis leurs ceintures vertes',
-    description:
-      "l\u2019agriculture périurbaine est le levier stratégique de la souveraineté alimentaire au Cameroun. Entre 0,5 et 20 hectares, entre tradition et innovation, nos exploitations périurbaines approvisionnent les marchés d\'Yaoundé, Douala et de toutes les grandes villes.",
-    cta: {
-      primary: 'Développer mon exploitation',
-      secondary: 'Voir nos solutions',
-    },
+// Static data: only values & icons that never change
+const pageStats = [
+  { value: '60%', icon: Leaf },
+  { value: '2,5M', icon: Users },
+  { value: '+45%', icon: TrendingUp },
+  { value: '20 000', icon: MapPin },
+];
+
+const pageTestimonials = [
+  {
+    name: 'Alphonse Nkouele',
+    location: 'Soa, Périphérie Yaoundé',
+    zone: '3,5 ha maraîchage',
+    text: "Avant AGRIPOINT SERVICES, mes rendements de tomates ne dépassaient pas 8 tonnes à l'hectare. Avec FOSNUTREN 20 et l'irrigation goutte-à-goutte, j'atteins 25 t/ha. J'ai pu agrandir ma parcelle et employer 6 personnes à temps plein.",
+    rating: 5,
+    result: '+213% de rendement en tomates',
+    image: '/images/testimonial-alphonse.jpg',
   },
+  {
+    name: 'Cécile Awona Bolo',
+    location: 'Logbaba, Périphérie Douala',
+    zone: '1,8 ha légumes feuilles + volaille',
+    text: "J'ai intégré 500 poules pondeuses avec mon maraîchage grâce aux conseils d'AGRIPOINT SERVICES. Le compost de volaille remplace la moitié de mes engrais chimiques. Mes revenus ont doublé en 18 mois.",
+    rating: 5,
+    result: 'Revenus x2 — Exploitation intégrée',
+    image: '/images/testimonial-cecile.jpg',
+  },
+  {
+    name: 'Ibrahim Oumarou',
+    location: 'Ngong, Périphérie Garoua',
+    zone: '5 ha oignon + tomate',
+    text: "La pompe solaire que m'a recommandée AGRIPOINT SERVICES a changé ma vie. Plus de 80 000 FCFA de carburant économisés chaque mois. Je produis maintenant en saison sèche quand les prix sont les meilleurs.",
+    rating: 5,
+    result: '80 000 FCFA/mois économisés en carburant',
+    image: '/images/testimonial-ibrahim.jpg',
+  },
+];
 
-  stats: [
-    { value: '60%', label: 'des légumes frais en ville issus des péri-zones', icon: Leaf },
-    { value: '2,5M', label: 'de personnes dépendent de ces exploitations', icon: Users },
-    { value: '+45%', label: 'de rendement avec nos techniques modernes', icon: TrendingUp },
-    { value: '20 000', label: 'ha couverts par AGRIPOINT SERVICES au Cameroun', icon: MapPin },
-  ],
-
+const getPageContent = (locale: string) => ({
   definition: {
-    title: "Qu\'est-ce que l\u2019agriculture Périurbaine ?",
-    subtitle:
-      "La zone de transition entre la ville et la campagne — un espace stratégique souvent sous-estimé.",
-    description:
-      "l\u2019agriculture péri-urbaine désigne les activités agricoles localisées en périphérie des villes (5 à 50 km), dans des espaces en constante pression foncière. Au Cameroun, cette ceinture verte représente un système alimentaire critique : elle fournit les marchés urbains en produits frais, génère des emplois ruraux et contribue à la résilience alimentaire nationale.",
+    subtitle: locale === 'en'
+      ? 'The transition zone between city and countryside — a strategic, often underestimated space.'
+      : "La zone de transition entre la ville et la campagne — un espace stratégique souvent sous-estimé.",
+    description: locale === 'en'
+      ? "Peri-urban agriculture refers to agricultural activities located on the outskirts of cities (5 to 50 km), in areas under constant land pressure. In Cameroon, this green belt represents a critical food system: it supplies urban markets with fresh produce, generates rural employment and contributes to national food resilience."
+      : "L'agriculture péri-urbaine désigne les activités agricoles localisées en périphérie des villes (5 à 50 km), dans des espaces en constante pression foncière. Au Cameroun, cette ceinture verte représente un système alimentaire critique : elle fournit les marchés urbains en produits frais, génère des emplois ruraux et contribue à la résilience alimentaire nationale.",
     caracteristics: [
       {
         icon: MapPin,
-        title: 'Localisation Stratégique',
-        desc: 'Périmètre de 5 à 50 km autour des centres urbains. Accès aux marchés en 1h maximum.',
+        title: locale === 'en' ? 'Strategic Location' : 'Localisation Stratégique',
+        desc: locale === 'en'
+          ? 'Perimeter of 5 to 50 km around urban centres. Market access within 1 hour maximum.'
+          : 'Périmètre de 5 à 50 km autour des centres urbains. Accès aux marchés en 1h maximum.',
       },
       {
         icon: Tractor,
-        title: 'Échelle Intermédiaire',
-        desc: "De 0,5 ha à 20+ ha. Plus grands que les jardins urbains, plus intenses que l\u2019agriculture rurale.",
+        title: locale === 'en' ? 'Intermediate Scale' : 'Échelle Intermédiaire',
+        desc: locale === 'en'
+          ? 'From 0.5 ha to 20+ ha. Larger than urban gardens, more intensive than rural farming.'
+          : "De 0,5 ha à 20+ ha. Plus grands que les jardins urbains, plus intenses que l'agriculture rurale.",
       },
       {
         icon: ShoppingCart,
-        title: 'Orientation Commerciale',
-        desc: "Production destinée à 60-80% à la vente sur les marchés locaux. Logique d\'entreprise agricole.",
+        title: locale === 'en' ? 'Commercial Focus' : 'Orientation Commerciale',
+        desc: locale === 'en'
+          ? '60–80% of production destined for sale on local markets. Agricultural business logic.'
+          : "Production destinée à 60-80% à la vente sur les marchés locaux. Logique d'entreprise agricole.",
       },
       {
         icon: Users,
-        title: 'Emploi & Social',
-        desc: "Principale source d\'emploi des femmes rurales au Cameroun. 3 à 10 emplois permanents par exploitation.",
+        title: locale === 'en' ? 'Employment & Social' : 'Emploi & Social',
+        desc: locale === 'en'
+          ? 'Primary source of employment for rural women in Cameroon. 3 to 10 permanent jobs per farm.'
+          : "Principale source d'emploi des femmes rurales au Cameroun. 3 à 10 emplois permanents par exploitation.",
       },
     ],
   },
 
   zones: {
-    title: 'Zones Périurbaines Clés au Cameroun',
-    subtitle: 'AGRIPOINT SERVICES vous accompagne sur tout le territoire national',
     regions: [
       {
         city: 'Yaoundé',
         zones: ['Mfoundi', 'Soa', 'Nkolafamba', 'Mbankomo', 'Obala'],
-        productions: ['Maraîchage', 'Aviculture', 'Porcelets', 'Banane plantain'],
-        potential: 'Très élevé',
+        productions: locale === 'en'
+          ? ['Market gardening', 'Poultry', 'Piglets', 'Plantain banana']
+          : ['Maraîchage', 'Aviculture', 'Porcelets', 'Banane plantain'],
+        potential: locale === 'en' ? 'Very high' : 'Très élevé',
         color: 'emerald',
         hectares: '~4 500 ha exploités',
       },
       {
         city: 'Douala',
         zones: ['Manoka', 'Dibamba', 'Japoma', 'Logbaba', 'Bonamoussadi'],
-        productions: ['Légumes feuilles', 'Poisson fumé', 'Manioc', 'Canne à sucre'],
-        potential: 'Très élevé',
+        productions: locale === 'en'
+          ? ['Leafy vegetables', 'Smoked fish', 'Cassava', 'Sugar cane']
+          : ['Légumes feuilles', 'Poisson fumé', 'Manioc', 'Canne à sucre'],
+        potential: locale === 'en' ? 'Very high' : 'Très élevé',
         color: 'blue',
         hectares: '~6 200 ha exploités',
       },
       {
         city: 'Bafoussam / Ouest',
         zones: ['Santa', 'Babadjou', 'Foumbot', 'Tibati'],
-        productions: ['Pomme de terre', 'Maïs hybride', 'Haricot vert', 'Fraise'],
-        potential: 'Exceptionnel',
+        productions: locale === 'en'
+          ? ['Potato', 'Hybrid maize', 'Green bean', 'Strawberry']
+          : ['Pomme de terre', 'Maïs hybride', 'Haricot vert', 'Fraise'],
+        potential: locale === 'en' ? 'Exceptional' : 'Exceptionnel',
         color: 'amber',
         hectares: '~8 100 ha exploités',
       },
       {
         city: 'Bertoua / Est',
         zones: ['Mandjou', 'Abong-Mbang', 'Doumé'],
-        productions: ['Cacao', 'Café', 'Vivriers', 'Maraîchage de saison'],
-        potential: 'Fort',
+        productions: locale === 'en'
+          ? ['Cocoa', 'Coffee', 'Food crops', 'Seasonal market gardening']
+          : ['Cacao', 'Café', 'Vivriers', 'Maraîchage de saison'],
+        potential: locale === 'en' ? 'Strong' : 'Fort',
         color: 'orange',
         hectares: '~2 800 ha exploités',
       },
       {
         city: 'Garoua / Nord',
         zones: ['Mayo Kébbi', 'Ngong', 'Pitoa', 'Demsa'],
-        productions: ['Oignon', 'Tomate', 'Poivron', 'Gombo'],
-        potential: 'Fort',
+        productions: locale === 'en'
+          ? ['Onion', 'Tomato', 'Bell pepper', 'Okra']
+          : ['Oignon', 'Tomate', 'Poivron', 'Gombo'],
+        potential: locale === 'en' ? 'Strong' : 'Fort',
         color: 'red',
         hectares: '~3 200 ha exploités',
       },
       {
         city: 'Kribi / Littoral Sud',
         zones: ['Akom II', 'Campo', 'Bipindi'],
-        productions: ['Cultures maraîchères', 'Palmier à huile', 'Cacao fin'],
-        potential: 'Moyen',
+        productions: locale === 'en'
+          ? ['Market garden crops', 'Oil palm', 'Fine cocoa']
+          : ['Cultures maraîchères', 'Palmier à huile', 'Cacao fin'],
+        potential: locale === 'en' ? 'Moderate' : 'Moyen',
         color: 'teal',
         hectares: '~1 400 ha exploités',
       },
@@ -143,22 +181,26 @@ const pageContent = {
   },
 
   systems: {
-    title: 'Systèmes de Production Périurbains',
-    subtitle:
-      "Chaque exploitation est unique. AGRIPOINT SERVICES propose des solutions sur-mesure pour chaque système.",
     items: [
       {
         icon: Sprout,
-        title: 'Maraîchage Intensif',
-        description:
-          'Production de légumes à cycle court sur parcelles de 0,5 à 3 ha. Tomates, choux, laitues, carottes, concombres, piments. Revenu régulier toute l\u2019année.',
+        title: locale === 'en' ? 'Intensive Market Gardening' : 'Maraîchage Intensif',
+        description: locale === 'en'
+          ? 'Short-cycle vegetable production on 0.5 to 3 ha plots. Tomatoes, cabbages, lettuces, carrots, cucumbers, peppers. Regular income year-round.'
+          : 'Production de légumes à cycle court sur parcelles de 0,5 à 3 ha. Tomates, choux, laitues, carottes, concombres, piments. Revenu régulier toute l\u2019année.',
         investment: '500 000 – 3 000 000 FCFA',
-        return: '6 à 12 mois',
+        return: locale === 'en' ? '6 to 12 months' : '6 à 12 mois',
         area: '0,5 – 3 ha',
         margin: '60–80%',
+        marginKey: 'high',
         color: 'green',
         products: ['FOSNUTREN 20', 'AMINOL 20', 'KADOSTIM 20'],
-        techniques: [
+        techniques: locale === 'en' ? [
+          'Protected nurseries with 50% shade cloth',
+          'Programmed drip irrigation',
+          'Reasoned NPK fertilisation + biostimulants',
+          'Crop rotation 3 cycles/year',
+        ] : [
           'Pépinières protégées avec ombrière 50%',
           'Irrigation goutte-à-goutte programmée',
           'Fertilisation raisonnée NPK + biostimulants',
@@ -167,16 +209,23 @@ const pageContent = {
       },
       {
         icon: Tractor,
-        title: 'Vivriers Commerciaux',
-        description:
-          'Manioc, plantain, igname, macabo sur grandes parcelles. Production de masse pour les marchés centraux. Complémentarité saison sèche/humide.',
+        title: locale === 'en' ? 'Commercial Food Crops' : 'Vivriers Commerciaux',
+        description: locale === 'en'
+          ? 'Cassava, plantain, yam, macabo on large plots. Mass production for central markets. Complementarity between dry/rainy season.'
+          : 'Manioc, plantain, igname, macabo sur grandes parcelles. Production de masse pour les marchés centraux. Complémentarité saison sèche/humide.',
         investment: '1 000 000 – 8 000 000 FCFA',
-        return: '12 à 18 mois',
+        return: locale === 'en' ? '12 to 18 months' : '12 à 18 mois',
         area: '2 – 15 ha',
         margin: '45–65%',
+        marginKey: 'medium',
         color: 'amber',
         products: ['HUMIFORTE', 'NATUR CARE', 'SARAH NPK'],
-        techniques: [
+        techniques: locale === 'en' ? [
+          'Certified high-performance plants (IRAD)',
+          'Partial mechanisation (power tiller)',
+          'Organic-mineral soil amendment',
+          'Storage in dry chips / cold rooms',
+        ] : [
           "Plants certifiés haute performance (IRAD)",
           'Mécanisation partielle (motoculteur)',
           'Amendement organo-minéral du sol',
@@ -185,16 +234,23 @@ const pageContent = {
       },
       {
         icon: Sun,
-        title: 'Arboriculture Fruitière',
-        description:
-          'Vergers de manguiers, avocatiers, agrumes, papayers sur 1 à 10 ha. Revenus différés mais durables sur 20+ ans. Complémentarité avec maraîchage.',
+        title: locale === 'en' ? 'Fruit Arboriculture' : 'Arboriculture Fruitière',
+        description: locale === 'en'
+          ? 'Orchards of mango, avocado, citrus, papaya trees on 1 to 10 ha. Deferred but durable income over 20+ years. Complementarity with market gardening.'
+          : 'Vergers de manguiers, avocatiers, agrumes, papayers sur 1 à 10 ha. Revenus différés mais durables sur 20+ ans. Complémentarité avec maraîchage.',
         investment: '2 000 000 – 15 000 000 FCFA',
-        return: '24 à 48 mois (1ère récolte)',
+        return: locale === 'en' ? '24 to 48 months (1st harvest)' : '24 à 48 mois (1ère récolte)',
         area: '1 – 10 ha',
         margin: '70–90%',
+        marginKey: 'very_high',
         color: 'orange',
         products: ['HUMIFORTE', 'KADOSTIM 20', 'SARAH NPK'],
-        techniques: [
+        techniques: locale === 'en' ? [
+          'Certified grafted plants',
+          'Inter-row herbaceous cover',
+          'TIC-TEC training pruning',
+          'Post-harvest conservation treatment',
+        ] : [
           'Plants greffés certifiés',
           'Couverture herbacée inter-rangée',
           'Taille de formation TIC-TEC',
@@ -203,16 +259,23 @@ const pageContent = {
       },
       {
         icon: Warehouse,
-        title: 'Élevage Hors-Sol Périurbain',
-        description:
-          'Aviculture (poulets de chair, pondeuses), élevage porcin ou cunicole en intégration avec maraîchage. Le fumier fertilise les légumes, les tiges nourrissent les animaux.',
+        title: locale === 'en' ? 'Integrated Peri-urban Livestock' : 'Élevage Hors-Sol Périurbain',
+        description: locale === 'en'
+          ? 'Poultry (broilers, layers), pig or rabbit farming integrated with market gardening. The manure fertilises the vegetables, the stems feed the animals.'
+          : 'Aviculture (poulets de chair, pondeuses), élevage porcin ou cunicole en intégration avec maraîchage. Le fumier fertilise les légumes, les tiges nourrissent les animaux.',
         investment: '1 500 000 – 10 000 000 FCFA',
-        return: '8 à 16 mois',
-        area: '0,5 – 3 ha bâti',
+        return: locale === 'en' ? '8 to 16 months' : '8 à 16 mois',
+        area: locale === 'en' ? '0.5 – 3 ha built' : '0,5 – 3 ha bâti',
         margin: '50–75%',
+        marginKey: 'medium',
         color: 'yellow',
         products: ['NATUR CARE', 'HUMIFORTE'],
-        techniques: [
+        techniques: locale === 'en' ? [
+          'Naturally ventilated buildings (East-West orientation)',
+          'Efficient manure composting (Bokashi)',
+          'Slurry valorisation as liquid fertiliser',
+          'Micro-farm biogas cycle (anaerobic digestion)',
+        ] : [
           'Bâtiments ventilés naturellement (orientés Est-Ouest)',
           'Compostage efficace du fumier (Bokashi)',
           'Valorisation du lisier comme engrais liquide',
@@ -223,96 +286,152 @@ const pageContent = {
   },
 
   technologies: {
-    title: 'Technologies Modernes Adaptées à l\u2019Afrique',
-    subtitle: 'Innovez avec des solutions éprouvées et accessibles',
+    title: locale === 'en'
+      ? 'Modern Technologies Adapted to Africa'
+      : 'Technologies Modernes Adaptées à l\u2019Afrique',
+    subtitle: locale === 'en'
+      ? 'Innovate with proven and accessible solutions'
+      : 'Innovez avec des solutions éprouvées et accessibles',
     items: [
       {
         icon: Droplets,
-        name: 'Irrigation Goutte-à-Goutte',
-        description:
-          'Économie de 60% d\u2019eau vs arrosage traditionnel. Kits complets disponibles entre 150 000 et 1 200 000 FCFA selon surface. Compatible avec pompe solaire.',
-        advantages: [
+        name: locale === 'en' ? 'Drip Irrigation' : 'Irrigation Goutte-à-Goutte',
+        description: locale === 'en'
+          ? '60% water savings vs traditional irrigation. Complete kits available from 150,000 to 1,200,000 FCFA depending on surface area. Compatible with solar pump.'
+          : 'Économie de 60% d\u2019eau vs arrosage traditionnel. Kits complets disponibles entre 150 000 et 1 200 000 FCFA selon surface. Compatible avec pompe solaire.',
+        advantages: locale === 'en' ? [
+          'Water saving -60%',
+          'Reduction of foliar diseases',
+          'Fertigation (fertilising via drip)',
+          'Automatable with timer',
+        ] : [
           'Économie d\u2019eau -60%',
           'Réduction maladies foliaires',
           'Fertilisation par le goutte (fertigation)',
           'Automatisable avec timer',
         ],
-        localSupply: 'Disponible à Yaoundé, Douala, Bafoussam',
+        localSupply: locale === 'en'
+          ? 'Available in Yaoundé, Douala, Bafoussam'
+          : 'Disponible à Yaoundé, Douala, Bafoussam',
         color: 'blue',
         priceRange: '150 000 – 1 200 000 FCFA',
       },
       {
         icon: Zap,
-        name: 'Pompes Solaires Photovoltaïques',
-        description:
-          'Pompage sans carburant. Rentabilisées en 2-3 ans vs motopompe thermique. Marques accessibles : Lorentz, Grundfos, SunPump, Shurflo. Débit 1 000 à 20 000 L/h.',
-        advantages: [
+        name: locale === 'en' ? 'Photovoltaic Solar Pumps' : 'Pompes Solaires Photovoltaïques',
+        description: locale === 'en'
+          ? 'Pumping without fuel. Recouped in 2–3 years vs thermal motor pump. Accessible brands: Lorentz, Grundfos, SunPump, Shurflo. Flow 1,000 to 20,000 L/h.'
+          : 'Pompage sans carburant. Rentabilisées en 2-3 ans vs motopompe thermique. Marques accessibles : Lorentz, Grundfos, SunPump, Shurflo. Débit 1 000 à 20 000 L/h.',
+        advantages: locale === 'en' ? [
+          'Zero fuel, zero electricity bill',
+          'Amortisation in 24–36 months',
+          'Minimal maintenance (20+ year lifespan)',
+          'Pumping on sunny days = irrigation need',
+        ] : [
           'Zéro carburant, zéro facture électrique',
           'Amortissement en 24-36 mois',
           'Maintenance minimale (durée vie 20+ ans)',
           'Pompage jours ensoleillés = besoin irrigation',
         ],
-        localSupply: 'Installateurs certifiés dans 8 villes',
+        localSupply: locale === 'en'
+          ? 'Certified installers in 8 cities'
+          : 'Installateurs certifiés dans 8 villes',
         color: 'amber',
-        priceRange: '800 000 – 5 000 000 FCFA (kit complet)',
+        priceRange: locale === 'en'
+          ? '800,000 – 5,000,000 FCFA (complete kit)'
+          : '800 000 – 5 000 000 FCFA (kit complet)',
       },
       {
         icon: Smartphone,
-        name: 'Applications Mobiles Agricoles',
-        description:
-          'Outils numériques pour informer, planifier et vendre. Accessibles sur smartphone bas de gamme avec réseau 3G/4G.',
-        advantages: [
+        name: locale === 'en' ? 'Agricultural Mobile Apps' : 'Applications Mobiles Agricoles',
+        description: locale === 'en'
+          ? 'Digital tools to inform, plan and sell. Accessible on low-end smartphones with 3G/4G network.'
+          : 'Outils numériques pour informer, planifier et vendre. Accessibles sur smartphone bas de gamme avec réseau 3G/4G.',
+        advantages: locale === 'en' ? [
+          'eSoko / CAMERCAP-PARC: real-time market prices',
+          'AgriPrix Cameroun: weekly vegetable prices',
+          'AgriBot AGRIPOINT SERVICES: AI agronomic advice 24/7',
+          'Mobile Money: payment and receipt from buyers',
+        ] : [
           'eSoko / CAMERCAP-PARC : prix des marchés en temps réel',
           'AgriPrix Cameroun : cours hebdomadaires légumes',
           'AgriBot AGRIPOINT SERVICES : conseils agronomiques IA 24h/24',
           'Mobile Money : paiement et réception acheteurs',
         ],
-        localSupply: 'Applications gratuites ou < 5 000 FCFA/mois',
+        localSupply: locale === 'en'
+          ? 'Free apps or < 5,000 FCFA/month'
+          : 'Applications gratuites ou < 5 000 FCFA/mois',
         color: 'indigo',
-        priceRange: 'Gratuit à 10 000 FCFA/mois',
+        priceRange: locale === 'en' ? 'Free to 10,000 FCFA/month' : 'Gratuit à 10 000 FCFA/mois',
       },
       {
         icon: FlaskConical,
-        name: 'Biostimulants & Engrais Précis',
-        description:
-          'Gamme TIMAC AGRO distribuée exclusivement par AGRIPOINT SERVICES. Formulations adaptées aux sols camerounais. Augmentation rendements de 30 à 50% vs pratiques traditionnelles.',
-        advantages: [
+        name: locale === 'en' ? 'Biostimulants & Precision Fertilisers' : 'Biostimulants & Engrais Précis',
+        description: locale === 'en'
+          ? 'TIMAC AGRO range distributed exclusively by AGRIPOINT SERVICES. Formulations adapted to Cameroonian soils. Yield increase of 30 to 50% vs traditional practices.'
+          : 'Gamme TIMAC AGRO distribuée exclusivement par AGRIPOINT SERVICES. Formulations adaptées aux sols camerounais. Augmentation rendements de 30 à 50% vs pratiques traditionnelles.',
+        advantages: locale === 'en' ? [
+          'HUMIFORTE: rooting +40%, drought resistance',
+          'FOSNUTREN 20: fast start, TSP + sulphur',
+          'AMINOL 20: foliar nutrition amino acids',
+          'KADOSTIM 20: biostimulant flowering-fruit set',
+        ] : [
           'HUMIFORTE : enracinement +40%, résistance sécheresse',
           'FOSNUTREN 20 : démarrage rapide, TSP + soufre',
           'AMINOL 20 : nutrition foliaire acides aminés',
           'KADOSTIM 20 : biostimulant floraison-nouaison',
         ],
-        localSupply: 'Réseau de 45+ distributeurs au Cameroun',
+        localSupply: locale === 'en'
+          ? 'Network of 45+ distributors in Cameroon'
+          : 'Réseau de 45+ distributeurs au Cameroun',
         color: 'green',
-        priceRange: 'Sur devis - livraison incluse',
+        priceRange: locale === 'en' ? 'On quote - delivery included' : 'Sur devis - livraison incluse',
       },
       {
         icon: Globe,
-        name: 'Drones Agricoles',
-        description:
-          'Cartographie de parcelles, traitement phytosanitaire aérien, surveillance stress hydrique. Prestataires locaux émergents à Yaoundé et Douala.',
-        advantages: [
+        name: locale === 'en' ? 'Agricultural Drones' : 'Drones Agricoles',
+        description: locale === 'en'
+          ? 'Plot mapping, aerial phytosanitary treatment, water stress monitoring. Emerging local service providers in Yaoundé and Douala.'
+          : 'Cartographie de parcelles, traitement phytosanitaire aérien, surveillance stress hydrique. Prestataires locaux émergents à Yaoundé et Douala.',
+        advantages: locale === 'en' ? [
+          'Precise mapping (orthophotos)',
+          'Treatment 15 ha/h vs 1.5 ha/h on foot',
+          'Early detection of diseases and stress',
+          'Phytosanitary input reduction -30%',
+        ] : [
           'Cartographie précise (orthophotos)',
           'Traitement 15 ha/h vs 1,5 ha/h à dos',
           'Détection précoce maladies et stress',
           'Réduction intrants phytosanitaires -30%',
         ],
-        localSupply: 'Prestataires disponibles à Yaoundé / Douala',
+        localSupply: locale === 'en'
+          ? 'Service providers available in Yaoundé / Douala'
+          : 'Prestataires disponibles à Yaoundé / Douala',
         color: 'purple',
-        priceRange: 'Location : 15 000 – 50 000 FCFA/ha',
+        priceRange: locale === 'en'
+          ? 'Rental: 15,000 – 50,000 FCFA/ha'
+          : 'Location : 15 000 – 50 000 FCFA/ha',
       },
       {
         icon: Warehouse,
-        name: 'Chambres Froides Solaires',
-        description:
-          'Conservation 7-21 jours des légumes frais. Technologie Modular Cold Rooms (CoolBot, SolarChill). Réduction pertes post-récolte de 40% à moins de 5%.',
-        advantages: [
+        name: locale === 'en' ? 'Solar Cold Rooms' : 'Chambres Froides Solaires',
+        description: locale === 'en'
+          ? '7–21 day conservation of fresh vegetables. Modular Cold Rooms technology (CoolBot, SolarChill). Reduction of post-harvest losses from 40% to less than 5%.'
+          : 'Conservation 7-21 jours des légumes frais. Technologie Modular Cold Rooms (CoolBot, SolarChill). Réduction pertes post-récolte de 40% à moins de 5%.',
+        advantages: locale === 'en' ? [
+          'Post-harvest losses -80%',
+          'Deferred sale at best price',
+          'Shared by 3–5 farms',
+          'Accessible via rural credit (CAMCCUL)',
+        ] : [
           'Pertes post-récolte -80%',
           'Vente différée au meilleur prix',
           'Mutualisation 3-5 exploitations',
           'Accessible via crédit rural (CAMCCUL)',
         ],
-        localSupply: 'Fabricants locaux + imports Chine/Inde',
+        localSupply: locale === 'en'
+          ? 'Local manufacturers + imports China/India'
+          : 'Fabricants locaux + imports Chine/Inde',
         color: 'cyan',
         priceRange: '3 500 000 – 12 000 000 FCFA',
       },
@@ -320,69 +439,104 @@ const pageContent = {
   },
 
   localTools: {
-    title: 'Outils Locaux & Tradition Revisitée',
-    subtitle: 'Les outils dans lesquels votre main a confiance, optimisés pour la performance',
+    title: locale === 'en' ? 'Local Tools & Revisited Tradition' : 'Outils Locaux & Tradition Revisitée',
+    subtitle: locale === 'en'
+      ? 'The tools your hand trusts, optimised for performance'
+      : 'Les outils dans lesquels votre main a confiance, optimisés pour la performance',
     items: [
       {
         icon: Wrench,
-        name: 'Daba Améliorée (Pioche Angolaise)',
-        origin: 'Cameroun / Afrique de l\'Ouest',
-        description: 'Outil universel de travail du sol. Les versions ergonomiques modernes (manche coudé al 110°) réduisent la fatigue de 35% et augmentent la productivité de 25%.',
-        modernUpgrade: 'Manches en fibre de verre (2× plus léger, incassable) — disponibles dans les quincailleries de Yaoundé/Douala.',
+        name: locale === 'en' ? 'Improved Daba (Angolan Hoe)' : 'Daba Améliorée (Pioche Angolaise)',
+        origin: locale === 'en' ? 'Cameroon / West Africa' : "Cameroun / Afrique de l'Ouest",
+        description: locale === 'en'
+          ? 'Universal soil tillage tool. Modern ergonomic versions (110° angled handle) reduce fatigue by 35% and increase productivity by 25%.'
+          : "Outil universel de travail du sol. Les versions ergonomiques modernes (manche coudé al 110°) réduisent la fatigue de 35% et augmentent la productivité de 25%.",
+        modernUpgrade: locale === 'en'
+          ? 'Fibreglass handles (2× lighter, unbreakable) — available in Yaoundé/Douala hardware stores.'
+          : 'Manches en fibre de verre (2× plus léger, incassable) — disponibles dans les quincailleries de Yaoundé/Douala.',
         cost: '3 500 – 15 000 FCFA',
       },
       {
         icon: Droplets,
-        name: 'Arrosoir à Pression Manuelle',
-        origin: 'Universel',
-        description: 'Pour les petites parcelles ou pépinières : arrosoir 10-20L avec pomme amovible (pomme fine = semis-repiquage, pomme grossière = arrosage). Incontournable.',
-        modernUpgrade: 'Arrosoir à pression préalable (2 bar) : économie eau 40%, arrosage uniforme sans effort.',
+        name: locale === 'en' ? 'Manual Pressure Watering Can' : 'Arrosoir à Pression Manuelle',
+        origin: locale === 'en' ? 'Universal' : 'Universel',
+        description: locale === 'en'
+          ? 'For small plots or nurseries: 10–20 L watering can with removable rose (fine rose = seedling transplant, coarse rose = watering). Indispensable.'
+          : 'Pour les petites parcelles ou pépinières : arrosoir 10-20L avec pomme amovible (pomme fine = semis-repiquage, pomme grossière = arrosage). Incontournable.',
+        modernUpgrade: locale === 'en'
+          ? 'Pre-pressurised watering can (2 bar): 40% water saving, effortless uniform watering.'
+          : 'Arrosoir à pression préalable (2 bar) : économie eau 40%, arrosage uniforme sans effort.',
         cost: '5 000 – 25 000 FCFA',
       },
       {
         icon: Tractor,
-        name: 'Motoculteur Mono-Axe (Power Tiller)',
-        origin: 'Asie → adapté Afrique',
-        description: 'Machine à deux roues motorisée pour labour, billonnage, sarclage. Modèles Dongfeng, Agria, Robin disponibles. Permet de travailler 10× plus vite qu\'à la daba.',
-        modernUpgrade: 'Version électrique (batterie lithium) émergente — pas de fumées, silencieuse, parfaite zones périurbaines dense.',
-        cost: '350 000 – 800 000 FCFA (thermique)',
+        name: locale === 'en' ? 'Single-Axle Tractor (Power Tiller)' : 'Motoculteur Mono-Axe (Power Tiller)',
+        origin: locale === 'en' ? 'Asia → adapted for Africa' : 'Asie → adapté Afrique',
+        description: locale === 'en'
+          ? 'Two-wheeled motorised machine for ploughing, ridging, weeding. Dongfeng, Agria, Robin models available. Works 10× faster than the hoe.'
+          : "Machine à deux roues motorisée pour labour, billonnage, sarclage. Modèles Dongfeng, Agria, Robin disponibles. Permet de travailler 10× plus vite qu'à la daba.",
+        modernUpgrade: locale === 'en'
+          ? 'Electric version (lithium battery) emerging — no fumes, silent, perfect for dense peri-urban areas.'
+          : 'Version électrique (batterie lithium) émergente — pas de fumées, silencieuse, parfaite zones périurbaines dense.',
+        cost: locale === 'en' ? '350,000 – 800,000 FCFA (thermal)' : '350 000 – 800 000 FCFA (thermique)',
       },
       {
         icon: Zap,
-        name: 'Pompe à Moteur (Motopompe)',
-        origin: 'Standard Afrique',
-        description: 'Motopompe Honda/Loncin de 2" à 4" de refoulement. Indispensable pour l\u2019irrigation en saison sèche. Débit 20 000 à 80 000 L/h pour les grandes parcelles.',
-        modernUpgrade: 'Substitution progressive par pompe solaire = plus de carburant, plus de pannes, rentabilité en 30 mois.',
+        name: locale === 'en' ? 'Motor Pump (Engine Pump)' : 'Pompe à Moteur (Motopompe)',
+        origin: locale === 'en' ? 'Africa standard' : 'Standard Afrique',
+        description: locale === 'en'
+          ? '2" to 4" Honda/Loncin motor pump. Essential for dry season irrigation. Flow 20,000 to 80,000 L/h for large plots.'
+          : 'Motopompe Honda/Loncin de 2" à 4" de refoulement. Indispensable pour l\u2019irrigation en saison sèche. Débit 20 000 à 80 000 L/h pour les grandes parcelles.',
+        modernUpgrade: locale === 'en'
+          ? 'Progressive substitution by solar pump = no fuel, no breakdowns, profitability in 30 months.'
+          : 'Substitution progressive par pompe solaire = plus de carburant, plus de pannes, rentabilité en 30 mois.',
         cost: '80 000 – 350 000 FCFA',
       },
       {
         icon: Shield,
-        name: 'Pulvérisateur à Dos (16-20L)',
-        origin: 'Standard mondial',
-        description: 'Outil quotidien des maraîchers. La qualité varie énormément : privilégier les modèles à piston en laiton (Solo, Birchmeier, Okapi) pour durabilité.',
-        modernUpgrade: 'Pulvérisateur électrique à batterie (18V Li-ion) : pression constante, sans pompage manuel, 20 000-60 000 FCFA.',
+        name: locale === 'en' ? 'Backpack Sprayer (16–20 L)' : 'Pulvérisateur à Dos (16-20L)',
+        origin: locale === 'en' ? 'Global standard' : 'Standard mondial',
+        description: locale === 'en'
+          ? "Market gardeners' daily tool. Quality varies enormously: prefer brass piston models (Solo, Birchmeier, Okapi) for durability."
+          : 'Outil quotidien des maraîchers. La qualité varie énormément : privilégier les modèles à piston en laiton (Solo, Birchmeier, Okapi) pour durabilité.',
+        modernUpgrade: locale === 'en'
+          ? 'Battery-powered electric sprayer (18V Li-ion): constant pressure, no manual pumping, 20,000–60,000 FCFA.'
+          : 'Pulvérisateur électrique à batterie (18V Li-ion) : pression constante, sans pompage manuel, 20 000-60 000 FCFA.',
         cost: '15 000 – 60 000 FCFA',
       },
       {
         icon: Truck,
-        name: 'Moto-Tricycle de Transport',
-        origin: 'Chine → popularisé Cameroun',
-        description: 'Solution logistique clé des marchés périurbains camerounais. Transport 300-800 kg de production du champ au marché. 10× moins cher que véhicule léger.',
-        modernUpgrade: 'Tricycles électriques (ZAP, Kenyan brands) : 0 carburant, revient à 500 FCFA/100km. Financement disponible (Orange Energy, BDEAC).',
-        cost: '900 000 – 2 500 000 FCFA (thermique)',
+        name: locale === 'en' ? 'Motorised Tricycle' : 'Moto-Tricycle de Transport',
+        origin: locale === 'en' ? 'China → popularised in Cameroon' : 'Chine → popularisé Cameroun',
+        description: locale === 'en'
+          ? 'Key logistics solution for Cameroonian peri-urban markets. Transport 300–800 kg of production from field to market. 10× cheaper than a light vehicle.'
+          : 'Solution logistique clé des marchés périurbains camerounais. Transport 300-800 kg de production du champ au marché. 10× moins cher que véhicule léger.',
+        modernUpgrade: locale === 'en'
+          ? 'Electric tricycles (ZAP, Kenyan brands): 0 fuel, costs 500 FCFA/100km. Financing available (Orange Energy, BDEAC).'
+          : 'Tricycles électriques (ZAP, Kenyan brands) : 0 carburant, revient à 500 FCFA/100km. Financement disponible (Orange Energy, BDEAC).',
+        cost: locale === 'en' ? '900,000 – 2,500,000 FCFA (thermal)' : '900 000 – 2 500 000 FCFA (thermique)',
       },
     ],
   },
 
   challenges: {
-    title: 'Défis & Solutions AGRIPOINT SERVICES',
-    subtitle: 'Nous anticipons les obstacles pour que vous puissiez vous concentrer sur la production',
+    title: locale === 'en' ? 'Challenges & AGRIPOINT SERVICES Solutions' : 'Défis & Solutions AGRIPOINT SERVICES',
+    subtitle: locale === 'en'
+      ? 'We anticipate obstacles so you can focus on production'
+      : 'Nous anticipons les obstacles pour que vous puissiez vous concentrer sur la production',
     items: [
       {
-        challenge: 'Insécurité foncière',
+        challenge: locale === 'en' ? 'Land insecurity' : 'Insécurité foncière',
         icon: MapPin,
-        description: 'Le manque de titres fonciers décourage l\'investissement et l\'accès au crédit.',
-        solutions: [
+        description: locale === 'en'
+          ? 'Lack of land titles discourages investment and access to credit.'
+          : "Le manque de titres fonciers décourage l'investissement et l'accès au crédit.",
+        solutions: locale === 'en' ? [
+          'Support for simplified land registration (MINDCAF)',
+          'Secured long-term lease contracts (5–20 years)',
+          'Economic interest groups (GIE) for collective negotiation',
+          'Connection with local land associations',
+        ] : [
           'Accompagnement immatriculation foncière simplifiée (MINDCAF)',
           'Contrats de bail sécurisés longue durée (5-20 ans)',
           'Groupements d\u2019intérêt économique (GIE) pour négociation collective',
@@ -391,10 +545,17 @@ const pageContent = {
         color: 'red',
       },
       {
-        challenge: 'Accès à l\'eau (saison sèche)',
+        challenge: locale === 'en' ? 'Water access (dry season)' : "Accès à l'eau (saison sèche)",
         icon: Droplets,
-        description: 'La saison sèche (novembre à mars au Sud) stoppe la production sans irrigation permanente.',
-        solutions: [
+        description: locale === 'en'
+          ? 'The dry season (November to March in the South) stops production without permanent irrigation.'
+          : 'La saison sèche (novembre à mars au Sud) stoppe la production sans irrigation permanente.',
+        solutions: locale === 'en' ? [
+          'Borehole + solar pump: total grid independence',
+          'Elevated cisterns (50,000 to 500,000 L): rainy season storage',
+          'Drip irrigation: multiplication of irrigated plots',
+          'Mulching: water requirement reduction -40%',
+        ] : [
           'Forage + pompe solaire : indépendance totale réseau',
           'Citernes aériennes (50 000 à 500 000L) : stockage saison des pluies',
           'Irrigation goutte-à-goutte : multiplication parcelles irriguées',
@@ -403,10 +564,17 @@ const pageContent = {
         color: 'blue',
       },
       {
-        challenge: 'Pertes post-récolte élevées',
+        challenge: locale === 'en' ? 'High post-harvest losses' : 'Pertes post-récolte élevées',
         icon: AlertTriangle,
-        description: '30 à 50% de pertes entre champ et marché. Principale cause de faibles marges.',
-        solutions: [
+        description: locale === 'en'
+          ? '30 to 50% losses between field and market. Main cause of low margins.'
+          : '30 à 50% de pertes entre champ et marché. Principale cause de faibles marges.',
+        solutions: locale === 'en' ? [
+          'Harvest in cool hours (5h–8h) + rapid conditioning',
+          'Collective solar cold rooms',
+          'Artisanal processing (drying, concentrates, jams)',
+          'Direct sales via WhatsApp/Facebook Marketplace',
+        ] : [
           'Récolte aux heures fraîches (5h-8h) + conditionnement rapide',
           'Chambres froides solaires collectives',
           'Transformation artisanale (séchage, concentrés, confitures)',
@@ -415,11 +583,17 @@ const pageContent = {
         color: 'orange',
       },
       {
-        challenge: 'Accès aux marchés',
+        challenge: locale === 'en' ? 'Market access' : 'Accès aux marchés',
         icon: Truck,
-        description:
-          "L\'éloignement des grands marchés et la dépendance aux intermédiaires réduisent le prix bord-champ de 50 à 70%.",
-        solutions: [
+        description: locale === 'en'
+          ? 'Distance from major markets and dependence on intermediaries reduces the farm-gate price by 50 to 70%.'
+          : "L'éloignement des grands marchés et la dépendance aux intermédiaires réduisent le prix bord-champ de 50 à 70%.",
+        solutions: locale === 'en' ? [
+          'Collective sales groups (GIE market gardeners)',
+          'Direct contracts with restaurants, hotels, supermarkets (MAHIMA, Score)',
+          'Local e-commerce (CoopérAgri, Agri-Market, WhatsApp Business)',
+          'Weekly producers\' markets (MINADER)',
+        ] : [
           'Groupements de vente collective (GIE maraîchers)',
           'Contrats directs restaurants, hôtels, supermarchés (MAHIMA, Score)',
           'E-commerce local (CoopérAgri, Agri-Market, WhatsApp Business)',
@@ -428,10 +602,17 @@ const pageContent = {
         color: 'purple',
       },
       {
-        challenge: 'Dégradation des sols',
+        challenge: locale === 'en' ? 'Soil degradation' : 'Dégradation des sols',
         icon: Leaf,
-        description: 'La monoculture intensive dégrade rapidement la structure et la fertilité des sols périurbains.',
-        solutions: [
+        description: locale === 'en'
+          ? 'Intensive monoculture rapidly degrades the structure and fertility of peri-urban soils.'
+          : 'La monoculture intensive dégrade rapidement la structure et la fertilité des sols périurbains.',
+        solutions: locale === 'en' ? [
+          'Systematic crop rotation (nitrogen-fixing legumes)',
+          'Regular organic matter inputs (NATUR CARE)',
+          'Annual soil analysis (IRAD, SAILD)',
+          'Permanent soil cover — zero bare soil',
+        ] : [
           'Rotation culturale systématique (légumineuses fixatrices)',
           'Apports réguliers de matière organique (NATUR CARE)',
           'Analyse de sol annuelle (IRAD, SAILD)',
@@ -440,10 +621,17 @@ const pageContent = {
         color: 'green',
       },
       {
-        challenge: 'Financement & crédit',
+        challenge: locale === 'en' ? 'Financing & credit' : 'Financement & crédit',
         icon: BarChart2,
-        description: 'Les banques classiques refusent 80% des dossiers agricoles. Les taux microfinance sont souvent prohibitifs.',
-        solutions: [
+        description: locale === 'en'
+          ? 'Traditional banks reject 80% of agricultural files. Microfinance rates are often prohibitive.'
+          : 'Les banques classiques refusent 80% des dossiers agricoles. Les taux microfinance sont souvent prohibitifs.',
+        solutions: locale === 'en' ? [
+          'CAMCCUL: cooperative agricultural credit (rate 12–18%/year)',
+          'BDEAC: agro-SME project financing (> 5M FCFA)',
+          'MINADER subsidies: PNDP, PACA, C2D',
+          'Warrantage: stock credit (community granary)',
+        ] : [
           'CAMCCUL : crédit agricole coopératif (taux 12-18%/an)',
           'BDEAC : financement projets agro-PME (> 5M FCFA)',
           'Subventions MINADER : PNDP, PACA, C2D',
@@ -455,111 +643,90 @@ const pageContent = {
   },
 
   steps: {
-    title: 'Développez Votre Exploitation en 6 Étapes',
+    title: locale === 'en'
+      ? 'Develop Your Farm in 6 Steps'
+      : 'Développez Votre Exploitation en 6 Étapes',
     items: [
       {
         number: '01',
         icon: Target,
-        title: 'Diagnostic Agronomique',
-        description:
-          'Analyse de votre sol, de l\'eau disponible, du microclimat, des marchés à proximité. Identification du système de production le plus rentable pour votre contexte.',
-        duration: '1 semaine',
-        action: 'Gratuit pour clients AGRIPOINT SERVICES',
+        title: locale === 'en' ? 'Agronomic Diagnosis' : 'Diagnostic Agronomique',
+        description: locale === 'en'
+          ? 'Analysis of your soil, available water, microclimate, nearby markets. Identification of the most profitable production system for your context.'
+          : "Analyse de votre sol, de l'eau disponible, du microclimat, des marchés à proximité. Identification du système de production le plus rentable pour votre contexte.",
+        duration: locale === 'en' ? '1 week' : '1 semaine',
+        action: locale === 'en' ? 'Free for AGRIPOINT SERVICES clients' : 'Gratuit pour clients AGRIPOINT SERVICES',
       },
       {
         number: '02',
         icon: Lightbulb,
-        title: 'Plan d\'Affaires Agricole',
-        description:
-          'Projection financière sur 3 ans, plan de trésorerie mensuel, calendrier cultural, besoins en intrants. Dossier bankable pour accès crédit.',
-        duration: '1 semaine',
-        action: 'Accompagnement par nos agronomes',
+        title: locale === 'en' ? 'Agricultural Business Plan' : "Plan d'Affaires Agricole",
+        description: locale === 'en'
+          ? '3-year financial projection, monthly cash flow plan, crop calendar, input needs. Bankable file for credit access.'
+          : 'Projection financière sur 3 ans, plan de trésorerie mensuel, calendrier cultural, besoins en intrants. Dossier bankable pour accès crédit.',
+        duration: locale === 'en' ? '1 week' : '1 semaine',
+        action: locale === 'en' ? 'Support from our agronomists' : 'Accompagnement par nos agronomes',
       },
       {
         number: '03',
         icon: Droplets,
-        title: 'Infrastructure Hydraulique',
-        description:
-          "Installation forage ou retenue d\u2019eau, pompe solaire, réseau goutte-à-goutte. Le principal investissement — il sécurise 100% de votre production.",
-        duration: '2-4 semaines',
-        action: 'Devis gratuit AGRIPOINT SERVICES',
+        title: locale === 'en' ? 'Hydraulic Infrastructure' : 'Infrastructure Hydraulique',
+        description: locale === 'en'
+          ? 'Installation of borehole or water retention, solar pump, drip network. The main investment — it secures 100% of your production.'
+          : "Installation forage ou retenue d\u2019eau, pompe solaire, réseau goutte-à-goutte. Le principal investissement — il sécurise 100% de votre production.",
+        duration: locale === 'en' ? '2–4 weeks' : '2-4 semaines',
+        action: locale === 'en' ? 'Free quote from AGRIPOINT SERVICES' : 'Devis gratuit AGRIPOINT SERVICES',
       },
       {
         number: '04',
         icon: Sprout,
-        title: 'Mise en Production',
-        description:
-          "Semences certifiées, pépinières soignées, fertilisation de fond avec HUMIFORTE et NATUR CARE. Suivi hebdomadaire par technicien AGRIPOINT SERVICES.",
-        duration: '1ère récolte J+45 à J+90',
-        action: 'Formation pratique incluse',
+        title: locale === 'en' ? 'Production Start' : 'Mise en Production',
+        description: locale === 'en'
+          ? 'Certified seeds, careful nurseries, foundation fertilisation with HUMIFORTE and NATUR CARE. Weekly monitoring by AGRIPOINT SERVICES technician.'
+          : "Semences certifiées, pépinières soignées, fertilisation de fond avec HUMIFORTE et NATUR CARE. Suivi hebdomadaire par technicien AGRIPOINT SERVICES.",
+        duration: locale === 'en' ? '1st harvest D+45 to D+90' : '1ère récolte J+45 à J+90',
+        action: locale === 'en' ? 'Practical training included' : 'Formation pratique incluse',
       },
       {
         number: '05',
         icon: BarChart2,
-        title: 'Optimisation & Scale',
-        description:
-          "Après 2 cycles réussis : extension surface, diversification productions, intégration élevage, structuration GIE pour l\'accès aux marchés institutionnels.",
-        duration: '6-12 mois',
-        action: 'Révision plan annuel',
+        title: locale === 'en' ? 'Optimisation & Scale' : 'Optimisation & Scale',
+        description: locale === 'en'
+          ? 'After 2 successful cycles: area extension, production diversification, livestock integration, GIE structuring for institutional market access.'
+          : "Après 2 cycles réussis : extension surface, diversification productions, intégration élevage, structuration GIE pour l'accès aux marchés institutionnels.",
+        duration: locale === 'en' ? '6–12 months' : '6-12 mois',
+        action: locale === 'en' ? 'Annual plan revision' : 'Révision plan annuel',
       },
       {
         number: '06',
         icon: TrendingUp,
-        title: 'Accès Marchés & Certification',
-        description:
-          "Certification bio GlobalGAP ou PGS local, contrats restaurants/hôtels, accès supermarchés. Transformation et valorisation surplus.",
-        duration: '12-24 mois',
-        action: 'Mise en réseau acheteurs',
+        title: locale === 'en' ? 'Market Access & Certification' : 'Accès Marchés & Certification',
+        description: locale === 'en'
+          ? 'GlobalGAP or local PGS organic certification, restaurant/hotel contracts, supermarket access. Processing and surplus valorisation.'
+          : "Certification bio GlobalGAP ou PGS local, contrats restaurants/hôtels, accès supermarchés. Transformation et valorisation surplus.",
+        duration: locale === 'en' ? '12–24 months' : '12-24 mois',
+        action: locale === 'en' ? 'Buyer networking' : 'Mise en réseau acheteurs',
       },
     ],
   },
 
-  testimonials: [
-    {
-      name: 'Alphonse Nkouele',
-      location: 'Soa, Périphérie Yaoundé',
-      zone: '3,5 ha maraîchage',
-      text: "Avant AGRIPOINT SERVICES, mes rendements de tomates ne dépassaient pas 8 tonnes à l\'hectare. Avec FOSNUTREN 20 et l\u2019irrigation goutte-à-goutte, j\'atteins 25 t/ha. J\'ai pu agrandir ma parcelle et employer 6 personnes à temps plein.",
-      rating: 5,
-      result: '+213% de rendement en tomates',
-      image: '/images/testimonial-alphonse.jpg',
-    },
-    {
-      name: 'Cécile Awona Bolo',
-      location: 'Logbaba, Périphérie Douala',
-      zone: '1,8 ha légumes feuilles + volaille',
-      text: "J\'ai intégré 500 poules pondeuses avec mon maraîchage grâce aux conseils d\u2019AGRIPOINT SERVICES. Le compost de volaille remplace la moitié de mes engrais chimiques. Mes revenus ont doublé en 18 mois.",
-      rating: 5,
-      result: 'Revenus x2 — Exploitation intégrée',
-      image: '/images/testimonial-cecile.jpg',
-    },
-    {
-      name: 'Ibrahim Oumarou',
-      location: 'Ngong, Périphérie Garoua',
-      zone: '5 ha oignon + tomate',
-      text: "La pompe solaire que m\'a recommandée AGRIPOINT SERVICES a changé ma vie. Plus de 80 000 FCFA de carburant économisés chaque mois. Je produis maintenant en saison sèche quand les prix sont les meilleurs.",
-      rating: 5,
-      result: '80 000 FCFA/mois économisés en carburant',
-      image: '/images/testimonial-ibrahim.jpg',
-    },
-  ],
-
   crops: [
-    { name: 'Tomate (hybride F1)', cycle: '75 – 90 j', yield: '20 – 40 t/ha', margin: 'Très élevée', ideal: 'Tout Cameroun' },
-    { name: 'Chou pommé', cycle: '70 – 90 j', yield: '25 – 45 t/ha', margin: 'Élevée', ideal: 'Hauts Plateaux' },
-    { name: 'Poivron / Piment', cycle: '90 – 120 j', yield: '8 – 15 t/ha', margin: 'Très élevée', ideal: 'Nord / Littoral' },
-    { name: 'Oignon sec', cycle: '120 – 150 j', yield: '12 – 25 t/ha', margin: 'Très élevée', ideal: 'Nord-Cameroun' },
-    { name: 'Laitue', cycle: '35 – 50 j', yield: '15 – 30 t/ha', margin: 'Élevée', ideal: 'Zone forestière' },
-    { name: 'Carotte', cycle: '80 – 100 j', yield: '15 – 30 t/ha', margin: 'Élevée', ideal: 'Hauts Plateaux' },
-    { name: 'Manioc amélioré', cycle: '9 – 12 mois', yield: '25 – 50 t/ha', margin: 'Bonne', ideal: 'Zone forestière / Centre' },
-    { name: 'Banane plantain', cycle: '9 – 14 mois', yield: '15 – 35 t/ha', margin: 'Élevée', ideal: 'Sud / Littoral' },
-    { name: 'Maïs hybride', cycle: '90 – 110 j', yield: '5 – 12 t/ha', margin: 'Moyenne', ideal: 'Tout Cameroun' },
-    { name: 'Avocat Hass', cycle: '24 – 36 mois (1ère)', yield: '10 – 30 t/ha/an', margin: 'Très élevée', ideal: 'Hauts Plateaux / Ouest' },
+    { name: locale === 'en' ? 'Tomato (F1 hybrid)' : 'Tomate (hybride F1)', cycle: '75 – 90 j', yield: '20 – 40 t/ha', marginKey: 'very_high', margin: locale === 'en' ? 'Very high' : 'Très élevée', ideal: locale === 'en' ? 'All Cameroon' : 'Tout Cameroun' },
+    { name: locale === 'en' ? 'Head cabbage' : 'Chou pommé', cycle: '70 – 90 j', yield: '25 – 45 t/ha', marginKey: 'high', margin: locale === 'en' ? 'High' : 'Élevée', ideal: locale === 'en' ? 'High Plateaus' : 'Hauts Plateaux' },
+    { name: locale === 'en' ? 'Bell pepper / Chilli' : 'Poivron / Piment', cycle: '90 – 120 j', yield: '8 – 15 t/ha', marginKey: 'very_high', margin: locale === 'en' ? 'Very high' : 'Très élevée', ideal: locale === 'en' ? 'North / Littoral' : 'Nord / Littoral' },
+    { name: locale === 'en' ? 'Dry onion' : 'Oignon sec', cycle: '120 – 150 j', yield: '12 – 25 t/ha', marginKey: 'very_high', margin: locale === 'en' ? 'Very high' : 'Très élevée', ideal: locale === 'en' ? 'North Cameroon' : 'Nord-Cameroun' },
+    { name: locale === 'en' ? 'Lettuce' : 'Laitue', cycle: '35 – 50 j', yield: '15 – 30 t/ha', marginKey: 'high', margin: locale === 'en' ? 'High' : 'Élevée', ideal: locale === 'en' ? 'Forest zone' : 'Zone forestière' },
+    { name: locale === 'en' ? 'Carrot' : 'Carotte', cycle: '80 – 100 j', yield: '15 – 30 t/ha', marginKey: 'high', margin: locale === 'en' ? 'High' : 'Élevée', ideal: locale === 'en' ? 'High Plateaus' : 'Hauts Plateaux' },
+    { name: locale === 'en' ? 'Improved cassava' : 'Manioc amélioré', cycle: '9 – 12 mois', yield: '25 – 50 t/ha', marginKey: 'good', margin: locale === 'en' ? 'Good' : 'Bonne', ideal: locale === 'en' ? 'Forest zone / Centre' : 'Zone forestière / Centre' },
+    { name: locale === 'en' ? 'Plantain banana' : 'Banane plantain', cycle: '9 – 14 mois', yield: '15 – 35 t/ha', marginKey: 'high', margin: locale === 'en' ? 'High' : 'Élevée', ideal: locale === 'en' ? 'South / Littoral' : 'Sud / Littoral' },
+    { name: locale === 'en' ? 'Hybrid maize' : 'Maïs hybride', cycle: '90 – 110 j', yield: '5 – 12 t/ha', marginKey: 'medium', margin: locale === 'en' ? 'Average' : 'Moyenne', ideal: locale === 'en' ? 'All Cameroon' : 'Tout Cameroun' },
+    { name: locale === 'en' ? 'Hass avocado' : 'Avocat Hass', cycle: locale === 'en' ? '24 – 36 months (1st)' : '24 – 36 mois (1ère)', yield: '10 – 30 t/ha/an', marginKey: 'very_high', margin: locale === 'en' ? 'Very high' : 'Très élevée', ideal: locale === 'en' ? 'High Plateaus / West' : 'Hauts Plateaux / Ouest' },
   ],
-};
+});
 
 export default function AgriculturePeriurbainePage() {
-  const { T } = useLanguage();
+  const { T, locale } = useLanguage();
+  const content = getPageContent(locale);
   const statLabels = [T.agriPeriUrbaine.stat1, T.agriPeriUrbaine.stat2, T.agriPeriUrbaine.stat3, T.agriPeriUrbaine.stat4];
   const [products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);
@@ -574,7 +741,6 @@ export default function AgriculturePeriurbainePage() {
       if (response.ok) {
         const data = await response.json();
         const prods = data.products?.slice(0, 6) || [];
-        // Fallback: si pas assez, charger tous produits
         if (prods.length < 3) {
           const r2 = await fetch('/api/products?limit=6');
           if (r2.ok) {
@@ -668,7 +834,7 @@ export default function AgriculturePeriurbainePage() {
 
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20">
-              {pageContent.stats.map((stat, index) => (
+              {pageStats.map((stat, index) => (
                 <m.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
@@ -699,15 +865,15 @@ export default function AgriculturePeriurbainePage() {
               </span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-6">
-              {pageContent.definition.subtitle}
+              {content.definition.subtitle}
             </p>
             <p className="text-lg text-gray-700 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              {pageContent.definition.description}
+              {content.definition.description}
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {pageContent.definition.caracteristics.map((item, index) => (
+            {content.definition.caracteristics.map((item, index) => (
               <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -740,7 +906,7 @@ export default function AgriculturePeriurbainePage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {pageContent.zones.regions.map((region, index) => (
+            {content.zones.regions.map((region, index) => (
               <m.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -803,7 +969,7 @@ export default function AgriculturePeriurbainePage() {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
-            {pageContent.systems.items.map((system, index) => (
+            {content.systems.items.map((system, index) => (
               <m.div
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
@@ -857,7 +1023,9 @@ export default function AgriculturePeriurbainePage() {
 
                 <div>
                   <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
-                    Produits AGRIPOINT SERVICES recommandés
+                    {locale === 'en'
+                      ? 'Recommended AGRIPOINT SERVICES products'
+                      : 'Produits AGRIPOINT SERVICES recommandés'}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {system.products.map((p, i) => (
@@ -879,16 +1047,16 @@ export default function AgriculturePeriurbainePage() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-4">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-blue-600">
-                {pageContent.technologies.title}
+                {content.technologies.title}
               </span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-              {pageContent.technologies.subtitle}
+              {content.technologies.subtitle}
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {pageContent.technologies.items.map((tech, index) => (
+            {content.technologies.items.map((tech, index) => (
               <m.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -933,16 +1101,16 @@ export default function AgriculturePeriurbainePage() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-4">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-orange-600 to-amber-600">
-                {pageContent.localTools.title}
+                {content.localTools.title}
               </span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-              {pageContent.localTools.subtitle}
+              {content.localTools.subtitle}
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {pageContent.localTools.items.map((tool, index) => (
+            {content.localTools.items.map((tool, index) => (
               <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -964,7 +1132,9 @@ export default function AgriculturePeriurbainePage() {
                 <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">{tool.description}</p>
 
                 <div className="bg-white dark:bg-gray-800 rounded-xl p-3 mb-3 border-l-4 border-green-500">
-                  <p className="text-xs font-bold text-green-600 dark:text-green-400 mb-1">⬆️ Version moderne</p>
+                  <p className="text-xs font-bold text-green-600 dark:text-green-400 mb-1">
+                    ⬆️ {locale === 'en' ? 'Modern version' : 'Version moderne'}
+                  </p>
                   <p className="text-xs text-gray-700 dark:text-gray-300">{tool.modernUpgrade}</p>
                 </div>
 
@@ -982,15 +1152,15 @@ export default function AgriculturePeriurbainePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-4">
-              {pageContent.challenges.title}
+              {content.challenges.title}
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-              {pageContent.challenges.subtitle}
+              {content.challenges.subtitle}
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {pageContent.challenges.items.map((item, index) => (
+            {content.challenges.items.map((item, index) => (
               <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -1008,7 +1178,7 @@ export default function AgriculturePeriurbainePage() {
                 </div>
                 <div className="p-5">
                   <p className="text-xs font-bold text-green-600 dark:text-green-400 mb-3 uppercase tracking-wide">
-                    ✅ Nos Solutions
+                    ✅ {locale === 'en' ? 'Our Solutions' : 'Nos Solutions'}
                   </p>
                   <ul className="space-y-2">
                     {item.solutions.map((sol, i) => (
@@ -1029,9 +1199,13 @@ export default function AgriculturePeriurbainePage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-4">Cultures Phares Périurbaines</h2>
+            <h2 className="text-4xl md:text-5xl font-black mb-4">
+              {locale === 'en' ? 'Leading Peri-urban Crops' : 'Cultures Phares Périurbaines'}
+            </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
-              Données agronomiques vérifiées pour les conditions camerounaises
+              {locale === 'en'
+                ? 'Agronomic data verified for Cameroonian conditions'
+                : 'Données agronomiques vérifiées pour les conditions camerounaises'}
             </p>
           </div>
 
@@ -1039,15 +1213,25 @@ export default function AgriculturePeriurbainePage() {
             <table className="w-full min-w-[600px]">
               <thead>
                 <tr className="border-b-2 border-amber-500">
-                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Culture</th>
-                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Cycle</th>
-                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Rendement</th>
-                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Marge</th>
-                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">Zone Idéale</th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">
+                    {locale === 'en' ? 'Crop' : 'Culture'}
+                  </th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">
+                    {locale === 'en' ? 'Cycle' : 'Cycle'}
+                  </th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">
+                    {locale === 'en' ? 'Yield' : 'Rendement'}
+                  </th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">
+                    {locale === 'en' ? 'Margin' : 'Marge'}
+                  </th>
+                  <th className="text-left py-4 px-4 font-bold text-gray-900 dark:text-gray-100">
+                    {locale === 'en' ? 'Ideal Zone' : 'Zone Idéale'}
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {pageContent.crops.map((crop, index) => (
+                {content.crops.map((crop, index) => (
                   <m.tr
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
@@ -1061,9 +1245,9 @@ export default function AgriculturePeriurbainePage() {
                     <td className="py-4 px-4 font-bold text-green-600 dark:text-green-400 text-sm">{crop.yield}</td>
                     <td className="py-4 px-4">
                       <span className={`inline-block px-2 py-1 rounded-full text-xs font-bold ${
-                        crop.margin === 'Très élevée'
+                        crop.marginKey === 'very_high'
                           ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
-                          : crop.margin === 'Élevée'
+                          : crop.marginKey === 'high'
                           ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
                           : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300'
                       }`}>
@@ -1083,11 +1267,11 @@ export default function AgriculturePeriurbainePage() {
       <section id="etapes" className="py-20 bg-gradient-to-br from-gray-50 to-amber-50 dark:from-gray-800 dark:to-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-4">{pageContent.steps.title}</h2>
+            <h2 className="text-4xl md:text-5xl font-black mb-4">{content.steps.title}</h2>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {pageContent.steps.items.map((step, index) => (
+            {content.steps.items.map((step, index) => (
               <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -1120,14 +1304,18 @@ export default function AgriculturePeriurbainePage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-4">Ils Ont Transformé Leur Exploitation</h2>
+            <h2 className="text-4xl md:text-5xl font-black mb-4">
+              {locale === 'en' ? 'They Transformed Their Farm' : 'Ils Ont Transformé Leur Exploitation'}
+            </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
-              Des producteurs périurbains qui ont réussi avec AGRIPOINT SERVICES
+              {locale === 'en'
+                ? 'Peri-urban producers who succeeded with AGRIPOINT SERVICES'
+                : 'Des producteurs périurbains qui ont réussi avec AGRIPOINT SERVICES'}
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {pageContent.testimonials.map((testimonial, index) => (
+            {pageTestimonials.map((testimonial, index) => (
               <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -1171,11 +1359,15 @@ export default function AgriculturePeriurbainePage() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-4">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-600 to-green-600">
-                Intrants Recommandés AGRIPOINT SERVICES
+                {locale === 'en'
+                  ? 'Recommended AGRIPOINT SERVICES Inputs'
+                  : 'Intrants Recommandés AGRIPOINT SERVICES'}
               </span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
-              Gamme TIMAC AGRO — testée et approuvée sur les sols camerounais
+              {locale === 'en'
+                ? 'TIMAC AGRO range — tested and approved on Cameroonian soils'
+                : 'Gamme TIMAC AGRO — testée et approuvée sur les sols camerounais'}
             </p>
           </div>
 
@@ -1194,7 +1386,7 @@ export default function AgriculturePeriurbainePage() {
           ) : (
             <div className="text-center text-gray-500 py-12">
               <TreePine className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p>Produits disponibles prochainement</p>
+              <p>{locale === 'en' ? 'Products coming soon' : 'Produits disponibles prochainement'}</p>
             </div>
           )}
 
@@ -1203,7 +1395,7 @@ export default function AgriculturePeriurbainePage() {
               href="/produits"
               className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white rounded-2xl font-bold text-lg transition-all shadow-2xl transform hover:scale-105"
             >
-              Voir tous nos intrants
+              {locale === 'en' ? 'View all our inputs' : 'Voir tous nos intrants'}
               <ArrowRight className="w-6 h-6" />
             </Link>
           </div>
@@ -1220,11 +1412,14 @@ export default function AgriculturePeriurbainePage() {
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <h2 className="text-4xl md:text-6xl font-black mb-6">
-            Prêt à Professionnaliser Votre Exploitation ?
+            {locale === 'en'
+              ? 'Ready to Professionalise Your Farm?'
+              : 'Prêt à Professionnaliser Votre Exploitation ?'}
           </h2>
           <p className="text-xl md:text-2xl mb-12 opacity-90">
-            Nos agronomes se déplacent sur votre parcelle — diagnostic gratuit pour tout producteur
-            périurbain camerounais
+            {locale === 'en'
+              ? 'Our agronomists visit your plot — free diagnosis for any Cameroonian peri-urban producer'
+              : 'Nos agronomes se déplacent sur votre parcelle — diagnostic gratuit pour tout producteur périurbain camerounais'}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -1232,13 +1427,13 @@ export default function AgriculturePeriurbainePage() {
               className="group px-10 py-5 bg-white text-amber-600 hover:bg-gray-100 rounded-2xl font-bold text-lg transition-all shadow-2xl flex items-center justify-center gap-3"
             >
               <Tractor className="w-6 h-6 group-hover:rotate-12 transition-transform" />
-              Demander un diagnostic gratuit
+              {locale === 'en' ? 'Request a free diagnosis' : 'Demander un diagnostic gratuit'}
             </Link>
             <Link
               href="/produits"
               className="px-10 py-5 border-2 border-white text-white hover:bg-white hover:text-amber-600 rounded-2xl font-bold text-lg transition-all flex items-center justify-center gap-3"
             >
-              Voir nos intrants
+              {locale === 'en' ? 'See our inputs' : 'Voir nos intrants'}
               <ShoppingCart className="w-6 h-6" />
             </Link>
           </div>
@@ -1247,4 +1442,3 @@ export default function AgriculturePeriurbainePage() {
     </div>
   );
 }
-

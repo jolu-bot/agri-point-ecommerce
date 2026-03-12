@@ -103,7 +103,7 @@ export default function SectorsGrid() {
 
                   {/* Discover CTA */}
                   <div className="mt-4 flex items-center gap-1.5 text-white/40 group-hover:text-white/90 transition-all duration-200 text-xs font-semibold">
-                    <span>Découvrir</span>
+                    <span>{T.common.discover}</span>
                     <ArrowRight className="w-3 h-3 group-hover:translate-x-1.5 transition-transform duration-200" aria-hidden />
                   </div>
                 </Link>
