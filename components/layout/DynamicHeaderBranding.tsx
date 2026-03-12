@@ -64,13 +64,13 @@ export default function DynamicHeaderBranding({ className = '' }: DynamicHeaderB
   if (loading) {
     return (
       <div className={`flex items-center animate-pulse ${className}`}>
-        <div className="w-[80px] h-[63px] sm:w-[96px] sm:h-[76px] lg:w-[110px] lg:h-[87px] bg-gray-200 dark:bg-gray-700 rounded-lg flex-shrink-0"></div>
+        <div className="w-[50px] h-[40px] sm:w-[55px] sm:h-[44px] lg:w-[60px] lg:h-[48px] bg-gray-200 dark:bg-gray-700 rounded-lg flex-shrink-0"></div>
       </div>
     );
   }
 
   return (
-    <Link href="/" className={`flex items-center group ${className}`}>
+    <Link href="/" className={`flex items-center flex-shrink-0 group pr-2 ${className}`}>
       {/* Logo icône */}
       <div className="flex-shrink-0 transform group-hover:scale-105 transition-transform duration-300 drop-shadow-md group-hover:drop-shadow-lg">
         <Image
@@ -78,7 +78,7 @@ export default function DynamicHeaderBranding({ className = '' }: DynamicHeaderB
           alt="AGRIPOINT SERVICES SAS — Logo officiel"
           width={1280}
           height={1012}
-          className="h-12 sm:h-14 lg:h-16 w-auto object-contain"
+          className="h-10 sm:h-11 lg:h-12 w-auto object-contain"
           priority
         />
       </div>
