@@ -1,10 +1,11 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Cookie, CheckCircle2, XCircle, Settings, Lock, BarChart2, Target } from 'lucide-react';
 import type { ComponentType } from 'react';
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface CookiePreferences {
   necessary: boolean;
@@ -14,6 +15,9 @@ interface CookiePreferences {
 }
 
 export default function CookieConsentBanner() {
+  const { locale } = useLanguage();
+  const en = locale === 'en';
+
   const [showBanner, setShowBanner] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [preferences, setPreferences] = useState<CookiePreferences>({
@@ -26,7 +30,7 @@ export default function CookieConsentBanner() {
   // Charger préférences existantes au montage
   useEffect(() => {
     const consentGiven = localStorage.getItem('cookie_consent_given');
-    
+
     if (!consentGiven) {
       setShowBanner(true);
     } else {
@@ -165,13 +169,14 @@ export default function CookieConsentBanner() {
               {/* Content */}
               <div className="flex-1">
                 <h3 className="text-lg font-bold text-white mb-2">
-                  Nous respections votre vie privée
+                  {en ? 'We respect your privacy' : 'Nous respections votre vie privée'}
                 </h3>
                 <p className="text-sm text-gray-300 mb-4">
-                  AGRIPOINT SERVICES utilise des cookies pour améliorer votre expérience.
-                  Vous avez le contrôle total sur vos préférences.{' '}
+                  {en
+                    ? 'AGRIPOINT SERVICES uses cookies to improve your experience. You have full control over your preferences.'
+                    : 'AGRIPOINT SERVICES utilise des cookies pour améliorer votre expérience. Vous avez le contrôle total sur vos préférences.'}{' '}
                   <Link href="/cookies" className="text-emerald-400 underline hover:text-emerald-300">
-                    En savoir plus
+                    {en ? 'Learn more' : 'En savoir plus'}
                   </Link>
                 </p>
 
@@ -180,11 +185,15 @@ export default function CookieConsentBanner() {
                   <div className="grid grid-cols-2 gap-3 text-xs">
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                      <span className="text-gray-300">Cookies Nécessaires (obligatoires)</span>
+                      <span className="text-gray-300">
+                        {en ? 'Necessary Cookies (required)' : 'Cookies Nécessaires (obligatoires)'}
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <XCircle className="w-4 h-4 text-gray-500" />
-                      <span className="text-gray-400">Analytics & Marketing (optionnels)</span>
+                      <span className="text-gray-400">
+                        {en ? 'Analytics & Marketing (optional)' : 'Analytics & Marketing (optionnels)'}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -196,20 +205,20 @@ export default function CookieConsentBanner() {
                   onClick={handleAcceptAll}
                   className="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors font-medium text-sm whitespace-nowrap"
                 >
-                  Tout Accepter
+                  {en ? 'Accept All' : 'Tout Accepter'}
                 </button>
                 <button
                   onClick={() => setShowSettings(true)}
                   className="px-6 py-2 bg-gray-700 text-gray-200 rounded-lg hover:bg-gray-600 transition-colors font-medium text-sm whitespace-nowrap flex items-center justify-center gap-2"
                 >
                   <Settings className="w-4 h-4" />
-                  Personnaliser
+                  {en ? 'Customize' : 'Personnaliser'}
                 </button>
                 <button
                   onClick={handleRejectAll}
                   className="px-6 py-2 bg-transparent border border-gray-600 text-gray-300 rounded-lg hover:border-gray-500 transition-colors font-medium text-sm whitespace-nowrap"
                 >
-                  Tout Refuser
+                  {en ? 'Reject All' : 'Tout Refuser'}
                 </button>
               </div>
             </div>
@@ -217,14 +226,29 @@ export default function CookieConsentBanner() {
             {/* Accessibility info */}
             <div className="mt-4 text-xs text-gray-500 border-t border-gray-700 pt-4">
               <p>
-                En poursuivant votre navigation, vous acceptez notre{' '}
-                <Link href="/cgu" className="text-emerald-400 underline">
-                  CGU
-                </Link>{' '}
-                et notre{' '}
-                <Link href="/confidentialite" className="text-emerald-400 underline">
-                  Politique de Confidentialité
-                </Link>
+                {en ? (
+                  <>
+                    By continuing to browse, you accept our{' '}
+                    <Link href="/cgu" className="text-emerald-400 underline">
+                      Terms of Use
+                    </Link>{' '}
+                    and our{' '}
+                    <Link href="/confidentialite" className="text-emerald-400 underline">
+                      Privacy Policy
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    En poursuivant votre navigation, vous acceptez notre{' '}
+                    <Link href="/cgu" className="text-emerald-400 underline">
+                      CGU
+                    </Link>{' '}
+                    et notre{' '}
+                    <Link href="/confidentialite" className="text-emerald-400 underline">
+                      Politique de Confidentialité
+                    </Link>
+                  </>
+                )}
               </p>
             </div>
           </div>
@@ -256,32 +280,49 @@ function CookieSettingsPanel({
   onSave: () => void;
   onCancel: () => void;
 }) {
-  const categories: { id: string; name: string; description: string; required: boolean; Icon: ComponentType<{ className?: string }> }[] = [
+  const { locale } = useLanguage();
+  const en = locale === 'en';
+
+  const categories: {
+    id: string;
+    name: string;
+    description: string;
+    required: boolean;
+    Icon: ComponentType<{ className?: string }>;
+  }[] = [
     {
       id: 'necessary',
-      name: 'Cookies Nécessaires',
-      description: 'Essentiels pour le fonctionnement (authentification, panier, sécurité)',
+      name: en ? 'Necessary Cookies' : 'Cookies Nécessaires',
+      description: en
+        ? 'Essential for site operation (authentication, cart, security)'
+        : 'Essentiels pour le fonctionnement (authentification, panier, sécurité)',
       required: true,
       Icon: Lock,
     },
     {
       id: 'analytics',
-      name: 'Cookies Analytiques',
-      description: 'Nous aident à comprendre comment vous utilisez notre site (Google Analytics)',
+      name: en ? 'Analytics Cookies' : 'Cookies Analytiques',
+      description: en
+        ? 'Help us understand how you use our site (Google Analytics)'
+        : 'Nous aident à comprendre comment vous utilisez notre site (Google Analytics)',
       required: false,
       Icon: BarChart2,
     },
     {
       id: 'marketing',
-      name: 'Cookies Marketing',
-      description: 'Personnalisent votre expérience et les publicités (Facebook Pixel)',
+      name: en ? 'Marketing Cookies' : 'Cookies Marketing',
+      description: en
+        ? 'Personalise your experience and ads (Facebook Pixel)'
+        : 'Personnalisent votre expérience et les publicités (Facebook Pixel)',
       required: false,
       Icon: Target,
     },
     {
       id: 'preferences',
-      name: 'Cookies de Préférences',
-      description: 'Mémorisent vos choix (langue, thème, région)',
+      name: en ? 'Preference Cookies' : 'Cookies de Préférences',
+      description: en
+        ? 'Remember your choices (language, theme, region)'
+        : 'Mémorisent vos choix (langue, thème, région)',
       required: false,
       Icon: Settings,
     },
@@ -301,10 +342,12 @@ function CookieSettingsPanel({
         {/* Header */}
         <div className="sticky top-0 bg-gradient-to-r from-emerald-50 to-emerald-100 dark:from-gray-800 dark:to-gray-700 px-8 py-6 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Gérer vos Préférences de Cookies
+            {en ? 'Manage Cookie Preferences' : 'Gérer vos Préférences de Cookies'}
           </h2>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-            Contrôlez précisément quels cookies vous souhaitez autoriser
+            {en
+              ? 'Precisely control which cookies you want to allow'
+              : 'Contrôlez précisément quels cookies vous souhaitez autoriser'}
           </p>
         </div>
 
@@ -326,7 +369,7 @@ function CookieSettingsPanel({
                     </h3>
                     {category.required && (
                       <span className="inline-block px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-medium rounded">
-                        Obligatoire
+                        {en ? 'Required' : 'Obligatoire'}
                       </span>
                     )}
                   </div>
@@ -357,10 +400,18 @@ function CookieSettingsPanel({
               {/* Cookie Details */}
               {category.id === 'necessary' && (
                 <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-2">
-                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300">Cookies utilisés:</p>
+                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                    {en ? 'Cookies used:' : 'Cookies utilisés:'}
+                  </p>
                   <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
-                    <li>• <code className="bg-gray-200 dark:bg-gray-700 px-2 py-0.5 rounded">accessToken</code> (15 min) - Authentification</li>
-                    <li>• <code className="bg-gray-200 dark:bg-gray-700 px-2 py-0.5 rounded">refreshToken</code> (7 jours) - Session</li>
+                    <li>
+                      • <code className="bg-gray-200 dark:bg-gray-700 px-2 py-0.5 rounded">accessToken</code>{' '}
+                      {en ? '(15 min) - Authentication' : '(15 min) - Authentification'}
+                    </li>
+                    <li>
+                      • <code className="bg-gray-200 dark:bg-gray-700 px-2 py-0.5 rounded">refreshToken</code>{' '}
+                      ({en ? '7 days' : '7 jours'}) - Session
+                    </li>
                   </ul>
                 </div>
               )}
@@ -376,7 +427,7 @@ function CookieSettingsPanel({
             onClick={onCancel}
             className="px-6 py-2 bg-gray-300 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors font-medium"
           >
-            Annuler
+            {en ? 'Cancel' : 'Annuler'}
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -384,7 +435,7 @@ function CookieSettingsPanel({
             onClick={onSave}
             className="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors font-medium"
           >
-            Sauvegarder & Fermer
+            {en ? 'Save & Close' : 'Sauvegarder & Fermer'}
           </motion.button>
         </div>
       </motion.div>

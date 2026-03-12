@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { IProduct } from '@/models/Product';
 import { useCartStore } from '@/store/cartStore';
 import toast from 'react-hot-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ProductCardProps {
   product: IProduct;
@@ -14,6 +15,8 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, viewMode = 'grid' }: ProductCardProps) {
   const { addItem } = useCartStore();
+  const { locale } = useLanguage();
+  const en = locale === 'en';
 
   const finalPrice = product.promoPrice || product.price;
   const hasDiscount = product.promoPrice && product.promoPrice < product.price;
@@ -23,9 +26,9 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
-    
+
     if (product.stock <= 0) {
-      toast.error('Produit en rupture de stock');
+      toast.error(en ? 'Product out of stock' : 'Produit en rupture de stock');
       return;
     }
 
@@ -39,7 +42,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
       maxStock: product.stock,
     });
 
-    toast.success('Produit ajouté au panier !');
+    toast.success(en ? 'Product added to cart!' : 'Produit ajouté au panier !');
   };
   /* ─────────────────── VUE LISTE ─────────────────── */
   if (viewMode === 'list') {
@@ -76,12 +79,12 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                 <div className="absolute top-2 left-2 flex flex-col gap-1">
                   {product.isFeatured && (
                     <span className="flex items-center gap-1 px-2.5 py-1 bg-gradient-to-br from-red-700 to-amber-500 text-white text-[10px] font-bold rounded-lg shadow-sm shadow-red-900/20">
-                      <Star className="w-3 h-3 fill-white" /> Vedette
+                      <Star className="w-3 h-3 fill-white" /> {en ? 'Featured' : 'Vedette'}
                     </span>
                   )}
                   {product.isNew && (
                     <span className="px-2 py-1 bg-emerald-600 text-white text-[10px] font-bold rounded-lg shadow-sm">
-                      NOUVEAU
+                      {en ? 'NEW' : 'NOUVEAU'}
                     </span>
                   )}
                   {hasDiscount && (
@@ -94,7 +97,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                 {product.stock === 0 && (
                   <div className="absolute inset-0 bg-black/60 flex items-center justify-center backdrop-blur-[1px]">
                     <span className="px-3 py-1.5 bg-red-600 text-white font-bold rounded-lg text-xs tracking-wide">
-                      RUPTURE DE STOCK
+                      {en ? 'OUT OF STOCK' : 'RUPTURE DE STOCK'}
                     </span>
                   </div>
                 )}
@@ -108,7 +111,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                   </span>
                   {product.stock <= 5 && product.stock > 0 && (
                     <span className="text-[10px] text-orange-500 font-semibold bg-orange-50 dark:bg-orange-950/30 px-2 py-1 rounded-lg flex items-center gap-1">
-                      <Flame className="w-3 h-3" /> {product.stock} restant{product.stock > 1 ? 's' : ''}
+                      <Flame className="w-3 h-3" /> {en ? `${product.stock} left` : `${product.stock} restant${product.stock > 1 ? 's' : ''}`}
                     </span>
                   )}
                 </div>
@@ -160,7 +163,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                     className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-semibold rounded-xl transition-colors duration-200 disabled:bg-gray-300 dark:disabled:bg-gray-700 disabled:cursor-not-allowed shadow-sm hover:shadow-emerald-600/30 text-sm"
                   >
                     <ShoppingCart className="w-4 h-4" />
-                    <span>Ajouter au panier</span>
+                    <span>{en ? 'Add to cart' : 'Ajouter au panier'}</span>
                   </motion.button>
                 </div>
               </div>
@@ -213,7 +216,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
             {/* Hover CTA "Voir le produit" */}
             <div className="absolute inset-x-0 bottom-0 flex items-end justify-center pb-3 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
               <span className="flex items-center gap-1.5 text-white text-xs font-semibold tracking-wide">
-                Voir le produit <ArrowRight className="w-3.5 h-3.5" />
+                {en ? 'View product' : 'Voir le produit'} <ArrowRight className="w-3.5 h-3.5" />
               </span>
             </div>
 
@@ -221,7 +224,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
             <div className="absolute top-2.5 left-2.5 flex flex-col gap-1 z-10">
               {product.isNew && (
                 <span className="px-2.5 py-0.5 bg-emerald-600 text-white text-[10px] font-bold rounded-full shadow">
-                  NOUVEAU
+                  {en ? 'NEW' : 'NOUVEAU'}
                 </span>
               )}
               {hasDiscount && (
@@ -235,7 +238,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
             {product.isFeatured && (
               <div className="absolute top-2.5 right-2.5 z-10">
                 <span className="flex items-center gap-1 px-2.5 py-1 bg-gradient-to-br from-red-700 to-amber-500 text-white text-[10px] font-black rounded-full shadow shadow-red-900/30">
-                  <Star className="w-2.5 h-2.5 fill-white" /> Vedette
+                  <Star className="w-2.5 h-2.5 fill-white" /> {en ? 'Featured' : 'Vedette'}
                 </span>
               </div>
             )}
@@ -244,7 +247,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
             {!product.isFeatured && (
               <div className="absolute top-2.5 right-2.5 flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-200 z-10">
                 <motion.button
-                  aria-label="Ajouter aux favoris"
+                  aria-label={en ? 'Add to wishlist' : 'Ajouter aux favoris'}
                   whileHover={{ scale: 1.12 }}
                   whileTap={{ scale: 0.88 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 18 }}
@@ -253,7 +256,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                   <Heart className="w-3.5 h-3.5" />
                 </motion.button>
                 <motion.button
-                  aria-label="Aperçu rapide"
+                  aria-label={en ? 'Quick preview' : 'Aperçu rapide'}
                   whileHover={{ scale: 1.12 }}
                   whileTap={{ scale: 0.88 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 18 }}
@@ -268,7 +271,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
             {product.stock <= 5 && product.stock > 0 && (
               <div className="absolute bottom-2.5 left-2.5 z-10">
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-orange-500 text-white text-[10px] font-bold rounded-full shadow">
-                  <Flame className="w-3 h-3" /> {product.stock} restant{product.stock > 1 ? 's' : ''}
+                  <Flame className="w-3 h-3" /> {en ? `${product.stock} left` : `${product.stock} restant${product.stock > 1 ? 's' : ''}`}
                 </span>
               </div>
             )}
@@ -276,7 +279,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
             {product.stock === 0 && (
               <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px] flex items-center justify-center z-20">
                 <span className="px-4 py-2 bg-red-600 text-white font-bold rounded-xl text-xs tracking-widest">
-                  RUPTURE DE STOCK
+                  {en ? 'OUT OF STOCK' : 'RUPTURE DE STOCK'}
                 </span>
               </div>
             )}
@@ -340,10 +343,10 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                 whileTap={product.stock > 0 ? { scale: 0.94 } : undefined}
                 transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                 className="w-full flex items-center justify-center gap-2 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white text-sm font-semibold rounded-xl transition-colors duration-200 disabled:bg-gray-200 dark:disabled:bg-gray-800 disabled:text-gray-400 dark:disabled:text-gray-600 disabled:cursor-not-allowed shadow-sm hover:shadow-emerald-600/30 group/btn"
-                aria-label="Ajouter au panier"
+                aria-label={en ? 'Add to cart' : 'Ajouter au panier'}
               >
                 <ShoppingCart className="w-4 h-4 group-hover/btn:animate-bounce" />
-                <span>Ajouter au panier</span>
+                <span>{en ? 'Add to cart' : 'Ajouter au panier'}</span>
               </motion.button>
             </div>
           </div>

@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { 
-  CheckCircle, 
-  Phone, 
-  Mail, 
-  MapPin, 
+import {
+  CheckCircle,
+  Phone,
+  Mail,
+  MapPin,
   Upload,
   Camera,
   FileText,
@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import WhatsAppInstructions from '@/components/shared/WhatsAppInstructions';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Order {
   _id: string;
@@ -62,7 +63,9 @@ export default function OrderConfirmationPage() {
   const params = useParams();
   const router = useRouter();
   const orderId = params?.orderId as string;
-  
+  const { locale } = useLanguage();
+  const en = locale === 'en';
+
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -70,7 +73,7 @@ export default function OrderConfirmationPage() {
   const [previewUrl, setPreviewUrl] = useState<string>('');
 
   // Vérifier si un reçu/screenshot a été uploadé
-  const hasUploadedReceipt = order?.paymentMethod === 'campost' 
+  const hasUploadedReceipt = order?.paymentMethod === 'campost'
     ? !!order?.campostPayment?.receiptImage
     : order?.paymentMethod === 'whatsapp'
     ? !!order?.whatsappPayment?.screenshotUrl
@@ -107,7 +110,7 @@ export default function OrderConfirmationPage() {
       setOrder(data);
     } catch (error) {
       console.error('Erreur:', error);
-      toast.error('Impossible de charger la commande');
+      toast.error(en ? 'Unable to load order' : 'Impossible de charger la commande');
     } finally {
       setLoading(false);
     }
@@ -119,18 +122,18 @@ export default function OrderConfirmationPage() {
 
     // Vérifier le type de fichier
     if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
-      toast.error('Veuillez sélectionner une image ou vidéo');
+      toast.error(en ? 'Please select an image or video' : 'Veuillez sélectionner une image ou vidéo');
       return;
     }
 
     // Vérifier la taille (max 10MB)
     if (file.size > 10 * 1024 * 1024) {
-      toast.error('Fichier trop volumineux (max 10MB)');
+      toast.error(en ? 'File too large (max 10MB)' : 'Fichier trop volumineux (max 10MB)');
       return;
     }
 
     setSelectedFile(file);
-    
+
     // Créer preview
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -156,13 +159,13 @@ export default function OrderConfirmationPage() {
       if (!res.ok) throw new Error('Erreur upload');
 
       const data = await res.json();
-      toast.success('Reçu uploadé avec succès!');
+      toast.success(en ? 'Receipt uploaded successfully!' : 'Reçu uploadé avec succès!');
       setOrder(data.order);
       setSelectedFile(null);
       setPreviewUrl('');
     } catch (error) {
       console.error('Erreur upload:', error);
-      toast.error('Erreur lors de l\'upload');
+      toast.error(en ? 'Upload error' : "Erreur lors de l'upload");
     } finally {
       setUploading(false);
     }
@@ -181,7 +184,7 @@ export default function OrderConfirmationPage() {
       `✅ Après paiement, uploadez votre reçu sur:\n` +
       `https://agri-ps.com/commande/confirmation/${orderId}`
     );
-    
+
     window.open(`https://wa.me/?text=${message}`, '_blank');
   };
 
@@ -198,12 +201,12 @@ export default function OrderConfirmationPage() {
       <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-green-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md text-center">
           <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Commande introuvable</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">{en ? 'Order not found' : 'Commande introuvable'}</h1>
           <button
             onClick={() => router.push('/')}
             className="px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700"
           >
-            Retour à l'accueil
+            {en ? 'Back to home' : "Retour à l'accueil"}
           </button>
         </div>
       </div>
@@ -226,12 +229,12 @@ export default function OrderConfirmationPage() {
           >
             <CheckCircle className="w-20 h-20 text-emerald-500 mx-auto mb-4" />
           </motion.div>
-          
+
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Commande Enregistrée !
+            {en ? 'Order Placed!' : 'Commande Enregistrée !'}
           </h1>
           <p className="text-lg text-gray-600 mb-4">
-            Numéro de commande:
+            {en ? 'Order number:' : 'Numéro de commande:'}
           </p>
           <div className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-50 rounded-lg">
             <FileText className="w-5 h-5 text-emerald-600" />
@@ -239,9 +242,9 @@ export default function OrderConfirmationPage() {
               {order.orderNumber}
             </span>
           </div>
-          
+
           <p className="text-sm text-gray-500 mt-4">
-            Conservez ce numéro précieusement
+            {en ? 'Keep this number safe' : 'Conservez ce numéro précieusement'}
           </p>
         </motion.div>
 
@@ -256,38 +259,38 @@ export default function OrderConfirmationPage() {
           >
             <div className="flex items-center gap-3 mb-6">
               <Building2 className="w-8 h-8" />
-              <h2 className="text-2xl font-bold">Comment Payer via Campost</h2>
+              <h2 className="text-2xl font-bold">{en ? 'How to Pay via Campost' : 'Comment Payer via Campost'}</h2>
             </div>
 
           <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-6">
             <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
               <CreditCard className="w-5 h-5" />
-              Informations de Paiement
+              {en ? 'Payment Information' : 'Informations de Paiement'}
             </h3>
             <div className="space-y-3 text-white/90">
               <div className="flex justify-between items-center py-2 border-b border-white/20">
-                <span className="font-medium">Compte Campost:</span>
+                <span className="font-medium">{en ? 'Campost Account:' : 'Compte Campost:'}</span>
                 <span className="font-mono font-bold">{CAMPOST_INFO.accountNumber}</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-white/20">
-                <span className="font-medium">Bénéficiaire:</span>
+                <span className="font-medium">{en ? 'Beneficiary:' : 'Bénéficiaire:'}</span>
                 <span className="font-bold">{CAMPOST_INFO.accountName}</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-white/20">
-                <span className="font-medium">Montant à payer:</span>
+                <span className="font-medium">{en ? 'Amount to pay:' : 'Montant à payer:'}</span>
                 <span className="text-2xl font-bold text-yellow-300">
                   {order.total.toLocaleString('fr-FR')} FCFA
                 </span>
               </div>
               <div className="flex justify-between items-center py-2">
-                <span className="font-medium">Référence:</span>
+                <span className="font-medium">{en ? 'Reference:' : 'Référence:'}</span>
                 <span className="font-mono font-bold">{order.orderNumber}</span>
               </div>
             </div>
           </div>
 
           <div className="space-y-3">
-            <h3 className="font-bold text-lg mb-3">📋 Étapes à Suivre:</h3>
+            <h3 className="font-bold text-lg mb-3">{en ? '📋 Steps to Follow:' : '📋 Étapes à Suivre:'}</h3>
             {CAMPOST_INFO.instructions.map((instruction, index) => (
               <div key={index} className="flex gap-3">
                 <div className="flex-shrink-0 w-8 h-8 bg-white/20 rounded-full flex items-center justify-center font-bold">
@@ -304,12 +307,12 @@ export default function OrderConfirmationPage() {
               className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
             >
               <Share2 className="w-5 h-5" />
-              Partager sur WhatsApp
+              {en ? 'Share on WhatsApp' : 'Partager sur WhatsApp'}
             </button>
             <button
               onClick={() => window.print()}
               className="px-4 py-3 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-              aria-label="Imprimer le bon de commande"
+              aria-label={en ? 'Print order receipt' : 'Imprimer le bon de commande'}
             >
               <Download className="w-5 h-5" />
             </button>
@@ -317,7 +320,7 @@ export default function OrderConfirmationPage() {
         </motion.div>
         ) : order.paymentMethod === 'whatsapp' ? (
           // Instructions WhatsApp Mobile Money
-          <WhatsAppInstructions 
+          <WhatsAppInstructions
             orderNumber={order.orderNumber}
             amount={order.total}
           />
@@ -332,9 +335,9 @@ export default function OrderConfirmationPage() {
         >
           <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
             <Camera className="w-7 h-7 text-emerald-600" />
-            {order.paymentMethod === 'whatsapp' 
-              ? 'Uploader votre Capture d\'écran de Paiement' 
-              : 'Uploader votre Reçu de Paiement'}
+            {order.paymentMethod === 'whatsapp'
+              ? (en ? 'Upload your Payment Screenshot' : "Uploader votre Capture d'écran de Paiement")
+              : (en ? 'Upload your Payment Receipt' : 'Uploader votre Reçu de Paiement')}
           </h2>
 
           {hasUploadedReceipt ? (
@@ -343,21 +346,23 @@ export default function OrderConfirmationPage() {
                 <CheckCircle2 className="w-8 h-8 text-emerald-600 flex-shrink-0" />
                 <div className="flex-1">
                   <h3 className="font-bold text-emerald-900 mb-2">
-                    {order.paymentMethod === 'whatsapp' ? 'Capture d\'écran Uploadée !' : 'Reçu Uploadé !'}
+                    {order.paymentMethod === 'whatsapp'
+                      ? (en ? 'Screenshot Uploaded!' : "Capture d'écran Uploadée !")
+                      : (en ? 'Receipt Uploaded!' : 'Reçu Uploadé !')}
                   </h3>
                   <p className="text-emerald-700 mb-4">
-                    {order.paymentMethod === 'whatsapp' 
+                    {order.paymentMethod === 'whatsapp'
                       ? 'Votre capture d\'écran a été envoyée avec succès. Notre équipe la vérifiera dans les plus brefs délais.'
                       : 'Votre reçu a été envoyé avec succès. Notre équipe le vérifiera dans les plus brefs délais.'}
                   </p>
                   {order.paymentMethod === 'campost' && order.campostPayment?.receiptUploadedAt && (
                     <p className="text-sm text-emerald-600">
-                      Uploadé le {new Date(order.campostPayment.receiptUploadedAt).toLocaleString('fr-FR')}
+                      {en ? 'Uploaded on' : 'Uploadé le'} {new Date(order.campostPayment.receiptUploadedAt).toLocaleString('fr-FR')}
                     </p>
                   )}
                   {order.paymentMethod === 'whatsapp' && order.whatsappPayment?.screenshotUploadedAt && (
                     <p className="text-sm text-emerald-600">
-                      Uploadé le {new Date(order.whatsappPayment.screenshotUploadedAt).toLocaleString('fr-FR')}
+                      {en ? 'Uploaded on' : 'Uploadé le'} {new Date(order.whatsappPayment.screenshotUploadedAt).toLocaleString('fr-FR')}
                     </p>
                   )}
                 </div>
@@ -369,11 +374,17 @@ export default function OrderConfirmationPage() {
                 <div className="flex gap-3">
                   <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                   <div className="text-sm text-amber-800">
-                    <p className="font-semibold mb-1">Important:</p>
+                    <p className="font-semibold mb-1">{en ? 'Important:' : 'Important:'}</p>
                     <p>
-                      {order.paymentMethod === 'whatsapp' 
-                        ? 'Après avoir effectué le paiement Mobile Money, prenez une capture d\'écran du SMS de confirmation et uploadez-la ici pour que nous puissions valider votre commande.'
-                        : 'Après avoir effectué le versement à Campost, photographiez ou filmez votre reçu et uploadez-le ici pour que nous puissions valider votre commande.'}
+                      {en ? (
+                        order.paymentMethod === 'whatsapp'
+                          ? 'After making the Mobile Money payment, take a screenshot of the confirmation SMS and upload it here so we can validate your order.'
+                          : 'After making the deposit at Campost, photograph or film your receipt and upload it here so we can validate your order.'
+                      ) : (
+                        order.paymentMethod === 'whatsapp'
+                          ? "Après avoir effectué le paiement Mobile Money, prenez une capture d'écran du SMS de confirmation et uploadez-la ici pour que nous puissions valider votre commande."
+                          : "Après avoir effectué le versement à Campost, photographiez ou filmez votre reçu et uploadez-le ici pour que nous puissions valider votre commande."
+                      )}
                     </p>
                   </div>
                 </div>
@@ -384,8 +395,8 @@ export default function OrderConfirmationPage() {
                   <input
                     type="file"
                     accept="image/*,video/*"
-                    aria-label={order.paymentMethod === 'whatsapp' 
-                      ? 'Uploader la capture d\'écran de confirmation Mobile Money' 
+                    aria-label={order.paymentMethod === 'whatsapp'
+                      ? 'Uploader la capture d\'écran de confirmation Mobile Money'
                       : 'Uploader le reçu Campost (photo ou vidéo)'}
                     onChange={handleFileSelect}
                     className="hidden"
@@ -393,12 +404,10 @@ export default function OrderConfirmationPage() {
                   <div className="border-3 border-dashed border-gray-300 rounded-xl p-12 text-center hover:border-emerald-500 hover:bg-emerald-50/50 transition-all">
                     <Upload className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                     <p className="text-lg font-semibold text-gray-700 mb-2">
-                      Cliquez pour uploader
+                      {en ? 'Click to upload' : 'Cliquez pour uploader'}
                     </p>
                     <p className="text-sm text-gray-500">
-                      {order.paymentMethod === 'whatsapp' 
-                        ? 'Capture d\'écran du SMS de confirmation (max 10MB)'
-                        : 'Photo ou vidéo du reçu Campost (max 10MB)'}
+                      {en ? 'JPG, PNG, PDF, MP4 accepted' : 'JPG, PNG, PDF, MP4 acceptés'}
                     </p>
                   </div>
                 </label>
@@ -417,7 +426,7 @@ export default function OrderConfirmationPage() {
                       <video src={previewUrl} controls className="w-full h-auto" />
                     )}
                   </div>
-                  
+
                   <div className="flex gap-3">
                     <button
                       onClick={handleUploadReceipt}
@@ -427,12 +436,12 @@ export default function OrderConfirmationPage() {
                       {uploading ? (
                         <>
                           <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                          Upload en cours...
+                          {en ? 'Uploading...' : 'Upload en cours...'}
                         </>
                       ) : (
                         <>
                           <CheckCircle className="w-5 h-5" />
-                          Confirmer l'Upload
+                          {en ? 'Confirm Upload' : "Confirmer l'Upload"}
                         </>
                       )}
                     </button>
@@ -443,7 +452,7 @@ export default function OrderConfirmationPage() {
                       }}
                       className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
                     >
-                      Annuler
+                      {en ? 'Cancel' : 'Annuler'}
                     </button>
                   </div>
                 </div>
@@ -459,7 +468,7 @@ export default function OrderConfirmationPage() {
           transition={{ delay: 0.6 }}
           className="bg-white rounded-2xl shadow-xl p-8"
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Récapitulatif de la Commande</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">{en ? 'Order Summary' : 'Récapitulatif de la Commande'}</h2>
 
           {/* Produits */}
           <div className="space-y-4 mb-6">
@@ -475,7 +484,7 @@ export default function OrderConfirmationPage() {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-gray-900">{item.productName}</h3>
-                  <p className="text-sm text-gray-600">Quantité: {item.quantity}</p>
+                  <p className="text-sm text-gray-600">{en ? `Qty: ${item.quantity}` : `Quantité: ${item.quantity}`}</p>
                   <p className="font-semibold text-emerald-600">
                     {item.total.toLocaleString('fr-FR')} FCFA
                   </p>
@@ -488,7 +497,7 @@ export default function OrderConfirmationPage() {
           <div className="border-t pt-6 mb-6">
             <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
               <MapPin className="w-5 h-5 text-emerald-600" />
-              Adresse de Livraison
+              {en ? 'Delivery Address' : 'Adresse de Livraison'}
             </h3>
             <div className="bg-gray-50 rounded-lg p-4 space-y-1">
               <p className="font-semibold">{order.shippingAddress.name}</p>
@@ -506,7 +515,7 @@ export default function OrderConfirmationPage() {
           {/* Total */}
           <div className="border-t pt-6">
             <div className="flex justify-between items-center text-2xl font-bold">
-              <span className="text-gray-900">Total à Payer:</span>
+              <span className="text-gray-900">{en ? 'Total to Pay:' : 'Total à Payer:'}</span>
               <span className="text-emerald-600">
                 {order.total.toLocaleString('fr-FR')} FCFA
               </span>
@@ -521,7 +530,7 @@ export default function OrderConfirmationPage() {
           transition={{ delay: 0.8 }}
           className="text-center mt-8 text-gray-600"
         >
-          <p className="mb-2">Besoin d'aide ?</p>
+          <p className="mb-2">{en ? 'Need help?' : "Besoin d'aide ?"}</p>
           <div className="flex items-center justify-center gap-6">
             <a href="tel:+237670000000" className="flex items-center gap-2 text-emerald-600 hover:text-emerald-700">
               <Phone className="w-4 h-4" />

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -11,6 +11,7 @@ import {
 import type { ComponentType } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // --- Données Cameroun ---------------------------------------------------------
 const REGIONS = [
@@ -33,14 +34,23 @@ const CITIES_BY_REGION: Record<string, string[]> = {
 
 // --- Indicateur de force du mot de passe -------------------------------------
 function PasswordStrengthBar({ password }: { password: string }) {
-  const checks = [
-    { label: '8+ caractères', ok: password.length >= 8 },
-    { label: 'Majuscule',     ok: /[A-Z]/.test(password) },
-    { label: 'Chiffre',       ok: /[0-9]/.test(password) },
-    { label: 'Spécial',       ok: /[^A-Za-z0-9]/.test(password) },
+  const { locale } = useLanguage();
+  const en = locale === 'en';
+
+  const passwordChecks = [
+    { label: en ? '8+ characters' : '8+ caractères', ok: password.length >= 8 },
+    { label: en ? 'Uppercase' : 'Majuscule',          ok: /[A-Z]/.test(password) },
+    { label: en ? 'Number' : 'Chiffre',               ok: /[0-9]/.test(password) },
+    { label: en ? 'Special char' : 'Spécial',         ok: /[^A-Za-z0-9]/.test(password) },
   ];
-  const score = checks.filter(c => c.ok).length;
-  const labels = ['Très faible', 'Faible', 'Moyen', 'Fort', 'Très fort'];
+  const score = passwordChecks.filter(c => c.ok).length;
+  const strengthLabels = [
+    en ? 'Very weak'   : 'Très faible',
+    en ? 'Weak'        : 'Faible',
+    en ? 'Medium'      : 'Moyen',
+    en ? 'Strong'      : 'Fort',
+    en ? 'Very strong' : 'Très fort',
+  ];
   const colors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-emerald-500'];
 
   if (!password) return null;
@@ -60,10 +70,10 @@ function PasswordStrengthBar({ password }: { password: string }) {
         <span className={`text-xs font-medium ${
           score <= 1 ? 'text-red-500' : score === 2 ? 'text-yellow-500' : 'text-emerald-600'
         }`}>
-          {labels[score]}
+          {strengthLabels[score]}
         </span>
         <div className="flex gap-2">
-          {checks.map((c, i) => (
+          {passwordChecks.map((c, i) => (
             <span key={i} className={`text-[10px] flex items-center gap-0.5 ${
               c.ok ? 'text-emerald-600' : 'text-gray-400'
             }`}>
@@ -79,10 +89,13 @@ function PasswordStrengthBar({ password }: { password: string }) {
 
 // --- Indicateur d'étapes ------------------------------------------------------
 function StepIndicator({ current, total }: { current: number; total: number }) {
+  const { locale } = useLanguage();
+  const en = locale === 'en';
+
   const steps = [
-    { label: 'Identité',    icon: User    },
-    { label: 'Localisation', icon: MapPin  },
-    { label: 'Sécurité',    icon: Shield  },
+    { label: en ? 'Identity' : 'Identité',     icon: User   },
+    { label: en ? 'Location' : 'Localisation', icon: MapPin },
+    { label: en ? 'Security' : 'Sécurité',     icon: Shield },
   ];
   return (
     <div className="flex items-center justify-center gap-0 mb-8">
@@ -136,6 +149,9 @@ interface FormData {
 // --- Composant principal ------------------------------------------------------
 export default function RegisterPage() {
   const router  = useRouter();
+  const { locale } = useLanguage();
+  const en = locale === 'en';
+
   const [step,    setStep]    = useState(0);
   const [loading, setLoading] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
@@ -157,29 +173,29 @@ export default function RegisterPage() {
   const validateStep = (): boolean => {
     if (step === 0) {
       if (!form.name.trim() || form.name.trim().length < 2) {
-        toast.error('Nom requis (min 2 caractères)'); return false;
+        toast.error(en ? 'Name required (min 2 chars)' : 'Nom requis (min 2 caractères)'); return false;
       }
       if (!/^\S+@\S+\.\S+$/.test(form.email)) {
-        toast.error('Adresse email invalide'); return false;
+        toast.error(en ? 'Invalid email address' : 'Adresse email invalide'); return false;
       }
     }
     if (step === 1) {
       if (!form.phone.trim()) {
-        toast.error('Numéro de téléphone requis'); return false;
+        toast.error(en ? 'Phone number required' : 'Numéro de téléphone requis'); return false;
       }
       if (!form.region) {
-        toast.error('Veuillez choisir votre région'); return false;
+        toast.error(en ? 'Please choose your region' : 'Veuillez choisir votre région'); return false;
       }
       if (!form.city) {
-        toast.error('Veuillez choisir votre ville'); return false;
+        toast.error(en ? 'Please choose your city' : 'Veuillez choisir votre ville'); return false;
       }
     }
     if (step === 2) {
       if (form.password.length < 8) {
-        toast.error('Mot de passe trop court (min 8 caractères)'); return false;
+        toast.error(en ? 'Password too short (min 8 chars)' : 'Mot de passe trop court (min 8 caractères)'); return false;
       }
       if (form.password !== form.confirmPassword) {
-        toast.error('Les mots de passe ne correspondent pas'); return false;
+        toast.error(en ? 'Passwords do not match' : 'Les mots de passe ne correspondent pas'); return false;
       }
     }
     return true;
@@ -214,7 +230,7 @@ export default function RegisterPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.error || 'Erreur d\'inscription');
+        toast.error(data.error || (en ? 'Registration error' : "Erreur d'inscription"));
         return;
       }
 
@@ -223,10 +239,10 @@ export default function RegisterPage() {
       localStorage.setItem('refreshToken', data.refreshToken);
       localStorage.setItem('user',         JSON.stringify(data.user));
 
-      toast.success('Compte créé ! Vérifiez votre email pour activer votre compte.');
+      toast.success(en ? 'Account created! Check your email to activate your account.' : 'Compte créé ! Vérifiez votre email pour activer votre compte.');
       router.push(`/auth/verify-email?email=${encodeURIComponent(form.email)}&pending=true`);
     } catch (err) {
-      toast.error('Erreur de connexion au serveur');
+      toast.error(en ? 'Server connection error' : 'Erreur de connexion au serveur');
     } finally {
       setLoading(false);
     }
@@ -262,19 +278,22 @@ export default function RegisterPage() {
             />
           </Link>
           <h1 className="text-4xl font-black mb-3 leading-tight">
-            Rejoignez la<br />
-            <span className="text-emerald-300">révolution verte</span>
+            {en ? 'Join the' : 'Rejoignez la'}<br />
+            <span className="text-emerald-300">{en ? 'green revolution' : 'révolution verte'}</span>
           </h1>
           <p className="text-emerald-100/80 leading-relaxed mb-8 text-sm">
-            Plus de 10 000 agriculteurs camerounais font confiance à AGRIPOINT SERVICES pour booster leurs rendements.
+            {en
+              ? 'More than 10,000 Cameroonian farmers trust AGRIPOINT SERVICES to boost their yields.'
+              : 'Plus de 10 000 agriculteurs camerounais font confiance à AGRIPOINT SERVICES pour booster leurs rendements.'}
           </p>
 
           {/* Avantages */}
           <div className="space-y-4 text-left">
             {([
-              { Icon: Sprout, title: 'Biofertilisants premium', desc: 'Produits certifiés biologiques' },
-              { Icon: Package, title: 'Livraison partout', desc: 'Dans toutes les 10 régions' },
-              { Icon: Handshake, title: 'Accompagnement expert', desc: 'Conseillers agricoles dédiés' },
+              { Icon: Sprout,    title: en ? 'Premium Biofertilizers'    : 'Biofertilisants premium',     desc: en ? 'Quality guaranteed'    : 'Qualité garantie' },
+              { Icon: Leaf,      title: en ? 'Certified organic products' : 'Produits certifiés biologiques', desc: en ? 'Eco-friendly'        : 'Écologiques' },
+              { Icon: Package,   title: en ? 'Delivery everywhere'        : 'Livraison partout',           desc: en ? 'Across all 10 regions' : 'Dans toutes les 10 régions' },
+              { Icon: Handshake, title: en ? 'Expert support'             : 'Accompagnement expert',       desc: en ? 'Dedicated advisors'    : 'Conseillers agricoles dédiés' },
             ] as { Icon: ComponentType<{ className?: string }>; title: string; desc: string }[]).map((item, i) => (
               <motion.div
                 key={i}
@@ -307,9 +326,16 @@ export default function RegisterPage() {
           </div>
 
           <div className="mb-6">
-            <h2 className="text-2xl font-black text-gray-900 dark:text-white">Créer un compte</h2>
+            <h2 className="text-2xl font-black text-gray-900 dark:text-white">
+              {en ? 'Create an account' : 'Créer un compte'}
+            </h2>
             <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
-              Étape {step + 1} sur 3 · {['Votre identité', 'Votre localisation', 'Votre mot de passe'][step]}
+              {en ? `Step ${step + 1} of 3` : `Étape ${step + 1} sur 3`}
+              {' · '}
+              {(en
+                ? ['Your identity', 'Your location', 'Your password']
+                : ['Votre identité', 'Votre localisation', 'Votre mot de passe']
+              )[step]}
             </p>
           </div>
 
@@ -335,7 +361,7 @@ export default function RegisterPage() {
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                          Nom complet <span className="text-red-500">*</span>
+                          {en ? 'Full name' : 'Nom complet'} <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                           <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -352,7 +378,7 @@ export default function RegisterPage() {
 
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                          Adresse email <span className="text-red-500">*</span>
+                          {en ? 'Email address' : 'Adresse email'} <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -365,7 +391,9 @@ export default function RegisterPage() {
                             className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-white/[0.08] bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
                           />
                         </div>
-                        <p className="text-xs text-gray-400 mt-1">Un lien de vérification sera envoyé à cet email</p>
+                        <p className="text-xs text-gray-400 mt-1">
+                          {en ? 'A verification link will be sent to this email' : 'Un lien de vérification sera envoyé à cet email'}
+                        </p>
                       </div>
                     </div>
                   )}
@@ -376,7 +404,7 @@ export default function RegisterPage() {
                       {/* Téléphone */}
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                          Téléphone <span className="text-red-500">*</span>
+                          {en ? 'Phone' : 'Téléphone'} <span className="text-red-500">*</span>
                         </label>
                         <div className="relative flex">
                           <span className="flex items-center bg-gray-100 dark:bg-gray-700 border border-r-0 border-gray-200 dark:border-white/[0.08] rounded-l-xl px-3 text-sm text-gray-600 dark:text-gray-400 font-medium">
@@ -408,7 +436,7 @@ export default function RegisterPage() {
                             onChange={e => set('sameAsPhone', e.target.checked)}
                             className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
                           />
-                          Identique au téléphone
+                          {en ? 'Same as phone' : 'Identique au téléphone'}
                         </label>
                         {!form.sameAsPhone && (
                           <div className="relative flex">
@@ -429,7 +457,7 @@ export default function RegisterPage() {
                       {/* Région */}
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                          Région <span className="text-red-500">*</span>
+                          {en ? 'Region' : 'Région'} <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                           <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
@@ -437,11 +465,11 @@ export default function RegisterPage() {
                             value={form.region}
                             onChange={e => { set('region', e.target.value); set('city', ''); }}
                             required
-                            title="Choisir une région"
-                            aria-label="Choisir une région"
+                            title={en ? 'Choose a region' : 'Choisir une région'}
+                            aria-label={en ? 'Choose a region' : 'Choisir une région'}
                             className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-white/[0.08] bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition appearance-none cursor-pointer"
                           >
-                            <option value="">— Choisir une région —</option>
+                            <option value="">{en ? '— Choose a region —' : '— Choisir une région —'}</option>
                             {REGIONS.map(r => <option key={r} value={r}>{r}</option>)}
                           </select>
                         </div>
@@ -450,19 +478,21 @@ export default function RegisterPage() {
                       {/* Ville */}
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                          Ville <span className="text-red-500">*</span>
+                          {en ? 'City' : 'Ville'} <span className="text-red-500">*</span>
                         </label>
                         <select
                           value={form.city}
                           onChange={e => set('city', e.target.value)}
                           required
                           disabled={!form.region}
-                          title="Choisir une ville"
-                          aria-label="Choisir une ville"
+                          title={en ? 'Choose a city' : 'Choisir une ville'}
+                          aria-label={en ? 'Choose a city' : 'Choisir une ville'}
                           className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-white/[0.08] bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition disabled:opacity-50 cursor-pointer"
                         >
                           <option value="">
-                            {form.region ? '— Choisir une ville —' : 'Sélectionnez d\'abord une région'}
+                            {form.region
+                              ? (en ? '— Choose a city —' : '— Choisir une ville —')
+                              : (en ? 'Select a region first' : "Sélectionnez d'abord une région")}
                           </option>
                           {cities.map(c => <option key={c} value={c}>{c}</option>)}
                         </select>
@@ -471,8 +501,8 @@ export default function RegisterPage() {
                       {/* Quartier (optionnel) */}
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                          Quartier / Localité
-                          <span className="text-gray-400 font-normal ml-1">(optionnel)</span>
+                          {en ? 'District / Locality' : 'Quartier / Localité'}
+                          <span className="text-gray-400 font-normal ml-1">{en ? '(optional)' : '(optionnel)'}</span>
                         </label>
                         <input
                           type="text"
@@ -490,7 +520,7 @@ export default function RegisterPage() {
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                          Mot de passe <span className="text-red-500">*</span>
+                          {en ? 'Password' : 'Mot de passe'} <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -498,7 +528,7 @@ export default function RegisterPage() {
                             type={showPwd ? 'text' : 'password'}
                             value={form.password}
                             onChange={e => set('password', e.target.value)}
-                            placeholder="Minimum 8 caractères"
+                            placeholder={en ? 'Minimum 8 characters' : 'Minimum 8 caractères'}
                             required
                             className="w-full pl-10 pr-12 py-3 rounded-xl border border-gray-200 dark:border-white/[0.08] bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
                           />
@@ -515,7 +545,7 @@ export default function RegisterPage() {
 
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                          Confirmer le mot de passe <span className="text-red-500">*</span>
+                          {en ? 'Confirm password' : 'Confirmer le mot de passe'} <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -523,7 +553,7 @@ export default function RegisterPage() {
                             type={showCpw ? 'text' : 'password'}
                             value={form.confirmPassword}
                             onChange={e => set('confirmPassword', e.target.value)}
-                            placeholder="Répétez le mot de passe"
+                            placeholder={en ? 'Repeat password' : 'Répétez le mot de passe'}
                             required
                             className={`w-full pl-10 pr-12 py-3 rounded-xl border transition focus:outline-none focus:ring-2 focus:border-transparent bg-gray-50 dark:bg-gray-800 placeholder:text-gray-400 ${
                               form.confirmPassword && form.password !== form.confirmPassword
@@ -549,14 +579,14 @@ export default function RegisterPage() {
                       {/* Récapitulatif */}
                       <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-100 dark:border-emerald-800/30 p-4 text-sm space-y-1.5">
                         <p className="font-semibold text-emerald-800 dark:text-emerald-300 text-xs uppercase tracking-wide mb-2">
-                          Récapitulatif
+                          {en ? 'Summary' : 'Récapitulatif'}
                         </p>
                         {[
-                          { l: 'Nom',      v: form.name      },
-                          { l: 'Email',    v: form.email     },
-                          { l: 'Tél',      v: `+237 ${form.phone}` },
-                          { l: 'Région',   v: form.region    },
-                          { l: 'Ville',    v: `${form.city}${form.quartier ? `, ${form.quartier}` : ''}` },
+                          { l: en ? 'Name'   : 'Nom',    v: form.name      },
+                          { l: 'Email',                   v: form.email     },
+                          { l: en ? 'Tel.'   : 'Tél',    v: `+237 ${form.phone}` },
+                          { l: en ? 'Region' : 'Région', v: form.region    },
+                          { l: en ? 'City'   : 'Ville',  v: `${form.city}${form.quartier ? `, ${form.quartier}` : ''}` },
                         ].map(({ l, v }) => (
                           <div key={l} className="flex justify-between text-xs">
                             <span className="text-gray-500">{l} :</span>
@@ -566,9 +596,19 @@ export default function RegisterPage() {
                       </div>
 
                       <p className="text-xs text-gray-400 text-center leading-relaxed">
-                        En créant un compte, vous acceptez nos{' '}
-                        <Link href="/cgv" className="text-emerald-600 hover:underline">CGV</Link> et notre{' '}
-                        <Link href="/confidentialite" className="text-emerald-600 hover:underline">politique de confidentialité</Link>.
+                        {en ? (
+                          <>
+                            By creating an account, you accept our{' '}
+                            <Link href="/cgv" className="text-emerald-600 hover:underline">Terms</Link> and our{' '}
+                            <Link href="/confidentialite" className="text-emerald-600 hover:underline">Privacy Policy</Link>.
+                          </>
+                        ) : (
+                          <>
+                            En créant un compte, vous acceptez nos{' '}
+                            <Link href="/cgv" className="text-emerald-600 hover:underline">CGV</Link> et notre{' '}
+                            <Link href="/confidentialite" className="text-emerald-600 hover:underline">politique de confidentialité</Link>.
+                          </>
+                        )}
                       </p>
                     </div>
                   )}
@@ -584,7 +624,7 @@ export default function RegisterPage() {
                     onClick={goPrev}
                     className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-gray-200 dark:border-white/[0.08] text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition font-medium text-sm"
                   >
-                    <ArrowLeft className="w-4 h-4" /> Retour
+                    <ArrowLeft className="w-4 h-4" /> {en ? 'Back' : 'Retour'}
                   </button>
                 )}
 
@@ -593,7 +633,7 @@ export default function RegisterPage() {
                     type="submit"
                     className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm transition shadow-md shadow-emerald-200 dark:shadow-none"
                   >
-                    Suivant <ArrowRight className="w-4 h-4" />
+                    {en ? 'Next' : 'Suivant'} <ArrowRight className="w-4 h-4" />
                   </button>
                 ) : (
                   <button
@@ -604,12 +644,12 @@ export default function RegisterPage() {
                     {loading ? (
                       <>
                         <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        Création en cours...
+                        {en ? 'Creating...' : 'Création en cours...'}
                       </>
                     ) : (
                       <>
                         <Sprout className="w-4 h-4" />
-                        Créer mon compte
+                        {en ? 'Create my account' : 'Créer mon compte'}
                       </>
                     )}
                   </button>
@@ -619,9 +659,9 @@ export default function RegisterPage() {
           </div>
 
           <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-5">
-            Déjà un compte ?{' '}
+            {en ? 'Already have an account?' : 'Déjà un compte ?'}{' '}
             <Link href="/auth/login" className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline">
-              Se connecter
+              {en ? 'Sign in' : 'Se connecter'}
             </Link>
           </p>
         </div>
@@ -629,5 +669,3 @@ export default function RegisterPage() {
     </div>
   );
 }
-
-

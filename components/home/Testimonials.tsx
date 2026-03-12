@@ -1,40 +1,50 @@
-﻿'use client';
+'use client';
 
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
 import AnimatedCounter from '@/components/shared/AnimatedCounter';
-
-const testimonials = [
-  {
-    name: 'Jean-Pierre M.',
-    role: 'Agriculteur',
-    location: 'Yaoundé',
-    content: 'Grâce aux biofertilisants AGRIPOINT SERVICES, ma production de tomates a doublé. Service excellent et conseils précieux !',
-    rating: 5,
-    color: 'from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/20',
-    border: 'border-emerald-100 dark:border-emerald-800/30',
-  },
-  {
-    name: 'Marie K.',
-    role: 'Agriculture urbaine',
-    location: 'Douala',
-    content: 'AgriBot m\'a aidée à démarrer mon potager urbain. Je cultive maintenant mes propres légumes sur mon balcon !',
-    rating: 5,
-    color: 'from-teal-50 to-emerald-50 dark:from-teal-950/30 dark:to-emerald-950/20',
-    border: 'border-teal-100 dark:border-teal-800/30',
-  },
-  {
-    name: 'Thomas B.',
-    role: 'Producteur de cacao',
-    location: 'Bafoussam',
-    content: 'Les produits sont de qualité supérieure et les résultats sont visibles dés les premières semaines. Je recommande !',
-    rating: 5,
-    color: 'from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/20',
-    border: 'border-green-100 dark:border-green-800/30',
-  },
-];
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Testimonials() {
+  const { locale } = useLanguage();
+  const en = locale === 'en';
+
+  const testimonials = [
+    {
+      name: 'Jean-Pierre M.',
+      role: en ? 'Farmer' : 'Agriculteur',
+      location: 'Yaoundé',
+      content: en
+        ? 'Thanks to AGRIPOINT SERVICES biofertilizers, my tomato production has doubled. Excellent service and valuable advice!'
+        : 'Grâce aux biofertilisants AGRIPOINT SERVICES, ma production de tomates a doublé. Service excellent et conseils précieux !',
+      rating: 5,
+      color: 'from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/20',
+      border: 'border-emerald-100 dark:border-emerald-800/30',
+    },
+    {
+      name: 'Marie K.',
+      role: en ? 'Urban farming' : 'Agriculture urbaine',
+      location: 'Douala',
+      content: en
+        ? 'AgriBot helped me start my urban vegetable garden. I now grow my own vegetables on my balcony!'
+        : "AgriBot m'a aidée à démarrer mon potager urbain. Je cultive maintenant mes propres légumes sur mon balcon !",
+      rating: 5,
+      color: 'from-teal-50 to-emerald-50 dark:from-teal-950/30 dark:to-emerald-950/20',
+      border: 'border-teal-100 dark:border-teal-800/30',
+    },
+    {
+      name: 'Thomas B.',
+      role: en ? 'Cocoa producer' : 'Producteur de cacao',
+      location: 'Bafoussam',
+      content: en
+        ? 'The products are of superior quality and the results are visible from the first few weeks. I highly recommend!'
+        : 'Les produits sont de qualité supérieure et les résultats sont visibles dés les premières semaines. Je recommande !',
+      rating: 5,
+      color: 'from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/20',
+      border: 'border-green-100 dark:border-green-800/30',
+    },
+  ];
+
   return (
     <section className="py-20 bg-white dark:bg-gray-950 relative overflow-hidden">
       {/* Subtle dot bg via CSS */}
@@ -49,13 +59,13 @@ export default function Testimonials() {
         >
           <span className="section-tag">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            Témoignages clients
+            {en ? 'Customer Testimonials' : 'Témoignages clients'}
           </span>
           <h2 className="section-title">
-            Ce que disent nos <span className="text-accent-green">clients</span>
+            {en ? <>What our <span className="text-accent-green">clients</span> say</> : <>Ce que disent nos <span className="text-accent-green">clients</span></>}
           </h2>
           <p className="section-subtitle">
-            Des milliers d&apos;agriculteurs nous font confiance au Cameroun
+            {en ? 'Thousands of farmers trust us in Cameroon' : "Des milliers d'agriculteurs nous font confiance au Cameroun"}
           </p>
         </motion.div>
 
@@ -111,32 +121,32 @@ export default function Testimonials() {
               {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
             </div>
             <p className="text-sm font-semibold text-gray-900 dark:text-white">4.9/5</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Note moyenne</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{en ? 'Average rating' : 'Note moyenne'}</p>
           </div>
           <div className="hidden sm:block w-px h-8 bg-gray-200 dark:bg-gray-700" />
           <div>
             <p className="text-2xl font-black text-gradient-primary">
-              <AnimatedCounter 
-                to={10000} 
-                duration={2.5} 
-                prefix="" 
-                suffix="+" 
+              <AnimatedCounter
+                to={10000}
+                duration={2.5}
+                prefix=""
+                suffix="+"
                 format={(v) => (Math.round(v) / 1000).toString() + ' 000'}
               />
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Clients satisfaits</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{en ? 'Satisfied clients' : 'Clients satisfaits'}</p>
           </div>
           <div className="hidden sm:block w-px h-8 bg-gray-200 dark:bg-gray-700" />
           <div>
             <p className="text-2xl font-black text-gradient-primary">
-              <AnimatedCounter 
-                to={24} 
-                duration={2} 
-                suffix=" avis" 
+              <AnimatedCounter
+                to={24}
+                duration={2}
+                suffix={en ? ' reviews' : ' avis'}
                 format={(v) => Math.round(v).toString()}
               />
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Vérifiés</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{en ? 'Verified' : 'Vérifiés'}</p>
           </div>
         </motion.div>
       </div>

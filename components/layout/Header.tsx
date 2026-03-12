@@ -58,7 +58,8 @@ export default function Header() {
     return pathname === item.href || pathname.startsWith(item.href + '/');
   }, [pathname]);
 
-  const { T } = useLanguage();
+  const { locale, T } = useLanguage();
+  const en = locale === 'en';
   const cartItemsCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   const navigation = [
@@ -234,7 +235,7 @@ export default function Header() {
             <Link
               href="/panier"
               className="relative p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50/80 dark:hover:bg-emerald-900/25 transition-all duration-150 hover:-translate-y-0.5"
-              aria-label="Panier"
+              aria-label={en ? 'Cart' : 'Panier'}
             >
               <ShoppingCart className="w-5 h-5 sm:w-5 sm:h-5" />
               {cartItemsCount > 0 && (
@@ -248,7 +249,7 @@ export default function Header() {
             <Link
               href="/compte"
               className="hidden md:flex p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50/80 dark:hover:bg-emerald-900/25 transition-all duration-150"
-              aria-label="Mon compte"
+              aria-label={en ? 'My account' : 'Mon compte'}
             >
               <User className="w-5 h-5 lg:w-6 lg:h-6" />
             </Link>

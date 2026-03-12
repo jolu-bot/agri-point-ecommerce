@@ -3,8 +3,18 @@
 import Link from 'next/link';
 import { LazyMotion, domAnimation, m } from 'framer-motion';
 import { ArrowRight, Leaf } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function HeroAnimated() {
+  const { locale } = useLanguage();
+  const en = locale === 'en';
+
+  const stats = [
+    { value: '20K+', label: 'Hectares', type: 'primary' },
+    { value: '10K+', label: en ? 'Farmers' : 'Agriculteurs', type: 'primary' },
+    { value: '100%', label: en ? 'Bio Certified' : 'Bio Certifié', type: 'secondary' },
+  ];
+
   return (
     <LazyMotion features={domAnimation} strict>
       <m.div
@@ -21,7 +31,7 @@ export default function HeroAnimated() {
           className="inline-flex items-center gap-2.5 self-start px-4 py-2 rounded-full border border-emerald-200 dark:border-emerald-700/35 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 text-[12.5px] font-semibold tracking-wide shadow-sm mb-6 hero-badge brand-shimmer"
         >
           <span className="brand-pulse-dot" />
-          Le partenaire sûr de l&apos;entrepreneur agricole
+          {en ? "The trusted partner of the agricultural entrepreneur" : "Le partenaire sûr de l'entrepreneur agricole"}
           <Leaf className="w-3.5 h-3.5 opacity-60" />
         </m.div>
 
@@ -41,7 +51,7 @@ export default function HeroAnimated() {
             SERVICES
           </span>
           {/* Ligne 3 — tagline plus légère */}
-          <span className="hero-tagline">Tout en Un</span>
+          <span className="hero-tagline">{en ? 'All in One' : 'Tout en Un'}</span>
         </m.h1>
 
         {/* Description */}
@@ -51,9 +61,19 @@ export default function HeroAnimated() {
           transition={{ delay: 0.32, duration: 0.5 }}
           className="text-gray-700 dark:text-gray-300 leading-relaxed max-w-lg hero-description"
         >
-          Gamme complète de{' '}
-          <strong className="text-gray-900 dark:text-white font-semibold">biofertilisants de grande qualité</strong>{' '}
-          pour augmenter la production de toutes les cultures au Cameroun.
+          {en ? (
+            <>
+              Complete range of{' '}
+              <strong className="text-gray-900 dark:text-white font-semibold">high-quality biofertilizers</strong>{' '}
+              to increase production of all crops in Cameroon.
+            </>
+          ) : (
+            <>
+              Gamme complète de{' '}
+              <strong className="text-gray-900 dark:text-white font-semibold">biofertilisants de grande qualité</strong>{' '}
+              pour augmenter la production de toutes les cultures au Cameroun.
+            </>
+          )}
         </m.p>
 
         {/* CTAs */}
@@ -64,13 +84,13 @@ export default function HeroAnimated() {
           className="flex flex-col sm:flex-row gap-3 hero-buttons"
         >
           <Link href="/produits" className="btn-primary btn-glow inline-flex items-center justify-center gap-2 group">
-            Découvrir nos produits
+            {en ? 'Discover our products' : 'Découvrir nos produits'}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-200" />
           </Link>
           {/* CTA secondaire Campagne Engrais — accent rouge marque */}
           <Link href="/campagne-engrais" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-red-800/30 dark:border-red-700/25 bg-red-950/5 dark:bg-red-900/10 text-red-700 dark:text-red-400 hover:bg-red-950/10 dark:hover:bg-red-900/20 hover:border-red-700/50 dark:hover:border-red-600/40 font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5">
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 dark:bg-red-400 animate-pulse flex-shrink-0" />
-            Campagne Engrais
+            {en ? 'Fertilizer Campaign' : 'Campagne Engrais'}
           </Link>
         </m.div>
 
@@ -81,11 +101,7 @@ export default function HeroAnimated() {
           transition={{ delay: 0.54, duration: 0.4 }}
           className="grid grid-cols-3 gap-3"
         >
-          {[
-            { value: '20K+', label: 'Hectares', type: 'primary' },
-            { value: '10K+', label: 'Agriculteurs', type: 'primary' },
-            { value: '100%', label: 'Bio Certifié', type: 'secondary' },
-          ].map(({ value, label, type }, i) => (
+          {stats.map(({ value, label, type }, i) => (
             <m.div
               key={label}
               initial={{ opacity: 0, y: 8 }}
