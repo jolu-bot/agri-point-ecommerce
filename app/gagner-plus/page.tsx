@@ -311,6 +311,30 @@ export default function GagnerPlusPage() {
         ["Montage plans d'affaires", 'Recherche de financement', 'Gestion financi\u00e8re', 'Accompagnement bancaire'],
       ];
 
+  const cultureLabels: Record<string, string> = locale === 'en'
+    ? { 'maïs': 'Maize', 'tomate': 'Tomato', 'cacao': 'Cocoa', 'haricot': 'Bean', 'oignon': 'Onion' }
+    : { 'maïs': 'Maïs', 'tomate': 'Tomate', 'cacao': 'Cacao', 'haricot': 'Haricot', 'oignon': 'Oignon' };
+
+  const storiesDisplay = locale === 'en'
+    ? [
+        {
+          ...pageContent.successStories[0],
+          culture: 'Onion',
+          quote: 'Thanks to support with marketing and price negotiation, my income tripled in one season.',
+        },
+        {
+          ...pageContent.successStories[1],
+          culture: 'Market gardening',
+          quote: 'Warehousing allowed me to sell at the right time. I now supply the best restaurants.',
+        },
+        {
+          ...pageContent.successStories[2],
+          culture: 'Arabica Coffee',
+          quote: 'The support in developing my business plan gave me access to financing. My business has transformed.',
+        },
+      ]
+    : pageContent.successStories;
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -354,7 +378,7 @@ export default function GagnerPlusPage() {
                   href="/contact"
                   className="px-8 py-4 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all"
                 >
-                  {locale === 'en' ? 'More information' : "Plus d'informations"}
+                  {T.common.moreInfo}
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
@@ -492,7 +516,7 @@ export default function GagnerPlusPage() {
                   aria-label="Type de culture"
                 >
                   {pageContent.calculator.cultures.map(c => (
-                    <option key={c.value} value={c.value}>{c.label}</option>
+                    <option key={c.value} value={c.value}>{cultureLabels[c.value] ?? c.label}</option>
                   ))}
                 </select>
               </div>
@@ -543,7 +567,7 @@ export default function GagnerPlusPage() {
                 href="/contact"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all"
               >
-                Commencer maintenant
+                {T.gagnerPlus.calcCta}
                 <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
@@ -560,7 +584,7 @@ export default function GagnerPlusPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {pageContent.successStories.map((story, index) => (
+            {storiesDisplay.map((story, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -589,11 +613,11 @@ export default function GagnerPlusPage() {
                   
                   <div className="grid grid-cols-2 gap-4 mb-4 py-4 border-y">
                     <div>
-                    <p className="text-xs text-gray-500 mb-1">{locale === 'en' ? 'Before' : 'Avant'}</p>
+                    <p className="text-xs text-gray-500 mb-1">{T.common.before}</p>
                       <p className="font-semibold text-red-600">{story.before}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500 mb-1">{locale === 'en' ? 'After' : 'Apr\u00e8s'}</p>
+                      <p className="text-xs text-gray-500 mb-1">{T.common.after}</p>
                       <p className="font-semibold text-green-600">{story.after}</p>
                     </div>
                   </div>

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -9,13 +9,15 @@ import { useCartStore } from '@/store/cartStore';
 import toast from 'react-hot-toast';
 import CampostPaymentInfo from '@/components/shared/CampostPaymentInfo';
 import WhatsAppPaymentInfo from '@/components/shared/WhatsAppPaymentInfo';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, clearCart } = useCartStore();
+  const { locale, T } = useLanguage();
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
-  
+
   // Promo code
   const [promoCodeInput, setPromoCodeInput] = useState('');
   const [promoCode, setPromoCode] = useState<any>(null);
@@ -24,19 +26,14 @@ export default function CheckoutPage() {
   const [promoError, setPromoError] = useState('');
 
   const [formData, setFormData] = useState({
-    // Informations client
     name: '',
     email: '',
     phone: '',
-    
-    // Adresse de livraison
     street: '',
     city: '',
     region: '',
     postalCode: '',
     notes: '',
-    
-    // Paiement
     paymentMethod: 'campost' as 'campost' | 'cash' | 'whatsapp',
   });
 
@@ -71,7 +68,6 @@ export default function CheckoutPage() {
       router.push('/panier');
     }
 
-    // Charger les infos utilisateur si connecté
     const token = localStorage.getItem('accessToken');
     if (token) {
       loadUserInfo(token);
@@ -110,10 +106,9 @@ export default function CheckoutPage() {
   const discountedSubtotal = subtotal - promoDiscount;
   const total = discountedSubtotal + shipping;
 
-  // Valider code promo
   const validatePromoCode = async () => {
     if (!promoCodeInput.trim()) {
-      setPromoError('Entrez un code promo');
+      setPromoError(locale === 'en' ? 'Enter a promo code' : 'Entrez un code promo');
       return;
     }
 
@@ -127,16 +122,22 @@ export default function CheckoutPage() {
       if (data.valid) {
         setPromoCode(data.promo);
         setPromoDiscount(data.discount);
-        toast.success(`Code "${promoCodeInput}" appliqué ! -${data.discount.toLocaleString()} FCFA`);
+        toast.success(
+          locale === 'en'
+            ? `Code "${promoCodeInput}" applied! -${data.discount.toLocaleString()} FCFA`
+            : `Code "${promoCodeInput}" appliqué ! -${data.discount.toLocaleString()} FCFA`
+        );
         setPromoCodeInput('');
       } else {
-        setPromoError(data.message || 'Code promo invalide');
-        toast.error(data.message || 'Code promo invalide');
+        const msg = data.message || (locale === 'en' ? 'Invalid promo code' : 'Code promo invalide');
+        setPromoError(msg);
+        toast.error(msg);
       }
     } catch (error) {
       console.error('Erreur validation promo:', error);
-      setPromoError('Erreur lors de la validation');
-      toast.error('Erreur lors de la validation');
+      const msg = locale === 'en' ? 'Validation error' : 'Erreur lors de la validation';
+      setPromoError(msg);
+      toast.error(msg);
     } finally {
       setValidatingPromo(false);
     }
@@ -154,14 +155,17 @@ export default function CheckoutPage() {
 
     try {
       const token = localStorage.getItem('accessToken');
-      
+
       if (!token) {
-        toast.error('Veuillez vous connecter pour passer commande');
+        toast.error(
+          locale === 'en'
+            ? 'Please log in to place an order'
+            : 'Veuillez vous connecter pour passer commande'
+        );
         router.push('/auth/login?redirect=/checkout');
         return;
       }
 
-      // Créer la commande
       const orderData = {
         items: items.map(item => ({
           product: item.id,
@@ -203,32 +207,60 @@ export default function CheckoutPage() {
       if (response.ok) {
         const data = await response.json();
         clearCart();
-        toast.success('Commande passée avec succès !');
-        
-        // Rediriger selon la méthode de paiement
+        toast.success(
+          locale === 'en' ? 'Order placed successfully!' : 'Commande passée avec succès !'
+        );
+
         if (formData.paymentMethod === 'campost' || formData.paymentMethod === 'whatsapp') {
-          // Campost et WhatsApp nécessitent confirmation avec upload
           router.push(`/commande/confirmation/${data.order._id}`);
         } else {
-          // Cash à la livraison
           router.push(`/commande/${data.order._id}`);
         }
       } else {
         const error = await response.json();
-        toast.error(error.error || 'Erreur lors de la commande');
+        toast.error(
+          error.error || (locale === 'en' ? 'Order error' : 'Erreur lors de la commande')
+        );
       }
     } catch (error) {
       console.error('Erreur commande:', error);
-      toast.error('Erreur serveur');
+      toast.error(locale === 'en' ? 'Server error' : 'Erreur serveur');
     } finally {
       setLoading(false);
     }
   };
 
   const steps = [
-    { number: 1, title: 'Informations', icon: User },
-    { number: 2, title: 'Livraison', icon: Truck },
-    { number: 3, title: 'Paiement', icon: CreditCard },
+    { number: 1, title: locale === 'en' ? 'Information' : 'Informations', icon: User },
+    { number: 2, title: locale === 'en' ? 'Delivery' : 'Livraison', icon: Truck },
+    { number: 3, title: locale === 'en' ? 'Payment' : 'Paiement', icon: CreditCard },
+  ];
+
+  const paymentMethods = [
+    {
+      value: 'campost',
+      label: locale === 'en' ? '🏢 Campost (Recommended)' : '🏢 Campost (Recommandé)',
+      description:
+        locale === 'en'
+          ? 'Transfer to the nearest Campost office – AGRIPOINT SERVICES account'
+          : 'Versement au bureau Campost le plus proche - Compte AGRIPOINT SERVICES',
+      recommended: true,
+    },
+    {
+      value: 'whatsapp',
+      label: '📱 Mobile Money + WhatsApp',
+      description:
+        locale === 'en'
+          ? 'Orange/MTN payment with quick confirmation (2h)'
+          : 'Paiement Orange/MTN avec confirmation rapide (2h)',
+      badge: locale === 'en' ? 'Fast' : 'Rapide',
+    },
+    {
+      value: 'cash',
+      label: locale === 'en' ? '💵 Cash on delivery' : '💵 Paiement à la livraison',
+      description:
+        locale === 'en' ? 'Pay in cash on receipt' : 'Payez en espèces à la réception',
+    },
   ];
 
   return (
@@ -240,11 +272,11 @@ export default function CheckoutPage() {
           className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 mb-8 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
-          <span>Retour au panier</span>
+          <span>{locale === 'en' ? 'Back to cart' : 'Retour au panier'}</span>
         </button>
 
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">
-          Finaliser la commande
+          {locale === 'en' ? 'Place your order' : 'Finaliser la commande'}
         </h1>
 
         {/* Steps */}
@@ -303,7 +335,7 @@ export default function CheckoutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Form */}
             <div className="lg:col-span-2">
-              {/* Step 1: Informations personnelles */}
+              {/* Step 1: Personal information */}
               {currentStep === 1 && (
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
@@ -311,13 +343,13 @@ export default function CheckoutPage() {
                   className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-8"
                 >
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                    Vos informations
+                    {locale === 'en' ? 'Your information' : 'Vos informations'}
                   </h2>
 
                   <div className="space-y-6">
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Nom complet *
+                        {locale === 'en' ? 'Full name *' : 'Nom complet *'}
                       </label>
                       <input
                         type="text"
@@ -347,7 +379,7 @@ export default function CheckoutPage() {
 
                     <div>
                       <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Téléphone *
+                        {locale === 'en' ? 'Phone *' : 'Téléphone *'}
                       </label>
                       <input
                         type="tel"
@@ -363,7 +395,7 @@ export default function CheckoutPage() {
                 </motion.div>
               )}
 
-              {/* Step 2: Adresse de livraison */}
+              {/* Step 2: Delivery address */}
               {currentStep === 2 && (
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
@@ -371,13 +403,13 @@ export default function CheckoutPage() {
                   className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-8"
                 >
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                    Adresse de livraison
+                    {locale === 'en' ? 'Delivery address' : 'Adresse de livraison'}
                   </h2>
 
                   <div className="space-y-6">
                     <div>
                       <label htmlFor="street" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Adresse complète *
+                        {locale === 'en' ? 'Full address *' : 'Adresse complète *'}
                       </label>
                       <input
                         type="text"
@@ -393,7 +425,7 @@ export default function CheckoutPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label htmlFor="city" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Ville *
+                          {locale === 'en' ? 'City *' : 'Ville *'}
                         </label>
                         <select
                           id="city"
@@ -402,7 +434,9 @@ export default function CheckoutPage() {
                           onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                           className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         >
-                          <option value="">Sélectionnez une ville</option>
+                          <option value="">
+                            {locale === 'en' ? 'Select a city' : 'Sélectionnez une ville'}
+                          </option>
                           {cities.map(city => (
                             <option key={city} value={city}>{city}</option>
                           ))}
@@ -411,7 +445,7 @@ export default function CheckoutPage() {
 
                       <div>
                         <label htmlFor="region" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Région *
+                          {locale === 'en' ? 'Region *' : 'Région *'}
                         </label>
                         <select
                           id="region"
@@ -420,7 +454,9 @@ export default function CheckoutPage() {
                           onChange={(e) => setFormData({ ...formData, region: e.target.value })}
                           className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         >
-                          <option value="">Sélectionnez une région</option>
+                          <option value="">
+                            {locale === 'en' ? 'Select a region' : 'Sélectionnez une région'}
+                          </option>
                           {regions.map(region => (
                             <option key={region} value={region}>{region}</option>
                           ))}
@@ -430,7 +466,7 @@ export default function CheckoutPage() {
 
                     <div>
                       <label htmlFor="postalCode" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Code postal (optionnel)
+                        {locale === 'en' ? 'Postal code (optional)' : 'Code postal (optionnel)'}
                       </label>
                       <input
                         type="text"
@@ -444,7 +480,7 @@ export default function CheckoutPage() {
 
                     <div>
                       <label htmlFor="notes" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Instructions de livraison (optionnel)
+                        {locale === 'en' ? 'Delivery instructions (optional)' : 'Instructions de livraison (optionnel)'}
                       </label>
                       <textarea
                         id="notes"
@@ -452,14 +488,18 @@ export default function CheckoutPage() {
                         value={formData.notes}
                         onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                         className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                        placeholder="Point de repère, code d'accès, etc."
+                        placeholder={
+                          locale === 'en'
+                            ? 'Landmark, access code, etc.'
+                            : "Point de repère, code d'accès, etc."
+                        }
                       />
                     </div>
                   </div>
                 </motion.div>
               )}
 
-              {/* Step 3: Paiement */}
+              {/* Step 3: Payment */}
               {currentStep === 3 && (
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
@@ -467,15 +507,11 @@ export default function CheckoutPage() {
                   className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-8"
                 >
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                    Mode de paiement
+                    {locale === 'en' ? 'Payment method' : 'Mode de paiement'}
                   </h2>
 
                   <div className="space-y-4">
-                    {[
-                      { value: 'campost', label: '🏢 Campost (Recommandé)', description: 'Versement au bureau Campost le plus proche - Compte AGRIPOINT SERVICES', recommended: true },
-                      { value: 'whatsapp', label: '📱 Mobile Money + WhatsApp', description: 'Paiement Orange/MTN avec confirmation rapide (2h)', badge: 'Rapide' },
-                      { value: 'cash', label: '💵 Paiement à la livraison', description: 'Payez en espèces à la réception' },
-                    ].map((method) => (
+                    {paymentMethods.map((method) => (
                       <label
                         key={method.value}
                         className={`block p-4 border-2 rounded-lg cursor-pointer transition-all relative ${
@@ -502,7 +538,7 @@ export default function CheckoutPage() {
                               </div>
                               {method.recommended && (
                                 <span className="text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full font-medium">
-                                  Recommandé
+                                  {locale === 'en' ? 'Recommended' : 'Recommandé'}
                                 </span>
                               )}
                               {(method as any).badge && (
@@ -520,14 +556,12 @@ export default function CheckoutPage() {
                     ))}
                   </div>
 
-                  {/* Informations Campost si mode sélectionné */}
                   {formData.paymentMethod === 'campost' && (
                     <div className="mt-4">
                       <CampostPaymentInfo variant="compact" />
                     </div>
                   )}
-                  
-                  {/* Informations WhatsApp si mode sélectionné */}
+
                   {formData.paymentMethod === 'whatsapp' && (
                     <div className="mt-4">
                       <WhatsAppPaymentInfo variant="compact" />
@@ -544,7 +578,7 @@ export default function CheckoutPage() {
                     onClick={() => setCurrentStep(currentStep - 1)}
                     className="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                   >
-                    Précédent
+                    {locale === 'en' ? 'Previous' : 'Précédent'}
                   </button>
                 )}
 
@@ -556,12 +590,12 @@ export default function CheckoutPage() {
                   {loading ? (
                     <span className="flex items-center gap-2">
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Traitement...
+                      {locale === 'en' ? 'Processing...' : 'Traitement...'}
                     </span>
                   ) : currentStep === 3 ? (
-                    'Confirmer la commande'
+                    locale === 'en' ? 'Confirm order' : 'Confirmer la commande'
                   ) : (
-                    'Continuer'
+                    locale === 'en' ? 'Continue' : 'Continuer'
                   )}
                 </button>
               </div>
@@ -571,7 +605,7 @@ export default function CheckoutPage() {
             <div className="lg:col-span-1">
               <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 sticky top-4">
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
-                  Récapitulatif
+                  {locale === 'en' ? 'Order summary' : 'Récapitulatif'}
                 </h3>
 
                 <div className="space-y-4 mb-6">
@@ -596,7 +630,7 @@ export default function CheckoutPage() {
                           {item.name}
                         </p>
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                          Qté: {item.quantity}
+                          {locale === 'en' ? 'Qty: ' : 'Qté: '}{item.quantity}
                         </p>
                       </div>
                       <div className="text-sm font-semibold text-gray-900 dark:text-white">
@@ -607,12 +641,12 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="space-y-3 pt-6 border-t border-gray-200 dark:border-gray-700">
-                  {/* Code Promo */}
+                  {/* Promo Code */}
                   <div className="mb-4">
                     <div className="flex gap-2 mb-2">
                       <input
                         type="text"
-                        placeholder="Code promo (optionnel)"
+                        placeholder={locale === 'en' ? 'Promo code (optional)' : 'Code promo (optionnel)'}
                         value={promoCodeInput}
                         onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())}
                         onKeyPress={(e) => e.key === 'Enter' && validatePromoCode()}
@@ -624,30 +658,38 @@ export default function CheckoutPage() {
                         disabled={validatingPromo || !promoCodeInput.trim()}
                         className="px-4 py-2 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 text-white rounded-lg transition-colors text-sm font-medium"
                       >
-                        {validatingPromo ? '...' : 'Appliquer'}
+                        {validatingPromo ? '...' : (locale === 'en' ? 'Apply' : 'Appliquer')}
                       </button>
                     </div>
-                    {promoError && <p className="text-red-600 dark:text-red-400 text-xs">{promoError}</p>}
-                    {promoCode && <p className="text-green-600 dark:text-green-400 text-xs">✓ Code "{promoCode.code}" appliqué !</p>}
+                    {promoError && (
+                      <p className="text-red-600 dark:text-red-400 text-xs">{promoError}</p>
+                    )}
+                    {promoCode && (
+                      <p className="text-green-600 dark:text-green-400 text-xs">
+                        ✓ Code &ldquo;{promoCode.code}&rdquo; {locale === 'en' ? 'applied!' : 'appliqué !'}
+                      </p>
+                    )}
                   </div>
 
                   <div className="flex justify-between text-gray-600 dark:text-gray-400">
-                    <span>Sous-total</span>
+                    <span>{T.cart.subtotal}</span>
                     <span className="font-semibold">{subtotal.toLocaleString()} FCFA</span>
                   </div>
 
                   {promoDiscount > 0 && (
                     <div className="flex justify-between text-green-600 dark:text-green-400 font-semibold">
-                      <span>Réduction</span>
+                      <span>{locale === 'en' ? 'Discount' : 'Réduction'}</span>
                       <span>-{promoDiscount.toLocaleString()} FCFA</span>
                     </div>
                   )}
 
                   <div className="flex justify-between text-gray-600 dark:text-gray-400">
-                    <span>Livraison</span>
+                    <span>{T.cart.shipping}</span>
                     <span className="font-semibold">
                       {shipping === 0 ? (
-                        <span className="text-green-600 dark:text-green-400">GRATUITE</span>
+                        <span className="text-green-600 dark:text-green-400">
+                          {locale === 'en' ? 'FREE' : 'GRATUITE'}
+                        </span>
                       ) : (
                         `${shipping.toLocaleString()} FCFA`
                       )}
@@ -655,7 +697,7 @@ export default function CheckoutPage() {
                   </div>
 
                   <div className="flex justify-between text-lg font-bold text-gray-900 dark:text-white pt-3 border-t border-gray-200 dark:border-gray-700">
-                    <span>Total</span>
+                    <span>{T.cart.total}</span>
                     <span className="text-primary-600 dark:text-primary-400">
                       {total.toLocaleString()} FCFA
                     </span>

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { 
+import {
   Target,
   Eye,
   Award,
@@ -22,9 +22,10 @@ import {
   Calendar,
   Building2
 } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Contenu modifiable facilement
-const pageContent = {
+const pageContentFR = {
   hero: {
     badge: "🌍 Depuis 2010",
     title: "À PROPOS D'AGRIPOINT SERVICES",
@@ -225,8 +226,99 @@ const pageContent = {
   }
 };
 
+const pageContentEN = {
+  hero: {
+    badge: "🌍 Since 2010",
+    title: "ABOUT AGRIPOINT SERVICES",
+    subtitle: "Agropastoral facilitator in Cameroon",
+    description: "AGRIPOINT SERVICES SAS supports Cameroonian producers through facilitation services covering production, commercialization and social well-being.",
+    stats: [
+      { value: "10K+", label: "Producers supported" },
+      { value: "15 yrs", label: "Of field expertise" },
+      { value: "5", label: "Agroecological zones" },
+      { value: "3", label: "Flagship programs" }
+    ]
+  },
+
+  mission: {
+    title: "Our Mission",
+    description: "Facilitate access to inputs, markets and social services for agropastoral producers in Cameroon.",
+    points: [
+      { icon: TrendingUp, title: "Produce More", description: "Support producers from pre-production to post-harvest with inputs, mechanization and technical advice" },
+      { icon: Heart, title: "Earn More", description: "Facilitate commercialization, warehousing, financing and search for commercial partners" },
+      { icon: Shield, title: "Better Living", description: "Offer CMA members access to insurance, micro-credit, savings and health coverage" },
+      { icon: Users, title: "Strengthen communities", description: "Organize producers into Agropastoral Mutual Cooperatives (CMA) to pool resources" }
+    ]
+  },
+
+  vision: {
+    title: "Our Vision",
+    subtitle: "Africa feeds Africa",
+    description: "By 2030, support Cameroonian agropastoral producers towards food self-sufficiency and economic prosperity through the professionalization of sectors.",
+    goals: [
+      "Cover all 5 agroecological zones of Cameroon",
+      "Structure 1,000 operational CMAs",
+      "Facilitate access to financing for 50,000 producers",
+      "Create sustainable value chains in each sector"
+    ]
+  },
+
+  values: [
+    { icon: Lightbulb, title: "Innovation", description: "We continuously develop new solutions adapted to African realities", color: "yellow" },
+    { icon: Heart, title: "Social Impact", description: "Every decision is made with the well-being of farmers and their families in mind", color: "red" },
+    { icon: Leaf, title: "Sustainability", description: "We protect the land for future generations with regenerative agriculture", color: "green" },
+    { icon: Shield, title: "Integrity", description: "Full transparency in our products, prices and results. No empty promises", color: "blue" },
+    { icon: Users, title: "Collaboration", description: "We believe in the power of communities and win-win partnerships", color: "purple" },
+    { icon: Award, title: "Excellence", description: "Uncompromising quality in our products, services and support", color: "amber" }
+  ],
+
+  history: [
+    { year: "2010", title: "Birth of AGRIPOINT SERVICES", description: "Founded in Yaoundé with a vision: facilitate access to inputs and markets for Cameroonian producers", icon: Building2 },
+    { year: "2012", title: "First partnerships", description: "Establishment of first input distribution networks and technical advice to producers", icon: Leaf },
+    { year: "2015", title: "National Expansion", description: "Opening of 5 regional offices. 10,000 farmers supported", icon: Globe },
+    { year: "2018", title: "Social Services", description: "Launch of health insurance, micro-credit and savings for our members", icon: Heart },
+    { year: "2020", title: "Digital Revolution", description: "Mobile app launched. Agricultural advice via SMS and WhatsApp", icon: Lightbulb },
+    { year: "2023", title: "National coverage", description: "Presence in all 5 agroecological zones, 10,000+ producers supported", icon: Award }
+  ],
+
+  team: {
+    title: "Our team",
+    subtitle: "Passionate experts serving agriculture",
+    members: [
+      { name: "Dr. Jean-Baptiste Kamga", role: "Founder & CEO", bio: "Agronomist, PhD in Soil Sciences. 20 years of experience in agropastoral development", image: "/images/team-kamga.jpg" },
+      { name: "Marie-Claire Ngo Bata", role: "R&D Director", bio: "Agricultural inputs specialist, former researcher at IRAD", image: "/images/team-ngo.jpg" },
+      { name: "Paul Mbida", role: "Commercial Director", bio: "Expert in rural development and farmer training", image: "/images/team-mbida.jpg" },
+      { name: "Fatima Hassan", role: "Social Services Director", bio: "Micro-finance and social protection specialist", image: "/images/team-hassan.jpg" }
+    ]
+  },
+
+  certifications: [
+    { name: "MINADER Approval", description: "Official approval for input distribution and producer support", year: "2015" },
+    { name: "ISO 9001:2015", description: "Certified quality management", year: "2019" },
+    { name: "CEMAC Innovation Award", description: "Best agritech innovation in Central Africa", year: "2021" },
+    { name: "Fair Trade Label", description: "Certified fair farmer partnerships", year: "2022" }
+  ],
+
+  impact: [
+    { metric: "10K+", label: "Producers supported" },
+    { metric: "5", label: "Agroecological zones" },
+    { metric: "3", label: "Flagship programs" },
+    { metric: "8", label: "Sectors covered" }
+  ],
+
+  contact: {
+    headquarters: "Yaoundé, Cameroon",
+    address: "Fouda District — P.O. Box 5111",
+    phone: "(+237) 657 39 39 39  |  (+237) 651 92 09 20",
+    email: "infos@agri-ps.com",
+    hours: "Mon-Fri: 8am-5pm, Sat: 8am-1pm"
+  }
+};
+
 export default function AProposPage() {
   const [activeYear, setActiveYear] = useState<string | null>(null);
+  const { locale } = useLanguage();
+  const content = locale === 'en' ? pageContentEN : pageContentFR;
 
   return (
     <div className="min-h-screen">
@@ -243,7 +335,7 @@ export default function AProposPage() {
               animate={{ opacity: 1, y: 0 }}
               className="inline-block px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-semibold mb-6"
             >
-              {pageContent.hero.badge}
+              {content.hero.badge}
             </motion.div>
 
             <motion.h1
@@ -252,7 +344,7 @@ export default function AProposPage() {
               transition={{ delay: 0.1 }}
               className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight"
             >
-              {pageContent.hero.title}
+              {content.hero.title}
             </motion.h1>
 
             <motion.p
@@ -261,7 +353,7 @@ export default function AProposPage() {
               transition={{ delay: 0.2 }}
               className="text-2xl font-semibold text-green-600 dark:text-green-400 mb-6"
             >
-              {pageContent.hero.subtitle}
+              {content.hero.subtitle}
             </motion.p>
 
             <motion.p
@@ -270,12 +362,12 @@ export default function AProposPage() {
               transition={{ delay: 0.3 }}
               className="text-xl text-gray-600 dark:text-gray-300 mb-12"
             >
-              {pageContent.hero.description}
+              {content.hero.description}
             </motion.p>
 
             {/* Hero Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-              {pageContent.hero.stats.map((stat, index) => (
+              {content.hero.stats.map((stat, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
@@ -300,14 +392,14 @@ export default function AProposPage() {
               <Target className="w-4 h-4" />
               Mission
             </div>
-            <h2 className="text-4xl font-bold mb-4">{pageContent.mission.title}</h2>
+            <h2 className="text-4xl font-bold mb-4">{content.mission.title}</h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-              {pageContent.mission.description}
+              {content.mission.description}
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {pageContent.mission.points.map((point, index) => (
+            {content.mission.points.map((point, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -334,12 +426,12 @@ export default function AProposPage() {
             <Eye className="w-4 h-4" />
             Vision 2030
           </div>
-          <h2 className="text-4xl font-bold mb-4">{pageContent.vision.title}</h2>
-          <p className="text-2xl font-semibold mb-6">{pageContent.vision.subtitle}</p>
-          <p className="text-lg mb-8 opacity-90">{pageContent.vision.description}</p>
+          <h2 className="text-4xl font-bold mb-4">{content.vision.title}</h2>
+          <p className="text-2xl font-semibold mb-6">{content.vision.subtitle}</p>
+          <p className="text-lg mb-8 opacity-90">{content.vision.description}</p>
 
           <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto">
-            {pageContent.vision.goals.map((goal, index) => (
+            {content.vision.goals.map((goal, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -360,12 +452,18 @@ export default function AProposPage() {
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4"><span className="text-red-500">Nos</span> Valeurs</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Ce qui guide chaque décision que nous prenons</p>
+            <h2 className="text-4xl font-bold mb-4">
+              {locale === 'en'
+                ? <><span className="text-red-500">Our</span> Values</>
+                : <><span className="text-red-500">Nos</span> Valeurs</>}
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">
+              {locale === 'en' ? "What guides every decision we make" : "Ce qui guide chaque décision que nous prenons"}
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {pageContent.values.map((value, index) => (
+            {content.values.map((value, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -391,10 +489,14 @@ export default function AProposPage() {
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-semibold mb-4">
               <Calendar className="w-4 h-4" />
-              Notre Histoire
+              {locale === 'en' ? "Our History" : "Notre Histoire"}
             </div>
-            <h2 className="text-4xl font-bold mb-4">15 Ans d&apos;Innovation</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Le chemin parcouru ensemble</p>
+            <h2 className="text-4xl font-bold mb-4">
+              {locale === 'en' ? "15 Years of Innovation" : "15 Ans d\u2019Innovation"}
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">
+              {locale === 'en' ? "The path we have walked together" : "Le chemin parcouru ensemble"}
+            </p>
           </div>
 
           <div className="relative">
@@ -402,7 +504,7 @@ export default function AProposPage() {
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-green-200 dark:bg-green-900"></div>
 
             <div className="space-y-12">
-              {pageContent.history.map((event, index) => (
+              {content.history.map((event, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
@@ -415,8 +517,8 @@ export default function AProposPage() {
                 >
                   {/* Timeline Dot */}
                   <div className={`absolute left-6 w-5 h-5 rounded-full border-4 transition-all ${
-                    activeYear === event.year 
-                      ? 'bg-green-600 border-green-600 scale-125' 
+                    activeYear === event.year
+                      ? 'bg-green-600 border-green-600 scale-125'
                       : 'bg-white dark:bg-gray-800 border-green-400'
                   }`}></div>
 
@@ -445,12 +547,12 @@ export default function AProposPage() {
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">{pageContent.team.title}</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">{pageContent.team.subtitle}</p>
+            <h2 className="text-4xl font-bold mb-4">{content.team.title}</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">{content.team.subtitle}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {pageContent.team.members.map((member, index) => (
+            {content.team.members.map((member, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -481,13 +583,15 @@ export default function AProposPage() {
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded-full text-sm font-semibold mb-4">
               <Award className="w-4 h-4" />
-              Certifications & Récompenses
+              {locale === 'en' ? "Certifications & Awards" : "Certifications & Récompenses"}
             </div>
-            <h2 className="text-4xl font-bold mb-4">Reconnus pour notre Excellence</h2>
+            <h2 className="text-4xl font-bold mb-4">
+              {locale === 'en' ? "Recognized for our Excellence" : "Reconnus pour notre Excellence"}
+            </h2>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {pageContent.certifications.map((cert, index) => (
+            {content.certifications.map((cert, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -512,12 +616,16 @@ export default function AProposPage() {
       <section className="py-20 bg-gradient-to-r from-green-600 to-emerald-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Notre Impact en Chiffres</h2>
-            <p className="text-xl opacity-90">Des résultats concrets qui changent des vies</p>
+            <h2 className="text-4xl font-bold mb-4">
+              {locale === 'en' ? "Our Impact in Figures" : "Notre Impact en Chiffres"}
+            </h2>
+            <p className="text-xl opacity-90">
+              {locale === 'en' ? "Concrete results that change lives" : "Des résultats concrets qui changent des vies"}
+            </p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {pageContent.impact.map((item, index) => (
+            {content.impact.map((item, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -538,8 +646,12 @@ export default function AProposPage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Nous Trouver</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">AGRIPOINT SERVICES SAS à Yaoundé</p>
+            <h2 className="text-4xl font-bold mb-4">
+              {locale === 'en' ? "Find Us" : "Nous Trouver"}
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">
+              {locale === 'en' ? "AGRIPOINT SERVICES SAS in Yaound\u00e9" : "AGRIPOINT SERVICES SAS \u00e0 Yaound\u00e9"}
+            </p>
           </div>
 
           <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-8 shadow-xl">
@@ -550,9 +662,9 @@ export default function AProposPage() {
                     <MapPin className="w-6 h-6 text-green-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold mb-1">Adresse</h3>
-                    <p className="text-gray-600 dark:text-gray-300">{pageContent.contact.address}</p>
-                    <p className="text-gray-600 dark:text-gray-300">{pageContent.contact.headquarters}</p>
+                    <h3 className="font-bold mb-1">{locale === 'en' ? "Address" : "Adresse"}</h3>
+                    <p className="text-gray-600 dark:text-gray-300">{content.contact.address}</p>
+                    <p className="text-gray-600 dark:text-gray-300">{content.contact.headquarters}</p>
                   </div>
                 </div>
 
@@ -561,12 +673,14 @@ export default function AProposPage() {
                     <Phone className="w-6 h-6 text-green-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold mb-1">Téléphone</h3>
+                    <h3 className="font-bold mb-1">{locale === 'en' ? "Phone" : "T\u00e9l\u00e9phone"}</h3>
                     <p className="text-gray-600 dark:text-gray-300">
                       <a href="tel:+237657393939" className="hover:text-green-600 transition-colors block">(+237) 657 39 39 39</a>
                       <a href="tel:+237651920920" className="hover:text-green-600 transition-colors block">(+237) 651 92 09 20</a>
                     </p>
-                    <a href="https://wa.me/237651920920" className="text-sm text-green-600 hover:underline flex items-center gap-1 mt-1">💬 WhatsApp disponible</a>
+                    <a href="https://wa.me/237651920920" className="text-sm text-green-600 hover:underline flex items-center gap-1 mt-1">
+                      💬 {locale === 'en' ? "WhatsApp available" : "WhatsApp disponible"}
+                    </a>
                   </div>
                 </div>
 
@@ -576,7 +690,7 @@ export default function AProposPage() {
                   </div>
                   <div>
                     <h3 className="font-bold mb-1">Email</h3>
-                    <p className="text-gray-600 dark:text-gray-300">{pageContent.contact.email}</p>
+                    <p className="text-gray-600 dark:text-gray-300">{content.contact.email}</p>
                   </div>
                 </div>
 
@@ -585,8 +699,8 @@ export default function AProposPage() {
                     <Calendar className="w-6 h-6 text-green-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold mb-1">Horaires</h3>
-                    <p className="text-gray-600 dark:text-gray-300">{pageContent.contact.hours}</p>
+                    <h3 className="font-bold mb-1">{locale === 'en' ? "Opening hours" : "Horaires"}</h3>
+                    <p className="text-gray-600 dark:text-gray-300">{content.contact.hours}</p>
                   </div>
                 </div>
               </div>
@@ -596,7 +710,7 @@ export default function AProposPage() {
                   href="/contact"
                   className="group px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-bold transition-all shadow-lg flex items-center gap-2"
                 >
-                  Nous Contacter
+                  {locale === 'en' ? "Contact Us" : "Nous Contacter"}
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
@@ -608,22 +722,26 @@ export default function AProposPage() {
       {/* CTA */}
       <section className="py-20 bg-gradient-to-br from-green-600 via-emerald-600 to-teal-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">Rejoignez Notre Mission</h2>
+          <h2 className="text-4xl font-bold mb-6">
+            {locale === 'en' ? "Join Our Mission" : "Rejoignez Notre Mission"}
+          </h2>
           <p className="text-xl mb-8 opacity-90">
-            Ensemble, transformons l&apos;agriculture africaine et créons un avenir prospère pour tous
+            {locale === 'en'
+              ? "Together, let's transform African agriculture and create a prosperous future for all"
+              : "Ensemble, transformons l\u2019agriculture africaine et cr\u00e9ons un avenir prosp\u00e8re pour tous"}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/auth/register"
               className="px-8 py-4 bg-white text-green-600 hover:bg-gray-100 rounded-lg font-semibold transition-all"
             >
-              Devenir Adhérent
+              {locale === 'en' ? "Become a Member" : "Devenir Adh\u00e9rent"}
             </Link>
             <Link
               href="/produits"
               className="px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-green-600 rounded-lg font-semibold transition-all"
             >
-              Découvrir nos produits
+              {locale === 'en' ? "Discover our products" : "D\u00e9couvrir nos produits"}
             </Link>
           </div>
         </div>

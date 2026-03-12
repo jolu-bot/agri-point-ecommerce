@@ -1,20 +1,19 @@
-﻿import Link from 'next/link';
-import { Metadata } from 'next';
-import { ArrowLeft, Package, Leaf, Droplets, Users, TrendingUp } from 'lucide-react';
+'use client';
+
+import Link from 'next/link';
+import { Package, Leaf, Droplets, Users, TrendingUp } from 'lucide-react';
 import IntrantsCarousel from '@/components/intrants/IntrantsCarousel';
 import ResultsSection from '@/components/intrants/ResultsSection';
-
-export const metadata: Metadata = {
-  title: 'Fourniture d\'Intrants Agricoles | AGRIPOINT SERVICES',
-  description: 'Découvrez notre gamme complète d\'engrais minéraux et bio-fertilisants de haute qualité pour augmenter votre production agricole.',
-};
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function FournitureIntrantsPage() {
-  const benefits = [
+  const { locale } = useLanguage();
+
+  const fr_benefits = [
     {
       icon: <Leaf className="w-6 h-6" />,
       title: 'Produits Certifiés Bio',
-      description: '100% bio pour une agriculture durable et respectueuse de l\'environnement',
+      description: "100% bio pour une agriculture durable et respectueuse de l'environnement",
     },
     {
       icon: <TrendingUp className="w-6 h-6" />,
@@ -33,6 +32,31 @@ export default function FournitureIntrantsPage() {
     },
   ];
 
+  const en_benefits = [
+    {
+      icon: <Leaf className="w-6 h-6" />,
+      title: 'Certified Organic Products',
+      description: '100% organic for sustainable and environmentally friendly agriculture',
+    },
+    {
+      icon: <TrendingUp className="w-6 h-6" />,
+      title: '+30% Yield',
+      description: 'Average increase in agricultural yields for our clients',
+    },
+    {
+      icon: <Droplets className="w-6 h-6" />,
+      title: 'Adapted Formulas',
+      description: 'Solutions specially designed for the Cameroonian tropical climate',
+    },
+    {
+      icon: <Users className="w-6 h-6" />,
+      title: 'Expert Support',
+      description: 'Personalized agronomist advice to optimize your yields',
+    },
+  ];
+
+  const benefits = locale === 'en' ? en_benefits : fr_benefits;
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Breadcrumb */}
@@ -40,14 +64,16 @@ export default function FournitureIntrantsPage() {
         <div className="container-fluid py-4">
           <div className="flex items-center gap-2 text-sm">
             <Link href="/" className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400">
-              Accueil
+              {locale === 'en' ? 'Home' : 'Accueil'}
             </Link>
             <span className="text-gray-400">/</span>
             <Link href="/produire-plus" className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400">
-              Produire Plus
+              {locale === 'en' ? 'Produce More' : 'Produire Plus'}
             </Link>
             <span className="text-gray-400">/</span>
-            <span className="text-gray-900 dark:text-white font-semibold">Fourniture d'intrants</span>
+            <span className="text-gray-900 dark:text-white font-semibold">
+              {locale === 'en' ? "Supply of Inputs" : "Fourniture d'intrants"}
+            </span>
           </div>
         </div>
       </nav>
@@ -59,10 +85,13 @@ export default function FournitureIntrantsPage() {
             <Package className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-black text-gray-900 dark:text-white mb-6">
-            Fourniture d'Intrants Agricoles
+            {locale === 'en' ? "Supply of Agricultural Inputs" : "Fourniture d'Intrants Agricoles"}
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Gamme complète d'<strong>engrais minéraux et bio-fertilisants</strong> de grande qualité pour augmenter la production de toutes les cultures au Cameroun
+            {locale === 'en'
+              ? <>Complete range of <strong>mineral fertilizers and bio-fertilizers</strong> of high quality to increase the production of all crops in Cameroon</>
+              : <>Gamme compl&egrave;te d&apos;<strong>engrais min&eacute;raux et bio-fertilisants</strong> de grande qualit&eacute; pour augmenter la production de toutes les cultures au Cameroun</>
+            }
           </p>
         </div>
       </section>
@@ -93,54 +122,95 @@ export default function FournitureIntrantsPage() {
         <div className="max-w-4xl mx-auto">
           <div className="space-y-12">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Pourquoi nos intrants agricoles ?</h2>
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                {locale === 'en' ? "Why our agricultural inputs?" : "Pourquoi nos intrants agricoles ?"}
+              </h2>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-                Chez AGRIPOINT SERVICES, nous comprenons les défis des agriculteurs camerounais. C'est pourquoi nous proposons une gamme d'intrants agricoles spécialement sélectionnés et adaptés aux réalités de notre contexte agro-climatique. Nos produits combinant efficacité, durabilité et affordabilité.
+                {locale === 'en'
+                  ? "At AGRIPOINT SERVICES, we understand the challenges of Cameroonian farmers. That is why we offer a range of agricultural inputs specially selected and adapted to the realities of our agro-climatic context. Our products combine effectiveness, sustainability and affordability."
+                  : "Chez AGRIPOINT SERVICES, nous comprenons les défis des agriculteurs camerounais. C'est pourquoi nous proposons une gamme d'intrants agricoles spécialement sélectionnés et adaptés aux réalités de notre contexte agro-climatique. Nos produits combinant efficacité, durabilité et affordabilité."
+                }
               </p>
             </div>
 
             <div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Notre Gamme Complète</h3>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                {locale === 'en' ? "Our Complete Range" : "Notre Gamme Complète"}
+              </h3>
               <div className="grid sm:grid-cols-2 gap-6">
                 <div className="p-6 rounded-xl bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-800">
-                  <h4 className="font-bold text-gray-900 dark:text-white mb-3">Engrais Minéraux</h4>
+                  <h4 className="font-bold text-gray-900 dark:text-white mb-3">
+                    {locale === 'en' ? "Mineral Fertilizers" : "Engrais Minéraux"}
+                  </h4>
                   <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                    <li>• NPK équilibrés pour toutes cultures</li>
-                    <li>• Engrais azotés concentrés</li>
-                    <li>• Formulés pour sol tropical</li>
-                    <li>• Application facile et rapide</li>
+                    {locale === 'en' ? (
+                      <>
+                        <li>• Balanced NPK for all crops</li>
+                        <li>• Concentrated nitrogen fertilizers</li>
+                        <li>• Formulated for tropical soil</li>
+                        <li>• Easy and fast application</li>
+                      </>
+                    ) : (
+                      <>
+                        <li>• NPK équilibrés pour toutes cultures</li>
+                        <li>• Engrais azotés concentrés</li>
+                        <li>• Formulés pour sol tropical</li>
+                        <li>• Application facile et rapide</li>
+                      </>
+                    )}
                   </ul>
                 </div>
                 <div className="p-6 rounded-xl bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-800">
-                  <h4 className="font-bold text-gray-900 dark:text-white mb-3">Bio-fertilisants</h4>
+                  <h4 className="font-bold text-gray-900 dark:text-white mb-3">
+                    {locale === 'en' ? "Biofertilizers" : "Bio-fertilisants"}
+                  </h4>
                   <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                    <li>• 100% bio-certifiés</li>
-                    <li>• Acides humiques naturels</li>
-                    <li>• Stimulants de croissance</li>
-                    <li>• Respectent l'environnement</li>
+                    {locale === 'en' ? (
+                      <>
+                        <li>• 100% bio-certified</li>
+                        <li>• Natural humic acids</li>
+                        <li>• Growth stimulants</li>
+                        <li>• Environmentally friendly</li>
+                      </>
+                    ) : (
+                      <>
+                        <li>• 100% bio-certifiés</li>
+                        <li>• Acides humiques naturels</li>
+                        <li>• Stimulants de croissance</li>
+                        <li>• Respectent l&apos;environnement</li>
+                      </>
+                    )}
                   </ul>
                 </div>
               </div>
             </div>
 
             <div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Comment ça Marche ?</h3>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                {locale === 'en' ? "How Does it Work?" : "Comment ça Marche ?"}
+              </h3>
               <div className="grid sm:grid-cols-3 gap-6">
                 {[
                   {
                     step: '1',
-                    title: 'Diagnostic',
-                    description: 'Nos agronomes analysent votre sol et vos besoins spécifiques',
+                    title: locale === 'en' ? 'Diagnosis' : 'Diagnostic',
+                    description: locale === 'en'
+                      ? 'Our agronomists analyze your soil and specific needs'
+                      : 'Nos agronomes analysent votre sol et vos besoins spécifiques',
                   },
                   {
                     step: '2',
                     title: 'Recommendation',
-                    description: 'Sélection des intrants les plus adaptés à vos cultures',
+                    description: locale === 'en'
+                      ? 'Selection of the most suitable inputs for your crops'
+                      : 'Sélection des intrants les plus adaptés à vos cultures',
                   },
                   {
                     step: '3',
                     title: 'Application',
-                    description: 'Suivi et conseil pour une application optimale et des résultats mesurables',
+                    description: locale === 'en'
+                      ? 'Monitoring and advice for optimal application and measurable results'
+                      : 'Suivi et conseil pour une application optimale et des résultats mesurables',
                   },
                 ].map((item) => (
                   <div key={item.step} className="relative p-6 rounded-xl bg-gray-50 dark:bg-gray-800">
@@ -157,22 +227,27 @@ export default function FournitureIntrantsPage() {
             <ResultsSection />
 
             <div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Disponibilité et Livraison</h3>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                {locale === 'en' ? "Availability and Delivery" : "Disponibilité et Livraison"}
+              </h3>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-                Nos intrants sont disponibles dans tous nos points de service AGRIPOINT SERVICES à travers le Cameroun. Nous proposons également un service de livraison pour les commandes importantes directement à votre exploitation agricole. Pour connaître les disponibilités et obtenir un devis personnalisé, contactez nos experts dés maintenant.
+                {locale === 'en'
+                  ? "Our inputs are available at all our AGRIPOINT SERVICES service points across Cameroon. We also offer a delivery service for large orders directly to your farm. To check availability and get a personalized quote, contact our experts now."
+                  : "Nos intrants sont disponibles dans tous nos points de service AGRIPOINT SERVICES à travers le Cameroun. Nous proposons également un service de livraison pour les commandes importantes directement à votre exploitation agricole. Pour connaître les disponibilités et obtenir un devis personnalisé, contactez nos experts dés maintenant."
+                }
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/contact"
                   className="inline-flex items-center justify-center px-8 py-3 bg-emerald-600 dark:bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-700 dark:hover:bg-emerald-700 transition-colors"
                 >
-                  Nous Contacter
+                  {locale === 'en' ? "Contact Us" : "Nous Contacter"}
                 </Link>
                 <Link
                   href="/produire-plus"
                   className="inline-flex items-center justify-center px-8 py-3 border border-emerald-600 dark:border-emerald-500 text-emerald-600 dark:text-emerald-400 rounded-xl font-bold hover:bg-emerald-50 dark:hover:bg-emerald-900/10 transition-colors"
                 >
-                  Retour à Produire Plus
+                  {locale === 'en' ? "Back to Produce More" : "Retour à Produire Plus"}
                 </Link>
               </div>
             </div>

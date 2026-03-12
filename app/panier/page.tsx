@@ -8,11 +8,13 @@ import { ShoppingCart, Minus, Plus, X, ArrowRight, Package, ChevronLeft, Tag, Tr
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/store/cartStore';
 import toast from 'react-hot-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const FREE_SHIPPING_THRESHOLD = 50000;
 
 export default function CartPage() {
   const router = useRouter();
+  const { locale, T } = useLanguage();
   const { items, updateQuantity, removeItem, clearCart } = useCartStore();
   const [promoCode, setPromoCode] = useState('');
   const [appliedPromo, setAppliedPromo] = useState<{ code: string; discount: number } | null>(null);
@@ -32,15 +34,15 @@ export default function CartPage() {
     const discount = codes[promoCode.toUpperCase()];
     if (discount) {
       setAppliedPromo({ code: promoCode.toUpperCase(), discount });
-      toast.success(`Code ${promoCode.toUpperCase()} appliqué ! -${discount}%`);
+      toast.success(locale === 'en' ? `Code ${promoCode.toUpperCase()} applied! -${discount}%` : `Code ${promoCode.toUpperCase()} appliqué ! -${discount}%`);
     } else {
-      toast.error('Code promo invalide');
+      toast.error(locale === 'en' ? 'Invalid promo code' : 'Code promo invalide');
     }
   };
 
   const handleUpdateQuantity = (id: string, qty: number, max: number) => {
     if (qty < 1) return;
-    if (qty > max) { toast.error(`Seulement ${max} disponible(s)`); return; }
+    if (qty > max) { toast.error(locale === 'en' ? `Only ${max} available` : `Seulement ${max} disponible(s)`); return; }
     updateQuantity(id, qty);
   };
 
@@ -55,14 +57,16 @@ export default function CartPage() {
           <div className="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-3xl flex items-center justify-center mx-auto mb-6">
             <ShoppingCart className="w-12 h-12 text-gray-400 dark:text-gray-600" />
           </div>
-          <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2">Votre panier est vide</h2>
-          <p className="text-gray-500 dark:text-gray-400 mb-8">Explorez nos produits et ajoutez vos favoris !</p>
+          <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2">{T.cart.empty}</h2>
+          <p className="text-gray-500 dark:text-gray-400 mb-8">
+            {locale === 'en' ? 'Explore our products and add your favourites!' : 'Explorez nos produits et ajoutez vos favoris !'}
+          </p>
           <Link
             href="/produits"
             className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold transition-all hover:shadow-emerald-600/30 hover:shadow-lg"
           >
             <Package className="w-5 h-5" />
-            Voir nos produits
+            {locale === 'en' ? 'See our products' : 'Voir nos produits'}
           </Link>
         </motion.div>
       </div>
@@ -79,20 +83,25 @@ export default function CartPage() {
             className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 mb-5 transition-colors text-sm font-medium"
           >
             <ChevronLeft className="w-4 h-4" />
-            Continuer les achats
+            {locale === 'en' ? 'Continue shopping' : 'Continuer les achats'}
           </button>
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-black text-gray-900 dark:text-white">Mon panier</h1>
+              <h1 className="text-3xl font-black text-gray-900 dark:text-white">{T.cart.title}</h1>
               <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm">
-                {items.length} article{items.length > 1 ? 's' : ''}
+                {items.length} {locale === 'en' ? `item${items.length > 1 ? 's' : ''}` : `article${items.length > 1 ? 's' : ''}`}
               </p>
             </div>
             <button
-              onClick={() => { if (confirm('Vider le panier ?')) { clearCart(); toast.success('Panier vidé'); } }}
+              onClick={() => {
+                if (confirm(locale === 'en' ? 'Clear cart?' : 'Vider le panier ?')) {
+                  clearCart();
+                  toast.success(locale === 'en' ? 'Cart cleared' : 'Panier vidé');
+                }
+              }}
               className="text-sm text-red-500 hover:text-red-700 dark:hover:text-red-400 font-medium transition-colors"
             >
-              Tout supprimer
+              {locale === 'en' ? 'Remove all' : 'Tout supprimer'}
             </button>
           </div>
         </div>
@@ -102,17 +111,21 @@ export default function CartPage() {
           {subtotal >= FREE_SHIPPING_THRESHOLD ? (
             <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 text-sm font-semibold">
               <CheckCircle className="w-5 h-5" />
-              🎉 Livraison offerte débloquée !
+              {locale === 'en' ? '🎉 Free shipping unlocked!' : '🎉 Livraison offerte débloquée !'}
             </div>
           ) : (
             <div>
               <div className="flex items-center justify-between text-sm mb-2">
                 <span className="flex items-center gap-1.5 text-gray-600 dark:text-gray-400">
                   <Truck className="w-4 h-4" />
-                  Livraison gratuite dès {FREE_SHIPPING_THRESHOLD.toLocaleString()} FCFA
+                  {locale === 'en'
+                    ? `Free shipping from ${FREE_SHIPPING_THRESHOLD.toLocaleString()} FCFA`
+                    : `Livraison gratuite dès ${FREE_SHIPPING_THRESHOLD.toLocaleString()} FCFA`}
                 </span>
                 <span className="font-semibold text-gray-900 dark:text-white">
-                  Plus que {remaining.toLocaleString()} FCFA
+                  {locale === 'en'
+                    ? `Just ${remaining.toLocaleString()} FCFA more`
+                    : `Plus que ${remaining.toLocaleString()} FCFA`}
                 </span>
               </div>
               <div className="h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
@@ -161,8 +174,8 @@ export default function CartPage() {
                             {item.name}
                           </Link>
                           <button
-                            onClick={() => { removeItem(item.id); toast.success('Article retiré'); }}
-                            aria-label="Supprimer"
+                            onClick={() => { removeItem(item.id); toast.success(locale === 'en' ? 'Item removed' : 'Article retiré'); }}
+                            aria-label={locale === 'en' ? 'Remove' : 'Supprimer'}
                             className="p-1.5 text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-all flex-shrink-0"
                           >
                             <X className="w-4 h-4" />
@@ -180,7 +193,7 @@ export default function CartPage() {
                           <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
                             <button
                               onClick={() => handleUpdateQuantity(item.id, item.quantity - 1, item.maxStock)}
-                              aria-label="Diminuer"
+                              aria-label={locale === 'en' ? 'Decrease' : 'Diminuer'}
                               className="px-3 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                             >
                               <Minus className="w-3.5 h-3.5" />
@@ -190,7 +203,7 @@ export default function CartPage() {
                             </span>
                             <button
                               onClick={() => handleUpdateQuantity(item.id, item.quantity + 1, item.maxStock)}
-                              aria-label="Augmenter"
+                              aria-label={locale === 'en' ? 'Increase' : 'Augmenter'}
                               className="px-3 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                             >
                               <Plus className="w-3.5 h-3.5" />
@@ -226,12 +239,14 @@ export default function CartPage() {
           {/* ─── Order Summary ─── */}
           <div className="lg:col-span-1">
             <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] p-6 sticky top-20">
-              <h2 className="text-xl font-black text-gray-900 dark:text-white mb-6">Récapitulatif</h2>
+              <h2 className="text-xl font-black text-gray-900 dark:text-white mb-6">
+                {locale === 'en' ? 'Order Summary' : 'Récapitulatif'}
+              </h2>
 
               {/* Promo code */}
               <div className="mb-5">
                 <label htmlFor="promo-code" className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
-                  Code promo
+                  {locale === 'en' ? 'Promo code' : 'Code promo'}
                 </label>
                 <div className="flex gap-2">
                   <div className="relative flex-1">
@@ -251,7 +266,7 @@ export default function CartPage() {
                       onClick={() => { setAppliedPromo(null); setPromoCode(''); }}
                       className="px-3 py-2.5 bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 rounded-xl text-sm font-semibold hover:bg-red-200 dark:hover:bg-red-950/60 transition-colors"
                     >
-                      Retirer
+                      {locale === 'en' ? 'Remove' : 'Retirer'}
                     </button>
                   ) : (
                     <button
@@ -274,26 +289,30 @@ export default function CartPage() {
               {/* Summary lines */}
               <div className="space-y-3 pb-5 border-b border-gray-100 dark:border-white/[0.06] mb-5">
                 <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
-                  <span>Sous-total</span>
+                  <span>{T.cart.subtotal}</span>
                   <span className="font-semibold text-gray-900 dark:text-white">{subtotal.toLocaleString()} FCFA</span>
                 </div>
                 {appliedPromo && (
                   <div className="flex justify-between text-sm text-emerald-600 dark:text-emerald-400">
-                    <span>Réduction -{appliedPromo.discount}%</span>
+                    <span>
+                      {locale === 'en' ? `Discount -${appliedPromo.discount}%` : `Réduction -${appliedPromo.discount}%`}
+                    </span>
                     <span className="font-semibold">-{promoDiscount.toLocaleString()} FCFA</span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
-                  <span>Livraison</span>
+                  <span>{T.cart.shipping}</span>
                   <span className={`font-semibold ${shippingCost === 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-900 dark:text-white'}`}>
-                    {shippingCost === 0 ? 'GRATUITE 🎉' : `${shippingCost.toLocaleString()} FCFA`}
+                    {shippingCost === 0
+                      ? (locale === 'en' ? 'FREE 🎉' : 'GRATUITE 🎉')
+                      : `${shippingCost.toLocaleString()} FCFA`}
                   </span>
                 </div>
               </div>
 
               {/* Total */}
               <div className="flex justify-between items-center mb-6">
-                <span className="font-bold text-gray-900 dark:text-white">Total</span>
+                <span className="font-bold text-gray-900 dark:text-white">{T.cart.total}</span>
                 <span className="text-2xl font-black text-gradient-primary">{total.toLocaleString()} <span className="text-sm text-emerald-700 dark:text-emerald-400">FCFA</span></span>
               </div>
 
@@ -301,19 +320,24 @@ export default function CartPage() {
                 href="/checkout"
                 className="flex items-center justify-center gap-2 w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold transition-all hover:shadow-emerald-600/30 hover:shadow-lg text-sm"
               >
-                Passer commande
+                {locale === 'en' ? 'Place order' : 'Passer commande'}
                 <ArrowRight className="w-4 h-4" />
               </Link>
 
               <Link href="/produits" className="block text-center mt-3 text-sm text-emerald-600 dark:text-emerald-400 hover:underline font-medium">
-                Continuer mes achats
+                {T.cart.continue}
               </Link>
 
               {/* Payment methods */}
               <div className="mt-5 pt-5 border-t border-gray-100 dark:border-white/[0.06]">
-                <p className="text-xs text-gray-400 dark:text-gray-500 mb-2 text-center">Modes de paiement acceptés</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 mb-2 text-center">
+                  {locale === 'en' ? 'Accepted payment methods' : 'Modes de paiement acceptés'}
+                </p>
                 <div className="flex flex-wrap gap-2 justify-center">
-                  {['🏢 Campost', '💵 Cash à la livraison'].map((m) => (
+                  {(locale === 'en'
+                    ? ['🏢 Campost', '💵 Cash on delivery']
+                    : ['🏢 Campost', '💵 Cash à la livraison']
+                  ).map((m) => (
                     <span key={m} className="px-2.5 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 text-xs font-medium rounded-lg border border-emerald-200 dark:border-emerald-800">
                       {m}
                     </span>

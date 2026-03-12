@@ -77,7 +77,7 @@ export default function ProductsClient({
         setProducts(data.products || []);
       }
     } catch {
-      toast.error('Erreur de chargement');
+      toast.error(locale === 'en' ? 'Loading error' : 'Erreur de chargement');
     } finally {
       setLoading(false);
     }

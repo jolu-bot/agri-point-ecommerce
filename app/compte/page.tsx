@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // -- Types ----------------------------------------------------------------------
 interface UserProfile {
@@ -41,31 +42,9 @@ interface EditData {
   address: { city: string; region: string; quartier: string; street: string };
 }
 
-// -- Badges statut --------------------------------------------------------------
-const STATUS_CONFIG = {
-  approved:      { label: 'Compte actif',            icon: CheckCircle,   color: 'text-emerald-700 bg-emerald-50 border-emerald-200 dark:text-emerald-400 dark:bg-emerald-900/20 dark:border-emerald-800/40' },
-  pending_email: { label: 'Email à vérifier',        icon: Mail,          color: 'text-blue-700 bg-blue-50 border-blue-200 dark:text-blue-400 dark:bg-blue-900/20 dark:border-blue-800/40' },
-  pending_admin: { label: 'En attente de validation', icon: Clock,         color: 'text-amber-700 bg-amber-50 border-amber-200 dark:text-amber-400 dark:bg-amber-900/20 dark:border-amber-800/40' },
-  suspended:     { label: 'Compte suspendu',         icon: AlertTriangle, color: 'text-orange-700 bg-orange-50 border-orange-200 dark:text-orange-400 dark:bg-orange-900/20 dark:border-orange-800/40' },
-  rejected:      { label: 'Compte désactivé',        icon: XCircle,       color: 'text-red-700 bg-red-50 border-red-200 dark:text-red-400 dark:bg-red-900/20 dark:border-red-800/40' },
-} as const;
-
-const ROLE_LABELS: Record<string, string> = {
-  user: 'Client', admin: 'Admin', superadmin: 'Super Admin', moderator: 'Modérateur', distributor: 'Distributeur',
-};
-
-// -- Helpers --------------------------------------------------------------------
-function fmtDate(iso?: string) {
-  if (!iso) return '—';
-  return new Intl.DateTimeFormat('fr-FR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(iso));
-}
-function fmtShortDate(iso?: string) {
-  if (!iso) return '—';
-  return new Intl.DateTimeFormat('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' }).format(new Date(iso));
-}
-
 export default function ComptePage() {
   const router = useRouter();
+  const { locale, T } = useLanguage();
   const [user,    setUser]    = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
@@ -74,6 +53,36 @@ export default function ComptePage() {
     name: '', phone: '', whatsapp: false,
     address: { city: '', region: '', quartier: '', street: '' },
   });
+
+  // -- Locale-aware STATUS_CONFIG -----------------------------------------------
+  const STATUS_CONFIG = {
+    approved:      { label: locale === 'en' ? 'Active account'      : 'Compte actif',             icon: CheckCircle,   color: 'text-emerald-700 bg-emerald-50 border-emerald-200 dark:text-emerald-400 dark:bg-emerald-900/20 dark:border-emerald-800/40' },
+    pending_email: { label: locale === 'en' ? 'Email to verify'     : 'Email à vérifier',         icon: Mail,          color: 'text-blue-700 bg-blue-50 border-blue-200 dark:text-blue-400 dark:bg-blue-900/20 dark:border-blue-800/40' },
+    pending_admin: { label: locale === 'en' ? 'Awaiting validation' : 'En attente de validation', icon: Clock,         color: 'text-amber-700 bg-amber-50 border-amber-200 dark:text-amber-400 dark:bg-amber-900/20 dark:border-amber-800/40' },
+    suspended:     { label: locale === 'en' ? 'Account suspended'   : 'Compte suspendu',          icon: AlertTriangle, color: 'text-orange-700 bg-orange-50 border-orange-200 dark:text-orange-400 dark:bg-orange-900/20 dark:border-orange-800/40' },
+    rejected:      { label: locale === 'en' ? 'Account deactivated' : 'Compte désactivé',         icon: XCircle,       color: 'text-red-700 bg-red-50 border-red-200 dark:text-red-400 dark:bg-red-900/20 dark:border-red-800/40' },
+  };
+
+  // -- Locale-aware ROLE_LABELS -------------------------------------------------
+  const ROLE_LABELS: Record<string, string> = locale === 'en' ? {
+    user: 'Client', admin: 'Admin', superadmin: 'Super Admin', moderator: 'Moderator', distributor: 'Distributor',
+  } : {
+    user: 'Client', admin: 'Admin', superadmin: 'Super Admin', moderator: 'Modérateur', distributor: 'Distributeur',
+  };
+
+  // -- Locale-aware date formatters ---------------------------------------------
+  const fmtDate = (iso?: string) => {
+    if (!iso) return '—';
+    return new Intl.DateTimeFormat(locale === 'en' ? 'en-US' : 'fr-FR', {
+      day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit',
+    }).format(new Date(iso));
+  };
+  const fmtShortDate = (iso?: string) => {
+    if (!iso) return '—';
+    return new Intl.DateTimeFormat(locale === 'en' ? 'en-US' : 'fr-FR', {
+      day: '2-digit', month: 'long', year: 'numeric',
+    }).format(new Date(iso));
+  };
 
   const fetchProfile = useCallback(async () => {
     const token = localStorage.getItem('accessToken');
@@ -92,18 +101,18 @@ export default function ComptePage() {
         phone:   data.user.phone || '',
         whatsapp: data.user.whatsapp || false,
         address: {
-          city:    data.user.address?.city     || '',
-          region:  data.user.address?.region   || '',
+          city:     data.user.address?.city     || '',
+          region:   data.user.address?.region   || '',
           quartier: data.user.address?.quartier || '',
-          street:  data.user.address?.street   || '',
+          street:   data.user.address?.street   || '',
         },
       });
     } catch {
-      toast.error('Erreur lors du chargement du profil');
+      toast.error(locale === 'en' ? 'Error loading profile' : 'Erreur lors du chargement du profil');
     } finally {
       setLoading(false);
     }
-  }, [router]);
+  }, [router, locale]);
 
   useEffect(() => { fetchProfile(); }, [fetchProfile]);
 
@@ -122,12 +131,12 @@ export default function ComptePage() {
         setUser(data.user);
         localStorage.setItem('user', JSON.stringify(data.user));
         setEditing(false);
-        toast.success('Profil mis à jour !');
+        toast.success(locale === 'en' ? 'Profile updated!' : 'Profil mis à jour !');
       } else {
-        toast.error(data.error || 'Erreur lors de la sauvegarde');
+        toast.error(data.error || (locale === 'en' ? 'Error saving profile' : 'Erreur lors de la sauvegarde'));
       }
     } catch {
-      toast.error('Erreur de connexion');
+      toast.error(locale === 'en' ? 'Connection error' : 'Erreur de connexion');
     } finally {
       setSaving(false);
     }
@@ -140,14 +149,14 @@ export default function ComptePage() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
-    toast.success('Déconnecté');
+    toast.success(locale === 'en' ? 'Signed out' : 'Déconnecté');
     router.push('/');
   };
 
   const copyCode = () => {
     if (user?.uniqueCode) {
       navigator.clipboard.writeText(user.uniqueCode);
-      toast.success('Code copié !');
+      toast.success(locale === 'en' ? 'Code copied!' : 'Code copié !');
     }
   };
 
@@ -157,7 +166,9 @@ export default function ComptePage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-500 dark:text-gray-400 text-sm mt-3">Chargement...</p>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-3">
+            {locale === 'en' ? 'Loading...' : 'Chargement...'}
+          </p>
         </div>
       </div>
     );
@@ -175,14 +186,16 @@ export default function ComptePage() {
         {/* ── Header ──────────────────────────────────────────────────────── */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-black text-gray-900 dark:text-white">Mon compte</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Gérez votre profil et vos informations</p>
+            <h1 className="text-2xl font-black text-gray-900 dark:text-white">{T.account.title}</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {locale === 'en' ? 'Manage your profile and information' : 'Gérez votre profil et vos informations'}
+            </p>
           </div>
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition"
           >
-            <LogOut className="w-4 h-4" /> Déconnexion
+            <LogOut className="w-4 h-4" /> {T.account.logout}
           </button>
         </div>
 
@@ -198,16 +211,26 @@ export default function ComptePage() {
               <p className="font-semibold text-sm">{statusCfg.label}</p>
               {user.accountStatus === 'pending_email' && (
                 <p className="text-xs mt-0.5 opacity-80">
-                  Vérifiez votre boîte mail pour activer votre compte.{' '}
-                  <Link href={`/auth/verify-email?email=${user.email}&pending=true`} className="underline font-medium">Renvoyer l'email →</Link>
+                  {locale === 'en'
+                    ? 'Check your inbox to activate your account.'
+                    : 'Vérifiez votre boîte mail pour activer votre compte.'}{' '}
+                  <Link href={`/auth/verify-email?email=${user.email}&pending=true`} className="underline font-medium">
+                    {locale === 'en' ? 'Resend email →' : "Renvoyer l'email →"}
+                  </Link>
                 </p>
               )}
               {user.accountStatus === 'pending_admin' && (
-                <p className="text-xs mt-0.5 opacity-80">Notre équipe examine votre inscription. Vous recevrez un email de confirmation.</p>
+                <p className="text-xs mt-0.5 opacity-80">
+                  {locale === 'en'
+                    ? 'Our team is reviewing your registration. You will receive a confirmation email.'
+                    : 'Notre équipe examine votre inscription. Vous recevrez un email de confirmation.'}
+                </p>
               )}
               {user.accountStatus === 'suspended' && (
                 <p className="text-xs mt-0.5 opacity-80">
-                  Votre compte a été temporairement suspendu. Contactez-nous :{' '}
+                  {locale === 'en'
+                    ? 'Your account has been temporarily suspended. Contact us:'
+                    : 'Votre compte a été temporairement suspendu. Contactez-nous :'}{' '}
                   <a href="mailto:contact@agripointservice.com" className="underline">contact@agripointservice.com</a>
                 </p>
               )}
@@ -254,12 +277,12 @@ export default function ComptePage() {
             <div className="mt-4 pt-4 border-t border-gray-100 dark:border-white/[0.06] w-full space-y-2 text-left">
               <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                 <Calendar className="w-3.5 h-3.5" />
-                Inscrit le {fmtShortDate(user.createdAt)}
+                {locale === 'en' ? 'Member since' : 'Inscrit le'} {fmtShortDate(user.createdAt)}
               </div>
               {user.lastLoginAt && (
                 <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                   <Wifi className="w-3.5 h-3.5" />
-                  Dernière connexion {fmtDate(user.lastLoginAt)}
+                  {locale === 'en' ? 'Last login' : 'Dernière connexion'} {fmtDate(user.lastLoginAt)}
                 </div>
               )}
             </div>
@@ -269,18 +292,20 @@ export default function ComptePage() {
           <div className="lg:col-span-2 space-y-4">
             <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-sm overflow-hidden">
               <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-white/[0.06]">
-                <h3 className="font-bold text-gray-900 dark:text-white text-sm">Informations personnelles</h3>
+                <h3 className="font-bold text-gray-900 dark:text-white text-sm">
+                  {locale === 'en' ? 'Personal information' : 'Informations personnelles'}
+                </h3>
                 {!editing ? (
                   <button
                     onClick={() => setEditing(true)}
                     className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition"
                   >
-                    <Edit3 className="w-4 h-4" /> Modifier
+                    <Edit3 className="w-4 h-4" /> {locale === 'en' ? 'Edit' : 'Modifier'}
                   </button>
                 ) : (
                   <div className="flex items-center gap-2">
                     <button onClick={() => setEditing(false)} className="flex items-center gap-1 text-xs font-semibold text-gray-500 hover:text-gray-700 dark:hover:text-gray-200 transition">
-                      <X className="w-4 h-4" /> Annuler
+                      <X className="w-4 h-4" /> {locale === 'en' ? 'Cancel' : 'Annuler'}
                     </button>
                     <button
                       onClick={handleSave}
@@ -288,7 +313,7 @@ export default function ComptePage() {
                       className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition disabled:opacity-60"
                     >
                       {saving ? <div className="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin" /> : <Save className="w-3.5 h-3.5" />}
-                      Enregistrer
+                      {locale === 'en' ? 'Save' : 'Enregistrer'}
                     </button>
                   </div>
                 )}
@@ -299,14 +324,14 @@ export default function ComptePage() {
                   {!editing ? (
                     <motion.div key="view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {[
-                        { icon: User,    label: 'Nom complet',  value: user.name },
-                        { icon: Mail,    label: 'Email',         value: user.email },
-                        { icon: Phone,   label: 'Téléphone',    value: user.phone ? `+237 ${user.phone}` : '—' },
-                        { icon: Phone,   label: 'WhatsApp',     value: user.whatsapp ? (user.phone ? `+237 ${user.phone}` : 'Oui') : 'Non' },
-                        { icon: MapPin,  label: 'Région',       value: user.address?.region  || '—' },
-                        { icon: MapPin,  label: 'Ville',        value: user.address?.city    || '—' },
-                        { icon: MapPin,  label: 'Quartier',     value: user.address?.quartier || '—' },
-                        { icon: MapPin,  label: 'Adresse',      value: user.address?.street  || '—' },
+                        { icon: User,   label: locale === 'en' ? 'Full name' : 'Nom complet', value: user.name },
+                        { icon: Mail,   label: 'Email',                                         value: user.email },
+                        { icon: Phone,  label: locale === 'en' ? 'Phone'    : 'Téléphone',    value: user.phone ? `+237 ${user.phone}` : '—' },
+                        { icon: Phone,  label: 'WhatsApp',                                      value: user.whatsapp ? (user.phone ? `+237 ${user.phone}` : (locale === 'en' ? 'Yes' : 'Oui')) : (locale === 'en' ? 'No' : 'Non') },
+                        { icon: MapPin, label: locale === 'en' ? 'Region'   : 'Région',       value: user.address?.region   || '—' },
+                        { icon: MapPin, label: locale === 'en' ? 'City'     : 'Ville',        value: user.address?.city     || '—' },
+                        { icon: MapPin, label: locale === 'en' ? 'District' : 'Quartier',     value: user.address?.quartier || '—' },
+                        { icon: MapPin, label: locale === 'en' ? 'Address'  : 'Adresse',      value: user.address?.street   || '—' },
                       ].map(({ icon: Icon, label, value }) => (
                         <div key={label}>
                           <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-1 flex items-center gap-1.5">
@@ -319,8 +344,8 @@ export default function ComptePage() {
                   ) : (
                     <motion.div key="edit" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {[
-                        { field: 'name',             label: 'Nom complet',  type: 'text',  placeholder: 'Votre nom' },
-                        { field: 'phone',            label: 'Téléphone',    type: 'tel',   placeholder: '6XXXXXXXX' },
+                        { field: 'name',  label: locale === 'en' ? 'Full name' : 'Nom complet', type: 'text', placeholder: locale === 'en' ? 'Your name'  : 'Votre nom' },
+                        { field: 'phone', label: locale === 'en' ? 'Phone'     : 'Téléphone',   type: 'tel',  placeholder: '6XXXXXXXX' },
                       ].map(({ field, label, type, placeholder }) => (
                         <div key={field}>
                           <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">{label}</label>
@@ -334,10 +359,10 @@ export default function ComptePage() {
                         </div>
                       ))}
                       {[
-                        { field: 'region',   label: 'Région',   placeholder: 'Ex: Centre' },
-                        { field: 'city',     label: 'Ville',    placeholder: 'Ex: Yaoundé' },
-                        { field: 'quartier', label: 'Quartier', placeholder: 'Ex: Bastos' },
-                        { field: 'street',   label: 'Adresse',  placeholder: 'Ex: Rue Ahmadou Ahidjo' },
+                        { field: 'region',   label: locale === 'en' ? 'Region'   : 'Région',   placeholder: locale === 'en' ? 'e.g. Centre'             : 'Ex: Centre' },
+                        { field: 'city',     label: locale === 'en' ? 'City'     : 'Ville',    placeholder: locale === 'en' ? 'e.g. Yaoundé'            : 'Ex: Yaoundé' },
+                        { field: 'quartier', label: locale === 'en' ? 'District' : 'Quartier', placeholder: locale === 'en' ? 'e.g. Bastos'             : 'Ex: Bastos' },
+                        { field: 'street',   label: locale === 'en' ? 'Address'  : 'Adresse',  placeholder: locale === 'en' ? 'e.g. Ahmadou Ahidjo St.' : 'Ex: Rue Ahmadou Ahidjo' },
                       ].map(({ field, label, placeholder }) => (
                         <div key={field}>
                           <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">{label}</label>
@@ -358,7 +383,9 @@ export default function ComptePage() {
                             onChange={e => setEditData({ ...editData, whatsapp: e.target.checked })}
                             className="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
                           />
-                          <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">Mon numéro est aussi sur WhatsApp</span>
+                          <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">
+                            {locale === 'en' ? 'My number is also on WhatsApp' : 'Mon numéro est aussi sur WhatsApp'}
+                          </span>
                         </label>
                       </div>
                     </motion.div>
@@ -369,21 +396,31 @@ export default function ComptePage() {
 
             {/* ── Sécurité ──────────────────────────────────────────────── */}
             <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-sm p-6">
-              <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-4">Sécurité</h3>
+              <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-4">{T.account.security}</h3>
               <div className="space-y-3">
                 {[
                   {
-                    icon: Mail, label: 'Email vérifié',
-                    value: user.emailVerified ? 'Vérifié' : 'Non vérifié',
+                    icon: Mail,
+                    label: locale === 'en' ? 'Verified email' : 'Email vérifié',
+                    value: user.emailVerified
+                      ? (locale === 'en' ? 'Verified'     : 'Vérifié')
+                      : (locale === 'en' ? 'Not verified' : 'Non vérifié'),
                     color: user.emailVerified ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400',
                     action: !user.emailVerified ? (
-                      <Link href={`/auth/verify-email?email=${user.email}&pending=true`} className="text-xs text-blue-600 hover:underline font-medium">Vérifier →</Link>
+                      <Link href={`/auth/verify-email?email=${user.email}&pending=true`} className="text-xs text-blue-600 hover:underline font-medium">
+                        {locale === 'en' ? 'Verify →' : 'Vérifier →'}
+                      </Link>
                     ) : null,
                   },
                   {
-                    icon: ShieldCheck, label: 'Mot de passe',
-                    value: 'Changer',
-                    action: <Link href="/auth/forgot-password" className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-medium">Modifier →</Link>,
+                    icon: ShieldCheck,
+                    label: locale === 'en' ? 'Password' : 'Mot de passe',
+                    value: locale === 'en' ? 'Change' : 'Changer',
+                    action: (
+                      <Link href="/auth/forgot-password" className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-medium">
+                        {locale === 'en' ? 'Update →' : 'Modifier →'}
+                      </Link>
+                    ),
                   },
                 ].map(({ icon: Icon, label, value, color, action }) => (
                   <div key={label} className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-white/[0.04] last:border-0">
@@ -404,11 +441,23 @@ export default function ComptePage() {
 
             {/* ── Raccourcis ────────────────────────────────────────────── */}
             <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-sm p-6">
-              <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-4">Mes activités</h3>
+              <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-4">
+                {locale === 'en' ? 'My activities' : 'Mes activités'}
+              </h3>
               <div className="space-y-2">
                 {[
-                  { href: '/commande',  icon: Package,     label: 'Mes commandes',        desc: 'Historique de vos achats' },
-                  { href: '/produits',  icon: ChevronRight, label: 'Catalogue produits',   desc: 'Biofertilisants & accessoires' },
+                  {
+                    href: '/commande',
+                    icon: Package,
+                    label: locale === 'en' ? 'My orders'         : 'Mes commandes',
+                    desc:  locale === 'en' ? 'Your purchase history'        : 'Historique de vos achats',
+                  },
+                  {
+                    href: '/produits',
+                    icon: ChevronRight,
+                    label: locale === 'en' ? 'Product catalogue' : 'Catalogue produits',
+                    desc:  locale === 'en' ? 'Biofertilisers & accessories' : 'Biofertilisants & accessoires',
+                  },
                 ].map(({ href, icon: Icon, label, desc }) => (
                   <Link key={href} href={href} className="flex items-center gap-4 p-3.5 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition group">
                     <div className="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center">
