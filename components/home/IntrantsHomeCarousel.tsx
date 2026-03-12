@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import AnimatedCounter from '@/components/shared/AnimatedCounter';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Product {
   id: string;
@@ -16,85 +17,88 @@ interface Product {
   color: string;
 }
 
-const products: Product[] = [
-  {
-    id: 'npk-1',
-    name: 'SARAH NPK 20-10-10',
-    image: '/products/sarah-npk-20-10-10.webp',
-    description: 'Croissance végétative optimale',
-    category: 'NPK Minéral',
-    color: 'from-emerald-500 to-emerald-600',
-  },
-  {
-    id: 'npk-2',
-    name: 'SARAH NPK 12-14-10',
-    image: '/products/sarah-npk-12-14-10.webp',
-    description: 'Floraison et fructification',
-    category: 'NPK Minéral',
-    color: 'from-emerald-500 to-emerald-600',
-  },
-  {
-    id: 'npk-3',
-    name: 'SARAH NPK 10-30-10',
-    image: '/products/sarah-npk-10-30-10.webp',
-    description: 'Rendement supérieur',
-    category: 'NPK Minéral',
-    color: 'from-emerald-500 to-emerald-600',
-  },
-  {
-    id: 'urea',
-    name: 'SARAH URÉE 46%',
-    image: '/products/sarah-uree-46.webp',
-    description: 'Apport azoté concentré',
-    category: 'Azote',
-    color: 'from-amber-500 to-amber-600',
-  },
-  {
-    id: 'bio-1',
-    name: 'HUMIFORTE 20L',
-    image: '/products/humiforte-20.webp',
-    description: 'Acides humiques naturels',
-    category: 'Bio-fertilisant',
-    color: 'from-green-500 to-green-600',
-  },
-  {
-    id: 'bio-2',
-    name: 'KADOSTIM 20L',
-    image: '/products/kadostim-20.webp',
-    description: 'Stimulateur de croissance',
-    category: 'Bio-fertilisant',
-    color: 'from-green-500 to-green-600',
-  },
-  {
-    id: 'foliaire',
-    name: 'FOSNUTREN 20L',
-    image: '/products/fosnutren-20.webp',
-    description: 'Fertilisant foliaire premium',
-    category: 'Foliaire',
-    color: 'from-cyan-500 to-cyan-600',
-  },
-  {
-    id: 'amino',
-    name: 'AMINOL 20L',
-    image: '/products/aminol-20.webp',
-    description: 'Résistance au stress',
-    category: 'Bio-fertilisant',
-    color: 'from-green-500 to-green-600',
-  },
-];
-
 export default function IntrantsHomeCarousel() {
+  const { locale } = useLanguage();
+  const en = locale === 'en';
+
+  const localProducts: Product[] = [
+    {
+      id: 'npk-1',
+      name: 'SARAH NPK 20-10-10',
+      image: '/products/sarah-npk-20-10-10.webp',
+      description: en ? 'Optimal vegetative growth' : 'Croissance végétative optimale',
+      category: en ? 'Mineral NPK' : 'NPK Minéral',
+      color: 'from-emerald-500 to-emerald-600',
+    },
+    {
+      id: 'npk-2',
+      name: 'SARAH NPK 12-14-10',
+      image: '/products/sarah-npk-12-14-10.webp',
+      description: en ? 'Flowering and fruiting' : 'Floraison et fructification',
+      category: en ? 'Mineral NPK' : 'NPK Minéral',
+      color: 'from-emerald-500 to-emerald-600',
+    },
+    {
+      id: 'npk-3',
+      name: 'SARAH NPK 10-30-10',
+      image: '/products/sarah-npk-10-30-10.webp',
+      description: en ? 'Superior yield' : 'Rendement supérieur',
+      category: en ? 'Mineral NPK' : 'NPK Minéral',
+      color: 'from-emerald-500 to-emerald-600',
+    },
+    {
+      id: 'urea',
+      name: 'SARAH URÉE 46%',
+      image: '/products/sarah-uree-46.webp',
+      description: en ? 'Concentrated nitrogen supply' : 'Apport azoté concentré',
+      category: en ? 'Nitrogen' : 'Azote',
+      color: 'from-amber-500 to-amber-600',
+    },
+    {
+      id: 'bio-1',
+      name: 'HUMIFORTE 20L',
+      image: '/products/humiforte-20.webp',
+      description: en ? 'Natural humic acids' : 'Acides humiques naturels',
+      category: en ? 'Bio-fertilizer' : 'Bio-fertilisant',
+      color: 'from-green-500 to-green-600',
+    },
+    {
+      id: 'bio-2',
+      name: 'KADOSTIM 20L',
+      image: '/products/kadostim-20.webp',
+      description: en ? 'Growth stimulator' : 'Stimulateur de croissance',
+      category: en ? 'Bio-fertilizer' : 'Bio-fertilisant',
+      color: 'from-green-500 to-green-600',
+    },
+    {
+      id: 'foliaire',
+      name: 'FOSNUTREN 20L',
+      image: '/products/fosnutren-20.webp',
+      description: en ? 'Premium foliar fertilizer' : 'Fertilisant foliaire premium',
+      category: en ? 'Foliar' : 'Foliaire',
+      color: 'from-cyan-500 to-cyan-600',
+    },
+    {
+      id: 'amino',
+      name: 'AMINOL 20L',
+      image: '/products/aminol-20.webp',
+      description: en ? 'Stress resistance' : 'Résistance au stress',
+      category: en ? 'Bio-fertilizer' : 'Bio-fertilisant',
+      color: 'from-green-500 to-green-600',
+    },
+  ];
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [visibleCount, setVisibleCount] = useState(4);
 
   const nextSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % products.length);
-  }, []);
+    setCurrentIndex((prev) => (prev + 1) % localProducts.length);
+  }, [localProducts.length]);
 
   const prevSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + products.length) % products.length);
-  }, []);
+    setCurrentIndex((prev) => (prev - 1 + localProducts.length) % localProducts.length);
+  }, [localProducts.length]);
 
   // Auto-rotation toutes les 5 secondes
   useEffect(() => {
@@ -125,7 +129,7 @@ export default function IntrantsHomeCarousel() {
   const getVisibleProducts = () => {
     const result = [];
     for (let i = 0; i < visibleCount; i++) {
-      result.push(products[(currentIndex + i) % products.length]);
+      result.push(localProducts[(currentIndex + i) % localProducts.length]);
     }
     return result;
   };
@@ -149,16 +153,18 @@ export default function IntrantsHomeCarousel() {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100/50 dark:bg-emerald-900/20 backdrop-blur-sm border border-emerald-200 dark:border-emerald-800/30 mb-6">
             <span className="w-2 h-2 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-pulse" />
             <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
-              Gamme Complète d'Intrants
+              {en ? "Complete Range of Inputs" : "Gamme Complète d'Intrants"}
             </span>
           </div>
 
           <h2 className="text-4xl md:text-5xl font-display font-black text-gray-900 dark:text-white mb-4">
-            Engrais & Bio-fertilisants
+            {en ? 'Fertilizers & Bio-fertilizers' : 'Engrais & Bio-fertilisants'}
           </h2>
-          
+
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Sélection premium de produits certifiés pour augmenter vos rendements et respecter l'environnement
+            {en
+              ? 'Premium selection of certified products to increase your yields and respect the environment'
+              : "Sélection premium de produits certifiés pour augmenter vos rendements et respecter l'environnement"}
           </p>
 
           <div className="mt-6 flex items-center justify-center gap-2">
@@ -168,7 +174,7 @@ export default function IntrantsHomeCarousel() {
                 to={30} 
                 duration={2.5} 
                 prefix="+" 
-                suffix="% rendement moyen" 
+                suffix={en ? '% average yield' : '% rendement moyen'}
                 format={(v) => Math.round(v).toString()}
               />
             </span>
@@ -235,7 +241,7 @@ export default function IntrantsHomeCarousel() {
                         href="/fourniture-intrants"
                         className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-600 to-emerald-700 dark:from-emerald-600 dark:to-emerald-700 text-white rounded-lg font-semibold text-sm hover:shadow-lg hover:scale-105 transition-all duration-300 group/btn"
                       >
-                        <span>Détails</span>
+                        <span>{en ? 'Details' : 'Détails'}</span>
                         <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                       </Link>
                     </div>
@@ -246,12 +252,12 @@ export default function IntrantsHomeCarousel() {
           </div>
 
           {/* Navigation Arrows */}
-          {visibleCount < products.length && (
+          {visibleCount < localProducts.length && (
             <>
               <button
                 onClick={prevSlide}
                 className="absolute -left-6 lg:-left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 hover:scale-110 z-10"
-                aria-label="Produit précédent"
+                aria-label={en ? 'Previous product' : 'Produit précédent'}
               >
                 <ChevronLeft className="w-6 h-6" />
               </button>
@@ -259,7 +265,7 @@ export default function IntrantsHomeCarousel() {
               <button
                 onClick={nextSlide}
                 className="absolute -right-6 lg:-right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 hover:scale-110 z-10"
-                aria-label="Produit suivant"
+                aria-label={en ? 'Next product' : 'Produit suivant'}
               >
                 <ChevronRight className="w-6 h-6" />
               </button>
@@ -268,7 +274,7 @@ export default function IntrantsHomeCarousel() {
 
           {/* Pagination Dots */}
           <div className="flex justify-center gap-2 mt-10">
-            {products.map((_, index) => (
+            {localProducts.map((_, index) => (
               <motion.button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
@@ -278,7 +284,7 @@ export default function IntrantsHomeCarousel() {
                     ? 'w-8 h-2.5 bg-emerald-600 dark:bg-emerald-500'
                     : 'w-2.5 h-2.5 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
                 }`}
-                aria-label={`Aller au produit ${index + 1}`}
+                aria-label={en ? `Go to product ${index + 1}` : `Aller au produit ${index + 1}`}
               />
             ))}
           </div>
@@ -295,11 +301,13 @@ export default function IntrantsHomeCarousel() {
             href="/fourniture-intrants"
             className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 dark:from-emerald-600 dark:to-emerald-700 text-white rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 group"
           >
-            Voir la gamme complète
+            {en ? 'See the full range' : 'Voir la gamme complète'}
             <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
           </Link>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">
-            Découvrez nos 10+ produits certifiés et conseils agronomes gratuits
+            {en
+              ? 'Discover our 10+ certified products and free agronomic advice'
+              : 'Découvrez nos 10+ produits certifiés et conseils agronomes gratuits'}
           </p>
         </motion.div>
       </div>

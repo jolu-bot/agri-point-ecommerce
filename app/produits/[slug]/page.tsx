@@ -43,17 +43,17 @@ interface Product {
 
 type Tab = 'description' | 'composition' | 'avis';
 
-const MOCK_REVIEWS = [
-  { name: 'Jean-Pierre M.', rating: 5, date: 'Janvier 2026', text: 'Résultats visibles dès la 2e semaine. Ma production a nettement augmenté !' },
-  { name: 'Marie K.', rating: 5, date: 'Décembre 2025', text: 'Produit de grande qualité et livraison rapide. Je recommande vivement.' },
-  { name: 'Thomas B.', rating: 4, date: 'Novembre 2025', text: 'Très bon produit, dosage facile à respecter. Je rachèterai.' },
-];
-
 export default function ProductDetailPage() {
   const params = useParams();
   const router = useRouter();
   const { locale } = useLanguage();
   const en = locale === 'en';
+
+  const MOCK_REVIEWS = [
+    { name: 'Jean-Pierre M.', rating: 5, date: en ? 'January 2026' : 'Janvier 2026', text: en ? 'Results visible from the 2nd week. My production has clearly increased!' : 'Résultats visibles dès la 2e semaine. Ma production a nettement augmenté !' },
+    { name: 'Marie K.', rating: 5, date: en ? 'December 2025' : 'Décembre 2025', text: en ? 'High quality product and fast delivery. I highly recommend it.' : 'Produit de grande qualité et livraison rapide. Je recommande vivement.' },
+    { name: 'Thomas B.', rating: 4, date: en ? 'November 2025' : 'Novembre 2025', text: en ? 'Very good product, easy dosage to follow. I will buy again.' : 'Très bon produit, dosage facile à respecter. Je rachèterai.' },
+  ];
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: 'description', label: 'Description', icon: <Info className="w-4 h-4" /> },
