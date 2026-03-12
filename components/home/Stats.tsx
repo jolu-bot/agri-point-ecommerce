@@ -93,9 +93,10 @@ export default function Stats() {
                 key={index}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -6 }}
                 viewport={{ once: true, margin: '-30px' }}
                 transition={{ type: 'spring', stiffness: 260, damping: 22, delay: index * 0.08 }}
-                className="group relative bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/[0.06] rounded-2xl p-fluid-sm text-center hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden cursor-default"
+                className="group relative bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/[0.06] rounded-2xl p-fluid-sm text-center hover:shadow-xl transition-shadow duration-300 overflow-hidden cursor-default"
               >
                 {/* Gradient top accent */}
                 <div className={`absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r ${stat.color} opacity-90`} />

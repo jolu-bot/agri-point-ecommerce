@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -14,7 +15,6 @@ import {
   Settings,
 } from 'lucide-react';
 import { extractProductsFromText } from '@/lib/agribot-calendar';
-import DistributorsMap from '@/components/DistributorsMap';
 import { useAgriBot } from '@/hooks/useAgriBot';
 import { useAgribotI18n } from '@/lib/hooks/useAgribotI18n';
 import { MarkdownMessage }   from './MarkdownMessage';
@@ -22,6 +22,45 @@ import { IntentBadge }       from './IntentBadge';
 import { CopyButton }        from './CopyButton';
 import { EscalationCard }    from './EscalationCard';
 import { EligibilityWidget } from './EligibilityWidget';
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Lazy-load DistributorsMap — heavy Google Maps bundle (split chunk)
+// ──────────────────────────────────────────────────────────────────────────────
+function MapLoadingSkeleton() {
+  return (
+    <div className="h-[500px] rounded-xl overflow-hidden relative bg-gradient-to-br from-green-50 to-emerald-100 dark:from-gray-800 dark:to-gray-700">
+      {/* Grid lines */}
+      <div className="absolute inset-0" aria-hidden>
+        {[12, 25, 38, 51, 64, 77, 90].map(pct => (
+          <div key={pct} className="absolute h-px bg-green-200/60 dark:bg-green-900/40 left-0 right-0 animate-pulse" style={{ top: `${pct}%` }} />
+        ))}
+        {[14, 28, 42, 56, 70, 84].map(pct => (
+          <div key={pct} className="absolute w-px bg-green-200/60 dark:bg-green-900/40 top-0 bottom-0 animate-pulse" style={{ left: `${pct}%` }} />
+        ))}
+      </div>
+      {/* Fake pins */}
+      <div className="absolute top-[28%] left-[32%]"><div className="w-4 h-4 bg-red-400  rounded-full shadow-lg animate-bounce" style={{ animationDelay: '0s'   }} /></div>
+      <div className="absolute top-[45%] left-[54%]"><div className="w-4 h-4 bg-blue-400 rounded-full shadow-lg animate-bounce" style={{ animationDelay: '0.3s' }} /></div>
+      <div className="absolute top-[62%] left-[68%]"><div className="w-4 h-4 bg-emerald-400 rounded-full shadow-lg animate-bounce" style={{ animationDelay: '0.6s' }} /></div>
+      <div className="absolute top-[35%] left-[72%]"><div className="w-3.5 h-3.5 bg-amber-400  rounded-full shadow-md animate-bounce" style={{ animationDelay: '0.9s' }} /></div>
+      {/* Center loading card */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-2xl px-8 py-6 shadow-2xl shadow-green-900/20 border border-white/60 dark:border-white/10 text-center">
+          <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center mx-auto mb-3">
+            <Loader2 className="w-6 h-6 text-green-600 dark:text-green-400 animate-spin" aria-hidden />
+          </div>
+          <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">Chargement de la carte</p>
+          <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Distributeurs AGRIPOINT…</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const DistributorsMap = dynamic(
+  () => import('@/components/DistributorsMap'),
+  { ssr: false, loading: () => <MapLoadingSkeleton /> },
+);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // VILLES CAMEROUN — grille localisation
