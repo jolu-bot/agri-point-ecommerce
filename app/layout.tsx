@@ -9,6 +9,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PartnersSection from "@/components/shared/PartnersSection";
 import BackToTop from '@/components/layout/BackToTop';
+import PageLoader from '@/components/layout/PageLoader';
 import { ClientComponents } from "./ClientComponents";
 
 export const metadata: Metadata = {
@@ -128,6 +129,7 @@ export default function RootLayout({
                 <BackToTop />
               </div>
               <ClientComponents />
+              <PageLoader />
             </ThemeProvider>
           </PreviewModeProvider>
         </SiteConfigProvider>
