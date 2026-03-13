@@ -1,5 +1,6 @@
 'use client';
 
+import { notFound } from 'next/navigation';
 import ResponsiveContainer from '@/components/ui/ResponsiveContainer';
 import { FluidHeading1, FluidHeading2, FluidHeading3, FluidParagraph } from '@/components/ui/ResponsiveText';
 
@@ -8,6 +9,9 @@ import { FluidHeading1, FluidHeading2, FluidHeading3, FluidParagraph } from '@/c
  * Utilisez cette page pour tester visuellement l'adaptation sur différents écrans
  */
 export default function ResponsiveTestPage() {
+  if (process.env.NODE_ENV !== 'development') {
+    notFound();
+  }
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header de test */}

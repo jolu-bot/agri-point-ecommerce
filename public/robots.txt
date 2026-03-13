@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Block admin and API routes from crawling
+Disallow: /admin/
+Disallow: /api/
+Disallow: /auth/
+Disallow: /test-responsive
+
+# Block internal account pages
+Disallow: /compte/
+
+Sitemap: https://agri-ps.com/sitemap.xml

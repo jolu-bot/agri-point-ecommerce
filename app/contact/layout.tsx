@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Contactez AGRIPOINT SERVICES',
     description: 'Notre équipe est disponible pour répondre à toutes vos questions sur nos solutions agricoles.',
-    url: 'https://agri-point.cm/contact',
+    url: '/contact',
     siteName: 'AGRIPOINT SERVICES',
     locale: 'fr_FR',
     type: 'website',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: 'Contact — AGRIPOINT SERVICES',
     description: 'Besoin d\'information sur nos biofertilisants ? Contactez-nous.',
   },
-  alternates: { canonical: 'https://agri-point.cm/contact' },
+  alternates: { canonical: '/contact' },
 };
 
 export default function ContactLayout({ children }: { children: React.ReactNode }) {

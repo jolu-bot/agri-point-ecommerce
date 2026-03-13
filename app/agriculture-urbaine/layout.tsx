@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Agriculture Urbaine — AGRIPOINT SERVICES',
     description: 'Cultivez fruits et légumes depuis votre balcon ou terrasse avec nos kits urbains et biofertilisants adaptés.',
-    url: 'https://agri-point.cm/agriculture-urbaine',
+    url: '/agriculture-urbaine',
     siteName: 'AGRIPOINT SERVICES',
     locale: 'fr_FR',
     type: 'website',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: 'Agriculture Urbaine — AGRIPOINT SERVICES',
     description: 'Kits de jardinage urbain et biofertilisants pour cultiver en ville au Cameroun.',
   },
-  alternates: { canonical: 'https://agri-point.cm/agriculture-urbaine' },
+  alternates: { canonical: '/agriculture-urbaine' },
 };
 
 export default function AgricultureUrbaineLayout({ children }: { children: React.ReactNode }) {

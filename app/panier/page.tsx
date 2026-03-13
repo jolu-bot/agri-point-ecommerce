@@ -18,25 +18,39 @@ export default function CartPage() {
   const { items, updateQuantity, removeItem, clearCart } = useCartStore();
   const [promoCode, setPromoCode] = useState('');
   const [appliedPromo, setAppliedPromo] = useState<{ code: string; discount: number } | null>(null);
+  const [applyingPromo, setApplyingPromo] = useState(false);
 
   const subtotal = items.reduce((sum, item) => {
     const price = item.promoPrice || item.price;
     return sum + price * item.quantity;
   }, 0);
   const shippingCost = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : 2500;
-  const promoDiscount = appliedPromo ? Math.round((subtotal * appliedPromo.discount) / 100) : 0;
+  const promoDiscount = appliedPromo ? appliedPromo.discount : 0;
   const total = subtotal + shippingCost - promoDiscount;
   const shippingProgress = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100);
   const remaining = FREE_SHIPPING_THRESHOLD - subtotal;
 
-  const handleApplyPromo = () => {
-    const codes: Record<string, number> = { AGRI10: 10, WELCOME: 5, SAVE20: 20 };
-    const discount = codes[promoCode.toUpperCase()];
-    if (discount) {
-      setAppliedPromo({ code: promoCode.toUpperCase(), discount });
-      toast.success(locale === 'en' ? `Code ${promoCode.toUpperCase()} applied! -${discount}%` : `Code ${promoCode.toUpperCase()} appliqué ! -${discount}%`);
-    } else {
-      toast.error(locale === 'en' ? 'Invalid promo code' : 'Code promo invalide');
+  const handleApplyPromo = async () => {
+    if (!promoCode.trim()) return;
+    setApplyingPromo(true);
+    try {
+      const res = await fetch(`/api/promo-codes?code=${encodeURIComponent(promoCode.toUpperCase())}&orderTotal=${subtotal}`);
+      const data = await res.json();
+      if (res.ok && data.valid) {
+        setAppliedPromo({ code: data.code, discount: data.discount });
+        toast.success(
+          locale === 'en'
+            ? `Code ${data.code} applied! -${data.discount.toLocaleString('fr-FR')} FCFA`
+            : `Code ${data.code} appliqué ! -${data.discount.toLocaleString('fr-FR')} FCFA`
+        );
+      } else {
+        const msg = data.errors?.[0] || data.error || (locale === 'en' ? 'Invalid promo code' : 'Code promo invalide');
+        toast.error(msg);
+      }
+    } catch {
+      toast.error(locale === 'en' ? 'Connection error' : 'Erreur de connexion');
+    } finally {
+      setApplyingPromo(false);
     }
   };
 
@@ -271,10 +285,10 @@ export default function CartPage() {
                   ) : (
                     <button
                       onClick={handleApplyPromo}
-                      disabled={!promoCode}
-                      className="px-3 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold transition-colors disabled:opacity-40"
+                      disabled={!promoCode || applyingPromo}
+                      className="px-3 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold transition-colors disabled:opacity-40 min-w-[40px]"
                     >
-                      OK
+                      {applyingPromo ? '…' : 'OK'}
                     </button>
                   )}
                 </div>
