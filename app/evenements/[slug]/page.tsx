@@ -1,257 +1,198 @@
-'use client';
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import { Calendar, MapPin, Users, Clock } from 'lucide-react';
+import dbConnect from '@/lib/db';
+import Event from '@/models/Event';
+import EventRegistrationForm from './EventRegistrationForm';
 
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
-import { Calendar, MapPin, Users, Clock, Mail, User, Phone, Loader2, CheckCircle } from 'lucide-react';
+// ---------------------------------------------------------------------------
+// Sanitisation HTML côté serveur — retire scripts et handlers inline
+// ---------------------------------------------------------------------------
+function sanitizeHtml(html: string): string {
+  return html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/\son\w+="[^"]*"/gi, '')
+    .replace(/\son\w+='[^']*'/gi, '')
+    .replace(/javascript:[^"'`\s>]*/gi, 'javascript:void(0)');
+}
 
-export default function EventDetailPage() {
-  const params = useParams();
-  const slug = params?.slug as string;
+// ---------------------------------------------------------------------------
+// Metadata dynamique par événement
+// ---------------------------------------------------------------------------
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  await dbConnect();
+  const event = await Event.findOne({ slug, status: 'published' }).lean() as any;
+  if (!event) return { title: 'Événement | AGRIPOINT SERVICES' };
 
-  const [event, setEvent] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    numberOfAttendees: 1,
-  });
+  const description =
+    event.shortDescription ||
+    (event.description ? event.description.replace(/<[^>]*>/g, '').slice(0, 155) : '');
 
-  useEffect(() => {
-    fetchEvent();
-  }, [slug]);
+  return {
+    title: `${event.title} | AGRIPOINT SERVICES`,
+    description,
+    openGraph: {
+      title: event.title,
+      description,
+      images: event.featuredImage ? [event.featuredImage] : [],
+      type: 'website',
+      url: `/evenements/${slug}`,
+      siteName: 'AGRIPOINT SERVICES',
+      locale: 'fr_FR',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: event.title,
+      description,
+      images: event.featuredImage ? [event.featuredImage] : [],
+    },
+    alternates: { canonical: `/evenements/${slug}` },
+  };
+}
 
-  const fetchEvent = async () => {
-    try {
-      const response = await fetch(`/api/public/events/${slug}`);
-      const data = await response.json();
-      setEvent(data.event);
-    } catch (error) {
-      console.error('Erreur:', error);
-    } finally {
-      setLoading(false);
-    }
+// ---------------------------------------------------------------------------
+// Page
+// ---------------------------------------------------------------------------
+export default async function EventDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  await dbConnect();
+  const event = await Event.findOne({ slug, status: 'published' }).lean() as any;
+  if (!event) notFound();
+
+  // JSON-LD Event schema
+  const eventLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: event.title,
+    startDate: event.startDate,
+    endDate: event.endDate,
+    description: event.shortDescription || event.title,
+    ...(event.featuredImage && { image: event.featuredImage }),
+    location:
+      event.location?.type === 'physical'
+        ? {
+            '@type': 'Place',
+            name: event.location.name || event.location.city || 'Yaoundé',
+            address: {
+              '@type': 'PostalAddress',
+              addressLocality: event.location.city || 'Yaoundé',
+              addressCountry: 'CM',
+            },
+          }
+        : {
+            '@type': 'VirtualLocation',
+            url: event.location?.onlineUrl || 'https://agri-ps.com/evenements',
+          },
+    organizer: {
+      '@type': 'Organization',
+      name: 'AGRIPOINT SERVICES SARL',
+      url: 'https://agri-ps.com',
+    },
+    offers: {
+      '@type': 'Offer',
+      price: event.pricing?.isFree ? '0' : String(event.pricing?.price ?? '0'),
+      priceCurrency: event.pricing?.currency || 'XAF',
+      availability: 'https://schema.org/InStock',
+      url: `https://agri-ps.com/evenements/${slug}`,
+    },
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitting(true);
-
-    try {
-      const response = await fetch(`/api/public/events/${slug}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setSuccess(true);
-      } else {
-        const data = await response.json();
-        alert(data.error || 'Erreur lors de l\'inscription');
-      }
-    } catch (error) {
-      alert('Erreur lors de l\'inscription');
-    } finally {
-      setSubmitting(false);
-    }
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://agri-ps.com' },
+      { '@type': 'ListItem', position: 2, name: 'Événements', item: 'https://agri-ps.com/evenements' },
+      { '@type': 'ListItem', position: 3, name: event.title, item: `https://agri-ps.com/evenements/${slug}` },
+    ],
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-      </div>
-    );
-  }
-
-  if (!event) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-600">Événement non trouvé</p>
-      </div>
-    );
-  }
-
-  if (success) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-blue-50 p-4">
-        <div className="max-w-md w-full bg-white rounded-lg shadow-2xl p-8 text-center">
-          <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-6" />
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Inscription confirmée !</h1>
-          <p className="text-lg text-gray-600 mb-6">
-            Vous recevrez un email de confirmation avec tous les détails.
-          </p>
-          <a href="/evenements" className="text-blue-600 hover:text-blue-700 font-medium">
-            ← Retour aux événements
-          </a>
-        </div>
-      </div>
-    );
-  }
+  const safeDescription = sanitizeHtml(event.description || '');
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        {event.featuredImage && (
-          <div className="h-96 rounded-xl overflow-hidden mb-8">
-            <img
-              src={event.featuredImage}
-              alt={event.title}
-              className="w-full h-full object-cover"
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(eventLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4">
+        <div className="max-w-4xl mx-auto">
+
+          {/* Image principale */}
+          {event.featuredImage && (
+            <div className="relative h-96 rounded-xl overflow-hidden mb-8">
+              <Image
+                src={event.featuredImage}
+                alt={event.title}
+                fill
+                sizes="(max-width:896px) 100vw, 896px"
+                className="object-cover"
+                priority
+              />
+            </div>
+          )}
+
+          {/* Détails */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">{event.title}</h1>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 text-gray-600 dark:text-gray-400">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-emerald-600" />
+                {new Date(event.startDate).toLocaleDateString('fr-FR', {
+                  weekday: 'long',
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="w-5 h-5 text-emerald-600" />
+                {new Date(event.startDate).toLocaleTimeString('fr-FR', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </div>
+              {event.location?.type === 'physical' && (
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-emerald-600" />
+                  {event.location.name || event.location.city}
+                </div>
+              )}
+              {event.capacity && (
+                <div className="flex items-center gap-2">
+                  <Users className="w-5 h-5 text-emerald-600" />
+                  {event.currentAttendees ?? 0} / {event.capacity} inscrits
+                </div>
+              )}
+            </div>
+
+            {/* Description sanitisée côté serveur */}
+            <div
+              className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-300"
+              dangerouslySetInnerHTML={{ __html: safeDescription }}
             />
           </div>
-        )}
 
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">{event.title}</h1>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 text-gray-600">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-blue-600" />
-              {new Date(event.startDate).toLocaleDateString('fr-FR', {
-                weekday: 'long',
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-5 h-5 text-blue-600" />
-              {new Date(event.startDate).toLocaleTimeString('fr-FR', {
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
-            </div>
-            {event.location.type === 'physical' && (
-              <div className="flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-blue-600" />
-                {event.location.name || event.location.city}
-              </div>
-            )}
-            {event.capacity && (
-              <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-blue-600" />
-                {event.currentAttendees} / {event.capacity} inscrits
-              </div>
-            )}
-          </div>
-
-          <div
-            className="prose max-w-none text-gray-600"
-            dangerouslySetInnerHTML={{ __html: event.description }}
+          {/* Formulaire d'inscription — client component */}
+          <EventRegistrationForm
+            slug={slug}
+            collectPhone={event.registrationOptions?.collectPhoneNumber ?? false}
+            isFree={event.pricing?.isFree ?? true}
+            price={event.pricing?.price}
+            currency={event.pricing?.currency}
           />
-
-          {event.pricing.isFree ? (
-            <p className="text-2xl font-bold text-green-600 mt-6">Gratuit</p>
-          ) : (
-            <p className="text-2xl font-bold text-gray-900 mt-6">
-              {event.pricing.price} {event.pricing.currency}
-            </p>
-          )}
-        </div>
-
-        {/* Formulaire d'inscription */}
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">S'inscrire</h2>
-          
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Prénom *
-                </label>
-                <input
-                  type="text"
-                  required
-                  aria-label="Prénom"
-                  value={formData.firstName}
-                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Nom *
-                </label>
-                <input
-                  type="text"
-                  required
-                  aria-label="Nom"
-                  value={formData.lastName}
-                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email *
-              </label>
-              <input
-                type="email"
-                required
-                aria-label="Adresse email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-
-            {event.registrationOptions.collectPhoneNumber && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Téléphone
-                </label>
-                <input
-                  type="tel"
-                  aria-label="Numéro de téléphone"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-            )}
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Nombre de places
-              </label>
-              <input
-                type="number"
-                min="1"
-                max="10"
-                aria-label="Nombre de places"
-                value={formData.numberOfAttendees}
-                onChange={(e) => setFormData({ ...formData, numberOfAttendees: parseInt(e.target.value) })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={submitting}
-              className="w-full py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-600/20"
-            >
-              {submitting ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Inscription en cours...
-                </>
-              ) : (
-                <>
-                  Confirmer l'inscription
-                </>
-              )}
-            </button>
-          </form>
         </div>
       </div>
-    </div>
+    </>
   );
 }
