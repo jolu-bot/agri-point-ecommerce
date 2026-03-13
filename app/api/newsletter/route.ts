@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import NewsletterSubscriber from '@/models/NewsletterSubscriber';
 import { sendEmail } from '@/lib/email';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 function buildWelcomeEmail(locale: string, unsubscribeToken: string): string {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com';
@@ -64,6 +65,14 @@ function buildWelcomeEmail(locale: string, unsubscribeToken: string): string {
  */
 export async function POST(req: NextRequest) {
   try {
+    const ip = getClientIp(req);
+    if (!rateLimit(ip, 5, 60 * 60 * 1000)) {
+      return NextResponse.json(
+        { error: 'Trop de tentatives. Réessayez dans une heure.' },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
     const { email, locale = 'fr', source = 'homepage' } = body;
 
