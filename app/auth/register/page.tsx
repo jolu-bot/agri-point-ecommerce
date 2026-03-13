@@ -12,6 +12,7 @@ import type { ComponentType } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { TurnstileCaptcha } from '@/components/auth/TurnstileCaptcha';
 
 // --- Données Cameroun ---------------------------------------------------------
 const REGIONS = [
@@ -154,6 +155,7 @@ export default function RegisterPage() {
 
   const [step,    setStep]    = useState(0);
   const [loading, setLoading] = useState(false);
+  const [cfToken, setCfToken] = useState('');
   const [showPwd, setShowPwd] = useState(false);
   const [showCpw, setShowCpw] = useState(false);
 
@@ -224,6 +226,7 @@ export default function RegisterPage() {
           region:          form.region,
           city:            form.city,
           quartier:        form.quartier.trim(),
+          cfToken,
         }),
       });
 
@@ -617,6 +620,10 @@ export default function RegisterPage() {
               </AnimatePresence>
 
               {/* ── Navigation entre étapes ─────────────────────────────────── */}
+              {step === 2 && (
+                <TurnstileCaptcha onToken={setCfToken} onError={() => setCfToken('')} />
+              )}
+
               <div className={`flex gap-3 mt-6 ${step > 0 ? 'justify-between' : 'justify-end'}`}>
                 {step > 0 && (
                   <button
