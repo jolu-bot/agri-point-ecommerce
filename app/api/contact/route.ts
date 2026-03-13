@@ -2,6 +2,7 @@
 import { sendEmail } from '@/lib/email';
 import connectDB from '@/lib/db';
 import Message from '@/models/Message';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 // -------------------------------------------------
 // 📬 Interface Contact Form Data
@@ -15,12 +16,32 @@ interface ContactFormData {
 }
 
 // -------------------------------------------------
+// 🛡️ Echappement HTML — empêche XSS dans les templates d'email
+// -------------------------------------------------
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+// -------------------------------------------------
 // 📧 POST /api/contact
 // -------------------------------------------------
 // Envoie un email à contact@agri-ps.com avec les détails
 // du formulaire de contact, puis envoie une confirmation au client
 // -------------------------------------------------
 export async function POST(request: NextRequest) {
+  const ip = getClientIp(request);
+  if (!rateLimit(`contact:${ip}`, 5, 60 * 60 * 1000)) {
+    return NextResponse.json(
+      { success: false, error: 'Trop de messages. Réessayez dans une heure.' },
+      { status: 429 }
+    );
+  }
+
   try {
     const body: ContactFormData = await request.json();
     
@@ -168,14 +189,14 @@ export async function POST(request: NextRequest) {
     <div class="content">
       <div class="field">
         <div class="field-label">👤 Nom</div>
-        <div class="field-value">${body.name}</div>
+        <div class="field-value">${escapeHtml(body.name)}</div>
       </div>
-      
+
       <div class="field">
         <div class="field-label">📧 Email</div>
         <div class="field-value">
-          <a href="mailto:${body.email}" style="color: #059669; text-decoration: none;">
-            ${body.email}
+          <a href="mailto:${escapeHtml(body.email)}" style="color: #059669; text-decoration: none;">
+            ${escapeHtml(body.email)}
           </a>
         </div>
       </div>
@@ -184,28 +205,28 @@ export async function POST(request: NextRequest) {
       <div class="field">
         <div class="field-label">📱 Téléphone</div>
         <div class="field-value">
-          <a href="tel:${body.phone}" style="color: #059669; text-decoration: none;">
-            ${body.phone}
+          <a href="tel:${escapeHtml(body.phone)}" style="color: #059669; text-decoration: none;">
+            ${escapeHtml(body.phone)}
           </a>
         </div>
       </div>
       ` : ''}
-      
+
       ${body.subject ? `
       <div class="field">
         <div class="field-label">📋 Sujet</div>
-        <div class="field-value">${body.subject}</div>
+        <div class="field-value">${escapeHtml(body.subject)}</div>
       </div>
       ` : ''}
-      
+
       <div class="field">
         <div class="field-label">💬 Message</div>
-        <div class="message-box">${body.message.replace(/\n/g, '<br>')}</div>
+        <div class="message-box">${escapeHtml(body.message).replace(/\n/g, '<br>')}</div>
       </div>
-      
+
       <div class="actions">
-        <a href="mailto:${body.email}?subject=Re: ${body.subject || 'Votre message'}" class="btn">
-          Répondre à ${body.name}
+        <a href="mailto:${escapeHtml(body.email)}?subject=Re: ${escapeHtml(body.subject || 'Votre message')}" class="btn">
+          Répondre à ${escapeHtml(body.name)}
         </a>
       </div>
     </div>
@@ -317,18 +338,18 @@ export async function POST(request: NextRequest) {
     </div>
     
     <div class="content">
-      <p style="font-size: 16px;">Bonjour <strong>${body.name}</strong>,</p>
-      
+      <p style="font-size: 16px;">Bonjour <strong>${escapeHtml(body.name)}</strong>,</p>
+
       <p>
-        Nous vous confirmons la bonne réception de votre message. 
+        Nous vous confirmons la bonne réception de votre message.
         Notre équipe l'examine actuellement et vous répondra dans les <strong>24 heures maximum</strong>.
       </p>
-      
+
       <div class="message-recap">
         <h3 style="margin-top: 0; color: #059669;">📝 Récapitulatif de votre message:</h3>
-        ${body.subject ? `<p><strong>Sujet:</strong> ${body.subject}</p>` : ''}
+        ${body.subject ? `<p><strong>Sujet:</strong> ${escapeHtml(body.subject)}</p>` : ''}
         <p><strong>Message:</strong></p>
-        <p style="white-space: pre-wrap; font-style: italic;">${body.message}</p>
+        <p style="white-space: pre-wrap; font-style: italic;">${escapeHtml(body.message)}</p>
       </div>
       
       <div class="contact-info">
