@@ -6,6 +6,19 @@ import dbConnect from '@/lib/db';
 import Event from '@/models/Event';
 import EventRegistrationForm from './EventRegistrationForm';
 
+export const revalidate = 3600;
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  try {
+    await dbConnect();
+    const events = await Event.find({ status: 'published' }).select('slug').lean() as { slug: string }[];
+    return events.map((e) => ({ slug: e.slug }));
+  } catch {
+    return [];
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Sanitisation HTML côté serveur — retire scripts et handlers inline
 // ---------------------------------------------------------------------------
