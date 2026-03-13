@@ -44,7 +44,7 @@ interface Product {
 
 type Tab = 'description' | 'composition' | 'avis';
 
-export default function ProductDetailClient() {
+export default function ProductDetailClient({ initialProduct }: { initialProduct?: Product }) {
   const params = useParams();
   const router = useRouter();
   const { locale } = useLanguage();
@@ -62,17 +62,21 @@ export default function ProductDetailClient() {
     { id: 'avis', label: en ? 'Customer Reviews' : 'Avis clients', icon: <Star className="w-4 h-4" /> },
   ];
 
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState<Product | null>(initialProduct ?? null);
+  const [loading, setLoading] = useState(!initialProduct);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [activeTab, setActiveTab] = useState<Tab>('description');
   const [related, setRelated] = useState<Product[]>([]);
 
   useEffect(() => {
-    loadProduct();
+    if (initialProduct) {
+      loadRelated(initialProduct.category, initialProduct._id);
+    } else {
+      loadProduct();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.slug]);
+  }, []);
 
   const loadProduct = async () => {
     try {
@@ -146,39 +150,41 @@ export default function ProductDetailClient() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      {/* JSON-LD Product schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Product',
-            name: product.name,
-            description: product.description,
-            image: product.images.length > 0 ? product.images : undefined,
-            sku: product.sku,
-            url: `https://agri-ps.com/produits/${product.slug}`,
-            brand: {
-              '@type': 'Brand',
-              name: 'AGRIPOINT SERVICES',
-            },
-            offers: {
-              '@type': 'Offer',
+      {/* JSON-LD Product schema — rendered server-side when initialProduct is available */}
+      {!initialProduct && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Product',
+              name: product.name,
+              description: product.description,
+              image: product.images.length > 0 ? product.images : undefined,
+              sku: product.sku,
               url: `https://agri-ps.com/produits/${product.slug}`,
-              priceCurrency: 'XAF',
-              price: product.promoPrice ?? product.price,
-              availability:
-                product.stock > 0
-                  ? 'https://schema.org/InStock'
-                  : 'https://schema.org/OutOfStock',
-              seller: {
-                '@type': 'Organization',
+              brand: {
+                '@type': 'Brand',
                 name: 'AGRIPOINT SERVICES',
               },
-            },
-          }),
-        }}
-      />
+              offers: {
+                '@type': 'Offer',
+                url: `https://agri-ps.com/produits/${product.slug}`,
+                priceCurrency: 'XAF',
+                price: product.promoPrice ?? product.price,
+                availability:
+                  product.stock > 0
+                    ? 'https://schema.org/InStock'
+                    : 'https://schema.org/OutOfStock',
+                seller: {
+                  '@type': 'Organization',
+                  name: 'AGRIPOINT SERVICES',
+                },
+              },
+            }),
+          }}
+        />
+      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
         <Breadcrumb
