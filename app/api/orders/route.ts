@@ -73,11 +73,11 @@ export async function POST(request: NextRequest) {
     const {
       items,
       subtotal,
+      discount = 0,
       shipping,
       total,
       shippingAddress,
       paymentMethod,
-      promoCode,
     } = body;
 
     // Validation
@@ -120,7 +120,7 @@ export async function POST(request: NextRequest) {
       items,
       subtotal,
       shipping,
-      discount: promoCode ? (subtotal * (promoCode.discount / 100)) : 0,
+      discount,
       total,
       shippingAddress,
       paymentMethod,
