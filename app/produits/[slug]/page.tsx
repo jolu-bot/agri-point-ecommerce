@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/store/cartStore';
 import toast from 'react-hot-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
+import Breadcrumb from '@/components/shared/Breadcrumb';
 
 interface Product {
   _id: string;
@@ -180,13 +181,13 @@ export default function ProductDetailPage() {
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500 mb-6">
-          <Link href="/" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">{en ? 'Home' : 'Accueil'}</Link>
-          <span>/</span>
-          <Link href="/produits" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">{en ? 'Products' : 'Produits'}</Link>
-          <span>/</span>
-          <span className="text-gray-600 dark:text-gray-300 font-medium line-clamp-1">{product.name}</span>
-        </nav>
+        <Breadcrumb
+          items={[
+            { label: en ? 'Products' : 'Produits', href: '/produits' },
+            { label: product.name },
+          ]}
+          className="mb-6"
+        />
 
         <button onClick={() => router.back()} className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 mb-6 transition-colors text-sm font-medium">
           <ChevronLeft className="w-4 h-4" />

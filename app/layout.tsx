@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     url: '/',
     title: "AGRIPOINT SERVICES",
     description: "Solutions agricoles complètes",
-    images: [{ url: '/images/logo.png', width: 1200, height: 630 }],
+    images: [{ url: '/api/og', width: 1200, height: 630, alt: 'AGRIPOINT SERVICES' }],
   },
   robots: { index: true, follow: true },
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
@@ -9,6 +9,7 @@ import { useCartStore } from '@/store/cartStore';
 import DynamicHeaderBranding from './DynamicHeaderBranding';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageToggle from '@/components/LanguageToggle';
+import SearchAutocomplete from './SearchAutocomplete';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,7 +17,6 @@ export default function Header() {
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const searchInputRef = useRef<HTMLInputElement>(null);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const { items } = useCartStore();
@@ -34,14 +34,7 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Focus l'input de recherche à l'ouverture
-  useEffect(() => {
-    if (isSearchOpen) {
-      setTimeout(() => searchInputRef.current?.focus(), 80);
-    }
-  }, [isSearchOpen]);
-
-  // Soumission de la recherche → redirect vers /produits?search=...
+  // Soumission de la recherche mobile → redirect vers /produits?search=...
   const handleSearch = useCallback((e?: React.FormEvent) => {
     e?.preventDefault();
     if (searchQuery.trim()) {
@@ -185,23 +178,7 @@ export default function Header() {
             {/* Search expandable — caché sur très petits écrans */}
             <div className="hidden sm:flex items-center">
               {isSearchOpen ? (
-                <form onSubmit={handleSearch} className="flex items-center gap-1 animate-fadeInUp">
-                  <input
-                    ref={searchInputRef}
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={(e) => { if (e.key === 'Escape') { setIsSearchOpen(false); setSearchQuery(''); } }}
-                    placeholder={T.nav.search}
-                    className="w-44 lg:w-56 px-3 py-1.5 text-sm rounded-lg border border-emerald-300 dark:border-emerald-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all duration-200"
-                  />
-                  <button type="submit" className="p-2 rounded-lg text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/25 transition-all duration-150" aria-label={T.nav.launch}>
-                    <Search className="w-4 h-4" />
-                  </button>
-                  <button type="button" onClick={() => { setIsSearchOpen(false); setSearchQuery(''); }} className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-150" aria-label={T.nav.close}>
-                    <X className="w-4 h-4" />
-                  </button>
-                </form>
+                <SearchAutocomplete onClose={() => { setIsSearchOpen(false); setSearchQuery(''); }} />
               ) : (
                 <button
                   onClick={() => setIsSearchOpen(true)}

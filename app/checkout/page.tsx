@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import CampostPaymentInfo from '@/components/shared/CampostPaymentInfo';
 import WhatsAppPaymentInfo from '@/components/shared/WhatsAppPaymentInfo';
 import { useLanguage } from '@/contexts/LanguageContext';
+import Breadcrumb from '@/components/shared/Breadcrumb';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -268,6 +269,15 @@ export default function CheckoutPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Breadcrumb */}
+        <Breadcrumb
+          items={[
+            { label: locale === 'en' ? 'Cart' : 'Panier', href: '/panier' },
+            { label: locale === 'en' ? 'Order' : 'Commande' },
+          ]}
+          className="mb-6"
+        />
+
         {/* Header */}
         <button
           onClick={() => router.back()}
