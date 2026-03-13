@@ -133,7 +133,7 @@ const nextConfig = {
       "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
-      "img-src 'self' data: blob: https://res.cloudinary.com https://*.amazonaws.com https://*.googleusercontent.com https://agri-ps.com",
+      "img-src 'self' data: blob: https://res.cloudinary.com https://*.amazonaws.com https://*.googleusercontent.com https://agri-ps.com https://maps.googleapis.com https://maps.gstatic.com",
       "connect-src 'self' https://www.google-analytics.com https://api.openai.com https://*.sentry.io https://maps.googleapis.com https://maps.gstatic.com",
       "media-src 'self'",
       "frame-src 'none'",

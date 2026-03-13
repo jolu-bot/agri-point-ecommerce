@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import dynamic from "next/dynamic";
 
 const AgriBotWrapper = dynamic(() => import('@/components/AgriBotWrapper'), {
@@ -28,6 +29,15 @@ const CookieConsentBanner = dynamic(() => import('@/components/cookies/CookieCon
 });
 
 export function ClientComponents() {
+  // Enregistrement du service worker (PWA offline + install prompt)
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {
+        // Silently fails in dev / HTTP environments
+      });
+    }
+  }, []);
+
   return (
     <>
       <PreviewModeBanner />
