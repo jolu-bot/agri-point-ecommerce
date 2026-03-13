@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
+import Event from '@/models/Event';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com';
 
@@ -55,5 +56,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // DB unavailable at build time — skip dynamic routes gracefully
   }
 
-  return [...staticEntries, ...productEntries];
+  // Routes dynamiques événements
+  let eventEntries: MetadataRoute.Sitemap = [];
+  try {
+    const events = await Event.find({ status: 'published' })
+      .select('slug updatedAt')
+      .lean<{ slug: string; updatedAt: Date }[]>();
+
+    eventEntries = events.map((e) => ({
+      url: `${BASE_URL}/evenements/${e.slug}`,
+      lastModified: e.updatedAt ?? now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
+    }));
+  } catch {
+    // DB unavailable at build time — skip dynamic routes gracefully
+  }
+
+  return [...staticEntries, ...productEntries, ...eventEntries];
 }

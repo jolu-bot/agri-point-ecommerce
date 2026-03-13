@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+import { useState } from 'react';
 import Link from 'next/link';
 import { ShoppingCart, Heart, Eye, Star, ArrowRight, Sprout, Flame } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -17,6 +19,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
   const { addItem } = useCartStore();
   const { locale } = useLanguage();
   const en = locale === 'en';
+  const [imgFailed, setImgFailed] = useState(false);
 
   const finalPrice = product.promoPrice || product.price;
   const hasDiscount = product.promoPrice && product.promoPrice < product.price;
@@ -58,16 +61,15 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
             <div className="flex flex-col sm:flex-row gap-0">
               {/* Image */}
               <div className="relative w-full sm:w-52 md:w-64 h-52 bg-gradient-to-br from-gray-50 to-emerald-50/30 dark:from-gray-800 dark:to-emerald-950/20 flex-shrink-0 overflow-hidden">
-                {product.images[0] ? (
-                  <img
+                {product.images[0] && !imgFailed ? (
+                  <Image
                     src={product.images[0]}
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    fill
+                    sizes="(max-width:640px) 100vw, 256px"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
-                    decoding="async"
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src = '/images/fallback-product.svg';
-                    }}
+                    onError={() => setImgFailed(true)}
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
@@ -193,16 +195,15 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
 
           {/* ── Image Container ── */}
           <div className="relative aspect-square bg-gradient-to-br from-gray-50 to-emerald-50/30 dark:from-gray-800 dark:to-emerald-950/20 overflow-hidden rounded-t-2xl">
-            {product.images[0] ? (
-              <img
+            {product.images[0] && !imgFailed ? (
+              <Image
                 src={product.images[0]}
                 alt={product.name}
-                className="w-full h-full object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-110"
+                fill
+                sizes="(max-width:768px) 50vw, (max-width:1280px) 33vw, 300px"
+                className="object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-110"
                 loading="lazy"
-                decoding="async"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = '/images/fallback-product.svg';
-                }}
+                onError={() => setImgFailed(true)}
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
