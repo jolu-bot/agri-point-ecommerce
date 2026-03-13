@@ -1,9 +1,23 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import connectDB from '@/lib/db';
 import Product from '@/models/Product';
 import ProductDetailClient from '@/components/products/ProductDetailClient';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com';
+
+export const revalidate = 3600;
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  try {
+    await connectDB();
+    const products = await Product.find({ isActive: true }).select('slug').lean() as { slug: string }[];
+    return products.map((p) => ({ slug: p.slug }));
+  } catch {
+    return [];
+  }
+}
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> }
@@ -51,13 +65,16 @@ export default async function ProductDetailPage(
 
   // ── JSON-LD structured data ────────────────────────────────────────────────
   let productLd: object | null = null;
+  let productNotFound = false;
   try {
     await connectDB();
     const p = await Product.findOne({ slug, isActive: true })
       .select('name description price promoPrice stock images category')
       .lean() as any;
 
-    if (p) {
+    if (!p) {
+      productNotFound = true;
+    } else {
       const price = (p.promoPrice || p.price) as number;
       productLd = {
         '@context': 'https://schema.org',
@@ -82,6 +99,7 @@ export default async function ProductDetailPage(
   } catch {
     // DB unavailable at render time — JSON-LD skipped gracefully
   }
+  if (productNotFound) notFound();
 
   const breadcrumbLd = {
     '@context': 'https://schema.org',
