@@ -9,6 +9,7 @@ import {
   applySecurityHeaders, logSecurityEvent,
 } from '@/lib/security';
 import { rateLimit } from '@/lib/rate-limit';
+import { verifyTurnstileToken } from '@/lib/turnstile';
 
 // Régions administratives du Cameroun
 const CAMEROUN_REGIONS = [
@@ -39,6 +40,14 @@ export async function POST(req: NextRequest) {
     if (!threat.safe) {
       logSecurityEvent({ type: 'threat_detected', ip, userAgent: ua, detail: `${threat.threat} in ${threat.matchedField}` });
       return applySecurityHeaders(NextResponse.json({ error: 'Données invalides' }, { status: 400 }));
+    }
+
+    // -- Vérification Turnstile anti-bot --------------------------------------
+    const cfToken = (rawBody.cfToken ?? rawBody.turnstileToken) as string | undefined;
+    if (!await verifyTurnstileToken(cfToken, ip)) {
+      return applySecurityHeaders(NextResponse.json(
+        { error: 'Vérification anti-bot échouée. Actualisez la page et réessayez.' }, { status: 400 }
+      ));
     }
 
     // -- Sanitisation complète ------------------------------------------------

@@ -7,6 +7,7 @@ import {
   applySecurityHeaders, logSecurityEvent,
 } from '@/lib/security';
 import { rateLimit } from '@/lib/rate-limit';
+import { verifyTurnstileToken } from '@/lib/turnstile';
 
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req);
@@ -30,6 +31,14 @@ export async function POST(req: NextRequest) {
     if (!threat.safe) {
       logSecurityEvent({ type: 'threat_detected', ip, userAgent: ua, detail: threat.threat ?? '' });
       return applySecurityHeaders(NextResponse.json({ error: 'Requête invalide' }, { status: 400 }));
+    }
+
+    // -- Vérification Turnstile anti-bot --------------------------------------
+    const cfToken = (body.cfToken ?? body.turnstileToken) as string | undefined;
+    if (!await verifyTurnstileToken(cfToken, ip)) {
+      return applySecurityHeaders(NextResponse.json(
+        { error: 'Vérification anti-bot échouée. Actualisez la page et réessayez.' }, { status: 400 }
+      ));
     }
 
     const email = sanitizeString(body.email as string ?? '').toLowerCase();

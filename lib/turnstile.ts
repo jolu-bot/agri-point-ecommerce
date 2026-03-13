@@ -1,64 +1,37 @@
-import { Turnstile } from '@marsidev/react-turnstile';
-import { NextRequest, NextResponse } from 'next/server';
-
 /**
- * Verification Cloudflare Turnstile server-side
+ * Server-side Cloudflare Turnstile token verification.
+ * Returns true if the token is valid, or if TURNSTILE_SECRET_KEY is not set (graceful degradation).
+ * Never throws — returns false on any network/parse error.
  */
-export async function verifyTurnstileToken(token: string): Promise<boolean> {
-  if (!token) return false;
+
+const VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+
+export async function verifyTurnstileToken(
+  token: string | undefined,
+  ip?: string
+): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+
+  // Not configured → skip verification (dev / staging without key)
+  if (!secret) return true;
+  if (!token)  return false;
 
   try {
-    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-      method: 'POST',
+    const response = await fetch(VERIFY_URL, {
+      method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        secret: process.env.TURNSTILE_SECRET_KEY,
-        response: token,
-      }),
+      body:    JSON.stringify({ secret, response: token, ...(ip ? { remoteip: ip } : {}) }),
     });
 
-    const data = (await response.json()) as { success: boolean; error_codes?: string[] };
+    const data = await response.json() as { success: boolean; 'error-codes'?: string[] };
 
     if (!data.success) {
-      console.warn('Turnstile verification failed:', data.error_codes);
-      return false;
+      console.warn('Turnstile verification failed:', data['error-codes']);
     }
 
-    return true;
+    return data.success === true;
   } catch (error) {
     console.error('Turnstile verification error:', error);
     return false;
   }
 }
-
-/**
- * Middleware to validate Turnstile token in request body
- */
-export async function validateTurnstileMiddleware(request: NextRequest) {
-  if (request.method === 'POST') {
-    const body = await request.json();
-    const turnstileToken = body.turnstileToken;
-
-    if (!turnstileToken) {
-      return NextResponse.json(
-        { success: false, error: 'Turnstile token required' },
-        { status: 400 }
-      );
-    }
-
-    const isValid = await verifyTurnstileToken(turnstileToken);
-    if (!isValid) {
-      return NextResponse.json(
-        { success: false, error: 'Turnstile verification failed' },
-        { status: 403 }
-      );
-    }
-  }
-
-  return NextResponse.next();
-}
-
-// Export pour utilisation dans composants React
-export { Turnstile };
-
-export const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '';

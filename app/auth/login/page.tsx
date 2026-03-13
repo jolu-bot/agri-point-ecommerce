@@ -8,6 +8,7 @@ import { Mail, Lock, Eye, EyeOff, LogIn, ArrowRight, AlertTriangle, Clock, MailC
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { TurnstileCaptcha } from '@/components/auth/TurnstileCaptcha';
 
 type AlertState = null | 'EMAIL_NOT_VERIFIED' | 'ACCOUNT_LOCKED' | 'ACCOUNT_SUSPENDED' | 'ACCOUNT_REJECTED' | 'PENDING_ADMIN';
 
@@ -25,6 +26,7 @@ function LoginForm() {
   const [alert,        setAlert]        = useState<AlertState>(null);
   const [alertMsg,     setAlertMsg]     = useState('');
   const [resending,    setResending]    = useState(false);
+  const [cfToken,      setCfToken]      = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +38,7 @@ function LoginForm() {
         method:      'POST',
         headers:     { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body:        JSON.stringify({ email, password }),
+        body:        JSON.stringify({ email, password, cfToken }),
       });
       const data = await res.json();
 
@@ -283,6 +285,8 @@ function LoginForm() {
                   {T.auth.forgotPassword}
                 </Link>
               </div>
+
+              <TurnstileCaptcha onToken={setCfToken} onError={() => setCfToken('')} />
 
               <button
                 type="submit"
