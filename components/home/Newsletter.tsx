@@ -7,19 +7,34 @@ import { Mail, ArrowRight, Leaf, CheckCircle, Gift, Megaphone } from 'lucide-rea
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Newsletter() {
-  const { T } = useLanguage();
+  const { T, locale } = useLanguage();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email.trim()) return;
     setLoading(true);
-    await new Promise(r => setTimeout(r, 900));
-    toast.success(T.newsletter.toastSuccess);
-    setEmail('');
-    setLoading(false);
-    setDone(true);
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim(), locale: locale === 'en' ? 'en' : 'fr' }),
+      });
+      if (res.ok) {
+        toast.success(T.newsletter.toastSuccess);
+        setEmail('');
+        setDone(true);
+      } else {
+        const data = await res.json();
+        toast.error(data.error || (locale === 'en' ? 'An error occurred' : 'Une erreur est survenue'));
+      }
+    } catch {
+      toast.error(locale === 'en' ? 'Connection error' : 'Erreur de connexion');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
