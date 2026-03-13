@@ -8,23 +8,33 @@ import { verifyAccessToken } from '@/lib/auth';
 export async function GET(request: NextRequest) {
   try {
     await connectDB();
-    
+
+    // Auth check — non-authentifiés voient uniquement les événements publiés
+    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+    const payload = token ? verifyAccessToken(token) : null;
+    const isAdmin = payload ? (payload.role === 'admin' || payload.role === 'editor') : false;
+
     const searchParams = request.nextUrl.searchParams;
     const id = searchParams.get('id');
-    
+
     // Événement unique
     if (id) {
       const event = await Event.findById(id)
         .populate('createdBy', 'name email')
         .populate('updatedBy', 'name email');
-      
+
       if (!event) {
         return NextResponse.json(
           { error: 'Événement non trouvé' },
           { status: 404 }
         );
       }
-      
+
+      // Masquer les brouillons aux non-admins
+      if (!isAdmin && event.status !== 'published') {
+        return NextResponse.json({ error: 'Événement non trouvé' }, { status: 404 });
+      }
+
       // Récupérer les statistiques d'inscription
       const registrationStats = {
         total: await EventRegistration.countDocuments({ event: event._id }),
@@ -32,13 +42,13 @@ export async function GET(request: NextRequest) {
         pending: await EventRegistration.countDocuments({ event: event._id, status: 'pending' }),
         cancelled: await EventRegistration.countDocuments({ event: event._id, status: 'cancelled' }),
       };
-      
+
       return NextResponse.json({
         event,
         registrationStats,
       });
     }
-    
+
     // Liste des événements avec filtres
     const status = searchParams.get('status');
     const type = searchParams.get('type');
@@ -50,11 +60,16 @@ export async function GET(request: NextRequest) {
     const sortOrder = searchParams.get('sortOrder') === 'asc' ? 1 : -1;
     const upcoming = searchParams.get('upcoming') === 'true';
     const past = searchParams.get('past') === 'true';
-    
+
     // Construction de la requête
     const query: any = {};
-    
-    if (status) query.status = status;
+
+    // Non-admins voient uniquement les événements publiés
+    if (!isAdmin) {
+      query.status = 'published';
+    } else if (status) {
+      query.status = status;
+    }
     if (type) query.type = type;
     if (category) query.category = category;
     

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
@@ -46,19 +47,15 @@ export default function ProductShowcase() {
 
   return (
     <div className="p-4">
-      <div className="aspect-square bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden rounded-2xl w-full">
-        <Link href={`/produits/${current.slug}`} className="w-full h-full block">
-          <img
+      <div className="relative aspect-square bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden rounded-2xl w-full">
+        <Link href={`/produits/${current.slug}`} className="relative w-full h-full block">
+          <Image
             src={current.images?.[0] || '/images/fallback-product.svg'}
             alt={current.name}
-            className="w-full h-full object-contain"
+            fill
+            sizes="(max-width:768px) 100vw, 400px"
+            className="object-contain"
             loading={index === 0 ? 'eager' : 'lazy'}
-            decoding="async"
-            width={400}
-            height={400}
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).src = '/images/fallback-product.svg';
-            }}
           />
         </Link>
       </div>
@@ -75,9 +72,9 @@ export default function ProductShowcase() {
           <button
             key={p._id}
             onClick={() => setIndex(i)}
-            className={`w-12 h-12 rounded-md overflow-hidden border ${i === index ? 'ring-2 ring-primary-600' : 'border-gray-200 dark:border-gray-700'}`}
+            className={`relative w-12 h-12 rounded-md overflow-hidden border ${i === index ? 'ring-2 ring-primary-600' : 'border-gray-200 dark:border-gray-700'}`}
           >
-            <img src={p.images?.[0] || '/images/fallback-product.svg'} alt={p.name} className="w-full h-full object-cover" width={48} height={48} loading="lazy" decoding="async" onError={(e)=> (e.currentTarget as HTMLImageElement).src='/images/fallback-product.svg'} />
+            <Image src={p.images?.[0] || '/images/fallback-product.svg'} alt={p.name} fill sizes="48px" className="object-cover" loading="lazy" />
           </button>
         ))}
         <button

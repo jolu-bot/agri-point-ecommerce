@@ -211,6 +211,13 @@ UserSchema.methods.generatePasswordResetToken = function (): string {
 };
 
 // -----------------------------------------------------------------------------
+// Indexes
+// -----------------------------------------------------------------------------
+UserSchema.index({ accountStatus: 1, role: 1 });
+UserSchema.index({ createdAt: -1 });
+UserSchema.index({ role: 1, isActive: 1 });
+
+// -----------------------------------------------------------------------------
 // Export
 // -----------------------------------------------------------------------------
 const User: Model<IUser> = models.User || mongoose.model<IUser>('User', UserSchema);

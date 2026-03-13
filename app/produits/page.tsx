@@ -59,6 +59,26 @@ export default async function ProductsPage({
   const initialProducts = await getProducts();
   const resolvedSearchParams = await searchParams;
   const initialSearch = resolvedSearchParams?.search || '';
-  
-  return <ProductsClient initialProducts={initialProducts} initialSearch={initialSearch} />;
+
+  const collectionLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Offres Disponibles — AGRIPOINT SERVICES',
+    description: 'Biofertilisants, engrais minéraux et kits agriculture urbaine. Livraison partout au Cameroun.',
+    url: 'https://agri-ps.com/produits',
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://agri-ps.com' },
+        { '@type': 'ListItem', position: 2, name: 'Produits', item: 'https://agri-ps.com/produits' },
+      ],
+    },
+  };
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionLd) }} />
+      <ProductsClient initialProducts={initialProducts} initialSearch={initialSearch} />
+    </>
+  );
 }

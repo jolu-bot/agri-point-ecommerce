@@ -24,6 +24,47 @@ export const metadata: Metadata = {
   alternates: { canonical: '/contact' },
 };
 
+const localBusinessLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'AGRIPOINT SERVICES SARL',
+  url: 'https://agri-ps.com',
+  telephone: '+237-xxx-xxx-xxx',
+  email: 'contact@agri-ps.com',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Yaoundé',
+    addressLocality: 'Yaoundé',
+    addressRegion: 'Centre',
+    addressCountry: 'CM',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 3.848,
+    longitude: 11.502,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '08:00',
+      closes: '17:00',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Saturday'],
+      opens: '08:00',
+      closes: '13:00',
+    },
+  ],
+};
+
 export default function ContactLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessLd) }} />
+      {children}
+    </>
+  );
 }
+
