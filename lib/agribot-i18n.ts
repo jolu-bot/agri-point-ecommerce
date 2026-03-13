@@ -292,6 +292,15 @@ export const AGRIBOT_UI = {
       connectionError: '⚠️ Erreur de connexion. Réessayez ou contactez-nous au 📞 +237 657 39 39 39',
       techError:       'Erreur technique.',
     },
+    agentStatus: {
+      onlineLabel:  'En ligne',
+      awayLabel:    'Absent temporairement',
+      offlineLabel: 'Hors ligne',
+      onlineDesc:   (time: string) => `Répond en ${time}`,
+      awayDesc:     (time: string) => `Retour ${time}`,
+      offlineDesc:  (time: string) => `Disponible ${time}`,
+      humanAgent:   'Agent humain',
+    },
     footer: 'AI Assistant · AGRIPOINT SERVICES · +237 657 39 39 39',
   },
 
@@ -420,6 +429,15 @@ export const AGRIBOT_UI = {
     chat: {
       connectionError: '⚠️ Connection error. Try again or contact us at 📞 +237 657 39 39 39',
       techError:       'Technical error.',
+    },
+    agentStatus: {
+      onlineLabel:  'Online',
+      awayLabel:    'Away',
+      offlineLabel: 'Offline',
+      onlineDesc:   (time: string) => `Responds in ${time}`,
+      awayDesc:     (time: string) => `Back at ${time}`,
+      offlineDesc:  (time: string) => `Available ${time}`,
+      humanAgent:   'Human agent',
     },
     footer: 'AI Assistant · AGRIPOINT SERVICES · +237 657 39 39 39',
   },

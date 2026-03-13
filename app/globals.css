@@ -491,6 +491,10 @@
 
 /* Utilitaires responsive */
 @layer utilities {
+  /* Hide scrollbar — used by AgriBot suggestions strip */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
   /* Texte fluide */
   .text-fluid-xs { font-size: var(--text-xs); }
   .text-fluid-sm { font-size: var(--text-sm); }
