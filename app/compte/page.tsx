@@ -11,6 +11,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
+import Breadcrumb from '@/components/shared/Breadcrumb';
 
 // -- Types ----------------------------------------------------------------------
 interface UserProfile {
@@ -182,6 +183,9 @@ export default function ComptePage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8 px-4">
       <div className="max-w-4xl mx-auto space-y-6">
+
+        {/* ── Breadcrumb ── */}
+        <Breadcrumb items={[{ label: T.account.title || 'Mon compte' }]} />
 
         {/* ── Header ──────────────────────────────────────────────────────── */}
         <div className="flex items-center justify-between">

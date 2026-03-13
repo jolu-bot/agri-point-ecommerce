@@ -64,7 +64,7 @@ export default function RootLayout({
               image: 'https://agri-ps.com/images/logo.png',
               description:
                 "Facilitateur agropastoral au Cameroun. Interface entre l'offre et la demande pour les acteurs agricoles, d'élevage, de pisciculture et de sylviculture.",
-              telephone: '+237000000000',
+              telephone: '+237657393939',
               email: 'contact@agri-ps.com',
               address: {
                 '@type': 'PostalAddress',
