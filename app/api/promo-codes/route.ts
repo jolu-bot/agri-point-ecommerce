@@ -3,6 +3,7 @@ import connectDB from '@/lib/db';
 import PromoCode from '@/models/PromoCode';
 import Order from '@/models/Order';
 import { verifyAccessToken } from '@/lib/auth';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 /**
  * GET /api/promo-codes
@@ -10,6 +11,11 @@ import { verifyAccessToken } from '@/lib/auth';
  */
 export async function GET(req: NextRequest) {
   try {
+    const ip = getClientIp(req);
+    if (!rateLimit(`promo:${ip}`, 20, 60 * 60 * 1000)) {
+      return NextResponse.json({ error: 'Trop de tentatives. Réessayez dans une heure.' }, { status: 429 });
+    }
+
     const { searchParams } = new URL(req.url);
     const code = searchParams.get('code')?.toUpperCase();
     const orderTotal = Number(searchParams.get('orderTotal')) || 0;

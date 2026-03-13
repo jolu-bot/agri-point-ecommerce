@@ -6,6 +6,7 @@
 import { NextRequest } from 'next/server';
 import connectDB from '@/lib/db';
 import ChatConversation from '@/models/ChatConversation';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 interface UserMemoryBody {
   sessionId: string;
@@ -51,6 +52,11 @@ export async function GET(req: NextRequest) {
 
 // -- POST — Sauvegarder/Fusionner le profil dans MongoDB -----------
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+  if (!rateLimit(`agribot-memory:${ip}`, 30, 60 * 60 * 1000)) {
+    return Response.json({ error: 'Trop de requêtes. Réessayez dans une heure.' }, { status: 429 });
+  }
+
   try {
     const body = await req.json() as UserMemoryBody;
     const { sessionId } = body;
