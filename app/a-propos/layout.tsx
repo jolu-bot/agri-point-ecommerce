@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'À Propos — AGRIPOINT SERVICES',
     description: 'Acteur engagé de l\'agriculture camerounaise. Biofertilisants de qualité, mission durable.',
-    url: 'https://agri-point.cm/a-propos',
+    url: '/a-propos',
     siteName: 'AGRIPOINT SERVICES',
     locale: 'fr_FR',
     type: 'website',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: 'À Propos — AGRIPOINT SERVICES',
     description: 'Acteur engagé de l\'agriculture camerounaise depuis 2010.',
   },
-  alternates: { canonical: 'https://agri-point.cm/a-propos' },
+  alternates: { canonical: '/a-propos' },
 };
 
 export default function AProposLayout({ children }: { children: React.ReactNode }) {

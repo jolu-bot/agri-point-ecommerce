@@ -11,12 +11,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Gagner Plus avec AGRIPOINT SERVICES',
     description: 'Des solutions concrètes pour augmenter vos revenus agricoles au Cameroun.',
-    url: 'https://agri-point.cm/gagner-plus',
+    url: '/gagner-plus',
     siteName: 'AGRIPOINT SERVICES',
     locale: 'fr_FR',
     type: 'website',
   },
-  alternates: { canonical: 'https://agri-point.cm/gagner-plus' },
+  alternates: { canonical: '/gagner-plus' },
 };
 
 export default function GagnerPlusLayout({ children }: { children: React.ReactNode }) {

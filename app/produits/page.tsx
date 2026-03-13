@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Offres Disponibles AGRIPOINT SERVICES — Intrants & Solutions',
     description: 'Des solutions biofertilisantes de qualité pour une agriculture performante. Livraison gratuite dès 6 sacs.',
-    url: 'https://agri-point.cm/produits',
+    url: '/produits',
     siteName: 'AGRIPOINT SERVICES',
     locale: 'fr_FR',
     type: 'website',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title: 'Offres Disponibles — AGRIPOINT SERVICES',
     description: 'Biofertilisants et engrais de qualité. Livraison partout au Cameroun.',
   },
-  alternates: { canonical: 'https://agri-point.cm/produits' },
+  alternates: { canonical: '/produits' },
 };
 
 // Server Component avec fetch côté serveur

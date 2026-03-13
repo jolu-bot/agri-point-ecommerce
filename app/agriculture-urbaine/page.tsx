@@ -1374,9 +1374,16 @@ export default function AgricultureUrbainePage() {
               ))}
             </div>
           ) : (
-            <div className="text-center text-gray-500 py-12">
-              <TreePine className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p>{locale === 'en' ? 'Kits coming soon' : 'Kits disponibles prochainement'}</p>
+            <div className="text-center py-16 px-6 rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-dashed border-gray-200 dark:border-gray-700">
+              <TreePine className="w-14 h-14 mx-auto mb-4 text-emerald-400 dark:text-emerald-600" />
+              <p className="font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                {locale === 'en' ? 'Kits coming soon' : 'Kits disponibles prochainement'}
+              </p>
+              <p className="text-sm text-gray-400 dark:text-gray-500">
+                {locale === 'en'
+                  ? 'Our urban kits are being prepared. See our full catalogue below.'
+                  : 'Nos kits urbains sont en préparation. Consultez notre catalogue complet ci-dessous.'}
+              </p>
             </div>
           )}
 

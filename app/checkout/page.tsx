@@ -17,6 +17,7 @@ export default function CheckoutPage() {
   const { locale, T } = useLanguage();
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Promo code
   const [promoCodeInput, setPromoCodeInput] = useState('');
@@ -69,6 +70,7 @@ export default function CheckoutPage() {
     }
 
     const token = localStorage.getItem('accessToken');
+    setIsAuthenticated(!!token);
     if (token) {
       loadUserInfo(token);
     }
@@ -278,6 +280,24 @@ export default function CheckoutPage() {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">
           {locale === 'en' ? 'Place your order' : 'Finaliser la commande'}
         </h1>
+
+        {/* Auth warning */}
+        {!isAuthenticated && (
+          <div className="mb-8 p-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/40 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <User className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5 sm:mt-0" />
+            <p className="text-sm text-amber-800 dark:text-amber-300 flex-1">
+              {locale === 'en'
+                ? 'You need to be logged in to confirm your order.'
+                : 'Vous devez être connecté pour valider votre commande.'}
+            </p>
+            <a
+              href={`/auth/login?redirect=/checkout`}
+              className="shrink-0 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-lg transition-colors"
+            >
+              {locale === 'en' ? 'Log in' : 'Se connecter'}
+            </a>
+          </div>
+        )}
 
         {/* Steps */}
         <div className="mb-12">

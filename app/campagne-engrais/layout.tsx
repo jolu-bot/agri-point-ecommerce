@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Campagne Engrais Subventionnés 2026 — AGRIPOINT SERVICES',
     description: 'Profitez de prix réduits jusqu\'à -22% sur nos engrais. Paiement échelonné 70/30. Livraison gratuite. Jusqu\'au 31 mars 2026.',
-    url: 'https://agri-point.cm/campagne-engrais',
+    url: '/campagne-engrais',
     siteName: 'AGRIPOINT SERVICES',
     locale: 'fr_FR',
     type: 'website',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title: 'Campagne Engrais 2026 — Jusqu\'à -22% sur vos intrants',
     description: 'Engrais minéraux 18 500 FCFA, biofertilisants 12 000 FCFA. Paiement 70/30. Offre limitée.',
   },
-  alternates: { canonical: 'https://agri-point.cm/campagne-engrais' },
+  alternates: { canonical: '/campagne-engrais' },
 };
 
 export default function CampagneEngraisLayout({ children }: { children: React.ReactNode }) {
