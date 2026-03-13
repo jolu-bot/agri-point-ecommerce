@@ -31,7 +31,7 @@ export function withAuth(
 
       const decoded = verifyAccessToken(token);
       if (!decoded) {
-        logSecurityEvent({ type: 'invalid_token', ip: req.headers.get('x-forwarded-for') ?? 'unknown', detail: 'withAuth: token invalide' });
+        logSecurityEvent({ type: 'token_invalid', ip: req.headers.get('x-forwarded-for') ?? 'unknown', detail: 'withAuth: token invalide' });
         return applySecurityHeaders(NextResponse.json(
           { error: 'Non autorisé - Token invalide' }, { status: 401 }
         ));
@@ -69,15 +69,6 @@ export function withAuth(
 /** Helper pour restreindre une route aux admins uniquement */
 export function withAdminAuth(handler: (req: AuthenticatedRequest) => Promise<NextResponse>) {
   return withAuth(handler, { roles: [...ADMIN_ROLES] });
-}
-    } catch (error) {
-      console.error('Erreur middleware auth:', error);
-      return NextResponse.json(
-        { error: 'Erreur serveur' },
-        { status: 500 }
-      );
-    }
-  };
 }
 
 export function requireRole(roles: string[]) {

@@ -144,7 +144,7 @@ export async function sendAdminOrderNotification(
   customerEmail: string,
   total: number
 ) {
-  const adminEmails = process.env.EMAIL_ADMIN_RECEIVERS?.split(',') || [process.env.EMAIL_USER] || [];
+  const adminEmails = (process.env.EMAIL_ADMIN_RECEIVERS?.split(',') || [process.env.EMAIL_USER] || []).filter((e): e is string => !!e);
 
   const html = `
     <div style="font-family: Arial, sans-serif;">
@@ -179,7 +179,7 @@ export async function sendDailySummary(
     newCustomers: number;
   }
 ) {
-  const adminEmails = process.env.EMAIL_ADMIN_RECEIVERS?.split(',') || [process.env.EMAIL_USER] || [];
+  const adminEmails = (process.env.EMAIL_ADMIN_RECEIVERS?.split(',') || [process.env.EMAIL_USER] || []).filter((e): e is string => !!e);
 
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

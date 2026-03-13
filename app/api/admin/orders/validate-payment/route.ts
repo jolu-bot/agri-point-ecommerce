@@ -72,6 +72,8 @@ export async function POST(req: NextRequest) {
       } else if (order.paymentMethod === 'campost') {
         order.campostPayment = {
           ...order.campostPayment,
+          accountNumber: order.campostPayment?.accountNumber ?? '',
+          accountName: order.campostPayment?.accountName ?? '',
           validatedBy: adminId,
           validatedAt: new Date(),
           validationNotes: notes || 'Reçu validé',
@@ -145,6 +147,8 @@ export async function POST(req: NextRequest) {
       } else if (order.paymentMethod === 'campost') {
         order.campostPayment = {
           ...order.campostPayment,
+          accountNumber: order.campostPayment?.accountNumber ?? '',
+          accountName: order.campostPayment?.accountName ?? '',
           validatedBy: adminId,
           validatedAt: new Date(),
           validationNotes: notes || 'Reçu rejeté - document invalide',

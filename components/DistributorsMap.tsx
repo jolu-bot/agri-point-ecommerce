@@ -294,7 +294,7 @@ export default function DistributorsMap({
 
       {/* Légende */}
       <div className="mt-4 flex gap-4 flex-wrap text-sm">
-        {Object.entries(categoryLabels).map(([key, label]) => {
+        {Object.entries(categoryLabels).map(([key, { label }]) => {
           const colorClass = key === 'wholesaler' ? 'bg-green-500' : key === 'retailer' ? 'bg-blue-500' : 'bg-purple-500';
           return (
             <div key={key} className="flex items-center gap-2">

@@ -13,5 +13,5 @@ import { AGRIBOT_UI, type AgribotUIStrings } from '@/lib/agribot-i18n';
  */
 export function useAgribotI18n(): AgribotUIStrings {
   const { locale } = useLanguage();
-  return locale === 'en' ? AGRIBOT_UI.en : AGRIBOT_UI.fr;
+  return locale === 'en' ? AGRIBOT_UI.en as unknown as AgribotUIStrings : AGRIBOT_UI.fr;
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import type { RefObject } from 'react';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import {
@@ -85,10 +86,10 @@ export interface UseAgriBotReturn {
   isPulsingPage:   boolean;
 
   // Refs
-  messagesEndRef:  React.RefObject<HTMLDivElement | null>;
-  messagesListRef: React.RefObject<HTMLDivElement | null>;
-  inputRef:        React.RefObject<HTMLInputElement | null>;
-  imageInputRef:   React.RefObject<HTMLInputElement | null>;
+  messagesEndRef:  RefObject<HTMLDivElement>;
+  messagesListRef: RefObject<HTMLDivElement>;
+  inputRef:        RefObject<HTMLInputElement>;
+  imageInputRef:   RefObject<HTMLInputElement>;
 
   // Locale
   locale: string;
@@ -180,11 +181,11 @@ export function useAgriBot(): UseAgriBotReturn {
   const [isAnalyzing,  setIsAnalyzing]  = useState(false);
 
   // ── Refs ──
-  const messagesEndRef  = useRef<HTMLDivElement>(null);
-  const messagesListRef = useRef<HTMLDivElement>(null);
-  const inputRef        = useRef<HTMLInputElement>(null);
+  const messagesEndRef:  RefObject<HTMLDivElement>  = useRef(null) as RefObject<HTMLDivElement>;
+  const messagesListRef: RefObject<HTMLDivElement>  = useRef(null) as RefObject<HTMLDivElement>;
+  const inputRef:        RefObject<HTMLInputElement> = useRef(null) as RefObject<HTMLInputElement>;
   const abortRef        = useRef<AbortController | null>(null);
-  const imageInputRef   = useRef<HTMLInputElement>(null);
+  const imageInputRef:   RefObject<HTMLInputElement> = useRef(null) as RefObject<HTMLInputElement>;
 
   // ── Voice ──
   const { listening, toggle: toggleVoice, supported: voiceSupported } = useVoiceInput(

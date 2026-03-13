@@ -6,12 +6,20 @@ import {
   getClientIp, isValidEmail, sanitizeString, scanForThreats,
   applySecurityHeaders, logSecurityEvent,
 } from '@/lib/security';
+import { rateLimit } from '@/lib/rate-limit';
 
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req);
   const ua = req.headers.get('user-agent') ?? 'unknown';
 
   try {
+    // IP rate limit — 3 demandes de reset / 15 min
+    if (!rateLimit(`forgot:${ip}`, 3, 15 * 60 * 1000)) {
+      return applySecurityHeaders(NextResponse.json(
+        { error: 'Trop de demandes. Réessayez dans 15 minutes.' }, { status: 429 }
+      ));
+    }
+
     await dbConnect();
 
     let body: Record<string, unknown>;

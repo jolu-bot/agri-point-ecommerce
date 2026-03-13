@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     const rawToken = searchParams.get('token');
 
     if (!rawToken || rawToken.length < 32 || rawToken.length > 256 || /[^a-zA-Z0-9_-]/.test(rawToken)) {
-      logSecurityEvent({ type: 'invalid_token', ip, detail: 'verify-email: format token invalide' });
+      logSecurityEvent({ type: 'token_invalid', ip, detail: 'verify-email: format token invalide' });
       return applySecurityHeaders(NextResponse.json({ error: 'Token invalide' }, { status: 400 }));
     }
 

@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // -- PERFORMANCE OPTIMIZATIONS ----------------------------------------------
-  typescript: { ignoreBuildErrors: true },
+  typescript: { ignoreBuildErrors: false },
 
   // -- Transpile ESM-only packages so Jest's SWC transformer can handle them --
   transpilePackages: ['lucide-react'],
@@ -42,7 +42,6 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production' && {
       exclude: ['error'],
     },
-    styledComponents: true,
   },
 
   // -- Build optimizations ----------------------------------------------------
@@ -135,7 +134,7 @@ const nextConfig = {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "img-src 'self' data: blob: https://res.cloudinary.com https://*.amazonaws.com https://*.googleusercontent.com https://agri-ps.com",
-      "connect-src 'self' https://www.google-analytics.com",
+      "connect-src 'self' https://www.google-analytics.com https://api.openai.com https://*.sentry.io https://maps.googleapis.com https://maps.gstatic.com",
       "media-src 'self'",
       "frame-src 'none'",
       "object-src 'none'",
@@ -155,7 +154,7 @@ const nextConfig = {
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
           { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
-          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=()' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(self), geolocation=(), payment=()' },
           { key: 'Content-Security-Policy', value: csp },
           { key: 'Vary', value: 'Accept-Encoding, Accept' },
         ],
