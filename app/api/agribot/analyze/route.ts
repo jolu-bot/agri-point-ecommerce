@@ -5,6 +5,7 @@
 // ═══════════════════════════════════════════════════════════════════
 import { NextRequest } from 'next/server';
 import OpenAI from 'openai';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 function isOpenAIReady(): boolean {
   const k = process.env.OPENAI_API_KEY || '';
@@ -44,6 +45,11 @@ Structurer TOUJOURS en 4 sections :
 - Terminer par : "📞 Besoin d'un technicien terrain ? +237 657 39 39 39"`;
 
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+  if (!rateLimit(`vision:${ip}`, 10, 60 * 60 * 1000)) {
+    return Response.json({ error: 'Trop de requêtes. Réessayez dans une heure.' }, { status: 429 });
+  }
+
   if (!isOpenAIReady()) {
     return Response.json(
       { error: 'Service Vision non disponible. Configurez OPENAI_API_KEY avec un modèle GPT-4o.', demo: true },

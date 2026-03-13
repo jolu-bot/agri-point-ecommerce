@@ -3,14 +3,15 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { 
-  Clock, 
-  CheckCircle2, 
-  XCircle, 
+import {
+  Clock,
+  CheckCircle2,
+  XCircle,
   AlertTriangle,
   TrendingUp,
   Eye,
-  RefreshCw
+  RefreshCw,
+  Activity
 } from 'lucide-react';
 
 interface ValidationStats {

@@ -8,6 +8,7 @@ import {
   isValidEmail, isValidCameroonPhone, checkPasswordStrength,
   applySecurityHeaders, logSecurityEvent,
 } from '@/lib/security';
+import { rateLimit } from '@/lib/rate-limit';
 
 // Régions administratives du Cameroun
 const CAMEROUN_REGIONS = [
@@ -20,6 +21,13 @@ export async function POST(req: NextRequest) {
   const ua = req.headers.get('user-agent') ?? 'unknown';
 
   try {
+    // IP rate limit — 5 créations de compte / heure
+    if (!rateLimit(`register:${ip}`, 5, 60 * 60 * 1000)) {
+      return applySecurityHeaders(NextResponse.json(
+        { error: 'Trop de créations de compte. Réessayez dans une heure.' }, { status: 429 }
+      ));
+    }
+
     await dbConnect();
 
     let rawBody: Record<string, unknown>;
@@ -170,7 +178,7 @@ export async function POST(req: NextRequest) {
       path:     '/',
     });
 
-    logSecurityEvent({ type: 'register_success', ip, userAgent: ua, email: user.email, userId: user._id.toString() });
+    logSecurityEvent({ type: 'register', ip, userAgent: ua, email: user.email, userId: user._id.toString() });
     return applySecurityHeaders(response);
 
   } catch (error: any) {

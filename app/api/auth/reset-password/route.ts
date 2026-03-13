@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
     user.lockUntil            = undefined;
     await user.save();
 
-    logSecurityEvent({ type: 'password_reset_success', ip, userAgent: ua, email: user.email });
+    logSecurityEvent({ type: 'password_reset', ip, userAgent: ua, email: user.email });
 
     return applySecurityHeaders(NextResponse.json({
       success: true,

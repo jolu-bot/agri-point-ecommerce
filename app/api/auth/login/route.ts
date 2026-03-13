@@ -6,6 +6,7 @@ import {
   getClientIp, sanitizeString, scanForThreats,
   isValidEmail, applySecurityHeaders, logSecurityEvent,
 } from '@/lib/security';
+import { rateLimit } from '@/lib/rate-limit';
 
 const MAX_LOGIN_ATTEMPTS = 5;
 const LOCK_TIME_MINUTES  = 30;
@@ -15,6 +16,14 @@ export async function POST(req: NextRequest) {
   const ua = req.headers.get('user-agent') ?? 'unknown';
 
   try {
+    // IP rate limit — 10 tentatives / 15 min avant blocage réseau
+    if (!rateLimit(`login:${ip}`, 10, 15 * 60 * 1000)) {
+      logSecurityEvent({ type: 'login_failed', ip, userAgent: ua, detail: 'rate_limited' });
+      return applySecurityHeaders(NextResponse.json(
+        { error: 'Trop de tentatives. Réessayez dans 15 minutes.' }, { status: 429 }
+      ));
+    }
+
     await dbConnect();
 
     let body: Record<string, unknown>;
@@ -98,7 +107,7 @@ export async function POST(req: NextRequest) {
 
       await user.save();
       const remaining = MAX_LOGIN_ATTEMPTS - user.loginAttempts;
-      logSecurityEvent({ type: 'login_failure', ip, userAgent: ua, email, detail: `tentatives: ${user.loginAttempts}` });
+      logSecurityEvent({ type: 'login_failed', ip, userAgent: ua, email, detail: `tentatives: ${user.loginAttempts}` });
       return applySecurityHeaders(NextResponse.json(
         { error: `Email ou mot de passe incorrect. ${remaining} tentative(s) restante(s).` },
         { status: 401 }

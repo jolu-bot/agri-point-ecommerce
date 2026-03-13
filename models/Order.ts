@@ -64,7 +64,7 @@ export interface IOrder {
     notes?: string;
   };
   
-  paymentMethod: 'campost' | 'cash';
+  paymentMethod: 'campost' | 'cash' | 'whatsapp';
   paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded' | 'awaiting_proof';
   paymentDetails?: {
     transactionId?: string;

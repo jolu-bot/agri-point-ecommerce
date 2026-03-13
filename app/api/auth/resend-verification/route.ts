@@ -2,12 +2,18 @@
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import { sendEmail } from '@/lib/email';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 /**
  * POST /api/auth/resend-verification
  * Body: { email: string }
  */
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+  if (!rateLimit(`resend:${ip}`, 3, 60 * 60 * 1000)) {
+    return NextResponse.json({ error: 'Trop de demandes. Réessayez dans une heure.' }, { status: 429 });
+  }
+
   try {
     const { email } = await req.json();
 

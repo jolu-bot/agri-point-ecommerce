@@ -151,7 +151,7 @@ export async function POST(
       });
       const locationText =
         event.location?.type === 'physical' && event.location?.city
-          ? `${event.location.venue ? event.location.venue + ', ' : ''}${event.location.city}`
+          ? `${(event.location as any).venue ? (event.location as any).venue + ', ' : ''}${event.location.city}`
           : 'En ligne';
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com';
 
