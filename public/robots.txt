@@ -9,5 +9,8 @@ Disallow: /test-responsive
 
 # Block internal account pages
 Disallow: /compte/
+Disallow: /panier/
+Disallow: /checkout/
+Disallow: /commande/
 
 Sitemap: https://agri-ps.com/sitemap.xml

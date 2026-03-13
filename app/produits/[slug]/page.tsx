@@ -63,18 +63,21 @@ export default async function ProductDetailPage(
 ) {
   const { slug } = await params;
 
-  // ── JSON-LD structured data ────────────────────────────────────────────────
+  // ── Fetch product + build JSON-LD ──────────────────────────────────────────
+  let initialProduct: any = null;
   let productLd: object | null = null;
   let productNotFound = false;
   try {
     await connectDB();
     const p = await Product.findOne({ slug, isActive: true })
-      .select('name description price promoPrice stock images category')
+      .select('name slug description category price promoPrice stock images sku weight isNew isFeatured features metaTitle metaDescription')
       .lean() as any;
 
     if (!p) {
       productNotFound = true;
     } else {
+      // Serialize for client prop (ObjectId → string)
+      initialProduct = JSON.parse(JSON.stringify(p));
       const price = (p.promoPrice || p.price) as number;
       productLd = {
         '@context': 'https://schema.org',
@@ -97,7 +100,7 @@ export default async function ProductDetailPage(
       };
     }
   } catch {
-    // DB unavailable at render time — JSON-LD skipped gracefully
+    // DB unavailable at render time — JSON-LD + SSR product skipped gracefully
   }
   if (productNotFound) notFound();
 
@@ -110,7 +113,7 @@ export default async function ProductDetailPage(
       {
         '@type': 'ListItem',
         position: 3,
-        name: productLd ? (productLd as any).name : slug,
+        name: initialProduct?.name ?? slug,
         item: `${BASE_URL}/produits/${slug}`,
       },
     ],
@@ -128,7 +131,7 @@ export default async function ProductDetailPage(
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
-      <ProductDetailClient />
+      <ProductDetailClient key={slug} initialProduct={initialProduct ?? undefined} />
     </>
   );
 }
