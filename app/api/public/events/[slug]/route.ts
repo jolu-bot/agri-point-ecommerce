@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Event from '@/models/Event';
 import EventRegistration from '@/models/EventRegistration';
+import { sendEmail } from '@/lib/email';
 
 // GET - Informations sur l'événement
 export async function GET(
@@ -142,10 +143,45 @@ export async function POST(
     
     await event.save();
     
-    // Envoyer l'email de confirmation (TODO)
-    // if (registration.status === 'confirmed' && event.notifications.confirmationEmail) {
-    //   await registration.sendConfirmationEmail();
-    // }
+    // Envoyer l'email de confirmation
+    if (registration.status === 'confirmed') {
+      const eventDate = new Date(event.startDate).toLocaleDateString('fr-FR', {
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+        hour: '2-digit', minute: '2-digit',
+      });
+      const locationText =
+        event.location?.type === 'physical' && event.location?.city
+          ? `${event.location.venue ? event.location.venue + ', ' : ''}${event.location.city}`
+          : 'En ligne';
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com';
+
+      sendEmail({
+        to: registration.email,
+        subject: `✅ Inscription confirmée — ${event.title}`,
+        html: `
+<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;">
+  <div style="background:#059669;padding:28px 24px;text-align:center;">
+    <h1 style="color:#fff;margin:0;font-size:22px;">✅ Inscription confirmée !</h1>
+  </div>
+  <div style="padding:28px 24px;">
+    <p style="color:#374151;font-size:15px;">Bonjour <strong>${registration.firstName} ${registration.lastName}</strong>,</p>
+    <p style="color:#374151;font-size:15px;">Votre inscription à l'événement <strong>${event.title}</strong> est confirmée.</p>
+    <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:18px;margin:20px 0;">
+      <p style="margin:6px 0;color:#374151;font-size:14px;"><strong>N° d'inscription :</strong> ${registration.registrationNumber}</p>
+      <p style="margin:6px 0;color:#374151;font-size:14px;"><strong>Date :</strong> ${eventDate}</p>
+      <p style="margin:6px 0;color:#374151;font-size:14px;"><strong>Lieu :</strong> ${locationText}</p>
+    </div>
+    ${registration.qrCode ? `<p style="text-align:center;color:#6b7280;font-size:13px;">Présentez ce QR code à l'entrée.</p><div style="text-align:center;"><img src="${registration.qrCode}" alt="QR Code" style="width:150px;height:150px;" /></div>` : ''}
+    <div style="text-align:center;margin:24px 0;">
+      <a href="${siteUrl}/evenements" style="background:#059669;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px;">Voir mes inscriptions</a>
+    </div>
+  </div>
+  <div style="background:#f9fafb;padding:16px 24px;text-align:center;color:#9ca3af;font-size:12px;">
+    <p style="margin:0;">© 2026 AGRIPOINT SERVICES — Cameroun</p>
+  </div>
+</div>`,
+      }).catch(() => {});
+    }
     
     // Audit log
     // @ts-expect-error - Mongoose virtual property
