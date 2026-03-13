@@ -11,8 +11,9 @@ import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 export async function GET(req: NextRequest) {
   const ip = getClientIp(req);
-  const limited = rateLimit(`api:products:${ip}`, 60, 60_000);
-  if (limited) return NextResponse.json({ error: 'Trop de requêtes' }, { status: 429 });
+  if (!rateLimit(`api:products:${ip}`, 60, 60_000)) {
+    return NextResponse.json({ error: 'Trop de requêtes' }, { status: 429 });
+  }
 
   try {
     const cacheKey = buildCacheKey('api:products:list', req);
