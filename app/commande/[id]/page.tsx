@@ -10,6 +10,7 @@ import {
   MessageSquare,
 } from 'lucide-react';
 import { m } from 'framer-motion';
+import Breadcrumb from '@/components/shared/Breadcrumb';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -216,6 +217,14 @@ export default function OrderTrackingPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
+
+        <Breadcrumb
+          items={[
+            { label: 'Mes commandes', href: '/compte/commandes' },
+            { label: order.orderNumber },
+          ]}
+          className="mb-6"
+        />
 
         {/* ── Header ── */}
         <m.div
