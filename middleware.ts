@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
 
 // ---------------------------------------------------------------------------
-// Next.js Edge Middleware — protège /admin côté serveur avant hydration
+// Next.js Edge Middleware — protège /admin et /compte côté serveur avant hydration
 // Lit le cookie accessToken ou le header Authorization
 // ---------------------------------------------------------------------------
 export async function middleware(request: NextRequest) {
@@ -21,11 +21,12 @@ export async function middleware(request: NextRequest) {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback');
     const { payload } = await jwtVerify(token, secret);
 
-    // Seuls admin et editor ont accès au panel
-    if (payload.role !== 'admin' && payload.role !== 'editor') {
+    // /admin exige le rôle admin ou editor
+    if (pathname.startsWith('/admin') && payload.role !== 'admin' && payload.role !== 'editor') {
       return redirectToLogin(request);
     }
 
+    // /compte — tout utilisateur authentifié est autorisé
     return NextResponse.next();
   } catch {
     // Token invalide ou expiré
@@ -44,5 +45,5 @@ function redirectToLogin(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/admin/:path*', '/compte', '/compte/:path*'],
 };

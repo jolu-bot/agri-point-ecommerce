@@ -1,156 +1,37 @@
-'use client';
+import type { Metadata } from 'next';
+import EventsClient from './EventsClient';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link';
-import { Calendar, MapPin, Users, Clock, Loader2, ChevronDown } from 'lucide-react';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com';
 
-const PAGE_SIZE = 6;
+export const metadata: Metadata = {
+  title: 'Événements — AGRIPOINT SERVICES',
+  description:
+    'Formations agricoles, journées de démonstration et conférences AGRIPOINT SERVICES au Cameroun. Inscrivez-vous à nos prochains événements.',
+  openGraph: {
+    title: 'Événements — AGRIPOINT SERVICES',
+    description: 'Découvrez et inscrivez-vous aux événements agricoles AGRIPOINT SERVICES.',
+    url: '/evenements',
+  },
+  alternates: { canonical: '/evenements' },
+};
 
-export default function EventsPublicPage() {
-  const [events, setEvents] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [loadingMore, setLoadingMore] = useState(false);
-  const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
-
-  const fetchEvents = useCallback(async (pageNum: number, append = false) => {
-    try {
-      const response = await fetch(
-        `/api/admin/events?upcoming=true&page=${pageNum}&limit=${PAGE_SIZE}`
-      );
-      const data = await response.json();
-      setTotal(data.total ?? 0);
-      setEvents(prev => (append ? [...prev, ...(data.events || [])] : data.events || []));
-    } catch (error) {
-      console.error('Erreur:', error);
-    } finally {
-      setLoading(false);
-      setLoadingMore(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchEvents(1);
-  }, [fetchEvents]);
-
-  const handleLoadMore = () => {
-    const next = page + 1;
-    setPage(next);
-    setLoadingMore(true);
-    fetchEvents(next, true);
+export default function EventsPage() {
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: BASE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Événements', item: `${BASE_URL}/evenements` },
+    ],
   };
 
-  const hasMore = events.length < total;
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2">Événements à venir</h1>
-        <p className="text-gray-600 mb-8">Découvrez nos prochains événements et inscrivez-vous</p>
-
-        {events.length === 0 ? (
-          <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-            <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600">Aucun événement à venir pour le moment</p>
-          </div>
-        ) : (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {events.map((event) => (
-                <Link
-                  key={event._id}
-                  href={`/evenements/${event.slug}`}
-                  className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden group"
-                >
-                  {event.featuredImage && (
-                    <div className="h-48 bg-gray-200 overflow-hidden">
-                      <img
-                        src={event.featuredImage}
-                        alt={event.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                      />
-                    </div>
-                  )}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                      {event.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                      {event.shortDescription || event.description}
-                    </p>
-                    <div className="space-y-2 text-sm text-gray-500">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4" />
-                        {new Date(event.startDate).toLocaleDateString('fr-FR', {
-                          weekday: 'long',
-                          day: 'numeric',
-                          month: 'long',
-                          year: 'numeric',
-                        })}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4" />
-                        {new Date(event.startDate).toLocaleTimeString('fr-FR', {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
-                      </div>
-                      {event.location.type === 'physical' && event.location.city && (
-                        <div className="flex items-center gap-2">
-                          <MapPin className="w-4 h-4" />
-                          {event.location.city}
-                        </div>
-                      )}
-                      {event.capacity && (
-                        <div className="flex items-center gap-2">
-                          <Users className="w-4 h-4" />
-                          {event.currentAttendees} / {event.capacity} inscrits
-                        </div>
-                      )}
-                    </div>
-                    {event.pricing.isFree ? (
-                      <span className="inline-block mt-4 text-green-600 font-semibold">Gratuit</span>
-                    ) : (
-                      <span className="inline-block mt-4 text-gray-900 font-semibold">
-                        {event.pricing.price} {event.pricing.currency}
-                      </span>
-                    )}
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-            {/* Load more */}
-            {hasMore && (
-              <div className="flex justify-center mt-10">
-                <button
-                  type="button"
-                  onClick={handleLoadMore}
-                  disabled={loadingMore}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 hover:border-emerald-400 hover:bg-emerald-50 text-gray-700 hover:text-emerald-700 rounded-xl font-semibold transition-all shadow-sm disabled:opacity-50"
-                >
-                  {loadingMore ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  ) : (
-                    <>
-                      <ChevronDown className="w-5 h-5" />
-                      Voir plus ({total - events.length} restants)
-                    </>
-                  )}
-                </button>
-              </div>
-            )}
-          </>
-        )}
-      </div>
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      <EventsClient />
+    </>
   );
 }
