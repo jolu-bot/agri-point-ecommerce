@@ -3,6 +3,8 @@ import { NextRequest } from 'next/server';
 
 export const runtime = 'edge';
 
+// NOTE: next/og's ImageResponse renders via Satori which only understands inline styles.
+// CSS classes are NOT supported — inline styles here are intentional and required.
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const title = searchParams.get('title') || 'Solutions agricoles au Cameroun';

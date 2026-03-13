@@ -492,8 +492,21 @@
 /* Utilitaires responsive */
 @layer utilities {
   /* Hide scrollbar — used by AgriBot suggestions strip */
+  /* :-webkit-scrollbar serves as legacy fallback; scrollbar-width is the modern standard (Chrome 121+, Firefox, not Safari<18) */
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* AgriBot message list — thin branded scrollbar (webkit fallback + standard) */
+  .agribot-messages { scrollbar-width: thin; scrollbar-color: rgba(22, 163, 74, 0.2) transparent; }
+  .agribot-messages::-webkit-scrollbar { width: 4px; background: transparent; }
+  .agribot-messages::-webkit-scrollbar-thumb { background: rgba(22, 163, 74, 0.2); border-radius: 2px; }
+
+  /* AgriBot header decorative noise mesh — two-layer radial gradient */
+  .agribot-header-noise {
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.4) 0%, transparent 60%),
+      radial-gradient(circle at 80% 20%, rgba(6, 78, 59, 0.6) 0%, transparent 50%);
+  }
 
   /* Texte fluide */
   .text-fluid-xs { font-size: var(--text-xs); }

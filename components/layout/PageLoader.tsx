@@ -86,21 +86,13 @@ export default function PageLoader() {
           initial={{ y: '0%' }}
           exit={{ y: '-100%' }}
           transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden select-none"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden select-none bg-[radial-gradient(ellipse_at_58%_36%,#1e7226_0%,#0f3d14_44%,#050e06_100%)]"
           aria-hidden="true"
           role="presentation"
-          style={{
-            background:
-              'radial-gradient(ellipse at 58% 36%, #1e7226 0%, #0f3d14 44%, #050e06 100%)',
-          }}
         >
           {/* ── Dot-grid texture overlay ──────────────────────────────────── */}
           <div
-            className="absolute inset-0 opacity-[0.035] pointer-events-none"
-            style={{
-              backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)',
-              backgroundSize:  '28px 28px',
-            }}
+            className="absolute inset-0 opacity-[0.035] pointer-events-none bg-[radial-gradient(circle,#ffffff_1px,transparent_1px)] [background-size:28px_28px]"
           />
 
           {/* ── Edge vignette ─────────────────────────────────────────────── */}
@@ -110,8 +102,7 @@ export default function PageLoader() {
           {RINGS.map((ring, i) => (
             <motion.div
               key={i}
-              className="absolute rounded-full border border-emerald-300/25 pointer-events-none"
-              style={{ width: 90, height: 90 }}
+              className="absolute rounded-full border border-emerald-300/25 pointer-events-none w-[90px] h-[90px]"
               animate={{ scale: [1, 6.5], opacity: [0.55, 0] }}
               transition={{
                 delay:    ring.delay,
