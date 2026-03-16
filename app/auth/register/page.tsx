@@ -319,7 +319,7 @@ export default function RegisterPage() {
       </div>
 
       {/* ── Panneau droit (formulaire) ──────────────────────────────────────── */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-gray-50 dark:bg-gray-950 overflow-y-auto">
+      <div className="flex-1 flex items-center justify-center px-4 py-8 sm:py-12 bg-gray-50 dark:bg-gray-950 overflow-y-auto">
         <div className="w-full max-w-md">
           {/* Logo mobile */}
           <div className="lg:hidden text-center mb-6">
@@ -346,7 +346,7 @@ export default function RegisterPage() {
           <StepIndicator current={step} total={3} />
 
           {/* Carte formulaire */}
-          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-lg p-6 overflow-hidden">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-lg p-4 sm:p-6 overflow-hidden">
             <form onSubmit={step === 2 ? handleSubmit : (e) => { e.preventDefault(); goNext(); }}>
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div

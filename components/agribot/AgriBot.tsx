@@ -410,7 +410,7 @@ export default function AgriBot() {
                 {/* Agent info */}
                 <div className="flex-1 min-w-0">
                   <span className="text-[11px] font-semibold text-white/90 block leading-tight">{agent.name}</span>
-                  <span className={`text-[10px] ${
+                  <span className={`text-[10px] hidden sm:block ${
                     agent.status === 'online' ? 'text-emerald-300'
                     : agent.status === 'away' ? 'text-amber-300'
                     : 'text-gray-400'
@@ -516,7 +516,7 @@ export default function AgriBot() {
             <div
               ref={messagesListRef}
               onScroll={handleScroll}
-              className="flex-1 overflow-y-auto px-4 py-4 scroll-smooth space-y-4 agribot-messages"
+              className="flex-1 overflow-y-auto px-3 sm:px-4 py-3 sm:py-4 scroll-smooth space-y-4 agribot-messages"
               role="log"
               aria-live="polite"
               aria-relevant="additions"
@@ -555,7 +555,7 @@ export default function AgriBot() {
                     )}
 
                     {/* Bubble */}
-                    <div className={`rounded-2xl px-4 py-3 relative ${
+                    <div className={`rounded-2xl px-3 sm:px-4 py-2.5 sm:py-3 relative ${
                       msg.role === 'user'
                         ? 'bg-gradient-to-br from-green-500 to-emerald-600 text-white shadow-[0_4px_16px_rgba(22,163,74,0.35)] rounded-br-sm'
                         : 'bg-white dark:bg-gray-800/95 text-gray-900 dark:text-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3)] rounded-bl-sm border border-gray-100/80 dark:border-gray-700/50'
@@ -706,7 +706,7 @@ export default function AgriBot() {
                     transition={{ delay: i * 0.04, type: 'spring', stiffness: 400, damping: 25 }}
                     onClick={() => s.text === '3_ELIGIBILITY_FLOW' ? setShowEligibility(true) : handleSend(s.text)}
                     disabled={isStreaming}
-                    className="text-[11px] px-3.5 py-2 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-800 text-green-700 dark:text-green-400 rounded-2xl border border-green-200/70 dark:border-green-700/50 whitespace-nowrap font-semibold shadow-[0_1px_4px_rgba(0,0,0,0.06)] hover:border-green-400 hover:shadow-[0_2px_8px_rgba(22,163,74,0.2)] hover:bg-green-50 dark:hover:bg-green-900/20 disabled:opacity-40 transition-all active:scale-95 shrink-0"
+                    className="text-xs sm:text-[11px] px-3 sm:px-3.5 py-2.5 sm:py-2 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-800 text-green-700 dark:text-green-400 rounded-2xl border border-green-200/70 dark:border-green-700/50 whitespace-nowrap font-semibold shadow-[0_1px_4px_rgba(0,0,0,0.06)] hover:border-green-400 hover:shadow-[0_2px_8px_rgba(22,163,74,0.2)] hover:bg-green-50 dark:hover:bg-green-900/20 disabled:opacity-40 transition-all active:scale-95 shrink-0"
                   >
                     {s.label}
                   </motion.button>
@@ -809,7 +809,7 @@ export default function AgriBot() {
               </div>
 
               {/* Footer branding */}
-              <p className="text-[9px] text-gray-400/70 dark:text-gray-600 mt-2 text-center flex items-center justify-center gap-1.5" aria-hidden>
+              <p className="text-[9px] text-gray-400/70 dark:text-gray-600 mt-2 text-center hidden sm:flex items-center justify-center gap-1.5" aria-hidden>
                 <Cpu className="w-2.5 h-2.5 text-green-400/60" />
                 {t.footer}
                 <span className="w-1 h-1 rounded-full bg-green-400/60 inline-block" />
