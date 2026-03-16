@@ -267,7 +267,7 @@ export default function CheckoutPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-6 md:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <Breadcrumb
@@ -281,13 +281,13 @@ export default function CheckoutPage() {
         {/* Header */}
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 mb-8 transition-colors"
+          className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 mb-4 md:mb-8 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
           <span>{locale === 'en' ? 'Back to cart' : 'Retour au panier'}</span>
         </button>
 
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">
+        <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-5 md:mb-8">
           {locale === 'en' ? 'Place your order' : 'Finaliser la commande'}
         </h1>
 
@@ -310,7 +310,7 @@ export default function CheckoutPage() {
         )}
 
         {/* Steps */}
-        <div className="mb-12">
+        <div className="mb-6 md:mb-12">
           <div className="flex items-center justify-between max-w-2xl mx-auto">
             {steps.map((step, index) => {
               const Icon = step.icon;
@@ -370,13 +370,13 @@ export default function CheckoutPage() {
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-8"
+                  className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-8"
                 >
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
                     {locale === 'en' ? 'Your information' : 'Vos informations'}
                   </h2>
 
-                  <div className="space-y-6">
+                  <div className="space-y-4 sm:space-y-6">
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         {locale === 'en' ? 'Full name *' : 'Nom complet *'}
@@ -430,13 +430,13 @@ export default function CheckoutPage() {
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-8"
+                  className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-8"
                 >
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
                     {locale === 'en' ? 'Delivery address' : 'Adresse de livraison'}
                   </h2>
 
-                  <div className="space-y-6">
+                  <div className="space-y-4 sm:space-y-6">
                     <div>
                       <label htmlFor="street" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         {locale === 'en' ? 'Full address *' : 'Adresse complète *'}
@@ -534,9 +534,9 @@ export default function CheckoutPage() {
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-8"
+                  className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-8"
                 >
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
                     {locale === 'en' ? 'Payment method' : 'Mode de paiement'}
                   </h2>
 
