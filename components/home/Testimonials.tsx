@@ -2,12 +2,15 @@
 
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
+import { useRef, useState, useCallback } from 'react';
 import AnimatedCounter from '@/components/shared/AnimatedCounter';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Testimonials() {
   const { locale } = useLanguage();
   const en = locale === 'en';
+  const [activeIdx, setActiveIdx] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const testimonials = [
     {
@@ -45,9 +48,58 @@ export default function Testimonials() {
     },
   ];
 
+  /* ── Mobile scroll tracking for dots ── */
+  const handleScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const idx = Math.round(el.scrollLeft / (el.scrollWidth / testimonials.length));
+    setActiveIdx(Math.min(Math.max(idx, 0), testimonials.length - 1));
+  }, [testimonials.length]);
+
+  const scrollToCard = (idx: number) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollTo({ left: (el.scrollWidth / testimonials.length) * idx, behavior: 'smooth' });
+    setActiveIdx(idx);
+  };
+
+  /* ── Shared card JSX ── */
+  const Card = ({ t, index }: { t: typeof testimonials[0]; index: number }) => (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.12 }}
+      className={`relative h-full rounded-2xl border bg-gradient-to-br ${t.color} ${t.border} p-5 sm:p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300`}
+    >
+      {/* Quote */}
+      <div className="absolute top-4 right-4 opacity-10" aria-hidden>
+        <Quote className="w-9 h-9 sm:w-10 sm:h-10 text-emerald-700 dark:text-emerald-400 fill-emerald-700 dark:fill-emerald-400" />
+      </div>
+      {/* Stars */}
+      <div className="flex gap-0.5 mb-3 sm:mb-4">
+        {[...Array(t.rating)].map((_, i) => (
+          <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-amber-400 text-amber-400" />
+        ))}
+      </div>
+      <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 italic text-[14px] sm:text-[15px]">
+        &ldquo;{t.content}&rdquo;
+      </p>
+      <div className="flex items-center gap-3 pt-3 sm:pt-4 border-t border-black/[0.06] dark:border-white/[0.06]">
+        <div className="w-10 h-10 sm:w-11 sm:h-11 bg-gradient-to-br from-emerald-500 to-green-700 dark:from-emerald-600 dark:to-green-800 rounded-xl shadow-sm flex items-center justify-center text-white font-black text-sm sm:text-base flex-shrink-0 select-none">
+          {t.name.charAt(0)}
+        </div>
+        <div>
+          <p className="font-bold text-gray-900 dark:text-white text-sm">{t.name}</p>
+          <p className="text-xs text-emerald-700 dark:text-emerald-400 font-medium">{t.role} · {t.location}</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+
   return (
-    <section className="py-20 bg-white dark:bg-gray-950 relative overflow-hidden">
-      {/* Subtle dot bg via CSS */}
+    <section className="py-10 md:py-20 bg-white dark:bg-gray-950 relative overflow-hidden">
+      {/* Subtle dot bg */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.015] dark:opacity-[0.03] [background-image:radial-gradient(circle,#16a34a_1px,transparent_1px)] [background-size:32px_32px]" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -55,7 +107,7 @@ export default function Testimonials() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-14"
+          className="text-center mb-8 md:mb-14"
         >
           <span className="section-tag">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -69,52 +121,52 @@ export default function Testimonials() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        {/* ── Mobile : horizontal scroll carousel ── */}
+        <div
+          ref={scrollRef}
+          className="md:hidden flex overflow-x-auto scroll-snap-x gap-4 pb-3 -mx-4 px-4"
+          onScroll={handleScroll}
+          aria-label={en ? 'Customer testimonials' : 'Témoignages clients'}
+        >
           {testimonials.map((t, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.12 }}
-              className={`relative rounded-2xl border bg-gradient-to-br ${t.color} ${t.border} p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300`}
-            >
-              {/* Quote icon */}
-              <div className="absolute top-4 right-4 opacity-10">
-                <Quote className="w-10 h-10 text-emerald-700 dark:text-emerald-400 fill-emerald-700 dark:fill-emerald-400" />
-              </div>
-
-              {/* Stars */}
-              <div className="flex gap-0.5 mb-4">
-                {[...Array(t.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                ))}
-              </div>
-
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6 italic text-[15px]">
-                &ldquo;{t.content}&rdquo;
-              </p>
-
-              <div className="flex items-center gap-3 pt-4 border-t border-black/[0.06] dark:border-white/[0.06]">
-                <div className="w-11 h-11 bg-gradient-to-br from-emerald-500 to-green-700 dark:from-emerald-600 dark:to-green-800 rounded-xl shadow-sm flex items-center justify-center text-white font-black text-base flex-shrink-0 select-none">
-                  {t.name.charAt(0)}
-                </div>
-                <div>
-                  <p className="font-bold text-gray-900 dark:text-white text-sm">{t.name}</p>
-                  <p className="text-xs text-emerald-700 dark:text-emerald-400 font-medium">{t.role} · {t.location}</p>
-                </div>
-              </div>
-            </motion.div>
+            <div key={index} className="scroll-snap-item flex-shrink-0 w-[82vw]">
+              <Card t={t} index={index} />
+            </div>
           ))}
         </div>
 
-        {/* Social proof bar */}
+        {/* ── Mobile dots ── */}
+        <div className="flex justify-center gap-2 mt-3 mb-1 md:hidden" role="tablist" aria-label={en ? 'Page indicators' : 'Indicateurs de page'}>
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollToCard(i)}
+              role="tab"
+              aria-selected={i === activeIdx}
+              aria-label={`${en ? 'Testimonial' : 'Témoignage'} ${i + 1}`}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === activeIdx
+                  ? 'w-6 bg-emerald-500'
+                  : 'w-1.5 bg-gray-200 dark:bg-gray-700 hover:bg-emerald-300'
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* ── Desktop : grid ── */}
+        <div className="hidden md:grid md:grid-cols-3 gap-6">
+          {testimonials.map((t, index) => (
+            <Card key={index} t={t} index={index} />
+          ))}
+        </div>
+
+        {/* ── Social proof bar ── */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
-          className="mt-12 flex flex-wrap items-center justify-center gap-8 text-center"
+          className="mt-10 md:mt-12 flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-center"
         >
           <div>
             <div className="flex justify-center gap-0.5 mb-1">
