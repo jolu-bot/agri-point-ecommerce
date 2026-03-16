@@ -290,17 +290,21 @@ export default function AgriBot() {
       </AnimatePresence>
 
       {/* ══ FENÊTRE DE CHAT ══ */}
+      {/* Backdrop mobile dans son propre AnimatePresence → exit animation correcte */}
       <AnimatePresence>
         {isOpen && !isMinimized && (
-          <>
-            {/* Backdrop mobile — tap outside to minimize */}
-            <motion.div
-              key="backdrop"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-[50] sm:hidden"
-              onClick={() => setIsMinimized(true)}
-              aria-hidden
-            />
+          <motion.div
+            key="backdrop"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-[50] sm:hidden"
+            onClick={() => setIsMinimized(true)}
+            aria-hidden
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {isOpen && !isMinimized && (
           <motion.div
             key="chatwindow"
             role="dialog"
@@ -811,7 +815,6 @@ export default function AgriBot() {
               </p>
             </div>
           </motion.div>
-          </>
         )}
       </AnimatePresence>
       <input
