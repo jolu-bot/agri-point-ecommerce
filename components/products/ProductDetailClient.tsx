@@ -201,7 +201,7 @@ export default function ProductDetailClient({ initialProduct }: { initialProduct
         </button>
 
         {/* ── Main Grid ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 mb-12">
           {/* ── Images ── */}
           <div className="space-y-3">
             {/* Main image */}
@@ -280,7 +280,7 @@ export default function ProductDetailClient({ initialProduct }: { initialProduct
               {product.category.replace('_', ' ')}
             </span>
 
-            <h1 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white leading-tight mb-3">
+            <h1 className="text-2xl sm:text-4xl font-black text-gray-900 dark:text-white leading-tight mb-3">
               {product.name}
             </h1>
 
@@ -294,7 +294,7 @@ export default function ProductDetailClient({ initialProduct }: { initialProduct
 
             {/* Price */}
             <div className="flex items-baseline gap-3 mb-5">
-              <span className="text-4xl font-black text-gradient-primary leading-none">
+              <span className="text-3xl sm:text-4xl font-black text-gradient-primary leading-none">
                 {finalPrice.toLocaleString()}
                 <span className="text-lg ml-1 text-emerald-700 dark:text-emerald-400">FCFA</span>
               </span>
@@ -390,7 +390,7 @@ export default function ProductDetailClient({ initialProduct }: { initialProduct
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-6 py-4 text-sm font-semibold whitespace-nowrap transition-all border-b-2 -mb-px ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-3 sm:py-4 text-sm font-semibold whitespace-nowrap transition-all border-b-2 -mb-px ${
                   activeTab === tab.id
                     ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
                     : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
@@ -410,7 +410,7 @@ export default function ProductDetailClient({ initialProduct }: { initialProduct
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.2 }}
-              className="p-8"
+              className="p-5 sm:p-8"
             >
               {activeTab === 'description' && (
                 <div className="space-y-8">
@@ -535,9 +535,9 @@ export default function ProductDetailClient({ initialProduct }: { initialProduct
               {activeTab === 'avis' && (
                 <div className="space-y-6">
                   {/* Overall rating */}
-                  <div className="flex items-center gap-6 p-6 bg-gray-50 dark:bg-gray-800/40 rounded-2xl">
+                  <div className="flex items-center gap-4 sm:gap-6 p-4 sm:p-6 bg-gray-50 dark:bg-gray-800/40 rounded-2xl">
                     <div className="text-center">
-                      <p className="text-5xl font-black text-gradient-primary">4.9</p>
+                      <p className="text-4xl sm:text-5xl font-black text-gradient-primary">4.9</p>
                       <div className="flex justify-center gap-0.5 mt-1">
                         {[1,2,3,4,5].map(s => <Star key={s} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
                       </div>
@@ -581,13 +581,13 @@ export default function ProductDetailClient({ initialProduct }: { initialProduct
         {/* ── Related products ── */}
         {related.length > 0 && (
           <div className="mb-12">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-black text-gray-900 dark:text-white">{en ? 'You may also like' : 'Vous aimerez aussi'}</h2>
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">{en ? 'You may also like' : 'Vous aimerez aussi'}</h2>
               <Link href={`/produits?category=${product.category}`} className="flex items-center gap-1 text-sm text-emerald-600 dark:text-emerald-400 hover:underline font-medium">
                 {en ? 'See more' : 'Voir plus'} <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-5">
               {related.map((rel) => (
                 <Link key={rel._id} href={`/produits/${rel.slug}`} className="group block">
                   <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/[0.06] rounded-2xl overflow-hidden hover:shadow-xl hover:border-emerald-200 dark:hover:border-emerald-800/50 transition-all duration-300 hover:-translate-y-1">
@@ -614,7 +614,7 @@ export default function ProductDetailClient({ initialProduct }: { initialProduct
 
         {/* ── Mobile sticky CTA ── */}
         {product.stock > 0 && (
-          <div className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-100 dark:border-white/[0.06] px-4 py-3 shadow-xl">
+          <div className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-100 dark:border-white/[0.06] px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] shadow-xl">
             <div className="flex items-center gap-3">
               <div>
                 <p className="text-sm font-black text-gradient-primary leading-none">{finalPrice.toLocaleString()} FCFA</p>

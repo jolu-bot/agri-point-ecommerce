@@ -65,7 +65,7 @@ export default function FeaturedProducts() {
   return (
     <section className="section-premium">
       <div 
-        className="relative w-full h-[500px] md:h-[600px] lg:h-[700px] cursor-pointer overflow-hidden rounded-2xl group"
+        className="relative w-full h-[360px] sm:h-[500px] md:h-[600px] lg:h-[700px] cursor-pointer overflow-hidden rounded-2xl group"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
@@ -96,7 +96,7 @@ export default function FeaturedProducts() {
         {/* Contenu texte - centré en bas */}
         <Link
           href={currentSlide.href}
-          className="absolute inset-0 flex flex-col items-center justify-end p-8 md:p-12 lg:p-16"
+          className="absolute inset-0 flex flex-col items-center justify-end p-5 sm:p-8 md:p-12 lg:p-16"
         >
           <motion.div
             key={`text-${currentSlide.id}`}
@@ -107,14 +107,14 @@ export default function FeaturedProducts() {
             className="text-center"
           >
             {/* Badge catégorie */}
-            <div className="inline-flex items-center px-5 py-2.5 rounded-full bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/40 mb-6">
-              <span className="text-white font-bold text-sm md:text-base tracking-widest">
+            <div className="inline-flex items-center px-3 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/40 mb-4 sm:mb-6">
+              <span className="text-white font-bold text-xs sm:text-sm md:text-base tracking-widest">
                 {currentSlide.category}
               </span>
             </div>
 
             {/* Titre avec bel effet */}
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-black text-white mb-6 drop-shadow-2xl">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-black text-white mb-4 sm:mb-6 drop-shadow-2xl">
               {currentSlide.category.split(' ')[0]}
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-white to-emerald-300">
@@ -149,7 +149,7 @@ export default function FeaturedProducts() {
         </button>
 
         {/* Points de pagination */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-1.5 sm:gap-2">
           {slides.map((_, index) => (
             <button
               key={index}

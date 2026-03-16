@@ -23,17 +23,17 @@ export default function UrbanAgriculture() {
               {en ? 'Urban Agriculture' : 'Agriculture Urbaine'}
             </div>
 
-            <h2 className="text-4xl font-bold mb-6">
+            <h2 className="text-2xl sm:text-4xl font-bold mb-4 sm:mb-6">
               {en ? 'Grow in the City' : 'Cultivez en Ville'}
             </h2>
 
-            <p className="text-lg text-primary-50 mb-8">
+            <p className="text-base sm:text-lg text-primary-50 mb-6 sm:mb-8">
               {en
                 ? 'Discover our solutions for urban agriculture: starter kits, personalised advice, and full support for growing your own food in the city.'
                 : "Découvrez nos solutions pour l'agriculture urbaine : kits de démarrage, conseils personnalisés, et accompagnement complet pour cultiver vos propres aliments en ville."}
             </p>
 
-            <ul className="space-y-3.5 mb-8">
+            <ul className="space-y-3.5 mb-6 sm:mb-8">
               {(en ? [
                 'Complete kits for balconies and terraces',
                 'Personalised AI advice from AgriBot',
@@ -70,32 +70,32 @@ export default function UrbanAgriculture() {
           >
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-4">
-                <div className="bg-white/10 backdrop-blur rounded-xl p-6 hover:bg-white/20 transition-colors">
-                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-3">
-                    <Leaf className="w-6 h-6 text-white" />
+                <div className="bg-white/10 backdrop-blur rounded-xl p-4 sm:p-6 hover:bg-white/20 transition-colors">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-xl flex items-center justify-center mb-2 sm:mb-3">
+                    <Leaf className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <div className="font-semibold mb-1">{en ? 'Urban Garden' : 'Potager Urbain'}</div>
                   <div className="text-sm text-primary-100">{en ? 'Grow your vegetables' : 'Cultivez vos légumes'}</div>
                 </div>
-                <div className="bg-white/10 backdrop-blur rounded-xl p-6 hover:bg-white/20 transition-colors">
-                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-3">
-                    <Salad className="w-6 h-6 text-white" />
+                <div className="bg-white/10 backdrop-blur rounded-xl p-4 sm:p-6 hover:bg-white/20 transition-colors">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-xl flex items-center justify-center mb-2 sm:mb-3">
+                    <Salad className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <div className="font-semibold mb-1">{en ? 'Aromatic Herbs' : 'Herbes Aromatiques'}</div>
                   <div className="text-sm text-primary-100">{en ? 'Fresh all year round' : 'Fraîches toute l\u2019année'}</div>
                 </div>
               </div>
               <div className="space-y-4 pt-8">
-                <div className="bg-white/10 backdrop-blur rounded-xl p-6 hover:bg-white/20 transition-colors">
-                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-3">
-                    <Apple className="w-6 h-6 text-white" />
+                <div className="bg-white/10 backdrop-blur rounded-xl p-4 sm:p-6 hover:bg-white/20 transition-colors">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-xl flex items-center justify-center mb-2 sm:mb-3">
+                    <Apple className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <div className="font-semibold mb-1">{en ? 'Fruits & Vegetables' : 'Fruits & Légumes'}</div>
                   <div className="text-sm text-primary-100">{en ? 'Local production' : 'Production locale'}</div>
                 </div>
-                <div className="bg-white/10 backdrop-blur rounded-xl p-6 hover:bg-white/20 transition-colors">
-                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-3">
-                    <Sprout className="w-6 h-6 text-white" />
+                <div className="bg-white/10 backdrop-blur rounded-xl p-4 sm:p-6 hover:bg-white/20 transition-colors">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-xl flex items-center justify-center mb-2 sm:mb-3">
+                    <Sprout className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <div className="font-semibold mb-1">{en ? 'Microgreens' : 'Micro-Pousses'}</div>
                   <div className="text-sm text-primary-100">{en ? 'Quick harvest' : 'Récolte rapide'}</div>

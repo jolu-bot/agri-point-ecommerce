@@ -98,7 +98,7 @@ export default function HeroNew() {
           {/* Badge premium */}
           <m.div
             variants={itemVariants}
-            className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full border border-emerald-400/50 bg-emerald-500/15 text-emerald-200 text-sm font-bold tracking-wide shadow-lg backdrop-blur-md mb-6 sm:mb-8"
+            className="inline-flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full border border-emerald-400/50 bg-emerald-500/15 text-emerald-200 text-xs sm:text-sm font-bold tracking-wide shadow-lg backdrop-blur-md mb-5 sm:mb-8"
           >
             <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
             {T.hero.badge}
@@ -108,13 +108,13 @@ export default function HeroNew() {
           {/* Title principal */}
           <m.h1
             variants={itemVariants}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tighter mb-4 sm:mb-6 text-white drop-shadow-2xl"
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tighter mb-4 sm:mb-6 text-white drop-shadow-2xl"
           >
             <span className="block">
               <span className="text-red-500">AGRI</span><span className="text-emerald-300">POINT</span>
             </span>
-            <span className="block bg-gradient-to-r from-emerald-300 via-green-400 to-emerald-400 bg-clip-text text-transparent drop-shadow-xl">SERVICES <span className="text-white/80 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">SAS</span></span>
-            <span className="block text-3xl sm:text-4xl md:text-5xl font-bold text-emerald-300 mt-2 sm:mt-4">{T.hero.tagline}</span>
+            <span className="block bg-gradient-to-r from-emerald-300 via-green-400 to-emerald-400 bg-clip-text text-transparent drop-shadow-xl">SERVICES <span className="text-white/80 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">SAS</span></span>
+            <span className="block text-2xl sm:text-4xl md:text-5xl font-bold text-emerald-300 mt-2 sm:mt-4">{T.hero.tagline}</span>
           </m.h1>
 
           {/* Description */}
