@@ -38,7 +38,7 @@ export default function Newsletter() {
   };
 
   return (
-    <section className="py-20 bg-gray-50 dark:bg-gray-900/50 relative overflow-hidden">
+    <section className="py-10 md:py-20 bg-gray-50 dark:bg-gray-900/50 relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <m.div
           initial={{ opacity: 0, y: 20 }}
@@ -51,23 +51,23 @@ export default function Newsletter() {
           {/* Decorative circles */}
           <div className="absolute -top-24 -right-24 w-80 h-80 bg-white/5 rounded-full blur-2xl" />
           <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-teal-400/10 rounded-full blur-2xl" />
-          <div className="relative grid md:grid-cols-2 gap-10 items-center p-8 md:p-12">
+          <div className="relative grid md:grid-cols-2 gap-6 md:gap-10 items-center p-5 sm:p-8 md:p-12">
             {/* Left */}
             <div className="text-white">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center">
-                  <Leaf className="w-5 h-5 text-emerald-300" />
+              <div className="flex items-center gap-2 mb-3 md:mb-4">
+                <div className="w-8 h-8 md:w-9 md:h-9 bg-white/15 rounded-xl flex items-center justify-center">
+                  <Leaf className="w-4 h-4 md:w-5 md:h-5 text-emerald-300" />
                 </div>
-                <span className="text-emerald-300 text-sm font-semibold tracking-wider uppercase">{T.newsletter.tag}</span>
+                <span className="text-emerald-300 text-xs md:text-sm font-semibold tracking-wider uppercase">{T.newsletter.tag}</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-black mb-3 leading-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-2 md:mb-3 leading-tight">
                 {T.newsletter.title}<br />
                 <span className="text-emerald-300">{T.newsletter.titleHighlight}</span>
               </h2>
-              <p className="text-emerald-100/80 mb-6 leading-relaxed">
+              <p className="text-sm md:text-base text-emerald-100/80 mb-4 md:mb-6 leading-relaxed">
                 {T.newsletter.subtitle}
               </p>
-              <ul className="space-y-2.5">
+              <ul className="space-y-2">
                 {[T.newsletter.perk1, T.newsletter.perk2, T.newsletter.perk3].map((perkText, i) => {
                   const PerkIcons = [Leaf, Gift, Megaphone];
                   const PerkIcon = PerkIcons[i];
@@ -89,39 +89,40 @@ export default function Newsletter() {
                 <m.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 text-center"
+                  className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 md:p-8 text-center"
                 >
-                  <CheckCircle className="w-14 h-14 text-emerald-300 mx-auto mb-3" />
-                  <h3 className="text-white text-xl font-bold mb-1">{T.newsletter.welcomeTitle}</h3>
+                  <CheckCircle className="w-12 h-12 md:w-14 md:h-14 text-emerald-300 mx-auto mb-3" />
+                  <h3 className="text-white text-lg md:text-xl font-bold mb-1">{T.newsletter.welcomeTitle}</h3>
                   <p className="text-emerald-100/80 text-sm">{T.newsletter.welcomeMsg}</p>
                 </m.div>
               ) : (
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 md:p-8">
-                  <p className="text-white font-semibold mb-4">{T.newsletter.emailLabel}</p>
+                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-4 sm:p-6 md:p-8">
+                  <p className="text-white font-semibold mb-3 md:mb-4 text-sm md:text-base">{T.newsletter.emailLabel}</p>
                   <form onSubmit={handleSubmit} className="space-y-3">
                     <label htmlFor="newsletter-email" className="sr-only">Adresse email</label>
                     <div className="relative">
-                      <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-white/50 w-5 h-5" />
+                      <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
                       <input
                         id="newsletter-email"
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                      placeholder={T.newsletter.placeholder}
+                        placeholder={T.newsletter.placeholder}
                         required
-                        className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 focus:bg-white/15 transition-all text-sm"
+                        className="w-full pl-11 pr-4 py-3 md:py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 focus:bg-white/15 transition-all text-sm md:text-base"
+                        style={{ fontSize: '16px' }}
                       />
                     </div>
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full flex items-center justify-center gap-2 py-3.5 bg-white text-emerald-700 hover:bg-emerald-50 font-bold rounded-xl transition-all duration-200 disabled:opacity-60 group"
+                      className="w-full flex items-center justify-center gap-2 py-3 md:py-3.5 bg-white text-emerald-700 hover:bg-emerald-50 font-bold rounded-xl transition-all duration-200 disabled:opacity-60 group text-sm md:text-base"
                     >
                       {loading ? (
                         <div className="w-5 h-5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" />
                       ) : (
                         <>
-                        <span>{T.newsletter.cta}</span>
+                          <span>{T.newsletter.cta}</span>
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                         </>
                       )}

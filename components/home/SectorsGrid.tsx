@@ -45,7 +45,7 @@ export default function SectorsGrid() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ type: 'spring', stiffness: 260, damping: 28 }}
-          className="text-center mb-14"
+          className="text-center mb-8 md:mb-14"
         >
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/25 bg-white/[0.12] backdrop-blur-md text-sm font-semibold mb-6 shadow-inner">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse" aria-hidden />
@@ -55,13 +55,13 @@ export default function SectorsGrid() {
             {T.sectors.title}{' '}
             <span className="text-red-400">{T.sectors.titleHighlight}</span>
           </h2>
-          <p className="text-lg text-white/75 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-lg text-white/75 max-w-2xl mx-auto leading-relaxed">
             {T.sectors.subtitle}
           </p>
         </m.div>
 
         {/* ── Sector cards grid ── */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
           {sectors.map((sector, index) => {
             const Icon = sector.Icon;
             return (
@@ -74,7 +74,7 @@ export default function SectorsGrid() {
               >
                 <Link
                   href={sector.href}
-                  className={`group flex flex-col h-full rounded-2xl p-5 border transition-all duration-300
+                  className={`group flex flex-col h-full rounded-2xl p-3 sm:p-5 border transition-all duration-300
                     bg-white/[0.08] hover:bg-white/[0.15]
                     border-white/[0.12] hover:border-white/30
                     hover:-translate-y-2 hover:shadow-2xl ${sector.shadow}
@@ -83,13 +83,13 @@ export default function SectorsGrid() {
                 >
                   {/* Icon — unique gradient bubble */}
                   <div
-                    className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center mb-2 sm:mb-4
                       bg-gradient-to-br ${sector.gradient}
                       shadow-lg group-hover:scale-110 group-hover:rotate-[-4deg]
                       transition-transform duration-300
                     `}
                   >
-                    <Icon className="w-5.5 h-5.5 text-white drop-shadow-sm" strokeWidth={2.1} aria-hidden />
+                    <Icon className="w-5 h-5 text-white drop-shadow-sm" strokeWidth={2.1} aria-hidden />
                   </div>
 
                   {/* Text */}
@@ -101,7 +101,7 @@ export default function SectorsGrid() {
                   </p>
 
                   {/* Discover CTA */}
-                  <div className="mt-4 flex items-center gap-1.5 text-white/40 group-hover:text-white/90 transition-all duration-200 text-xs font-semibold">
+                  <div className="mt-2 sm:mt-4 flex items-center gap-1.5 text-white/40 group-hover:text-white/90 transition-all duration-200 text-xs font-semibold">
                     <span>{T.common.discover}</span>
                     <ArrowRight className="w-3 h-3 group-hover:translate-x-1.5 transition-transform duration-200" aria-hidden />
                   </div>

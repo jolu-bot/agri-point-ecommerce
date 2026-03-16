@@ -96,7 +96,7 @@ export default function Header() {
         }`}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 3xl:px-12">
-        <div className="flex justify-between items-center h-14 sm:h-16 lg:h-18">
+        <div className={`flex justify-between items-center transition-all duration-300 ${isScrolled ? 'h-11 sm:h-16 lg:h-18' : 'h-14 sm:h-16 lg:h-18'}`}>
           {/* Logo - Dynamique depuis CMS */}
           <DynamicHeaderBranding />
 
@@ -190,11 +190,11 @@ export default function Header() {
               )}
             </div>
 
-            {/* Dark Mode Toggle */}
+            {/* Dark Mode Toggle — caché sur mobile scrollé pour condensation */}
             {mounted && (
               <button
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50/80 dark:hover:bg-emerald-900/25 transition-all duration-150"
+                className={`p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50/80 dark:hover:bg-emerald-900/25 transition-all duration-200 ${isScrolled ? 'hidden sm:flex' : 'flex'}`}
                 aria-label="Toggle theme"
               >
                 {theme === 'dark' ? (
@@ -205,8 +205,10 @@ export default function Header() {
               </button>
             )}
 
-            {/* Language Toggle */}
-            <LanguageToggle />
+            {/* Language Toggle — caché sur mobile scrollé */}
+            <div className={`${isScrolled ? 'hidden sm:block' : 'block'} transition-all duration-200`}>
+              <LanguageToggle />
+            </div>
 
             {/* Cart */}
             <Link
