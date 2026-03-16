@@ -173,7 +173,7 @@ export default function AgriBot() {
 
   const chatClass = isFullscreen
     ? 'fixed inset-2 sm:inset-8 z-[55] rounded-3xl'
-    : 'fixed z-[55] rounded-t-3xl sm:rounded-3xl bottom-0 inset-x-0 h-[92dvh] sm:h-[660px] sm:bottom-24 sm:right-6 sm:left-auto sm:w-[27rem]';
+    : 'fixed z-[55] rounded-t-3xl sm:rounded-3xl bottom-0 inset-x-0 h-[72dvh] sm:h-[660px] sm:bottom-24 sm:right-6 sm:left-auto sm:w-[27rem]';
 
   const optionsItems = [
     { icon: <MapPin className="w-3.5 h-3.5" />,  label: locale === 'en' ? 'Location'  : 'Localisation', action: () => { setShowLocationModal(true);      setShowOptionsMenu(false); } },
