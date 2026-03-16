@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import NextImage from 'next/image';
 import { 
   Package, 
   Search,
@@ -402,15 +403,21 @@ export default function OrdersPage() {
                     {selectedOrder.paymentMethod === 'whatsapp' ? 'Capture d\'écran Mobile Money' : 'Reçu de paiement'}
                   </label>
                   <div className="relative group">
-                    <img
-                      src={selectedOrder.whatsappPayment?.screenshotUrl || selectedOrder.campostPayment?.receiptImage}
-                      alt="Preuve de paiement"
-                      className="w-full max-h-64 object-contain border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
+                    <div
+                      className="relative w-full h-64 cursor-pointer"
                       onClick={() => {
                         const url = selectedOrder.whatsappPayment?.screenshotUrl || selectedOrder.campostPayment?.receiptImage;
                         if (url) window.open(url, '_blank');
                       }}
-                    />
+                    >
+                      <NextImage
+                        src={selectedOrder.whatsappPayment?.screenshotUrl || selectedOrder.campostPayment?.receiptImage || ''}
+                        alt="Preuve de paiement"
+                        fill
+                        unoptimized
+                        className="object-contain border border-gray-300 dark:border-gray-600 rounded-lg hover:shadow-lg transition-shadow"
+                      />
+                    </div>
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100">
                       <span className="text-white bg-black/50 px-3 py-1 rounded-lg text-sm">🔍 Cliquer pour agrandir</span>
                     </div>

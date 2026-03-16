@@ -1,17 +1,22 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Order from '@/models/Order';
 import { Campaign } from '@/models/Campaign';
 import Product from '@/models/Product';
+import { verifyAccessToken } from '@/lib/auth';
 import { v4 as uuidv4 } from 'uuid';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  const payload = verifyAccessToken(req);
+  if (!payload) {
+    return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
+  }
+
   try {
     await dbConnect();
 
     const body = await req.json();
     const {
-      userId,
       items,
       shippingAddress,
       paymentMethod,
@@ -19,6 +24,7 @@ export async function POST(req: Request) {
       eligibilityData,
       useInstallmentPayment,
     } = body;
+    const userId = payload.userId;
 
     // Charger la campagne si elle existe
     let campaign = null;

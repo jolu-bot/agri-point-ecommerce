@@ -11,7 +11,7 @@ interface CreateAuditLogParams {
   resourceId?: string;
   description: string;
   severity?: 'info' | 'warning' | 'error' | 'critical';
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   tags?: string[];
   request?: NextRequest;
 }
@@ -80,8 +80,8 @@ export async function createAuditLog(params: CreateAuditLogParams): Promise<void
  * Calculer les changements entre deux objets
  * Utile pour metadata.changes
  */
-export function calculateChanges(before: any, after: any): Array<{ field: string; oldValue: any; newValue: any }> {
-  const changes: Array<{ field: string; oldValue: any; newValue: any }> = [];
+export function calculateChanges(before: Record<string, unknown>, after: Record<string, unknown>): Array<{ field: string; oldValue: unknown; newValue: unknown }> {
+  const changes: Array<{ field: string; oldValue: unknown; newValue: unknown }> = [];
 
   const allKeys = new Set([
     ...Object.keys(before || {}),

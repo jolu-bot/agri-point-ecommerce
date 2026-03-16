@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Form from '@/models/Form';
 import FormSubmission from '@/models/FormSubmission';
+import { sendEmail } from '@/lib/email';
 
 // Rate limiting simple (en mémoire)
 const submissionRateLimit = new Map<string, number[]>();
@@ -269,18 +270,26 @@ export async function POST(
     await form.save();
     
     // Envoyer les notifications email si configuré
-    if (form.settings.sendEmailNotification && form.settings.notificationEmails) {
-      // TODO: Implémenter l'envoi d'email
-      // Pour l'instant, juste logger
-      console.log('Email notification should be sent to:', form.settings.notificationEmails);
+    if (form.settings.sendEmailNotification && form.settings.notificationEmails?.length) {
+      const rows = Object.entries(data as Record<string, unknown>)
+        .map(([k, v]) => `<tr><td style="padding:4px 8px;font-weight:600">${k}</td><td style="padding:4px 8px">${v}</td></tr>`)
+        .join('');
+      await sendEmail({
+        to: form.settings.notificationEmails,
+        subject: `Nouvelle soumission — ${form.name}`,
+        html: `<h2>Nouvelle soumission du formulaire "${form.name}"</h2><table border="1" cellpadding="0" cellspacing="0" style="border-collapse:collapse">${rows}</table>`,
+      }).catch((e) => console.error('Email notification error:', e));
     }
-    
+
     // Réponse automatique
     if (form.settings.sendAutoReply && form.settings.autoReplyEmail) {
-      const recipientEmail = data[form.settings.autoReplyEmail];
+      const recipientEmail = (data as Record<string, unknown>)[form.settings.autoReplyEmail] as string | undefined;
       if (recipientEmail) {
-        // TODO: Implémenter l'envoi d'email auto-reply
-        console.log('Auto-reply should be sent to:', recipientEmail);
+        await sendEmail({
+          to: recipientEmail,
+          subject: `Confirmation — ${form.name}`,
+          html: `<p>Bonjour,</p><p>Nous avons bien reçu votre soumission du formulaire <strong>${form.name}</strong>. Nous vous recontacterons prochainement.</p><p>Cordialement,<br>AGRI POINT SERVICES SARL</p>`,
+        }).catch((e) => console.error('Auto-reply error:', e));
       }
     }
     

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import NextImage from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft, Save, Upload, X } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -396,11 +397,13 @@ export default function EditProductPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {formData.images.map((image, index) => (
                 <div key={index} className="relative group">
-                  <div className="aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
-                    <img
+                  <div className="aspect-square relative bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
+                    <NextImage
                       src={image}
                       alt={`Image ${index + 1}`}
-                      className="w-full h-full object-cover"
+                      fill
+                      unoptimized
+                      className="object-cover"
                     />
                   </div>
                   <button

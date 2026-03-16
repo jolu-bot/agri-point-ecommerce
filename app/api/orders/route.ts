@@ -2,39 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Order from '@/models/Order';
 import Product from '@/models/Product';
-import jwt from 'jsonwebtoken';
+import { verifyAccessToken } from '@/lib/auth';
 import { sendOrderConfirmation, sendAdminNotification } from '@/lib/email-service';
-
-const verifyToken = async (token: string) => {
-  try {
-    return jwt.verify(token, process.env.JWT_SECRET || 'votre_secret_jwt_ici') as { userId: string; role: string };
-  } catch {
-    return null;
-  }
-};
 
 // GET /api/orders - Récupérer les commandes de l'utilisateur
 export async function GET(request: NextRequest) {
   try {
     await connectDB();
 
-    const token = request.headers.get('authorization')?.split(' ')[1];
-    if (!token) {
-      return NextResponse.json(
-        { error: 'Non authentifié' },
-        { status: 401 }
-      );
+    const payload = verifyAccessToken(request);
+    if (!payload) {
+      return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
     }
 
-    const decoded = await verifyToken(token);
-    if (!decoded) {
-      return NextResponse.json(
-        { error: 'Token invalide' },
-        { status: 401 }
-      );
-    }
-
-    const orders = await Order.find({ user: decoded.userId })
+    const orders = await Order.find({ user: payload.userId })
       .sort({ createdAt: -1 })
       .lean();
 
@@ -53,20 +34,9 @@ export async function POST(request: NextRequest) {
   try {
     await connectDB();
 
-    const token = request.headers.get('authorization')?.split(' ')[1];
-    if (!token) {
-      return NextResponse.json(
-        { error: 'Non authentifié' },
-        { status: 401 }
-      );
-    }
-
-    const decoded = await verifyToken(token);
-    if (!decoded) {
-      return NextResponse.json(
-        { error: 'Token invalide' },
-        { status: 401 }
-      );
+    const payload = verifyAccessToken(request);
+    if (!payload) {
+      return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
     }
 
     const body = await request.json();
@@ -116,7 +86,7 @@ export async function POST(request: NextRequest) {
 
     // Créer la commande
     const order = await Order.create({
-      user: decoded.userId,
+      user: payload.userId,
       items,
       subtotal,
       shipping,

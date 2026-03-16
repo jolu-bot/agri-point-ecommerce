@@ -18,14 +18,14 @@ export interface IAuditLog extends Document {
   
   // Données de l'action
   metadata?: {
-    before?: any; // État avant modification
-    after?: any; // État après modification
+    before?: unknown;
+    after?: unknown;
     changes?: Array<{
       field: string;
-      oldValue: any;
-      newValue: any;
+      oldValue: unknown;
+      newValue: unknown;
     }>;
-    [key: string]: any; // Autres métadonnées
+    [key: string]: unknown;
   };
   
   // Informations techniques

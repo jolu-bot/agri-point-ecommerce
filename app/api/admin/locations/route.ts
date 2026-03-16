@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Location from '@/models/Location';
+import { verifyAccessToken } from '@/lib/auth';
+
+function requireAdmin(request: NextRequest) {
+  const payload = verifyAccessToken(request);
+  if (!payload || (payload.role !== 'admin' && payload.role !== 'editor')) return null;
+  return payload;
+}
 
 // GET - Liste des locations
 export async function GET(request: NextRequest) {
+  if (!requireAdmin(request)) {
+    return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
+  }
   try {
     await connectDB();
 
@@ -74,13 +84,10 @@ export async function GET(request: NextRequest) {
 
 // POST - Créer une location
 export async function POST(request: NextRequest) {
+  if (!requireAdmin(request)) {
+    return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
+  }
   try {
-    // Vérification de l'auth simplifiée (TODO: implémenter verifyAccessToken)
-    const token = request.headers.get('authorization')?.split(' ')[1];
-    if (!token) {
-      return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
-    }
-
     await connectDB();
     const data = await request.json();
 
@@ -123,13 +130,10 @@ export async function POST(request: NextRequest) {
 
 // PATCH - Mettre à jour une location
 export async function PATCH(request: NextRequest) {
+  if (!requireAdmin(request)) {
+    return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
+  }
   try {
-    // Vérification de l'auth simplifiée (TODO: implémenter verifyAccessToken)
-    const token = request.headers.get('authorization')?.split(' ')[1];
-    if (!token) {
-      return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
-    }
-
     await connectDB();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
@@ -164,13 +168,10 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE - Supprimer une location
 export async function DELETE(request: NextRequest) {
+  if (!requireAdmin(request)) {
+    return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
+  }
   try {
-    // Vérification de l'auth simplifiée (TODO: implémenter verifyAccessToken)
-    const token = request.headers.get('authorization')?.split(' ')[1];
-    if (!token) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 403 });
-    }
-
     await connectDB();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
