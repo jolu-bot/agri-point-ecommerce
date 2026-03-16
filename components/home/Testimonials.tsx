@@ -142,7 +142,7 @@ export default function Testimonials() {
               key={i}
               onClick={() => scrollToCard(i)}
               role="tab"
-              aria-selected={i === activeIdx}
+              aria-selected={i === activeIdx ? 'true' : 'false'}
               aria-label={`${en ? 'Testimonial' : 'Témoignage'} ${i + 1}`}
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 i === activeIdx
