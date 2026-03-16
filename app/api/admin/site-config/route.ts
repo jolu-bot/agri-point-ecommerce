@@ -171,7 +171,7 @@ export async function PATCH(request: NextRequest) {
       // Créer version automatique
       await ConfigVersion.create({
         version: (lastVersion?.version || 0) + 1,
-        config: oldConfig,
+        config: oldConfig ?? {},
         changedBy: {
           userId: 'system',
           userName: 'Auto-Save',
