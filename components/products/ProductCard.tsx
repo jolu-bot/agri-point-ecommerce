@@ -60,7 +60,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
           <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/[0.06] rounded-2xl hover:shadow-xl hover:border-emerald-200 dark:hover:border-emerald-800/50 transition-[border-color,box-shadow] duration-300 overflow-hidden">
             <div className="flex flex-col sm:flex-row gap-0">
               {/* Image */}
-              <div className="relative w-full sm:w-52 md:w-64 h-52 bg-gradient-to-br from-gray-50 to-emerald-50/30 dark:from-gray-800 dark:to-emerald-950/20 flex-shrink-0 overflow-hidden">
+              <div className="relative w-full sm:w-52 md:w-64 h-44 sm:h-52 bg-gradient-to-br from-gray-50 to-emerald-50/30 dark:from-gray-800 dark:to-emerald-950/20 flex-shrink-0 overflow-hidden">
                 {product.images[0] && !imgFailed ? (
                   <Image
                     src={product.images[0]}
@@ -106,7 +106,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
               </div>
 
               {/* Content */}
-              <div className="flex-1 flex flex-col p-5">
+              <div className="flex-1 flex flex-col p-3 sm:p-5">
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <span className="inline-block text-emerald-700 dark:text-emerald-400 font-semibold uppercase text-[10px] tracking-widest bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-1 rounded-lg">
                     {product.category.replace('_', ' ')}

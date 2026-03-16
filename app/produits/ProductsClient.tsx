@@ -179,20 +179,20 @@ export default function ProductsClient({
         <div className="pointer-events-none absolute -top-24 -right-24 w-96 h-96 rounded-full bg-emerald-400/10 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-16 -left-16 w-64 h-64 rounded-full bg-emerald-600/8 blur-2xl" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-14">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 md:gap-6">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/25 border border-emerald-200 dark:border-emerald-700/40 rounded-full text-emerald-700 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider mb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/25 border border-emerald-200 dark:border-emerald-700/40 rounded-full text-emerald-700 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider mb-3 md:mb-4">
                 <Leaf className="w-3 h-3" />
                 {T.products.heroTag}
               </div>
-              <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-3">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-2 md:mb-3">
                 <span className="text-red-500">{T.products.title1}</span>{' '}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-emerald-400 dark:to-teal-400">
                   {T.products.title2}
                 </span>
               </h1>
-              <p className="text-gray-500 dark:text-gray-400 text-lg max-w-xl">
+              <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-lg max-w-xl">
                 {T.products.description}
               </p>
             </div>
