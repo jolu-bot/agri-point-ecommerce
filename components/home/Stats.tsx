@@ -76,7 +76,7 @@ export default function Stats() {
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
-          className="text-center mb-12"
+          className="text-center mb-8 sm:mb-12"
         >
           <span className="section-tag">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -103,13 +103,13 @@ export default function Stats() {
 
                 {/* Icon circle */}
                 <div
-                  className={`mx-auto mb-4 mt-2 w-12 h-12 rounded-2xl flex items-center justify-center ${stat.iconBg} ${stat.glowClass} transition-transform duration-300 group-hover:scale-110`}
+                  className={`mx-auto mb-3 sm:mb-4 mt-1 sm:mt-2 w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center ${stat.iconBg} ${stat.glowClass} transition-transform duration-300 group-hover:scale-110`}
                 >
-                  <Icon className={`w-5 h-5 ${stat.iconClass}`} strokeWidth={2.2} />
+                  <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${stat.iconClass}`} strokeWidth={2.2} />
                 </div>
 
                 {/* Value */}
-                <div className="text-3xl lg:text-4xl font-black text-gradient-primary leading-none mb-1">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-gradient-primary leading-none mb-1">
                   <AnimatedCounter
                     to={stat.value}
                     duration={2.5}

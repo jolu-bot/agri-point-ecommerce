@@ -75,7 +75,7 @@ export default function Sections() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-16"
         >
           <span className="section-tag">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -86,7 +86,7 @@ export default function Sections() {
         </m.div>
 
         {/* Cards grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-7 lg:gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7 lg:gap-8">
           {sections.map((section, index) => {
             const Icon = section.Icon;
             return (
@@ -101,14 +101,14 @@ export default function Sections() {
                 {/* Gradient accent top bar */}
                 <div className={`absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r ${section.accentTop}`} />
 
-                <div className="p-7 flex flex-col flex-1">
+                <div className="p-5 sm:p-7 flex flex-col flex-1">
                   {/* Icon + tag row */}
-                  <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-start justify-between mb-4 sm:mb-6">
                     {/* Icon circle */}
                     <div
-                      className={`w-14 h-14 rounded-2xl flex items-center justify-center ${section.iconBg} ${section.glowClass} transition-transform duration-300 group-hover:scale-110 group-hover:rotate-2`}
+                      className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center ${section.iconBg} ${section.glowClass} transition-transform duration-300 group-hover:scale-110 group-hover:rotate-2`}
                     >
-                      <Icon className={`w-6 h-6 ${section.iconColor}`} strokeWidth={2} />
+                      <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${section.iconColor}`} strokeWidth={2} />
                     </div>
 
                     {/* Tag pill */}
