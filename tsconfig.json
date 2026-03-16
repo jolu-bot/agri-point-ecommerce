@@ -47,6 +47,13 @@
     "scripts",
     "jest.config.ts",
     "jest.setup.ts",
-    "__tests__"
+    "jest.setup.tsx",
+    "playwright.config.ts",
+    "__tests__",
+    "tests",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx"
   ]
 }

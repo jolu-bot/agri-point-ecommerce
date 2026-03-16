@@ -3,6 +3,9 @@
  * Valide les configurations avant sauvegarde pour éviter les erreurs
  */
 
+// Données de config dynamiques — any nécessaire pour les sous-validateurs internes
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyRecord = Record<string, any>;
 export interface ValidationError {
   field: string;
   message: string;
@@ -27,22 +30,22 @@ export async function validateSiteConfig(config: Record<string, unknown>): Promi
 
   // === BRANDING VALIDATION ===
   if (config.branding) {
-    validateBranding(config.branding, errors, warnings, suggestions);
+    validateBranding(config.branding as AnyRecord, errors, warnings, suggestions);
   }
 
   // === HEADER VALIDATION ===
   if (config.header) {
-    validateHeader(config.header, errors, warnings, suggestions);
+    validateHeader(config.header as AnyRecord, errors, warnings, suggestions);
   }
 
   // === COLORS VALIDATION ===
   if (config.colors) {
-    validateColors(config.colors, errors, warnings, suggestions);
+    validateColors(config.colors as AnyRecord, errors, warnings, suggestions);
   }
 
   // === MODULES VALIDATION ===
   if (config.modules) {
-    validateModules(config.modules, errors, warnings, suggestions);
+    validateModules(config.modules as AnyRecord, errors, warnings, suggestions);
   }
 
   return {
@@ -57,7 +60,7 @@ export async function validateSiteConfig(config: Record<string, unknown>): Promi
  * Valider la section Branding
  */
 function validateBranding(
-  branding: Record<string, unknown>,
+  branding: AnyRecord,
   errors: ValidationError[],
   warnings: ValidationError[],
   suggestions: ValidationError[]
@@ -127,7 +130,7 @@ function validateBranding(
  * Valider la section Header
  */
 function validateHeader(
-  header: Record<string, unknown>,
+  header: AnyRecord,
   errors: ValidationError[],
   warnings: ValidationError[],
   suggestions: ValidationError[]
@@ -196,7 +199,7 @@ function validateHeader(
  * Valider la section Colors
  */
 function validateColors(
-  colors: Record<string, unknown>,
+  colors: AnyRecord,
   errors: ValidationError[],
   warnings: ValidationError[],
   suggestions: ValidationError[]
@@ -241,13 +244,13 @@ function validateColors(
  * Valider les modules
  */
 function validateModules(
-  modules: Record<string, unknown>,
+  modules: AnyRecord,
   errors: ValidationError[],
   warnings: ValidationError[],
   suggestions: ValidationError[]
 ) {
   // Vérifier que au moins un module est activé
-  const activeModules = Object.values(modules).filter((m: unknown) => (m as Record<string, unknown>)?.enabled);
+  const activeModules = Object.values(modules).filter((m: AnyRecord) => m?.enabled);
   
   if (activeModules.length === 0) {
     warnings.push({
@@ -259,8 +262,7 @@ function validateModules(
   }
 
   // Valider chaque module
-  Object.entries(modules).forEach(([key, mod]: [string, unknown]) => {
-    const module = mod as Record<string, unknown>;
+  Object.entries(modules).forEach(([key, module]: [string, AnyRecord]) => {
     if (module.order !== undefined) {
       if (typeof module.order !== 'number' || module.order < 0) {
         errors.push({
@@ -374,16 +376,18 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
  */
 export function quickValidate(config: Record<string, unknown>): string[] {
   const errors: string[] = [];
+  const branding = config.branding as AnyRecord | undefined;
+  const colors = config.colors as AnyRecord | undefined;
 
-  if (!config.branding?.siteName) {
+  if (!branding?.siteName) {
     errors.push('Le nom du site est obligatoire');
   }
 
-  if (!config.colors?.primary) {
+  if (!colors?.primary) {
     errors.push('La couleur primaire est obligatoire');
   }
 
-  if (config.colors?.primary && !isValidHexColor(config.colors.primary)) {
+  if (colors?.primary && !isValidHexColor(colors.primary)) {
     errors.push('La couleur primaire doit être au format hex (#RRGGBB)');
   }
 
