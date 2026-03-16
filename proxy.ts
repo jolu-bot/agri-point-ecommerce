@@ -5,7 +5,7 @@ import { jwtVerify } from 'jose';
 // Next.js Edge Middleware — protège /admin et /compte côté serveur avant hydration
 // Lit le cookie accessToken ou le header Authorization
 // ---------------------------------------------------------------------------
-export async function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Récupérer le token (cookie prioritaire, puis Authorization header)
