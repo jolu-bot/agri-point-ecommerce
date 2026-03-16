@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 export interface IConfigVersion {
   _id: string;
   version: number;
-  config: any; // Configuration complète sauvegardée
+  config: Record<string, unknown>; // Configuration complète sauvegardée
   changedBy: {
     userId: string;
     userName: string;
@@ -16,8 +16,8 @@ export interface IConfigVersion {
   };
   changes: {
     field: string;
-    oldValue: any;
-    newValue: any;
+    oldValue: unknown;
+    newValue: unknown;
   }[];
   description?: string;
   tags: string[];

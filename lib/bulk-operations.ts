@@ -1,4 +1,6 @@
-import { Types } from 'mongoose';
+import { Types, Model, Document } from 'mongoose';
+
+type MongooseModel = Model<Document>;
 
 export interface BulkOperationResult {
   success: number;
@@ -11,7 +13,7 @@ export interface BulkOperationResult {
  * Bulk delete operation
  */
 export async function bulkDelete(
-  Model: any,
+  Model: MongooseModel,
   ids: string[]
 ): Promise<BulkOperationResult> {
   const startTime = Date.now();
@@ -47,7 +49,7 @@ export async function bulkDelete(
  * Bulk update operation
  */
 export async function bulkUpdate(
-  Model: any,
+  Model: MongooseModel,
   ids: string[],
   updateData: Record<string, any>
 ): Promise<BulkOperationResult> {
@@ -86,7 +88,7 @@ export async function bulkUpdate(
  * Bulk archive operation
  */
 export async function bulkArchive(
-  Model: any,
+  Model: MongooseModel,
   ids: string[]
 ): Promise<BulkOperationResult> {
   return bulkUpdate(Model, ids, {
@@ -99,7 +101,7 @@ export async function bulkArchive(
  * Bulk publish operation (pour contenu)
  */
 export async function bulkPublish(
-  Model: any,
+  Model: MongooseModel,
   ids: string[]
 ): Promise<BulkOperationResult> {
   return bulkUpdate(Model, ids, {
@@ -112,7 +114,7 @@ export async function bulkPublish(
  * Bulk unpublish operation
  */
 export async function bulkUnpublish(
-  Model: any,
+  Model: MongooseModel,
   ids: string[]
 ): Promise<BulkOperationResult> {
   return bulkUpdate(Model, ids, {
@@ -126,7 +128,7 @@ export async function bulkUnpublish(
  */
 export async function executeBulkOperation(
   operationType: string,
-  Model: any,
+  Model: MongooseModel,
   ids: string[],
   updateData?: Record<string, any>
 ): Promise<BulkOperationResult> {

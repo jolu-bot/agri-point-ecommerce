@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Distributor from '@/models/Distributor';
+import { verifyAccessToken } from '@/lib/auth';
 
 // GET /api/distributors - Récupérer tous les distributeurs actifs
 export async function GET(request: NextRequest) {
@@ -41,9 +42,10 @@ export async function POST(request: NextRequest) {
   try {
     await connectDB();
 
-    // Vérification authentification admin (optionnel)
-    const token = request.headers.get('authorization')?.split(' ')[1];
-    // TODO: Vérifier que token a rôle admin
+    const payload = verifyAccessToken(request);
+    if (!payload || (payload.role !== 'admin' && payload.role !== 'editor')) {
+      return NextResponse.json({ success: false, error: 'Accès refusé' }, { status: 403 });
+    }
 
     const body = await request.json();
     const {

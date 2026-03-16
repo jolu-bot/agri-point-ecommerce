@@ -20,7 +20,7 @@ export interface ValidationResult {
 /**
  * Valider une configuration complète
  */
-export async function validateSiteConfig(config: any): Promise<ValidationResult> {
+export async function validateSiteConfig(config: Record<string, unknown>): Promise<ValidationResult> {
   const errors: ValidationError[] = [];
   const warnings: ValidationError[] = [];
   const suggestions: ValidationError[] = [];
@@ -57,7 +57,7 @@ export async function validateSiteConfig(config: any): Promise<ValidationResult>
  * Valider la section Branding
  */
 function validateBranding(
-  branding: any,
+  branding: Record<string, unknown>,
   errors: ValidationError[],
   warnings: ValidationError[],
   suggestions: ValidationError[]
@@ -127,7 +127,7 @@ function validateBranding(
  * Valider la section Header
  */
 function validateHeader(
-  header: any,
+  header: Record<string, unknown>,
   errors: ValidationError[],
   warnings: ValidationError[],
   suggestions: ValidationError[]
@@ -196,7 +196,7 @@ function validateHeader(
  * Valider la section Colors
  */
 function validateColors(
-  colors: any,
+  colors: Record<string, unknown>,
   errors: ValidationError[],
   warnings: ValidationError[],
   suggestions: ValidationError[]
@@ -241,13 +241,13 @@ function validateColors(
  * Valider les modules
  */
 function validateModules(
-  modules: any,
+  modules: Record<string, unknown>,
   errors: ValidationError[],
   warnings: ValidationError[],
   suggestions: ValidationError[]
 ) {
   // Vérifier que au moins un module est activé
-  const activeModules = Object.values(modules).filter((m: any) => m.enabled);
+  const activeModules = Object.values(modules).filter((m: unknown) => (m as Record<string, unknown>)?.enabled);
   
   if (activeModules.length === 0) {
     warnings.push({
@@ -259,7 +259,8 @@ function validateModules(
   }
 
   // Valider chaque module
-  Object.entries(modules).forEach(([key, module]: [string, any]) => {
+  Object.entries(modules).forEach(([key, mod]: [string, unknown]) => {
+    const module = mod as Record<string, unknown>;
     if (module.order !== undefined) {
       if (typeof module.order !== 'number' || module.order < 0) {
         errors.push({
@@ -371,7 +372,7 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
 /**
  * Validation rapide (seulement les erreurs critiques)
  */
-export function quickValidate(config: any): string[] {
+export function quickValidate(config: Record<string, unknown>): string[] {
   const errors: string[] = [];
 
   if (!config.branding?.siteName) {

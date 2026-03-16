@@ -2,10 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Media from '@/models/Media';
 import { verifyAccessToken } from '@/lib/auth';
-import { writeFile, mkdir } from 'fs/promises';
+import { writeFile, mkdir, unlink } from 'fs/promises';
 import path from 'path';
 
+function requireAdmin(request: NextRequest) {
+  const payload = verifyAccessToken(request);
+  if (!payload || (payload.role !== 'admin' && payload.role !== 'editor')) return null;
+  return payload;
+}
+
 export async function GET(request: NextRequest) {
+  if (!requireAdmin(request)) {
+    return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
+  }
   try {
     await connectDB();
     
@@ -50,15 +59,13 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const adminPayload = requireAdmin(request);
+  if (!adminPayload) {
+    return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
+  }
   try {
     await connectDB();
-    
-    // Vérification de l'auth simplifiée (TODO: implémenter verifyAccessToken)
-    const token = request.headers.get('authorization')?.split(' ')[1];
-    if (!token) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
-    }
-    
+
     const formData = await request.formData();
     const file = formData.get('file') as File;
     const folder = formData.get('folder') as string || '';
@@ -97,7 +104,7 @@ export async function POST(request: NextRequest) {
       url: `/uploads/${folder ? folder + '/' : ''}${filename}`,
       path: filepath,
       folder: folder || undefined,
-      // uploadedBy: user.id, // TODO: utiliser l'ID utilisateur vérifié
+      uploadedBy: adminPayload.userId,
     });
     
     await media.save();
@@ -110,29 +117,29 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  if (!requireAdmin(request)) {
+    return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
+  }
   try {
     await connectDB();
-    
-    // Vérification de l'auth simplifiée (TODO: implémenter verifyAccessToken)
-    const token = request.headers.get('authorization')?.split(' ')[1];
-    if (!token) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
-    }
-    
+
     const searchParams = request.nextUrl.searchParams;
     const id = searchParams.get('id');
-    
+
     if (!id) {
       return NextResponse.json({ error: 'ID requis' }, { status: 400 });
     }
-    
+
     const media = await Media.findByIdAndDelete(id);
     if (!media) {
       return NextResponse.json({ error: 'Média non trouvé' }, { status: 404 });
     }
-    
-    // TODO: Supprimer le fichier physique
-    
+
+    // Supprimer le fichier physique
+    if (media.path) {
+      try { await unlink(media.path); } catch { /* fichier déjà absent */ }
+    }
+
     return NextResponse.json({ message: 'Média supprimé' });
   } catch (error: any) {
     console.error('DELETE /api/admin/media error:', error);

@@ -4,17 +4,20 @@ import EventRegistration, { IEventRegistration } from '@/models/EventRegistratio
 import Event from '@/models/Event';
 import { verifyAccessToken } from '@/lib/auth';
 
+function requireAdmin(request: NextRequest) {
+  const payload = verifyAccessToken(request);
+  if (!payload || (payload.role !== 'admin' && payload.role !== 'editor')) return null;
+  return payload;
+}
+
 // GET - Liste des inscriptions
 export async function GET(request: NextRequest) {
+  if (!requireAdmin(request)) {
+    return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
+  }
   try {
     await connectDB();
-    
-    // Vérification de l'auth simplifiée (TODO: implémenter verifyAccessToken)
-    const token = request.headers.get('authorization')?.split(' ')[1];
-    if (!token) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
-    }
-    
+
     const searchParams = request.nextUrl.searchParams;
     const eventId = searchParams.get('eventId');
     const id = searchParams.get('id');
@@ -94,15 +97,13 @@ export async function GET(request: NextRequest) {
 
 // PATCH - Mettre à jour une inscription
 export async function PATCH(request: NextRequest) {
+  const adminPayload = requireAdmin(request);
+  if (!adminPayload) {
+    return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
+  }
   try {
     await connectDB();
-    
-    // Vérification de l'auth simplifiée (TODO: implémenter verifyAccessToken)
-    const token = request.headers.get('authorization')?.split(' ')[1];
-    if (!token) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
-    }
-    
+
     const searchParams = request.nextUrl.searchParams;
     const id = searchParams.get('id');
     
@@ -137,7 +138,7 @@ export async function PATCH(request: NextRequest) {
       });
     } else if (action === 'checkIn') {
       // @ts-expect-error - Mongoose instance method
-      registration.checkIn('system'); // TODO: utiliser l'ID utilisateur vérifié
+      registration.checkIn(adminPayload.userId);
       await registration.save();
       
       // Mettre à jour l'événement
@@ -159,15 +160,12 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE - Supprimer une inscription
 export async function DELETE(request: NextRequest) {
+  if (!requireAdmin(request)) {
+    return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
+  }
   try {
     await connectDB();
-    
-    // Vérification de l'auth simplifiée (TODO: implémenter verifyAccessToken)
-    const token = request.headers.get('authorization')?.split(' ')[1];
-    if (!token) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
-    }
-    
+
     const searchParams = request.nextUrl.searchParams;
     const id = searchParams.get('id');
     

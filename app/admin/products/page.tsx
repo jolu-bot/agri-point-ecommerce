@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import NextImage from 'next/image';
 import { 
   Plus, 
   Edit2, 
@@ -259,9 +260,12 @@ export default function ProductsPage() {
                       <div className="flex items-center">
                         <div className="w-10 h-10 bg-gray-200 dark:bg-gray-600 rounded-lg flex items-center justify-center overflow-hidden">
                           {product.images?.[0] ? (
-                            <img
+                            <NextImage
                               src={product.images[0]}
                               alt={product.name}
+                              width={40}
+                              height={40}
+                              unoptimized
                               className="w-full h-full object-cover"
                             />
                           ) : (
@@ -338,7 +342,7 @@ export default function ProductsPage() {
                           <Boxes className="w-5 h-5" />
                         </button>
                         <Link
-                          href={`/admin/products/${product._id}/edit`}
+                          href={`/admin/products/${product._id}`}
                           className="p-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
                           title="Modifier"
                         >

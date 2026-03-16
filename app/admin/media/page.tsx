@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import NextImage from 'next/image';
 import { Upload, Image, File, Video, Search, Trash2, Loader2, Plus } from 'lucide-react';
 
 export default function MediaManagerPage() {
@@ -136,8 +137,8 @@ export default function MediaManagerPage() {
             return (
               <div key={media._id} className="bg-white rounded-lg shadow-sm border overflow-hidden group">
                 {media.type === 'image' ? (
-                  <div className="aspect-square bg-gray-100 overflow-hidden">
-                    <img src={media.url} alt={media.alt || media.filename} className="w-full h-full object-cover" />
+                  <div className="aspect-square relative bg-gray-100 overflow-hidden">
+                    <NextImage src={media.url} alt={media.alt || media.filename} fill unoptimized className="object-cover" />
                   </div>
                 ) : (
                   <div className="aspect-square bg-gray-100 flex items-center justify-center">

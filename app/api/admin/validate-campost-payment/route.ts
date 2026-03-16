@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Order from '@/models/Order';
+import User from '@/models/User';
 import { verifyAccessToken } from '@/lib/auth';
+import { sendEmail } from '@/lib/email';
 
 export async function POST(req: NextRequest) {
   try {
@@ -63,8 +65,28 @@ export async function POST(req: NextRequest) {
 
     await order.save();
 
-    // TODO: Envoyer notification au client
-    // await sendCustomerNotification(order, approved);
+    // Envoyer notification au client
+    try {
+      const user = await User.findById(order.user).select('email firstName').lean() as { email?: string; firstName?: string } | null;
+      const email = user?.email;
+      if (email) {
+        const subject = approved
+          ? `✅ Paiement confirmé — Commande ${order.orderNumber}`
+          : `❌ Paiement refusé — Commande ${order.orderNumber}`;
+        const html = approved
+          ? `<p>Bonjour${user?.firstName ? ' ' + user.firstName : ''},</p>
+             <p>Votre paiement Campost pour la commande <strong>${order.orderNumber}</strong> a été <strong>validé</strong>. Votre commande est en cours de traitement.</p>
+             ${validationNotes ? `<p>Note : ${validationNotes}</p>` : ''}
+             <p>Merci de votre confiance.<br>AGRI POINT SERVICES SARL</p>`
+          : `<p>Bonjour${user?.firstName ? ' ' + user.firstName : ''},</p>
+             <p>Votre paiement Campost pour la commande <strong>${order.orderNumber}</strong> a été <strong>refusé</strong>.</p>
+             ${validationNotes ? `<p>Motif : ${validationNotes}</p>` : ''}
+             <p>Veuillez nous contacter au +237 651 92 09 20 pour toute question.<br>AGRI POINT SERVICES SARL</p>`;
+        await sendEmail({ to: email, subject, html });
+      }
+    } catch (notifErr) {
+      console.error('Erreur notification client:', notifErr);
+    }
 
     return NextResponse.json({
       success: true,

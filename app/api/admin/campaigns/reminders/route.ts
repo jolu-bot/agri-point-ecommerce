@@ -9,6 +9,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Order from '@/models/Order';
+import { sendEmail } from '@/lib/email';
 
 // Date limite officielle 2ème tranche
 const SECOND_TRANCHE_DUE = new Date('2026-04-30T23:59:59');
@@ -136,9 +137,21 @@ export async function POST(req: Request) {
       const recipient = channel === 'email' ? email : phone;
 
       if (recipient) {
-        // TODO: intégrer le vrai fournisseur SMS/email ici
-        console.log(`[RAPPEL ${channel.toUpperCase()}] → ${recipient} : ${finalMessage}`);
-        sent.push(order._id.toString());
+        try {
+          if (channel === 'email') {
+            await sendEmail({
+              to: recipient,
+              subject: 'Rappel paiement — AGRI POINT SERVICES',
+              html: `<p>${finalMessage.replace(/\n/g, '<br>')}</p>`,
+            });
+          } else {
+            // SMS — log en attendant intégration Infobip/OrangeSMS/MTN
+            console.log(`[RAPPEL SMS] → ${recipient} : ${finalMessage}`);
+          }
+          sent.push(order._id.toString());
+        } catch {
+          failed.push(order._id.toString());
+        }
       } else {
         failed.push(order._id.toString());
       }
