@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   MessageCircle, X, Send, ThumbsUp, ThumbsDown, RotateCcw,
   Loader2, Maximize2, Minimize2, Mic, MicOff,
-  ChevronDown, ShoppingCart, Sparkles,
+  ChevronDown, ChevronUp, ShoppingCart, Sparkles,
   UserCircle2, Volume2, Image,
   ExternalLink, Globe,
   SaveAll, Download, History, MapPin, Share2, Trash2,
@@ -151,8 +151,9 @@ export default function AgriBot() {
   // Return focus to the FAB when the dialog is closed (WCAG 2.1 § 3.2.2)
   const fabRef  = useRef<HTMLButtonElement>(null);
   const wasOpen = useRef(false);
+  const [isMinimized, setIsMinimized] = useState(false);
   useEffect(() => {
-    if (wasOpen.current && !isOpen) fabRef.current?.focus();
+    if (wasOpen.current && !isOpen) { fabRef.current?.focus(); setIsMinimized(false); }
     wasOpen.current = isOpen;
   }, [isOpen]);
 
@@ -171,8 +172,8 @@ export default function AgriBot() {
   }, [messages.length, isStreaming, messagesEndRef]);
 
   const chatClass = isFullscreen
-    ? 'fixed inset-4 sm:inset-8 z-50 rounded-3xl'
-    : 'fixed bottom-24 right-4 sm:right-6 z-50 w-[23rem] sm:w-[27rem] h-[660px] rounded-3xl';
+    ? 'fixed inset-2 sm:inset-8 z-[55] rounded-3xl'
+    : 'fixed z-[55] rounded-t-3xl sm:rounded-3xl bottom-0 inset-x-0 h-[92dvh] sm:h-[660px] sm:bottom-24 sm:right-6 sm:left-auto sm:w-[27rem]';
 
   const optionsItems = [
     { icon: <SaveAll className="w-3.5 h-3.5" />,  label: t.options.save,      action: () => { saveCurrentConversation(); setShowOptionsMenu(false); } },
@@ -185,45 +186,51 @@ export default function AgriBot() {
 
   return (
     <>
-      {/* ══ BOUTON FLOTTANT (FAB) ══ */}
+      {/* ══ BOUTON FLOTTANT (FAB) — pill premium ══ */}
       <motion.button
         ref={fabRef}
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
+        initial={{ scale: 0, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
         transition={{ delay: 1.4, type: 'spring', stiffness: 260, damping: 20 }}
-        onClick={() => setIsOpen(o => !o)}
-        className={`fixed bottom-6 right-4 sm:right-6 z-50 w-16 h-16 rounded-2xl
-          bg-gradient-to-br from-green-500 via-green-600 to-emerald-700
-          text-white shadow-[0_8px_32px_rgba(22,163,74,0.45),0_2px_8px_rgba(0,0,0,0.2)]
-          hover:shadow-[0_12px_40px_rgba(22,163,74,0.55),0_4px_12px_rgba(0,0,0,0.25)]
-          hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center relative
-          ${isPulsingPage && !isOpen ? 'ring-2 ring-green-300/80 ring-offset-2' : ''}`}
+        onClick={() => { setIsOpen(o => !o); setIsMinimized(false); }}
+        className={`fixed z-[60] right-4 sm:right-6
+          bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))]
+          flex items-center gap-2 h-[52px] transition-all duration-300
+          ${isOpen
+            ? 'w-[52px] justify-center rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 shadow-[0_6px_28px_rgba(0,0,0,0.45)]'
+            : `px-4 rounded-full bg-gradient-to-r from-green-600 via-emerald-500 to-green-600
+               shadow-[0_8px_32px_rgba(22,163,74,0.55),0_2px_8px_rgba(0,0,0,0.25)]
+               hover:shadow-[0_12px_44px_rgba(22,163,74,0.65),0_4px_12px_rgba(0,0,0,0.3)]
+               ${isPulsingPage ? 'ring-2 ring-green-300/70 ring-offset-2' : ''}`
+          }
+          text-white hover:scale-105 active:scale-95 relative overflow-hidden`}
         aria-label={isOpen ? t.fab.ariaClose : t.fab.ariaOpen}
         aria-expanded={isOpen}
         aria-haspopup="dialog"
       >
-        {/* Animated glow rings when pulsing */}
         {isPulsingPage && !isOpen && (
           <>
-            <span className="absolute inset-0 rounded-2xl bg-green-400/30 animate-ping" aria-hidden />
-            <span className="absolute -inset-1 rounded-[18px] border border-green-400/40 animate-pulse" aria-hidden />
+            <span className="absolute inset-0 rounded-full bg-green-400/20 animate-ping" aria-hidden />
+            <span className="absolute -inset-1 rounded-full border border-green-400/30 animate-pulse" aria-hidden />
           </>
         )}
-        {/* Inner glow */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/20 to-transparent" aria-hidden />
+        {/* Inner highlight */}
+        {!isOpen && <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent pointer-events-none" aria-hidden />}
 
-        {/* Icon swap */}
+        {/* Content */}
         <AnimatePresence mode="wait">
           {isOpen
             ? <motion.span key="x" initial={{ rotate: -90, opacity: 0, scale: 0.5 }} animate={{ rotate: 0, opacity: 1, scale: 1 }} exit={{ rotate: 90, opacity: 0, scale: 0.5 }} transition={{ duration: 0.18 }}>
-                <X className="w-6 h-6 relative z-10" aria-hidden />
+                <X className="w-5 h-5 relative z-10" aria-hidden />
               </motion.span>
-            : <motion.span key="bot" initial={{ rotate: 90, opacity: 0, scale: 0.5 }} animate={{ rotate: 0, opacity: 1, scale: 1 }} exit={{ rotate: -90, opacity: 0, scale: 0.5 }} transition={{ duration: 0.18 }}>
-                {/* Leaf/bot custom SVG icon */}
-                <svg viewBox="0 0 24 24" className="w-7 h-7 relative z-10 fill-white" aria-hidden>
+            : <motion.span key="bot" initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.85 }} transition={{ duration: 0.18 }} className="flex items-center gap-2 relative z-10">
+                {/* Bot leaf icon */}
+                <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white flex-shrink-0" aria-hidden>
                   <path d="M17 8C8 10 5.9 16.17 3.82 19.6c-.45.77.58 1.57 1.15.95C7 18.38 9.9 17 17 17v3l4-4-4-4v2z"/>
-                  <circle cx="8" cy="12" r="1.5" opacity="0.7"/>
+                  <circle cx="8" cy="12" r="1.3" opacity="0.7"/>
                 </svg>
+                <span className="text-[13px] font-extrabold tracking-wide leading-none">AgriBot</span>
+                <span className="text-[8px] font-black bg-white/25 border border-white/30 rounded-full px-1.5 py-0.5 tracking-widest text-white leading-none">IA</span>
               </motion.span>
           }
         </AnimatePresence>
@@ -232,7 +239,7 @@ export default function AgriBot() {
         {!isOpen && unreadCount > 0 && (
           <motion.span
             initial={{ scale: 0 }} animate={{ scale: 1 }}
-            className="absolute -top-1.5 -right-1.5 min-w-[22px] h-[22px] px-1 bg-red-500 text-white text-[10px] font-black rounded-full flex items-center justify-center shadow-lg border-2 border-white"
+            className="absolute -top-1.5 -right-1.5 min-w-[20px] h-[20px] px-1 bg-red-500 text-white text-[10px] font-black rounded-full flex items-center justify-center shadow-lg border-2 border-white"
             aria-label={`${unreadCount} ${locale === 'en' ? 'new messages' : 'nouveaux messages'}`}
           >
             {unreadCount > 9 ? '9+' : unreadCount}
@@ -240,23 +247,69 @@ export default function AgriBot() {
         )}
 
         {/* Online status dot */}
-        <span className={`absolute bottom-1 right-1 w-3 h-3 rounded-full border-2 border-white shadow-sm ${
-          agent.status === 'online' ? 'bg-emerald-400' : agent.status === 'away' ? 'bg-amber-400' : 'bg-gray-400'
-        }`} aria-hidden />
+        {!isOpen && (
+          <span className={`absolute bottom-1.5 right-1.5 w-2.5 h-2.5 rounded-full border-2 border-white shadow-sm ${
+            agent.status === 'online' ? 'bg-emerald-400' : agent.status === 'away' ? 'bg-amber-400' : 'bg-gray-400'
+          }`} aria-hidden />
+        )}
       </motion.button>
+
+      {/* ══ BULLE MINIMISÉE — chat actif mais réduit ══ */}
+      <AnimatePresence>
+        {isOpen && isMinimized && (
+          <motion.button
+            key="minimized-pill"
+            initial={{ opacity: 0, y: 16, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.9 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+            onClick={() => setIsMinimized(false)}
+            className="fixed z-[55] right-4 sm:right-6
+              bottom-[calc(5rem+env(safe-area-inset-bottom,0px))]
+              flex items-center gap-2.5 h-11 px-4 rounded-2xl
+              bg-gradient-to-br from-gray-950 to-gray-900 dark:from-gray-800 dark:to-gray-900
+              border border-green-500/40 text-white
+              shadow-[0_8px_32px_rgba(0,0,0,0.5),0_2px_8px_rgba(22,163,74,0.25)]
+              hover:border-green-400/60 hover:shadow-[0_12px_40px_rgba(0,0,0,0.55),0_2px_8px_rgba(22,163,74,0.35)]
+              transition-all duration-200 active:scale-95"
+            aria-label={locale === 'en' ? 'Expand AgriBot chat' : 'Agrandir le chat AgriBot'}
+          >
+            <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
+              agent.status === 'online' ? 'bg-emerald-400 animate-pulse' : 'bg-gray-500'
+            }`} aria-hidden />
+            <svg viewBox="0 0 24 24" className="w-4 h-4 fill-white/80 flex-shrink-0" aria-hidden>
+              <path d="M17 8C8 10 5.9 16.17 3.82 19.6c-.45.77.58 1.57 1.15.95C7 18.38 9.9 17 17 17v3l4-4-4-4v2z"/>
+            </svg>
+            <span className="text-[12px] font-bold tracking-wide text-white/90">AgriBot</span>
+            {messages.length > 0 && (
+              <span className="text-[10px] text-green-400 font-semibold">{messages.length} msg</span>
+            )}
+            <ChevronUp className="w-3.5 h-3.5 text-green-400 ml-0.5" aria-hidden />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* ══ FENÊTRE DE CHAT ══ */}
       <AnimatePresence>
-        {isOpen && (
+        {isOpen && !isMinimized && (
+          <>
+            {/* Backdrop mobile — tap outside to minimize */}
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-[50] sm:hidden"
+              onClick={() => setIsMinimized(true)}
+              aria-hidden
+            />
           <motion.div
             key="chatwindow"
             role="dialog"
             aria-label={t.header.name}
             aria-modal="true"
             aria-labelledby="agribot-title"
-            initial={{ opacity: 0, y: 20, scale: 0.94 }}
+            initial={{ opacity: 0, y: 20, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.94 }}
+            exit={{ opacity: 0, y: 20, scale: 0.97 }}
             transition={{ type: 'spring', stiffness: 340, damping: 32 }}
             className={`${chatClass} flex flex-col overflow-hidden
               bg-white/95 dark:bg-gray-950/98 backdrop-blur-2xl
@@ -265,6 +318,10 @@ export default function AgriBot() {
           >
             {/* ── HEADER ── */}
             <div className="relative shrink-0 bg-gradient-to-br from-gray-900 via-green-900 to-emerald-800 overflow-hidden">
+              {/* Drag handle — visible on mobile */}
+              <div className="sm:hidden flex justify-center pt-2.5 pb-0.5" onClick={() => setIsMinimized(true)} aria-hidden>
+                <div className="w-10 h-1 rounded-full bg-white/25" />
+              </div>
               {/* Decorative noise/mesh */}
               <div className="absolute inset-0 opacity-30 agribot-header-noise" aria-hidden />
               <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-green-400/30 to-transparent" aria-hidden />
@@ -311,6 +368,22 @@ export default function AgriBot() {
                       {icon}
                     </button>
                   ))}
+                  {/* Minimize to bubble */}
+                  <button
+                    onClick={() => setIsMinimized(true)}
+                    aria-label={locale === 'en' ? 'Minimize chat' : 'Réduire le chat'}
+                    className="w-8 h-8 rounded-xl bg-white/10 hover:bg-amber-400/20 flex items-center justify-center text-white/80 hover:text-amber-300 transition-all duration-200 active:scale-90"
+                  >
+                    <ChevronDown className="w-3.5 h-3.5" />
+                  </button>
+                  {/* Close chat */}
+                  <button
+                    onClick={() => { setIsOpen(false); setIsMinimized(false); }}
+                    aria-label={locale === 'en' ? 'Close chat' : 'Fermer le chat'}
+                    className="w-8 h-8 rounded-xl bg-white/10 hover:bg-red-500/25 flex items-center justify-center text-white/80 hover:text-red-300 transition-all duration-200 active:scale-90 ml-0.5"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
 
@@ -738,10 +811,9 @@ export default function AgriBot() {
               </p>
             </div>
           </motion.div>
+          </>
         )}
       </AnimatePresence>
-
-      {/* ══ INPUT FICHIER CACHÉ ══ */}
       <input
         ref={imageInputRef}
         type="file"

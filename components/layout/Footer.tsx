@@ -58,24 +58,24 @@ export default function Footer() {
 
       {/* PRE-FOOTER — Bande d'impact */}
       <div className="relative z-10 border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10 flex flex-col sm:flex-row items-center justify-between gap-4 md:gap-6">
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-emerald-500 font-semibold mb-1">{T.footer.impactTag}</p>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">
+            <h2 className="text-xl md:text-3xl font-extrabold text-white leading-tight">
               {T.footer.impactTitle} <span className="whitespace-nowrap">{T.footer.impactTitleEnd}</span>
             </h2>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
+          <div className="flex flex-row gap-2 flex-shrink-0 w-full sm:w-auto">
             <Link
               href="/produits"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition-all duration-200 shadow-lg shadow-emerald-900/40 hover:-translate-y-0.5"
+              className="group flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition-all duration-200 shadow-lg shadow-emerald-900/40 hover:-translate-y-0.5"
             >
               {T.footer.discoverOffers}
-              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-white/10 hover:border-emerald-600/50 text-gray-300 hover:text-white font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5 bg-white/5 hover:bg-white/10"
+              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl border border-white/10 hover:border-emerald-600/50 text-gray-300 hover:text-white font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5 bg-white/5 hover:bg-white/10"
             >
               {T.footer.contactUs}
             </Link>
@@ -84,23 +84,23 @@ export default function Footer() {
       </div>
 
       {/* CORPS PRINCIPAL */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-14">
+        <div className="grid grid-cols-2 gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-8">
 
-          {/* Brand col (4/12) */}
-          <div className="lg:col-span-4">
-            <Link href="/" className="inline-block group mb-5">
+          {/* Brand col — full width on mobile */}
+          <div className="col-span-2 lg:col-span-4">
+            <Link href="/" className="inline-block group mb-3 md:mb-5">
               <Image
                 src="/images/logo.png"
                 alt="AGRIPOINT SERVICES SAS — Logo officiel"
                 width={1280}
                 height={1012}
-                className="h-[110px] w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-lg"
+                className="h-[72px] sm:h-[90px] lg:h-[110px] w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-lg"
                 priority
               />
             </Link>
 
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-700/30 mb-5">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-700/30 mb-3 md:mb-5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
               <span className="text-[11px] font-semibold text-emerald-300 tracking-wide whitespace-nowrap">
                 {T.footer.badge}
@@ -110,13 +110,13 @@ export default function Footer() {
             <p className="text-[13px] text-gray-500 leading-relaxed mb-3 max-w-xs">
               {T.footer.partner}
             </p>
-            <p className="text-[12px] font-semibold text-emerald-500 italic mb-6">
+            <p className="text-[12px] font-semibold text-emerald-500 italic mb-4 md:mb-6">
               {T.footer.tagline}
             </p>
 
-            <div className="h-px w-full bg-gradient-to-r from-emerald-700/40 via-gray-700/20 to-transparent mb-6" />
+            <div className="h-px w-full bg-gradient-to-r from-emerald-700/40 via-gray-700/20 to-transparent mb-4 md:mb-6" />
 
-            <div className="flex gap-2 mb-6">
+            <div className="flex gap-2 mb-4 md:mb-6">
               {socials.map(({ icon: Icon, label, href, color }) => (
                 <a key={label} href={href} aria-label={label}
                   className={`w-9 h-9 flex items-center justify-center rounded-lg bg-white/5 border border-white/[0.08] text-gray-500 hover:text-white transition-all duration-200 hover:scale-110 hover:border-transparent ${color}`}>
@@ -125,7 +125,7 @@ export default function Footer() {
               ))}
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/5 border border-white/[0.08]">
                 <Leaf className="w-3 h-3 text-emerald-500 flex-shrink-0" />
                 <span className="text-[10px] text-gray-400 font-medium tracking-wide">{T.footer.agriDurable}</span>
@@ -137,15 +137,15 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Services col (2/12) */}
-          <div className="lg:col-span-2">
-            <h4 className="text-[11px] uppercase tracking-[0.2em] text-emerald-500 font-bold mb-5 flex items-center gap-2">
+          {/* Services col */}
+          <div className="col-span-1 lg:col-span-2">
+            <h4 className="text-[11px] uppercase tracking-[0.2em] text-emerald-500 font-bold mb-3 md:mb-5 flex items-center gap-2">
               <span className="w-4 h-px bg-emerald-600 inline-block" />{T.footer.colServices}
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-2">
               {footerLinks.solutions.map(({ label, href }) => (
                 <li key={href}>
-                  <Link href={href} className="group text-[13px] text-gray-500 hover:text-white transition-colors duration-150 flex items-center gap-2 cursor-pointer">
+                  <Link href={href} className="group text-[12px] md:text-[13px] text-gray-500 hover:text-white transition-colors duration-150 flex items-center gap-2 cursor-pointer">
                     <span className="w-0 h-px bg-emerald-500 group-hover:w-3 transition-all duration-200 flex-shrink-0" />
                     {label}
                   </Link>
@@ -154,15 +154,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Boutique col (2/12) */}
-          <div className="lg:col-span-2">
-            <h4 className="text-[11px] uppercase tracking-[0.2em] text-emerald-500 font-bold mb-5 flex items-center gap-2">
+          {/* Boutique col */}
+          <div className="col-span-1 lg:col-span-2">
+            <h4 className="text-[11px] uppercase tracking-[0.2em] text-emerald-500 font-bold mb-3 md:mb-5 flex items-center gap-2">
               <span className="w-4 h-px bg-emerald-600 inline-block" />{T.footer.colOffers}
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-2">
               {footerLinks.boutique.map(({ label, href }) => (
                 <li key={href}>
-                  <Link href={href} className="group text-[13px] text-gray-500 hover:text-white transition-colors duration-150 flex items-center gap-2 cursor-pointer">
+                  <Link href={href} className="group text-[12px] md:text-[13px] text-gray-500 hover:text-white transition-colors duration-150 flex items-center gap-2 cursor-pointer">
                     <span className="w-0 h-px bg-emerald-500 group-hover:w-3 transition-all duration-200 flex-shrink-0" />
                     {label}
                   </Link>
@@ -171,16 +171,16 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact col (4/12) */}
-          <div className="lg:col-span-4">
-            <h4 className="text-[11px] uppercase tracking-[0.2em] text-emerald-500 font-bold mb-5 flex items-center gap-2">
+          {/* Contact col — full width on mobile */}
+          <div className="col-span-2 lg:col-span-4">
+            <h4 className="text-[11px] uppercase tracking-[0.2em] text-emerald-500 font-bold mb-3 md:mb-5 flex items-center gap-2">
               <span className="w-4 h-px bg-emerald-600 inline-block" />{T.footer.colContact}
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2 md:space-y-3">
               <li>
                 <a href="https://maps.google.com/?q=Quartier+Fouda+Yaoundé+Cameroun" target="_blank" rel="noopener noreferrer"
-                  className="group flex items-start gap-3 p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-emerald-700/30 transition-all duration-200">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-950/60 border border-emerald-800/40 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  className="group flex items-start gap-3 p-2.5 md:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-emerald-700/30 transition-all duration-200">
+                  <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-emerald-950/60 border border-emerald-800/40 flex items-center justify-center flex-shrink-0 mt-0.5">
                     <MapPin className="w-3.5 h-3.5 text-emerald-400" />
                   </div>
                   <div>
@@ -189,8 +189,8 @@ export default function Footer() {
                   </div>
                 </a>
               </li>
-              <li className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/5">
-                <div className="w-8 h-8 rounded-lg bg-emerald-950/60 border border-emerald-800/40 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <li className="flex items-start gap-3 p-2.5 md:p-3 rounded-xl bg-white/[0.03] border border-white/5">
+                <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-emerald-950/60 border border-emerald-800/40 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Phone className="w-3.5 h-3.5 text-emerald-400" />
                 </div>
                 <div className="flex flex-col gap-0.5">
@@ -200,8 +200,8 @@ export default function Footer() {
               </li>
               <li>
                 <a href="https://wa.me/237657393939" target="_blank" rel="noopener noreferrer"
-                  className="group flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] hover:bg-[#25D36620] border border-white/5 hover:border-[#25D366]/30 transition-all duration-200">
-                  <div className="w-8 h-8 rounded-lg bg-[#25D366]/10 border border-[#25D366]/20 group-hover:bg-[#25D366]/20 flex items-center justify-center flex-shrink-0 transition-all">
+                  className="group flex items-center gap-3 p-2.5 md:p-3 rounded-xl bg-white/[0.03] hover:bg-[#25D36620] border border-white/5 hover:border-[#25D366]/30 transition-all duration-200">
+                  <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-[#25D366]/10 border border-[#25D366]/20 group-hover:bg-[#25D366]/20 flex items-center justify-center flex-shrink-0 transition-all">
                     <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
                   </div>
                   <div>
@@ -212,8 +212,8 @@ export default function Footer() {
               </li>
               <li>
                 <a href="mailto:infos@agri-ps.com"
-                  className="group flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-emerald-700/30 transition-all duration-200">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-950/60 border border-emerald-800/40 flex items-center justify-center flex-shrink-0">
+                  className="group flex items-center gap-3 p-2.5 md:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-emerald-700/30 transition-all duration-200">
+                  <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-emerald-950/60 border border-emerald-800/40 flex items-center justify-center flex-shrink-0">
                     <Mail className="w-3.5 h-3.5 text-emerald-400" />
                   </div>
                   <span className="text-[12px] font-semibold text-gray-300 group-hover:text-emerald-400 transition-colors">infos@agri-ps.com</span>
@@ -228,10 +228,10 @@ export default function Footer() {
       {/* BOTTOM BAR */}
       <div className="relative z-10 border-t border-white/[0.06]">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-700/50 to-transparent" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
-              <p className="text-[11px] text-gray-600 whitespace-nowrap">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-5">
+              <p className="text-[11px] text-gray-600 whitespace-nowrap text-center sm:text-left">
                 © {currentYear} <span className="text-gray-500 font-medium">AGRIPOINT SERVICES SAS</span> — {T.footer.copyright}
               </p>
               <span className="hidden sm:block w-px h-3 bg-gray-700" />
@@ -241,9 +241,9 @@ export default function Footer() {
                 <ArrowUpRight className="w-2.5 h-2.5 opacity-0 group-hover:opacity-100 transition-opacity" />
               </a>
             </div>
-            <div className="flex items-center gap-5">
+            <div className="flex flex-wrap items-center justify-center sm:justify-end gap-3 sm:gap-5">
               {legalLinks.map(({ label, href }) => (
-                <Link key={href} href={href} className="text-[11px] text-gray-600 hover:text-gray-300 transition-colors whitespace-nowrap">{label}</Link>
+                <Link key={href} href={href} className="text-[10px] sm:text-[11px] text-gray-600 hover:text-gray-300 transition-colors whitespace-nowrap">{label}</Link>
               ))}
             </div>
           </div>

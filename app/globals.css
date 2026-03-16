@@ -1449,3 +1449,116 @@ input, textarea, select {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
 }
+
+/* ══════════════════════════════════════════════════
+   RESPONSIVE GLOBAL — Améliorations multi-plateformes
+   ══════════════════════════════════════════════════ */
+
+/* Marge de dégagement sous le FAB AgriBot sur mobile */
+@media (max-width: 639px) {
+  .fab-clearance {
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Scroll offset pour header sticky */
+html {
+  scroll-padding-top: 80px;
+}
+@media (min-width: 1024px) {
+  html { scroll-padding-top: 96px; }
+}
+
+/* Safe area support iOS — insets appliqués au body */
+body {
+  padding-left:   env(safe-area-inset-left,   0px);
+  padding-right:  env(safe-area-inset-right,  0px);
+}
+
+/* Overscroll naturel sur mobile */
+@media (max-width: 639px) {
+  html, body {
+    overscroll-behavior-y: contain;
+  }
+}
+
+/* ──────────────────────────────────────
+   Touch targets améliorés sur mobile
+   ────────────────────────────────────── */
+@media (hover: none) and (pointer: coarse) {
+  /* Formulaires : inputs plus hauts */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  select,
+  textarea {
+    min-height: 48px;
+    font-size: 16px; /* Empêche le zoom iOS */
+  }
+  /* Ensures checkbox/radio are tappable */
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-width: 20px;
+    min-height: 20px;
+  }
+}
+
+/* ──────────────────────────────────────
+   Utilitaires de section responsive
+   ────────────────────────────────────── */
+.section-sm   { padding-top: clamp(1.5rem, 4vw, 3rem);    padding-bottom: clamp(1.5rem, 4vw, 3rem); }
+.section-md   { padding-top: clamp(2.5rem, 6vw, 5rem);    padding-bottom: clamp(2.5rem, 6vw, 5rem); }
+.section-lg   { padding-top: clamp(3rem,   8vw, 7rem);    padding-bottom: clamp(3rem,   8vw, 7rem); }
+.section-hero { padding-top: clamp(3.5rem, 10vw, 9rem);   padding-bottom: clamp(3.5rem, 10vw, 9rem); }
+
+/* Container max-width responsive */
+.container-responsive {
+  width: 100%;
+  margin-left:  auto;
+  margin-right: auto;
+  padding-left:  clamp(1rem, 4vw, 2rem);
+  padding-right: clamp(1rem, 4vw, 2rem);
+  max-width: min(100%, 1280px);
+}
+
+/* ──────────────────────────────────────
+   Grilles adaptatives mobiles
+   ────────────────────────────────────── */
+/* 2 cols mobile → 3 tablette → 4 desktop */
+.auto-grid-4 {
+  display: grid;
+  gap: clamp(0.75rem, 2.5vw, 1.5rem);
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 768px)  { .auto-grid-4 { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1024px) { .auto-grid-4 { grid-template-columns: repeat(4, 1fr); } }
+
+/* 1 → 2 → 3 */
+.auto-grid-3 {
+  display: grid;
+  gap: clamp(0.75rem, 2.5vw, 1.5rem);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px)  { .auto-grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .auto-grid-3 { grid-template-columns: repeat(3, 1fr); } }
+
+/* ──────────────────────────────────────
+   Tablette 640–1023px — ajustements ciblés
+   ────────────────────────────────────── */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .hero-title, .display-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+}
+
+/* ──────────────────────────────────────
+   Grand écran 1536px+ — mise en scène large
+   ────────────────────────────────────── */
+@media (min-width: 1536px) {
+  body { font-size: 1.0625rem; }
+  .section-md   { padding-top: 6rem; padding-bottom: 6rem; }
+  .section-lg   { padding-top: 8rem; padding-bottom: 8rem; }
+  .section-hero { padding-top: 10rem; padding-bottom: 10rem; }
+}
