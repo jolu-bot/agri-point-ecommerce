@@ -110,7 +110,6 @@ export default function Newsletter() {
                         placeholder={T.newsletter.placeholder}
                         required
                         className="w-full pl-11 pr-4 py-3 md:py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 focus:bg-white/15 transition-all text-sm md:text-base"
-                        style={{ fontSize: '16px' }}
                       />
                     </div>
                     <button

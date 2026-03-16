@@ -245,7 +245,6 @@ function LoginForm() {
                     required
                     placeholder="votre@email.com"
                     autoComplete="email"
-                    style={{ fontSize: '16px' }}
                     className="w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all text-sm"
                   />
                 </div>
@@ -265,7 +264,6 @@ function LoginForm() {
                     required
                     placeholder="••••••••"
                     autoComplete="current-password"
-                    style={{ fontSize: '16px' }}
                     className="w-full pl-11 pr-12 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all text-sm"
                   />
                   <button
