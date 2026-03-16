@@ -176,12 +176,14 @@ export default function AgriBot() {
     : 'fixed z-[55] rounded-t-3xl sm:rounded-3xl bottom-0 inset-x-0 h-[92dvh] sm:h-[660px] sm:bottom-24 sm:right-6 sm:left-auto sm:w-[27rem]';
 
   const optionsItems = [
-    { icon: <SaveAll className="w-3.5 h-3.5" />,  label: t.options.save,      action: () => { saveCurrentConversation(); setShowOptionsMenu(false); } },
-    { icon: <History className="w-3.5 h-3.5" />,  label: t.options.history,   action: () => { setShowHistoryPanel(h => !h); setShowOptionsMenu(false); } },
-    { icon: <Download className="w-3.5 h-3.5" />, label: t.options.exportTxt, action: () => { exportTxt(); setShowOptionsMenu(false); } },
-    { icon: <Copy className="w-3.5 h-3.5" />,     label: t.options.copyAll,   action: () => { copyAllMessages(); setShowOptionsMenu(false); } },
-    { icon: <Mail className="w-3.5 h-3.5" />,     label: t.options.byEmail,   action: () => { sendEmailSummary(); setShowOptionsMenu(false); } },
-    { icon: <Share2 className="w-3.5 h-3.5" />,   label: 'WhatsApp',          action: () => { shareWhatsApp(); setShowOptionsMenu(false); } },
+    { icon: <MapPin className="w-3.5 h-3.5" />,  label: locale === 'en' ? 'Location'  : 'Localisation', action: () => { setShowLocationModal(true);      setShowOptionsMenu(false); } },
+    { icon: <Map className="w-3.5 h-3.5" />,      label: locale === 'en' ? 'Map'       : 'Carte',        action: () => { setShowDistributorsModal(true);  setShowOptionsMenu(false); } },
+    { icon: <SaveAll className="w-3.5 h-3.5" />,  label: t.options.save,                    action: () => { saveCurrentConversation();        setShowOptionsMenu(false); } },
+    { icon: <History className="w-3.5 h-3.5" />,  label: t.options.history,                 action: () => { setShowHistoryPanel(h => !h);    setShowOptionsMenu(false); } },
+    { icon: <Download className="w-3.5 h-3.5" />, label: t.options.exportTxt,               action: () => { exportTxt();                     setShowOptionsMenu(false); } },
+    { icon: <Copy className="w-3.5 h-3.5" />,     label: t.options.copyAll,                 action: () => { copyAllMessages();               setShowOptionsMenu(false); } },
+    { icon: <Mail className="w-3.5 h-3.5" />,     label: t.options.byEmail,                 action: () => { sendEmailSummary();              setShowOptionsMenu(false); } },
+    { icon: <Share2 className="w-3.5 h-3.5" />,   label: 'WhatsApp',                        action: () => { shareWhatsApp();                 setShowOptionsMenu(false); } },
   ];
 
   return (
@@ -324,7 +326,7 @@ export default function AgriBot() {
             <div className="relative shrink-0 bg-gradient-to-br from-gray-900 via-green-900 to-emerald-800 overflow-hidden">
               {/* Drag handle — visible on mobile */}
               <div className="sm:hidden flex justify-center pt-2.5 pb-0.5" onClick={() => setIsMinimized(true)} aria-hidden>
-                <div className="w-10 h-1 rounded-full bg-white/25" />
+                <div className="w-12 h-1.5 rounded-full bg-white/40" />
               </div>
               {/* Decorative noise/mesh */}
               <div className="absolute inset-0 opacity-30 agribot-header-noise" aria-hidden />
@@ -361,14 +363,14 @@ export default function AgriBot() {
                 {/* Header action buttons */}
                 <div className="flex items-center gap-1 shrink-0">
                   {[
-                    { icon: <MapPin className="w-3.5 h-3.5" />,                                                                           action: () => setShowLocationModal(true),                                  label: t.header.locationAria },
-                    { icon: <Map className="w-3.5 h-3.5" />,                                                                               action: () => setShowDistributorsModal(true),                              label: t.header.mapAria },
-                    { icon: <Settings className="w-3.5 h-3.5" />,                                                                          action: () => { setShowOptionsMenu(o => !o); setShowHistoryPanel(false); }, label: t.header.optionsAria },
-                    { icon: isFullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />,                action: () => setIsFullscreen(f => !f),                                   label: isFullscreen ? t.header.minimize : t.header.fullscreen },
-                    { icon: <RotateCcw className="w-3.5 h-3.5" />,                                                                         action: resetChat,                                                         label: t.header.resetTitle },
-                  ].map(({ icon, action, label }) => (
+                    { icon: <MapPin className="w-3.5 h-3.5" />,                                                                           action: () => setShowLocationModal(true),                                  label: t.header.locationAria,                              sm: true },
+                    { icon: <Map className="w-3.5 h-3.5" />,                                                                               action: () => setShowDistributorsModal(true),                              label: t.header.mapAria,                                   sm: true },
+                    { icon: <Settings className="w-3.5 h-3.5" />,                                                                          action: () => { setShowOptionsMenu(o => !o); setShowHistoryPanel(false); }, label: t.header.optionsAria,                             sm: false },
+                    { icon: isFullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />,                action: () => setIsFullscreen(f => !f),                                   label: isFullscreen ? t.header.minimize : t.header.fullscreen, sm: true },
+                    { icon: <RotateCcw className="w-3.5 h-3.5" />,                                                                         action: resetChat,                                                         label: t.header.resetTitle,                                sm: true },
+                  ].map(({ icon, action, label, sm }) => (
                     <button key={label} onClick={action} aria-label={label}
-                      className="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80 hover:text-white transition-all duration-200 active:scale-90">
+                      className={`${sm ? 'hidden sm:flex' : 'flex'} w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 items-center justify-center text-white/80 hover:text-white transition-all duration-200 active:scale-90`}>
                       {icon}
                     </button>
                   ))}
@@ -713,7 +715,7 @@ export default function AgriBot() {
             </div>
 
             {/* ── INPUT ── */}
-            <div className="border-t border-gray-100/80 dark:border-gray-800 px-3 py-3 shrink-0 bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm">
+            <div className="border-t border-gray-100/80 dark:border-gray-800 px-3 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] sm:pb-3 shrink-0 bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm">
               {/* Image preview */}
               <AnimatePresence>
                 {imagePreview && (
@@ -782,7 +784,7 @@ export default function AgriBot() {
                     disabled={isStreaming}
                     maxLength={500}
                     aria-label={t.input.placeholder}
-                    className="w-full px-4 py-2.5 text-[13px] rounded-2xl border border-gray-200 dark:border-gray-700 focus:border-green-400 dark:focus:border-green-500 focus:ring-2 focus:ring-green-400/30 dark:focus:ring-green-500/20 bg-gray-50 dark:bg-gray-800/80 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 disabled:opacity-50 outline-none transition-all duration-200"
+                    className="w-full px-4 py-2.5 text-base sm:text-[13px] rounded-2xl border border-gray-200 dark:border-gray-700 focus:border-green-400 dark:focus:border-green-500 focus:ring-2 focus:ring-green-400/30 dark:focus:ring-green-500/20 bg-gray-50 dark:bg-gray-800/80 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 disabled:opacity-50 outline-none transition-all duration-200"
                   />
                   {input.length > 300 && (
                     <span className={`absolute right-3 bottom-2 text-[9px] font-medium ${input.length > 480 ? 'text-red-500' : 'text-gray-400'}`} aria-live="polite">
