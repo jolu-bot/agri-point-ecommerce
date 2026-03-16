@@ -69,8 +69,7 @@ export async function bulkUpdate(
 
     const updateResult = await Model.updateMany(
       { _id: { $in: objectIds } },
-      { $set: updateData },
-      { new: true }
+      { $set: updateData }
     );
 
     result.success = updateResult.modifiedCount || 0;
