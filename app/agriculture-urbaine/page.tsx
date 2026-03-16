@@ -463,7 +463,7 @@ export default function AgricultureUrbainePage() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.1 }}
-              className="text-5xl md:text-7xl lg:text-8xl font-black text-gray-900 dark:text-white mb-6 leading-tight"
+              className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-gray-900 dark:text-white mb-6 leading-tight"
             >
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 via-emerald-500 to-teal-600">
                 {T.agriUrbaine.heroTitle}
@@ -474,7 +474,7 @@ export default function AgricultureUrbainePage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="text-2xl md:text-3xl font-bold text-gray-700 dark:text-gray-300 mb-4"
+              className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-700 dark:text-gray-300 mb-4"
             >
               {T.agriUrbaine.heroSubtitle}
             </m.p>
@@ -483,7 +483,7 @@ export default function AgricultureUrbainePage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="text-xl text-gray-600 dark:text-gray-400 mb-12 max-w-3xl mx-auto"
+              className="text-base sm:text-xl text-gray-600 dark:text-gray-400 mb-8 sm:mb-12 max-w-3xl mx-auto"
             >
               {T.agriUrbaine.heroDesc}
             </m.p>
@@ -496,14 +496,14 @@ export default function AgricultureUrbainePage() {
             >
               <a
                 href="#solutions"
-                className="group px-10 py-5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all transform hover:scale-105 shadow-2xl"
+                className="group px-7 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-2xl font-bold text-base sm:text-lg flex items-center justify-center gap-3 transition-all transform hover:scale-105 shadow-2xl"
               >
-                <Sprout className="w-6 h-6 group-hover:rotate-12 transition-transform" />
+                <Sprout className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-12 transition-transform" />
                 {T.agriUrbaine.heroCta1}
               </a>
               <a
                 href="#produits"
-                className="px-10 py-5 border-3 border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all"
+                className="px-7 sm:px-10 py-4 sm:py-5 border-3 border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-2xl font-bold text-base sm:text-lg flex items-center justify-center gap-3 transition-all"
               >
                 {T.agriUrbaine.heroCta2}
                 <ArrowRight className="w-6 h-6" />
@@ -511,7 +511,7 @@ export default function AgricultureUrbainePage() {
             </m.div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-10 sm:mt-20">
               {pageStats.map((stat, index) => (
                 <m.div
                   key={index}
@@ -521,10 +521,10 @@ export default function AgricultureUrbainePage() {
                   className="relative group"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-400 rounded-2xl blur opacity-25 group-hover:opacity-75 transition-opacity"></div>
-                  <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl">
-                    <stat.icon className="w-10 h-10 text-green-600 mx-auto mb-3" />
-                    <div className="text-4xl font-black text-green-600 mb-1">{stat.value}</div>
-                    <div className="text-sm font-semibold text-gray-600 dark:text-gray-400">{statLabels[index]}</div>
+                  <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 shadow-xl">
+                    <stat.icon className="w-8 h-8 sm:w-10 sm:h-10 text-green-600 mx-auto mb-2 sm:mb-3" />
+                    <div className="text-2xl sm:text-4xl font-black text-green-600 mb-1">{stat.value}</div>
+                    <div className="text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-400">{statLabels[index]}</div>
                   </div>
                 </m.div>
               ))}
@@ -534,18 +534,18 @@ export default function AgricultureUrbainePage() {
       </section>
 
       {/* Solutions */}
-      <section id="solutions" className="py-20 bg-white dark:bg-gray-900">
+      <section id="solutions" className="py-10 sm:py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-black mb-4">
+          <div className="text-center mb-10 sm:mb-16">
+            <h2 className="text-3xl sm:text-5xl font-black mb-4">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600">
                 {T.agriUrbaine.solutionsTitle}
               </span>
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">{T.agriUrbaine.solutionsSubtitle}</p>
+            <p className="text-base sm:text-xl text-gray-600 dark:text-gray-400">{T.agriUrbaine.solutionsSubtitle}</p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-6 sm:gap-8">
             {content.solutions.map((solution, index) => (
               <m.div
                 key={index}
@@ -564,11 +564,11 @@ export default function AgricultureUrbainePage() {
                   </div>
                 )}
 
-                <div className={`relative bg-gradient-to-br from-white to-gray-50 dark:from-gray-800/90 dark:to-gray-800 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all ${
+                <div className={`relative bg-gradient-to-br from-white to-gray-50 dark:from-gray-800/90 dark:to-gray-800 rounded-3xl p-5 sm:p-8 shadow-xl hover:shadow-2xl transition-all ${
                   solution.popular ? 'ring-4 ring-green-500' : ''
                 }`}>
-                  <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br from-${solution.color}-400 to-${solution.color}-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg`}>
-                    <solution.icon className="w-10 h-10 text-white" />
+                  <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-${solution.color}-400 to-${solution.color}-600 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform shadow-lg`}>
+                    <solution.icon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                   </div>
 
                   <h3 className="text-2xl font-black mb-3 text-gray-900 dark:text-white">{solution.title}</h3>

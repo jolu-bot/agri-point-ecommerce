@@ -410,7 +410,7 @@ export default function CampagnePremiumPage() {
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl sm:text-6xl md:text-7xl font-black text-white leading-[1.05] mb-6"
+            className="text-4xl sm:text-6xl md:text-7xl font-black text-white leading-[1.05] mb-6"
           >
             {isEn ? 'Agricultural Campaign' : 'Campagne Agricole'}
             <span className="block bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-400 bg-clip-text text-transparent mt-2">
@@ -420,7 +420,7 @@ export default function CampagnePremiumPage() {
 
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-emerald-100/80 text-lg sm:text-xl max-w-2xl mx-auto mb-12 leading-relaxed"
+            className="text-emerald-100/80 text-base sm:text-xl max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed"
           >
             {isEn ? (
               <>
@@ -439,11 +439,11 @@ export default function CampagnePremiumPage() {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-wrap gap-4 justify-center mb-16"
           >
-            <a href="#formulaire" className="group flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-gray-900 font-black text-base px-8 py-4 rounded-2xl transition-all duration-200 shadow-lg shadow-amber-400/30 hover:shadow-amber-400/50 hover:-translate-y-0.5">
+            <a href="#formulaire" className="group flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-gray-900 font-black text-sm sm:text-base px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl transition-all duration-200 shadow-lg shadow-amber-400/30 hover:shadow-amber-400/50 hover:-translate-y-0.5">
               {isEn ? 'Join Now' : 'Participer maintenant'}
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </a>
-            <a href="#tarifs" className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-base px-8 py-4 rounded-2xl transition-all duration-200 backdrop-blur-sm">
+            <a href="#tarifs" className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm sm:text-base px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl transition-all duration-200 backdrop-blur-sm">
               <Calculator className="w-5 h-5" />
               {isEn ? 'View Pricing' : 'Voir les tarifs'}
             </a>
@@ -483,14 +483,14 @@ export default function CampagnePremiumPage() {
       {/* ══════════════════════════════════════════
           STATS BAR
       ══════════════════════════════════════════ */}
-      <section className="py-12 bg-emerald-950 border-y border-emerald-800/50">
+      <section className="py-8 sm:py-12 bg-emerald-950 border-y border-emerald-800/50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
             {statsData.map(({ icon: Icon, value, suffix, label, color }) => (
               <div key={label} className="text-center">
-                <Icon className={`w-7 h-7 ${color} mx-auto mb-3`} />
-                <div className={`text-3xl font-black ${color} mb-1`}><AnimatedCounter value={value} />{suffix}</div>
-                <p className="text-emerald-300/60 text-sm">{label}</p>
+                <Icon className={`w-6 h-6 sm:w-7 sm:h-7 ${color} mx-auto mb-2 sm:mb-3`} />
+                <div className={`text-2xl sm:text-3xl font-black ${color} mb-1`}><AnimatedCounter value={value} />{suffix}</div>
+                <p className="text-emerald-300/60 text-xs sm:text-sm">{label}</p>
               </div>
             ))}
           </div>
@@ -500,27 +500,27 @@ export default function CampagnePremiumPage() {
       {/* ══════════════════════════════════════════
           POURQUOI CETTE CAMPAGNE
       ══════════════════════════════════════════ */}
-      <section className="py-24 bg-white dark:bg-gray-950">
+      <section className="py-12 sm:py-24 bg-white dark:bg-gray-950">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10 sm:mb-16">
             <p className="text-xs uppercase tracking-[0.2em] text-emerald-600 font-bold mb-3">
               {isEn ? 'Why Now' : 'Pourquoi maintenant'}
             </p>
-            <h2 className="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white mb-4">
+            <h2 className="text-3xl sm:text-5xl font-black text-gray-900 dark:text-white mb-4">
               {isEn ? 'The campaign that changes everything' : 'La campagne qui change tout'}
             </h2>
-            <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-lg">
+            <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-base sm:text-lg">
               {isEn
                 ? "AGRIPOINT SERVICES is committed to standing alongside Cameroonian producers to make agricultural inputs accessible to all."
                 : "AGRIPOINT SERVICES s\u2019engage aux côtés des producteurs camerounais pour rendre les intrants agricoles accessibles à tous."}
             </p>
           </motion.div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-5 sm:gap-8">
             {benefitsData.map(({ icon: Icon, color, bg, border, title, desc }, i) => (
               <motion.div key={title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className={`${bg} border ${border} rounded-3xl p-8 hover:shadow-xl transition-shadow duration-300`}>
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center mb-6 shadow-lg`}>
-                  <Icon className="w-7 h-7 text-white" />
+                className={`${bg} border ${border} rounded-3xl p-5 sm:p-8 hover:shadow-xl transition-shadow duration-300`}>
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center mb-4 sm:mb-6 shadow-lg`}>
+                  <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
                 <h3 className="text-xl font-black text-gray-900 dark:text-white mb-3">{title}</h3>
                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{desc}</p>
@@ -533,13 +533,13 @@ export default function CampagnePremiumPage() {
       {/* ══════════════════════════════════════════
           TARIFS PREMIUM
       ══════════════════════════════════════════ */}
-      <section id="tarifs" className="py-24 bg-gray-50 dark:bg-gray-900/50">
+      <section id="tarifs" className="py-12 sm:py-24 bg-gray-50 dark:bg-gray-900/50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10 sm:mb-16">
             <p className="text-xs uppercase tracking-[0.2em] text-emerald-600 font-bold mb-3">
               {isEn ? 'Pricing' : 'Tarification'}
             </p>
-            <h2 className="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white mb-4">
+            <h2 className="text-3xl sm:text-5xl font-black text-gray-900 dark:text-white mb-4">
               {isEn ? 'Exclusive campaign pricing' : 'Tarifs exclusifs campagne'}
             </h2>
           </motion.div>
@@ -553,7 +553,7 @@ export default function CampagnePremiumPage() {
                   {isEn ? 'Most Popular' : 'Le Plus Demandé'}
                 </span>
               </div>
-              <div className="pt-12 pb-8 px-8">
+              <div className="pt-10 pb-5 px-5 sm:px-8">
                 <div className="flex items-start justify-between mb-6">
                   <div>
                     <h3 className="text-2xl font-black text-gray-900 dark:text-white">
@@ -569,7 +569,7 @@ export default function CampagnePremiumPage() {
                 </div>
                 <div className="mb-6">
                   <div className="flex items-baseline gap-3 mb-1">
-                    <span className="text-5xl font-black text-emerald-600">{MINERAL_PRICE.toLocaleString('fr-FR')}</span>
+                    <span className="text-4xl sm:text-5xl font-black text-emerald-600">{MINERAL_PRICE.toLocaleString('fr-FR')}</span>
                     <span className="text-xl font-bold text-gray-500">FCFA</span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -579,7 +579,7 @@ export default function CampagnePremiumPage() {
                     </span>
                   </div>
                 </div>
-                <div className="space-y-3 mb-8">
+                <div className="space-y-3 mb-5 sm:mb-8">
                   {mineralFeatures.map(item => (
                     <div key={item} className="flex items-center gap-3">
                       <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />
@@ -596,7 +596,7 @@ export default function CampagnePremiumPage() {
             {/* Card Bio */}
             <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
               className="relative bg-white dark:bg-gray-950 rounded-3xl border border-gray-200 dark:border-white/[0.08] shadow-lg overflow-hidden">
-              <div className="p-8">
+              <div className="p-5 sm:p-8">
                 <div className="flex items-start justify-between mb-6">
                   <div>
                     <h3 className="text-2xl font-black text-gray-900 dark:text-white">
@@ -612,7 +612,7 @@ export default function CampagnePremiumPage() {
                 </div>
                 <div className="mb-6">
                   <div className="flex items-baseline gap-3 mb-1">
-                    <span className="text-5xl font-black text-teal-600">{BIO_PRICE.toLocaleString('fr-FR')}</span>
+                    <span className="text-4xl sm:text-5xl font-black text-teal-600">{BIO_PRICE.toLocaleString('fr-FR')}</span>
                     <span className="text-xl font-bold text-gray-500">FCFA</span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -622,7 +622,7 @@ export default function CampagnePremiumPage() {
                     </span>
                   </div>
                 </div>
-                <div className="space-y-3 mb-8">
+                <div className="space-y-3 mb-5 sm:mb-8">
                   {bioFeatures.map(item => (
                     <div key={item} className="flex items-center gap-3">
                       <CheckCircle2 className="w-5 h-5 text-teal-500 flex-shrink-0" />
@@ -642,13 +642,13 @@ export default function CampagnePremiumPage() {
       {/* ══════════════════════════════════════════
           CALCULATEUR D'ÉCONOMIES
       ══════════════════════════════════════════ */}
-      <section className="py-24 bg-gradient-to-br from-emerald-950 to-green-950">
+      <section className="py-12 sm:py-24 bg-gradient-to-br from-emerald-950 to-green-950">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-8 sm:mb-12">
             <p className="text-xs uppercase tracking-[0.2em] text-amber-400 font-bold mb-3">
               {isEn ? 'Simulator' : 'Simulateur'}
             </p>
-            <h2 className="text-4xl font-black text-white mb-4">
+            <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">
               {isEn ? 'Calculate Your Savings' : 'Calculez vos économies'}
             </h2>
             <p className="text-emerald-300/70">
@@ -658,7 +658,7 @@ export default function CampagnePremiumPage() {
             </p>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12">
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-5 sm:p-8 md:p-12">
             <div className="mb-10">
               <div className="flex items-center justify-between mb-4">
                 <label htmlFor="calc-qty-range" className="text-emerald-200 font-semibold">
@@ -709,13 +709,13 @@ export default function CampagnePremiumPage() {
       {/* ══════════════════════════════════════════
           COMMENT ÇA MARCHE
       ══════════════════════════════════════════ */}
-      <section className="py-24 bg-white dark:bg-gray-950">
+      <section className="py-12 sm:py-24 bg-white dark:bg-gray-950">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10 sm:mb-16">
             <p className="text-xs uppercase tracking-[0.2em] text-emerald-600 font-bold mb-3">
               {isEn ? 'Process' : 'Processus'}
             </p>
-            <h2 className="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white">
+            <h2 className="text-3xl sm:text-5xl font-black text-gray-900 dark:text-white">
               {isEn ? 'How it Works' : 'Comment ça marche'}
             </h2>
           </motion.div>
@@ -724,9 +724,9 @@ export default function CampagnePremiumPage() {
             <div className="grid md:grid-cols-3 gap-10">
               {stepsData.map(({ step, icon: Icon, color, title, desc }, i) => (
                 <motion.div key={step} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }} className="text-center">
-                  <div className="relative inline-block mb-8">
-                    <div className={`w-32 h-32 rounded-3xl bg-gradient-to-br ${color} flex items-center justify-center shadow-2xl mx-auto`}>
-                      <Icon className="w-14 h-14 text-white" />
+                  <div className="relative inline-block mb-5 sm:mb-8">
+                    <div className={`w-24 h-24 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-br ${color} flex items-center justify-center shadow-2xl mx-auto`}>
+                      <Icon className="w-10 h-10 sm:w-14 sm:h-14 text-white" />
                     </div>
                     <div className="absolute -top-3 -right-3 w-10 h-10 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full flex items-center justify-center font-black text-sm border-2 border-white dark:border-gray-900 shadow-lg">
                       {step}
@@ -744,13 +744,13 @@ export default function CampagnePremiumPage() {
       {/* ══════════════════════════════════════════
           ÉLIGIBILITÉ VISUELLE
       ══════════════════════════════════════════ */}
-      <section className="py-24 bg-gray-50 dark:bg-gray-900/50">
+      <section className="py-12 sm:py-24 bg-gray-50 dark:bg-gray-900/50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10 sm:mb-16">
             <p className="text-xs uppercase tracking-[0.2em] text-emerald-600 font-bold mb-3">
               {isEn ? 'Requirements' : 'Conditions'}
             </p>
-            <h2 className="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white mb-4">
+            <h2 className="text-3xl sm:text-5xl font-black text-gray-900 dark:text-white mb-4">
               {isEn ? 'Are You Eligible?' : 'Êtes-vous éligible ?'}
             </h2>
             <p className="text-gray-500 dark:text-gray-400 max-w-lg mx-auto">
@@ -762,9 +762,9 @@ export default function CampagnePremiumPage() {
           <div className="space-y-4">
             {eligibilityCriteria.map(({ icon: Icon, num, title, desc, color, bg }, i) => (
               <motion.div key={num} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className={`${bg} rounded-2xl p-6 flex items-start gap-6`}>
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center flex-shrink-0 shadow-lg`}>
-                  <Icon className="w-7 h-7 text-white" />
+                className={`${bg} rounded-2xl p-5 sm:p-6 flex items-start gap-4 sm:gap-6`}>
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center flex-shrink-0 shadow-lg`}>
+                  <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
                 <div className="flex-1">
                   <span className="text-xs font-black text-gray-400 uppercase tracking-wider block mb-1">
@@ -788,7 +788,7 @@ export default function CampagnePremiumPage() {
       {/* ══════════════════════════════════════════
           FORMULAIRE MULTI-ÉTAPES
       ══════════════════════════════════════════ */}
-      <section id="formulaire" className="py-24 bg-white dark:bg-gray-950">
+      <section id="formulaire" className="py-12 sm:py-24 bg-white dark:bg-gray-950">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
             <p className="text-xs uppercase tracking-[0.2em] text-emerald-600 font-bold mb-3">
