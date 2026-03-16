@@ -1,6 +1,9 @@
-import { Types, Model, Document } from 'mongoose';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+import { Types, Model } from 'mongoose';
 
-type MongooseModel = Model<Document>;
+// Model<any> est nécessaire pour accepter n'importe quel modèle Mongoose dans ce helper générique
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type MongooseModel = Model<any>;
 
 export interface BulkOperationResult {
   success: number;
