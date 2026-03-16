@@ -133,21 +133,21 @@ function LoginForm() {
       </div>
 
       {/* Panneau droit */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-gray-50 dark:bg-gray-950">
+      <div className="flex-1 flex items-center justify-center px-4 py-8 sm:py-12 bg-gray-50 dark:bg-gray-950">
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
           className="w-full max-w-md"
         >
-          <div className="lg:hidden text-center mb-8">
+          <div className="lg:hidden text-center mb-5 sm:mb-8">
             <Link href="/">
               <Image src="/images/logo.png" alt="AGRIPOINT SERVICES" width={80} height={63} className="mx-auto" />
             </Link>
           </div>
 
-          <div className="mb-8">
-            <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-1">{T.auth.loginTitle}</h2>
+          <div className="mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white mb-1">{T.auth.loginTitle}</h2>
             <p className="text-gray-500 dark:text-gray-400">
               {en ? 'Access your AGRIPOINT SERVICES member area' : 'Accédez à votre espace AGRIPOINT SERVICES'}
             </p>
@@ -229,7 +229,7 @@ function LoginForm() {
             )}
           </AnimatePresence>
 
-          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-lg p-8">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-lg p-5 sm:p-8">
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label htmlFor="email" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
@@ -245,6 +245,7 @@ function LoginForm() {
                     required
                     placeholder="votre@email.com"
                     autoComplete="email"
+                    style={{ fontSize: '16px' }}
                     className="w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all text-sm"
                   />
                 </div>
@@ -264,6 +265,7 @@ function LoginForm() {
                     required
                     placeholder="••••••••"
                     autoComplete="current-password"
+                    style={{ fontSize: '16px' }}
                     className="w-full pl-11 pr-12 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all text-sm"
                   />
                   <button

@@ -88,21 +88,21 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-6 md:py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-5 md:mb-8">
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 mb-5 transition-colors text-sm font-medium"
+            className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 mb-4 transition-colors text-sm font-medium"
           >
             <ChevronLeft className="w-4 h-4" />
             {locale === 'en' ? 'Continue shopping' : 'Continuer les achats'}
           </button>
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-black text-gray-900 dark:text-white">{T.cart.title}</h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm">
+              <h1 className="text-xl sm:text-3xl font-black text-gray-900 dark:text-white">{T.cart.title}</h1>
+              <p className="text-gray-500 dark:text-gray-400 mt-0.5 text-sm">
                 {items.length} {locale === 'en' ? `item${items.length > 1 ? 's' : ''}` : `article${items.length > 1 ? 's' : ''}`}
               </p>
             </div>
@@ -166,7 +166,7 @@ export default function CartPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, x: -20, height: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    className="p-5 border-b border-gray-100 dark:border-white/[0.06] last:border-b-0"
+                    className="p-3 sm:p-5 border-b border-gray-100 dark:border-white/[0.06] last:border-b-0"
                   >
                     <div className="flex gap-4">
                       {/* Image */}
@@ -252,8 +252,8 @@ export default function CartPage() {
 
           {/* ─── Order Summary ─── */}
           <div className="lg:col-span-1">
-            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] p-6 sticky top-20">
-              <h2 className="text-xl font-black text-gray-900 dark:text-white mb-6">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] p-4 sm:p-6 sticky top-20">
+              <h2 className="text-xl font-black text-gray-900 dark:text-white mb-4 sm:mb-6">
                 {locale === 'en' ? 'Order Summary' : 'Récapitulatif'}
               </h2>
 
