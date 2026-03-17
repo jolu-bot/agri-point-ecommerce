@@ -148,7 +148,7 @@ export default function ComingSoonPage() {
   ];
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-gray-950 via-emerald-950 to-gray-900 flex flex-col items-center justify-center px-4 py-16">
+    <div className="fixed inset-0 z-[1000] overflow-y-auto bg-gradient-to-br from-gray-950 via-emerald-950 to-gray-900 flex flex-col items-center justify-center px-4 py-16">
       {/* ── Ambient blobs ── */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-32 -left-32 w-96 h-96 bg-emerald-600/20 rounded-full blur-[120px]" />
