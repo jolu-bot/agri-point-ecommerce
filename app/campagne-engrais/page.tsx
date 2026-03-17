@@ -94,7 +94,7 @@ function QRCodeSection() {
         >
           {/* QR Code image */}
           <div className="flex-shrink-0 flex flex-col items-center gap-4">
-            <div className="w-[180px] h-[180px] bg-white rounded-2xl border-4 border-emerald-600/20 flex items-center justify-center overflow-hidden shadow-md">
+            <div className="w-[180px] h-[180px] bg-white dark:bg-gray-800 rounded-2xl border-4 border-emerald-600/20 dark:border-emerald-600/30 flex items-center justify-center overflow-hidden shadow-md">
               {qrDataUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -103,7 +103,7 @@ function QRCodeSection() {
                   className="w-full h-full"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gray-100 animate-pulse rounded-xl">
+                <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-700 animate-pulse rounded-xl">
                   <QrCode className="w-16 h-16 text-gray-300" />
                 </div>
               )}
@@ -111,7 +111,7 @@ function QRCodeSection() {
             <button
               onClick={handleDownload}
               disabled={!qrDataUrl}
-              className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 text-white rounded-xl font-semibold text-sm transition-colors"
+              className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white rounded-xl font-semibold text-sm transition-colors"
             >
               <Download className="w-4 h-4" />
               {isEn ? 'Download QR' : 'Télécharger le QR'}
@@ -173,6 +173,8 @@ export default function CampagnePremiumPage() {
   const [formStep, setFormStep] = useState(1);
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formDone, setFormDone] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [registrationNumber, setRegistrationNumber] = useState<string | null>(null);
   const [eligibilityMsg, setEligibilityMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [formData, setFormData] = useState({
     fullName: '', email: '', phone: '',
@@ -381,9 +383,26 @@ export default function CampagnePremiumPage() {
 
   const handleSubmit = async () => {
     setFormSubmitting(true);
-    await new Promise(r => setTimeout(r, 1500));
-    setFormDone(true);
-    setFormSubmitting(false);
+    setFormError(null);
+    try {
+      const unitPrice = formData.productType === 'mineral' ? MINERAL_PRICE : BIO_PRICE;
+      const res = await fetch('/api/campagne', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, locale, totalAmount: formData.quantity * unitPrice }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setFormError(data.error || (isEn ? 'An error occurred. Please try again.' : 'Une erreur est survenue. Veuillez réessayer.'));
+        return;
+      }
+      setRegistrationNumber(data.registrationNumber);
+      setFormDone(true);
+    } catch {
+      setFormError(isEn ? 'Network error. Please try again.' : 'Erreur réseau. Veuillez réessayer.');
+    } finally {
+      setFormSubmitting(false);
+    }
   };
 
   return (
@@ -570,10 +589,10 @@ export default function CampagnePremiumPage() {
                 <div className="mb-6">
                   <div className="flex items-baseline gap-3 mb-1">
                     <span className="text-4xl sm:text-5xl font-black text-emerald-600">{MINERAL_PRICE.toLocaleString('fr-FR')}</span>
-                    <span className="text-xl font-bold text-gray-500">FCFA</span>
+                    <span className="text-xl font-bold text-gray-500 dark:text-gray-400">FCFA</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-400 line-through text-lg">{MINERAL_ORIGINAL.toLocaleString('fr-FR')} FCFA</span>
+                    <span className="text-gray-400 dark:text-gray-500 line-through text-lg">{MINERAL_ORIGINAL.toLocaleString('fr-FR')} FCFA</span>
                     <span className="bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-xs font-black px-2 py-0.5 rounded-full">
                       -{Math.round((1 - MINERAL_PRICE / MINERAL_ORIGINAL) * 100)}%
                     </span>
@@ -613,10 +632,10 @@ export default function CampagnePremiumPage() {
                 <div className="mb-6">
                   <div className="flex items-baseline gap-3 mb-1">
                     <span className="text-4xl sm:text-5xl font-black text-teal-600">{BIO_PRICE.toLocaleString('fr-FR')}</span>
-                    <span className="text-xl font-bold text-gray-500">FCFA</span>
+                    <span className="text-xl font-bold text-gray-500 dark:text-gray-400">FCFA</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-400 line-through text-lg">{BIO_ORIGINAL.toLocaleString('fr-FR')} FCFA</span>
+                    <span className="text-gray-400 dark:text-gray-500 line-through text-lg">{BIO_ORIGINAL.toLocaleString('fr-FR')} FCFA</span>
                     <span className="bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-xs font-black px-2 py-0.5 rounded-full">
                       -{Math.round((1 - BIO_PRICE / BIO_ORIGINAL) * 100)}%
                     </span>
@@ -809,6 +828,11 @@ export default function CampagnePremiumPage() {
               <h3 className="text-3xl font-black text-gray-900 dark:text-white mb-4">
                 {isEn ? 'Registration Confirmed!' : 'Inscription confirmée !'}
               </h3>
+              {registrationNumber && (
+                <p className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl text-emerald-700 dark:text-emerald-300 font-mono font-bold text-sm mb-4">
+                  N° {registrationNumber}
+                </p>
+              )}
               <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
                 {isEn
                   ? 'Our team will contact you within 24 hours via WhatsApp to finalise the order.'
@@ -1030,7 +1054,13 @@ export default function CampagnePremiumPage() {
                   )}
                 </AnimatePresence>
 
-                <div className="flex gap-4 mt-8">
+                {formError && (
+                  <div className="mt-4 flex items-center gap-2 px-4 py-3 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800/30 rounded-xl text-red-700 dark:text-red-400 text-sm font-medium">
+                    <AlertCircle className="w-4 h-4 flex-shrink-0" /> {formError}
+                  </div>
+                )}
+                <div className="flex gap-4 mt-4">
+
                   {formStep > 1 && (
                     <button onClick={() => setFormStep(s => s - 1)}
                       className="flex items-center gap-2 px-6 py-3.5 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-bold rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">

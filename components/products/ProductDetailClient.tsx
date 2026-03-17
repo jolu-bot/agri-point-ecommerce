@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   ShoppingCart, Heart, Share2, Minus, Plus, Truck, Shield, Package,
-  ChevronLeft, Check, Star, Leaf, ArrowRight, AlertTriangle, FlaskConical,
+  ChevronLeft, Check, CheckCircle2, Star, Leaf, ArrowRight, AlertTriangle, FlaskConical,
   Sprout, Info
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -50,7 +50,7 @@ export default function ProductDetailClient({ initialProduct }: { initialProduct
   const { locale } = useLanguage();
   const en = locale === 'en';
 
-  const [reviews, setReviews] = useState<Array<{ _id: string; userName: string; rating: number; text: string; createdAt: string }>>([]);
+  const [reviews, setReviews] = useState<Array<{ _id: string; userName: string; rating: number; text: string; createdAt: string; verified?: boolean }>>([]);
   const [reviewsLoading, setReviewsLoading] = useState(false);
   const [reviewAverage, setReviewAverage] = useState(0);
   const [reviewForm, setReviewForm] = useState({ userName: '', rating: 5, text: '' });
@@ -130,7 +130,7 @@ export default function ProductDetailClient({ initialProduct }: { initialProduct
         body: JSON.stringify({ productId: product._id, ...reviewForm }),
       });
       if (res.ok) {
-        toast.success(en ? 'Review submitted!' : 'Avis soumis !');
+        toast.success(en ? 'Review submitted — pending moderation.' : 'Avis soumis — en attente de modération.');
         setReviewForm({ userName: '', rating: 5, text: '' });
         await loadReviews(product._id);
       }
@@ -616,8 +616,15 @@ export default function ProductDetailClient({ initialProduct }: { initialProduct
                             <p className="font-bold text-gray-900 dark:text-white text-sm">{r.userName}</p>
                             <span className="text-xs text-gray-400">{new Date(r.createdAt).toLocaleDateString(en ? 'en-GB' : 'fr-FR', { month: 'long', year: 'numeric' })}</span>
                           </div>
-                          <div className="flex gap-0.5 mb-2">
-                            {[...Array(r.rating)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />)}
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="flex gap-0.5">
+                              {[...Array(r.rating)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />)}
+                            </div>
+                            {r.verified && (
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 text-xs font-semibold rounded-full border border-emerald-200 dark:border-emerald-800/40">
+                                <CheckCircle2 className="w-3 h-3" />{en ? 'Verified' : 'Vérifié'}
+                              </span>
+                            )}
                           </div>
                           <p className="text-gray-600 dark:text-gray-300 text-sm italic">&ldquo;{r.text}&rdquo;</p>
                         </div>

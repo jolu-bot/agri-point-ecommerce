@@ -24,6 +24,44 @@ export const metadata: Metadata = {
   alternates: { canonical: '/agriculture-urbaine' },
 };
 
+const siteUrl = 'https://agri-ps.com';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Agriculture Urbaine — AGRIPOINT SERVICES',
+  url: `${siteUrl}/agriculture-urbaine`,
+  description: 'Solutions d\'agriculture urbaine pour cultiver en appartement, balcon ou cour au Cameroun.',
+  provider: {
+    '@type': 'Organization',
+    name: 'AGRIPOINT SERVICES SARL',
+    url: siteUrl,
+  },
+  mainEntity: {
+    '@type': 'Service',
+    name: 'Agriculture Urbaine',
+    serviceType: 'Fourniture de kits d\'agriculture urbaine et biofertilisants',
+    description: 'Kits complets pour potager balcon, jardin vertical et culture en appartement. Biofertilisants adaptés aux petits espaces.',
+    provider: {
+      '@type': 'Organization',
+      name: 'AGRIPOINT SERVICES SARL',
+      url: siteUrl,
+    },
+    areaServed: {
+      '@type': 'Country',
+      name: 'Cameroun',
+    },
+  },
+};
+
 export default function AgricultureUrbaineLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {children}
+    </>
+  );
 }
