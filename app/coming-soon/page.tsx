@@ -32,6 +32,16 @@ function useCountdown(target: Date) {
   return time;
 }
 
+const PARTNERS = [
+  { name: 'MINADER',    logo: '/images/partners/minader-real.jpg'  },
+  { name: 'CAMPOST',    logo: '/images/partners/campost-real.png'  },
+  { name: 'EMOH',       logo: '/images/partners/emoh-bleu.png'     },
+  { name: 'CIVIA',      logo: '/images/partners/civia-real.jpeg'   },
+  { name: 'Bange Bank', logo: '/images/partners/bange-bank.png'    },
+  { name: 'Planopac',   logo: '/images/partners/planopac.jpg'      },
+  { name: 'CMA',        logo: '/images/partners/cma.jpg'           },
+];
+
 /* ─── Floating leaves (pure CSS, no canvas) ─────────────────── */
 const LEAVES = Array.from({ length: 12 }, (_, i) => ({
   id: i,
@@ -302,11 +312,52 @@ export default function ComingSoonPage() {
           ))}
         </motion.div>
 
+        {/* Partners */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.6 }}
+          className="w-full max-w-2xl space-y-4"
+        >
+          {/* Divider */}
+          <div className="flex items-center gap-4">
+            <div className="flex-1 h-px bg-white/10" />
+            <span className="text-xs font-semibold uppercase tracking-widest text-white/30">
+              Partenaires institutionnels
+            </span>
+            <div className="flex-1 h-px bg-white/10" />
+          </div>
+
+          {/* Logo grid */}
+          <div className="flex flex-wrap justify-center items-center gap-3">
+            {PARTNERS.map((p, i) => (
+              <motion.div
+                key={p.name}
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.1 + i * 0.08, duration: 0.4 }}
+                title={p.name}
+                className="h-10 px-3 rounded-xl bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm"
+              >
+                <div className="relative h-7 w-20">
+                  <Image
+                    src={p.logo}
+                    alt={p.name}
+                    fill
+                    className="object-contain"
+                    sizes="80px"
+                  />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Footer */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.6 }}
+          transition={{ delay: 1.6, duration: 0.6 }}
           className="text-xs text-white/25 font-medium tracking-wider uppercase"
         >
           © {new Date().getFullYear()} AGRIPOINT SERVICES SARL — Cameroun
