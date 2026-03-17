@@ -176,7 +176,7 @@ export default function ComingSoonPage() {
               src="/images/logo-slogan-transparent.png"
               alt="AGRIPOINT SERVICES"
               fill
-              className="object-contain drop-shadow-lg"
+              className="object-contain brightness-0 invert drop-shadow-lg"
               priority
             />
           </div>
