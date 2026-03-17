@@ -219,7 +219,7 @@ export default function ContactPage() {
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzEwYjk4MSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')]"></div>
         </div>
 
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-20 text-center">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -232,7 +232,7 @@ export default function ContactPage() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.1 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6"
+            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6"
           >
             {pageContent.hero.title}
           </motion.h1>
@@ -241,7 +241,7 @@ export default function ContactPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-2xl font-semibold text-green-600 dark:text-green-400 mb-4"
+            className="text-lg sm:text-2xl font-semibold text-green-600 dark:text-green-400 mb-4"
           >
             {pageContent.hero.subtitle}
           </motion.p>
@@ -250,7 +250,7 @@ export default function ContactPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-xl text-gray-600 dark:text-gray-300"
+            className="text-base sm:text-xl text-gray-600 dark:text-gray-300"
           >
             {pageContent.hero.description}
           </motion.p>
@@ -258,17 +258,17 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form + Info */}
-      <section className="py-20 bg-white dark:bg-gray-900">
+      <section className="py-10 sm:py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-12">
             {/* Contact Form */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-8 shadow-xl">
-                <h2 className="text-3xl font-bold mb-6">{T.contact.formTitle}</h2>
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-5 sm:p-8 shadow-xl">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">{T.contact.formTitle}</h2>
 
                 {status === 'success' && (
                   <div className="mb-6 p-4 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-lg flex items-center gap-3">
@@ -398,8 +398,8 @@ export default function ContactPage() {
               className="space-y-8"
             >
               {/* Headquarters */}
-              <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
-                <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-5 sm:p-8 shadow-lg">
+                <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-2">
                   <Building2 className="w-6 h-6 text-green-600" />
                   <span className="leading-tight">
                     {pageContent.contactInfo.headquarters.title}
@@ -448,13 +448,13 @@ export default function ContactPage() {
               </div>
 
               {/* Branches / Contact Channels */}
-              <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
-                <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-5 sm:p-8 shadow-lg">
+                <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-2">
                   <Globe className="w-6 h-6 text-green-600" />
                   {en ? 'Our Contact Channels' : 'Nos Canaux de Contact'}
                 </h3>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {pageContent.contactInfo.branches.map((branch, index) => (
                     <div key={index} className="bg-white dark:bg-gray-700 rounded-lg p-4">
                       <h4 className="font-bold text-green-600 mb-1">{branch.city}</h4>
@@ -466,8 +466,8 @@ export default function ContactPage() {
               </div>
 
               {/* Social Media */}
-              <div className="bg-gradient-to-br from-green-600 to-emerald-600 rounded-2xl p-8 shadow-lg text-white">
-                <h3 className="text-2xl font-bold mb-6">{en ? 'Follow us' : 'Suivez-nous'}</h3>
+              <div className="bg-gradient-to-br from-green-600 to-emerald-600 rounded-2xl p-5 sm:p-8 shadow-lg text-white">
+                <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">{en ? 'Follow us' : 'Suivez-nous'}</h3>
                 <div className="flex flex-wrap gap-3">
                   {socialMediaLinks.map((social, index) => (
                     <a
@@ -489,11 +489,11 @@ export default function ContactPage() {
       </section>
 
       {/* Departments */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-800">
+      <section className="py-10 sm:py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">{en ? 'Contact the Right Department' : 'Contactez le Bon Service'}</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">{en ? 'For a quick and tailored response' : 'Pour une réponse rapide et adaptée'}</p>
+          <div className="text-center mb-8 sm:mb-16">
+            <h2 className="text-2xl sm:text-4xl font-bold mb-3 sm:mb-4">{en ? 'Contact the Right Department' : 'Contactez le Bon Service'}</h2>
+            <p className="text-base sm:text-xl text-gray-600 dark:text-gray-400">{en ? 'For a quick and tailored response' : 'Pour une réponse rapide et adaptée'}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -532,11 +532,11 @@ export default function ContactPage() {
       </section>
 
       {/* FAQ */}
-      <section className="py-20 bg-white dark:bg-gray-900">
+      <section className="py-10 sm:py-20 bg-white dark:bg-gray-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">{en ? 'Frequently Asked Questions' : 'Questions Fréquentes'}</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">{en ? 'Quick answers to your questions' : 'Réponses rapides à vos questions'}</p>
+          <div className="text-center mb-8 sm:mb-16">
+            <h2 className="text-2xl sm:text-4xl font-bold mb-3 sm:mb-4">{en ? 'Frequently Asked Questions' : 'Questions Fréquentes'}</h2>
+            <p className="text-base sm:text-xl text-gray-600 dark:text-gray-400">{en ? 'Quick answers to your questions' : 'Réponses rapides à vos questions'}</p>
           </div>
 
           <div className="space-y-4">
@@ -579,10 +579,10 @@ export default function ContactPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-r from-green-600 to-emerald-600 text-white">
+      <section className="py-10 sm:py-20 bg-gradient-to-r from-green-600 to-emerald-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">{en ? 'Need Immediate Help?' : "Besoin d'Aide Immédiate ?"}</h2>
-          <p className="text-xl mb-8 opacity-90">
+          <h2 className="text-2xl sm:text-4xl font-bold mb-4 sm:mb-6">{en ? 'Need Immediate Help?' : "Besoin d'Aide Immédiate ?"}</h2>
+          <p className="text-base sm:text-xl mb-5 sm:mb-8 opacity-90">
             {en
               ? 'Our team is available on WhatsApp to answer your urgent questions'
               : 'Notre équipe est disponible par WhatsApp pour répondre à vos questions urgentes'}

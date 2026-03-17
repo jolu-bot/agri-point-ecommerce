@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
 
   try {
     await connectDB();
-    const reviews = await Review.find({ productId })
+    const reviews = await Review.find({ productId, verified: true })
       .sort({ createdAt: -1 })
       .limit(50)
       .lean();
