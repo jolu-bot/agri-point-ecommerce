@@ -4,6 +4,7 @@ import { jwtVerify } from 'jose';
 // ---------------------------------------------------------------------------
 // Next.js Edge Middleware
 // 1. COMING SOON gate  — redirige tout le site public vers /coming-soon
+//    └─ PREVIEW bypass — ?preview=SECRET ou cookie preview_bypass donne accès complet
 // 2. Auth guard        — protège /admin et /compte (JWT cookie/header)
 // ---------------------------------------------------------------------------
 
@@ -12,10 +13,17 @@ import { jwtVerify } from 'jose';
  * Default: active (true) — set COMING_SOON=false in Vercel env vars (or .env.local)
  * to disable and let the full site through.
  *
- * Local dev  : add COMING_SOON=false to .env.local
- * Production go-live : set COMING_SOON=false in Vercel dashboard, OR merge dev → main
+ * Local dev        : COMING_SOON=false dans .env.local
+ * Production live  : COMING_SOON=false dans Vercel dashboard, OU merger dev → main
+ *
+ * PREVIEW (partager avec un client) :
+ *   1. Ajouter PREVIEW_SECRET=un-token-secret dans Vercel env vars
+ *   2. Envoyer au client : https://votre-site.com/?preview=un-token-secret
+ *   3. Le client voit le site complet — cookie valide 7 jours
+ *   4. Pour révoquer : changer PREVIEW_SECRET dans Vercel
  */
-const COMING_SOON = process.env.COMING_SOON !== 'false';
+const COMING_SOON     = process.env.COMING_SOON !== 'false';
+const PREVIEW_SECRET  = process.env.PREVIEW_SECRET ?? '';
 
 const COMING_SOON_BYPASS = [
   '/coming-soon',
@@ -35,12 +43,38 @@ export default async function middleware(request: NextRequest) {
 
   // ── 1. Coming soon gate ────────────────────────────────────────────────
   if (COMING_SOON) {
-    const bypassed =
-      COMING_SOON_BYPASS.some(p => pathname.startsWith(p)) ||
-      /\.\w+$/.test(pathname); // static file extensions
+    // a) Check preview bypass (query param → sets cookie, or existing cookie)
+    const queryToken  = request.nextUrl.searchParams.get('preview') ?? '';
+    const cookieToken = request.cookies.get('preview_bypass')?.value ?? '';
+    const hasPreview  = PREVIEW_SECRET !== '' && (
+      queryToken === PREVIEW_SECRET || cookieToken === PREVIEW_SECRET
+    );
 
-    if (!bypassed) {
-      return NextResponse.redirect(new URL('/coming-soon', request.url));
+    if (hasPreview) {
+      // Allow full site — fall through to auth guard below
+      // If arriving via query param, set the persistent cookie
+      if (queryToken === PREVIEW_SECRET) {
+        // Redirect to the same path without ?preview so the URL looks clean
+        const cleanUrl = new URL(request.nextUrl.pathname, request.url);
+        const res = NextResponse.redirect(cleanUrl);
+        res.cookies.set('preview_bypass', PREVIEW_SECRET, {
+          httpOnly: true,
+          sameSite: 'lax',
+          maxAge:   60 * 60 * 24 * 7, // 7 jours
+          path:     '/',
+        });
+        return res;
+      }
+      // Cookie already set — let the request continue (fall through to auth guard)
+    } else {
+      // b) Static/system bypasses
+      const bypassed =
+        COMING_SOON_BYPASS.some(p => pathname.startsWith(p)) ||
+        /\.\w+$/.test(pathname);
+
+      if (!bypassed) {
+        return NextResponse.redirect(new URL('/coming-soon', request.url));
+      }
     }
   }
 
@@ -62,7 +96,6 @@ export default async function middleware(request: NextRequest) {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback');
     const { payload } = await jwtVerify(token, secret);
 
-    // /admin exige le rôle admin ou editor
     if (
       pathname.startsWith('/admin') &&
       payload.role !== 'admin' &&
