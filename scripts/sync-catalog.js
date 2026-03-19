@@ -212,7 +212,7 @@ const CATALOG = [
   // ═══════════════════════════════════════════════════════════════
   {
     slug:        'natur-care',
-    name:        'KIT NATURCARE',
+    name:        'KIT NATURCARE 5L',
     price:       65000,
     category:    'biofertilisant',
     description: 'Kit complet de biofertilisants AGRI POINT (5 litres). Assortiment complet pour une nutrition optimale de toutes vos cultures.',
@@ -221,7 +221,7 @@ const CATALOG = [
       cultures:    ['Toutes cultures'],
       benefits:    ['Solution complète tout-en-un', 'Économique vs achats séparés', 'Convient à toutes les cultures'],
     },
-    images:     ['/products/icon-kit.png'],
+    images:     ['/products/product-naturcare-terra.png'],
     sku:        'NAT-KIT-001',
     weight:     5,
     isActive:   true,
@@ -235,7 +235,7 @@ const CATALOG = [
   // ═══════════════════════════════════════════════════════════════
   {
     slug:        'uree-46',
-    name:        'URÉE 46%',
+    name:        'URÉE 46% 50kg',
     price:       22000,
     category:    'engrais_mineral',
     description: 'Engrais azoté Urée 46% (50 kg). Apport d\'azote à libération rapide pour stimuler la croissance végétative.',
@@ -244,7 +244,7 @@ const CATALOG = [
       cultures: ['Maïs', 'Riz', 'Cacao', 'Café', 'Bananier', 'Légumes-feuilles'],
       benefits: ['Stimule la croissance', 'Augmente les rendements', 'Azote à libération rapide'],
     },
-    images:     ['/products/icon-engrais.png'],
+    images:     ['/products/product-uree-46.png'],
     sku:        'URE-50KG-001',
     weight:     50,
     isActive:   true,
@@ -254,7 +254,7 @@ const CATALOG = [
   },
   {
     slug:        'sarah-npk-20-10-10',
-    name:        'NPK 20-10-10',
+    name:        'NPK 20-10-10 50kg',
     price:       19500,
     category:    'engrais_mineral',
     description: 'Engrais complet NPK 20-10-10 (50 kg). Formulation équilibrée pour une nutrition complète et des rendements élevés.',
@@ -263,7 +263,7 @@ const CATALOG = [
       cultures: ['Maïs', 'Riz', 'Coton', 'Légumes', 'Cultures maraîchères'],
       benefits: ['Nutrition N-P-K équilibrée', 'Favorise la croissance', 'Améliore les rendements'],
     },
-    images:     ['/products/icon-engrais.png'],
+    images:     ['/products/product-sarah-npk-20-10-10.png'],
     sku:        'NPK-20-10-10-001',
     weight:     50,
     isActive:   true,
@@ -273,7 +273,7 @@ const CATALOG = [
   },
   {
     slug:        'npk-00-00-36',
-    name:        'NPK 00-00-36',
+    name:        'NPK 00-00-36 50kg',
     price:       20500,
     category:    'engrais_mineral',
     description: 'Engrais potassique NPK 00-00-36 (50 kg). Renforce la résistance aux maladies et améliore la qualité des récoltes.',
@@ -292,7 +292,7 @@ const CATALOG = [
   },
   {
     slug:        'npk-12-14-19',
-    name:        'NPK 12-14-19',
+    name:        'NPK 12-14-19 50kg',
     price:       23000,
     category:    'engrais_mineral',
     description: 'Engrais complet NPK 12-14-19 (50 kg). Riche en phosphore et potassium pour favoriser la floraison et la fructification.',
@@ -311,7 +311,7 @@ const CATALOG = [
   },
   {
     slug:        'npk-6-8-28',
-    name:        'NPK 6-8-28',
+    name:        'NPK 6-8-28 50kg',
     price:       22000,
     category:    'engrais_mineral',
     description: 'Engrais riche en potassium NPK 6-8-28 (50 kg). Idéal pour la maturation et la qualité des récoltes.',
@@ -330,7 +330,7 @@ const CATALOG = [
   },
   {
     slug:        'sulfate-50kg',
-    name:        'SULFATE 50kg',
+    name:        'SULFATE d\'Ammonium 50kg',
     price:       17500,
     category:    'engrais_mineral',
     description: 'Sulfate d\'ammonium (50 kg). Engrais azoté et soufré, idéal pour les cultures exigeantes en azote sur sols alcalins.',
