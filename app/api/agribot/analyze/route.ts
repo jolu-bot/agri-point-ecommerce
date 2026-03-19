@@ -12,8 +12,6 @@ function isOpenAIReady(): boolean {
   return k.startsWith('sk-') && k.length > 30 && !k.includes('votre') && !k.includes('your');
 }
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
 const VISION_SYSTEM_PROMPT = `Tu es un agronome expert basé au Cameroun avec 15 ans d'expérience en diagnostic phytosanitaire.
 Tu analyses des photos de plantes malades ou en difficulté et tu fournis un diagnostic précis et des recommandations d'action immédiates.
 
@@ -56,6 +54,8 @@ export async function POST(req: NextRequest) {
       { status: 503 }
     );
   }
+
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
   try {
     const formData = await req.formData();
