@@ -35,7 +35,7 @@ function isGeminiReady(): boolean {
   return k.length > 20 && !k.includes('votre') && !k.includes('your');
 }
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || 'no-key' });
 
 // ═══════════════════════════════════════════════════════════════════
 // RATE LIMITING — 30 requêtes / heure / IP
