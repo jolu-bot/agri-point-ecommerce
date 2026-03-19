@@ -25,15 +25,29 @@ const productSchema = new mongoose.Schema({
 
 const Product = mongoose.model('Product', productSchema);
 
-// Grille tarifaire officielle (FCFA)
+// Grille tarifaire officielle (FCFA) — mars 2026
 const PRICE_GRID = [
-  { slug: 'humiforte',          name: 'HUMIFORTE',          newPrice: 13500 },
-  { slug: 'fosnutren-20',       name: 'FOSNUTREN 20',       newPrice: 13500 },
-  { slug: 'kadostim-20',        name: 'KADOSTIM 20',        newPrice: 13500 },
-  { slug: 'aminol-20',          name: 'AMINOL 20',          newPrice: 13500 },
-  { slug: 'natur-care',         name: 'NATUR CARE',         newPrice: 65000 },
-  { slug: 'sarah-npk-20-10-10', name: 'SARAH NPK 20-10-10', newPrice: 19500 },
-  { slug: 'uree-46',            name: 'URÉE 46%',           newPrice: 22000 },
+  // Biofertilisants 1L
+  { slug: 'humiforte',          name: 'HUMIFORTE 1L',            newPrice: 13500 },
+  { slug: 'fosnutren-20',       name: 'FOSNUTREN 1L',            newPrice: 13500 },
+  { slug: 'kadostim-20',        name: 'KADOSTIM 1L',             newPrice: 13500 },
+  { slug: 'aminol-20',          name: 'AMINOL FORTE 1L',         newPrice: 13500 },
+  // Biofertilisants 5L
+  { slug: 'humiforte-5l',       name: 'HUMIFORTE 5L',            newPrice: 67500 },
+  { slug: 'fosnutren-5l',       name: 'FOSNUTREN 5L',            newPrice: 67500 },
+  { slug: 'kadostim-5l',        name: 'KADOSTIM 5L',             newPrice: 67500 },
+  { slug: 'aminol-5l',          name: 'AMINOL FORTE 5L',         newPrice: 67500 },
+  // Kit
+  { slug: 'natur-care',         name: 'KIT NATURCARE 5L',        newPrice: 65000 },
+  // Engrais minéraux 50kg
+  { slug: 'uree-46',            name: 'URÉE 46% 50kg',           newPrice: 22000 },
+  { slug: 'sarah-npk-20-10-10', name: 'NPK 20-10-10 50kg',       newPrice: 19500 },
+  { slug: 'npk-00-00-36',       name: 'NPK 00-00-36 50kg',       newPrice: 20500 },
+  { slug: 'npk-12-14-19',       name: 'NPK 12-14-19 50kg',       newPrice: 23000 },
+  { slug: 'npk-6-8-28',         name: 'NPK 6-8-28 50kg',         newPrice: 22000 },
+  { slug: 'sulfate-50kg',       name: 'SULFATE d\'Ammonium 50kg', newPrice: 17500 },
+  // Engrais minéraux 25kg
+  { slug: 'uree-46-25kg',       name: 'URÉE 46% 25kg',           newPrice: 11000 },
 ];
 
 // Slugs des produits campagne — NE PAS TOUCHER
@@ -74,31 +88,23 @@ async function updatePrices() {
 
       const oldPrice = product.price;
 
-      if (oldPrice === item.newPrice) {
+      if (oldPrice === item.newPrice && product.name === item.name) {
         console.log(`✓  ${item.name} — ${item.newPrice.toLocaleString('fr-FR')} FCFA (déjà à jour)`);
         unchanged++;
         continue;
       }
 
-      // Mettre à jour le prix
+      // Mettre à jour le prix et le nom
       await Product.updateOne(
         { slug: item.slug },
-        { 
-          $set: { price: item.newPrice },
+        {
+          $set: { price: item.newPrice, name: item.name },
           // Supprimer le promoPrice s'il existe et est >= nouveau prix
           ...(product.promoPrice && product.promoPrice >= item.newPrice
             ? { $unset: { promoPrice: '' } }
             : {})
         }
       );
-
-      // Si promoPrice existe et >= newPrice, le supprimer dans un 2e update
-      if (product.promoPrice && product.promoPrice >= item.newPrice) {
-        await Product.updateOne(
-          { slug: item.slug },
-          { $unset: { promoPrice: '' } }
-        );
-      }
 
       const diff = item.newPrice - oldPrice;
       const arrow = diff > 0 ? '↑' : '↓';
