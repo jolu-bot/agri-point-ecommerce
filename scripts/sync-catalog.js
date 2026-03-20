@@ -62,7 +62,7 @@ const CATALOG = [
       cultures: ['Agrumes', 'Fruits à noyaux', 'Horticulture', 'Fleurs', 'Ornement'],
       benefits: ['Favorise le feuillage', 'Améliore la croissance', 'Stimule la végétation'],
     },
-    images:     ['/products/icon-feuillage.png'],
+    images:     ['/products/humiforte-20.webp'],
     sku:        'HUM-1L-001',
     weight:     1,
     isActive:   true,
@@ -81,7 +81,7 @@ const CATALOG = [
       cultures: ['Agrumes', 'Cultures pour graines', 'Fruits à noyaux', 'Papains'],
       benefits: ['Floraison abondante', 'Fructification optimale', 'Qualité des fruits améliorée'],
     },
-    images:     ['/products/icon-floraison.png'],
+    images:     ['/products/fosnutren-20.webp'],
     sku:        'FOS-1L-001',
     weight:     1,
     isActive:   true,
@@ -100,7 +100,7 @@ const CATALOG = [
       cultures: ['Maïs', 'Manioc', 'Cacao', 'Café', 'Cultures maraîchères'],
       benefits: ['Renforce les racines', 'Résistance au stress hydrique', 'Augmente le rendement'],
     },
-    images:     ['/products/icon-racines.png'],
+    images:     ['/products/kadostim-20.webp'],
     sku:        'KAD-1L-001',
     weight:     1,
     isActive:   true,
@@ -119,7 +119,7 @@ const CATALOG = [
       cultures: ['Tomates', 'Poivrons', 'Légumes-feuilles', 'Cultures fruitières'],
       benefits: ['Stimule la croissance', 'Améliore la qualité', 'Renforce l\'immunité des plantes'],
     },
-    images:     ['/products/icon-croissance.png'],
+    images:     ['/products/aminol-20.webp'],
     sku:        'AMI-1L-001',
     weight:     1,
     isActive:   true,
@@ -142,7 +142,7 @@ const CATALOG = [
       cultures: ['Agrumes', 'Fruits à noyaux', 'Horticulture', 'Fleurs', 'Ornement'],
       benefits: ['Favorise le feuillage', 'Améliore la croissance', 'Format économique 5L'],
     },
-    images:     ['/products/icon-feuillage.png'],
+    images:     ['/products/humiforte-20.webp'],
     sku:        'HUM-5L-001',
     weight:     5,
     isActive:   true,
@@ -161,7 +161,7 @@ const CATALOG = [
       cultures: ['Agrumes', 'Cultures pour graines', 'Fruits à noyaux', 'Papains'],
       benefits: ['Floraison abondante', 'Fructification optimale', 'Format économique 5L'],
     },
-    images:     ['/products/icon-floraison.png'],
+    images:     ['/products/fosnutren-20.webp'],
     sku:        'FOS-5L-001',
     weight:     5,
     isActive:   true,
@@ -180,7 +180,7 @@ const CATALOG = [
       cultures: ['Maïs', 'Manioc', 'Cacao', 'Café', 'Cultures maraîchères'],
       benefits: ['Renforce les racines', 'Résistance au stress hydrique', 'Format économique 5L'],
     },
-    images:     ['/products/icon-racines.png'],
+    images:     ['/products/kadostim-20.webp'],
     sku:        'KAD-5L-001',
     weight:     5,
     isActive:   true,
@@ -199,7 +199,7 @@ const CATALOG = [
       cultures: ['Tomates', 'Poivrons', 'Légumes-feuilles', 'Cultures fruitières'],
       benefits: ['Stimule la croissance', 'Améliore la qualité', 'Format économique 5L'],
     },
-    images:     ['/products/icon-croissance.png'],
+    images:     ['/products/aminol-20.webp'],
     sku:        'AMI-5L-001',
     weight:     5,
     isActive:   true,
@@ -222,7 +222,7 @@ const CATALOG = [
       cultures:    ['Toutes cultures'],
       benefits:    ['Solution complète tout-en-un', 'Économique vs achats séparés', 'Convient à toutes les cultures'],
     },
-    images:     ['/products/product-naturcare-terra.png'],
+    images:     ['/products/kit-naturcare-terra.webp'],
     sku:        'NAT-KIT-001',
     weight:     5,
     isActive:   true,
@@ -236,16 +236,16 @@ const CATALOG = [
   // ═══════════════════════════════════════════════════════════════
   {
     slug:        'uree-46',
-    name:        'URÉE 46% 50kg',
+    name:        'Sara URÉE 46% 50kg',
     price:       22000,
     category:    'engrais_mineral',
-    description: 'Engrais azoté Urée 46% (50 kg). Apport d\'azote à libération rapide pour stimuler la croissance végétative.',
+    description: 'Engrais azoté Sara Urée 46% (50 kg). Apport d\'azote à libération rapide pour stimuler la croissance végétative.',
     features: {
       npk:      '46-0-0',
       cultures: ['Maïs', 'Riz', 'Cacao', 'Café', 'Bananier', 'Légumes-feuilles'],
       benefits: ['Stimule la croissance', 'Augmente les rendements', 'Azote à libération rapide'],
     },
-    images:     ['/products/product-uree-46.png'],
+    images:     ['/products/sarah-uree-46.webp'],
     sku:        'URE-50KG-001',
     weight:     50,
     isActive:   true,
@@ -255,16 +255,16 @@ const CATALOG = [
   },
   {
     slug:        'sarah-npk-20-10-10',
-    name:        'NPK 20-10-10 50kg',
+    name:        'Sara NPK 20-10-10 50kg',
     price:       19500,
     category:    'engrais_mineral',
-    description: 'Engrais complet NPK 20-10-10 (50 kg). Formulation équilibrée pour une nutrition complète et des rendements élevés.',
+    description: 'Engrais complet Sara NPK 20-10-10 (50 kg). Formulation équilibrée pour une nutrition complète et des rendements élevés.',
     features: {
       npk:      '20-10-10',
       cultures: ['Maïs', 'Riz', 'Coton', 'Légumes', 'Cultures maraîchères'],
       benefits: ['Nutrition N-P-K équilibrée', 'Favorise la croissance', 'Améliore les rendements'],
     },
-    images:     ['/products/product-sarah-npk-20-10-10.png'],
+    images:     ['/products/sarah-npk-20-10-10.webp'],
     sku:        'NPK-20-10-10-001',
     weight:     50,
     isActive:   true,
@@ -274,16 +274,16 @@ const CATALOG = [
   },
   {
     slug:        'npk-00-00-36',
-    name:        'NPK 00-00-36 50kg',
+    name:        'Sara NPK 00-00-36 50kg',
     price:       20500,
     category:    'engrais_mineral',
-    description: 'Engrais potassique NPK 00-00-36 (50 kg). Renforce la résistance aux maladies et améliore la qualité des récoltes.',
+    description: 'Engrais potassique Sara NPK 00-00-36 (50 kg). Renforce la résistance aux maladies et améliore la qualité des récoltes.',
     features: {
       npk:      '0-0-36',
       cultures: ['Bananier', 'Tubercules', 'Légumes', 'Café', 'Cacao'],
       benefits: ['Renforce la résistance aux maladies', 'Améliore la qualité des fruits', 'Régule la pression osmotique'],
     },
-    images:     ['/products/icon-engrais.png'],
+    images:     ['/products/sarah-npk-10-30-10.webp'],
     sku:        'NPK-00-00-36-001',
     weight:     50,
     isActive:   true,
@@ -293,16 +293,16 @@ const CATALOG = [
   },
   {
     slug:        'npk-12-14-19',
-    name:        'NPK 12-14-19 50kg',
+    name:        'Sara NPK 12-14-19 50kg',
     price:       23000,
     category:    'engrais_mineral',
-    description: 'Engrais complet NPK 12-14-19 (50 kg). Riche en phosphore et potassium pour favoriser la floraison et la fructification.',
+    description: 'Engrais complet Sara NPK 12-14-19 (50 kg). Riche en phosphore et potassium pour favoriser la floraison et la fructification.',
     features: {
       npk:      '12-14-19',
       cultures: ['Palmier à huile', 'Cacao', 'Café', 'Cultures fruitières', 'Légumes-fruits'],
       benefits: ['Favorise la floraison', 'Améliore la fructification', 'Renforce la qualité des fruits'],
     },
-    images:     ['/products/icon-engrais.png'],
+    images:     ['/products/sarah-npk-12-14-10.webp'],
     sku:        'NPK-12-14-19-001',
     weight:     50,
     isActive:   true,
@@ -312,16 +312,16 @@ const CATALOG = [
   },
   {
     slug:        'npk-6-8-28',
-    name:        'NPK 6-8-28 50kg',
+    name:        'Sara NPK 6-8-28 50kg',
     price:       22000,
     category:    'engrais_mineral',
-    description: 'Engrais riche en potassium NPK 6-8-28 (50 kg). Idéal pour la maturation et la qualité des récoltes.',
+    description: 'Engrais riche en potassium Sara NPK 6-8-28 (50 kg). Idéal pour la maturation et la qualité des récoltes.',
     features: {
       npk:      '6-8-28',
       cultures: ['Banane', 'Plantain', 'Tubercules', 'Cultures fruitières'],
       benefits: ['Améliore la maturation', 'Renforce la qualité des récoltes', 'Résistance au stress'],
     },
-    images:     ['/products/icon-engrais.png'],
+    images:     ['/products/sarah-npk-10-30-10.webp'],
     sku:        'NPK-6-8-28-001',
     weight:     50,
     isActive:   true,
@@ -341,7 +341,7 @@ const CATALOG = [
       cultures:    ['Thé', 'Riz', 'Maïs', 'Légumes maraîchers', 'Oignons'],
       benefits:    ['Apport combiné azote + soufre', 'Acidifie légèrement le sol', 'Améliore l\'absorption des nutriments'],
     },
-    images:     ['/products/icon-engrais.png'],
+    images:     ['/products/sarah-uree-46.webp'],
     sku:        'SULF-50KG-001',
     weight:     50,
     isActive:   true,
@@ -355,16 +355,16 @@ const CATALOG = [
   // ═══════════════════════════════════════════════════════════════
   {
     slug:        'uree-46-25kg',
-    name:        'URÉE 46% 25kg',
+    name:        'Sara URÉE 46% 25kg',
     price:       11000,
     category:    'engrais_mineral',
-    description: 'Engrais azoté Urée 46% (25 kg). Format réduit pour petites exploitations, jardins et maraîchage.',
+    description: 'Engrais azoté Sara Urée 46% (25 kg). Format réduit pour petites exploitations, jardins et maraîchage.',
     features: {
       npk:      '46-0-0',
       cultures: ['Maïs', 'Légumes', 'Jardin potager', 'Cultures maraîchères'],
       benefits: ['Format pratique 25kg', 'Stimule la croissance', 'Azote à libération rapide'],
     },
-    images:     ['/products/icon-engrais.png'],
+    images:     ['/products/sarah-uree-46.webp'],
     sku:        'URE-25KG-001',
     weight:     25,
     isActive:   true,
@@ -399,10 +399,11 @@ async function syncCatalog() {
       }
 
       // Déterminer ce qui change
-      const priceChanged = existing.price !== item.price;
-      const nameChanged  = existing.name  !== item.name;
+      const priceChanged  = existing.price  !== item.price;
+      const nameChanged   = existing.name   !== item.name;
+      const imagesChanged = JSON.stringify(existing.images) !== JSON.stringify(item.images);
 
-      const setFields = { price: item.price, name: item.name };
+      const setFields = { price: item.price, name: item.name, images: item.images };
       const unsetFields = {};
 
       // Éliminer un promoPrice devenu invalide (>= prix officiel)
@@ -415,7 +416,7 @@ async function syncCatalog() {
 
       await Product.updateOne({ slug: item.slug }, updateOp);
 
-      if (priceChanged || nameChanged) {
+      if (priceChanged || nameChanged || imagesChanged) {
         const priceLog = priceChanged
           ? `${existing.price?.toLocaleString('fr-FR')} → ${item.price.toLocaleString('fr-FR')} FCFA`
           : `${item.price.toLocaleString('fr-FR')} FCFA (prix inchangé)`;
