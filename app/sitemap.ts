@@ -14,7 +14,6 @@ const STATIC_ROUTES: { url: string; priority: number; changeFrequency: MetadataR
   { url: '/agriculture-urbaine',      priority: 0.8, changeFrequency: 'monthly' },
   { url: '/agriculture-periurbaine',  priority: 0.8, changeFrequency: 'monthly' },
   { url: '/fourniture-intrants',      priority: 0.7, changeFrequency: 'monthly' },
-  { url: '/campagne-engrais',         priority: 0.7, changeFrequency: 'monthly' },
   { url: '/evenements',               priority: 0.7, changeFrequency: 'weekly' },
   { url: '/carte',                    priority: 0.6, changeFrequency: 'monthly' },
   { url: '/contact',                  priority: 0.6, changeFrequency: 'yearly' },

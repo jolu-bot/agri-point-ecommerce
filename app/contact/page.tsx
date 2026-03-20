@@ -347,7 +347,6 @@ export default function ContactPage() {
                       <option value="services">{en ? 'Our facilitation services'     : 'Nos services de facilitation'}</option>
                       <option value="technique">{en ? 'Technical advice'             : 'Conseil technique'}</option>
                       <option value="adhesion">{en ? 'CMA Membership / Partnership'  : 'Adhésion CMA / Partenariat'}</option>
-                      <option value="campagne">{en ? 'Agricultural Campaign 2026'    : 'Campagne Agricole 2026'}</option>
                       <option value="information">{en ? 'Information request'         : "Demande d'information"}</option>
                       <option value="autre">{en ? 'Other' : 'Autre'}</option>
                     </select>
