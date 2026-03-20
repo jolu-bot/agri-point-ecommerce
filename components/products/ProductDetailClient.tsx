@@ -7,8 +7,9 @@ import Link from 'next/link';
 import {
   ShoppingCart, Heart, Share2, Minus, Plus, Truck, Shield, Package,
   ChevronLeft, Check, CheckCircle2, Star, Leaf, ArrowRight, AlertTriangle, FlaskConical,
-  Sprout, Info
+  Sprout, Info, BookOpen
 } from 'lucide-react';
+import UsageGuide from './UsageGuide';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/store/cartStore';
 import toast from 'react-hot-toast';
@@ -42,7 +43,7 @@ interface Product {
   metaDescription?: string;
 }
 
-type Tab = 'description' | 'composition' | 'avis';
+type Tab = 'description' | 'composition' | 'avis' | 'usage';
 
 export default function ProductDetailClient({ initialProduct }: { initialProduct?: Product }) {
   const params = useParams();
@@ -59,6 +60,7 @@ export default function ProductDetailClient({ initialProduct }: { initialProduct
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: 'description', label: 'Description', icon: <Info className="w-4 h-4" /> },
     { id: 'composition', label: en ? 'Composition & Usage' : 'Composition & Usage', icon: <FlaskConical className="w-4 h-4" /> },
+    { id: 'usage', label: en ? 'Usage Guide' : "Guide d'utilisation", icon: <BookOpen className="w-4 h-4" /> },
     { id: 'avis', label: en ? 'Customer Reviews' : 'Avis clients', icon: <Star className="w-4 h-4" /> },
   ];
 
@@ -568,6 +570,10 @@ export default function ProductDetailClient({ initialProduct }: { initialProduct
                     </div>
                   </div>
                 </div>
+              )}
+
+              {activeTab === 'usage' && product && (
+                <UsageGuide product={product} en={en} />
               )}
 
               {activeTab === 'avis' && (
