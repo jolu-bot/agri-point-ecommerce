@@ -9,12 +9,12 @@ const nextConfig = {
   // -- Image optimization (critical for performance) ------------------------
   images: {
     formats: ['image/avif', 'image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    deviceSizes: [640, 828, 1080, 1920],     // Optimisé Afrique/Cameroun — suppression 4K inutile
+    imageSizes: [16, 32, 64, 128, 256],      // palette réduite pour cache CDN plus léger
     dangerouslyAllowSVG: false,
     contentDispositionType: 'attachment',
     unoptimized: false,
-    minimumCacheTTL: 86400,
+    minimumCacheTTL: 604800,                 // 7 jours (vs 1 jour) — économise +85% de ré-fetches images
     remotePatterns: [
       { protocol: 'https', hostname: 'res.cloudinary.com' },
       { protocol: 'https', hostname: '*.amazonaws.com' },
@@ -183,6 +183,12 @@ const nextConfig = {
         source: '/images/:path*',
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
+        source: '/products/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=604800, stale-while-revalidate=86400' },
         ],
       },
       {
