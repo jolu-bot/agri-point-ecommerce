@@ -77,6 +77,14 @@ export default function Header() {
       ]
     },
     { name: T.nav.about, href: '/a-propos' },
+    {
+      name: en ? 'Ressources' : 'Ressources',
+      href: '#',
+      submenu: [
+        { name: en ? 'Blog' : 'Blog', href: '/blog' },
+        { name: en ? 'Our Distributors' : 'Nos distributeurs', href: '/nos-distributeurs' },
+      ]
+    },
     { name: T.nav.contact, href: '/contact' },
   ];
 
