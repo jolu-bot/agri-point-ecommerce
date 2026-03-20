@@ -127,17 +127,26 @@ export default function IntrantsCarousel() {
       category: 'Engrais Minéral',
     },
     {
+      id: 'sarah-npk-10-30-10',
+      name: 'SARAH NPK 10-30-10 50kg',
+      image: '/products/sarah-npk-10-30-10.webp',
+      description: en
+        ? 'SARAH high-phosphorus NPK 10-30-10 (50 kg). Stimulates rooting and flowering.'
+        : 'SARAH NPK riche en phosphore 10-30-10 (50 kg). Stimule l\'enracinement et la floraison.',
+      category: 'Engrais Minéral',
+    },
+    {
       id: 'sarah-npk-00-00-36',
       name: 'SARAH NPK 00-00-36 50kg',
-      image: '/products/sarah-npk-10-30-10.webp',
+      image: '',
       description: en
         ? 'SARAH potassium fertilizer NPK 00-00-36 (50 kg). Strengthens disease resistance.'
         : 'Engrais potassique SARAH NPK 00-00-36 (50 kg). Renforce la résistance aux maladies.',
       category: 'Engrais Minéral',
     },
     {
-      id: 'sarah-npk-12-14-19',
-      name: 'SARAH NPK 12-14-19 50kg',
+      id: 'sarah-npk-12-14-10',
+      name: 'SARAH NPK 12-14-10 50kg',
       image: '/products/sarah-npk-12-14-10.webp',
       description: en
         ? 'SARAH complete NPK 12-14-19 (50 kg). Rich in P and K for flowering and fruiting.'
@@ -147,7 +156,7 @@ export default function IntrantsCarousel() {
     {
       id: 'sarah-npk-6-8-28',
       name: 'SARAH NPK 6-8-28 50kg',
-      image: '/products/sarah-npk-10-30-10.webp',
+      image: '',
       description: en
         ? 'SARAH potassium-rich NPK 6-8-28 (50 kg). Ideal for ripening and harvest quality.'
         : 'SARAH NPK riche en potassium 6-8-28 (50 kg). Idéal pour la maturation et la qualité des récoltes.',

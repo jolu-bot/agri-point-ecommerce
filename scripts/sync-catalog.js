@@ -273,6 +273,25 @@ const CATALOG = [
     stock:      35,
   },
   {
+    slug:        'sarah-npk-10-30-10',
+    name:        'SARAH NPK 10-30-10 50kg',
+    price:       20500,
+    category:    'engrais_mineral',
+    description: 'Engrais phosphaté SARAH NPK 10-30-10 (50 kg). Riche en phosphore pour stimuler l\'enracinement et la floraison.',
+    features: {
+      npk:      '10-30-10',
+      cultures: ['Maïs', 'Tomates', 'Oignons', 'Légumineuses', 'Cultures fruitières'],
+      benefits: ['Stimule l\'enracinement', 'Favorise la floraison', 'Améliore la qualité des fruits'],
+    },
+    images:     ['/products/sarah-npk-10-30-10.webp'],
+    sku:        'NPK-10-30-10-001',
+    weight:     50,
+    isActive:   true,
+    isFeatured: false,
+    isNew:      false,
+    stock:      25,
+  },
+  {
     slug:        'npk-00-00-36',
     name:        'SARAH NPK 00-00-36 50kg',
     price:       20500,
@@ -283,7 +302,7 @@ const CATALOG = [
       cultures: ['Bananier', 'Tubercules', 'Légumes', 'Café', 'Cacao'],
       benefits: ['Renforce la résistance aux maladies', 'Améliore la qualité des fruits', 'Régule la pression osmotique'],
     },
-    images:     ['/products/sarah-npk-10-30-10.webp'],
+    images:     [],
     sku:        'NPK-00-00-36-001',
     weight:     50,
     isActive:   true,
@@ -292,18 +311,18 @@ const CATALOG = [
     stock:      25,
   },
   {
-    slug:        'npk-12-14-19',
-    name:        'SARAH NPK 12-14-19 50kg',
+    slug:        'npk-12-14-10',
+    name:        'SARAH NPK 12-14-10 50kg',
     price:       23000,
     category:    'engrais_mineral',
-    description: 'Engrais complet SARAH NPK 12-14-19 (50 kg). Riche en phosphore et potassium pour favoriser la floraison et la fructification.',
+    description: 'Engrais complet SARAH NPK 12-14-10 (50 kg). Riche en phosphore et potassium pour favoriser la floraison et la fructification.',
     features: {
-      npk:      '12-14-19',
+      npk:      '12-14-10',
       cultures: ['Palmier à huile', 'Cacao', 'Café', 'Cultures fruitières', 'Légumes-fruits'],
       benefits: ['Favorise la floraison', 'Améliore la fructification', 'Renforce la qualité des fruits'],
     },
     images:     ['/products/sarah-npk-12-14-10.webp'],
-    sku:        'NPK-12-14-19-001',
+    sku:        'NPK-12-14-10-001',
     weight:     50,
     isActive:   true,
     isFeatured: false,
@@ -321,7 +340,7 @@ const CATALOG = [
       cultures: ['Banane', 'Plantain', 'Tubercules', 'Cultures fruitières'],
       benefits: ['Améliore la maturation', 'Renforce la qualité des récoltes', 'Résistance au stress'],
     },
-    images:     ['/products/sarah-npk-10-30-10.webp'],
+    images:     [],
     sku:        'NPK-6-8-28-001',
     weight:     50,
     isActive:   true,
@@ -380,6 +399,13 @@ async function syncCatalog() {
     console.log('🔗 Connexion à MongoDB...');
     await mongoose.connect(MONGODB_URI);
     console.log('✅ Connecté\n');
+
+    // ── Migrations one-time ────────────────────────────────────────
+    // Renomme npk-12-14-19 → npk-12-14-10 (correction du grade réel)
+    await Product.updateOne(
+      { slug: 'npk-12-14-19' },
+      { $set: { slug: 'npk-12-14-10', name: 'SARAH NPK 12-14-10 50kg' } }
+    );
 
     console.log('📦 SYNCHRONISATION CATALOGUE OFFICIEL — AGRI POINT SERVICE SARL');
     console.log('═'.repeat(65));
