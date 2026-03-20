@@ -3,10 +3,11 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
-import { ShoppingCart, Heart, Eye, Star, ArrowRight, Sprout, Flame } from 'lucide-react';
+import { ShoppingCart, Heart, Eye, Star, ArrowRight, Sprout, Flame, BarChart2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { IProduct } from '@/models/Product';
 import { useCartStore } from '@/store/cartStore';
+import { useCompareStore } from '@/store/compareStore';
 import toast from 'react-hot-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -17,6 +18,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, viewMode = 'grid' }: ProductCardProps) {
   const { addItem } = useCartStore();
+  const { addSlug, removeSlug, slugs } = useCompareStore();
   const { locale } = useLanguage();
   const en = locale === 'en';
   const [imgFailed, setImgFailed] = useState(false);
@@ -266,6 +268,24 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                   className="w-8 h-8 flex items-center justify-center bg-white/95 dark:bg-gray-900/95 rounded-xl shadow hover:bg-emerald-50 dark:hover:bg-emerald-900/40 hover:text-emerald-700 dark:hover:text-emerald-400 text-gray-500 dark:text-gray-400 transition-colors border border-gray-100 dark:border-white/10"
                 >
                   <Eye className="w-3.5 h-3.5" />
+                </motion.button>
+                <motion.button
+                  aria-label={en ? 'Compare' : 'Comparer'}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    slugs.includes(product.slug) ? removeSlug(product.slug) : addSlug(product.slug);
+                  }}
+                  whileHover={{ scale: 1.12 }}
+                  whileTap={{ scale: 0.88 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 18 }}
+                  className={`w-8 h-8 flex items-center justify-center rounded-xl shadow transition-colors border ${
+                    slugs.includes(product.slug)
+                      ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50'
+                      : 'bg-white/95 dark:bg-gray-900/95 text-gray-500 dark:text-gray-400 border-gray-100 dark:border-white/10 hover:bg-emerald-50 dark:hover:bg-emerald-900/40 hover:text-emerald-700 dark:hover:text-emerald-400'
+                  }`}
+                >
+                  <BarChart2 className="w-3.5 h-3.5" />
                 </motion.button>
               </div>
             )}

@@ -210,9 +210,74 @@ export async function sendDailySummary(
   });
 }
 
+/**
+ * Email de mise à jour de statut de commande
+ */
+export async function sendOrderStatusUpdate(
+  customerEmail: string,
+  customerName: string,
+  orderNumber: string,
+  newStatus: string,
+  trackingNumber?: string
+): Promise<boolean> {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com';
+
+  const STATUS_CONTENT: Record<string, { emoji: string; title: string; body: string; color: string }> = {
+    confirmed:  { emoji: '✅', title: 'Commande confirmée',       body: 'Votre commande a été confirmée et est en cours de traitement.',              color: '#10b981' },
+    processing: { emoji: '📦', title: 'Commande en préparation',  body: 'Votre colis est en cours de préparation dans nos entrepôts.',               color: '#6366f1' },
+    shipped:    { emoji: '🚚', title: 'Commande expédiée',        body: `Votre colis a été expédié.${trackingNumber ? ` N° de suivi : <strong>${trackingNumber}</strong>` : ''} Livraison estimée sous 24–48h.`, color: '#f59e0b' },
+    delivered:  { emoji: '🎉', title: 'Commande livrée !',        body: 'Votre commande a bien été livrée. Merci pour votre confiance !',            color: '#10b981' },
+    cancelled:  { emoji: '❌', title: 'Commande annulée',         body: 'Votre commande a été annulée. Contactez-nous pour plus d\'informations.',   color: '#ef4444' },
+  };
+
+  const content = STATUS_CONTENT[newStatus] ?? {
+    emoji: 'ℹ️', title: `Statut mis à jour : ${newStatus}`, body: `Le statut de votre commande est désormais : ${newStatus}.`, color: '#6b7280',
+  };
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: ${content.color}; color: white; padding: 20px; text-align: center;">
+        <h1>${content.emoji} ${content.title}</h1>
+      </div>
+
+      <div style="padding: 20px;">
+        <p>Bonjour <strong>${customerName}</strong>,</p>
+        <p>${content.body}</p>
+
+        <div style="background: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          <p><strong>Numéro de commande :</strong> ${orderNumber}</p>
+          <p><strong>Date :</strong> ${new Date().toLocaleDateString('fr-FR')}</p>
+        </div>
+
+        <p style="text-align: center; margin: 24px 0;">
+          <a href="${siteUrl}/commande/${orderNumber}"
+             style="background: #10b981; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
+            Voir ma commande
+          </a>
+        </p>
+
+        <p style="color: #666; font-size: 13px;">
+          Des questions ? Contactez-nous à <a href="mailto:support@agri-ps.com">support@agri-ps.com</a>
+        </p>
+      </div>
+
+      <div style="background: #f9fafb; padding: 20px; text-align: center; color: #666; font-size: 12px;">
+        <p>© ${new Date().getFullYear()} AGRIPOINT SERVICES. Tous droits réservés.</p>
+      </div>
+    </div>
+  `;
+
+  return sendEmail({
+    to: customerEmail,
+    subject: `${content.emoji} ${content.title} — Commande ${orderNumber}`,
+    html,
+  });
+}
+
 export default {
   sendEmail,
   sendOrderConfirmation,
   sendAdminOrderNotification,
   sendDailySummary,
+  sendOrderStatusUpdate,
 };

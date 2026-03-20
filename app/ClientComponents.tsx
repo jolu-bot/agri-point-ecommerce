@@ -28,6 +28,11 @@ const CookieConsentBanner = dynamic(() => import('@/components/cookies/CookieCon
   loading: () => null,
 });
 
+const ComparisonBar = dynamic(() => import('@/components/products/ComparisonBar'), {
+  ssr: false,
+  loading: () => null,
+});
+
 export function ClientComponents() {
   // Enregistrement du service worker (PWA offline + install prompt)
   useEffect(() => {
@@ -45,6 +50,7 @@ export function ClientComponents() {
       <PWAInstallPrompt />
       <SyncStatusPanel />
       <CookieConsentBanner />
+      <ComparisonBar />
     </>
   );
 }
