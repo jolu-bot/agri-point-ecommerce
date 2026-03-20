@@ -133,8 +133,8 @@ const nextConfig = {
       "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
-      "img-src 'self' data: blob: https://res.cloudinary.com https://*.amazonaws.com https://*.googleusercontent.com https://agri-ps.com https://maps.googleapis.com https://maps.gstatic.com",
-      "connect-src 'self' https://www.google-analytics.com https://api.openai.com https://*.sentry.io https://maps.googleapis.com https://maps.gstatic.com",
+      "img-src 'self' data: blob: https://res.cloudinary.com https://*.amazonaws.com https://*.googleusercontent.com https://agri-ps.com https://maps.googleapis.com https://maps.gstatic.com https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org https://*.openstreetmap.org",
+      "connect-src 'self' https://www.google-analytics.com https://api.openai.com https://*.sentry.io https://maps.googleapis.com https://maps.gstatic.com https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org https://*.openstreetmap.org",
       "media-src 'self'",
       "frame-src 'none'",
       "object-src 'none'",
@@ -195,6 +195,13 @@ const nextConfig = {
         source: '/:path*.woff2',
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
+        source: '/sw.js',
+        headers: [
+          { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
+          { key: 'Service-Worker-Allowed', value: '/' },
         ],
       },
     ];

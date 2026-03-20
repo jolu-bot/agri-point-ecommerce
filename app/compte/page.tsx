@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import Breadcrumb from '@/components/shared/Breadcrumb';
+import LoyaltyCard from '@/components/account/LoyaltyCard';
 
 // -- Types ----------------------------------------------------------------------
 interface UserProfile {
@@ -54,6 +55,10 @@ export default function ComptePage() {
     name: '', phone: '', whatsapp: false,
     address: { city: '', region: '', quartier: '', street: '' },
   });
+  const [loyalty, setLoyalty] = useState<{
+    points: number; tier: string; tierLabel: string;
+    nextTierLabel: string | null; remaining: number; progress: number;
+  } | null>(null);
 
   // -- Locale-aware STATUS_CONFIG -----------------------------------------------
   const STATUS_CONFIG = {
@@ -116,6 +121,15 @@ export default function ComptePage() {
   }, [router, locale]);
 
   useEffect(() => { fetchProfile(); }, [fetchProfile]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) return;
+    fetch('/api/loyalty', { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data) setLoyalty(data); })
+      .catch(() => {});
+  }, []);
 
   const handleSave = async () => {
     const token = localStorage.getItem('accessToken');
@@ -478,6 +492,19 @@ export default function ComptePage() {
             </div>
           </div>
         </div>
+
+        {/* ── Carte de fidélité ─────────────────────────────────────────── */}
+        {loyalty && (
+          <LoyaltyCard
+            points={loyalty.points}
+            tier={loyalty.tier}
+            tierLabel={loyalty.tierLabel}
+            nextTierLabel={loyalty.nextTierLabel}
+            remaining={loyalty.remaining}
+            progress={loyalty.progress}
+            en={locale === 'en'}
+          />
+        )}
       </div>
     </div>
   );

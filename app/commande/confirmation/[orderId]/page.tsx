@@ -17,7 +17,8 @@ import {
   AlertCircle,
   Download,
   Share2,
-  CheckCircle2
+  CheckCircle2,
+  Award,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import WhatsAppInstructions from '@/components/shared/WhatsAppInstructions';
@@ -245,6 +246,21 @@ export default function OrderConfirmationPage() {
 
           <p className="text-sm text-gray-500 mt-4">
             {en ? 'Keep this number safe' : 'Conservez ce numéro précieusement'}
+          </p>
+        </motion.div>
+
+        {/* Mini loyalty points card */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="flex items-center gap-3 px-5 py-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800"
+        >
+          <Award className="w-5 h-5 text-amber-600 shrink-0" />
+          <p className="text-sm font-medium">
+            {en
+              ? `You will earn ${order.total.toLocaleString('fr-FR')} loyalty points upon delivery.`
+              : `Vous gagnerez ${order.total.toLocaleString('fr-FR')} points de fidélité à la livraison.`}
           </p>
         </motion.div>
 

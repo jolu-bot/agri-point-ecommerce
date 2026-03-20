@@ -28,6 +28,8 @@ export default function Footer() {
       { label: T.footer.linksBio, href: '/produits?category=biofertilisant' },
       { label: T.footer.linksEngrais, href: '/produits?category=engrais_mineral' },
       { label: T.footer.linksServices, href: '/produits?category=service' },
+      { label: (T.footer as any).linksDistributeurs ?? 'Nos distributeurs', href: '/nos-distributeurs' },
+      { label: (T.footer as any).linksBlog ?? 'Blog', href: '/blog' },
     ],
   };
 
