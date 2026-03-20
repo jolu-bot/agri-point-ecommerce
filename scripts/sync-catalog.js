@@ -133,7 +133,7 @@ const CATALOG = [
   // ═══════════════════════════════════════════════════════════════
   {
     slug:        'humiforte-5l',
-    name:        'KIT HUMIFORTE 5L',
+    name:        'KIT HUMIFORTE',
     price:       67500,
     category:    'biofertilisant',
     description: 'Fertilisant organique avec L-aminoacides libres (5 litres). Format économique pour grandes exploitations.',
@@ -152,7 +152,7 @@ const CATALOG = [
   },
   {
     slug:        'fosnutren-5l',
-    name:        'KIT FOSNUTREN 5L',
+    name:        'KIT FOSNUTREN',
     price:       67500,
     category:    'biofertilisant',
     description: 'Biostimulant pour la floraison et fructification (5 litres). Format économique pour grandes exploitations.',
@@ -171,7 +171,7 @@ const CATALOG = [
   },
   {
     slug:        'kadostim-5l',
-    name:        'KIT KADOSTIM 5L',
+    name:        'KIT KADOSTIM',
     price:       67500,
     category:    'biofertilisant',
     description: 'Stimulant racinaire à base de potassium (5 litres). Format économique pour grandes exploitations.',
@@ -190,7 +190,7 @@ const CATALOG = [
   },
   {
     slug:        'aminol-5l',
-    name:        'KIT AMINOL FORTE 5L',
+    name:        'KIT AMINOL FORTE',
     price:       67500,
     category:    'biofertilisant',
     description: 'Complexe d\'acides aminés et microéléments (5 litres). Format économique pour grandes exploitations.',
