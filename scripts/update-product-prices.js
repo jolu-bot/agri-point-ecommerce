@@ -41,14 +41,14 @@ const PRICE_GRID = [
   // Kit
   { slug: 'natur-care',         name: 'KIT NATURCARE 5L',        newPrice: 65000 },
   // Engrais minéraux 50kg
-  { slug: 'uree-46',            name: 'Sara URÉE 46% 50kg',           newPrice: 22000 },
-  { slug: 'sarah-npk-20-10-10', name: 'Sara NPK 20-10-10 50kg',       newPrice: 19500 },
-  { slug: 'npk-00-00-36',       name: 'Sara NPK 00-00-36 50kg',       newPrice: 20500 },
-  { slug: 'npk-12-14-19',       name: 'Sara NPK 12-14-19 50kg',       newPrice: 23000 },
-  { slug: 'npk-6-8-28',         name: 'Sara NPK 6-8-28 50kg',         newPrice: 22000 },
-  { slug: 'sulfate-50kg',       name: 'SULFATE d\'Ammonium 50kg',     newPrice: 17500 },
+  { slug: 'uree-46',            name: 'SARAH URÉE 46% 50kg',          newPrice: 22000 },
+  { slug: 'sarah-npk-20-10-10', name: 'SARAH NPK 20-10-10 50kg',      newPrice: 19500 },
+  { slug: 'npk-00-00-36',       name: 'SARAH NPK 00-00-36 50kg',      newPrice: 20500 },
+  { slug: 'npk-12-14-19',       name: 'SARAH NPK 12-14-19 50kg',      newPrice: 23000 },
+  { slug: 'npk-6-8-28',         name: 'SARAH NPK 6-8-28 50kg',        newPrice: 22000 },
+  { slug: 'sulfate-50kg',       name: 'SARAH Sulfate 50kg',           newPrice: 17500 },
   // Engrais minéraux 25kg
-  { slug: 'uree-46-25kg',       name: 'Sara URÉE 46% 25kg',           newPrice: 11000 },
+  { slug: 'uree-46-25kg',       name: 'SARAH Urée 46% 25kg',          newPrice: 11000 },
 ];
 
 // Slugs des produits campagne — NE PAS TOUCHER

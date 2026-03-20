@@ -23,86 +23,153 @@ export default function IntrantsCarousel() {
   const en = locale === 'en';
 
   const products: IntrantProduct[] = [
+    // ── Biofertilisants 1 litre ──────────────────────────────────
     {
-      id: 'sarah-npk-20-10-10',
-      name: 'SARAH NPK 20-10-10',
-      image: '/products/sarah-npk-20-10-10.webp',
+      id: 'humiforte-1l',
+      name: 'HUMIFORTE 1L',
+      image: '/products/humiforte-20-%201%20litre.png',
       description: en
-        ? 'Balanced fertilizer ideal for vegetative growth and general development'
-        : 'Engrais équilibré idéal pour la croissance végétative et le développement général',
-      category: 'NPK Minéral',
+        ? 'Organic fertilizer with free L-amino acids. Promotes foliage and vegetative growth.'
+        : 'Fertilisant organique avec L-aminoacides libres. Favorise le feuillage et la croissance végétative.',
+      category: 'Biofertilisant',
     },
     {
-      id: 'sarah-npk-12-14-10',
-      name: 'SARAH NPK 12-14-10',
-      image: '/products/sarah-npk-12-14-10.webp',
+      id: 'fosnutren-1l',
+      name: 'FOSNUTREN 1L',
+      image: '/products/fosnutren-20-1%20litre.png',
       description: en
-        ? 'Phosphorus-rich, perfect for flowering and fruiting'
-        : 'Riche en phosphore, parfait pour la floraison et la fructification',
-      category: 'NPK Minéral',
+        ? 'Biostimulant for flowering and fruiting. Guarantees abundant production.'
+        : 'Biostimulant pour la floraison et fructification. Garantit une production abondante.',
+      category: 'Biofertilisant',
     },
     {
-      id: 'sarah-npk-10-30-10',
-      name: 'SARAH NPK 10-30-10',
-      image: '/products/sarah-npk-10-30-10.webp',
+      id: 'kadostim-1l',
+      name: 'KADOSTIM 1L',
+      image: '/products/kadostim-20-1%20litre.png',
       description: en
-        ? 'High phosphorus content to strengthen fruiting and quality'
-        : 'Haute teneur en phosphore pour renforcer la fructification et la qualité',
-      category: 'NPK Minéral',
+        ? 'Potassium-based root stimulant. Strengthens the root system and stress resistance.'
+        : 'Stimulant racinaire à base de potassium. Renforce le système racinaire et la résistance au stress.',
+      category: 'Biofertilisant',
     },
     {
-      id: 'sarah-uree-46',
-      name: 'SARAH URÉE 46%',
-      image: '/products/sarah-uree-46.webp',
+      id: 'aminol-1l',
+      name: 'AMINOL FORTE 1L',
+      image: '/products/aminol-20-1%20litre.png',
       description: en
-        ? 'Highly concentrated nitrogen supply for rapid, vigorous growth'
-        : 'Apport azoté très concentré pour une croissance rapide et vigoureuse',
-      category: 'Azote',
+        ? 'Amino acid and microelement complex. Stimulates plant growth and metabolism.'
+        : 'Complexe d\'acides aminés et microéléments. Stimule la croissance et le métabolisme des plantes.',
+      category: 'Biofertilisant',
+    },
+    // ── Biofertilisants 5 litres ─────────────────────────────────
+    {
+      id: 'humiforte-5l',
+      name: 'HUMIFORTE 5L',
+      image: '/products/kit%20humiforte-20.png',
+      description: en
+        ? 'Organic fertilizer with L-amino acids (5 L). Economy format for large farms.'
+        : 'Fertilisant organique avec L-aminoacides libres (5 L). Format économique pour grandes exploitations.',
+      category: 'Biofertilisant',
     },
     {
-      id: 'humiforte-20',
-      name: 'HUMIFORTE 20L',
-      image: '/products/humiforte-20.webp',
+      id: 'fosnutren-5l',
+      name: 'FOSNUTREN 5L',
+      image: '/products/kit%20fosnutren-20.png',
       description: en
-        ? 'Bio-stimulant based on humic acids to improve soil structure'
-        : "Bio-stimulant à base d'acides humiques pour améliorer la structure du sol",
-      category: 'Bio-fertilisant',
+        ? 'Flowering and fruiting biostimulant (5 L). Economy format for large farms.'
+        : 'Biostimulant pour la floraison et fructification (5 L). Format économique pour grandes exploitations.',
+      category: 'Biofertilisant',
     },
     {
-      id: 'kadostim-20',
-      name: 'KADOSTIM 20L',
-      image: '/products/kadostim-20.webp',
+      id: 'kadostim-5l',
+      name: 'KADOSTIM 5L',
+      image: '/products/kit%20kadostim-20.png',
       description: en
-        ? 'Natural growth and rooting stimulator for all crops'
-        : "Stimulateur naturel de croissance et d'enracinement pour toutes cultures",
-      category: 'Bio-fertilisant',
+        ? 'Root stimulant based on potassium (5 L). Economy format for large farms.'
+        : 'Stimulant racinaire à base de potassium (5 L). Format économique pour grandes exploitations.',
+      category: 'Biofertilisant',
     },
     {
-      id: 'fosnutren-20',
-      name: 'FOSNUTREN 20L',
-      image: '/products/fosnutren-20.webp',
+      id: 'aminol-5l',
+      name: 'AMINOL FORTE 5L',
+      image: '/products/kit%20aminol-20.png',
       description: en
-        ? 'Phosphorus-rich foliar fertilizer, rapidly absorbed by leaves'
-        : 'Fertilisant foliaire riche en phosphore, absorption rapide par les feuilles',
-      category: 'Foliaire',
+        ? 'Amino acid complex (5 L). Economy format for large farms.'
+        : 'Complexe d\'acides aminés et microéléments (5 L). Format économique pour grandes exploitations.',
+      category: 'Biofertilisant',
     },
+    // ── Kit ──────────────────────────────────────────────────────
     {
-      id: 'aminol-20',
-      name: 'AMINOL 20L',
-      image: '/products/aminol-20.webp',
-      description: en
-        ? 'Natural amino acids to increase resistance to climate stress'
-        : 'Acides aminés naturels pour augmenter la résistance au stress climatique',
-      category: 'Bio-fertilisant',
-    },
-    {
-      id: 'kit-naturcare-terra',
-      name: 'KIT NATURCARE TERRA',
+      id: 'kit-naturcare',
+      name: 'KIT NATURCARE 5L',
       image: '/products/kit-naturcare-terra.webp',
       description: en
-        ? 'Complete certified organic fertilization kit'
-        : 'Kit complet de fertilisation organique certifiée bio',
+        ? 'Complete biofertilizer kit (5 L). Full assortment for optimal crop nutrition.'
+        : 'Kit complet de biofertilisants (5 L). Assortiment complet pour une nutrition optimale de toutes vos cultures.',
       category: 'Kit Bio',
+    },
+    // ── Engrais minéraux SARAH ───────────────────────────────────
+    {
+      id: 'sarah-uree-50kg',
+      name: 'SARAH URÉE 46% 50kg',
+      image: '/products/sarah-uree-46.webp',
+      description: en
+        ? 'SARAH Urea 46% (50 kg). Fast-release nitrogen for rapid vegetative growth.'
+        : 'Urée SARAH 46% (50 kg). Azote à libération rapide pour une croissance végétative vigoureuse.',
+      category: 'Engrais Minéral',
+    },
+    {
+      id: 'sarah-npk-20-10-10',
+      name: 'SARAH NPK 20-10-10 50kg',
+      image: '/products/sarah-npk-20-10-10.jpeg',
+      description: en
+        ? 'SARAH balanced NPK 20-10-10 (50 kg). Complete nutrition for high yields.'
+        : 'SARAH NPK équilibré 20-10-10 (50 kg). Nutrition complète pour des rendements élevés.',
+      category: 'Engrais Minéral',
+    },
+    {
+      id: 'sarah-npk-00-00-36',
+      name: 'SARAH NPK 00-00-36 50kg',
+      image: '/products/sarah-npk-10-30-10.webp',
+      description: en
+        ? 'SARAH potassium fertilizer NPK 00-00-36 (50 kg). Strengthens disease resistance.'
+        : 'Engrais potassique SARAH NPK 00-00-36 (50 kg). Renforce la résistance aux maladies.',
+      category: 'Engrais Minéral',
+    },
+    {
+      id: 'sarah-npk-12-14-19',
+      name: 'SARAH NPK 12-14-19 50kg',
+      image: '/products/sarah-npk-12-14-10.webp',
+      description: en
+        ? 'SARAH complete NPK 12-14-19 (50 kg). Rich in P and K for flowering and fruiting.'
+        : 'SARAH NPK complet 12-14-19 (50 kg). Riche en P et K pour la floraison et la fructification.',
+      category: 'Engrais Minéral',
+    },
+    {
+      id: 'sarah-npk-6-8-28',
+      name: 'SARAH NPK 6-8-28 50kg',
+      image: '/products/sarah-npk-10-30-10.webp',
+      description: en
+        ? 'SARAH potassium-rich NPK 6-8-28 (50 kg). Ideal for ripening and harvest quality.'
+        : 'SARAH NPK riche en potassium 6-8-28 (50 kg). Idéal pour la maturation et la qualité des récoltes.',
+      category: 'Engrais Minéral',
+    },
+    {
+      id: 'sarah-sulfate',
+      name: 'SARAH Sulfate 50kg',
+      image: '/products/sarah-uree-46.webp',
+      description: en
+        ? 'SARAH ammonium sulphate (50 kg). Combined nitrogen and sulphur for demanding crops.'
+        : 'Sulfate d\'ammonium SARAH (50 kg). Apport combiné azote + soufre pour cultures exigeantes.',
+      category: 'Engrais Minéral',
+    },
+    {
+      id: 'sarah-uree-25kg',
+      name: 'SARAH Urée 46% 25kg',
+      image: '/products/sarah-uree-46-25kg.png',
+      description: en
+        ? 'SARAH Urea 46% (25 kg). Compact format for small farms and market gardening.'
+        : 'Urée SARAH 46% (25 kg). Format réduit pour petites exploitations et maraîchage.',
+      category: 'Engrais Minéral',
     },
   ];
 
