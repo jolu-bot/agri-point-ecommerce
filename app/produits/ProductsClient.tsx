@@ -139,7 +139,7 @@ export default function ProductsClient({
     priceRange.min > 0 ||
     priceRange.max < 500000;
 
-  const activeCount = products.filter((p) => p.isActive && p.stock > 0).length;
+  const activeCount = products.filter((p) => p.isActive).length;
   const featuredCount = products.filter((p) => p.isFeatured).length;
 
   const translatedCategories = [
