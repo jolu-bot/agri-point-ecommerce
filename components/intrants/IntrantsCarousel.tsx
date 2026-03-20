@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, ShoppingCart } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ShoppingCart, Package } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 interface IntrantProduct {
@@ -156,7 +156,7 @@ export default function IntrantsCarousel() {
     {
       id: 'sarah-sulfate',
       name: 'SARAH Sulfate 50kg',
-      image: '/products/sarah-uree-46.webp',
+      image: '',
       description: en
         ? 'SARAH ammonium sulphate (50 kg). Combined nitrogen and sulphur for demanding crops.'
         : 'Sulfate d\'ammonium SARAH (50 kg). Apport combiné azote + soufre pour cultures exigeantes.',
@@ -260,13 +260,20 @@ export default function IntrantsCarousel() {
                   <div className="h-full rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden hover:shadow-lg hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 flex flex-col">
                     {/* Product Image */}
                     <div className="relative aspect-square bg-gray-100 dark:bg-gray-800 overflow-hidden">
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        fill
-                        className="object-contain p-4 group-hover:scale-110 transition-transform duration-500"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      />
+                      {product.image ? (
+                        <Image
+                          src={product.image}
+                          alt={product.name}
+                          fill
+                          quality={85}
+                          className="object-contain p-4 group-hover:scale-110 transition-transform duration-500"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Package className="w-14 h-14 text-gray-300 dark:text-gray-600" />
+                        </div>
+                      )}
 
                       {/* Category Badge */}
                       <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/50 backdrop-blur-sm">

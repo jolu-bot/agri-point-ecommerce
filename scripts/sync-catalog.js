@@ -341,7 +341,7 @@ const CATALOG = [
       cultures:    ['Thé', 'Riz', 'Maïs', 'Légumes maraîchers', 'Oignons'],
       benefits:    ['Apport combiné azote + soufre', 'Acidifie légèrement le sol', 'Améliore l\'absorption des nutriments'],
     },
-    images:     ['/products/sarah-uree-46.webp'],
+    images:     [],
     sku:        'SULF-50KG-001',
     weight:     50,
     isActive:   true,
