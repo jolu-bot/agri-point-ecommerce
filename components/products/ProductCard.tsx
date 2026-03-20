@@ -67,6 +67,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                     alt={product.name}
                     fill
                     sizes="(max-width:640px) 100vw, 256px"
+                    quality={85}
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                     onError={() => setImgFailed(true)}
@@ -201,6 +202,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                 alt={product.name}
                 fill
                 sizes="(max-width:768px) 50vw, (max-width:1280px) 33vw, 300px"
+                quality={85}
                 className="object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-110"
                 loading="lazy"
                 onError={() => setImgFailed(true)}

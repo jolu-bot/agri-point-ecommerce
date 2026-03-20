@@ -103,7 +103,7 @@ export default function ProductsClient({
       return price >= priceRange.min && price <= priceRange.max;
     });
 
-    filtered = filtered.filter((p) => p.isActive && p.stock > 0);
+    filtered = filtered.filter((p) => p.isActive);
 
     switch (sortBy) {
       case 'featured':
