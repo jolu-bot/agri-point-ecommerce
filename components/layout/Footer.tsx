@@ -23,14 +23,11 @@ export default function Footer() {
       { label: T.footer.linksGagnerPlus, href: '/gagner-plus' },
       { label: T.footer.linksMieuxVivre, href: '/mieux-vivre' },
       { label: T.footer.linksAgriSmart, href: '/agriculture-urbaine' },
-      { label: T.footer.linksCampagne, href: '/campagne-engrais' },
     ],
     boutique: [
       { label: T.footer.linksBio, href: '/produits?category=biofertilisant' },
-      { label: T.footer.linksEngrais, href: '/produits?category=engrais' },
-      { label: T.footer.linksKits, href: '/produits?category=kit' },
+      { label: T.footer.linksEngrais, href: '/produits?category=engrais_mineral' },
       { label: T.footer.linksServices, href: '/produits?category=service' },
-      { label: T.footer.linksCampagne, href: '/campagne-engrais' },
     ],
   };
 

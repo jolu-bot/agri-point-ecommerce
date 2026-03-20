@@ -67,7 +67,6 @@ export default function Header() {
         { name: T.nav.betterLiving, href: '/mieux-vivre' },
       ]
     },
-    { name: T.nav.campaign, href: '/campagne-engrais' },
     { name: T.nav.offers, href: '/produits' },
     {
       name: T.nav.agriSmart,
