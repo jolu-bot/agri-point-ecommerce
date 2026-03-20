@@ -57,6 +57,10 @@ export interface IUser {
   lastLoginAt?: Date;
   lastLoginIp?: string;
 
+  // Fidélité
+  loyaltyPoints?: number;
+  loyaltyTier?: 'bronze' | 'argent' | 'or' | 'platine';
+
   createdAt: Date;
   updatedAt: Date;
 
@@ -149,6 +153,14 @@ const UserSchema = new Schema<IUser>(
     // -- Métadonnées session ---------------------------------------------------
     lastLoginAt: Date,
     lastLoginIp: String,
+
+    // -- Fidélité --------------------------------------------------------------
+    loyaltyPoints: { type: Number, default: 0 },
+    loyaltyTier: {
+      type: String,
+      enum: ['bronze', 'argent', 'or', 'platine'],
+      default: 'bronze',
+    },
   },
   { timestamps: true }
 );

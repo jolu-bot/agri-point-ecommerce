@@ -5,6 +5,7 @@ import Order from '@/models/Order';
 import User from '@/models/User';
 import { SMSService, ORDER_STATUS_SMS } from '@/lib/sms-service';
 import { sendOrderStatusUpdate } from '@/lib/email';
+import { awardLoyaltyPoints } from '@/lib/loyalty';
 
 export async function PATCH(
   request: NextRequest,
@@ -94,6 +95,13 @@ export async function PATCH(
       { $set: setFields, $push: { statusHistory: historyEntry } },
       { new: true }
     );
+
+    // ── Loyalty points on delivery ─────────────────────────────────────────
+    if (newStatus === 'delivered' && order.user?._id && order.total) {
+      try {
+        await awardLoyaltyPoints(String(order.user._id), order.total);
+      } catch { /* silent */ }
+    }
 
     return NextResponse.json({ success: true, order: updatedOrder, smsSent, emailSent });
   } catch (error) {
