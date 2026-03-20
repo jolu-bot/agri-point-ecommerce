@@ -56,10 +56,10 @@ export default function IntrantsCarousel() {
         : 'Complexe d\'acides aminés et microéléments. Stimule la croissance et le métabolisme des plantes.',
       category: 'Biofertilisant',
     },
-    // ── Biofertilisants 5 litres ─────────────────────────────────
+    // ── Biofertilisants 5 litres — bidons individuels ────────────
     {
       id: 'humiforte-5l',
-      name: 'KIT HUMIFORTE',
+      name: 'HUMIFORTE 5L',
       image: '/products/humiforte-20-5litres.png',
       description: en
         ? 'Organic fertilizer with L-amino acids (5 L). Economy format for large farms.'
@@ -68,7 +68,7 @@ export default function IntrantsCarousel() {
     },
     {
       id: 'fosnutren-5l',
-      name: 'KIT FOSNUTREN',
+      name: 'FOSNUTREN 5L',
       image: '/products/fosnutren-20-5litres.png',
       description: en
         ? 'Flowering and fruiting biostimulant (5 L). Economy format for large farms.'
@@ -77,7 +77,7 @@ export default function IntrantsCarousel() {
     },
     {
       id: 'kadostim-5l',
-      name: 'KIT KADOSTIM',
+      name: 'KADOSTIM 5L',
       image: '/products/kadostim-20-5litres.png',
       description: en
         ? 'Root stimulant based on potassium (5 L). Economy format for large farms.'
@@ -86,14 +86,51 @@ export default function IntrantsCarousel() {
     },
     {
       id: 'aminol-5l',
-      name: 'KIT AMINOL FORTE',
+      name: 'AMINOL FORTE 5L',
       image: '/products/aminol-20-5litres.png',
       description: en
         ? 'Amino acid complex (5 L). Economy format for large farms.'
         : 'Complexe d\'acides aminés et microéléments (5 L). Format économique pour grandes exploitations.',
       category: 'Biofertilisant',
     },
-    // ── Kit ──────────────────────────────────────────────────────
+    // ── Kits multi-bidons (affichage Nos Services uniquement) ────
+    {
+      id: 'kit-humiforte',
+      name: 'KIT HUMIFORTE',
+      image: '/products/kit-humiforte-20.png',
+      description: en
+        ? 'HUMIFORTE multi-format kit. Complete range for optimal use on all crops.'
+        : 'Kit multi-formats HUMIFORTE. Gamme complète pour une utilisation optimale sur toutes vos cultures.',
+      category: 'Kit Bio',
+    },
+    {
+      id: 'kit-fosnutren',
+      name: 'KIT FOSNUTREN',
+      image: '/products/kit-fosnutren-20.png',
+      description: en
+        ? 'FOSNUTREN multi-format kit. Full biostimulant range for flowering and fruiting.'
+        : 'Kit multi-formats FOSNUTREN. Gamme complète de biostimulants pour la floraison et la fructification.',
+      category: 'Kit Bio',
+    },
+    {
+      id: 'kit-kadostim',
+      name: 'KIT KADOSTIM',
+      image: '/products/kit-kadostim-20.png',
+      description: en
+        ? 'KADOSTIM multi-format kit. Full root stimulant range for robust crops.'
+        : 'Kit multi-formats KADOSTIM. Gamme complète de stimulants racinaires pour des cultures robustes.',
+      category: 'Kit Bio',
+    },
+    {
+      id: 'kit-aminol',
+      name: 'KIT AMINOL FORTE',
+      image: '/products/kit-aminol-20.png',
+      description: en
+        ? 'AMINOL FORTE multi-format kit. Complete amino acid range for plant growth.'
+        : 'Kit multi-formats AMINOL FORTE. Gamme complète d\'acides aminés pour la croissance végétale.',
+      category: 'Kit Bio',
+    },
+    // ── Kit complet ───────────────────────────────────────────────
     {
       id: 'kit-naturcare',
       name: 'KIT NATURCARE 5L',
@@ -103,7 +140,7 @@ export default function IntrantsCarousel() {
         : 'Kit complet de biofertilisants (5 L). Assortiment complet pour une nutrition optimale de toutes vos cultures.',
       category: 'Kit Bio',
     },
-    // ── Engrais minéraux SARAH ───────────────────────────────────
+    // ── Engrais minéraux SARAH ────────────────────────────────────
     {
       id: 'sarah-uree-50kg',
       name: 'SARAH URÉE 46% 50kg',
