@@ -5,6 +5,8 @@
  * Usage: node scripts/seed.js
  */
 
+require('dotenv').config({ path: '.env.local' });
+require('dotenv').config(); // fallback .env
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
