@@ -104,15 +104,6 @@ export default function IntrantsCarousel() {
         : 'Kit complet de fertilisation organique certifiée bio',
       category: 'Kit Bio',
     },
-    {
-      id: 'kit-urbain-debutant',
-      name: 'KIT PRODUCTEUR DÉBUTANT',
-      image: '/products/kit-urbain-debutant.webp',
-      description: en
-        ? 'Ideal kit to start a productive farming activity'
-        : 'Kit idéal pour débuter une activité agricole productive',
-      category: 'Kit Producteur',
-    },
   ];
 
   const nextSlide = useCallback(() => {

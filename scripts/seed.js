@@ -351,22 +351,6 @@ async function seed() {
         sku: 'URE-25KG-001', weight: 25,
       },
 
-      // ── KIT URBAIN ───────────────────────────────────────────────
-      {
-        name: 'Kit Agriculture Urbaine Débutant',
-        slug: 'kit-urbain-debutant',
-        description: 'Kit complet pour démarrer votre potager urbain sur balcon ou terrasse.',
-        category: 'kit_urbain',
-        images: ['/products/kit-urbain.jpg'],
-        price: 35000,
-        stock: 25,
-        isActive: true, isFeatured: true, isNew: true,
-        features: {
-          cultures: ['Tomates cerises', 'Herbes aromatiques', 'Laitues'],
-          benefits: ['Kit complet', 'Guide inclus', 'Support AgriBot'],
-        },
-        sku: 'KIT-URB-001',
-      },
     ];
 
     await Product.insertMany(products);

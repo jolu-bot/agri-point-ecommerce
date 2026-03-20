@@ -32,7 +32,6 @@ export default function EditProductPage() {
   const categories = [
     { value: 'biofertilisant', label: 'Biofertilisant' },
     { value: 'engrais_mineral', label: 'Engrais Minéral' },
-    { value: 'kit_urbain', label: 'Kit Urbain' },
     { value: 'service', label: 'Service' },
     { value: 'autre', label: 'Autre' },
   ];

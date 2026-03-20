@@ -1,7 +1,7 @@
 ﻿'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Search, SlidersHorizontal, Grid3x3, List, X, Leaf, ChevronDown, Sprout, ShoppingBag, FlaskConical, Building2, Handshake, Package, LayoutGrid } from 'lucide-react';
+import { Search, SlidersHorizontal, Grid3x3, List, X, Leaf, ChevronDown, Sprout, ShoppingBag, FlaskConical, Handshake, Package, LayoutGrid } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProductCard from '@/components/products/ProductCard';
 import { IProduct } from '@/models/Product';
@@ -13,7 +13,6 @@ const categories: { value: string; label: string; Icon: ComponentType<{ classNam
   { value: 'all', label: 'Tout voir', Icon: LayoutGrid },
   { value: 'biofertilisant', label: 'Biofertilisants', Icon: Sprout },
   { value: 'engrais_mineral', label: 'Engrais Minéraux', Icon: FlaskConical },
-  { value: 'kit_urbain', label: 'Kits Producteur', Icon: Building2 },
   { value: 'service', label: 'Services', Icon: Handshake },
   { value: 'autre', label: 'Autres', Icon: Package },
 ];
@@ -147,9 +146,8 @@ export default function ProductsClient({
     { value: 'all', Icon: categories[0].Icon, label: T.products.catAll },
     { value: 'biofertilisant', Icon: categories[1].Icon, label: T.products.catBio },
     { value: 'engrais_mineral', Icon: categories[2].Icon, label: T.products.catMineral },
-    { value: 'kit_urbain', Icon: categories[3].Icon, label: T.products.catKits },
-    { value: 'service', Icon: categories[4].Icon, label: T.products.catServices },
-    { value: 'autre', Icon: categories[5].Icon, label: T.products.catOther },
+    { value: 'service', Icon: categories[3].Icon, label: T.products.catServices },
+    { value: 'autre', Icon: categories[4].Icon, label: T.products.catOther },
   ];
 
   const translatedSortOptions = [
