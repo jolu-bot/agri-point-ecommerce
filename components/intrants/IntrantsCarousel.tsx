@@ -60,7 +60,7 @@ export default function IntrantsCarousel() {
     {
       id: 'humiforte-5l',
       name: 'KIT HUMIFORTE',
-      image: '/products/kit-humiforte-20.png',
+      image: '/products/humiforte-20-5litres.png',
       description: en
         ? 'Organic fertilizer with L-amino acids (5 L). Economy format for large farms.'
         : 'Fertilisant organique avec L-aminoacides libres (5 L). Format économique pour grandes exploitations.',
@@ -69,7 +69,7 @@ export default function IntrantsCarousel() {
     {
       id: 'fosnutren-5l',
       name: 'KIT FOSNUTREN',
-      image: '/products/kit-fosnutren-20.png',
+      image: '/products/fosnutren-20-5litres.png',
       description: en
         ? 'Flowering and fruiting biostimulant (5 L). Economy format for large farms.'
         : 'Biostimulant pour la floraison et fructification (5 L). Format économique pour grandes exploitations.',
@@ -78,7 +78,7 @@ export default function IntrantsCarousel() {
     {
       id: 'kadostim-5l',
       name: 'KIT KADOSTIM',
-      image: '/products/kit-kadostim-20.png',
+      image: '/products/kadostim-20-5litres.png',
       description: en
         ? 'Root stimulant based on potassium (5 L). Economy format for large farms.'
         : 'Stimulant racinaire à base de potassium (5 L). Format économique pour grandes exploitations.',
@@ -87,7 +87,7 @@ export default function IntrantsCarousel() {
     {
       id: 'aminol-5l',
       name: 'KIT AMINOL FORTE',
-      image: '/products/kit-aminol-20.png',
+      image: '/products/aminol-20-5litres.png',
       description: en
         ? 'Amino acid complex (5 L). Economy format for large farms.'
         : 'Complexe d\'acides aminés et microéléments (5 L). Format économique pour grandes exploitations.',
