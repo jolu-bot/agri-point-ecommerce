@@ -3,7 +3,7 @@ import BlogListClient from '@/components/blog/BlogListClient';
 
 export const metadata: Metadata = {
   title: 'Blog Agro — AGRIPOINT SERVICES',
-  description: 'Conseils pratiques sur la fertilisation, la santé des sols et l'agriculture au Cameroun.',
+  description: "Conseils pratiques sur la fertilisation, la santé des sols et l'agriculture au Cameroun.",
   alternates: { canonical: '/blog' },
 };
 
