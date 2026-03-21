@@ -2,7 +2,6 @@
 
 import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import type L from 'leaflet';
 
 // Fix default icon URLs for Leaflet in Next.js (webpack asset hashing issue)
 function fixLeafletIcons() {
