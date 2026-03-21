@@ -37,12 +37,12 @@ export default function OfflinePage() {
           ))}
         </div>
 
-        <button
-          onClick={() => { if (typeof window !== 'undefined') window.location.reload(); }}
-          className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm transition"
+        <a
+          href="/"
+          className="inline-block px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm transition"
         >
           Réessayer
-        </button>
+        </a>
       </div>
     </div>
   );
