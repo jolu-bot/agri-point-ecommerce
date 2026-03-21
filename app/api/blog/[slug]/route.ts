@@ -23,8 +23,7 @@ export async function GET(
     // Rate-limit view increment: 1 view per IP per article per hour
     const ip = request.headers.get('x-forwarded-for') ?? 'unknown';
     const viewKey = `blog-view:${ip}:${slug}`;
-    const limited = await rateLimit(viewKey, 1, VIEW_WINDOW);
-    if (limited.success) {
+    if (rateLimit(viewKey, 1, VIEW_WINDOW)) {
       await BlogPost.findByIdAndUpdate((post as any)._id, { $inc: { views: 1 } });
     }
 
