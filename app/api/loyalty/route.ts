@@ -8,8 +8,7 @@ import { rateLimit } from '@/lib/rate-limit';
 export async function GET(request: NextRequest) {
   try {
     const ip = request.headers.get('x-forwarded-for') ?? 'unknown';
-    const limited = await rateLimit(`loyalty-get:${ip}`, 30, 60_000);
-    if (!limited.success) {
+    if (!rateLimit(`loyalty-get:${ip}`, 30, 60_000)) {
       return NextResponse.json({ error: 'Trop de requêtes' }, { status: 429 });
     }
 
