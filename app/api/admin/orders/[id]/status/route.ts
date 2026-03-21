@@ -48,15 +48,18 @@ export async function PATCH(
     let smsSent   = false;
     let emailSent = false;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const populatedUser = order.user as any;
+
     const siteUrl     = process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com';
     const orderRef    = (order.orderNumber as string | undefined) ?? paramsObj.id;
     const trackingUrl = `${siteUrl}/commande/${orderRef}`;
     const smsTemplate = ORDER_STATUS_SMS[newStatus];
 
-    if (smsTemplate && order.user?.phone) {
+    if (smsTemplate && populatedUser?.phone) {
       try {
         const smsService = new SMSService();
-        const raw   = String(order.user.phone).replace(/[\s-]/g, '');
+        const raw   = String(populatedUser.phone).replace(/[\s-]/g, '');
         const phone = raw.startsWith('+') ? raw : raw.startsWith('237') ? `+${raw}` : `+237${raw}`;
         const result = await smsService.send({
           to: phone,
@@ -66,11 +69,11 @@ export async function PATCH(
       } catch { /* silent — notification failure must not block order update */ }
     }
 
-    if (order.user?.email) {
+    if (populatedUser?.email) {
       try {
         emailSent = await sendOrderStatusUpdate(
-          order.user.email,
-          (order.user.name as string | undefined) || 'Client',
+          populatedUser.email,
+          (populatedUser.name as string | undefined) || 'Client',
           orderRef,
           newStatus,
           trackingNumber,
@@ -97,9 +100,9 @@ export async function PATCH(
     );
 
     // ── Loyalty points on delivery ─────────────────────────────────────────
-    if (newStatus === 'delivered' && order.user?._id && order.total) {
+    if (newStatus === 'delivered' && populatedUser?._id && order.total) {
       try {
-        await awardLoyaltyPoints(String(order.user._id), order.total);
+        await awardLoyaltyPoints(String(populatedUser._id), order.total);
       } catch { /* silent */ }
     }
 
