@@ -58,6 +58,7 @@ archive/
 tmp/
 temp/
 .tmp
+.claude/
 
 # Reports
 lighthouse-*.json

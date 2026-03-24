@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build && node scripts/post-build-optimize.js",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --cache --cache-location .next/cache/eslint",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -111,8 +111,6 @@
     "zustand": "^5.0.2"
   },
   "overrides": {
-    "minimatch": "^10.2.2",
-    "ajv": "^8.18.0",
     "@tootallnate/once": "^3.0.1"
   },
   "devDependencies": {
