@@ -165,13 +165,6 @@ export default function HeroNew() {
               {T.hero.discoverBtn}
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link
-              href="/campagne-engrais"
-              className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 border-2 border-white/40 hover:border-emerald-400/60 text-white font-bold text-base sm:text-lg rounded-xl backdrop-blur-md bg-white/[0.05] hover:bg-white/10 transition-all duration-300 shadow-xl"
-            >
-              <span className="inline-block w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
-              {T.hero.campaignBtn}
-            </Link>
           </m.div>
         </m.div>
       </div>

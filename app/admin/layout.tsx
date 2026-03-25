@@ -19,7 +19,10 @@ import {
   Home,
   Palette,
   Building2,
-  MapPin
+  MapPin,
+  Star,
+  Sprout,
+  Mail
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -45,6 +48,9 @@ const menuItems = [
   { icon: Users, label: 'Utilisateurs', href: '/admin/users' },
   { icon: Shield, label: 'Gestion Avancée', href: '/admin/users-management' },
   { icon: MessageSquare, label: 'Messages', href: '/admin/messages' },
+  { icon: Star, label: 'Avis clients', href: '/admin/reviews' },
+  { icon: Sprout, label: 'Inscriptions Campagne', href: '/admin/campagne-inscriptions' },
+  { icon: Mail, label: 'Newsletter', href: '/admin/newsletter' },
   { icon: BarChart2, label: 'Analytics', href: '/admin/analytics' },
   { icon: Palette, label: 'Configuration Site', href: '/admin/site-config' },
   { icon: Settings, label: 'Paramètres', href: '/admin/settings' },

@@ -1116,7 +1116,7 @@ export default function AgricultureUrbainePage() {
                     <tool.emojiIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide font-semibold">
                       {locale === 'en' ? 'Local solution' : 'Solution locale'}
                     </p>
                     <p className="text-sm font-bold text-gray-900 dark:text-white">{tool.local}</p>
@@ -1154,7 +1154,7 @@ export default function AgricultureUrbainePage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-black mb-4">{content.benefits.title}</h2>
+            <h2 className="text-5xl font-black mb-4 text-gray-900 dark:text-white">{content.benefits.title}</h2>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -1185,7 +1185,7 @@ export default function AgricultureUrbainePage() {
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-black mb-4">{content.steps.title}</h2>
+            <h2 className="text-5xl font-black mb-4 text-gray-900 dark:text-white">{content.steps.title}</h2>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -1199,7 +1199,7 @@ export default function AgricultureUrbainePage() {
                 className="relative"
               >
                 <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all h-full">
-                  <div className="text-6xl font-black text-green-200 dark:text-emerald-900/60 mb-4">
+                  <div className="text-6xl font-black text-green-200 dark:text-gray-600/50 mb-4">
                     {step.number}
                   </div>
                   <div className="w-14 h-14 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4">
@@ -1226,7 +1226,7 @@ export default function AgricultureUrbainePage() {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-black mb-4">
+            <h2 className="text-5xl font-black mb-4 text-gray-900 dark:text-white">
               {locale === 'en' ? 'Recommended Crops' : 'Cultures Recommandées'}
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
@@ -1279,7 +1279,7 @@ export default function AgricultureUrbainePage() {
                       </span>
                     </td>
                     <td className="py-4 px-4 text-gray-700 dark:text-gray-300">{crop.time}</td>
-                    <td className="py-4 px-4 font-semibold text-green-600">{crop.yield}</td>
+                    <td className="py-4 px-4 font-semibold text-green-600 dark:text-green-400">{crop.yield}</td>
                     <td className="py-4 px-4">
                       <span className="inline-block px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded text-xs font-black">
                         {crop.roi}
@@ -1298,7 +1298,7 @@ export default function AgricultureUrbainePage() {
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-black mb-4">
+            <h2 className="text-5xl font-black mb-4 text-gray-900 dark:text-white">
               {locale === 'en' ? 'They Grow in the City' : 'Ils Cultivent en Ville'}
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
@@ -1336,7 +1336,7 @@ export default function AgricultureUrbainePage() {
                   <div>
                     <p className="font-bold text-gray-900 dark:text-white">{testimonial.name}</p>
                     <p className="text-sm text-gray-500 dark:text-gray-400">{testimonial.location}</p>
-                    <p className="text-xs text-green-600 font-semibold">{testimonial.space}</p>
+                    <p className="text-xs text-green-600 dark:text-emerald-400 font-semibold">{testimonial.space}</p>
                   </div>
                 </div>
               </m.div>

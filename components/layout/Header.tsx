@@ -67,7 +67,6 @@ export default function Header() {
         { name: T.nav.betterLiving, href: '/mieux-vivre' },
       ]
     },
-    { name: T.nav.campaign, href: '/campagne-engrais' },
     { name: T.nav.offers, href: '/produits' },
     {
       name: T.nav.agriSmart,
@@ -78,6 +77,14 @@ export default function Header() {
       ]
     },
     { name: T.nav.about, href: '/a-propos' },
+    {
+      name: en ? 'Ressources' : 'Ressources',
+      href: '#',
+      submenu: [
+        { name: en ? 'Blog' : 'Blog', href: '/blog' },
+        { name: en ? 'Our Distributors' : 'Nos distributeurs', href: '/nos-distributeurs' },
+      ]
+    },
     { name: T.nav.contact, href: '/contact' },
   ];
 

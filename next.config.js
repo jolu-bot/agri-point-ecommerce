@@ -9,12 +9,12 @@ const nextConfig = {
   // -- Image optimization (critical for performance) ------------------------
   images: {
     formats: ['image/avif', 'image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    deviceSizes: [640, 828, 1080, 1920],     // Optimisé Afrique/Cameroun — suppression 4K inutile
+    imageSizes: [16, 32, 64, 128, 256],      // palette réduite pour cache CDN plus léger
     dangerouslyAllowSVG: false,
     contentDispositionType: 'attachment',
     unoptimized: false,
-    minimumCacheTTL: 86400,
+    minimumCacheTTL: 604800,                 // 7 jours (vs 1 jour) — économise +85% de ré-fetches images
     remotePatterns: [
       { protocol: 'https', hostname: 'res.cloudinary.com' },
       { protocol: 'https', hostname: '*.amazonaws.com' },
@@ -133,8 +133,8 @@ const nextConfig = {
       "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
-      "img-src 'self' data: blob: https://res.cloudinary.com https://*.amazonaws.com https://*.googleusercontent.com https://agri-ps.com https://maps.googleapis.com https://maps.gstatic.com",
-      "connect-src 'self' https://www.google-analytics.com https://api.openai.com https://*.sentry.io https://maps.googleapis.com https://maps.gstatic.com",
+      "img-src 'self' data: blob: https://res.cloudinary.com https://*.amazonaws.com https://*.googleusercontent.com https://agri-ps.com https://maps.googleapis.com https://maps.gstatic.com https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org https://*.openstreetmap.org",
+      "connect-src 'self' https://www.google-analytics.com https://api.openai.com https://*.sentry.io https://maps.googleapis.com https://maps.gstatic.com https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org https://*.openstreetmap.org",
       "media-src 'self'",
       "frame-src 'none'",
       "object-src 'none'",
@@ -186,9 +186,22 @@ const nextConfig = {
         ],
       },
       {
+        source: '/products/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=604800, stale-while-revalidate=86400' },
+        ],
+      },
+      {
         source: '/:path*.woff2',
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
+        source: '/sw.js',
+        headers: [
+          { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
+          { key: 'Service-Worker-Allowed', value: '/' },
         ],
       },
     ];
