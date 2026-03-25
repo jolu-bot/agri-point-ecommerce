@@ -7,6 +7,11 @@ import { jwtVerify } from 'jose';
 // Le gate coming-soon n'existe PAS sur cette branche — le site est complet.
 // Partager l'URL de preview Vercel (dev) avec le client pour validation.
 // ---------------------------------------------------------------------------
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  console.error('JWT_SECRET manquant: les routes protegees redirigeront vers /auth/login.');
+}
 
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -26,7 +31,8 @@ export default async function middleware(request: NextRequest) {
   if (!token) return redirectToLogin(request);
 
   try {
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback');
+    if (!JWT_SECRET) return redirectToLogin(request);
+    const secret = new TextEncoder().encode(JWT_SECRET);
     const { payload } = await jwtVerify(token, secret);
 
     if (

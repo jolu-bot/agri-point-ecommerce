@@ -17,6 +17,11 @@ const config: Config = {
     '^@/models/(.*)$': '<rootDir>/models/$1',
   },
   transformIgnorePatterns: ['/node_modules/(?!(lucide-react)/)'],
+  testPathIgnorePatterns: [
+    '<rootDir>/node_modules/',
+    '<rootDir>/.next/',
+    '<rootDir>/.claude/',
+  ],
   testMatch: [
     '<rootDir>/**/*.test.ts',
     '<rootDir>/**/*.test.tsx',
@@ -30,6 +35,7 @@ const config: Config = {
     '!**/*.d.ts',
     '!**/node_modules/**',
     '!**/.next/**',
+    '!**/.claude/**',
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.tsx'],
 };
