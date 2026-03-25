@@ -51,7 +51,6 @@ const NewsletterSubscriberSchema = new Schema<INewsletterSubscriber>(
   { timestamps: true }
 );
 
-NewsletterSubscriberSchema.index({ email: 1 });
 NewsletterSubscriberSchema.index({ subscribed: 1 });
 
 const NewsletterSubscriber: Model<INewsletterSubscriber> =
