@@ -27,10 +27,12 @@ export default defineConfig([
   globalIgnores([
     "node_modules/**",
     ".next/**",
+    "public/workbox-*.js",
     "out/**",
     "build/**",
     "dist/**",
     "coverage/**",
+    "tmp/**",
     ".claude/**",
   ]),
 ]);
