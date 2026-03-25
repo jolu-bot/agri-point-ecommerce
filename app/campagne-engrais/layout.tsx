@@ -25,6 +25,51 @@ export const metadata: Metadata = {
   alternates: { canonical: '/campagne-engrais' },
 };
 
+const siteUrl = 'https://agri-ps.com';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Campagne Engrais Subventionnés 2026',
+  url: `${siteUrl}/campagne-engrais`,
+  description: 'Programme de vente d\'engrais subventionnés pour coopératives agricoles au Cameroun — campagne 2026.',
+  provider: {
+    '@type': 'Organization',
+    name: 'AGRIPOINT SERVICES SARL',
+    url: siteUrl,
+  },
+  mainEntity: [
+    {
+      '@type': 'Offer',
+      name: 'Engrais Minéraux Subventionnés',
+      description: 'Engrais minéraux NPK 50 kg à 15 000 FCFA (prix normal 25 000 FCFA) — campagne 2026.',
+      price: '15000',
+      priceCurrency: 'XAF',
+      priceValidUntil: '2026-03-31',
+      availability: 'https://schema.org/InStock',
+      seller: { '@type': 'Organization', name: 'AGRIPOINT SERVICES SARL' },
+    },
+    {
+      '@type': 'Offer',
+      name: 'Biofertilisants',
+      description: 'Biofertilisants liquides à 10 000 FCFA/L (prix normal 16 000 FCFA) — campagne 2026.',
+      price: '10000',
+      priceCurrency: 'XAF',
+      priceValidUntil: '2026-03-31',
+      availability: 'https://schema.org/InStock',
+      seller: { '@type': 'Organization', name: 'AGRIPOINT SERVICES SARL' },
+    },
+  ],
+};
+
 export default function CampagneEngraisLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {children}
+    </>
+  );
 }
