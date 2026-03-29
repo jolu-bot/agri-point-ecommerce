@@ -596,7 +596,7 @@ export default function ProductDetailClient({ initialProduct }: { initialProduct
                             <div key={s} className="flex items-center gap-2">
                               <span className="text-xs text-gray-500 w-4">{s}</span>
                               <div className="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                                <div className="h-full bg-amber-400 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                                <div className="h-full bg-amber-400 rounded-full transition-all" style={{ width: `${pct}%` }} aria-hidden />
                               </div>
                             </div>
                           );

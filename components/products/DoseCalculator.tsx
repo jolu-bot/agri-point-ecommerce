@@ -99,16 +99,18 @@ export default function DoseCalculator({ product, en = false }: Props) {
       <div className="p-5 space-y-4 bg-white dark:bg-gray-900/50">
         {/* Surface input */}
         <div>
-          <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+          <label htmlFor="surface-input" className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
             {en ? 'Surface area' : 'Surface à traiter'}
           </label>
           <div className="flex gap-2">
             <input
+              id="surface-input"
               type="number"
               min="0.01"
               step="0.01"
               value={surface}
               onChange={e => setSurface(e.target.value)}
+              aria-label={en ? 'Surface area' : 'Surface à traiter'}
               className="flex-1 px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40"
             />
             <div className="flex bg-gray-100 dark:bg-gray-800 rounded-xl p-1 gap-1">
