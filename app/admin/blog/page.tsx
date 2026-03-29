@@ -123,24 +123,26 @@ export default function AdminBlogPage() {
                     <button
                       onClick={() => togglePublish(post)}
                       disabled={actionId === post._id}
+                      aria-label={post.isPublished ? 'Dépublier l\'article' : 'Publier l\'article'}
                       className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold transition ${post.isPublished ? 'bg-emerald-50 text-emerald-700 hover:bg-red-50 hover:text-red-600' : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400 hover:bg-emerald-50 hover:text-emerald-600'}`}
                     >
-                      {actionId === post._id ? <Loader2 className="w-3 h-3 animate-spin" /> : post.isPublished ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                      {actionId === post._id ? <Loader2 className="w-3 h-3 animate-spin" aria-hidden /> : post.isPublished ? <Eye className="w-3 h-3" aria-hidden /> : <EyeOff className="w-3 h-3" aria-hidden />}
                       {post.isPublished ? 'Publié' : 'Brouillon'}
                     </button>
                   </td>
                   <td className="py-3 px-4 text-center text-gray-500 text-xs">{post.views}</td>
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-2 justify-end">
-                      <Link href={`/admin/blog/${post._id}`} className="p-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-500 transition">
-                        <Pencil className="w-3.5 h-3.5" />
+                      <Link href={`/admin/blog/${post._id}`} aria-label="Modifier l'article" className="p-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-500 transition">
+                        <Pencil className="w-3.5 h-3.5" aria-hidden />
                       </Link>
                       <button
                         onClick={() => deletePost(post._id)}
                         disabled={actionId === post._id}
+                        aria-label="Supprimer l'article"
                         className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-red-500 transition disabled:opacity-50"
                       >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <Trash2 className="w-3.5 h-3.5" aria-hidden />
                       </button>
                     </div>
                   </td>

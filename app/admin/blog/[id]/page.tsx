@@ -90,8 +90,8 @@ export default function AdminBlogEditPage() {
       )}
 
       <div className="flex items-center gap-3 mb-6">
-        <button onClick={() => router.push('/admin/blog')} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-          <ArrowLeft className="w-4 h-4 text-gray-500" />
+        <button onClick={() => router.push('/admin/blog')} aria-label="Retour à la liste des articles" className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+          <ArrowLeft className="w-4 h-4 text-gray-500" aria-hidden />
         </button>
         <h1 className="text-xl font-black text-gray-900 dark:text-white">{isNew ? 'Nouvel article' : 'Modifier l\'article'}</h1>
       </div>
@@ -160,9 +160,10 @@ export default function AdminBlogEditPage() {
         <button
           onClick={save}
           disabled={saving}
+          aria-label="Sauvegarder l'article"
           className="flex items-center gap-2 px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition disabled:opacity-60"
         >
-          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          {saving ? <Loader2 className="w-4 h-4 animate-spin" aria-hidden /> : <Save className="w-4 h-4" aria-hidden />}
           Sauvegarder
         </button>
       </div>

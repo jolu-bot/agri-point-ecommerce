@@ -136,13 +136,12 @@ export default function Testimonials() {
         </div>
 
         {/* ── Mobile dots ── */}
-        <div className="flex justify-center gap-2 mt-3 mb-1 md:hidden" role="tablist" aria-label={en ? 'Page indicators' : 'Indicateurs de page'}>
+        <div className="flex justify-center gap-2 mt-3 mb-1 md:hidden" role="group" aria-label={en ? 'Page indicators' : 'Indicateurs de page'}>
           {testimonials.map((_, i) => (
             <button
               key={i}
               onClick={() => scrollToCard(i)}
-              role="tab"
-              aria-selected={i === activeIdx ? 'true' : 'false'}
+              aria-pressed={i === activeIdx}
               aria-label={`${en ? 'Testimonial' : 'Témoignage'} ${i + 1}`}
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 i === activeIdx

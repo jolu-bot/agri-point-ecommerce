@@ -756,9 +756,9 @@ export default function AgriBot() {
                           : 'bg-gray-100 dark:bg-gray-800 text-gray-500 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-600'
                       }`}
                       aria-label={listening ? t.input.voiceStop : t.input.voiceStart}
-                      aria-pressed={listening}
+                      aria-pressed={listening ? 'true' : 'false'}
                     >
-                      {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                      {listening ? <MicOff className="w-4 h-4" aria-hidden /> : <Mic className="w-4 h-4" aria-hidden />}
                     </motion.button>
                   )}
                   <motion.button
