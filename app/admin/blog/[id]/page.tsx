@@ -104,8 +104,8 @@ export default function AdminBlogEditPage() {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Catégorie *</label>
-            <select className={inputCls} value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}>
+            <label htmlFor="category-select" className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Catégorie *</label>
+            <select id="category-select" className={inputCls} value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} aria-label="Catégorie d'article">
               <option value="culture">Cultures</option>
               <option value="sol">Sol</option>
               <option value="fertilisation">Fertilisation</option>
@@ -139,8 +139,8 @@ export default function AdminBlogEditPage() {
             <input className={inputCls} value={form.tags} onChange={e => setForm(f => ({ ...f, tags: e.target.value }))} placeholder="maïs, fertilisant, SARAH" />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Temps de lecture (min)</label>
-            <input className={inputCls} type="number" min={1} max={60} value={form.readTime} onChange={e => setForm(f => ({ ...f, readTime: parseInt(e.target.value) || 5 }))} />
+            <label htmlFor="readtime-input" className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Temps de lecture (min)</label>
+            <input id="readtime-input" className={inputCls} type="number" min={1} max={60} value={form.readTime} onChange={e => setForm(f => ({ ...f, readTime: parseInt(e.target.value) || 5 }))} aria-label="Temps de lecture en minutes" />
           </div>
         </div>
 
