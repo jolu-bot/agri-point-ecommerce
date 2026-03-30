@@ -59,8 +59,8 @@ export default function ProductComparerClient({ products }: Props) {
         </h1>
 
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/[0.06] shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full" style={{ minWidth: `${products.length * 220 + 180}px` }} role="table">
+          <div className="overflow-x-auto" style={{ '--table-min-width': `${products.length * 220 + 180}px` } as React.CSSProperties}>
+            <table className="w-full" style={{ minWidth: 'var(--table-min-width)' }} role="table">
               {/* Product header row */}
               <thead>
                 <tr>
