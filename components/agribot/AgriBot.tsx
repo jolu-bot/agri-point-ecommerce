@@ -453,7 +453,7 @@ export default function AgriBot() {
                     className="absolute top-full left-0 right-0 z-50 bg-white dark:bg-gray-900 border-b border-green-100 dark:border-gray-800 shadow-2xl overflow-hidden"
                     role="menu"
                   >
-                    <div className="grid grid-cols-3 gap-px bg-gray-100 dark:bg-gray-800 p-px">
+                    <div className="grid grid-cols-3 gap-px bg-gray-100 dark:bg-gray-800 p-px" role="presentation">
                       {optionsItems.map(({ icon, label, action }) => (
                         <button key={label} onClick={action} role="menuitem"
                           className="flex flex-col items-center gap-1.5 px-2 py-3 text-[10px] font-semibold text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900 hover:bg-green-50 dark:hover:bg-green-900/20 hover:text-green-700 dark:hover:text-green-400 transition-colors">
