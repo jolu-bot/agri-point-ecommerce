@@ -453,15 +453,15 @@ export default function AgriBot() {
                     className="absolute top-full left-0 right-0 z-50 bg-white dark:bg-gray-900 border-b border-green-100 dark:border-gray-800 shadow-2xl overflow-hidden"
                     role="menu"
                   >
-                    <div className="grid grid-cols-3 gap-px bg-gray-100 dark:bg-gray-800 p-px" role="presentation">
+                    <div className="grid grid-cols-3 gap-px bg-gray-100 dark:bg-gray-800 p-px">
                       {optionsItems.map(({ icon, label, action }) => (
-                        <button key={label} onClick={action} role="menuitem"
+                        <button key={label} onClick={action}
                           className="flex flex-col items-center gap-1.5 px-2 py-3 text-[10px] font-semibold text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900 hover:bg-green-50 dark:hover:bg-green-900/20 hover:text-green-700 dark:hover:text-green-400 transition-colors">
                           <span className="w-7 h-7 rounded-xl bg-green-50 dark:bg-green-900/30 flex items-center justify-center text-green-600" aria-hidden>{icon}</span>
                           {label}
                         </button>
                       ))}
-                      <button onClick={() => { toggleTts(); setShowOptionsMenu(false); }} role="menuitem"
+                      <button onClick={() => { toggleTts(); setShowOptionsMenu(false); }}
                         className="flex flex-col items-center gap-1.5 px-2 py-3 text-[10px] font-semibold bg-white dark:bg-gray-900 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors">
                         <span className="w-7 h-7 rounded-xl bg-green-50 dark:bg-green-900/30 flex items-center justify-center text-green-600">
                           {ttsEnabled ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
@@ -603,12 +603,15 @@ export default function AgriBot() {
                       {[
                         { icon: <ThumbsUp className="w-3 h-3" />, action: () => sendFeedback(msg.id, 'positive'), label: t.feedback.helpfulAria,    active: msg.feedback === 'positive', activeClass: 'bg-green-100 text-green-600 dark:bg-green-900/40' },
                         { icon: <ThumbsDown className="w-3 h-3" />, action: () => sendFeedback(msg.id, 'negative'), label: t.feedback.notHelpfulAria, active: msg.feedback === 'negative', activeClass: 'bg-red-100 text-red-500 dark:bg-red-900/30' },
-                      ].map(btn => (
-                        <button key={btn.label} onClick={btn.action} aria-label={btn.label} aria-pressed={btn.active ? 'true' : 'false'}
+                      ].map(btn => {
+                        const pressed = btn.active ? 'true' : 'false';
+                        return (
+                        <button key={btn.label} onClick={btn.action} aria-label={btn.label} aria-pressed={pressed}
                           className={`w-6 h-6 rounded-lg flex items-center justify-center transition-all ${btn.active ? btn.activeClass : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}>
                           {btn.icon}
                         </button>
-                      ))}
+                        );
+                      })}
                       <CopyButton text={msg.content} locale={locale} />
                       {typeof window !== 'undefined' && 'speechSynthesis' in window && (
                         <button onClick={() => speakText(msg.content)} aria-label={t.feedback.listenAria}
@@ -897,11 +900,13 @@ export default function AgriBot() {
                 </div>
               )}
               <div className="grid grid-cols-2 gap-2 max-h-72 overflow-y-auto">
-                {CITIES.map(({ city, region }) => (
+                {CITIES.map(({ city, region }) => {
+                  const isSelected = userMemory.location === city ? 'true' : 'false';
+                  return (
                   <button
                     key={city}
                     onClick={() => { setLocation(city, region); setShowLocationModal(false); }}
-                    aria-pressed={userMemory.location === city ? 'true' : 'false'}
+                    aria-pressed={isSelected}
                     className={`px-3 py-2.5 text-[12px] rounded-xl border text-left transition-all ${
                       userMemory.location === city
                         ? 'bg-green-600 text-white border-green-600'
@@ -911,7 +916,8 @@ export default function AgriBot() {
                     <div className="font-medium">{city}</div>
                     <div className={`text-[10px] ${userMemory.location === city ? 'text-green-200' : 'text-gray-400'}`}>{region}</div>
                   </button>
-                ))}
+                  );
+                })}
               </div>
               <div className="mt-3 flex gap-2">
                 <input
