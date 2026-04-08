@@ -1,7 +1,7 @@
 'use client';
 
 import { Turnstile } from '@marsidev/react-turnstile';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export interface TurnstileProps {
   onToken: (token: string) => void;
@@ -9,13 +9,18 @@ export interface TurnstileProps {
 }
 
 export function TurnstileCaptcha({ onToken, onError }: TurnstileProps) {
-  const [isLoading, setIsLoading] = useState(false);
-
+  const [, setIsLoading] = useState(false);
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  const hasWarnedRef = useRef(false);
+
+  useEffect(() => {
+    if (siteKey || hasWarnedRef.current) return;
+    hasWarnedRef.current = true;
+    console.warn('TURNSTILE_SITE_KEY not configured');
+  }, [siteKey]);
 
   if (!siteKey) {
-    console.warn('⚠️ TURNSTILE_SITE_KEY not configured');
-    return null; // Pas d'affichage si pas configuré
+    return null;
   }
 
   return (

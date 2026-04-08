@@ -44,7 +44,7 @@ const pageContent = {
   
   stats: [
     { value: "25K+", label: "Familles accompagnées", icon: Users },
-    { value: "3M+", label: "FCFA épargnés/famille", icon: PiggyBank },
+    { value: "Solide", label: "Épargne par famille", icon: PiggyBank },
     { value: "98%", label: "Satisfaction clients", icon: Star },
     { value: "15 ans", label: "D'expertise", icon: Award }
   ],
@@ -59,7 +59,7 @@ const pageContent = {
         "Assurances agricoles exploitation et élevage",
         "Assurances scolaires pour enfants",
         "Assurances maladies et couverture hospitalière",
-        "Assurances décès jusqu'à 2 millions FCFA"
+        "Assurances décès avec capital important"
       ],
       image: "/products/icon-anti-stress.png"
     },
@@ -69,9 +69,9 @@ const pageContent = {
       icon: PiggyBank,
       color: "blue",
       benefits: [
-        "Épargne avec intérêts de 6% par an",
-        "Sécurisation de l'épargne à partir de 500 milles FCFA",
-        "Micro-crédit jusqu'à 5 millions FCFA",
+        "Épargne rémunérée avec intérêts attractifs",
+        "Sécurisation de votre épargne accumulée",
+        "Micro-crédit proportionnel à votre épargne",
         "Warrantage des stocks après récolte"
       ],
       image: "/products/icon-croissance-fruits.png"
@@ -82,7 +82,7 @@ const pageContent = {
       icon: Home,
       color: "purple",
       benefits: [
-        "Crédit habitat à partir de 3 millions FCFA",
+        "Crédit habitat adapté à votre projet",
         "Plans de maisons rurales optimisées",
         "Kits solaires avec paiement échelonné",
         "Matériaux de construction à prix réduits"
@@ -124,8 +124,8 @@ const pageContent = {
       {
         name: "Épargne Libre",
         description: "Versez quand vous voulez",
-        minAmount: "5 000 FCFA",
-        interest: "6%/an",
+        minAmount: "Versement libre",
+        interest: "Avantageux",
         features: [
           "Aucun montant minimum",
           "Retrait à tout moment",
@@ -136,8 +136,8 @@ const pageContent = {
       {
         name: "Épargne Programmée",
         description: "Cotisations régulières",
-        minAmount: "10 000 FCFA/mois",
-        interest: "8%/an",
+        minAmount: "Cotisation régulière",
+        interest: "Très attractif",
         features: [
           "Prélèvement automatique",
           "Engagement 12 mois minimum",
@@ -149,8 +149,8 @@ const pageContent = {
       {
         name: "Épargne Projet",
         description: "Pour réaliser vos rêves",
-        minAmount: "20 000 FCFA/mois",
-        interest: "10%/an",
+        minAmount: "Cotisation progressive",
+        interest: "Excellent rendement",
         features: [
           "Objectif personnalisé",
           "Accompagnement projet",
@@ -168,15 +168,15 @@ const pageContent = {
       service: "Assurance Santé",
       text: "Grâce à l'assurance santé, j'ai pu faire opérer mon enfant sans m'endetter. C'est un soulagement immense !",
       rating: 5,
-      savings: "850 000 FCFA économisés"
+      savings: "Opération médicale prise en charge"
     },
     {
       name: "Pierre Manga",
       location: "Yaoundé",
       service: "Épargne & Crédit",
-      text: "J'ai épargné 3 millions en 2 ans. J'ai obtenu un crédit pour agrandir ma ferme. Ma vie a changé !",
+      text: "J'ai réalisé mon objectif d'épargne en 2 ans. J'ai obtenu un crédit pour agrandir ma ferme. Ma vie a changé !",
       rating: 5,
-      savings: "3 000 000 FCFA épargnés"
+      savings: "Objectif d'épargne atteint"
     },
     {
       name: "Halimatou Bouba",
@@ -184,7 +184,7 @@ const pageContent = {
       service: "Logement",
       text: "J'ai construit ma maison avec le crédit habitat. Mes enfants ont maintenant un toit sûr.",
       rating: 5,
-      savings: "Maison de 8 millions"
+      savings: "Projet immobilier réalisé"
     }
   ],
 
@@ -195,15 +195,15 @@ const pageContent = {
     },
     {
       question: "Quel est le montant minimum pour ouvrir une épargne ?",
-      answer: "Vous pouvez commencer à épargner avec seulement 5 000 FCFA. Pas de frais d'ouverture ni de gestion de compte."
+      answer: "Vous pouvez commencer à épargner avec un montant accessible à tous. Pas de frais d'ouverture ni de gestion de compte."
     },
     {
       question: "Comment fonctionne l'assurance santé ?",
-      answer: "Cotisation mensuelle de 5 000 FCFA par personne ou 15 000 FCFA pour la famille (jusqu'à 5 personnes). Couverture immédiate après le premier paiement."
+      answer: "Une cotisation mensuelle abordable par personne ou une formule famille pour jusqu'à 5 personnes. Couverture immédiate après le premier paiement."
     },
     {
       question: "Puis-je obtenir un crédit agricole ?",
-      answer: "Oui, après 6 mois d'épargne régulière, vous pouvez accéder à un crédit de 2 à 5 fois votre épargne, à un taux préférentiel de 1,5% par mois."
+      answer: "Oui, après quelques mois d'épargne régulière, vous pouvez accéder à un crédit proportionnel à votre épargne, à un taux préférentiel particulièrement avantageux."
     }
   ]
 };
@@ -234,8 +234,8 @@ export default function MieuxVivrePage() {
   const { locale, T } = useLanguage();
 
   const statLabels = locale === 'en'
-    ? ['Families supported', 'FCFA saved/family', 'Customer satisfaction', 'Of expertise']
-    : ['Familles accompagn\u00e9es', 'FCFA \u00e9pargn\u00e9s/famille', 'Satisfaction clients', "D'expertise"];
+    ? ['Families supported', 'Strong family savings', 'Customer satisfaction', 'Of expertise']
+    : ['Familles accompagn\u00e9es', '\u00c9pargne par famille', 'Satisfaction clients', "D'expertise"];
 
   const serviceTitles = locale === 'en'
     ? ['Insurance', 'Savings & Micro-credit', 'Housing', 'Technologies', 'Social Protection']
@@ -259,12 +259,20 @@ export default function MieuxVivrePage() {
     ? ['Deposit when you want', 'Regular contributions', 'To achieve your dreams']
     : ['Versez quand vous voulez', 'Cotisations r\u00e9guli\u00e8res', 'Pour r\u00e9aliser vos r\u00eaves'];
 
+  const savingsPlanFormulas = locale === 'en'
+    ? ['Free deposit', 'Regular contribution', 'Progressive contribution']
+    : ['Versement libre', 'Cotisation r\u00e9guli\u00e8re', 'Cotisation progressive'];
+
+  const savingsPlanYields = locale === 'en'
+    ? ['Advantageous', 'Very attractive', 'Excellent return']
+    : ['Avantageux', 'Tr\u00e8s attractif', 'Excellent rendement'];
+
   const faqBilingual = locale === 'en'
     ? [
         { question: 'How to join the African Agricultural Mutual Funds?', answer: 'Joining is simple. Fill out the online form or visit our nearest branch with an ID and a photo.' },
-        { question: 'What is the minimum amount to open a savings account?', answer: 'You can start saving with as little as 5,000 FCFA. No opening or account management fees.' },
-        { question: 'How does health insurance work?', answer: 'Monthly contribution of 5,000 FCFA per person or 15,000 FCFA for a family (up to 5 people). Immediate coverage after the first payment.' },
-        { question: 'Can I get an agricultural loan?', answer: 'Yes, after 6 months of regular savings, you can access a loan of 2 to 5 times your savings at a preferential rate of 1.5% per month.' },
+        { question: 'What is the minimum amount to open a savings account?', answer: 'You can start saving with an amount accessible to all. No opening or account management fees.' },
+        { question: 'How does health insurance work?', answer: 'An affordable monthly contribution per person or a family plan for up to 5 people. Immediate coverage after the first payment.' },
+        { question: 'Can I get an agricultural loan?', answer: 'Yes, after a few months of regular savings, you can access a loan proportional to your savings at a particularly advantageous preferential rate.' },
       ]
     : pageContent.faq;
 
@@ -274,16 +282,16 @@ export default function MieuxVivrePage() {
           'Agricultural farm and livestock insurance',
           'School insurance for children',
           'Health insurance and hospital coverage',
-          'Death insurance up to 2 million FCFA',
+          'Death insurance with substantial coverage',
         ],
         [
-          'Savings with 6% interest per year',
-          'Savings security from 500,000 FCFA',
-          'Micro-credit up to 5 million FCFA',
+          'Savings with attractive annual interest',
+          'Security of your accumulated savings',
+          'Micro-credit proportional to your savings',
           'Post-harvest stock warehousing',
         ],
         [
-          'Housing credit from 3 million FCFA',
+          'Housing credit tailored to your construction project',
           'Optimized rural housing plans',
           'Solar kits with installment payments',
           'Construction materials at reduced prices',
@@ -319,15 +327,15 @@ export default function MieuxVivrePage() {
           service: 'Health Insurance',
           text: 'Thanks to health insurance, I was able to have my child operated on without going into debt. It is an immense relief!',
           rating: 5,
-          savings: '850,000 FCFA saved',
+          savings: 'Medical costs covered',
         },
         {
           name: 'Pierre Manga',
           location: 'Yaoundé',
           service: 'Savings & Credit',
-          text: 'I saved 3 million over 2 years. I got a loan to expand my farm. My life has changed!',
+          text: 'I reached my savings goal in 2 years. I got a loan to expand my farm. My life has changed!',
           rating: 5,
-          savings: '3,000,000 FCFA saved',
+          savings: 'Savings goal achieved',
         },
         {
           name: 'Halimatou Bouba',
@@ -335,7 +343,7 @@ export default function MieuxVivrePage() {
           service: 'Housing',
           text: 'I built my house with the housing credit. My children now have a safe roof over their heads.',
           rating: 5,
-          savings: 'House worth 8 million',
+          savings: 'Housing project completed',
         },
       ]
     : pageContent.testimonials;
@@ -501,13 +509,13 @@ export default function MieuxVivrePage() {
                 <p className="text-gray-600 dark:text-gray-300 mb-6">{savingsPlanDescs[index]}</p>
                 
                 <div className="mb-6">
-                  <p className="text-sm text-gray-500 mb-1">{T.common.from}</p>
-                  <p className="text-3xl font-bold text-red-600">{plan.minAmount}</p>
+                  <p className="text-sm text-gray-500 mb-1">{locale === 'en' ? 'Formula' : 'Formule'}</p>
+                  <p className="text-2xl font-bold text-red-600">{savingsPlanFormulas[index]}</p>
                 </div>
 
                 <div className="mb-6">
-                  <p className="text-sm text-gray-500 mb-1">{T.common.interestRate}</p>
-                  <p className="text-2xl font-bold text-green-600">{plan.interest}</p>
+                  <p className="text-sm text-gray-500 mb-1">{locale === 'en' ? 'Yield' : 'Rendement'}</p>
+                  <p className="text-xl font-bold text-green-600">{savingsPlanYields[index]}</p>
                 </div>
 
                 <ul className="space-y-3 mb-8">

@@ -86,7 +86,7 @@ export default function PageLoader() {
           initial={{ y: '0%' }}
           exit={{ y: '-100%' }}
           transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden select-none bg-[radial-gradient(ellipse_at_58%_36%,#1e7226_0%,#0f3d14_44%,#050e06_100%)]"
+          className="pointer-events-none fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden select-none bg-[radial-gradient(ellipse_at_58%_36%,#1e7226_0%,#0f3d14_44%,#050e06_100%)]"
           aria-hidden="true"
           role="presentation"
         >

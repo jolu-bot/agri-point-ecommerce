@@ -12,7 +12,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       enableSystem
       disableTransitionOnChange
     >
-      <LazyMotion features={domAnimation} strict>
+      <LazyMotion features={domAnimation}>
         {children}
       </LazyMotion>
     </NextThemesProvider>

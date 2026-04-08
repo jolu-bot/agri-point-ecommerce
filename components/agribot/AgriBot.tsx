@@ -603,15 +603,12 @@ export default function AgriBot() {
                       {[
                         { icon: <ThumbsUp className="w-3 h-3" />, action: () => sendFeedback(msg.id, 'positive'), label: t.feedback.helpfulAria,    active: msg.feedback === 'positive', activeClass: 'bg-green-100 text-green-600 dark:bg-green-900/40' },
                         { icon: <ThumbsDown className="w-3 h-3" />, action: () => sendFeedback(msg.id, 'negative'), label: t.feedback.notHelpfulAria, active: msg.feedback === 'negative', activeClass: 'bg-red-100 text-red-500 dark:bg-red-900/30' },
-                      ].map(btn => {
-                        const pressed = btn.active ? 'true' : 'false';
-                        return (
-                        <button key={btn.label} onClick={btn.action} aria-label={btn.label} aria-pressed={pressed}
+                      ].map(btn => (
+                        <button key={btn.label} onClick={btn.action} aria-label={btn.label} aria-pressed={btn.active}
                           className={`w-6 h-6 rounded-lg flex items-center justify-center transition-all ${btn.active ? btn.activeClass : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}>
                           {btn.icon}
                         </button>
-                        );
-                      })}
+                      ))}
                       <CopyButton text={msg.content} locale={locale} />
                       {typeof window !== 'undefined' && 'speechSynthesis' in window && (
                         <button onClick={() => speakText(msg.content)} aria-label={t.feedback.listenAria}
@@ -759,7 +756,7 @@ export default function AgriBot() {
                           : 'bg-gray-100 dark:bg-gray-800 text-gray-500 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-600'
                       }`}
                       aria-label={listening ? t.input.voiceStop : t.input.voiceStart}
-                      aria-pressed={listening ? 'true' : 'false'}
+                      aria-pressed={listening}
                     >
                       {listening ? <MicOff className="w-4 h-4" aria-hidden /> : <Mic className="w-4 h-4" aria-hidden />}
                     </motion.button>
@@ -900,13 +897,11 @@ export default function AgriBot() {
                 </div>
               )}
               <div className="grid grid-cols-2 gap-2 max-h-72 overflow-y-auto">
-                {CITIES.map(({ city, region }) => {
-                  const isSelected = userMemory.location === city ? 'true' : 'false';
-                  return (
+                {CITIES.map(({ city, region }) => (
                   <button
                     key={city}
                     onClick={() => { setLocation(city, region); setShowLocationModal(false); }}
-                    aria-pressed={isSelected}
+                    aria-pressed={userMemory.location === city}
                     className={`px-3 py-2.5 text-[12px] rounded-xl border text-left transition-all ${
                       userMemory.location === city
                         ? 'bg-green-600 text-white border-green-600'
@@ -916,8 +911,7 @@ export default function AgriBot() {
                     <div className="font-medium">{city}</div>
                     <div className={`text-[10px] ${userMemory.location === city ? 'text-green-200' : 'text-gray-400'}`}>{region}</div>
                   </button>
-                  );
-                })}
+                ))}
               </div>
               <div className="mt-3 flex gap-2">
                 <input
