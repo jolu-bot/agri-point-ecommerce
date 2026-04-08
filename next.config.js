@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const isProduction = process.env.NODE_ENV === 'production';
+
 const nextConfig = {
   // -- PERFORMANCE OPTIMIZATIONS ----------------------------------------------
   typescript: { ignoreBuildErrors: false },
@@ -10,7 +12,8 @@ const nextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 828, 1080, 1920],     // Optimisé Afrique/Cameroun — suppression 4K inutile
-    imageSizes: [16, 32, 64, 128, 256],      // palette réduite pour cache CDN plus léger
+    imageSizes: [16, 32, 64, 128, 256],
+    qualities: [75, 85],      // palette réduite pour cache CDN plus léger
     dangerouslyAllowSVG: false,
     contentDispositionType: 'attachment',
     unoptimized: false,
@@ -39,7 +42,7 @@ const nextConfig = {
 
   // -- Compiler optimizations -------------------------------------------------
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production' && {
+    removeConsole: isProduction && {
       exclude: ['error'],
     },
   },
@@ -128,9 +131,18 @@ const nextConfig = {
 
   // -- Security & performance headers -----------------------------------------
   async headers() {
+    const scriptSrc = [
+      "'self'",
+      "'unsafe-inline'",
+      !isProduction ? "'unsafe-eval'" : null,
+      'https://www.googletagmanager.com',
+      'https://www.google-analytics.com',
+      'https://cdn.jsdelivr.net',
+    ].filter(Boolean).join(' ');
+
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net",
+      `script-src ${scriptSrc}`,
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "img-src 'self' data: blob: https://res.cloudinary.com https://*.amazonaws.com https://*.googleusercontent.com https://agri-ps.com https://maps.googleapis.com https://maps.gstatic.com https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org https://*.openstreetmap.org",
@@ -171,12 +183,6 @@ const nextConfig = {
           { key: 'Cache-Control', value: 'private, no-cache, no-store, must-revalidate' },
           { key: 'Content-Security-Policy', value: "default-src 'none'" },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
-        ],
-      },
-      {
-        source: '/_next/static/:path*',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
         ],
       },
       {
