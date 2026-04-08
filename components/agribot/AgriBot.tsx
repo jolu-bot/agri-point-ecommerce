@@ -604,7 +604,7 @@ export default function AgriBot() {
                         { icon: <ThumbsUp className="w-3 h-3" />, action: () => sendFeedback(msg.id, 'positive'), label: t.feedback.helpfulAria,    active: msg.feedback === 'positive', activeClass: 'bg-green-100 text-green-600 dark:bg-green-900/40' },
                         { icon: <ThumbsDown className="w-3 h-3" />, action: () => sendFeedback(msg.id, 'negative'), label: t.feedback.notHelpfulAria, active: msg.feedback === 'negative', activeClass: 'bg-red-100 text-red-500 dark:bg-red-900/30' },
                       ].map(btn => (
-                        <button key={btn.label} onClick={btn.action} aria-label={btn.label} aria-pressed={btn.active}
+                        <button key={btn.label} onClick={btn.action} aria-label={btn.label} aria-pressed={btn.active ? "true" : "false"}
                           className={`w-6 h-6 rounded-lg flex items-center justify-center transition-all ${btn.active ? btn.activeClass : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}>
                           {btn.icon}
                         </button>
@@ -901,7 +901,7 @@ export default function AgriBot() {
                   <button
                     key={city}
                     onClick={() => { setLocation(city, region); setShowLocationModal(false); }}
-                    aria-pressed={userMemory.location === city}
+                    aria-pressed={userMemory.location === city ? "true" : "false"}
                     className={`px-3 py-2.5 text-[12px] rounded-xl border text-left transition-all ${
                       userMemory.location === city
                         ? 'bg-green-600 text-white border-green-600'
