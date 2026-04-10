@@ -20,7 +20,8 @@ import {
   Phone,
   Mail,
   Calendar,
-  Building2
+  Building2,
+  type LucideIcon
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -117,7 +118,7 @@ const pageContentFR = {
     }
   ],
 
-  history: [],
+  history: [] as { year: string; title: string; description: string; icon: LucideIcon }[],
 
   team: {
     title: "Notre équipe",
@@ -189,7 +190,7 @@ const pageContentEN = {
     { icon: Award, title: "Excellence", description: "Uncompromising quality in our products, services and support", color: "amber" }
   ],
 
-  history: [],
+  history: [] as { year: string; title: string; description: string; icon: LucideIcon }[],
 
   team: {
     title: "Our team",
