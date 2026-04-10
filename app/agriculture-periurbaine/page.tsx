@@ -66,8 +66,8 @@ const getPageContent = (locale: string) => ({
         icon: Tractor,
         title: locale === 'en' ? 'Intermediate Scale' : 'Échelle Intermédiaire',
         desc: locale === 'en'
-          ? 'From 0.5 ha to 20+ ha. Larger than urban gardens, more intensive than rural farming.'
-          : "De 0,5 ha à 20+ ha. Plus grands que les jardins urbains, plus intenses que l'agriculture rurale.",
+          ? 'From 0.5 ha to 5+ ha. Larger than urban gardens, more intensive than rural farming.'
+          : "De 0,5 ha à 5+ ha. Plus grands que les jardins urbains, plus intenses que l'agriculture rurale.",
       },
       {
         icon: ShoppingCart,
@@ -159,7 +159,7 @@ const getPageContent = (locale: string) => ({
         description: locale === 'en'
           ? 'Short-cycle vegetable production on 0.5 to 3 ha plots. Tomatoes, cabbages, lettuces, carrots, cucumbers, peppers. Regular income year-round.'
           : 'Production de légumes à cycle court sur parcelles de 0,5 à 3 ha. Tomates, choux, laitues, carottes, concombres, piments. Revenu régulier toute l\u2019année.',
-        investment: '500 000 – 3 000 000 FCFA',
+        investment: locale === 'en' ? 'On quote' : 'Sur devis',
         return: locale === 'en' ? '6 to 12 months' : '6 à 12 mois',
         area: '0,5 – 3 ha',
         margin: '60–80%',
@@ -184,7 +184,7 @@ const getPageContent = (locale: string) => ({
         description: locale === 'en'
           ? 'Cassava, plantain, yam, macabo on large plots. Mass production for central markets. Complementarity between dry/rainy season.'
           : 'Manioc, plantain, igname, macabo sur grandes parcelles. Production de masse pour les marchés centraux. Complémentarité saison sèche/humide.',
-        investment: '1 000 000 – 8 000 000 FCFA',
+        investment: locale === 'en' ? 'On quote' : 'Sur devis',
         return: locale === 'en' ? '12 to 18 months' : '12 à 18 mois',
         area: '2 – 15 ha',
         margin: '45–65%',
@@ -209,7 +209,7 @@ const getPageContent = (locale: string) => ({
         description: locale === 'en'
           ? 'Orchards of mango, avocado, citrus, papaya trees on 1 to 10 ha. Deferred but durable income over 20+ years. Complementarity with market gardening.'
           : 'Vergers de manguiers, avocatiers, agrumes, papayers sur 1 à 10 ha. Revenus différés mais durables sur 20+ ans. Complémentarité avec maraîchage.',
-        investment: '2 000 000 – 15 000 000 FCFA',
+        investment: locale === 'en' ? 'On quote' : 'Sur devis',
         return: locale === 'en' ? '24 to 48 months (1st harvest)' : '24 à 48 mois (1ère récolte)',
         area: '1 – 10 ha',
         margin: '70–90%',
@@ -234,7 +234,7 @@ const getPageContent = (locale: string) => ({
         description: locale === 'en'
           ? 'Poultry (broilers, layers), pig or rabbit farming integrated with market gardening. The manure fertilises the vegetables, the stems feed the animals.'
           : 'Aviculture (poulets de chair, pondeuses), élevage porcin ou cunicole en intégration avec maraîchage. Le fumier fertilise les légumes, les tiges nourrissent les animaux.',
-        investment: '1 500 000 – 10 000 000 FCFA',
+        investment: locale === 'en' ? 'On quote' : 'Sur devis',
         return: locale === 'en' ? '8 to 16 months' : '8 à 16 mois',
         area: locale === 'en' ? '0.5 – 3 ha built' : '0,5 – 3 ha bâti',
         margin: '50–75%',
@@ -291,8 +291,8 @@ const getPageContent = (locale: string) => ({
         icon: Zap,
         name: locale === 'en' ? 'Photovoltaic Solar Pumps' : 'Pompes Solaires Photovoltaïques',
         description: locale === 'en'
-          ? 'Pumping without fuel. Recouped in 2–3 years vs thermal motor pump. Accessible brands: Lorentz, Grundfos, SunPump, Shurflo. Flow 1,000 to 20,000 L/h.'
-          : 'Pompage sans carburant. Rentabilisées en 2-3 ans vs motopompe thermique. Marques accessibles : Lorentz, Grundfos, SunPump, Shurflo. Débit 1 000 à 20 000 L/h.',
+          ? 'Pumping without fuel. Recouped in 2–3 years vs thermal motor pump. Flow 1,000 to 20,000 L/h.'
+          : 'Pompage sans carburant. Rentabilisées en 2-3 ans vs motopompe thermique. Débit 1 000 à 20 000 L/h.',
         advantages: locale === 'en' ? [
           'Zero fuel, zero electricity bill',
           'Amortisation in 24–36 months',
@@ -319,15 +319,9 @@ const getPageContent = (locale: string) => ({
           ? 'Digital tools to inform, plan and sell. Accessible on low-end smartphones with 3G/4G network.'
           : 'Outils numériques pour informer, planifier et vendre. Accessibles sur smartphone bas de gamme avec réseau 3G/4G.',
         advantages: locale === 'en' ? [
-          'eSoko / CAMERCAP-PARC: real-time market prices',
-          'AgriPrix Cameroun: weekly vegetable prices',
           'AgriBot AGRIPOINT SERVICES: AI agronomic advice 24/7',
-          'Mobile Money: payment and receipt from buyers',
         ] : [
-          'eSoko / CAMERCAP-PARC : prix des marchés en temps réel',
-          'AgriPrix Cameroun : cours hebdomadaires légumes',
           'AgriBot AGRIPOINT SERVICES : conseils agronomiques IA 24h/24',
-          'Mobile Money : paiement et réception acheteurs',
         ],
         localSupply: locale === 'en'
           ? 'Free apps or < 5,000 FCFA/month'
@@ -339,8 +333,8 @@ const getPageContent = (locale: string) => ({
         icon: FlaskConical,
         name: locale === 'en' ? 'Biostimulants & Precision Fertilisers' : 'Biostimulants & Engrais Précis',
         description: locale === 'en'
-          ? 'TIMAC AGRO range distributed exclusively by AGRIPOINT SERVICES. Formulations adapted to Cameroonian soils. Yield increase of 30 to 50% vs traditional practices.'
-          : 'Gamme TIMAC AGRO distribuée exclusivement par AGRIPOINT SERVICES. Formulations adaptées aux sols camerounais. Augmentation rendements de 30 à 50% vs pratiques traditionnelles.',
+          ? 'SARAH ENGRAIS range distributed exclusively by AGRIPOINT SERVICES. Formulations adapted to Cameroonian soils. Yield increase of 30 to 50% vs traditional practices.'
+          : 'Gamme SARAH ENGRAIS distribuée exclusivement par AGRIPOINT SERVICES. Formulations adaptées aux sols camerounais. Augmentation rendements de 30 à 50% vs pratiques traditionnelles.',
         advantages: locale === 'en' ? [
           'HUMIFORTE: rooting +40%, drought resistance',
           'FOSNUTREN 20: fast start, TSP + sulphur',
@@ -393,12 +387,10 @@ const getPageContent = (locale: string) => ({
           'Post-harvest losses -80%',
           'Deferred sale at best price',
           'Shared by 3–5 farms',
-          'Accessible via rural credit (CAMCCUL)',
         ] : [
           'Pertes post-récolte -80%',
           'Vente différée au meilleur prix',
           'Mutualisation 3-5 exploitations',
-          'Accessible via crédit rural (CAMCCUL)',
         ],
         localSupply: locale === 'en'
           ? 'Local manufacturers + imports China/India'
@@ -497,25 +489,6 @@ const getPageContent = (locale: string) => ({
       : 'Nous anticipons les obstacles pour que vous puissiez vous concentrer sur la production',
     items: [
       {
-        challenge: locale === 'en' ? 'Land insecurity' : 'Insécurité foncière',
-        icon: MapPin,
-        description: locale === 'en'
-          ? 'Lack of land titles discourages investment and access to credit.'
-          : "Le manque de titres fonciers décourage l'investissement et l'accès au crédit.",
-        solutions: locale === 'en' ? [
-          'Support for simplified land registration (MINDCAF)',
-          'Secured long-term lease contracts (5–20 years)',
-          'Economic interest groups (GIE) for collective negotiation',
-          'Connection with local land associations',
-        ] : [
-          'Accompagnement immatriculation foncière simplifiée (MINDCAF)',
-          'Contrats de bail sécurisés longue durée (5-20 ans)',
-          'Groupements d\u2019intérêt économique (GIE) pour négociation collective',
-          'Mise en relation avec associations foncières locales',
-        ],
-        color: 'red',
-      },
-      {
         challenge: locale === 'en' ? 'Water access (dry season)' : "Accès à l'eau (saison sèche)",
         icon: Droplets,
         description: locale === 'en'
@@ -561,12 +534,12 @@ const getPageContent = (locale: string) => ({
           : "L'éloignement des grands marchés et la dépendance aux intermédiaires réduisent le prix bord-champ de 50 à 70%.",
         solutions: locale === 'en' ? [
           'Collective sales groups (GIE market gardeners)',
-          'Direct contracts with restaurants, hotels, supermarkets (MAHIMA, Score)',
+          'Commercial partnerships with restaurants, hotels, supermarkets',
           'Local e-commerce (CoopérAgri, Agri-Market, WhatsApp Business)',
           'Weekly producers\' markets (MINADER)',
         ] : [
           'Groupements de vente collective (GIE maraîchers)',
-          'Contrats directs restaurants, hôtels, supermarchés (MAHIMA, Score)',
+          'Partenariats commerciaux restaurants, hôtels, supermarchés',
           'E-commerce local (CoopérAgri, Agri-Market, WhatsApp Business)',
           'Marchés de producteurs hebdomadaires (MINADER)',
         ],
@@ -598,14 +571,10 @@ const getPageContent = (locale: string) => ({
           ? 'Traditional banks reject 80% of agricultural files. Microfinance rates are often prohibitive.'
           : 'Les banques classiques refusent 80% des dossiers agricoles. Les taux microfinance sont souvent prohibitifs.',
         solutions: locale === 'en' ? [
-          'CAMCCUL: cooperative agricultural credit (rate 12–18%/year)',
-          'BDEAC: agro-SME project financing (> 5M FCFA)',
-          'MINADER subsidies: PNDP, PACA, C2D',
+          'Bange Bank: agro-SME project financing',
           'Warrantage: stock credit (community granary)',
         ] : [
-          'CAMCCUL : crédit agricole coopératif (taux 12-18%/an)',
-          'BDEAC : financement projets agro-PME (> 5M FCFA)',
-          'Subventions MINADER : PNDP, PACA, C2D',
+          'Bange Bank : financement projets agro-PME',
           'Warrantage : crédit sur stock (grenier communautaire)',
         ],
         color: 'yellow',
@@ -641,7 +610,7 @@ const getPageContent = (locale: string) => ({
       {
         number: '03',
         icon: Droplets,
-        title: locale === 'en' ? 'Hydraulic Infrastructure' : 'Infrastructure Hydraulique',
+        title: locale === 'en' ? 'Irrigation System' : "Système d'Irrigation",
         description: locale === 'en'
           ? 'Installation of borehole or water retention, solar pump, drip network. The main investment — it secures 100% of your production.'
           : "Installation forage ou retenue d\u2019eau, pompe solaire, réseau goutte-à-goutte. Le principal investissement — il sécurise 100% de votre production.",
@@ -671,10 +640,10 @@ const getPageContent = (locale: string) => ({
       {
         number: '06',
         icon: TrendingUp,
-        title: locale === 'en' ? 'Market Access & Certification' : 'Accès Marchés & Certification',
+        title: locale === 'en' ? 'Market Access' : 'Accès Marchés',
         description: locale === 'en'
-          ? 'GlobalGAP or local PGS organic certification, restaurant/hotel contracts, supermarket access. Processing and surplus valorisation.'
-          : "Certification bio GlobalGAP ou PGS local, contrats restaurants/hôtels, accès supermarchés. Transformation et valorisation surplus.",
+          ? 'Restaurant/hotel contracts, supermarket access. Processing and surplus valorisation.'
+          : "Contrats restaurants/hôtels, accès supermarchés. Transformation et valorisation surplus.",
         duration: locale === 'en' ? '12–24 months' : '12-24 mois',
         action: locale === 'en' ? 'Buyer networking' : 'Mise en réseau acheteurs',
       },
@@ -1376,8 +1345,8 @@ export default function AgriculturePeriurbainePage() {
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
               {locale === 'en'
-                ? 'TIMAC AGRO range — tested and approved on Cameroonian soils'
-                : 'Gamme TIMAC AGRO — testée et approuvée sur les sols camerounais'}
+                ? 'SARAH ENGRAIS range — tested and approved on Cameroonian soils'
+                : 'Gamme SARAH ENGRAIS — testée et approuvée sur les sols camerounais'}
             </p>
           </div>
 
