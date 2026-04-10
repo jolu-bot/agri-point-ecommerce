@@ -737,8 +737,8 @@ export default function AgricultureUrbainePage() {
                 challenge: locale === 'en' ? 'Start-up budget' : 'Budget de démarrage',
                 context: locale === 'en' ? 'First-time urban gardeners' : 'Primo-jardiniers urbains',
                 solution: locale === 'en'
-                  ? "AGRIPOINT SERVICES starter kit from 8,000 FCFA. Return on investment in 6–8 weeks for cherry tomatoes."
-                  : "Kit starter AGRIPOINT SERVICES dès 8 000 FCFA. Retour sur investissement en 6-8 semaines pour les tomates cerises.",
+                  ? "Return on investment in 6–8 weeks for cherry tomatoes."
+                  : "Retour sur investissement en 6-8 semaines pour les tomates cerises.",
                 color: "emerald",
                 badge: locale === 'en' ? 'Fast ROI' : 'ROI rapide',
               },
