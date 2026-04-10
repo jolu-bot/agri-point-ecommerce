@@ -604,10 +604,15 @@ export default function AgriBot() {
                         { icon: <ThumbsUp className="w-3 h-3" />, action: () => sendFeedback(msg.id, 'positive'), label: t.feedback.helpfulAria,    active: msg.feedback === 'positive', activeClass: 'bg-green-100 text-green-600 dark:bg-green-900/40' },
                         { icon: <ThumbsDown className="w-3 h-3" />, action: () => sendFeedback(msg.id, 'negative'), label: t.feedback.notHelpfulAria, active: msg.feedback === 'negative', activeClass: 'bg-red-100 text-red-500 dark:bg-red-900/30' },
                       ].map(btn => (
-                        <button key={btn.label} onClick={btn.action} aria-label={btn.label} aria-pressed={btn.active ? "true" : "false"}
-                          className={`w-6 h-6 rounded-lg flex items-center justify-center transition-all ${btn.active ? btn.activeClass : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}>
-                          {btn.icon}
-                        </button>
+                        btn.active
+                          ? <button key={btn.label} onClick={btn.action} aria-label={btn.label} aria-pressed="true"
+                              className={`w-6 h-6 rounded-lg flex items-center justify-center transition-all ${btn.activeClass}`}>
+                              {btn.icon}
+                            </button>
+                          : <button key={btn.label} onClick={btn.action} aria-label={btn.label} aria-pressed="false"
+                              className="w-6 h-6 rounded-lg flex items-center justify-center transition-all text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                              {btn.icon}
+                            </button>
                       ))}
                       <CopyButton text={msg.content} locale={locale} />
                       {typeof window !== 'undefined' && 'speechSynthesis' in window && (
@@ -898,19 +903,25 @@ export default function AgriBot() {
               )}
               <div className="grid grid-cols-2 gap-2 max-h-72 overflow-y-auto">
                 {CITIES.map(({ city, region }) => (
-                  <button
-                    key={city}
-                    onClick={() => { setLocation(city, region); setShowLocationModal(false); }}
-                    aria-pressed={userMemory.location === city ? "true" : "false"}
-                    className={`px-3 py-2.5 text-[12px] rounded-xl border text-left transition-all ${
-                      userMemory.location === city
-                        ? 'bg-green-600 text-white border-green-600'
-                        : 'bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:border-green-400 hover:bg-green-50 dark:hover:bg-green-900/20'
-                    }`}
-                  >
-                    <div className="font-medium">{city}</div>
-                    <div className={`text-[10px] ${userMemory.location === city ? 'text-green-200' : 'text-gray-400'}`}>{region}</div>
-                  </button>
+                  userMemory.location === city
+                    ? <button
+                        key={city}
+                        onClick={() => { setLocation(city, region); setShowLocationModal(false); }}
+                        aria-pressed="true"
+                        className="px-3 py-2.5 text-[12px] rounded-xl border text-left transition-all bg-green-600 text-white border-green-600"
+                      >
+                        <div className="font-medium">{city}</div>
+                        <div className="text-[10px] text-green-200">{region}</div>
+                      </button>
+                    : <button
+                        key={city}
+                        onClick={() => { setLocation(city, region); setShowLocationModal(false); }}
+                        aria-pressed="false"
+                        className="px-3 py-2.5 text-[12px] rounded-xl border text-left transition-all bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:border-green-400 hover:bg-green-50 dark:hover:bg-green-900/20"
+                      >
+                        <div className="font-medium">{city}</div>
+                        <div className="text-[10px] text-gray-400">{region}</div>
+                      </button>
                 ))}
               </div>
               <div className="mt-3 flex gap-2">
