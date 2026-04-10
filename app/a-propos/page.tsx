@@ -117,98 +117,15 @@ const pageContentFR = {
     }
   ],
 
-  history: [
-    {
-      year: "2010",
-      title: "Naissance d'AGRIPOINT SERVICES",
-      description: "Création à Yaoundé avec une vision : faciliter l'accès aux intrants et aux marchés pour les producteurs camerounais",
-      icon: Building2
-    },
-    {
-      year: "2012",
-      title: "Premiers partenariats",
-      description: "Mise en place des premiers réseaux de distribution d'intrants et de conseil technique aux producteurs",
-      icon: Leaf
-    },
-    {
-      year: "2015",
-      title: "Expansion Nationale",
-      description: "Ouverture de 5 agences régionales. 10 000 agriculteurs accompagnés",
-      icon: Globe
-    },
-    {
-      year: "2018",
-      title: "Services Sociaux",
-      description: "Lancement assurance santé, micro-crédit et Épargne pour nos adhérents",
-      icon: Heart
-    },
-    {
-      year: "2020",
-      title: "Révolution Digitale",
-      description: "Application mobile lancée. Conseils agricoles par SMS et WhatsApp",
-      icon: Lightbulb
-    },
-    {
-      year: "2023",
-      title: "Couverture nationale",
-      description: "Présence dans les 5 zones agroécologiques, 10 000+ producteurs accompagnés",
-      icon: Award
-    }
-  ],
+  history: [],
 
   team: {
     title: "Notre équipe",
     subtitle: "Experts passionnés au service de l'agriculture",
-    members: [
-      {
-        name: "Dr. Jean-Baptiste Kamga",
-        role: "Fondateur & Directeur Général",
-        bio: "Agronome, PhD en Sciences du Sol. 20 ans d'expérience en développement agropastoral",
-        image: "/images/team-kamga.jpg"
-      },
-      {
-        name: "Marie-Claire Ngo Bata",
-        role: "Directrice R&D",
-        bio: "Spécialiste intrants agricoles, ancienne chercheuse à l'IRAD",
-        image: "/images/team-ngo.jpg"
-      },
-      {
-        name: "Paul Mbida",
-        role: "Directeur Commercial",
-        bio: "Expert en développement rural et formation des agriculteurs",
-        image: "/images/team-mbida.jpg"
-      },
-      {
-        name: "Fatima Hassan",
-        role: "Directrice Services Sociaux",
-        bio: "Spécialiste micro-finance et protection sociale",
-        image: "/images/team-hassan.jpg"
-      }
-    ]
+    members: []
   },
 
-  certifications: [
-    {
-      name: "Agrément MINADER",
-      description: "Agrément officiel pour la distribution d'intrants et l'accompagnement des producteurs",
-      year: "2015"
-    },
-    {
-      name: "ISO 9001:2015",
-      description: "Management de la qualité certifié",
-      year: "2019"
-    },
-    {
-      name: "Prix Innovation CEMAC",
-      description: "Meilleure innovation agritech Afrique Centrale",
-      year: "2021"
-    },
-    {
-      name: "Label Commerce équitable",
-      description: "Partenariats agriculteurs certifiés équitables",
-      year: "2022"
-    }
-  ],
+  certifications: [],
 
   impact: [
     { metric: "10K+", label: "Producteurs accompagnés" },
@@ -272,32 +189,15 @@ const pageContentEN = {
     { icon: Award, title: "Excellence", description: "Uncompromising quality in our products, services and support", color: "amber" }
   ],
 
-  history: [
-    { year: "2010", title: "Birth of AGRIPOINT SERVICES", description: "Founded in Yaoundé with a vision: facilitate access to inputs and markets for Cameroonian producers", icon: Building2 },
-    { year: "2012", title: "First partnerships", description: "Establishment of first input distribution networks and technical advice to producers", icon: Leaf },
-    { year: "2015", title: "National Expansion", description: "Opening of 5 regional offices. 10,000 farmers supported", icon: Globe },
-    { year: "2018", title: "Social Services", description: "Launch of health insurance, micro-credit and savings for our members", icon: Heart },
-    { year: "2020", title: "Digital Revolution", description: "Mobile app launched. Agricultural advice via SMS and WhatsApp", icon: Lightbulb },
-    { year: "2023", title: "National coverage", description: "Presence in all 5 agroecological zones, 10,000+ producers supported", icon: Award }
-  ],
+  history: [],
 
   team: {
     title: "Our team",
     subtitle: "Passionate experts serving agriculture",
-    members: [
-      { name: "Dr. Jean-Baptiste Kamga", role: "Founder & CEO", bio: "Agronomist, PhD in Soil Sciences. 20 years of experience in agropastoral development", image: "/images/team-kamga.jpg" },
-      { name: "Marie-Claire Ngo Bata", role: "R&D Director", bio: "Agricultural inputs specialist, former researcher at IRAD", image: "/images/team-ngo.jpg" },
-      { name: "Paul Mbida", role: "Commercial Director", bio: "Expert in rural development and farmer training", image: "/images/team-mbida.jpg" },
-      { name: "Fatima Hassan", role: "Social Services Director", bio: "Micro-finance and social protection specialist", image: "/images/team-hassan.jpg" }
-    ]
+    members: []
   },
 
-  certifications: [
-    { name: "MINADER Approval", description: "Official approval for input distribution and producer support", year: "2015" },
-    { name: "ISO 9001:2015", description: "Certified quality management", year: "2019" },
-    { name: "CEMAC Innovation Award", description: "Best agritech innovation in Central Africa", year: "2021" },
-    { name: "Fair Trade Label", description: "Certified fair farmer partnerships", year: "2022" }
-  ],
+  certifications: [],
 
   impact: [
     { metric: "10K+", label: "Producers supported" },
@@ -484,6 +384,7 @@ export default function AProposPage() {
       </section>
 
       {/* History Timeline */}
+      {content.history.length > 0 && (
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -542,8 +443,10 @@ export default function AProposPage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Team */}
+      {content.team.members.length > 0 && (
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -576,41 +479,7 @@ export default function AProposPage() {
           </div>
         </div>
       </section>
-
-      {/* Certifications */}
-      <section className="py-20 bg-white dark:bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded-full text-sm font-semibold mb-4">
-              <Award className="w-4 h-4" />
-              {locale === 'en' ? "Certifications & Awards" : "Certifications & Récompenses"}
-            </div>
-            <h2 className="text-4xl font-bold mb-4">
-              {locale === 'en' ? "Recognized for our Excellence" : "Reconnus pour notre Excellence"}
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {content.certifications.map((cert, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-gray-800 dark:to-gray-700 rounded-xl p-6 text-center border-2 border-yellow-200 dark:border-yellow-900/30"
-              >
-                <div className="w-16 h-16 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center mx-auto mb-4">
-                  <Award className="w-8 h-8 text-yellow-600" />
-                </div>
-                <h3 className="font-bold mb-2">{cert.name}</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{cert.description}</p>
-                <div className="text-xs font-semibold text-yellow-600">{cert.year}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      )}
 
       {/* Impact */}
       <section className="py-20 bg-gradient-to-r from-green-600 to-emerald-600 text-white">
