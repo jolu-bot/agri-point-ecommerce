@@ -123,7 +123,7 @@ const pageContentFR = {
   team: {
     title: "Notre équipe",
     subtitle: "Experts passionnés au service de l'agriculture",
-    members: []
+    members: [] as { name: string; role: string; bio: string }[]
   },
 
   certifications: [],
@@ -195,7 +195,7 @@ const pageContentEN = {
   team: {
     title: "Our team",
     subtitle: "Passionate experts serving agriculture",
-    members: []
+    members: [] as { name: string; role: string; bio: string }[]
   },
 
   certifications: [],
