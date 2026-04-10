@@ -14,9 +14,10 @@ import { useLanguage } from '@/contexts/LanguageContext';
 interface ProductCardProps {
   product: IProduct;
   viewMode?: 'grid' | 'list';
+  hidePrices?: boolean;
 }
 
-export default function ProductCard({ product, viewMode = 'grid' }: ProductCardProps) {
+export default function ProductCard({ product, viewMode = 'grid', hidePrices = false }: ProductCardProps) {
   const { addItem } = useCartStore();
   const { addSlug, removeSlug, slugs } = useCompareStore();
   const { locale } = useLanguage();
@@ -148,6 +149,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                 )}
 
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-white/[0.06] mt-auto">
+                  {!hidePrices && (
                   <div>
                     {hasDiscount && (
                       <div className="text-xs text-gray-400 dark:text-gray-500 line-through mb-0.5">
@@ -159,6 +161,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                       <span className="text-sm font-semibold ml-1 text-emerald-700 dark:text-emerald-400">FCFA</span>
                     </div>
                   </div>
+                  )}
 
                   <motion.button
                     onClick={handleAddToCart}
@@ -347,6 +350,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
             {/* ── Price & CTA ── */}
             <div className="pt-3 border-t border-gray-100 dark:border-white/[0.06] mt-auto">
               {/* Price row */}
+              {!hidePrices && (
               <div className="flex items-baseline gap-2 mb-3">
                 <span className="text-xl font-black text-gradient-primary leading-none">
                   {finalPrice.toLocaleString()}
@@ -358,6 +362,7 @@ export default function ProductCard({ product, viewMode = 'grid' }: ProductCardP
                   </span>
                 )}
               </div>
+              )}
 
               {/* Add to Cart — full width */}
               <motion.button
