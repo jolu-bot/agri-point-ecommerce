@@ -68,6 +68,7 @@
     "@types/react-dom": "^18",
     "@types/uuid": "^10.0.0",
     "@upstash/redis": "^1.36.3",
+    "@vercel/speed-insights": "^2.0.0",
     "autoprefixer": "^10.0.1",
     "axios": "^1.13.5",
     "bcryptjs": "^2.4.3",

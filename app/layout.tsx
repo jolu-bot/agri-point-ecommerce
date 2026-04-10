@@ -1,4 +1,4 @@
-﻿import type { Metadata, Viewport } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SiteConfigProvider } from "@/contexts/SiteConfigContext";
@@ -11,6 +11,7 @@ import PartnersSection from "@/components/shared/PartnersSection";
 import BackToTop from '@/components/layout/BackToTop';
 import PageLoader from '@/components/layout/PageLoader';
 import { ClientComponents } from "./ClientComponents";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://agri-ps.com'),
@@ -136,6 +137,7 @@ export default function RootLayout({
           </PreviewModeProvider>
         </SiteConfigProvider>
         </LanguageProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
